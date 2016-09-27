@@ -1,0 +1,109 @@
+<h1><%= @gathering.name %></h1>
+
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active"><a href="#people" data-toggle="tab">People</a></li>
+  <li role="presentation"><a href="#teams"  data-toggle="tab">Teams</a></li>
+  <li role="presentation"><a href="#rotas" data-toggle="tab">Rotas</a></li>
+  <li role="presentation"><a href="#spending" data-toggle="tab">Spending</a></li>
+</ul>
+
+<div class="tab-content">
+
+  <div role="tabpanel" class="tab-pane active" id="people">
+
+    <table class="table">
+      <% @gathering.gatheringships.each { |gatheringship| %>
+        <tr>
+          <td>
+            <%= gatheringship.account.name %>
+          </td>
+          <td>
+            <% gatheringship.teamships.each { |teamship| %>
+              <span class="label label-primary"><%=teamship.team.name%></span>
+            <% } %></td>
+          <td>
+            <%=pluralize(gatheringship.shifts.count,'shift')%>
+          </td>
+        </tr>
+      <% } %>
+    </table>
+
+    <h2>Applications</h2>
+
+    <% @gathering.gatheringship_requests.each { |gatheringship_request| %>
+      <%= gatheringship_request.account.name %>
+      (<%=pluralize(gatheringship_request.gatheringship_request_votes.count,'supporter')%>)
+      <% if gatheringship_request_vote = current_account.gatheringship_request_votes.find_by(gatheringship_request: gatheringship_request) %>
+        <a class="btn btn-default" href="/gatheringship_request_votes/<%=gatheringship_request_vote.id%>/destroy">Rescind support</a>
+      <% else %>
+        <a class="btn btn-default" href="/gatheringship_request_votes/create?gatheringship_request_id=<%=gatheringship_request.id%>">Support this application</a>
+      <% end %>
+    <% } %>
+
+    <% if !@gathering.gatheringships.find_by(account: current_account) and !@gathering.gatheringship_requests.find_by(account: current_account) %>
+      <a class="btn btn-default" href="/gatheringship_requests/create?gathering_id=<%=@gathering.id%>">Apply to join this gathering</a>    
+    <% end %>    
+
+  </div>
+
+  <div role="tabpanel" class="tab-pane"  id="teams">
+
+    <% @gathering.teams.each { |team| %>
+      <h3><%=team.name%></h3>
+      <% team.teamships.each { |teamship| %>
+        <%=teamship.account.name%> <a class="btn btn-default" href="/teamships/<%=teamship.id%>/destroy"><i class="fa fa-times"></i></a>
+      <% } %>
+      <% unless team.teamships.find_by(account: current_account) %>
+        <a class="btn btn-default" href="/teamships/create?team_id=<%=team.id%>">Join this team</a>
+      <% end %>
+    <% } %>
+  </div>
+
+  <div role="tabpanel" class="tab-pane"  id="rotas">
+
+
+    <% @gathering.rotas.each { |rota| %>
+      <h3><%=rota.name%></h3>
+
+      <table class="table">
+        <tr>
+          <td></td>
+          <% rota.slots.each { |slot| %>
+            <td><%=slot.name%></td>
+          <% } %>
+        </tr>
+        <% rota.rota_roles.each { |rota_role| %>
+          <tr>
+            <td><%=rota_role.name%></td>
+            <% rota.slots.each { |slot| %>
+              <td>
+                <% if shift = Shift.find_by(slot: slot, rota_role: rota_role) %>
+                  <%= shift.account.name %>
+                  <a class="btn btn-default" href="/shifts/<%=shift.id%>/destroy"><i class="fa fa-times"></i></a>
+                <% else %>
+                  <a class="btn btn-default" href="/shifts/create?rota_id=<%=rota.id%>&slot_id=<%=slot.id%>&rota_role_id=<%=rota_role.id%>">Sign up</a>
+                <% end %>
+              </td>
+            <% } %>
+          </tr>
+        <% } %>
+      </table>
+
+    <% } %>
+  </div>
+
+  <div role="tabpanel" class="tab-pane" id="spending">
+
+    <table class="table">
+      <% @gathering.spends.each { |spend| %>
+        <tr>
+          <td><%=spend.item%></td>
+          <td><%=spend.amount%></td>
+          <td><%=spend.account.name%></td>
+          <td><%=spend.reimbursed ? '<i class="fa fa-tick"></i>' : ''%></td>
+        </tr>
+      <% } %>
+    </table>
+  </div>
+
+</div>
