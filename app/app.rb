@@ -60,20 +60,13 @@ module ActivateApp
       redirect '/'
     end
     
-    get '/gatherings/:slug' do     
-      @gathering = Gathering.find_by(slug: params[:slug])
+    get '/gatherings/:slug' do        
+      @gathering = Gathering.find_by(slug: params[:slug])      
       @gatheringship = @gathering.gatheringships.find_by(account: current_account)
       redirect "/gatherings/#{@gathering.slug}/apply" unless @gatheringship
       erb :gathering
     end
-    
-    get '/gatherings/:slug/applications' do     
-      @gathering = Gathering.find_by(slug: params[:slug])
-      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
-      halt unless @gatheringship
-      erb :applications
-    end    
-    
+        
     get '/gatherings/:slug/apply' do      
       @gathering = Gathering.find_by(slug: params[:slug])
       @gatheringship = @gathering.gatheringships.find_by(account: current_account)
@@ -112,12 +105,18 @@ module ActivateApp
         redirect "/gatherings/#{@gathering.slug}/apply"
       end    
     end
+    
+    get '/gatherings/:slug/applications' do     
+      @gathering = Gathering.find_by(slug: params[:slug])
+      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
+      gatheringship_required!
+      erb :applications
+    end       
               
     get '/gatheringship_request_votes/create' do
       @gatheringship_request = GatheringshipRequest.find(params[:gatheringship_request_id])
-      @gathering = @gatheringship_request.gathering
-      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
-      halt unless @gatheringship
+      @gathering = @gatheringship_request.gathering      
+      gatheringship_required!
       GatheringshipRequestVote.create!(account: current_account, gatheringship_request_id: params[:gatheringship_request_id])
       redirect back
     end       
@@ -131,9 +130,8 @@ module ActivateApp
     
     get '/gatheringship_request_blocks/create' do
       @gatheringship_request = GatheringshipRequest.find(params[:gatheringship_request_id])
-      @gathering = @gatheringship_request.gathering
-      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
-      halt unless @gatheringship
+      @gathering = @gatheringship_request.gathering      
+      gatheringship_required!
       GatheringshipRequestBlock.create!(account: current_account, gatheringship_request_id: params[:gatheringship_request_id])
       redirect back
     end       
@@ -148,8 +146,7 @@ module ActivateApp
     get '/gatheringship_requests/:id/process' do
       @gatheringship_request = GatheringshipRequest.find(params[:id])
       @gathering = @gatheringship_request.gathering
-      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
-      halt unless @gatheringship
+      gatheringship_required!
       @gatheringship_request.update_attribute(:status, params[:status])
       if params[:status] == 'accepted'
         @gathering.gatheringships.create account: @gatheringship_request.account, accepted_by: current_account
@@ -159,12 +156,16 @@ module ActivateApp
     
     get '/gatheringships/:id/joined_facebook_group' do
       @gatheringship = Gatheringship.find(params[:id])
+      @gathering = @gatheringship.gathering
+      gatheringship_required!
       @gatheringship.update_attribute(:joined_facebook_group, true)
       redirect back
     end
     
     post '/gatheringships/:id/paid' do
       @gatheringship = Gatheringship.find(params[:id])
+      @gathering = @gatheringship.gathering
+      gatheringship_required!
       @gatheringship.update_attribute(:paid, params[:paid])
       redirect back
     end    
