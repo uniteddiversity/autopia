@@ -10,12 +10,12 @@ class Account
   field :crypted_password, :type => String
   field :picture_uid, :type => String
   
+  has_many :gatheringship_requests, :class_name => "Gatheringship", :inverse_of => :account, :dependent => :destroy
+  has_many :gatheringship_requests_processed, :class_name => "Gatheringship", :inverse_of => :processed_by, :dependent => :nullify  
+  
   has_many :gatheringship_request_votes, :dependent => :destroy  
   has_many :gatheringship_request_blocks, :dependent => :destroy  
-  
-  has_many :gatheringship_requests, :class_name => "Gatheringship", :inverse_of => :account, :dependent => :destroy
-  has_many :gatheringship_requests_processed, :class_name => "Gatheringship", :inverse_of => :processed_by, :dependent => :nullify
-  
+    
   has_many :gatheringships, :class_name => "Gatheringship", :inverse_of => :account, :dependent => :destroy
   has_many :gatheringships_accepted, :class_name => "Gatheringship", :inverse_of => :accepted_by, :dependent => :nullify  
   

@@ -91,7 +91,6 @@ module ActivateApp
         redirect back unless params[:account] and params[:account][:email]
         if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:account][:email])}$/i))
           @account = Account.new(params[:account])
-          @account.password = Account.generate_password(8) # this password is never actually used; it's reset by process_membership_request
           if !@account.save
             flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
             halt 400, (erb :apply)

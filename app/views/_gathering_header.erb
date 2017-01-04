@@ -2,12 +2,13 @@
 <style>
   body { padding-top: 0 }
   #login-bar { color: white }
+  #alert-wrap { margin-top: 20px }
 </style>
 <%= partial :gathering, :object => @gathering  %>
 
-<%= ul_nav 'nav nav-pills', [
-
-  ["Co-creators (#{@gathering.gatheringships.count})", "/gatherings/#{@gathering.slug}"],
-  ["Applications (#{@gathering.gatheringship_requests.pending.count})", "/gatherings/#{@gathering.slug}/applications"],  
-
-  ] %>
+<% if @gatheringship %>
+  <%= ul_nav 'nav nav-pills', [
+    ["Co-creators (#{@gathering.gatheringships.count})", "/gatherings/#{@gathering.slug}"],
+    ["Applications (#{@gathering.gatheringship_requests.pending.count})", "/gatherings/#{@gathering.slug}/applications"],  
+    ] %>
+<% end %>

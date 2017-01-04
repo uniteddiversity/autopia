@@ -22,7 +22,7 @@ class Gatheringship
     {
       :account_id => :lookup,
       :gathering_id => :lookup,      
-      :accepted_by => :lookup,
+      
       :paid => :number,
       :joined_facebook_group => :check_box,
     }

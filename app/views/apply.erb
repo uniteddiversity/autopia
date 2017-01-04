@@ -7,8 +7,9 @@
 
   <% if !current_account %>
     <%= f.text_block :name %>
-    <%= f.image_block :picture %>
     <%= f.text_block :email %>
+    <%= f.password_block :password %>
+    <%= f.image_block :picture %>
   <% end %>
 
   <% @gathering.request_questions_a.each { |q| %>
@@ -20,10 +21,6 @@
     </div>  
   <% } %>
 
-  <div class="form-group">
-    <div class="col-sm-offset-3 col-sm-6">
-      <button class="btn btn-primary"><i class="fa fa-bell"></i> Apply</button>
-    </div>
-  </div>            
+  <%= f.submit_block button_text: 'Submit application' %>            
 
 <% end %>
