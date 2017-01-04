@@ -4,11 +4,12 @@ class Gatheringship
   
   field :paid, :type => Integer
   field :joined_facebook_group, :type => Boolean
-
-  belongs_to :gathering  
   
+  belongs_to :gathering    
   belongs_to :account, index: true, class_name: "Account", inverse_of: :memberships
   belongs_to :accepted_by, index: true, class_name: "Account", inverse_of: :memberships_accepted
+  
+  validates_uniqueness_of :account, :scope => :gathering
   
   def shifts
     Shift.where(:account_id => account_id, :rota_id.in => gathering.rota_ids)
@@ -22,7 +23,6 @@ class Gatheringship
     {
       :account_id => :lookup,
       :gathering_id => :lookup,      
-      
       :paid => :number,
       :joined_facebook_group => :check_box,
     }

@@ -11,7 +11,8 @@ class GatheringshipRequest
   belongs_to :processed_by, index: true, class_name: "Account", inverse_of: :gatheringship_requests_processed
   
   validates_presence_of :account, :gathering, :status
-  
+  validates_uniqueness_of :account, :scope => :gathering  
+    
   field :status, :type => String
   field :answers, :type => Array
   

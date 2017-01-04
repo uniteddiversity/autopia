@@ -4,6 +4,8 @@ class GatheringshipRequestVote
 
   belongs_to :account
   belongs_to :gatheringship_request
+  
+  validates_uniqueness_of :account, :scope => :gatheringship_request
           
   def self.admin_fields
     {

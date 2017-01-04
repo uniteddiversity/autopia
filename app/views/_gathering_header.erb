@@ -10,5 +10,6 @@
   <%= ul_nav 'nav nav-pills', [
     ["Co-creators (#{@gathering.gatheringships.count})", "/gatherings/#{@gathering.slug}"],
     ["Applications (#{@gathering.gatheringship_requests.pending.count})", "/gatherings/#{@gathering.slug}/applications"],  
+    ["Facebook group", @gathering.facebook_group]
     ] %>
 <% end %>

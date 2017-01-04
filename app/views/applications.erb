@@ -50,7 +50,7 @@
           <% if gatheringship_request_block = current_account.gatheringship_request_blocks.find_by(gatheringship_request: gatheringship_request) %>
             <a href="/gatheringship_request_blocks/<%=gatheringship_request_block.id%>/destroy">Remove block</a>
           <% else %>
-            <a href="/gatheringship_request_blocks/create?gatheringship_request_id=<%=gatheringship_request.id%>">Block this application</a>
+            <a href="/gatheringship_request_blocks/create?gatheringship_request_id=<%=gatheringship_request.id%>">Block</a>
           <% end %> 
 
           <% gatheringship_request.gatheringship_request_blocks.each { |block| account = block.account %>
