@@ -93,10 +93,10 @@ module ActivateApp
     
       if @gathering.gatheringships.find_by(account: @account)
         flash[:notice] = "You're already part of that gathering"
-        redirect back
+        redirect '/accounts/sign_in'
       elsif @gathering.gatheringship_requests.find_by(account: @account, status: 'pending')
         flash[:notice] = "You've already applied to that gathering"
-        redirect back
+        redirect '/accounts/sign_in'
       else
         @gatheringship_request = @gathering.gatheringship_requests.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@gathering.request_questions_a[i],x] } if params[:answers])
         (flash[:error] = "The application could not be created" and redirect back) unless @gatheringship_request.persisted?
