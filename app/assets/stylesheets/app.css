@@ -1,4 +1,15 @@
 
-body { }
-#alert-wrap { margin-top: -40px; position: absolute; z-index: 1040; width: 40%; margin-left: -20%; left: 50%; }
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
+
+p, ul, ol, input, select, .form-control, body { font-family: 'Roboto', 'Helvetica Neue',Helvetica,Arial,sans-serif }
+h1, h2, h3, h4, h5, h6, .h, #banner, .nav, .dropdown-menu, .pagination {
+  font-family: 'Montserrat';
+  text-transform: uppercase;
+  font-weight: normal
+}
+
+
+body { padding-top: 10px }
+#alert-wrap { position: absolute; z-index: 1040; width: 40%; margin-left: -20%; left: 50%; }
 

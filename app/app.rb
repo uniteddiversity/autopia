@@ -56,25 +56,133 @@ module ActivateApp
       erb :home
     end
     
-    get '/gatherings/:slug' do
+    get '/gatherings' do
+      redirect '/'
+    end
+    
+    get '/gatherings/:slug' do     
       @gathering = Gathering.find_by(slug: params[:slug])
+      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
+      redirect "/gatherings/#{@gathering.slug}/apply" unless @gatheringship
       erb :gathering
     end
     
-    get '/gatheringship_requests/create' do
-      GatheringshipRequest.create!(account: current_account, gathering_id: params[:gathering_id])
-      redirect back
-    end     
+    get '/gatherings/:slug/applications' do     
+      @gathering = Gathering.find_by(slug: params[:slug])
+      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
+      halt unless @gatheringship
+      erb :applications
+    end    
     
+    get '/gatherings/:slug/apply' do      
+      @gathering = Gathering.find_by(slug: params[:slug])
+      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
+      redirect "/gatherings/#{@gathering.slug}" if @gatheringship
+      @account = Account.new
+      erb :apply
+    end    
+    
+    post '/gatherings/:slug/apply' do
+      @gathering = Gathering.find_by(slug: params[:slug])
+
+      if current_account
+        @account = current_account
+      else           
+        redirect back unless params[:account] and params[:account][:email]
+        if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:account][:email])}$/i))
+          @account = Account.new(params[:account])
+          @account.password = Account.generate_password(8) # this password is never actually used; it's reset by process_membership_request
+          if !@account.save
+            flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
+            halt 400, (erb :apply)
+          end
+        end
+      end    
+    
+      if @gathering.gatheringships.find_by(account: @account)
+        flash[:notice] = "You're already part of that gathering"
+        redirect back
+      elsif @gathering.gatheringship_requests.find_by(account: @account, status: 'pending')
+        flash[:notice] = "You've already applied to that gathering"
+        redirect back
+      else
+        @gatheringship_request = @gathering.gatheringship_requests.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@gathering.request_questions_a[i],x] } if params[:answers])
+        (flash[:error] = "The application could not be created" and redirect back) unless @gatheringship_request.persisted?
+                      
+        flash[:notice] = 'Your request was sent.'
+        redirect "/gatherings/#{@gathering.slug}/apply"
+      end    
+    end
+              
     get '/gatheringship_request_votes/create' do
+      @gatheringship_request = GatheringshipRequest.find(params[:gatheringship_request_id])
+      @gathering = @gatheringship_request.gathering
+      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
+      halt unless @gatheringship
       GatheringshipRequestVote.create!(account: current_account, gatheringship_request_id: params[:gatheringship_request_id])
       redirect back
     end       
     
     get '/gatheringship_request_votes/:id/destroy' do
-      GatheringshipRequestVote.find(params[:id]).destroy
+      @gatheringship_request_vote = GatheringshipRequestVote.find(params[:id])
+      halt unless @gatheringship_request_vote.account == current_account
+      @gatheringship_request_vote.destroy
       redirect back
-    end        
+    end     
+    
+    get '/gatheringship_request_blocks/create' do
+      @gatheringship_request = GatheringshipRequest.find(params[:gatheringship_request_id])
+      @gathering = @gatheringship_request.gathering
+      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
+      halt unless @gatheringship
+      GatheringshipRequestBlock.create!(account: current_account, gatheringship_request_id: params[:gatheringship_request_id])
+      redirect back
+    end       
+    
+    get '/gatheringship_request_blocks/:id/destroy' do
+      @gatheringship_request_block = GatheringshipRequestBlock.find(params[:id])
+      halt unless @gatheringship_request_block.account == current_account
+      @gatheringship_request_block.destroy
+      redirect back
+    end     
+    
+    get '/gatheringship_requests/:id/process' do
+      @gatheringship_request = GatheringshipRequest.find(params[:id])
+      @gathering = @gatheringship_request.gathering
+      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
+      halt unless @gatheringship
+      @gatheringship_request.update_attribute(:status, params[:status])
+      if params[:status] == 'accepted'
+        @gathering.gatheringships.create account: @gatheringship_request.account, accepted_by: current_account
+      end
+      redirect back
+    end   
+    
+    get '/gatheringships/:id/joined_facebook_group' do
+      @gatheringship = Gatheringship.find(params[:id])
+      @gatheringship.update_attribute(:joined_facebook_group, true)
+      redirect back
+    end
+    
+    post '/gatheringships/:id/paid' do
+      @gatheringship = Gatheringship.find(params[:id])
+      @gatheringship.update_attribute(:paid, params[:paid])
+      redirect back
+    end    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     get '/shifts/:id/destroy' do
       Shift.find(params[:id]).destroy

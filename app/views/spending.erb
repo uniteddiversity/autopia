@@ -1,0 +1,10 @@
+<table class="table">
+  <% @gathering.spends.each { |spend| %>
+    <tr>
+      <td><%=spend.item%></td>
+      <td><%=spend.amount%></td>
+      <td><%=spend.account.name%></td>
+      <td><%=spend.reimbursed ? '<i class="fa fa-tick"></i>' : ''%></td>
+    </tr>
+  <% } %>
+</table>

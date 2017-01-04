@@ -1,10 +1,15 @@
 class Gathering
   include Mongoid::Document
   include Mongoid::Timestamps
-
+  extend Dragonfly::Model
+  
+  dragonfly_accessor :image
+  
   field :name, :type => String
   field :slug, :type => String
-  field :description, :type => String
+  field :image_uid, :type => String
+  field :facebook_group, :type => String
+  field :request_questions, :type => String
   
   validates_presence_of :name, :slug
   validates_uniqueness_of :slug
@@ -15,6 +20,11 @@ class Gathering
   has_many :spends, :dependent => :destroy
   has_many :rotas, :dependent => :destroy
   has_many :teams, :dependent => :destroy
+  
+  def request_questions_a
+    q = (request_questions || '').split("\n").map(&:strip) 
+    q.empty? ? [] : q
+  end  
   
   def members
     Account.where(:id.in => gatheringships.pluck(:account_id))
@@ -69,7 +79,9 @@ class Gathering
     {
       :name => :text,
       :slug => :slug,
-      :description => :wysiwyg,
+      :image => :image,
+      :facebook_group => :text,
+      :request_questions => :text_area,
       :gatheringships => :collection,
       :gatheringship_requests => :collection,
       :spends => :collection,

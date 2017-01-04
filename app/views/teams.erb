@@ -1,0 +1,9 @@
+    <% @gathering.teams.each { |team| %>
+      <h3><%=team.name%></h3>
+      <% team.teamships.each { |teamship| %>
+        <%=teamship.account.name%> <a class="btn btn-default" href="/teamships/<%=teamship.id%>/destroy"><i class="fa fa-times"></i></a>
+      <% } %>
+      <% unless team.teamships.find_by(account: current_account) %>
+        <a class="btn btn-default" href="/teamships/create?team_id=<%=team.id%>">Join this team</a>
+      <% end %>
+    <% } %>

@@ -1,0 +1,71 @@
+
+<%= partial :gathering_header %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Responses</th>      
+      <th>Supporters and blocks</th>      
+      <th></th>
+    </tr>
+  </thead>  
+  <% @gathering.gatheringship_requests.pending.each { |gatheringship_request| account = gatheringship_request.account %>
+    <tr>
+      <td>
+        <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
+        <%= account.name %>
+      </td>  
+      <td>
+        <%=gatheringship_request.created_at%>
+      </td>           
+      <td>
+        <% if gatheringship_request.answers %>
+          <% gatheringship_request.answers.each { |q,a| %>
+            <p><strong><%=q%></strong></p>
+            <p><%=a.gsub("\n","<br />")%></p>                    
+          <% }  %>
+        <% end %>
+      </td>    
+      <td>
+
+        <div style="margin-bottom: 10px">
+          <%=pluralize(gatheringship_request.gatheringship_request_votes.count,'supporter')%>
+          &middot;
+          <% if gatheringship_request_vote = current_account.gatheringship_request_votes.find_by(gatheringship_request: gatheringship_request) %>
+            <a href="/gatheringship_request_votes/<%=gatheringship_request_vote.id%>/destroy">Rescind support</a>
+          <% else %>
+            <a href="/gatheringship_request_votes/create?gatheringship_request_id=<%=gatheringship_request.id%>">Support this application</a>
+          <% end %>
+
+          <% gatheringship_request.gatheringship_request_votes.each { |vote| account = vote.account %>
+            <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 50px; display: block"/>
+          <% } %>
+        </div>
+
+        <div>
+          <%=pluralize(gatheringship_request.gatheringship_request_blocks.count,'block')%>
+          &middot;
+          <% if gatheringship_request_block = current_account.gatheringship_request_blocks.find_by(gatheringship_request: gatheringship_request) %>
+            <a href="/gatheringship_request_blocks/<%=gatheringship_request_block.id%>/destroy">Remove block</a>
+          <% else %>
+            <a href="/gatheringship_request_blocks/create?gatheringship_request_id=<%=gatheringship_request.id%>">Block this application</a>
+          <% end %> 
+
+          <% gatheringship_request.gatheringship_request_blocks.each { |block| account = block.account %>
+            <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 50px; display: block"/>
+          <% } %>
+        </div>          
+
+      <td>
+        <% unless gatheringship_request.gatheringship_request_blocks.count > 0 %>
+          <a class="btn btn-success" href="/gatheringship_requests/<%=gatheringship_request.id%>/process?status=accepted">Accept</a>
+        <% end %>
+        <a class="btn btn-danger" href="/gatheringship_requests/<%=gatheringship_request.id%>/process?status=rejected">Reject</a>
+      </td>
+
+      </td>
+    </tr>
+  <% } %>
+</table>

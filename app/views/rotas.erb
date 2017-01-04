@@ -1,0 +1,28 @@
+    <% @gathering.rotas.each { |rota| %>
+      <h3><%=rota.name%></h3>
+
+      <table class="table">
+        <tr>
+          <td></td>
+          <% rota.slots.each { |slot| %>
+            <td><%=slot.name%></td>
+          <% } %>
+        </tr>
+        <% rota.rota_roles.each { |rota_role| %>
+          <tr>
+            <td><%=rota_role.name%></td>
+            <% rota.slots.each { |slot| %>
+              <td>
+                <% if shift = Shift.find_by(slot: slot, rota_role: rota_role) %>
+                  <%= shift.account.name %>
+                  <a class="btn btn-default" href="/shifts/<%=shift.id%>/destroy"><i class="fa fa-times"></i></a>
+                <% else %>
+                  <a class="btn btn-default" href="/shifts/create?rota_id=<%=rota.id%>&slot_id=<%=slot.id%>&rota_role_id=<%=rota_role.id%>">Sign up</a>
+                <% end %>
+              </td>
+            <% } %>
+          </tr>
+        <% } %>
+      </table>
+
+    <% } %>

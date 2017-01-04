@@ -1,0 +1,9 @@
+<div class="row">
+
+  <% Gathering.all.each { |gathering| %>
+    <div class="col-sm-4">
+      <%= partial :gathering, :object => gathering  %>
+    </div>
+  <% } %>
+
+</div>
