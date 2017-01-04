@@ -39,9 +39,12 @@
             <a href="/gatheringship_request_votes/create?gatheringship_request_id=<%=gatheringship_request.id%>">Support this application</a>
           <% end %>
 
-          <% gatheringship_request.gatheringship_request_votes.each { |vote| account = vote.account %>
-            <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 50px; display: block"/>
-          <% } %>
+          <div>
+            <% gatheringship_request.gatheringship_request_votes.each { |vote| account = vote.account %>
+              <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 50px;"/>
+            <% } %>
+          </div>
+
         </div>
 
         <div>
@@ -53,9 +56,12 @@
             <a href="/gatheringship_request_blocks/create?gatheringship_request_id=<%=gatheringship_request.id%>">Block</a>
           <% end %> 
 
-          <% gatheringship_request.gatheringship_request_blocks.each { |block| account = block.account %>
-            <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 50px; display: block"/>
-          <% } %>
+          <div>
+            <% gatheringship_request.gatheringship_request_blocks.each { |block| account = block.account %>
+              <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 50px;"/>
+            <% } %>
+          </div>
+
         </div>          
 
       <td>

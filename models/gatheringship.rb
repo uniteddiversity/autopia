@@ -9,6 +9,7 @@ class Gatheringship
   belongs_to :account, index: true, class_name: "Account", inverse_of: :memberships
   belongs_to :accepted_by, index: true, class_name: "Account", inverse_of: :memberships_accepted
   
+  validates_presence_of :account, :gathering
   validates_uniqueness_of :account, :scope => :gathering
   
   def shifts

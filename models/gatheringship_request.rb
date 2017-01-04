@@ -1,21 +1,20 @@
 class GatheringshipRequest
   include Mongoid::Document
   include Mongoid::Timestamps
+  
+  field :status, :type => String
+  field :answers, :type => Array  
 
-  belongs_to :gathering
-          
-  has_many :gatheringship_request_votes, :dependent => :destroy
-  has_many :gatheringship_request_blocks, :dependent => :destroy
-    
+  belongs_to :gathering             
   belongs_to :account, index: true, class_name: "Account", inverse_of: :gatheringship_requests
   belongs_to :processed_by, index: true, class_name: "Account", inverse_of: :gatheringship_requests_processed
   
+  has_many :gatheringship_request_votes, :dependent => :destroy
+  has_many :gatheringship_request_blocks, :dependent => :destroy  
+  
   validates_presence_of :account, :gathering, :status
   validates_uniqueness_of :account, :scope => :gathering  
-    
-  field :status, :type => String
-  field :answers, :type => Array
-  
+      
   def self.pending
     where(status: 'pending')
   end
