@@ -4,7 +4,7 @@
       <th>Name</th>
       <th>Date</th>
       <th>Responses</th>      
-      <th>Supporters and blocks</th>      
+      <th>Proposers, supporters and blockers</th>      
       <th></th>
     </tr>
   </thead>  
@@ -27,45 +27,33 @@
       </td>    
       <td>
 
-        <div style="margin-bottom: 10px">
-          <%=pluralize(mapplication.mapplication_votes.count,'supporter')%>
-          &middot;
-          <% if mapplication_vote = current_account.mapplication_votes.find_by(mapplication: mapplication) %>
-            <a href="/mapplication_votes/<%=mapplication_vote.id%>/destroy">Rescind support</a>
-          <% else %>
-            <a href="/mapplication_votes/create?mapplication_id=<%=mapplication.id%>">Support this application</a>
-          <% end %>
+        <% [ ['proposer','propose'], ['supporter','support'], ['blocker','block'] ].each { |noun, verb| %>
+        
+          <div style="margin-bottom: 10px">
+            <%=pluralize(mapplication.verdicts.send(noun.pluralize).count,noun)%>          
+            <% if verdict = current_account.verdicts.send(noun.pluralize).find_by(mapplication: mapplication) %>
+              &middot; <a href="/verdicts/<%=verdict.id%>/destroy"><%= "Un#{verb}" %></a>
+            <% elsif !current_account.verdicts.find_by(mapplication: mapplication) %>
+              &middot; <a href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
+            <% end %>
 
-          <div>
-            <% mapplication.mapplication_votes.each { |vote| account = vote.account %>
-              <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 50px;"/>
-            <% } %>
-          </div>
+            <div>
+              <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
+                <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 50px;"/>
+              <% } %>
+            </div>
 
-        </div>
+          </div>        
 
-        <div>
-          <%=pluralize(mapplication.mapplication_blocks.count,'block')%>
-          &middot;
-          <% if mapplication_block = current_account.mapplication_blocks.find_by(mapplication: mapplication) %>
-            <a href="/mapplication_blocks/<%=mapplication_block.id%>/destroy">Remove block</a>
-          <% else %>
-            <a href="/mapplication_blocks/create?mapplication_id=<%=mapplication.id%>">Block</a>
-          <% end %> 
+        <% } %>
 
-          <div>
-            <% mapplication.mapplication_blocks.each { |block| account = block.account %>
-              <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 50px;"/>
-            <% } %>
-          </div>
-
-        </div>          
+      </td>          
 
       <td>
         <% if mapplication.status == 'rejected' %>
           Rejected by <%=mapplication.processed_by.name%> &middot; 
         <% end %>
-        <% unless mapplication.mapplication_blocks.count > 0 %>
+        <% if mapplication.verdicts.proposers.count > 0 and mapplication.verdicts.blockers.count == 0 %>
           <a class="btn btn-success" href="/mapplications/<%=mapplication.id%>/process?status=accepted">Accept</a>
         <% end %>
         <% unless mapplication.status == 'rejected' %>

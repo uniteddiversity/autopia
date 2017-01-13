@@ -13,8 +13,7 @@ class Account
   has_many :mapplications, :class_name => "Membership", :inverse_of => :account, :dependent => :destroy
   has_many :mapplications_processed, :class_name => "Membership", :inverse_of => :processed_by, :dependent => :nullify  
   
-  has_many :mapplication_votes, :dependent => :destroy  
-  has_many :mapplication_blocks, :dependent => :destroy  
+  has_many :verdicts, :dependent => :destroy  
     
   has_many :memberships, :dependent => :destroy
       

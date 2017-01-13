@@ -5,6 +5,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Proposed by</th>
       <th>Accepted by</th>
       <% if @group.facebook_group %>
         <th>Added to Facebook group?</th>
@@ -21,9 +22,12 @@
       <td>
         <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
         <%= account.name %>
-      </td>  
+      </td>
       <td>
-        <%= membership.mapplication ? "#{membership.mapplication.processed_by.name} at #{pluralize(membership.mapplication.mapplication_votes.count,'supporter')}" : 'n/a' %>
+        <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : 'n/a' %>
+      </td>        
+      <td>
+        <%= membership.mapplication ? "#{membership.mapplication.processed_by.name} at #{pluralize(membership.mapplication.verdicts.supporters.count,'supporter')}" : 'n/a' %>
       </td>  
       <% if @group.facebook_group %>
         <td>
@@ -37,7 +41,7 @@
       <!--
       <td>
       <% if membership.paid %>
-                £<%= membership.paid %>
+                  £<%= membership.paid %>
       <% else %>
         <% form_tag "/memberships/#{membership.id}/paid" do %>
           <%= number_field_tag :paid, :class => 'form-control' %>
@@ -46,7 +50,7 @@
       </td>        
       <td>
       <% membership.teamships.each { |teamship| %>
-                          <span class="label label-primary"><%=teamship.team.name%></span>
+                            <span class="label label-primary"><%=teamship.team.name%></span>
       <% } %></td>
       <td>
       <%=pluralize(membership.shifts.count,'shift')%>

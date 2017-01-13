@@ -9,8 +9,7 @@ class Mapplication
   belongs_to :account, index: true, class_name: "Account", inverse_of: :mapplications
   belongs_to :processed_by, index: true, class_name: "Account", inverse_of: :mapplications_processed
   
-  has_many :mapplication_votes, :dependent => :destroy
-  has_many :mapplication_blocks, :dependent => :destroy
+  has_many :verdicts, :dependent => :destroy
   has_one :membership, :dependent => :nullify
   
   validates_presence_of :account, :group, :status
@@ -37,8 +36,7 @@ class Mapplication
       :summary => {:type => :text, :index => false, :edit => false},
       :account_id => :lookup,
       :group_id => :lookup,
-      :mapplication_votes => :collection,
-      :mapplication_blocks => :collection,
+      :verdicts => :collection,
       :status => :select,
       :answers => :text_area
     }

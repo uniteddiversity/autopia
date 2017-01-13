@@ -123,36 +123,21 @@ module ActivateApp
       erb :rejected
     end     
               
-    get '/mapplication_votes/create' do
+    get '/verdicts/create' do
       @mapplication = Mapplication.find(params[:mapplication_id])
       @group = @mapplication.group      
       membership_required!
-      MapplicationVote.create!(account: current_account, mapplication_id: params[:mapplication_id])
+      Verdict.create!(account: current_account, mapplication_id: params[:mapplication_id], type: params[:type])
       redirect back
     end       
     
-    get '/mapplication_votes/:id/destroy' do
-      @mapplication_vote = MapplicationVote.find(params[:id])
-      halt unless @mapplication_vote.account.id == current_account.id
-      @mapplication_vote.destroy
+    get '/verdicts/:id/destroy' do
+      @verdict = Verdict.find(params[:id])
+      halt unless @verdict.account.id == current_account.id
+      @verdict.destroy
       redirect back
     end     
-    
-    get '/mapplication_blocks/create' do
-      @mapplication = Mapplication.find(params[:mapplication_id])
-      @group = @mapplication.group      
-      membership_required!
-      MapplicationBlock.create!(account: current_account, mapplication_id: params[:mapplication_id])
-      redirect back
-    end       
-    
-    get '/mapplication_blocks/:id/destroy' do
-      @mapplication_block = MapplicationBlock.find(params[:id])
-      halt unless @mapplication_block.account.id == current_account.id
-      @mapplication_block.destroy
-      redirect back
-    end     
-    
+        
     get '/mapplications/:id/process' do
       @mapplication = Mapplication.find(params[:id])
       @group = @mapplication.group
@@ -160,17 +145,19 @@ module ActivateApp
       @mapplication.status = params[:status]
       @mapplication.processed_by = current_account
       @mapplication.save
-      if params[:status] == 'accepted' and @mapplication.mapplication_blocks.empty?
+      if params[:status] == 'accepted' and @mapplication.verdicts.proposers.count > 0 and @mapplication.verdicts.blockers.count == 0
         @group.memberships.create account: @mapplication.account, mapplication: @mapplication
         password = Account.generate_password(8)
         @mapplication.account.update_attribute(:password, password)
         
-        mail = Mail.new
-        mail.to = @mapplication.account.email
-        mail.from = "Huddl <team@huddl.tech>"
-        mail.subject = "You're now a member of #{@group.name}"
-        mail.body = "Hi #{@mapplication.account.firstname},\n\nYour application to #{@group.name} was successful. Sign in at http://#{ENV['DOMAIN']}/h/#{@group.slug} using the password #{password} to review other members and outstanding applications.\n\nBest,\nTeam Huddl" 
-        mail.deliver
+        if ENV['SENDGRID_USERNAME']
+          mail = Mail.new
+          mail.to = @mapplication.account.email
+          mail.from = "Huddl <team@huddl.tech>"
+          mail.subject = "You're now a member of #{@group.name}"
+          mail.body = "Hi #{@mapplication.account.firstname},\n\nYour application to #{@group.name} was successful. Sign in at http://#{ENV['DOMAIN']}/h/#{@group.slug} using the password #{password} to review other members and outstanding applications.\n\nBest,\nTeam Huddl" 
+          mail.deliver
+        end
     
       end
       redirect back
