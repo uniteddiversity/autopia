@@ -4,7 +4,7 @@
 <% if @membership %>
   <%= ul_nav 'nav nav-pills', [
     ["Members (#{@group.memberships.count})", "/h/#{@group.slug}"],
-    ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],  
+    ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],      
     (["Facebook group", @group.facebook_group] if @group.facebook_group)
     ] %>
 <% end %>

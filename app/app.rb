@@ -38,7 +38,7 @@ module ActivateApp
        
     before do
       redirect "http://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
-      Time.zone = current_account.time_zone if current_account and current_account.time_zone    
+      Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : 'London'
       fix_params!
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
     end        
@@ -55,31 +55,23 @@ module ActivateApp
     get :home, :map => '/' do
       erb :home
     end
-    
-    get '/groups' do
-      redirect '/'
-    end
-    
-    get '/groups/:slug' do        
-      redirect "/h/#{params[:slug]}"
-    end
-    
+            
     get '/h/:slug' do        
       @group = Group.find_by(slug: params[:slug])      
       @membership = @group.memberships.find_by(account: current_account)
-      redirect "/groups/#{@group.slug}/apply" unless @membership
+      redirect "/h/#{@group.slug}/apply" unless @membership
       erb :members
     end
         
-    get '/groups/:slug/apply' do      
+    get '/h/:slug/apply' do      
       @group = Group.find_by(slug: params[:slug])
       @membership = @group.memberships.find_by(account: current_account)
-      redirect "/groups/#{@group.slug}" if @membership
+      redirect "/h/#{@group.slug}" if @membership
       @account = Account.new
       erb :apply
     end    
     
-    post '/groups/:slug/apply' do
+    post '/h/:slug/apply' do
       @group = Group.find_by(slug: params[:slug])
 
       if current_account
@@ -88,6 +80,7 @@ module ActivateApp
         redirect back unless params[:account] and params[:account][:email]
         if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:account][:email])}$/i))
           @account = Account.new(params[:account])
+          @account.password = Account.generate_password(8) # not used
           if !@account.save
             flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
             halt 400, (erb :apply)
@@ -106,7 +99,7 @@ module ActivateApp
         (flash[:error] = "The application could not be created" and redirect back) unless @mapplication.persisted?
                       
         flash[:notice] = 'Your application was submitted.'
-        redirect "/groups/#{@group.slug}/apply"
+        redirect "/h/#{@group.slug}/apply"
       end    
     end
     
@@ -114,8 +107,17 @@ module ActivateApp
       @group = Group.find_by(slug: params[:slug])
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!
-      erb :applications
-    end       
+      @mapplications = @group.mapplications.pending
+      erb :pending
+    end    
+    
+    get '/h/:slug/applications/rejected' do     
+      @group = Group.find_by(slug: params[:slug])
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!
+      @mapplications = @group.mapplications.rejected
+      erb :rejected
+    end     
               
     get '/mapplication_votes/create' do
       @mapplication = Mapplication.find(params[:mapplication_id])
@@ -156,6 +158,16 @@ module ActivateApp
       @mapplication.save
       if params[:status] == 'accepted'
         @group.memberships.create account: @mapplication.account, mapplication: @mapplication
+        password = Account.generate_password(8)
+        @mapplication.account.update_attribute(:password, password)
+        
+        mail = Mail.new
+        mail.to = account.email
+        mail.from = "Huddl <team@huddl.tech>"
+        mail.subject = "You're now a member of #{@group.slug}"
+        mail.body = "Hi #{@mapplication.account.firstname},\n\nYour application to #{@group.slug} on Huddl was successful. Sign in at http://#{ENV['DOMAIN']}/h/#{@group.slug} using the password #{password} to give your opinion on other applications..\n\nBest,\nTeam Huddl" 
+        mail.deliver
+    
       end
       redirect back
     end   

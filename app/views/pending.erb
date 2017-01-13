@@ -1,0 +1,7 @@
+
+<%= partial :group_header %>
+<%= partial :mapplications %>
+
+<% if @group.mapplications.rejected.count > 0 %>
+  <a href="/h/<%=@group.slug%>/applications/rejected">View <%=pluralize(@group.mapplications.rejected.count, 'rejected application')%></a>
+<% end %>

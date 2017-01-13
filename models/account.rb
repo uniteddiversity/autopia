@@ -17,10 +17,6 @@ class Account
   has_many :mapplication_blocks, :dependent => :destroy  
     
   has_many :memberships, :dependent => :destroy
-
-  before_validation do
-    self.time_zone = 'London' if !self.time_zone
-  end
       
   # Dragonfly
   dragonfly_accessor :picture  
@@ -37,7 +33,7 @@ class Account
           
   attr_accessor :password
 
-  validates_presence_of :name, :time_zone    
+  validates_presence_of :name
   validates_presence_of     :email
   validates_length_of       :email,    :within => 3..100
   validates_uniqueness_of   :email,    :case_sensitive => false

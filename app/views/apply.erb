@@ -3,12 +3,11 @@
 
 <h2>Apply now</h2>
 
-<% form_for @account, "/groups/#{@group.slug}/apply", :class => 'form-horizontal' do |f| %>
+<% form_for @account, "/h/#{@group.slug}/apply", :class => 'form-horizontal' do |f| %>
 
   <% if !current_account %>
     <%= f.text_block :name %>
     <%= f.text_block :email %>
-    <%= f.password_block :password %>
     <%= f.image_block :picture %>
   <% end %>
 

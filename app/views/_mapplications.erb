@@ -1,6 +1,3 @@
-
-<%= partial :group_header %>
-
 <table class="table table-striped">
   <thead>
     <tr>
@@ -11,7 +8,7 @@
       <th></th>
     </tr>
   </thead>  
-  <% @group.mapplications.pending.each { |mapplication| account = mapplication.account %>
+  <% @mapplications.each { |mapplication| account = mapplication.account %>
     <tr>
       <td>
         <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
@@ -65,10 +62,15 @@
         </div>          
 
       <td>
+        <% if mapplication.status == 'rejected' %>
+          Rejected by <%=mapplication.processed_by.name%> &middot; 
+        <% end %>
         <% unless mapplication.mapplication_blocks.count > 0 %>
           <a class="btn btn-success" href="/mapplications/<%=mapplication.id%>/process?status=accepted">Accept</a>
         <% end %>
-        <a class="btn btn-danger" href="/mapplications/<%=mapplication.id%>/process?status=rejected">Reject</a>
+        <% unless mapplication.status == 'rejected' %>
+          <a class="btn btn-danger" href="/mapplications/<%=mapplication.id%>/process?status=rejected">Reject</a>
+        <% end %>
       </td>
 
       </td>

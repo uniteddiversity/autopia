@@ -20,6 +20,10 @@ class Mapplication
     where(status: 'pending')
   end
   
+  def self.rejected
+    where(status: 'rejected')
+  end  
+  
   def answers=(x)
     if x.is_a? String
       super(eval(x))

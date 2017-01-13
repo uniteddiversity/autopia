@@ -9,7 +9,7 @@ h1, h2, h3, h4, h5, h6, .h {
   font-weight: 900
 }
 
-#alert-wrap { position: absolute; z-index: 1040; width: 40%; margin-left: -20%; left: 50%; }
+#alert-wrap { margin-top: 20px; position: absolute; z-index: 1040; width: 40%; margin-left: -20%; left: 50%; }
 
 .navbar { border-radius: 0 }
 
