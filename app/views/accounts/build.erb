@@ -1,4 +1,6 @@
 
+<h1><%= @account.persisted? ? 'Edit profile' : 'Sign up' %></h1>
+
 <% form_for @account, @account.new_record? ? url(:accounts, :new) : url(:accounts, :edit), :class => 'form-horizontal', :multipart => true do |f| %>
   <%= f.text_block :name %>
   <%= f.text_block :email %>
