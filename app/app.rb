@@ -102,10 +102,8 @@ module ActivateApp
         redirect back
       else
         @mapplication = @group.mapplications.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@group.request_questions_a[i],x] } if params[:answers])
-        (flash[:error] = "The application could not be created" and redirect back) unless @mapplication.persisted?
-                      
-        flash[:notice] = 'Your application was submitted.'
-        redirect "/h/#{@group.slug}/apply"
+        (flash[:error] = "The application could not be created" and redirect back) unless @mapplication.persisted?        
+        redirect "/h/#{@group.slug}/apply?applied=true"
       end    
     end
     

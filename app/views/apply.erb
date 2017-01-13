@@ -2,7 +2,7 @@
 <%= partial :group_header %>
 
 
-<% if current_account and @mapplicaton = @group.mapplications.find_by(account: current_account) %>
+<% if params[:applied] or (current_account and @mapplicaton = @group.mapplications.find_by(account: current_account)) %>
 
   <h2>Thanks for applying. Your application is under review</h2>
 
