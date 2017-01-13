@@ -21,13 +21,13 @@
         <%= account.name %>
       </td>  
       <td>
-        <%= membership.mapplication ? "#{membership.mapplication.processed_by.name} with #{pluralize(membership.mapplication.mapplication_votes.count,'supporter')}" : 'n/a' %>
+        <%= membership.mapplication ? "#{membership.mapplication.processed_by.name} at #{pluralize(membership.mapplication.mapplication_votes.count,'supporter')}" : 'n/a' %>
       </td>  
       <td>
         <% if membership.added_to_facebook_group  %>
           <i class="fa fa-check"></i>
         <% else %>
-          <a href="/memberships/<%=membership.id%>/added_to_facebook_group">Click if added</a>
+          <input type="checkbox" onclick="window.location = '/memberships/<%=membership.id%>/added_to_facebook_group'">
         <% end %>
       </td>              
       <!--

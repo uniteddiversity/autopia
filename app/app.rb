@@ -90,10 +90,10 @@ module ActivateApp
     
       if @group.memberships.find_by(account: @account)
         flash[:notice] = "You're already part of that group"
-        redirect '/accounts/sign_in'
+        redirect back
       elsif @group.mapplications.find_by(account: @account, status: 'pending')
         flash[:notice] = "You've already applied to that group"
-        redirect '/accounts/sign_in'
+        redirect back
       else
         @mapplication = @group.mapplications.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@group.request_questions_a[i],x] } if params[:answers])
         (flash[:error] = "The application could not be created" and redirect back) unless @mapplication.persisted?
@@ -129,7 +129,7 @@ module ActivateApp
     
     get '/mapplication_votes/:id/destroy' do
       @mapplication_vote = MapplicationVote.find(params[:id])
-      halt unless @mapplication_vote.account == current_account
+      halt unless @mapplication_vote.account.id == current_account.id
       @mapplication_vote.destroy
       redirect back
     end     
@@ -144,7 +144,7 @@ module ActivateApp
     
     get '/mapplication_blocks/:id/destroy' do
       @mapplication_block = MapplicationBlock.find(params[:id])
-      halt unless @mapplication_block.account == current_account
+      halt unless @mapplication_block.account.id == current_account.id
       @mapplication_block.destroy
       redirect back
     end     
@@ -156,7 +156,7 @@ module ActivateApp
       @mapplication.status = params[:status]
       @mapplication.processed_by = current_account
       @mapplication.save
-      if params[:status] == 'accepted'
+      if params[:status] == 'accepted' and @mapplication.mapplication_blocks.empty?
         @group.memberships.create account: @mapplication.account, mapplication: @mapplication
         password = Account.generate_password(8)
         @mapplication.account.update_attribute(:password, password)
