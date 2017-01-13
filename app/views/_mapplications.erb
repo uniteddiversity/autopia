@@ -2,13 +2,13 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Date</th>
+      <th>Applied on</th>
       <th>Responses</th>      
       <th>Proposers, supporters and blockers</th>      
       <th></th>
     </tr>
   </thead>  
-  <% @mapplications.each { |mapplication| account = mapplication.account %>
+  <% @mapplications.order('created_at desc').each { |mapplication| account = mapplication.account %>
     <tr>
       <td>
         <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>

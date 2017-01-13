@@ -4,9 +4,10 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Name</th>
+      <th>Name</th>      
       <th>Proposed by</th>
       <th>Accepted by</th>
+      <th>Accepted on</th>
       <% if @group.facebook_group %>
         <th>Added to Facebook group?</th>
       <% end %>
@@ -17,7 +18,7 @@
       -->
     </tr>
   </thead>
-  <% @group.memberships.each { |membership| account = membership.account %>
+  <% @group.memberships.order('created_at desc').each { |membership| account = membership.account %>
     <tr>
       <td>
         <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
@@ -29,6 +30,9 @@
       <td>
         <%= membership.mapplication ? "#{membership.mapplication.processed_by.name} at #{pluralize(membership.mapplication.verdicts.supporters.count,'supporter')}" : 'n/a' %>
       </td>  
+      <td>
+        <%= membership.created_at %>
+      </td>
       <% if @group.facebook_group %>
         <td>
           <% if membership.added_to_facebook_group  %>
