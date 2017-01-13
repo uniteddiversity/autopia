@@ -58,21 +58,58 @@ module ActivateApp
     get :home, :map => '/' do
       erb :home
     end
-            
+    
+    get '/h/new' do
+      sign_in_required!
+      @group = Group.new
+      erb :build
+    end  
+    
+    post '/h/new' do
+      sign_in_required!
+      @group = Group.new(params[:group])
+      if @group.save
+        @group.memberships.create account: current_account
+        redirect "/h/#{@group.slug}"
+      else
+        flash.now[:error] = 'Some errors prevented the huddl from being created'
+        erb :build
+      end
+    end
+    
+    get '/h/:slug/edit' do        
+      @group = Group.find_by(slug: params[:slug])      
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!
+      erb :build
+    end  
+    
+    post '/h/:slug/edit' do
+      @group = Group.find_by(slug: params[:slug])      
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!
+      if @group.update_attributes(params[:group])
+        redirect "/h/#{@group.slug}"
+      else
+        flash.now[:error] = 'Some errors prevented the huddl from being created'
+        erb :build        
+      end
+    end
+               
     get '/h/:slug' do        
       @group = Group.find_by(slug: params[:slug])      
       @membership = @group.memberships.find_by(account: current_account)
       redirect "/h/#{@group.slug}/apply" unless @membership
       erb :members
     end
-        
+            
     get '/h/:slug/apply' do      
       @group = Group.find_by(slug: params[:slug])
       @membership = @group.memberships.find_by(account: current_account)
       redirect "/h/#{@group.slug}" if @membership
       @title = "#{@group.name} · Huddl"
       @og_desc = "#{@group.name} is using Huddl for democratic application review"
-      @og_image = @group.image.url
+      @og_image = @group.image ? @group.image.url : "http://#{ENV['DOMAIN']}/images/huddl.png"
       @account = Account.new
       erb :apply
     end    
@@ -95,13 +132,13 @@ module ActivateApp
       end    
     
       if @group.memberships.find_by(account: @account)
-        flash[:notice] = "You're already part of that group"
+        flash[:notice] = "You're already part of that huddl"
         redirect back
       elsif @group.mapplications.find_by(account: @account)
-        flash[:notice] = "You've already applied to that group"
+        flash[:notice] = "You've already applied to that huddl"
         redirect back
       else
-        @mapplication = @group.mapplications.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@group.request_questions_a[i],x] } if params[:answers])
+        @mapplication = @group.mapplications.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@group.application_questions_a[i],x] } if params[:answers])
         (flash[:error] = "The application could not be created" and redirect back) unless @mapplication.persisted?        
         redirect "/h/#{@group.slug}/apply?applied=true"
       end    

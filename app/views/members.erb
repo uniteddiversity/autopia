@@ -41,7 +41,7 @@
       <!--
       <td>
       <% if membership.paid %>
-                  £<%= membership.paid %>
+                      £<%= membership.paid %>
       <% else %>
         <% form_tag "/memberships/#{membership.id}/paid" do %>
           <%= number_field_tag :paid, :class => 'form-control' %>
@@ -50,7 +50,7 @@
       </td>        
       <td>
       <% membership.teamships.each { |teamship| %>
-                            <span class="label label-primary"><%=teamship.team.name%></span>
+                                <span class="label label-primary"><%=teamship.team.name%></span>
       <% } %></td>
       <td>
       <%=pluralize(membership.shifts.count,'shift')%>

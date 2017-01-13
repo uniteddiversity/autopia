@@ -9,7 +9,7 @@ class Group
   field :slug, :type => String
   field :image_uid, :type => String
   field :facebook_group, :type => String
-  field :request_questions, :type => String
+  field :application_questions, :type => String
   
   validates_presence_of :name, :slug
   validates_uniqueness_of :slug
@@ -21,8 +21,8 @@ class Group
   has_many :rotas, :dependent => :destroy
   has_many :teams, :dependent => :destroy
   
-  def request_questions_a
-    q = (request_questions || '').split("\n").map(&:strip) 
+  def application_questions_a
+    q = (application_questions || '').split("\n").map(&:strip) 
     q.empty? ? [] : q
   end  
   
@@ -81,7 +81,7 @@ class Group
       :slug => :slug,
       :image => :image,
       :facebook_group => :text,
-      :request_questions => :text_area,
+      :application_questions => :text_area,
       :memberships => :collection,
       :mapplications => :collection,
       :spends => :collection,

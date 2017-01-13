@@ -1,6 +1,15 @@
-<div style="margin-bottom: 10px; background-image: url(<%=group.image.url%>); background-size: cover; background-position: center center; height: 200px; position: relative">    
+<div style="margin-bottom: 10px; background-image: url(<%=group.image.try(:url)%>); background-size: cover; background-position: center center; height: 200px; position: relative">    
   <div style="background: black; opacity: 0.4; height: 100%"></div>
-  <h1 style="position: absolute; bottom: 0; left: 10px;">
-    <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
-  </h1>
+  <div style="position: absolute; bottom: 0; left: 10px;">
+    <h1>
+      <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
+      <% if @group %>
+        <a href="/h/<%=group.slug%>/edit"><i class="fa fa-pencil"></i></a>
+      <% end %>
+    </h1>  
+    <% if @group %>
+      <p style="color: white;">Non-members can apply at <span style="border-bottom: 1px dotted white"><%="http://#{ENV['DOMAIN']}/h/#{group.slug}/apply"%></span></p>
+      <% end %>
+  </div>
+
 </div>

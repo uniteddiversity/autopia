@@ -1,0 +1,15 @@
+
+<% if @group.persisted? %>
+  <%= partial :group_header %>
+<% end %>
+
+<h1><%= @group.persisted? ? '' : 'Create a huddl' %></h1>
+
+<% form_for @group, @group.new_record? ? '/h/new' : "/h/#{@group.slug}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
+  <%= f.text_block :name %>
+  <%= f.slug_block :slug %>
+  <%= f.image_block :image %>
+  <%= f.url_block :facebook_group %>
+  <%= f.text_area_block :application_questions %>
+  <%= f.submit_block %>  
+<% end %>
