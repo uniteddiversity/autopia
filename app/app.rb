@@ -41,6 +41,9 @@ module ActivateApp
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : 'London'
       fix_params!
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
+      @title = 'Huddl'
+      @og_desc = 'Democratic application review'
+      @og_image = "http://#{ENV['DOMAIN']}/images/huddl.png"
     end        
                 
     error do
@@ -67,6 +70,9 @@ module ActivateApp
       @group = Group.find_by(slug: params[:slug])
       @membership = @group.memberships.find_by(account: current_account)
       redirect "/h/#{@group.slug}" if @membership
+      @title = "#{@group.name} · Huddl"
+      @og_desc = 'Democratic application review'
+      @og_image = @group.image.url
       @account = Account.new
       erb :apply
     end    
@@ -164,8 +170,8 @@ module ActivateApp
         mail = Mail.new
         mail.to = @mapplication.account.email
         mail.from = "Huddl <team@huddl.tech>"
-        mail.subject = "You're now a member of #{@group.slug}"
-        mail.body = "Hi #{@mapplication.account.firstname},\n\nYour application to #{@group.slug} on Huddl was successful. Sign in at http://#{ENV['DOMAIN']}/h/#{@group.slug} using the password #{password} to check out group members and outstanding applications.\n\nBest,\nTeam Huddl" 
+        mail.subject = "You're now a member of #{@group.name}"
+        mail.body = "Hi #{@mapplication.account.firstname},\n\nYour application to #{@group.name} was successful. Sign in at http://#{ENV['DOMAIN']}/h/#{@group.slug} using the password #{password} to review other members and outstanding applications.\n\nBest,\nTeam Huddl" 
         mail.deliver
     
       end
