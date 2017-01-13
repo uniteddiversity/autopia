@@ -28,7 +28,7 @@
       <td>
 
         <% [ ['proposer','propose'], ['supporter','support'], ['blocker','block'] ].each { |noun, verb| %>
-        
+
           <div style="margin-bottom: 10px">
             <%=pluralize(mapplication.verdicts.send(noun.pluralize).count,noun)%>          
             <% if verdict = current_account.verdicts.send(noun.pluralize).find_by(mapplication: mapplication) %>
@@ -51,9 +51,12 @@
 
       <td>
         <% if mapplication.status == 'rejected' %>
-          Rejected by <%=mapplication.processed_by.name%> &middot; 
+          Rejected by <%=mapplication.processed_by.name%>
+          <% if mapplication.acceptable? %>
+            &middot; 
+          <% end %>
         <% end %>
-        <% if mapplication.verdicts.proposers.count > 0 and mapplication.verdicts.blockers.count == 0 %>
+        <% if mapplication.acceptable? %>
           <a class="btn btn-success" href="/mapplications/<%=mapplication.id%>/process?status=accepted">Accept</a>
         <% end %>
         <% unless mapplication.status == 'rejected' %>

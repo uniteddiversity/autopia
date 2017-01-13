@@ -145,7 +145,7 @@ module ActivateApp
       @mapplication.status = params[:status]
       @mapplication.processed_by = current_account
       @mapplication.save
-      if params[:status] == 'accepted' and @mapplication.verdicts.proposers.count > 0 and @mapplication.verdicts.blockers.count == 0
+      if params[:status] == 'accepted' and @mapplication.acceptable?
         @group.memberships.create account: @mapplication.account, mapplication: @mapplication
         password = Account.generate_password(8)
         @mapplication.account.update_attribute(:password, password)

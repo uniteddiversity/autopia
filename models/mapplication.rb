@@ -30,6 +30,10 @@ class Mapplication
       super(x)
     end
   end
+  
+  def acceptable?
+    verdicts.proposers.count > 0 and verdicts.blockers.count == 0
+  end
         
   def self.admin_fields
     {
