@@ -1,9 +1,9 @@
 
-<%= partial :gathering_header %>
+<%= partial :group_header %>
 
 <h2>Apply now</h2>
 
-<% form_for @account, "/gatherings/#{@gathering.slug}/apply", :class => 'form-horizontal' do |f| %>
+<% form_for @account, "/groups/#{@group.slug}/apply", :class => 'form-horizontal' do |f| %>
 
   <% if !current_account %>
     <%= f.text_block :name %>
@@ -12,7 +12,7 @@
     <%= f.image_block :picture %>
   <% end %>
 
-  <% @gathering.request_questions_a.each { |q| %>
+  <% @group.request_questions_a.each { |q| %>
     <div class="form-group">
       <label class="control-label col-sm-3"><%=q%></label>
       <div class="col-sm-6">  

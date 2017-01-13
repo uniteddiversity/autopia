@@ -4,8 +4,8 @@ class Rota
   
   field :name, :type => String
  
-  belongs_to :gathering  
-  validates_presence_of  :gathering
+  belongs_to :group  
+  validates_presence_of  :group
   
   has_many :rota_roles, :dependent => :destroy
   has_many :slots, :dependent => :destroy
@@ -14,7 +14,7 @@ class Rota
   def self.admin_fields
     {
       :name => :text,
-      :gathering_id => :lookup,
+      :group_id => :lookup,
       :rota_roles => :collection,
       :slots => :collection,
       :shifts => :collection

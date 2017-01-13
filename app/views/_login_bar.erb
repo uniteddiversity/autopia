@@ -1,9 +1,0 @@
-<div style="text-align: right">
-  <% if current_account %>
-    Signed in as <a href="<%=url(:accounts, :edit)%>"><%=current_account.name%></a>
-    &middot;
-    <a href="<%=url(:accounts, :sign_out)%>">Sign out</a>
-  <% else %>
-    <a href="<%=url(:accounts, :sign_in)%>">Sign in</a>
-  <% end %>
-</div>

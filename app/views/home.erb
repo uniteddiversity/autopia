@@ -1,8 +1,8 @@
 <div class="row">
 
-  <% Gathering.all.each { |gathering| %>
+  <% Group.all.each { |group| %>
     <div class="col-sm-4">
-      <%= partial :gathering, :object => gathering  %>
+      <%= partial :group, :object => group  %>
     </div>
   <% } %>
 

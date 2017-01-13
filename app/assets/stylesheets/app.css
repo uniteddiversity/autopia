@@ -1,15 +1,27 @@
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
-@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
+@import url('https://fonts.googleapis.com/css?family=Raleway:400,700,700i,900,900i');
 
-p, ul, ol, input, select, .form-control, body { font-family: 'Roboto', 'Helvetica Neue',Helvetica,Arial,sans-serif }
-h1, h2, h3, h4, h5, h6, .h, #banner, .nav, .dropdown-menu, .pagination {
-  font-family: 'Montserrat';
+p, ul, ol, input, select, .form-control, body { font-family: 'Raleway', 'Helvetica Neue',Helvetica,Arial,sans-serif }
+h1, h2, h3, h4, h5, h6, .h {
+  font-family: 'Raleway';
   text-transform: uppercase;
-  font-weight: normal
+  font-weight: 900
 }
 
-
-body { padding-top: 10px }
 #alert-wrap { position: absolute; z-index: 1040; width: 40%; margin-left: -20%; left: 50%; }
 
+.navbar { border-radius: 0 }
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus { background: #CE2828 }
+a, a:hover, a:focus { color: #CE2828 }
+
+.btn-primary {
+  background-color: #CE2828;
+  border-color: #AA1C1C;
+  color: #ffffff;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-group.open .dropdown-toggle.btn-primary {
+  background-color: #CE2828;
+  border-color: #AA1C1C;
+}

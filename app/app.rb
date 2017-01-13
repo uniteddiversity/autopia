@@ -56,27 +56,31 @@ module ActivateApp
       erb :home
     end
     
-    get '/gatherings' do
+    get '/groups' do
       redirect '/'
     end
     
-    get '/gatherings/:slug' do        
-      @gathering = Gathering.find_by(slug: params[:slug])      
-      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
-      redirect "/gatherings/#{@gathering.slug}/apply" unless @gatheringship
-      erb :gathering
+    get '/groups/:slug' do        
+      redirect "/h/#{params[:slug]}"
+    end
+    
+    get '/h/:slug' do        
+      @group = Group.find_by(slug: params[:slug])      
+      @membership = @group.memberships.find_by(account: current_account)
+      redirect "/groups/#{@group.slug}/apply" unless @membership
+      erb :members
     end
         
-    get '/gatherings/:slug/apply' do      
-      @gathering = Gathering.find_by(slug: params[:slug])
-      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
-      redirect "/gatherings/#{@gathering.slug}" if @gatheringship
+    get '/groups/:slug/apply' do      
+      @group = Group.find_by(slug: params[:slug])
+      @membership = @group.memberships.find_by(account: current_account)
+      redirect "/groups/#{@group.slug}" if @membership
       @account = Account.new
       erb :apply
     end    
     
-    post '/gatherings/:slug/apply' do
-      @gathering = Gathering.find_by(slug: params[:slug])
+    post '/groups/:slug/apply' do
+      @group = Group.find_by(slug: params[:slug])
 
       if current_account
         @account = current_account
@@ -91,82 +95,84 @@ module ActivateApp
         end
       end    
     
-      if @gathering.gatheringships.find_by(account: @account)
-        flash[:notice] = "You're already part of that gathering"
+      if @group.memberships.find_by(account: @account)
+        flash[:notice] = "You're already part of that group"
         redirect '/accounts/sign_in'
-      elsif @gathering.gatheringship_requests.find_by(account: @account, status: 'pending')
-        flash[:notice] = "You've already applied to that gathering"
+      elsif @group.mapplications.find_by(account: @account, status: 'pending')
+        flash[:notice] = "You've already applied to that group"
         redirect '/accounts/sign_in'
       else
-        @gatheringship_request = @gathering.gatheringship_requests.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@gathering.request_questions_a[i],x] } if params[:answers])
-        (flash[:error] = "The application could not be created" and redirect back) unless @gatheringship_request.persisted?
+        @mapplication = @group.mapplications.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@group.request_questions_a[i],x] } if params[:answers])
+        (flash[:error] = "The application could not be created" and redirect back) unless @mapplication.persisted?
                       
-        flash[:notice] = 'Your request was sent.'
-        redirect "/gatherings/#{@gathering.slug}/apply"
+        flash[:notice] = 'Your application was submitted.'
+        redirect "/groups/#{@group.slug}/apply"
       end    
     end
     
-    get '/gatherings/:slug/applications' do     
-      @gathering = Gathering.find_by(slug: params[:slug])
-      @gatheringship = @gathering.gatheringships.find_by(account: current_account)
-      gatheringship_required!
+    get '/h/:slug/applications' do     
+      @group = Group.find_by(slug: params[:slug])
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!
       erb :applications
     end       
               
-    get '/gatheringship_request_votes/create' do
-      @gatheringship_request = GatheringshipRequest.find(params[:gatheringship_request_id])
-      @gathering = @gatheringship_request.gathering      
-      gatheringship_required!
-      GatheringshipRequestVote.create!(account: current_account, gatheringship_request_id: params[:gatheringship_request_id])
+    get '/mapplication_votes/create' do
+      @mapplication = Mapplication.find(params[:mapplication_id])
+      @group = @mapplication.group      
+      membership_required!
+      MapplicationVote.create!(account: current_account, mapplication_id: params[:mapplication_id])
       redirect back
     end       
     
-    get '/gatheringship_request_votes/:id/destroy' do
-      @gatheringship_request_vote = GatheringshipRequestVote.find(params[:id])
-      halt unless @gatheringship_request_vote.account == current_account
-      @gatheringship_request_vote.destroy
+    get '/mapplication_votes/:id/destroy' do
+      @mapplication_vote = MapplicationVote.find(params[:id])
+      halt unless @mapplication_vote.account == current_account
+      @mapplication_vote.destroy
       redirect back
     end     
     
-    get '/gatheringship_request_blocks/create' do
-      @gatheringship_request = GatheringshipRequest.find(params[:gatheringship_request_id])
-      @gathering = @gatheringship_request.gathering      
-      gatheringship_required!
-      GatheringshipRequestBlock.create!(account: current_account, gatheringship_request_id: params[:gatheringship_request_id])
+    get '/mapplication_blocks/create' do
+      @mapplication = Mapplication.find(params[:mapplication_id])
+      @group = @mapplication.group      
+      membership_required!
+      MapplicationBlock.create!(account: current_account, mapplication_id: params[:mapplication_id])
       redirect back
     end       
     
-    get '/gatheringship_request_blocks/:id/destroy' do
-      @gatheringship_request_block = GatheringshipRequestBlock.find(params[:id])
-      halt unless @gatheringship_request_block.account == current_account
-      @gatheringship_request_block.destroy
+    get '/mapplication_blocks/:id/destroy' do
+      @mapplication_block = MapplicationBlock.find(params[:id])
+      halt unless @mapplication_block.account == current_account
+      @mapplication_block.destroy
       redirect back
     end     
     
-    get '/gatheringship_requests/:id/process' do
-      @gatheringship_request = GatheringshipRequest.find(params[:id])
-      @gathering = @gatheringship_request.gathering
-      gatheringship_required!
-      @gatheringship_request.update_attribute(:status, params[:status])
+    get '/mapplications/:id/process' do
+      @mapplication = Mapplication.find(params[:id])
+      @group = @mapplication.group
+      membership_required!
+      @mapplication.status = params[:status]
+      @mapplication.processed_by = current_account
+      @mapplication.save
       if params[:status] == 'accepted'
-        @gathering.gatheringships.create account: @gatheringship_request.account, accepted_by: current_account
+        @group.memberships.create account: @mapplication.account, mapplication: @mapplication
       end
       redirect back
     end   
     
-    get '/gatheringships/:id/joined_facebook_group' do
-      @gatheringship = Gatheringship.find(params[:id])
-      @gathering = @gatheringship.gathering
-      gatheringship_required!
-      @gatheringship.update_attribute(:joined_facebook_group, true)
+    get '/memberships/:id/added_to_facebook_group' do
+      @membership = Membership.find(params[:id])
+      @group = @membership.group
+      membership_required!
+      @membership.update_attribute(:added_to_facebook_group, true)
       redirect back
     end
     
-    post '/gatheringships/:id/paid' do
-      @gatheringship = Gatheringship.find(params[:id])
-      @gathering = @gatheringship.gathering
-      gatheringship_required!
-      @gatheringship.update_attribute(:paid, params[:paid])
+    post '/memberships/:id/paid' do
+      @membership = Membership.find(params[:id])
+      @group = @membership.group
+      membership_required!
+      @membership.update_attribute(:paid, params[:paid])
       redirect back
     end    
     

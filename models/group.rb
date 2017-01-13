@@ -1,4 +1,4 @@
-class Gathering
+class Group
   include Mongoid::Document
   include Mongoid::Timestamps
   extend Dragonfly::Model
@@ -15,8 +15,8 @@ class Gathering
   validates_uniqueness_of :slug
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/
   
-  has_many :gatheringships, :dependent => :destroy
-  has_many :gatheringship_requests, :dependent => :destroy
+  has_many :memberships, :dependent => :destroy
+  has_many :mapplications, :dependent => :destroy
   has_many :spends, :dependent => :destroy
   has_many :rotas, :dependent => :destroy
   has_many :teams, :dependent => :destroy
@@ -27,7 +27,7 @@ class Gathering
   end  
   
   def members
-    Account.where(:id.in => gatheringships.pluck(:account_id))
+    Account.where(:id.in => memberships.pluck(:account_id))
   end
   
   after_create do
@@ -82,8 +82,8 @@ class Gathering
       :image => :image,
       :facebook_group => :text,
       :request_questions => :text_area,
-      :gatheringships => :collection,
-      :gatheringship_requests => :collection,
+      :memberships => :collection,
+      :mapplications => :collection,
       :spends => :collection,
       :rotas => :collection,
       :teams => :collection

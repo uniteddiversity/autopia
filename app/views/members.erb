@@ -1,12 +1,12 @@
 
-<%= partial :gathering_header %>
+<%= partial :group_header %>
 
 <table class="table">
   <thead>
     <tr>
       <th>Name</th>
       <th>Accepted by</th>
-      <th>Joined Facebook group?</th>
+      <th>Added to Facebook group?</th>
       <!--
      <th>Paid</th>     
      <th>Teams</th>
@@ -14,38 +14,38 @@
       -->
     </tr>
   </thead>
-  <% @gathering.gatheringships.each { |gatheringship| account = gatheringship.account %>
+  <% @group.memberships.each { |membership| account = membership.account %>
     <tr>
       <td>
         <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
         <%= account.name %>
       </td>  
       <td>
-        <%= gatheringship.accepted_by ? gatheringship.accepted_by.name : 'n/a' %>
+        <%= membership.mapplication ? "#{membership.mapplication.processed_by.name} with #{pluralize(membership.mapplication.mapplication_votes.count,'supporter')}" : 'n/a' %>
       </td>  
       <td>
-        <% if gatheringship.joined_facebook_group  %>
+        <% if membership.added_to_facebook_group  %>
           <i class="fa fa-check"></i>
         <% else %>
-          <a href="/gatheringships/<%=gatheringship.id%>/joined_facebook_group">Joined</a>
+          <a href="/memberships/<%=membership.id%>/added_to_facebook_group">Click to confirm</a>
         <% end %>
       </td>              
       <!--
       <td>
-      <% if gatheringship.paid %>
-            £<%= gatheringship.paid %>
+      <% if membership.paid %>
+            £<%= membership.paid %>
       <% else %>
-        <% form_tag "/gatheringships/#{gatheringship.id}/paid" do %>
+        <% form_tag "/memberships/#{membership.id}/paid" do %>
           <%= number_field_tag :paid, :class => 'form-control' %>
         <% end %>
       <% end %>
       </td>        
       <td>
-      <% gatheringship.teamships.each { |teamship| %>
+      <% membership.teamships.each { |teamship| %>
                       <span class="label label-primary"><%=teamship.team.name%></span>
       <% } %></td>
       <td>
-      <%=pluralize(gatheringship.shifts.count,'shift')%>
+      <%=pluralize(membership.shifts.count,'shift')%>
       </td>
       -->
     </tr>

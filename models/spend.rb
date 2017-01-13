@@ -6,17 +6,17 @@ class Spend
   field :amount, :type => Integer
   field :reimbursed, :type => Boolean
 
-  belongs_to :gathering
+  belongs_to :group
   belongs_to :account
   
-  validates_presence_of :gathering, :account
+  validates_presence_of :group, :account
         
   def self.admin_fields
     {
       :item => :text,
       :amount => :number,
       :reimbursed => :check_box,
-      :gathering_id => :lookup,      
+      :group_id => :lookup,      
       :account_id => :lookup      
     }
   end

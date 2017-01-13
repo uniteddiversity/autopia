@@ -1,4 +1,4 @@
-    <% @gathering.teams.each { |team| %>
+    <% @group.teams.each { |team| %>
       <h3><%=team.name%></h3>
       <% team.teamships.each { |teamship| %>
         <%=teamship.account.name%> <a class="btn btn-default" href="/teamships/<%=teamship.id%>/destroy"><i class="fa fa-times"></i></a>
