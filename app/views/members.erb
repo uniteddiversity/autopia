@@ -6,7 +6,9 @@
     <tr>
       <th>Name</th>
       <th>Accepted by</th>
-      <th>Added to Facebook group?</th>
+      <% if @group.facebook_group %>
+        <th>Added to Facebook group?</th>
+      <% end %>
       <!--
      <th>Paid</th>     
      <th>Teams</th>
@@ -23,17 +25,19 @@
       <td>
         <%= membership.mapplication ? "#{membership.mapplication.processed_by.name} at #{pluralize(membership.mapplication.mapplication_votes.count,'supporter')}" : 'n/a' %>
       </td>  
-      <td>
-        <% if membership.added_to_facebook_group  %>
-          <i class="fa fa-check"></i>
-        <% else %>
-          <input type="checkbox" onclick="window.location = '/memberships/<%=membership.id%>/added_to_facebook_group'">
-        <% end %>
-      </td>              
+      <% if @group.facebook_group %>
+        <td>
+          <% if membership.added_to_facebook_group  %>
+            <i class="fa fa-check"></i>
+          <% else %>
+            <input type="checkbox" onclick="window.location = '/memberships/<%=membership.id%>/added_to_facebook_group'">
+          <% end %>
+        </td>      
+      <% end %>
       <!--
       <td>
       <% if membership.paid %>
-            £<%= membership.paid %>
+                £<%= membership.paid %>
       <% else %>
         <% form_tag "/memberships/#{membership.id}/paid" do %>
           <%= number_field_tag :paid, :class => 'form-control' %>
@@ -42,7 +46,7 @@
       </td>        
       <td>
       <% membership.teamships.each { |teamship| %>
-                      <span class="label label-primary"><%=teamship.team.name%></span>
+                          <span class="label label-primary"><%=teamship.team.name%></span>
       <% } %></td>
       <td>
       <%=pluralize(membership.shifts.count,'shift')%>
