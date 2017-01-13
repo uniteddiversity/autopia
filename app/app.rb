@@ -71,7 +71,7 @@ module ActivateApp
       @membership = @group.memberships.find_by(account: current_account)
       redirect "/h/#{@group.slug}" if @membership
       @title = "#{@group.name} · Huddl"
-      @og_desc = 'Democratic application review'
+      @og_desc = "#{@group.name} is using Huddl for democratic application review"
       @og_image = @group.image.url
       @account = Account.new
       erb :apply
