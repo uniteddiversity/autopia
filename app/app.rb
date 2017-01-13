@@ -97,7 +97,7 @@ module ActivateApp
       if @group.memberships.find_by(account: @account)
         flash[:notice] = "You're already part of that group"
         redirect back
-      elsif @group.mapplications.find_by(account: @account, status: 'pending')
+      elsif @group.mapplications.find_by(account: @account)
         flash[:notice] = "You've already applied to that group"
         redirect back
       else
