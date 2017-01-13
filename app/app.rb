@@ -162,7 +162,7 @@ module ActivateApp
         @mapplication.account.update_attribute(:password, password)
         
         mail = Mail.new
-        mail.to = account.email
+        mail.to = @mapplication.account.email
         mail.from = "Huddl <team@huddl.tech>"
         mail.subject = "You're now a member of #{@group.slug}"
         mail.body = "Hi #{@mapplication.account.firstname},\n\nYour application to #{@group.slug} on Huddl was successful. Sign in at http://#{ENV['DOMAIN']}/h/#{@group.slug} using the password #{password} to check out group members and outstanding applications.\n\nBest,\nTeam Huddl" 
