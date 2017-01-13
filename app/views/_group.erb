@@ -7,7 +7,7 @@
         <a href="/h/<%=group.slug%>/edit"><i class="fa fa-pencil"></i></a>
       <% end %>
     </h1>  
-    <% if @group %>
+    <% if @group and current_account %>
       <p style="color: white;">Non-members can apply at <span style="border-bottom: 1px dotted white"><%="http://#{ENV['DOMAIN']}/h/#{group.slug}/apply"%></span></p>
       <% end %>
   </div>
