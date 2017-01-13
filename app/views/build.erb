@@ -3,7 +3,7 @@
   <%= partial :group_header %>
 <% end %>
 
-<h1><%= @group.persisted? ? '' : 'Create a huddl' %></h1>
+<h1><%= @group.persisted? ? '' : 'Create a group' %></h1>
 
 <% form_for @group, @group.new_record? ? '/h/new' : "/h/#{@group.slug}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
   <%= f.text_block :name %>

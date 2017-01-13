@@ -21,7 +21,7 @@ ActivateApp::App.helpers do
   def membership_required!(group=nil)
     group = @group if !group
     unless current_account and group and (group.memberships.find_by(account: current_account) or current_account.admin?)
-      flash[:notice] = 'You must be a member of that huddl to access that page'
+      flash[:notice] = 'You must be a member of that group to access that page'
       session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(current_account ? '/' : '/accounts/sign_in')
     end        

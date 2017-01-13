@@ -72,7 +72,7 @@ module ActivateApp
         @group.memberships.create account: current_account
         redirect "/h/#{@group.slug}"
       else
-        flash.now[:error] = 'Some errors prevented the huddl from being created'
+        flash.now[:error] = 'Some errors prevented the group from being created'
         erb :build
       end
     end
@@ -91,7 +91,7 @@ module ActivateApp
       if @group.update_attributes(params[:group])
         redirect "/h/#{@group.slug}"
       else
-        flash.now[:error] = 'Some errors prevented the huddl from being created'
+        flash.now[:error] = 'Some errors prevented the group from being created'
         erb :build        
       end
     end
@@ -132,10 +132,10 @@ module ActivateApp
       end    
     
       if @group.memberships.find_by(account: @account)
-        flash[:notice] = "You're already part of that huddl"
+        flash[:notice] = "You're already part of that group"
         redirect back
       elsif @group.mapplications.find_by(account: @account)
-        flash[:notice] = "You've already applied to that huddl"
+        flash[:notice] = "You've already applied to that group"
         redirect back
       else
         @mapplication = @group.mapplications.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@group.application_questions_a[i],x] } if params[:answers])
