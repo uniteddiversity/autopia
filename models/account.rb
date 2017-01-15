@@ -61,7 +61,7 @@ class Account
   end    
   
   def self.genders
-    [''] + %w{Woman Man Nonbinary}
+    [''] + %w{Nonbinary Woman Man}
   end  
   
   def firstname
