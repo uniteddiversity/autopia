@@ -90,7 +90,7 @@ class Group
       :slug => :slug,
       :image => :image,
       :facebook_group => :text,
-      :application_preamble => :text_area,
+      :application_preamble => :wysiwyg,
       :application_questions => :text_area,
       :anonymous_supporters => :text_area,
       :anonymous_blockers => :text_area,
