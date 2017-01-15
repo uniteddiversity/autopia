@@ -83,7 +83,7 @@
         <% if @group.facebook_group %>
           <th></th>
         <% end %>
-        <th>£<%=  p = @group.memberships.pluck(:paid); p.sum unless p.compact.empty? %></th>
+        <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
         <th></th>
       <% end %>
       <!--
