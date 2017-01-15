@@ -234,10 +234,12 @@ module ActivateApp
     end
     
     post '/memberships/:id/paid' do
-      @membership = Membership.find(params[:id])
-      @group = @membership.group
+      membership = Membership.find(params[:id])
+      @group = membership.group
       membership_required!
-      @membership.update_attribute(:paid, params[:paid])
+      @membership = @group.memberships.find_by(account: current_account)
+      halt unless @membership.admin?
+      membership.update_attribute(:paid, params[:paid])
       redirect back
     end    
     

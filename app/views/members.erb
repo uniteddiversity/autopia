@@ -12,10 +12,10 @@
         <% if @group.facebook_group %>
           <th>Added to Facebook group?</th>
         <% end %>
+        <th>Paid</th>
         <th></th>
       <% end %>
       <!--
-     <th>Paid</th>     
      <th>Teams</th>
      <th>Shifts</th>
       -->
@@ -50,29 +50,45 @@
           </td>      
         <% end %>
         <td>
+          <% form_tag "/memberships/#{membership.id}/paid" do %>
+            <div class="input-group">
+              <span class="input-group-addon">£</span>
+              <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid %>
+            </div>
+          <% end %>
+        </td>            
+        <td>
           <% if !membership.admin %>
             <a class="btn btn-success" href="/memberships/<%=membership.id%>/make_admin">Make admin</a>
           <% end %>
         </td>
       <% end %>
       <!--
-      <td>
-      <% if membership.paid %>
-                                      £<%= membership.paid %>
-      <% else %>
-        <% form_tag "/memberships/#{membership.id}/paid" do %>
-          <%= number_field_tag :paid, :class => 'form-control' %>
-        <% end %>
-      <% end %>
-      </td>        
-      <td>
+  <td>
       <% membership.teamships.each { |teamship| %>
-                                                <span class="label label-primary"><%=teamship.team.name%></span>
+                                                      <span class="label label-primary"><%=teamship.team.name%></span>
       <% } %></td>
-      <td>
+  <td>
       <%=pluralize(membership.shifts.count,'shift')%>
-      </td>
+  </td>
       -->
     </tr>
   <% } %>
+    <tr>
+      <th></th>      
+      <th></th>
+      <th></th>
+      <th></th>
+      <% if @membership.admin %>
+        <% if @group.facebook_group %>
+          <th></th>
+        <% end %>
+        <th>£<%=@group.memberships.pluck(:paid).sum%></th>
+        <th></th>
+      <% end %>
+      <!--
+     <th></th>
+     <th></th>
+      -->            
+    </tr>
 </table>
