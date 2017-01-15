@@ -46,6 +46,17 @@ class Mapplication
     }
   end
   
+  after_create do
+    if ENV['SENDGRID_USERNAME']
+      mail = Mail.new
+      mail.bcc = group.memberships.map(&:account).pluck(:email)
+      mail.from = "Huddl <team@huddl.tech>"
+      mail.subject = "#{account.name} applied to #{group.name}"
+      mail.body = "#{account.name} applied to #{group.name}. Sign in at http://#{ENV['DOMAIN']}/h/#{group.slug} to review the applications.\n\nBest,\nTeam Huddl" 
+      mail.deliver
+    end    
+  end
+  
   def summary
     "#{self.account.name} - #{self.group.name}"
   end
