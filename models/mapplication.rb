@@ -52,7 +52,15 @@ class Mapplication
       mail.bcc = Account.where(:id.in => group.memberships.pluck(:account_id)).pluck(:email)
       mail.from = "Huddl <team@huddl.tech>"
       mail.subject = "#{account.name} applied to #{group.name}"
-      mail.body = "#{account.name} applied to #{group.name}. Sign in at http://#{ENV['DOMAIN']}/h/#{group.slug} to review the applications.\n\nBest,\nTeam Huddl" 
+      
+      account = self.account
+      group = self.group
+      html_part = Mail::Part.new do
+        content_type 'text/html; charset=UTF-8'
+        body "#{account.name} applied to #{group.name}. Visit http://#{ENV['DOMAIN']}/h/#{group.slug} to review the application.<br /><br />Best,<br />Team Huddl"
+      end
+      mail.html_part = html_part       
+      
       mail.deliver
     end    
   end
