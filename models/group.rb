@@ -94,6 +94,7 @@ class Group
       :application_questions => :text_area,
       :anonymous_supporters => :text_area,
       :anonymous_blockers => :text_area,
+      :account_id => :lookup,
       :memberships => :collection,
       :mapplications => :collection,
       :spends => :collection,
