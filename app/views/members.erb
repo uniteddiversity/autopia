@@ -8,8 +8,11 @@
       <th>Proposed by</th>
       <th>Accepted by</th>
       <th>Accepted on</th>
-      <% if @group.facebook_group %>
-        <th>Added to Facebook group?</th>
+      <% if @membership.admin %>
+        <% if @group.facebook_group %>
+          <th>Added to Facebook group?</th>
+        <% end %>
+        <th></th>
       <% end %>
       <!--
      <th>Paid</th>     
@@ -23,6 +26,9 @@
       <td>
         <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
         <%= account.name %>
+        <% if membership.admin? %>
+          <i title="Admin" class="fa fa-key"></i>
+        <% end %>
       </td>
       <td>
         <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : 'n/a' %>
@@ -33,19 +39,26 @@
       <td>
         <%= membership.created_at %>
       </td>
-      <% if @group.facebook_group %>
+      <% if @membership.admin? %>
+        <% if @group.facebook_group %>
+          <td>
+            <% if membership.added_to_facebook_group  %>
+              <i class="fa fa-check"></i>
+            <% else %>
+              <input type="checkbox" onclick="window.location = '/memberships/<%=membership.id%>/added_to_facebook_group'">
+            <% end %>
+          </td>      
+        <% end %>
         <td>
-          <% if membership.added_to_facebook_group  %>
-            <i class="fa fa-check"></i>
-          <% else %>
-            <input type="checkbox" onclick="window.location = '/memberships/<%=membership.id%>/added_to_facebook_group'">
+          <% if !membership.admin %>
+            <a class="btn btn-success" href="/memberships/<%=membership.id%>/make_admin">Make admin</a>
           <% end %>
-        </td>      
+        </td>
       <% end %>
       <!--
       <td>
       <% if membership.paid %>
-                      £<%= membership.paid %>
+                                      £<%= membership.paid %>
       <% else %>
         <% form_tag "/memberships/#{membership.id}/paid" do %>
           <%= number_field_tag :paid, :class => 'form-control' %>
@@ -54,7 +67,7 @@
       </td>        
       <td>
       <% membership.teamships.each { |teamship| %>
-                                <span class="label label-primary"><%=teamship.team.name%></span>
+                                                <span class="label label-primary"><%=teamship.team.name%></span>
       <% } %></td>
       <td>
       <%=pluralize(membership.shifts.count,'shift')%>

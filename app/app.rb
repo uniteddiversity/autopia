@@ -68,8 +68,9 @@ module ActivateApp
     post '/h/new' do
       sign_in_required!
       @group = Group.new(params[:group])
+      @group.account = current_account
       if @group.save
-        @group.memberships.create account: current_account
+        @group.memberships.create account: current_account, admin: true
         redirect "/h/#{@group.slug}"
       else
         flash.now[:error] = 'Some errors prevented the group from being created'
@@ -81,6 +82,7 @@ module ActivateApp
       @group = Group.find_by(slug: params[:slug])      
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!
+      halt unless @membership.admin?      
       erb :build
     end  
     
@@ -88,6 +90,7 @@ module ActivateApp
       @group = Group.find_by(slug: params[:slug])      
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!
+      halt unless @membership.admin?
       if @group.update_attributes(params[:group])
         redirect "/h/#{@group.slug}"
       else
@@ -179,6 +182,8 @@ module ActivateApp
       @mapplication = Mapplication.find(params[:id])
       @group = @mapplication.group
       membership_required!
+      @membership = @group.memberships.find_by(account: current_account)
+      halt unless @membership.admin?
       @mapplication.status = params[:status]
       @mapplication.processed_by = current_account
       @mapplication.save
@@ -201,11 +206,23 @@ module ActivateApp
     end   
     
     get '/memberships/:id/added_to_facebook_group' do
-      @membership = Membership.find(params[:id])
-      @group = @membership.group
+      membership = Membership.find(params[:id])
+      @group = membership.group
       membership_required!
-      @membership.update_attribute(:added_to_facebook_group, true)
+      @membership = @group.memberships.find_by(account: current_account)
+      halt unless @membership.admin?
+      membership.update_attribute(:added_to_facebook_group, true)
       redirect back
+    end
+    
+    get '/memberships/:id/make_admin' do
+      membership = Membership.find(params[:id])
+      @group = membership.group
+      membership_required!
+      @membership = @group.memberships.find_by(account: current_account)
+      halt unless @membership.admin?
+      membership.update_attribute(:admin, true)
+      redirect back      
     end
     
     post '/memberships/:id/paid' do

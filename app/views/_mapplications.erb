@@ -4,8 +4,10 @@
       <th>Name</th>
       <th>Applied on</th>
       <th>Responses</th>      
-      <th>Proposers, supporters and blockers</th>      
-      <th></th>
+      <th>Proposers, supporters and blockers</th>     
+      <% if @membership.admin? %>
+        <th></th>
+      <% end %>
     </tr>
   </thead>  
   <% @mapplications.order('created_at desc').each { |mapplication| account = mapplication.account %>
@@ -37,11 +39,13 @@
               &middot; <a href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
             <% end %>
 
-            <div>
-              <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
-                <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 50px;"/>
-              <% } %>
-            </div>
+            <% unless @group.send("anonymous_#{noun.pluralize}") %>
+              <div>
+                <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
+                  <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 50px;"/>
+                <% } %>
+              </div>
+            <% end %>
 
           </div>        
 
@@ -49,22 +53,23 @@
 
       </td>          
 
-      <td>
-        <% if mapplication.status == 'rejected' %>
-          Rejected by <%=mapplication.processed_by.name%>
+      <% if @membership.admin? %>
+        <td>
+          <% if mapplication.status == 'rejected' %>
+            Rejected by <%=mapplication.processed_by.name%>
+            <% if mapplication.acceptable? %>
+              &middot; 
+            <% end %>
+          <% end %>          
           <% if mapplication.acceptable? %>
-            &middot; 
+            <a class="btn btn-success" href="/mapplications/<%=mapplication.id%>/process?status=accepted">Accept</a>
           <% end %>
-        <% end %>
-        <% if mapplication.acceptable? %>
-          <a class="btn btn-success" href="/mapplications/<%=mapplication.id%>/process?status=accepted">Accept</a>
-        <% end %>
-        <% unless mapplication.status == 'rejected' %>
-          <a class="btn btn-danger" href="/mapplications/<%=mapplication.id%>/process?status=rejected">Reject</a>
-        <% end %>
-      </td>
+          <% unless mapplication.status == 'rejected' %>
+            <a class="btn btn-danger" href="/mapplications/<%=mapplication.id%>/process?status=rejected">Reject</a>
+          <% end %>
+        </td>
+      <% end %>
 
-      </td>
     </tr>
   <% } %>
 </table>

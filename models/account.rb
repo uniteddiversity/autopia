@@ -12,11 +12,11 @@ class Account
   
   has_many :mapplications, :class_name => "Membership", :inverse_of => :account, :dependent => :destroy
   has_many :mapplications_processed, :class_name => "Membership", :inverse_of => :processed_by, :dependent => :nullify  
-  
-  has_many :verdicts, :dependent => :destroy  
     
+  has_many :groups, :dependent => :nullify
   has_many :memberships, :dependent => :destroy
-      
+  has_many :verdicts, :dependent => :destroy      
+  
   # Dragonfly
   dragonfly_accessor :picture  
   attr_accessor :rotate_picture_by

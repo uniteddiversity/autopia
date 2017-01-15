@@ -2,6 +2,7 @@ class Membership
   include Mongoid::Document
   include Mongoid::Timestamps
   
+  field :admin, :type => Boolean
   field :paid, :type => Integer
   field :added_to_facebook_group, :type => Boolean
   
@@ -25,6 +26,7 @@ class Membership
       :account_id => :lookup,
       :group_id => :lookup,      
       :mapplication_id => :lookup,
+      :admin => :check_box,
       :paid => :number,
       :added_to_facebook_group => :check_box,
     }
