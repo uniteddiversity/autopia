@@ -202,7 +202,7 @@ module ActivateApp
           group = @group
           html_part = Mail::Part.new do
             content_type 'text/html; charset=UTF-8'
-            body "Hi #{account.firstname},<br /><br />Your application to #{group.name} was successful. Sign in at http://#{ENV['DOMAIN']}/h/#{group.slug} using the password #{password} to review other members and outstanding applications.<br /><br />Best,<br />Team Huddl" 
+            body "Hi #{account.firstname},<br /><br />You were accepted into #{group.name}. Sign in at http://#{ENV['DOMAIN']}/h/#{group.slug} using the password #{password} to view other members and outstanding applications.<br /><br />Best,<br />Team Huddl" 
           end
           mail.html_part = html_part
       
