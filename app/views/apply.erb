@@ -10,7 +10,7 @@
   <h2>Apply to join</h2>
 
   <% if @group.application_preamble %>
-    <%=@group.application_preamble%>
+    <p><%=@group.application_preamble%></p>
   <% end %>
 
   <% form_for @account, "/h/#{@group.slug}/apply", :class => 'form-horizontal' do |f| %>
