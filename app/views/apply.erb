@@ -1,7 +1,6 @@
 
 <%= partial :group_header %>
 
-
 <% if params[:applied] or (current_account and @mapplicaton = @group.mapplications.find_by(account: current_account)) %>
 
   <h2>Thanks for applying. Your application is under review</h2>
@@ -9,6 +8,10 @@
 <% else %>
 
   <h2>Apply to join</h2>
+
+  <% if @group.application_preamble %>
+    <p><%=@group.application_preamble%></p>
+  <% end %>
 
   <% form_for @account, "/h/#{@group.slug}/apply", :class => 'form-horizontal' do |f| %>
 
