@@ -18,6 +18,7 @@
     <% if !current_account %>
       <%= f.text_block :name %>
       <%= f.text_block :email %>
+      <%= f.select_block :gender %>
       <%= f.image_block :picture %>
     <% end %>
 

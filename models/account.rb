@@ -5,6 +5,7 @@ class Account
             
   field :name, :type => String
   field :email, :type => String
+  field :gender, :type => String
   field :admin, :type => Boolean
   field :time_zone, :type => String
   field :crypted_password, :type => String
@@ -44,6 +45,7 @@ class Account
     {
       :name => :text,
       :email => :text,
+      :gender => :select,
       :picture => :image,
       :admin => :check_box,
       :time_zone => :select,
@@ -56,7 +58,11 @@ class Account
     {
       :password => 'Leave blank to keep existing password'      
     }
-  end     
+  end    
+  
+  def self.genders
+    [''] + %w{Woman Man Nonbinary}
+  end  
   
   def firstname
     name.split(' ').first
