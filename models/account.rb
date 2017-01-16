@@ -6,6 +6,8 @@ class Account
   field :name, :type => String
   field :email, :type => String
   field :gender, :type => String
+  field :date_of_birth, :type => Date
+  field :poc, :type => Boolean
   field :admin, :type => Boolean
   field :time_zone, :type => String
   field :crypted_password, :type => String
@@ -46,6 +48,8 @@ class Account
       :name => :text,
       :email => :text,
       :gender => :select,
+      :date_of_birth => :date,
+      :poc => :check_box,
       :picture => :image,
       :admin => :check_box,
       :time_zone => :select,
@@ -56,13 +60,19 @@ class Account
   
   def self.edit_hints
     {
-      :password => 'Leave blank to keep existing password'      
+      :password => 'Leave blank to keep existing password'
     }
   end    
   
   def self.genders
     [''] + %w{Nonbinary Woman Man}
   end  
+  
+  def self.human_attribute_name(attr, options={})  
+    {
+      :poc => 'I identify as a person of colour'
+    }[attr.to_sym] || super  
+  end   
   
   def firstname
     name.split(' ').first
