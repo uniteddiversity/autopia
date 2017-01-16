@@ -68,6 +68,24 @@ class Account
     [''] + %w{Nonbinary Woman Man}
   end  
   
+  def gender_symbol
+    case gender
+    when 'Man'
+      '<i title="Man" class="fa fa-mars"></i>'
+    when 'Woman'
+      '<i title="Woman" class="fa fa-mars"></i>'
+    when 'Nonbinary'
+      '<i title="Nonbinary" class="fa fa-transgender"></i>'
+    end
+  end
+  
+  def age    
+    if dob = date_of_birth
+      now = Time.now.utc.to_date
+      now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+    end
+  end  
+  
   def self.human_attribute_name(attr, options={})  
     {
       :poc => 'I identify as a person of colour'

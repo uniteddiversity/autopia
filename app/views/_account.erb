@@ -1,0 +1,4 @@
+<img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
+<%= account.name %>
+<br />
+<%= [('<i title="Admin" class="fa fa-key"></i>' if defined?(membership) and membership.admin?), account.gender_symbol,account.age,account.poc ? 'Person of colour' : nil].compact.join(' &middot; ') %>

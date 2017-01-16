@@ -24,11 +24,7 @@
   <% @group.memberships.order('created_at desc').each { |membership| account = membership.account %>
     <tr>
       <td>
-        <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
-        <%= account.name %>
-        <% if membership.admin? %>
-          <i title="Admin" class="fa fa-key"></i>
-        <% end %>
+        <%= partial :account, :object => account, :locals => {:membership => membership} %>
       </td>
       <td>
         <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : 'n/a' %>
@@ -66,7 +62,7 @@
       <!--
   <td>
       <% membership.teamships.each { |teamship| %>
-                                                      <span class="label label-primary"><%=teamship.team.name%></span>
+                                                            <span class="label label-primary"><%=teamship.team.name%></span>
       <% } %></td>
   <td>
       <%=pluralize(membership.shifts.count,'shift')%>
@@ -74,21 +70,21 @@
       -->
     </tr>
   <% } %>
-    <tr>
-      <th></th>      
-      <th></th>
-      <th></th>
-      <th></th>
-      <% if @membership.admin %>
-        <% if @group.facebook_group %>
-          <th></th>
-        <% end %>
-        <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
+  <tr>
+    <th></th>      
+    <th></th>
+    <th></th>
+    <th></th>
+    <% if @membership.admin %>
+      <% if @group.facebook_group %>
         <th></th>
       <% end %>
-      <!--
-     <th></th>
-     <th></th>
-      -->            
-    </tr>
+      <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
+      <th></th>
+    <% end %>
+    <!--
+   <th></th>
+   <th></th>
+    -->            
+  </tr>
 </table>

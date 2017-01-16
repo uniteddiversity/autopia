@@ -13,18 +13,17 @@
   <% @mapplications.order('created_at desc').each { |mapplication| account = mapplication.account %>
     <tr>
       <td>
-        <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
-        <%= account.name %>
-      </td>  
+        <%= partial :account, :object => account %>
+      </td>
       <td>
         <%=mapplication.created_at%>
       </td>           
       <td>
         <% if mapplication.answers %>
           <% mapplication.answers.each { |q,a| if a %>
-            <p><strong><%=q%></strong></p>
-            <p><%=a.gsub("\n","<br />")%></p>                    
-          <% end }  %>
+              <p><strong><%=q%></strong></p>
+              <p><%=a.gsub("\n","<br />")%></p>                    
+            <% end }  %>
         <% end %>
       </td>    
       <td>
