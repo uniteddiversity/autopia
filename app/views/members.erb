@@ -12,7 +12,9 @@
         <% if @group.facebook_group %>
           <th>Added to Facebook group?</th>
         <% end %>
-        <th>Paid</th>
+      <% end %>
+      <th>Paid</th>
+      <% if @membership.admin %>
         <th></th>
       <% end %>           
     </tr>
@@ -63,14 +65,20 @@
             <% end %>
           </td>      
         <% end %>
-        <td>
+      <% end %>
+      <td>
+        <% if @membership.admin? %>
           <% form_tag "/memberships/#{membership.id}/paid" do %>
             <div class="input-group">
               <span class="input-group-addon">£</span>
               <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid %>
             </div>
           <% end %>
-        </td>            
+        <% else %>
+          <%= "£#{membership.paid}" if membership.paid %>
+        <% end %>
+      </td>   
+      <% if @membership.admin? %>
         <td>
           <% if !membership.admin %>
             <a class="btn btn-success" href="/memberships/<%=membership.id%>/make_admin">Make admin</a>
@@ -88,7 +96,9 @@
       <% if @group.facebook_group %>
         <th></th>
       <% end %>
-      <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
+    <% end %>        
+    <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
+    <% if @membership.admin %>
       <th></th>
     <% end %>        
   </tr>
