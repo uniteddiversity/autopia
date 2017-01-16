@@ -13,7 +13,7 @@
       <td>
         <% team.teamships.each { |teamship| account = teamship.account %>
           <% if teamship.account == current_account or @membership.admin? %>
-            <a href="/teamships/<%=teamship.id%>/destroy">
+            <a data-confirm="Remove this person from this team?" href="/teamships/<%=teamship.id%>/destroy">
               <%=account.name%>
             </a>
           <% else %>
