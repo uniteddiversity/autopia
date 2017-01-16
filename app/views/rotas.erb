@@ -4,13 +4,24 @@
   <h2><%=rota.name%></h2>
 
   <% if @membership.admin? %>
-    <% form_tag "/roles/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
-      <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New role' %>
-    <% end %>  
-
-    <% form_tag "/slots/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
-      <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New slot' %>
-    <% end %>    
+    <table>
+      <tr>
+        <td></td>
+        <td>
+          <% form_tag "/slots/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
+            <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New slot' %>
+          <% end %>          
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <% form_tag "/roles/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
+            <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New role' %>
+          <% end %>
+        </td>
+        <td></td>
+      </tr>    
+    </table>    
   <% end %>
 
   <table class="table table-striped">
