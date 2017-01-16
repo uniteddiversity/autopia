@@ -26,6 +26,9 @@ class Group
   has_many :rotas, :dependent => :destroy
   has_many :teams, :dependent => :destroy
   
+  has_many :spaces, :dependent => :destroy
+  has_many :tslots, :dependent => :destroy
+  
   def application_questions_a
     q = (application_questions || '').split("\n").map(&:strip) 
     q.empty? ? [] : q

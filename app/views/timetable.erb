@@ -1,0 +1,70 @@
+
+<%= partial :group_header %>
+
+<% if @membership.admin? %>
+  <table style="margin-top: 10px">
+    <tr>
+      <td></td>
+      <td>
+        <% form_tag "/spaces/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'display: inline' do %>
+          <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New space' %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <% form_tag "/tslots/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'display: inline' do %>
+          <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New slot' %>
+        <% end %>          
+      </td>      
+      <td></td>
+    </tr>    
+  </table>    
+<% end %>
+
+<table class="table table-striped">
+  <tr>
+    <td></td>
+    <% @group.spaces.each { |space| %>
+      <td>
+        <% if @membership.admin? %>
+          <a data-confirm="Delete this space?" href="/spaces/<%=space.id%>/destroy">
+            <%=space.name%>
+          </a>
+        <% else %>
+          <%=space.name%>
+        <% end %>                
+      </td>
+    <% } %>
+  </tr>
+  <% @group.tslots.each { |tslot| %>
+    <tr>
+      <td>
+        <% if @membership.admin? %>
+          <a data-confirm="Delete this slot?" href="/tslots/<%=tslot.id%>/destroy">
+            <%=tslot.name%>
+          </a>
+        <% else %>
+          <%=tslot.name%>
+        <% end %> 
+      </td>
+      <% @group.spaces.each { |space| activity = Activity.find_by(tslot: tslot, space: space) %>
+        <td>
+
+          <% form_tag "/activities/create" do %>
+            <%= hidden_field_tag :group_id, :value => @group.id  %>
+            <%= hidden_field_tag :tslot_id, :value => tslot.id  %>
+            <%= hidden_field_tag :space_id, :value => space.id  %>
+            <%= text_field_tag :description, :class => 'form-control', :value => activity.try(:description) %>
+          <% end %>  
+          <% if activity %>
+            <div style="text-align: right">
+              <small style="color: #aaa"><i class="fa fa-pencil"></i> <%=activity.account.name%>, <%=time_ago_in_words activity.created_at %> ago</small>
+            </div>
+          <% end %>
+
+        </td>
+      <% } %>
+    </tr>
+  <% } %>
+</table>

@@ -237,54 +237,17 @@ module ActivateApp
       redirect back
     end    
     
+    
+    
+    
+    
     get '/h/:slug/teams' do
       @group = Group.find_by(slug: params[:slug])
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!
       erb :teams      
     end
-    
-    get '/teamships/:id/destroy' do
-      @teamship = Teamship.find(params[:id])
-      @group = @teamship.team.group
-      @membership = @group.memberships.find_by(account: current_account)
-      halt unless @teamship.account.id == current_account.id or @membership.admin?
-      @teamship.destroy
-      redirect back
-    end
-    
-    get '/teamships/create' do
-      @team = Team.find(params[:team_id])
-      @group = @team.group      
-      membership_required!      
-      Teamship.create!(account: current_account, team_id: params[:team_id])
-      redirect back
-    end      
-   
-    get '/h/:slug/rotas' do
-      @group = Group.find_by(slug: params[:slug])
-      @membership = @group.memberships.find_by(account: current_account)
-      membership_required!
-      erb :rotas     
-    end    
-   
-    get '/shifts/:id/destroy' do
-      @shift = Shift.find(params[:id])
-      @group = @shift.rota.group
-      @membership = @group.memberships.find_by(account: current_account)
-      halt unless @shift.account.id == current_account.id or @membership.admin?
-      @shift.destroy
-      redirect back
-    end
-     
-    get '/shifts/create' do
-      @rota = Rota.find(params[:rota_id])
-      @group = @rota.group
-      membership_required!
-      Shift.create!(account: current_account, rota_id: params[:rota_id], rslot_id: params[:rslot_id], role_id: params[:role_id])
-      redirect back
-    end  
-    
+           
     post '/teams/create' do
       @group = Group.find(params[:group_id])
       @membership = @group.memberships.find_by(account: current_account)
@@ -301,6 +264,34 @@ module ActivateApp
       @team.destroy
       redirect back      
     end
+        
+    get '/teamships/create' do
+      @team = Team.find(params[:team_id])
+      @group = @team.group      
+      membership_required!      
+      Teamship.create!(account: current_account, team_id: params[:team_id])
+      redirect back
+    end    
+    
+    get '/teamships/:id/destroy' do
+      @teamship = Teamship.find(params[:id])
+      @group = @teamship.team.group
+      @membership = @group.memberships.find_by(account: current_account)
+      halt unless @teamship.account.id == current_account.id or @membership.admin?
+      @teamship.destroy
+      redirect back
+    end
+
+    
+    
+    
+    
+    get '/h/:slug/rotas' do
+      @group = Group.find_by(slug: params[:slug])
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!
+      erb :rotas     
+    end     
     
     post '/rotas/create' do
       @group = Group.find(params[:group_id])
@@ -354,6 +345,77 @@ module ActivateApp
       @rslot.destroy
       redirect back      
     end       
+         
+    get '/shifts/create' do
+      @rota = Rota.find(params[:rota_id])
+      @group = @rota.group
+      membership_required!
+      Shift.create!(account: current_account, rota_id: params[:rota_id], rslot_id: params[:rslot_id], role_id: params[:role_id])
+      redirect back
+    end      
+    
+    get '/shifts/:id/destroy' do
+      @shift = Shift.find(params[:id])
+      @group = @shift.rota.group
+      @membership = @group.memberships.find_by(account: current_account)
+      halt unless @shift.account.id == current_account.id or @membership.admin?
+      @shift.destroy
+      redirect back
+    end    
+    
+    
+    
+    get '/h/:slug/timetable' do
+      @group = Group.find_by(slug: params[:slug])
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!
+      erb :timetable      
+    end
+    
+    post '/spaces/create' do
+      @group = Group.find(params[:group_id])
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      Space.create!(name: params[:name], group: @group)
+      redirect back
+    end   
+    
+    get '/spaces/:id/destroy' do
+      @space = Space.find(params[:id])
+      @group = @space.group
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      @space.destroy
+      redirect back      
+    end      
+    
+    post '/tslots/create' do
+      @group = Group.find(params[:group_id])
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      Tslot.create!(name: params[:name], group: @group)
+      redirect back
+    end      
+    
+    get '/tslots/:id/destroy' do
+      @tslot = Tslot.find(params[:id])
+      @group = @tslot.group
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      @tslot.destroy
+      redirect back      
+    end    
+         
+    post '/activities/create' do
+      @group = Group.find(params[:group_id])
+      membership_required!
+      Activity.find_by(tslot_id: params[:tslot_id], space_id: params[:space_id]).try(:destroy)
+      Activity.create!(description: params[:description], account: current_account, group_id: params[:group_id], tslot_id: params[:tslot_id], space_id: params[:space_id])
+      redirect back
+    end      
+    
+  
+    
     
                 
     get '/:slug' do
