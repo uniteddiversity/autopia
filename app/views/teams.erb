@@ -11,6 +11,7 @@
     <tr>
       <th>Team</th>
       <th>People</th>
+      <th></th>
     </tr>
   </thead>
   <% @group.teams.order('name asc').each { |team| %>
@@ -35,6 +36,8 @@
             <% end %>
           <% end }.join(',') %>
         <%= names %>
+      </td>
+      <td>
         <% unless team.teamships.find_by(account: current_account) %>
           <a class="btn btn-primary" href="/teamships/create?team_id=<%=team.id%>">Join</a>
         <% end %>
