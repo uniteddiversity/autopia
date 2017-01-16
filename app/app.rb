@@ -416,6 +416,38 @@ module ActivateApp
     
   
     
+    get '/h/:slug/spending' do
+      @group = Group.find_by(slug: params[:slug])
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!
+      erb :spending
+    end
+
+    post '/spends/create' do
+      @group = Group.find(params[:group_id])
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      Spend.create!(item: params[:item], amount: params[:amount], account: current_account, group: @group)
+      redirect back
+    end
+    
+    get '/spends/:id/destroy' do
+      @spend = Spend.find(params[:id])
+      @group = @spend.group
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      @spend.destroy
+      redirect back      
+    end     
+    
+    get '/spends/:id/reimbursed' do
+      @spend = Spend.find(params[:id])
+      @group = @spend.group
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      @spend.update_attribute(:reimbursed, true)
+      redirect back      
+    end      
     
                 
     get '/:slug' do
