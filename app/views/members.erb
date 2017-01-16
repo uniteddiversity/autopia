@@ -37,7 +37,7 @@
           <div>
             <% if mapplication.answers %>
               <a href="javascript:;" onclick="$(this).hide().next().show()">Show application</a>
-              <div style="display: none">
+              <div style="display: none; margin-top: 10px">
                 <% mapplication.answers.each { |q,a| if a %>
                     <p><strong><%=q%></strong></p>
                     <p><%=a.gsub("\n","<br />")%></p>                    
