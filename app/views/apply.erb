@@ -3,11 +3,11 @@
 
 <% if params[:applied] or (current_account and @mapplicaton = @group.mapplications.find_by(account: current_account)) %>
 
-  <h2>Thanks for applying. Your application is under review</h2>
+  <h2>Thanks for expressing your interest</h2>
 
 <% else %>
 
-  <h2>Apply to join</h2>
+  <h2>Express your interest</h2>
 
   <% if @group.application_preamble %>
     <p><%=@group.application_preamble%></p>
@@ -33,7 +33,7 @@
       </div>  
     <% } %>
 
-    <%= f.submit_block button_text: 'Submit application' %>            
+    <%= f.submit_block button_text: 'Submit' %>            
 
   <% end %>
 

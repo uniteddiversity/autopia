@@ -42,7 +42,7 @@ module ActivateApp
       fix_params!
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
       @title = 'Huddl'
-      @og_desc = 'Democratic application review'
+      @og_desc = 'For co-created gatherings'
       @og_image = "http://#{ENV['DOMAIN']}/images/huddl.png"
     end        
                 
@@ -109,7 +109,7 @@ module ActivateApp
       @membership = @group.memberships.find_by(account: current_account)
       redirect "/h/#{@group.slug}" if @membership
       @title = "#{@group.name} · Huddl"
-      @og_desc = "#{@group.name} is using Huddl for democratic application review"
+      @og_desc = "#{@group.name} is being co-created on Huddl"
       @og_image = @group.image ? @group.image.url : "http://#{ENV['DOMAIN']}/images/huddl.png"
       @account = Account.new
       erb :apply
