@@ -73,7 +73,7 @@ class Account
     when 'Man'
       '<i title="Man" class="fa fa-mars"></i>'
     when 'Woman'
-      '<i title="Woman" class="fa fa-mars"></i>'
+      '<i title="Woman" class="fa fa-venus"></i>'
     when 'Nonbinary'
       '<i title="Nonbinary" class="fa fa-transgender"></i>'
     end
