@@ -28,7 +28,7 @@
     <tr>
       <td>
         <% if @membership.admin? %>
-          <a data-confirm="Delete this slot?" href="/spends/<%=spend.id%>/destroy">
+          <a data-confirm="Delete this spend?" href="/spends/<%=spend.id%>/destroy">
             <%=spend.item%>
           </a>
         <% else %>
