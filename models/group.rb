@@ -74,7 +74,10 @@ class Group
   #      'Sat lunch',
   #      'Sat dinner',
   #      'Sun breakfast',
-  #      'Sun lunch'
+  #      'Sun lunch',
+  #      'Sun dinner',
+  #      'Mon breakfast',
+  #      'Mon lunch'            
   #    ].each { |slot_name|
   #      food.slots.create name: slot_name
   #    }    

@@ -1,9 +1,29 @@
-    <% @group.teams.each { |team| %>
-      <h3><%=team.name%></h3>
-      <% team.teamships.each { |teamship| %>
-        <%=teamship.account.name%> <a class="btn btn-default" href="/teamships/<%=teamship.id%>/destroy"><i class="fa fa-times"></i></a>
-      <% } %>
-      <% unless team.teamships.find_by(account: current_account) %>
-        <a class="btn btn-default" href="/teamships/create?team_id=<%=team.id%>">Join this team</a>
-      <% end %>
-    <% } %>
+<%= partial :group_header %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Team</th>
+      <th>People</th>
+    </tr>
+  </thead>
+  <% @group.teams.order('name asc').each { |team| %>
+    <tr>
+      <td><%=team.name%></td>
+      <td>
+        <% team.teamships.each { |teamship| account = teamship.account %>
+          <% if teamship.account == current_account or @membership.admin? %>
+            <a href="/teamships/<%=teamship.id%>/destroy">
+              <%=account.name%>
+            </a>
+          <% else %>
+            <%=account.name%>
+          <% end %>
+        <% } %>
+        <% unless team.teamships.find_by(account: current_account) %>
+          <a class="btn btn-primary" href="/teamships/create?team_id=<%=team.id%>">Join</a>
+        <% end %>
+      </td>
+    </tr>
+  <% } %>
+</table>

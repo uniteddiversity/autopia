@@ -243,40 +243,60 @@ module ActivateApp
       redirect back
     end    
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    get '/shifts/:id/destroy' do
-      Shift.find(params[:id]).destroy
-      redirect back
+    get '/h/:slug/teams' do
+      @group = Group.find_by(slug: params[:slug])
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!
+      erb :teams      
     end
     
-    get '/shifts/create' do
-      Shift.create!(account: current_account, rota_id: params[:rota_id], slot_id: params[:slot_id], rota_role_id: params[:rota_role_id])
-      redirect back
-    end    
-    
     get '/teamships/:id/destroy' do
-      Teamship.find(params[:id]).destroy
+      teamship = Teamship.find(params[:id])
+      @group = teamship.team.group
+      @membership = @group.memberships.find_by(account: current_account)
+      halt unless teamship.account.id == current_account.id or @membership.admin?
+      teamship.destroy
       redirect back
     end
     
     get '/teamships/create' do
+      @team = Team.find(params[:team_id])
+      @group = @team.group      
+      membership_required!      
       Teamship.create!(account: current_account, team_id: params[:team_id])
       redirect back
-    end       
+    end      
+   
+    get '/h/:slug/rotas' do
+      @group = Group.find_by(slug: params[:slug])
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!
+      erb :rotas     
+    end    
+   
+    get '/shifts/:id/destroy' do
+      shift = Shift.find(params[:id])
+      @group = shift.rota.group
+      @membership = @group.memberships.find_by(account: current_account)
+      halt unless shift.account.id == current_account.id or @membership.admin?
+      shift.destroy
+      redirect back
+    end
+     
+    get '/shifts/create' do
+      @rota = Rota.find(params[:rota_id])
+      @group = @rota.group
+      membership_required!
+      Shift.create!(account: current_account, rota_id: params[:rota_id], slot_id: params[:slot_id], rota_role_id: params[:rota_role_id])
+      redirect back
+    end  
     
+    
+    
+    
+    
+    
+            
     get '/:slug' do
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)
         erb :page

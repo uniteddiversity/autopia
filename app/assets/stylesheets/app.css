@@ -4,6 +4,8 @@
 p, ul, ol, input, select, .form-control, body { font-family: 'Raleway', 'Helvetica Neue',Helvetica,Arial,sans-serif }
 h1, h2, h3, h4, h5, h6, .h { font-family: 'Raleway'; text-transform: uppercase; font-weight: 900 }
 
+body { padding-bottom: 20px }
+
 #alert-wrap { margin-top: 20px; position: absolute; z-index: 1040; width: 40%; margin-left: -20%; left: 50%; }
 
 .navbar { border-radius: 0 }
