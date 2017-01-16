@@ -19,16 +19,16 @@
         <%=mapplication.created_at%>
       </td>           
       <td>
-        <% if mapplication.answers %>
 
+        <% if mapplication.answers %>
           <a href="javascript:;" onclick="$(this).hide().next().show()">Show</a>
           <div style="display: none">
             <% mapplication.answers.each { |q,a| if a %>
                 <p><strong><%=q%></strong></p>
                 <p><%=a.gsub("\n","<br />")%></p>                    
-              <% end }  %>
-          <% end %>
-        </div>
+              <% end }  %>          
+          </div>
+        <% end %>
 
       </td>    
       <td>

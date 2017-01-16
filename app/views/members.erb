@@ -4,7 +4,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Name</th>      
+      <th style="width: 1px">Name</th>      
       <th>Proposed by</th>
       <th>Accepted at</th>
       <th>Accepted on</th>
@@ -31,7 +31,24 @@
         <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : 'n/a' %>
       </td>        
       <td>
-        <%= membership.mapplication ? pluralize(membership.mapplication.verdicts.supporters.count,'supporter') : 'n/a' %>
+        <% if membership.mapplication; mapplication = membership.mapplication %>
+          <%=pluralize(mapplication.verdicts.supporters.count,'supporter') %>
+
+          <div>
+            <% if mapplication.answers %>
+              <a href="javascript:;" onclick="$(this).hide().next().show()">Show application</a>
+              <div style="display: none">
+                <% mapplication.answers.each { |q,a| if a %>
+                    <p><strong><%=q%></strong></p>
+                    <p><%=a.gsub("\n","<br />")%></p>                    
+                  <% end }  %>          
+              </div>
+            <% end %>
+          </div>
+
+        <% else %>
+          n/a
+        <% end %>
       </td>  
       <td>
         <%= membership.created_at %>
