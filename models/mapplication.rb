@@ -51,7 +51,7 @@ class Mapplication
       mail = Mail.new
       mail.bcc = Account.where(:id.in => group.memberships.pluck(:account_id)).pluck(:email)
       mail.from = "Huddl <team@huddl.tech>"
-      mail.subject = "#{account.name} applied to #{group.name}"
+      mail.subject = "#{account.name} expressed an interest in #{group.name}"
       
       account = self.account
       group = self.group
