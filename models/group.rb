@@ -35,54 +35,6 @@ class Group
     Account.where(:id.in => memberships.pluck(:account_id))
   end
   
-  #  after_create do
-  #    [  
-  #      'Admin, payment and grants',
-  #      'Transport and strike',
-  #      'Food',
-  #      'Toilets',
-  #      'Circles/community',
-  #      'Consent',
-  #      'Psychedelic welfare',
-  #      'Power, Privilege & Inclusion',
-  #      'Photography',
-  #      'Leave No Trace'
-  #    ].each { |team_name|
-  #      teams.create(name: team_name)
-  #    }
-  #      kitchen = rotas.create(name: 'Kitchen')
-  #      [
-  #        'Kitchen lead',
-  #        'Kitchen 2',
-  #        'Kitchen 3',
-  #        'Kitchen 4',
-  #        'Kitchen 5',
-  #        'Kitchen 6',
-  #        'Wash up 1',
-  #        'Wash up 2',
-  #        'Wash up 3',
-  #        'Wash up 4',
-  #      ].each { |role_name|
-  #        kitchen.roles.create name: role_name
-  #      }
-  #      [
-  #        'Thurs dinner',
-  #        'Fri breakfast',
-  #        'Fri lunch',
-  #        'Fri dinner',
-  #        'Sat breakfast',
-  #        'Sat lunch',
-  #        'Sat dinner',
-  #        'Sun breakfast',
-  #        'Sun lunch',
-  #        'Sun dinner',
-  #        'Mon breakfast',
-  #        'Mon lunch'            
-  #      ].each { |slot_name|
-  #        kitchen.slots.create name: slot_name
-  #      }    
-  #  end
-
   def anonymous_proposers
     false
   end
