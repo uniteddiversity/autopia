@@ -141,7 +141,7 @@ module ActivateApp
         flash[:notice] = "You've already applied to that group"
         redirect back
       else
-        @mapplication = @group.mapplications.create :account => @account, :status => 'pending', :answers => (params[:answers].each_with_index.map { |x,i| [@group.application_questions_a[i],x] } if params[:answers])
+        @mapplication = @group.mapplications.create :account => @account, :status => 'pending', :answers => (params[:answers].map { |i,x| [@group.application_questions_a[i.to_i],x] } if params[:answers])
         (flash[:error] = "The application could not be created" and redirect back) unless @mapplication.persisted?        
         redirect "/h/#{@group.slug}/apply?applied=true"
       end    
