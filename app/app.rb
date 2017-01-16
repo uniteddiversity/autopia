@@ -281,7 +281,7 @@ module ActivateApp
       @rota = Rota.find(params[:rota_id])
       @group = @rota.group
       membership_required!
-      Shift.create!(account: current_account, rota_id: params[:rota_id], slot_id: params[:slot_id], role_id: params[:role_id])
+      Shift.create!(account: current_account, rota_id: params[:rota_id], rslot_id: params[:rslot_id], role_id: params[:role_id])
       redirect back
     end  
     
@@ -337,21 +337,21 @@ module ActivateApp
       redirect back      
     end     
     
-    post '/slots/create' do
+    post '/rslots/create' do
       @rota = Rota.find(params[:rota_id])
       @group = @rota.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      Slot.create!(name: params[:name], rota: @rota)
+      Rslot.create!(name: params[:name], rota: @rota)
       redirect back
     end      
     
-    get '/slots/:id/destroy' do
-      @slot = Slot.find(params[:id])
-      @group = @slot.rota.group
+    get '/rslots/:id/destroy' do
+      @rslot = Rslot.find(params[:id])
+      @group = @rslot.rota.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      @slot.destroy
+      @rslot.destroy
       redirect back      
     end       
     

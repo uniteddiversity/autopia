@@ -8,7 +8,7 @@ class Rota
   validates_presence_of  :group
   
   has_many :roles, :dependent => :destroy
-  has_many :slots, :dependent => :destroy
+  has_many :rslots, :dependent => :destroy
   has_many :shifts, :dependent => :destroy
    
   def self.admin_fields
@@ -16,7 +16,7 @@ class Rota
       :name => :text,
       :group_id => :lookup,
       :roles => :collection,
-      :slots => :collection,
+      :rslots => :collection,
       :shifts => :collection
     }
   end

@@ -1,4 +1,4 @@
-class Slot
+class Rslot
   include Mongoid::Document
   include Mongoid::Timestamps
  

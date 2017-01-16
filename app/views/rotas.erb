@@ -8,7 +8,7 @@
       <tr>
         <td></td>
         <td>
-          <% form_tag "/slots/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
+          <% form_tag "/rslots/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
             <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New slot' %>
           <% end %>          
         </td>
@@ -27,14 +27,14 @@
   <table class="table table-striped">
     <tr>
       <td></td>
-      <% rota.slots.each { |slot| %>
+      <% rota.rslots.each { |rslot| %>
         <td>
           <% if @membership.admin? %>
-            <a data-confirm="Delete this slot?" href="/slots/<%=slot.id%>/destroy">
-              <%=slot.name%>
+            <a data-confirm="Delete this slot?" href="/rslots/<%=rslot.id%>/destroy">
+              <%=rslot.name%>
             </a>
           <% else %>
-            <%=slot.name%>
+            <%=rslot.name%>
           <% end %>                
         </td>
       <% } %>
@@ -50,9 +50,9 @@
             <%=role.name%>
           <% end %> 
         </td>
-        <% rota.slots.each { |slot| %>
+        <% rota.rslots.each { |rslot| %>
           <td>
-            <% if shift = Shift.find_by(slot: slot, role: role); account = shift.account %>
+            <% if shift = Shift.find_by(rslot: rslot, role: role); account = shift.account %>
               <% if shift.account == current_account or @membership.admin? %>
                 <a data-confirm="Remove this person from this shift?" href="/shifts/<%=shift.id%>/destroy">
                   <%=account.name%>
@@ -61,7 +61,7 @@
                 <%=account.name%>
               <% end %>            
             <% else %>
-              <a class="btn btn-primary" href="/shifts/create?rota_id=<%=rota.id%>&slot_id=<%=slot.id%>&role_id=<%=role.id%>">Sign up</a>
+              <a class="btn btn-primary" href="/shifts/create?rota_id=<%=rota.id%>&rslot_id=<%=rslot.id%>&role_id=<%=role.id%>">Sign up</a>
             <% end %>
           </td>
         <% } %>
