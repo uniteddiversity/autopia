@@ -6,7 +6,7 @@
     <tr>
       <th>Name</th>      
       <th>Proposed by</th>
-      <th>Accepted by</th>
+      <th>Accepted at</th>
       <th>Accepted on</th>
       <% if @membership.admin %>
         <% if @group.facebook_group %>
@@ -14,23 +14,24 @@
         <% end %>
         <th>Paid</th>
         <th></th>
-      <% end %>
-      <!--
-     <th>Teams</th>
-     <th>Shifts</th>
-      -->
+      <% end %>           
     </tr>
   </thead>
   <% @group.memberships.order('created_at desc').each { |membership| account = membership.account %>
     <tr>
       <td>
         <%= partial :account, :object => account, :locals => {:membership => membership} %>
+        <div>
+          <% membership.teamships.each { |teamship| %>
+            <span class="label label-primary"><%=teamship.team.name%></span>
+          <% } %>        
+        </div>
       </td>
       <td>
         <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : 'n/a' %>
       </td>        
       <td>
-        <%= membership.mapplication ? "#{membership.mapplication.processed_by.name} at #{pluralize(membership.mapplication.verdicts.supporters.count,'supporter')}" : 'n/a' %>
+        <%= membership.mapplication ? pluralize(membership.mapplication.verdicts.supporters.count,'supporter') : 'n/a' %>
       </td>  
       <td>
         <%= membership.created_at %>
@@ -59,15 +60,6 @@
           <% end %>
         </td>
       <% end %>
-      <!--
-  <td>
-      <% membership.teamships.each { |teamship| %>
-                                                            <span class="label label-primary"><%=teamship.team.name%></span>
-      <% } %></td>
-  <td>
-      <%=pluralize(membership.shifts.count,'shift')%>
-  </td>
-      -->
     </tr>
   <% } %>
   <tr>
@@ -81,10 +73,6 @@
       <% end %>
       <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
       <th></th>
-    <% end %>
-    <!--
-   <th></th>
-   <th></th>
-    -->            
+    <% end %>        
   </tr>
 </table>
