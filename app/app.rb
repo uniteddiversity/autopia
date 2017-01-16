@@ -251,11 +251,11 @@ module ActivateApp
     end
     
     get '/teamships/:id/destroy' do
-      teamship = Teamship.find(params[:id])
-      @group = teamship.team.group
+      @teamship = Teamship.find(params[:id])
+      @group = @teamship.team.group
       @membership = @group.memberships.find_by(account: current_account)
-      halt unless teamship.account.id == current_account.id or @membership.admin?
-      teamship.destroy
+      halt unless @teamship.account.id == current_account.id or @membership.admin?
+      @teamship.destroy
       redirect back
     end
     
@@ -275,11 +275,11 @@ module ActivateApp
     end    
    
     get '/shifts/:id/destroy' do
-      shift = Shift.find(params[:id])
-      @group = shift.rota.group
+      @shift = Shift.find(params[:id])
+      @group = @shift.rota.group
       @membership = @group.memberships.find_by(account: current_account)
-      halt unless shift.account.id == current_account.id or @membership.admin?
-      shift.destroy
+      halt unless @shift.account.id == current_account.id or @membership.admin?
+      @shift.destroy
       redirect back
     end
      
@@ -291,6 +291,23 @@ module ActivateApp
       redirect back
     end  
     
+    post '/teams/create' do
+      @group = Group.find(params[:group_id])
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      halt unless @membership.admin?
+      Team.create!(name: params[:name], group: @group)
+      redirect back
+    end
+    
+    get '/teams/:id/destroy' do
+      @team = Team.find(params[:id])
+      @group = @team.group
+      @membership = @group.memberships.find_by(account: current_account)
+      halt unless @membership.admin?
+      @team.destroy
+      redirect back      
+    end
     
     
     
