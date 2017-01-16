@@ -1,7 +1,21 @@
 <%= partial :group_header %>
 
+<% if @membership.admin? %>
+  <% form_tag "/rotas/create?group_id=#{@group.id}" do %>
+    <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New rota' %>
+  <% end %>
+<% end %>
+
 <% @group.rotas.each { |rota| %>
-  <h2><%=rota.name%></h2>
+  <h2>
+    <% if @membership.admin? %>
+      <a data-confirm="Delete this rota?" href="/rotas/<%=rota.id%>/destroy">
+        <%=rota.name%>
+      </a>
+    <% else %>
+      <%=rota.name%>
+    <% end %>     
+  </h2>
 
   <% if @membership.admin? %>
     <table>

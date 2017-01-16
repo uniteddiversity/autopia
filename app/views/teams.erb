@@ -1,5 +1,11 @@
 <%= partial :group_header %>
 
+<% if @membership.admin? %>
+  <% form_tag "/teams/create?group_id=#{@group.id}" do %>
+    <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New team' %>
+  <% end %>    
+<% end %>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -9,7 +15,15 @@
   </thead>
   <% @group.teams.order('name asc').each { |team| %>
     <tr>
-      <td><%=team.name%></td>
+      <td>
+        <% if @membership.admin? %>
+          <a data-confirm="Delete this team?" href="/teams/<%=team.id%>/destroy">
+            <%=team.name%>
+          </a>
+        <% else %>
+          <%=team.name%>
+        <% end %>                   
+      </td>
       <td>
         <% team.teamships.each { |teamship| account = teamship.account %>
           <% if teamship.account == current_account or @membership.admin? %>

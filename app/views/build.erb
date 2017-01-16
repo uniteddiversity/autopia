@@ -16,36 +16,3 @@
   <%= f.check_box_block :anonymous_blockers %>
   <%= f.submit_block %>  
 <% end %>
-
-
-<div class="row">
-  <div class="col-sm-6 col-sm-offset-3">
-
-    <% if @group.persisted? %>
-      <h2>Teams</h2>
-      <ul class="list-inline">
-        <% @group.teams.each { |team| %>
-          <li><%=team.name %> <a href="/teams/<%=team.id%>/destroy"><i class="fa fa-times"></i></a></li>
-        <% } %>
-      </ul>
-    <% end %>
-
-    <% form_tag "/teams/create?group_id=#{@group.id}" do %>
-      <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New team' %>
-    <% end %>        
-
-    <% if @group.persisted? %>
-      <h2>Rotas</h2>
-      <ul class="list-inline">
-        <% @group.rotas.each { |rota| %>
-          <li><%=rota.name %> <a href="/rotas/<%=rota.id%>/destroy"><i class="fa fa-times"></i></a></li>
-            <% } %>
-      </ul>
-    <% end %>
-
-    <% form_tag "/rotas/create?group_id=#{@group.id}" do %>
-      <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New rota' %>
-    <% end %>
-
-  </div>
-</div>
