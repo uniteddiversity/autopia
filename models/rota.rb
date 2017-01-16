@@ -7,7 +7,7 @@ class Rota
   belongs_to :group  
   validates_presence_of  :group
   
-  has_many :rota_roles, :dependent => :destroy
+  has_many :roles, :dependent => :destroy
   has_many :slots, :dependent => :destroy
   has_many :shifts, :dependent => :destroy
    
@@ -15,7 +15,7 @@ class Rota
     {
       :name => :text,
       :group_id => :lookup,
-      :rota_roles => :collection,
+      :roles => :collection,
       :slots => :collection,
       :shifts => :collection
     }

@@ -3,6 +3,14 @@
 <% @group.rotas.each { |rota| %>
   <h2><%=rota.name%></h2>
 
+  <% form_tag "/roles/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
+    <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New role' %>
+  <% end %>  
+
+  <% form_tag "/slots/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
+    <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New slot' %>
+  <% end %>    
+
   <table class="table table-striped">
     <tr>
       <td></td>
@@ -10,12 +18,20 @@
         <td><%=slot.name%></td>
       <% } %>
     </tr>
-    <% rota.rota_roles.each { |rota_role| %>
+    <% rota.roles.each { |role| %>
       <tr>
-        <td><%=rota_role.name%></td>
+        <td>
+          <% if @membership.admin? %>
+            <a href="/roles/<%=role.id%>/destroy">
+              <%=role.name%>
+            </a>
+          <% else %>
+            <%=role.name%>
+          <% end %> 
+        </td>
         <% rota.slots.each { |slot| %>
           <td>
-            <% if shift = Shift.find_by(slot: slot, rota_role: rota_role); account = shift.account %>
+            <% if shift = Shift.find_by(slot: slot, role: role); account = shift.account %>
               <% if shift.account == current_account or @membership.admin? %>
                 <a href="/shifts/<%=shift.id%>/destroy">
                   <%=account.name%>
@@ -24,7 +40,7 @@
                 <%=account.name%>
               <% end %>            
             <% else %>
-              <a class="btn btn-primary" href="/shifts/create?rota_id=<%=rota.id%>&slot_id=<%=slot.id%>&rota_role_id=<%=rota_role.id%>">Sign up</a>
+              <a class="btn btn-primary" href="/shifts/create?rota_id=<%=rota.id%>&slot_id=<%=slot.id%>&role_id=<%=role.id%>">Sign up</a>
             <% end %>
           </td>
         <% } %>

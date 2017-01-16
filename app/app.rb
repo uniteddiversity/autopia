@@ -287,7 +287,7 @@ module ActivateApp
       @rota = Rota.find(params[:rota_id])
       @group = @rota.group
       membership_required!
-      Shift.create!(account: current_account, rota_id: params[:rota_id], slot_id: params[:slot_id], rota_role_id: params[:rota_role_id])
+      Shift.create!(account: current_account, rota_id: params[:rota_id], slot_id: params[:slot_id], role_id: params[:role_id])
       redirect back
     end  
     
@@ -309,11 +309,63 @@ module ActivateApp
       redirect back      
     end
     
+    post '/rotas/create' do
+      @group = Group.find(params[:group_id])
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      halt unless @membership.admin?
+      Rota.create!(name: params[:name], group: @group)
+      redirect back
+    end
     
+    get '/rotas/:id/destroy' do
+      @rota = Rota.find(params[:id])
+      @group = @rota.group
+      @membership = @group.memberships.find_by(account: current_account)
+      halt unless @membership.admin?
+      @rota.destroy
+      redirect back      
+    end   
     
+    post '/roles/create' do
+      @rota = Rota.find(params[:rota_id])
+      @group = @rota.group
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      halt unless @membership.admin?
+      Role.create!(name: params[:name], rota: @rota)
+      redirect back
+    end   
     
+    get '/roles/:id/destroy' do
+      @role = Role.find(params[:id])
+      @group = @role.rota.group
+      @membership = @group.memberships.find_by(account: current_account)
+      halt unless @membership.admin?
+      @role.destroy
+      redirect back      
+    end     
     
-            
+    post '/slots/create' do
+      @rota = Rota.find(params[:rota_id])
+      @group = @rota.group
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      halt unless @membership.admin?
+      Slot.create!(name: params[:name], rota: @rota)
+      redirect back
+    end      
+    
+    get '/slots/:id/destroy' do
+      @slot = Slot.find(params[:id])
+      @group = @slot.rota.group
+      @membership = @group.memberships.find_by(account: current_account)
+      halt unless @membership.admin?
+      @slot.destroy
+      redirect back      
+    end       
+    
+                
     get '/:slug' do
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)
         erb :page

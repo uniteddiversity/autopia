@@ -62,8 +62,8 @@ class Group
   #        'Wash up 2',
   #        'Wash up 3',
   #        'Wash up 4',
-  #      ].each { |rota_role_name|
-  #        kitchen.rota_roles.create name: rota_role_name
+  #      ].each { |role_name|
+  #        kitchen.roles.create name: role_name
   #      }
   #      [
   #        'Thurs dinner',
