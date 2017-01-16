@@ -21,7 +21,7 @@
       <td>
         <% if mapplication.answers %>
 
-          <a onclick="$(this).hide().next().show()">Show</a>
+          <a href="javascript:;" onclick="$(this).hide().next().show()">Show</a>
           <div style="display: none">
             <% mapplication.answers.each { |q,a| if a %>
                 <p><strong><%=q%></strong></p>
