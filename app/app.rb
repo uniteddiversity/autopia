@@ -81,16 +81,14 @@ module ActivateApp
     get '/h/:slug/edit' do        
       @group = Group.find_by(slug: params[:slug])      
       @membership = @group.memberships.find_by(account: current_account)
-      membership_required!
-      halt unless @membership.admin?      
+      group_admins_only!
       erb :build
     end  
     
     post '/h/:slug/edit' do
       @group = Group.find_by(slug: params[:slug])      
       @membership = @group.memberships.find_by(account: current_account)
-      membership_required!
-      halt unless @membership.admin?
+      group_admins_only!
       if @group.update_attributes(params[:group])
         redirect "/h/#{@group.slug}"
       else
@@ -181,9 +179,8 @@ module ActivateApp
     get '/mapplications/:id/process' do
       @mapplication = Mapplication.find(params[:id])
       @group = @mapplication.group
-      membership_required!
       @membership = @group.memberships.find_by(account: current_account)
-      halt unless @membership.admin?
+      group_admins_only!
       @mapplication.status = params[:status]
       @mapplication.processed_by = current_account
       @mapplication.save
@@ -216,9 +213,8 @@ module ActivateApp
     get '/memberships/:id/added_to_facebook_group' do
       membership = Membership.find(params[:id])
       @group = membership.group
-      membership_required!
       @membership = @group.memberships.find_by(account: current_account)
-      halt unless @membership.admin?
+      group_admins_only!
       membership.update_attribute(:added_to_facebook_group, true)
       redirect back
     end
@@ -226,9 +222,8 @@ module ActivateApp
     get '/memberships/:id/make_admin' do
       membership = Membership.find(params[:id])
       @group = membership.group
-      membership_required!
       @membership = @group.memberships.find_by(account: current_account)
-      halt unless @membership.admin?
+      group_admins_only!
       membership.update_attribute(:admin, true)
       redirect back      
     end
@@ -236,9 +231,8 @@ module ActivateApp
     post '/memberships/:id/paid' do
       membership = Membership.find(params[:id])
       @group = membership.group
-      membership_required!
       @membership = @group.memberships.find_by(account: current_account)
-      halt unless @membership.admin?
+      group_admins_only!
       membership.update_attribute(:paid, params[:paid])
       redirect back
     end    
@@ -294,8 +288,7 @@ module ActivateApp
     post '/teams/create' do
       @group = Group.find(params[:group_id])
       @membership = @group.memberships.find_by(account: current_account)
-      membership_required!      
-      halt unless @membership.admin?
+      group_admins_only!
       Team.create!(name: params[:name], group: @group)
       redirect back
     end
@@ -304,7 +297,7 @@ module ActivateApp
       @team = Team.find(params[:id])
       @group = @team.group
       @membership = @group.memberships.find_by(account: current_account)
-      halt unless @membership.admin?
+      group_admins_only!
       @team.destroy
       redirect back      
     end
@@ -312,8 +305,7 @@ module ActivateApp
     post '/rotas/create' do
       @group = Group.find(params[:group_id])
       @membership = @group.memberships.find_by(account: current_account)
-      membership_required!      
-      halt unless @membership.admin?
+      group_admins_only!
       Rota.create!(name: params[:name], group: @group)
       redirect back
     end
@@ -322,7 +314,7 @@ module ActivateApp
       @rota = Rota.find(params[:id])
       @group = @rota.group
       @membership = @group.memberships.find_by(account: current_account)
-      halt unless @membership.admin?
+      group_admins_only!
       @rota.destroy
       redirect back      
     end   
@@ -331,8 +323,7 @@ module ActivateApp
       @rota = Rota.find(params[:rota_id])
       @group = @rota.group
       @membership = @group.memberships.find_by(account: current_account)
-      membership_required!      
-      halt unless @membership.admin?
+      group_admins_only!
       Role.create!(name: params[:name], rota: @rota)
       redirect back
     end   
@@ -341,7 +332,7 @@ module ActivateApp
       @role = Role.find(params[:id])
       @group = @role.rota.group
       @membership = @group.memberships.find_by(account: current_account)
-      halt unless @membership.admin?
+      group_admins_only!
       @role.destroy
       redirect back      
     end     
@@ -350,8 +341,7 @@ module ActivateApp
       @rota = Rota.find(params[:rota_id])
       @group = @rota.group
       @membership = @group.memberships.find_by(account: current_account)
-      membership_required!      
-      halt unless @membership.admin?
+      group_admins_only!
       Slot.create!(name: params[:name], rota: @rota)
       redirect back
     end      
@@ -360,7 +350,7 @@ module ActivateApp
       @slot = Slot.find(params[:id])
       @group = @slot.rota.group
       @membership = @group.memberships.find_by(account: current_account)
-      halt unless @membership.admin?
+      group_admins_only!
       @slot.destroy
       redirect back      
     end       
