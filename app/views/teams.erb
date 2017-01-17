@@ -39,7 +39,7 @@
             <% else %>
               <%=account.name%>
             <% end %>
-          <% end }.join(',') %>
+          <% end }.map(&:strip).join(', ') %>
         <%= names %>
       </td>
     </tr>

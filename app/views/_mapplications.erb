@@ -46,7 +46,7 @@
             <div>
               <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
                 <% if @group.send("anonymous_#{noun.pluralize}") %>
-                  <i class="fa fa-user-circle" style="font-size: 20px; color: #CE2828"></i>
+                  <i class="fa fa-user-circle" style="font-size: 20px;"></i>
                 <% else %>              
                   <img title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" />
                 <% end %>
