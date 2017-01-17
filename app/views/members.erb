@@ -30,7 +30,7 @@
         </div>
       </td>
       <td>
-        <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : 'n/a' %>
+        <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : '' %>
       </td>        
       <td>
         <% if membership.mapplication; mapplication = membership.mapplication %>
@@ -45,9 +45,6 @@
               </a>
             </div>
           <% end %>
-
-        <% else %>
-          n/a
         <% end %>
       </td>  
       <td>
