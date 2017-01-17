@@ -1,7 +1,7 @@
 
 $(function () {
-  
-  $('label[for=account_poc').html('I identify as a <a target="_blank" href="https://en.wikipedia.org/wiki/Person_of_color">person of colour</a>')
+
+  $('label[for=account_poc').html($('label[for=account_poc').html().replace('person of colour', '<a target="_blank" href="https://en.wikipedia.org/wiki/Person_of_color">person of colour</a>'))
 
   $('input[type=text].slug').each(function () {
     var slug = $(this);
