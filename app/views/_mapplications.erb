@@ -21,12 +21,12 @@
       <td>
 
         <% if mapplication.answers %>
-          <a href="javascript:;" onclick="$(this).hide().next().show()">Show application</a>
-          <div style="display: none">
-            <% mapplication.answers.each { |q,a| if a %>
-                <p><strong><%=q%></strong></p>
-                <p><%=a.gsub("\n","<br />")%></p>                    
-              <% end }  %>          
+          <div>
+            <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
+                      $('#modal').modal('show')
+                    });">
+              Show application
+            </a>
           </div>
         <% end %>
 

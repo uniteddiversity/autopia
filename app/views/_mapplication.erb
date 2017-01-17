@@ -1,0 +1,13 @@
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <h4 class="modal-title"><%=mapplication.account.name%></h4>
+</div>
+<div class="modal-body"> 
+  <% mapplication.answers.each { |q,a| if a %>
+      <p><strong><%=q%></strong></p>
+      <p><%=a.gsub("\n","<br />")%></p>                    
+    <% end }  %>              
+</div>
+
+

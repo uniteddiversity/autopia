@@ -36,17 +36,15 @@
         <% if membership.mapplication; mapplication = membership.mapplication %>
           <%=pluralize(mapplication.verdicts.supporters.count,'supporter') %>
 
-          <div>
-            <% if mapplication.answers %>
-              <a href="javascript:;" onclick="$(this).hide().next().show()">Show application</a>
-              <div style="display: none; margin-top: 10px">
-                <% mapplication.answers.each { |q,a| if a %>
-                    <p><strong><%=q%></strong></p>
-                    <p><%=a.gsub("\n","<br />")%></p>                    
-                  <% end }  %>          
-              </div>
-            <% end %>
-          </div>
+          <% if mapplication.answers %>
+            <div>
+              <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
+                        $('#modal').modal('show')
+                      });">
+                Show application
+              </a>
+            </div>
+          <% end %>
 
         <% else %>
           n/a

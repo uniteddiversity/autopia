@@ -446,6 +446,14 @@ module ActivateApp
       redirect back      
     end      
     
+    get '/mapplications/:id' do
+      @mapplication = Mapplication.find(params[:id])
+      @group = @mapplication.group
+      @membership = @group.memberships.find_by(account: current_account)      
+      membership_required!
+      partial :mapplication, :object => @mapplication
+    end
+    
                 
     get '/:slug' do
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)
