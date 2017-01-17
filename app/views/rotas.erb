@@ -43,26 +43,30 @@
       <td></td>
       <% rota.rslots.each { |rslot| %>
         <td>
-          <% if @membership.admin? %>
-            <a data-confirm="Delete this slot?" href="/rslots/<%=rslot.id%>/destroy">
+          <strong>
+            <% if @membership.admin? %>
+              <a data-confirm="Delete this slot?" href="/rslots/<%=rslot.id%>/destroy">
+                <%=rslot.name%>
+              </a>
+            <% else %>
               <%=rslot.name%>
-            </a>
-          <% else %>
-            <%=rslot.name%>
-          <% end %>                
+            <% end %>   
+          </strong>
         </td>
       <% } %>
     </tr>
     <% rota.roles.each { |role| %>
       <tr>
         <td>
-          <% if @membership.admin? %>
-            <a data-confirm="Delete this role?" href="/roles/<%=role.id%>/destroy">
+          <strong>
+            <% if @membership.admin? %>
+              <a data-confirm="Delete this role?" href="/roles/<%=role.id%>/destroy">
+                <%=role.name%>
+              </a>
+            <% else %>
               <%=role.name%>
-            </a>
-          <% else %>
-            <%=role.name%>
-          <% end %> 
+            <% end %> 
+          </strong>
         </td>
         <% rota.rslots.each { |rslot| %>
           <td>

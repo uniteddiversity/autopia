@@ -27,26 +27,30 @@
     <td></td>
     <% @group.spaces.each { |space| %>
       <td>
-        <% if @membership.admin? %>
-          <a data-confirm="Delete this space?" href="/spaces/<%=space.id%>/destroy">
+        <strong>
+          <% if @membership.admin? %>
+            <a data-confirm="Delete this space?" href="/spaces/<%=space.id%>/destroy">
+              <%=space.name%>
+            </a>
+          <% else %>
             <%=space.name%>
-          </a>
-        <% else %>
-          <%=space.name%>
-        <% end %>                
+          <% end %>       
+        </strong>
       </td>
     <% } %>
   </tr>
   <% @group.tslots.each { |tslot| %>
     <tr>
       <td>
-        <% if @membership.admin? %>
-          <a data-confirm="Delete this slot?" href="/tslots/<%=tslot.id%>/destroy">
+        <strong>
+          <% if @membership.admin? %>
+            <a data-confirm="Delete this slot?" href="/tslots/<%=tslot.id%>/destroy">
+              <%=tslot.name%>
+            </a>
+          <% else %>
             <%=tslot.name%>
-          </a>
-        <% else %>
-          <%=tslot.name%>
-        <% end %> 
+          <% end %> 
+        </strong>
       </td>
       <% @group.spaces.each { |space| activity = Activity.find_by(tslot: tslot, space: space) %>
         <td>
