@@ -1,5 +1,5 @@
 <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
-<%= account.name %>
+<strong><%= account.name %></strong>
 <div>
   <%= [
     ('<i title="Admin" class="fa fa-key"></i>' if defined?(membership) and membership.admin?),
