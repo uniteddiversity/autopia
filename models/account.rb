@@ -60,10 +60,7 @@ class Account
   
   def self.new_hints
     {
-      :password => 'Leave blank to keep existing password',
-      :gender => 'Optional',
-      :date_of_birth => 'Optional',
-      :poc => 'Optional'
+      :password => 'Leave blank to keep existing password'
     }
   end   
   
@@ -71,87 +68,99 @@ class Account
     self.new_hints
   end    
   
-  def self.genders
-    [''] + %w{Nonbinary Woman Man}
-  end  
-  
-  def gender_symbol
-    case gender
-    when 'Man'
-      '<i title="Man" class="fa fa-mars"></i>'
-    when 'Woman'
-      '<i title="Woman" class="fa fa-venus"></i>'
-    when 'Nonbinary'
-      '<i title="Nonbinary" class="fa fa-transgender"></i>'
-    end
-  end
-  
-  def age    
-    if dob = date_of_birth
-      now = Time.now.utc.to_date
-      now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
-    end
-  end  
-  
-  def self.human_attribute_name(attr, options={})  
+  def self.new_tips
     {
-      :poc => 'I identify as a person of colour'
-    }[attr.to_sym] || super  
-  end   
-  
-  def firstname
-    name.split(' ').first
+      :gender => 'Optional',
+      :date_of_birth => 'Optional',
+      :poc => 'Optional'      
+    }
   end
+  
+  def self.edit_tips
+    self.new_tips
+  end
+  
+def self.genders
+  [''] + %w{Nonbinary Woman Man}
+end  
+  
+def gender_symbol
+  case gender
+  when 'Man'
+    '<i title="Man" class="fa fa-mars"></i>'
+  when 'Woman'
+    '<i title="Woman" class="fa fa-venus"></i>'
+  when 'Nonbinary'
+    '<i title="Nonbinary" class="fa fa-transgender"></i>'
+  end
+end
+  
+def age    
+  if dob = date_of_birth
+    now = Time.now.utc.to_date
+    now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
+  end
+end  
+  
+def self.human_attribute_name(attr, options={})  
+  {
+    :poc => 'I identify as a person of colour'
+  }[attr.to_sym] || super  
+end   
+  
+def firstname
+  name.split(' ').first
+end
                
-  def self.time_zones
-    ['']+ActiveSupport::TimeZone::MAPPING.keys.sort
-  end  
+def self.time_zones
+  ['']+ActiveSupport::TimeZone::MAPPING.keys.sort
+end  
       
-  def uid
-    id
-  end
+def uid
+  id
+end
   
-  def info
-    {:email => email, :name => name}
-  end
+def info
+  {:email => email, :name => name}
+end
   
-  def self.authenticate(email, password)
-    account = find_by(email: /^#{Regexp.escape(email)}$/i) if email.present?
-    account && account.has_password?(password) ? account : nil
-  end
+def self.authenticate(email, password)
+  account = find_by(email: /^#{Regexp.escape(email)}$/i) if email.present?
+  account && account.has_password?(password) ? account : nil
+end
   
-  before_save :encrypt_password, :if => :password_required
+before_save :encrypt_password, :if => :password_required
 
-  def has_password?(password)
-    ::BCrypt::Password.new(crypted_password) == password
-  end
+def has_password?(password)
+  ::BCrypt::Password.new(crypted_password) == password
+end
 
-  def self.generate_password(len)
-    chars = ("a".."z").to_a + ("0".."9").to_a
-    return Array.new(len) { chars[rand(chars.size)] }.join
-  end   
+def self.generate_password(len)
+  chars = ("a".."z").to_a + ("0".."9").to_a
+  return Array.new(len) { chars[rand(chars.size)] }.join
+end   
   
-  def reset_password!
-    self.password = Account.generate_password(8)
-    if self.save
-      mail = Mail.new
-      mail.to = self.email
-      mail.from = "Huddl <team@huddl.tech>"
-      mail.subject = "New password for Huddl"
-      mail.body = "Hi #{self.firstname},\n\nSomeone (hopefully you) requested a new password on Huddl.\n\nYour new password is: #{self.password}\n\nYou can sign in at http://#{ENV['DOMAIN']}/accounts/sign_in."
-      mail.deliver       
-    else
-      return false
-    end
+def reset_password!
+  self.password = Account.generate_password(8)
+  if self.save
+    mail = Mail.new
+    mail.to = self.email
+    mail.from = "Huddl <team@huddl.tech>"
+    mail.subject = "New password for Huddl"
+    mail.body = "Hi #{self.firstname},\n\nSomeone (hopefully you) requested a new password on Huddl.\n\nYour new password is: #{self.password}\n\nYou can sign in at http://#{ENV['DOMAIN']}/accounts/sign_in."
+    mail.deliver       
+  else
+    return false
   end
+end
 
-  private
+private
   
-  def encrypt_password
-    self.crypted_password = ::BCrypt::Password.create(self.password)
-  end
+def encrypt_password
+  self.crypted_password = ::BCrypt::Password.create(self.password)
+end
 
-  def password_required
-    crypted_password.blank? || self.password.present?
-  end  
+def password_required
+  crypted_password.blank? || self.password.present?
+end  
 end
