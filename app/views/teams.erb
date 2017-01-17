@@ -10,8 +10,8 @@
   <thead>
     <tr>
       <th>Team</th>
-      <th>People</th>
       <th></th>
+      <th>People</th>      
     </tr>
   </thead>
   <% @group.teams.order('name asc').each { |team| %>
@@ -26,6 +26,11 @@
         <% end %>                   
       </td>
       <td>
+        <% unless team.teamships.find_by(account: current_account) %>
+          <a class="btn btn-primary" href="/teamships/create?team_id=<%=team.id%>">Join</a>
+        <% end %>
+      </td>      
+      <td>
         <% names = team.teamships.map { |teamship| account = teamship.account; capture do %>
             <% if teamship.account == current_account or @membership.admin? %>
               <a data-confirm="Remove this person from this team?" href="/teamships/<%=teamship.id%>/destroy">
@@ -36,11 +41,6 @@
             <% end %>
           <% end }.join(',') %>
         <%= names %>
-      </td>
-      <td>
-        <% unless team.teamships.find_by(account: current_account) %>
-          <a class="btn btn-primary" href="/teamships/create?team_id=<%=team.id%>">Join</a>
-        <% end %>
       </td>
     </tr>
   <% } %>
