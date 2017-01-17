@@ -46,7 +46,7 @@
             <% unless @group.send("anonymous_#{noun.pluralize}") %>
               <div>
                 <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
-                  <img title="<%=account.name%>" src="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>" style="width: 50px;"/>
+                  <img title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" />
                 <% } %>
               </div>
             <% end %>
