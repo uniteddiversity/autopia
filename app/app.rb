@@ -76,14 +76,14 @@ module ActivateApp
     end
     
     get '/h/:slug/edit' do        
-      @group = Group.find_by(slug: params[:slug])      
+      @group = Group.find_by(slug: params[:slug]) || not_found      
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
       erb :build
     end  
     
     post '/h/:slug/edit' do
-      @group = Group.find_by(slug: params[:slug])      
+      @group = Group.find_by(slug: params[:slug]) || not_found      
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
       if @group.update_attributes(params[:group])
@@ -95,14 +95,14 @@ module ActivateApp
     end
                
     get '/h/:slug' do        
-      @group = Group.find_by(slug: params[:slug]) || not_found  
+      @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       redirect "/h/#{@group.slug}/apply" unless @membership
       erb :members
     end
             
     get '/h/:slug/apply' do      
-      @group = Group.find_by(slug: params[:slug])
+      @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       redirect "/h/#{@group.slug}" if @membership
       @title = "#{@group.name} · Huddl"
@@ -113,7 +113,7 @@ module ActivateApp
     end    
     
     post '/h/:slug/apply' do
-      @group = Group.find_by(slug: params[:slug])
+      @group = Group.find_by(slug: params[:slug]) || not_found
 
       if current_account
         @account = current_account
@@ -143,7 +143,7 @@ module ActivateApp
     end
     
     get '/h/:slug/applications' do     
-      @group = Group.find_by(slug: params[:slug])
+      @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!
       @mapplications = @group.mapplications.pending
@@ -151,7 +151,7 @@ module ActivateApp
     end    
     
     get '/h/:slug/applications/rejected' do     
-      @group = Group.find_by(slug: params[:slug])
+      @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!
       @mapplications = @group.mapplications.rejected
@@ -239,7 +239,7 @@ module ActivateApp
     
     
     get '/h/:slug/teams' do
-      @group = Group.find_by(slug: params[:slug])
+      @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!
       erb :teams      
@@ -284,7 +284,7 @@ module ActivateApp
     
     
     get '/h/:slug/rotas' do
-      @group = Group.find_by(slug: params[:slug])
+      @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!
       erb :rotas     
@@ -363,7 +363,7 @@ module ActivateApp
     
     
     get '/h/:slug/timetable' do
-      @group = Group.find_by(slug: params[:slug])
+      @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!
       erb :timetable      
@@ -414,7 +414,7 @@ module ActivateApp
   
     
     get '/h/:slug/spending' do
-      @group = Group.find_by(slug: params[:slug])
+      @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!
       erb :spending
