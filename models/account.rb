@@ -70,9 +70,9 @@ class Account
   
   def self.new_tips
     {
-      :gender => 'Optional',
-      :date_of_birth => 'Optional',
-      :poc => 'Optional'      
+      :gender => 'Optional. Please only provide this information if you feel comfortable doing so',
+      :date_of_birth => 'Optional. Please only provide this information if you feel comfortable doing so',
+      :poc => 'Optional. Please only provide this information if you feel comfortable doing so'      
     }
   end
   
