@@ -26,15 +26,12 @@ module ActivateApp
     
     Mail.defaults do
       delivery_method :smtp, {
-        :address => 'smtp.sendgrid.net',
-        :port => '587',
-        :domain => 'heroku.com',
-        :user_name => ENV['SENDGRID_USERNAME'],
-        :password => ENV['SENDGRID_PASSWORD'],
-        :authentication => :plain,
-        :enable_starttls_auto => true
+        :user_name => ENV['SMTP_USERNAME'],
+        :password => ENV['SMTP_PASSWORD'],
+        :address => ENV['SMTP_ADDRESS'],
+        :port => 587
       }   
-    end 
+    end
        
     before do
       redirect "http://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
@@ -189,7 +186,7 @@ module ActivateApp
         password = Account.generate_password(8)
         @mapplication.account.update_attribute(:password, password)
         
-        if ENV['SENDGRID_USERNAME']
+        if ENV['SMTP_ADDRESS']
           mail = Mail.new
           mail.to = @mapplication.account.email
           mail.from = "Huddl <team@huddl.tech>"

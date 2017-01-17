@@ -47,7 +47,7 @@ class Mapplication
   end
   
   after_create do
-    if ENV['SENDGRID_USERNAME']
+    if ENV['SMTP_ADDRESS']
       mail = Mail.new
       mail.bcc = Account.where(:id.in => group.memberships.pluck(:account_id)).pluck(:email)
       mail.from = "Huddl <team@huddl.tech>"
