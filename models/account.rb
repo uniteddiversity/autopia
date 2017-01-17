@@ -53,15 +53,22 @@ class Account
       :picture => :image,
       :admin => :check_box,
       :time_zone => :select,
-      :password => {:type => :password, :new_hint => 'Leave blank to keep existing password'},
+      :password => :password,
       :provider_links => :collection
     }
   end
   
-  def self.edit_hints
+  def self.new_hints
     {
-      :password => 'Leave blank to keep existing password'
+      :password => 'Leave blank to keep existing password',
+      :gender => 'Optional',
+      :date_of_birth => 'Optional',
+      :poc => 'Optional'
     }
+  end   
+  
+  def self.edit_hints
+    self.new_hints
   end    
   
   def self.genders
