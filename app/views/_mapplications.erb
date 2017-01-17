@@ -25,7 +25,7 @@
             <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
                       $('#modal').modal('show')
                     });">
-                      <i class="fa fa-file-text-o" style="font-size: 20px"></i>
+              <i class="fa fa-file-text-o" style="font-size: 20px"></i>
             </a>
           </div>
         <% end %>
@@ -43,13 +43,16 @@
               &middot; <a href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
             <% end %>
 
-            <% unless @group.send("anonymous_#{noun.pluralize}") %>
-              <div>
-                <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
+            <div>
+              <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
+                <% if @group.send("anonymous_#{noun.pluralize}") %>
+                  <i class="fa fa-user-circle" style="font-size: 20px"></i>
+                <% else %>              
                   <img title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" />
-                <% } %>
-              </div>
-            <% end %>
+                <% end %>
+              <% } %>
+
+            </div>
 
           </div>        
 
