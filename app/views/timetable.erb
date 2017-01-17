@@ -55,7 +55,8 @@
             <%= hidden_field_tag :group_id, :value => @group.id  %>
             <%= hidden_field_tag :tslot_id, :value => tslot.id  %>
             <%= hidden_field_tag :space_id, :value => space.id  %>
-            <%= text_field_tag :description, :class => 'form-control', :value => activity.try(:description) %>
+            <%= text_area_tag :description, :class => 'form-control', :value => activity.try(:description), :onfocus => '$(this).next().show()', :onblur => 'var t = this; setTimeout(function() { $(t).next().hide() }, 500)' %>
+            <%= submit_tag 'Submit', :style => 'display: none; margin-top: 5px;', :class => 'btn btn-primary' %>
           <% end %>  
           <% if activity %>
             <div style="text-align: right">
