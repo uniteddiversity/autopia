@@ -7,8 +7,8 @@
     ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],      
     ["Timetable", "/h/#{@group.slug}/timetable"],
     ["Spending", "/h/#{@group.slug}/spending"],
-    (["Teams (#{@group.teams.count})", "/h/#{@group.slug}/teams"] if @group.teams.count > 0),
-    (["Rotas (#{@group.rotas.count})", "/h/#{@group.slug}/rotas"] if @group.rotas.count > 0),
+    ["Teams (#{@group.teams.count})", "/h/#{@group.slug}/teams"],
+    ["Rotas (#{@group.rotas.count})", "/h/#{@group.slug}/rotas"],
     (["Facebook group", @group.facebook_group] if @group.facebook_group)
     ] %>
 
