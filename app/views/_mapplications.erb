@@ -3,7 +3,7 @@
     <tr>
       <th>Name</th>
       <th>Applied on</th>
-      <th>Responses</th>      
+      <th>Application</th>      
       <th>Proposers, supporters and blockers</th>     
       <% if @membership.admin? %>
         <th></th>
@@ -21,7 +21,7 @@
       <td>
 
         <% if mapplication.answers %>
-          <a href="javascript:;" onclick="$(this).hide().next().show()">Show</a>
+          <a href="javascript:;" onclick="$(this).hide().next().show()">Show application</a>
           <div style="display: none">
             <% mapplication.answers.each { |q,a| if a %>
                 <p><strong><%=q%></strong></p>
