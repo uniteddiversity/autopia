@@ -41,7 +41,7 @@
   <table class="table table-striped">
     <tr>
       <td></td>
-      <% rota.rslots.each { |rslot| %>
+      <% rota.rslots.order('created_at asc').each { |rslot| %>
         <td>
           <strong>
             <% if @membership.admin? %>
@@ -68,7 +68,7 @@
             <% end %> 
           </strong>
         </td>
-        <% rota.rslots.each { |rslot| %>
+        <% rota.rslots.order('created_at asc').each { |rslot| %>
           <td>
             <% if shift = Shift.find_by(rslot: rslot, role: role); account = shift.account %>
               <% if shift.account == current_account or @membership.admin? %>
