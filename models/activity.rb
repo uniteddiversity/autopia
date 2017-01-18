@@ -21,4 +21,24 @@ class Activity
     }
   end
     
+  after_create do
+    if ENV['SMTP_ADDRESS']
+      account = self.account
+      group = self.group
+      
+      mail = Mail.new
+      mail.bcc = Account.where(:id.in => group.memberships.where(admin: true).pluck(:account_id)).pluck(:email)
+      mail.from = "Huddl <team@huddl.tech>"
+      mail.subject = "#{account.name} listed an activity in #{group.name}"
+      
+      html_part = Mail::Part.new do
+        content_type 'text/html; charset=UTF-8'
+        body %Q{Hi admins of #{group.name},<br /><br />#{account.name} listed an activity in #{group.name}. <a href="http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable">View timetable</a><br /><br />Best,<br />Team Huddl}
+      end
+      mail.html_part = html_part       
+      
+      mail.deliver
+    end           
+  end  
+    
 end
