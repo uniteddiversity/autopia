@@ -1,7 +1,11 @@
 
 <%= partial :group_header %>
 
-<% x = []; Account.genders.reject(&:blank?).map { |gender| x << capture do %>
+<% x = [] %>
+<%  x << capture do %>
+<i style="color: #CE2828;" title="Members" class="fa fa-group"></i> <%= @group.memberships.count %>
+<% end %>
+<% Account.genders.reject(&:blank?).map { |gender| x << capture do %>
     <span style="color: #CE2828;"><%= Account.gender_symbol(gender, pluralize: true) %></span> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:gender => gender).count %>
   <% end  } %>
 <% x << capture do %>
