@@ -48,7 +48,7 @@
                 <% if @group.send("anonymous_#{noun.pluralize}") %>
                   <i class="fa fa-user-circle" style="font-size: 20px;"></i>
                 <% else %>              
-                  <img title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" />
+                  <img title="<%=account.name%>" style="width: 50px" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" />
                 <% end %>
               <% } %>
 
