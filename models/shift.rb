@@ -31,7 +31,7 @@ class Shift
       
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body "Hi admins of #{group.name},<br /><br />#{account.name} signed up for a #{shift.role.name} shift in #{group.name}. Visit http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas to view group rotas.<br /><br />Best,<br />Team Huddl"
+        body %Q{Hi admins of #{group.name},<br /><br />#{account.name} signed up for a #{shift.role.name} shift in #{group.name}. <a href="http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas">View rotas</a><br /><br />Best,<br />Team Huddl}
       end
       mail.html_part = html_part       
       
