@@ -27,11 +27,11 @@ class Shift
       mail = Mail.new
       mail.bcc = Account.where(:id.in => group.memberships.where(admin: true).pluck(:account_id)).pluck(:email)
       mail.from = "Huddl <team@huddl.tech>"
-      mail.subject = "#{account.name} signed up for a #{shift.role.name} shift in #{group.name}"
+      mail.subject = "#{account.name} signed up for a #{shift.rota.name} shift in #{group.name}"
       
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body %Q{Hi admins of #{group.name},<br /><br />#{account.name} signed up for a #{shift.role.name} shift in #{group.name}. <a href="http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas">View rotas</a><br /><br />Best,<br />Team Huddl}
+        body %Q{Hi admins of #{group.name},<br /><br />#{account.name} signed up for a #{shift.rota.name} shift in #{group.name}. <a href="http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas">View rotas</a><br /><br />Best,<br />Team Huddl}
       end
       mail.html_part = html_part       
       

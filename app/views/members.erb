@@ -25,7 +25,7 @@
         <%= partial :account, :object => account, :locals => {:membership => membership} %>
         <div>
           <% membership.teamships.each { |teamship| %>
-            <span class="label label-primary"><%=teamship.team.name%></span>
+            <a href="/h/<%=@group.slug%>/teams"><span class="label label-primary"><%=teamship.team.name%></span></a>
           <% } %>        
         </div>
       </td>
