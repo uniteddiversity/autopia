@@ -17,5 +17,26 @@ class Shift
       :rota_id => :lookup      
     }
   end
+  
+  after_create do
+    if ENV['SMTP_ADDRESS']
+      shift = self
+      account = shift.account
+      group = rota.group
+      
+      mail = Mail.new
+      mail.bcc = Account.where(:id.in => group.memberships.where(admin: true).pluck(:account_id)).pluck(:email)
+      mail.from = "Huddl <team@huddl.tech>"
+      mail.subject = "#{account.name} signed up for a #{shift.role.name} shift in #{group.name}"
+      
+      html_part = Mail::Part.new do
+        content_type 'text/html; charset=UTF-8'
+        body "Hi admins of #{group.name},<br /><br />#{account.name} signed up for a #{shift.role.name} shift in #{group.name}. Visit http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas to view group rotas.<br /><br />Best,<br />Team Huddl"
+      end
+      mail.html_part = html_part       
+      
+      mail.deliver
+    end           
+  end
     
 end
