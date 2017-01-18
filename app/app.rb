@@ -159,7 +159,7 @@ module ActivateApp
     end     
               
     get '/verdicts/create' do
-      @mapplication = Mapplication.find(params[:mapplication_id])
+      @mapplication = Mapplication.find(params[:mapplication_id]) || not_found
       @group = @mapplication.group      
       membership_required!
       Verdict.create!(account: current_account, mapplication_id: params[:mapplication_id], type: params[:type])
@@ -167,14 +167,14 @@ module ActivateApp
     end       
     
     get '/verdicts/:id/destroy' do
-      @verdict = Verdict.find(params[:id])
+      @verdict = Verdict.find(params[:id]) || not_found
       halt unless @verdict.account.id == current_account.id
       @verdict.destroy
       redirect back
     end     
         
     get '/mapplications/:id/process' do
-      @mapplication = Mapplication.find(params[:id])
+      @mapplication = Mapplication.find(params[:id]) || not_found
       @group = @mapplication.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -208,7 +208,7 @@ module ActivateApp
     end   
     
     get '/memberships/:id/added_to_facebook_group' do
-      membership = Membership.find(params[:id])
+      membership = Membership.find(params[:id]) || not_found
       @group = membership.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -217,7 +217,7 @@ module ActivateApp
     end
     
     get '/memberships/:id/make_admin' do
-      membership = Membership.find(params[:id])
+      membership = Membership.find(params[:id]) || not_found
       @group = membership.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -226,7 +226,7 @@ module ActivateApp
     end
     
     post '/memberships/:id/paid' do
-      membership = Membership.find(params[:id])
+      membership = Membership.find(params[:id]) || not_found
       @group = membership.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -246,7 +246,7 @@ module ActivateApp
     end
            
     post '/teams/create' do
-      @group = Group.find(params[:group_id])
+      @group = Group.find(params[:group_id])  || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
       Team.create!(name: params[:name], group: @group)
@@ -254,7 +254,7 @@ module ActivateApp
     end
     
     get '/teams/:id/destroy' do
-      @team = Team.find(params[:id])
+      @team = Team.find(params[:id]) || not_found
       @group = @team.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -263,7 +263,7 @@ module ActivateApp
     end
         
     get '/teamships/create' do
-      @team = Team.find(params[:team_id])
+      @team = Team.find(params[:team_id]) || not_found
       @group = @team.group      
       membership_required!      
       Teamship.create!(account: current_account, team_id: params[:team_id])
@@ -271,7 +271,7 @@ module ActivateApp
     end    
     
     get '/teamships/:id/destroy' do
-      @teamship = Teamship.find(params[:id])
+      @teamship = Teamship.find(params[:id]) || not_found
       @group = @teamship.team.group
       @membership = @group.memberships.find_by(account: current_account)
       halt unless @teamship.account.id == current_account.id or @membership.admin?
@@ -291,7 +291,7 @@ module ActivateApp
     end     
     
     post '/rotas/create' do
-      @group = Group.find(params[:group_id])
+      @group = Group.find(params[:group_id]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
       Rota.create!(name: params[:name], group: @group)
@@ -299,7 +299,7 @@ module ActivateApp
     end
     
     get '/rotas/:id/destroy' do
-      @rota = Rota.find(params[:id])
+      @rota = Rota.find(params[:id]) || not_found
       @group = @rota.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -308,7 +308,7 @@ module ActivateApp
     end   
     
     post '/roles/create' do
-      @rota = Rota.find(params[:rota_id])
+      @rota = Rota.find(params[:rota_id]) || not_found
       @group = @rota.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -317,7 +317,7 @@ module ActivateApp
     end   
     
     get '/roles/:id/destroy' do
-      @role = Role.find(params[:id])
+      @role = Role.find(params[:id]) || not_found
       @group = @role.rota.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -326,7 +326,7 @@ module ActivateApp
     end     
     
     post '/rslots/create' do
-      @rota = Rota.find(params[:rota_id])
+      @rota = Rota.find(params[:rota_id]) || not_found
       @group = @rota.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -335,7 +335,7 @@ module ActivateApp
     end      
     
     get '/rslots/:id/destroy' do
-      @rslot = Rslot.find(params[:id])
+      @rslot = Rslot.find(params[:id]) || not_found
       @group = @rslot.rota.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -344,7 +344,7 @@ module ActivateApp
     end       
          
     get '/shifts/create' do
-      @rota = Rota.find(params[:rota_id])
+      @rota = Rota.find(params[:rota_id]) || not_found 
       @group = @rota.group
       membership_required!
       Shift.create!(account: current_account, rota_id: params[:rota_id], rslot_id: params[:rslot_id], role_id: params[:role_id])
@@ -352,7 +352,7 @@ module ActivateApp
     end      
     
     get '/shifts/:id/destroy' do
-      @shift = Shift.find(params[:id])
+      @shift = Shift.find(params[:id]) || not_found
       @group = @shift.rota.group
       @membership = @group.memberships.find_by(account: current_account)
       halt unless @shift.account.id == current_account.id or @membership.admin?
@@ -370,7 +370,7 @@ module ActivateApp
     end
     
     post '/spaces/create' do
-      @group = Group.find(params[:group_id])
+      @group = Group.find(params[:group_id]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
       Space.create!(name: params[:name], group: @group)
@@ -378,7 +378,7 @@ module ActivateApp
     end   
     
     get '/spaces/:id/destroy' do
-      @space = Space.find(params[:id])
+      @space = Space.find(params[:id]) || not_found
       @group = @space.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -387,7 +387,7 @@ module ActivateApp
     end      
     
     post '/tslots/create' do
-      @group = Group.find(params[:group_id])
+      @group = Group.find(params[:group_id]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
       Tslot.create!(name: params[:name], group: @group)
@@ -395,7 +395,7 @@ module ActivateApp
     end      
     
     get '/tslots/:id/destroy' do
-      @tslot = Tslot.find(params[:id])
+      @tslot = Tslot.find(params[:id]) || not_found
       @group = @tslot.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -404,7 +404,7 @@ module ActivateApp
     end    
          
     post '/activities/create' do
-      @group = Group.find(params[:group_id])
+      @group = Group.find(params[:group_id]) || not_found
       membership_required!
       Activity.find_by(tslot_id: params[:tslot_id], space_id: params[:space_id]).try(:destroy)
       Activity.create!(description: params[:description], account: current_account, group_id: params[:group_id], tslot_id: params[:tslot_id], space_id: params[:space_id])
@@ -421,7 +421,7 @@ module ActivateApp
     end
 
     post '/spends/create' do
-      @group = Group.find(params[:group_id])
+      @group = Group.find(params[:group_id]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
       Spend.create!(item: params[:item], amount: params[:amount], account: current_account, group: @group)
@@ -429,7 +429,7 @@ module ActivateApp
     end
     
     get '/spends/:id/destroy' do
-      @spend = Spend.find(params[:id])
+      @spend = Spend.find(params[:id]) || not_found
       @group = @spend.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -438,7 +438,7 @@ module ActivateApp
     end     
     
     get '/spends/:id/reimbursed' do
-      @spend = Spend.find(params[:id])
+      @spend = Spend.find(params[:id]) || not_found
       @group = @spend.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
@@ -447,7 +447,7 @@ module ActivateApp
     end      
     
     get '/mapplications/:id' do
-      @mapplication = Mapplication.find(params[:id])
+      @mapplication = Mapplication.find(params[:id]) || not_found
       @group = @mapplication.group
       @membership = @group.memberships.find_by(account: current_account)      
       membership_required!
