@@ -7,7 +7,7 @@
 <% x << capture do %>
   <span style="color: #CE2828; font-weight: bold" title="People of colour">P</span> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:poc => true).count %>
 <% end %>
-<% Account.where(:id.in => @group.memberships.pluck(:account_id)).order('date_of_birth desc').first.date_of_birth.year.to_s[2].to_i.upto(9) do |d| d = "#{d}0".to_i; x << capture do %>
+<% Account.where(:id.in => @group.memberships.pluck(:account_id)).order('date_of_birth asc').first.date_of_birth.year.to_s[2].to_i.upto(9) do |d| d = "#{d}0".to_i; x << capture do %>
 <span style="color: #CE2828;" title="Born in the <%=d%>s"><%= d %>s</span> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.gt => "19#{d}-01-01").where(:date_of_birth.lt => "19#{d+10}-01-01").count %>
 <% end;  end %>
 
