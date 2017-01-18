@@ -8,6 +8,6 @@
     account.gender_symbol,
     account.age,
     account.poc ? 'Person of colour' : nil,
-    (membership.shifts.map { |shift| %Q{<a href="/h/#{@group.slug}/rotas"><i title="#{shift.rota.name} shift" class="fa fa-hand-paper-o"></i></a>} }.join(' ') if defined?(membership))
+    (membership.shifts.map { |shift| %Q{<a href="/h/#{@group.slug}/rotas"><i title="#{shift.rota.name} shift" class="fa fa-hand-paper-o"></i></a>} }.join(' ') if defined?(membership) and membership)
     ].compact.join(' &middot; ') %>
 </div>
