@@ -1,22 +1,15 @@
 
 <%= partial :group_header %>
 
-<%=@group.name%> has <%= pluralize(@group.memberships.count,'member') %>, including
-<%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:gender => 'Nonbinary').count %> people of nonbinary gender,
-<%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:gender => 'Woman').count %> women
-and <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:gender => 'Man').count %> men.
-
-<%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:poc => true).count %> people identify as people of colour.
-
 <% x = [] %>
 <%  x << capture do %>
-<i style="color: #CE2828;" title="Members" class="fa fa-group"></i> 
+<i style="color: #CE2828;" title="Members" class="fa fa-group"></i> <%= @group.memberships.count %>
 <% end %>
 <% Account.genders.reject(&:blank?).map { |gender| x << capture do %>
-    <span style="color: #CE2828;"><%= Account.gender_symbol(gender, pluralize: true) %></span> 
+    <span style="color: #CE2828;"><%= Account.gender_symbol(gender, pluralize: true) %></span> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:gender => gender).count %>
   <% end  } %>
 <% x << capture do %>
-  <span style="color: #CE2828; font-weight: bold" title="People of colour">P</span> 
+  <span style="color: #CE2828; font-weight: bold" title="People of colour">P</span> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:poc => true).count %>
 <% end %>
 <% if a = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first; a.date_of_birth.year.to_s[2].to_i.upto(9) do |d| d = "#{d}0".to_i; x << capture do %>
 <span style="color: #CE2828;" title="Born in the <%=d%>s"><%= d %>s</span> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.gte => "19#{d}-01-01").where(:date_of_birth.lt => "19#{d+10}-01-01").count %>
