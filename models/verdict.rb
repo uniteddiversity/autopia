@@ -3,6 +3,7 @@ class Verdict
   include Mongoid::Timestamps
 
   field :type, :type => String 
+  field :reason, :type => String
   
   belongs_to :account
   belongs_to :mapplication
@@ -13,8 +14,9 @@ class Verdict
   def self.admin_fields
     {
       :account_id => :lookup,
-      :mapplication_id => :lookup,
+      :mapplication_id => :lookup,      
       :type => :select,
+      :reason => :text
     }
   end
   

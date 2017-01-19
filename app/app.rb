@@ -176,7 +176,7 @@ module ActivateApp
       @mapplication = Mapplication.find(params[:mapplication_id]) || not_found
       @group = @mapplication.group      
       membership_required!
-      Verdict.create!(account: current_account, mapplication_id: params[:mapplication_id], type: params[:type])
+      Verdict.create!(account: current_account, mapplication_id: params[:mapplication_id], type: params[:type], reason: params[:reason])
       redirect back
     end       
     

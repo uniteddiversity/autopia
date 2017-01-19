@@ -4,10 +4,10 @@
 <strong><%= account.name %></strong>
 <div>
   <%= [
-    ('<i title="Admin" class="fa fa-key"></i>' if defined?(membership) and membership.admin?),
+    ('<i data-toggle="tooltip" title="Admin" class="fa fa-key"></i>' if defined?(membership) and membership.admin?),
     account.gender_symbol,
-    account.age,
-    account.poc ? '<span style="font-weight: bold" title="Identifies as a person of colour">P</span>' : nil,
-    (membership.shifts.map { |shift| %Q{<a href="/h/#{@group.slug}/rotas"><i title="#{shift.rota.name} shift" class="fa fa-hand-paper-o"></i></a>} }.join(' ') if defined?(membership) and membership and membership.shifts.count > 0)
+    account.age ? %Q{<span data-toggle="tooltip" title="#{account.age} years old">#{account.age}</span>} : nil,
+    account.poc ? '<span data-toggle="tooltip" style="font-weight: bold" title="Identifies as a person of colour">P</span>' : nil,
+    (membership.shifts.map { |shift| %Q{<a href="/h/#{@group.slug}/rotas"><i data-toggle="tooltip" title="#{shift.rota.name} shift" class="fa fa-hand-paper-o"></i></a>} }.join(' ') if defined?(membership) and membership and membership.shifts.count > 0)
     ].compact.join(' &middot; ') %>
 </div>

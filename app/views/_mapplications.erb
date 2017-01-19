@@ -40,15 +40,20 @@
             <% if verdict = current_account.verdicts.send(noun.pluralize).find_by(mapplication: mapplication) %>
               &middot; <a href="/verdicts/<%=verdict.id%>/destroy"><%= "Un#{verb}" %></a>
             <% elsif !current_account.verdicts.find_by(mapplication: mapplication) %>
-              &middot; <a href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
-            <% end %>
+              &middot; <a onclick="
+                        var reason = prompt('Explain your decision (optional)');
+                        if (reason != null) {
+                          $(this).attr('href', $(this).attr('href') + '&reason=' + reason)
+                        }
+                          " href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
+                        <% end %>
 
             <div>
               <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
                 <% if @group.send("anonymous_#{noun.pluralize}") %>
-                  <i class="fa fa-user-circle" style="font-size: 20px;"></i>
+                  <i data-toggle="tooltip" title="<%=verdict.reason%>" class="fa fa-user-circle" style="font-size: 20px;"></i>
                 <% else %>              
-                  <img title="<%=account.name%>" style="width: 50px" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" />
+                  <img data-toggle="tooltip" title="<%=account.name%><% if verdict.reason%>: <%=verdict.reason%><% end %>" style="width: 50px" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" />
                 <% end %>
               <% } %>
 
