@@ -4,11 +4,11 @@
 <% end %>
 
 <% if params[:names]; f = params[:names].split("\n").map(&:strip); h = @group.memberships.map(&:account).map { |a| a.facebook_name || a.name } %>
-  <h2>On Facebook group and Huddl <small><%= x = (f & h).count %></small></h2>
+  <h2>On Facebook group and Huddl <small><%= (x = (f & h)).count %></small></h2>
   <%= (f & h).join(' <br /> ') %>
-  <h2>On Facebook group, not on Huddl <small><%= x = (f - h).count %></small></h2>
+  <h2>On Facebook group, not on Huddl <small><%= (x = (f - h)).count %></small></h2>
   <%= x.join(' <br /> ') %>
-  <h2>On Huddl, not on Facebook group <small><%= x = (h - f).count %></small></h2> 
+  <h2>On Huddl, not on Facebook group <small><%= (x = (h - f)).count %></small></h2> 
   <table class="table" style="width: auto">
     <% x.each { |name| account = Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(facebook_name: name) || Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(name: name) %>
       <tr>
