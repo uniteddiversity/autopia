@@ -4,6 +4,7 @@ class Account
   extend Dragonfly::Model
             
   field :name, :type => String
+  field :facebook_name, :type => String 
   field :email, :type => String
   field :gender, :type => String
   field :date_of_birth, :type => Date
@@ -46,6 +47,7 @@ class Account
   def self.admin_fields
     {
       :name => :text,
+      :facebook_name => :text,
       :email => :text,
       :gender => :select,
       :date_of_birth => :date,
