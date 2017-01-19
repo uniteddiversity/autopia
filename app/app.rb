@@ -57,19 +57,19 @@ module ActivateApp
     end
     
     get '/h/:slug/diff' do
+      halt unless current_account and current_account.admin?
       @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
       erb :diff      
     end
     
-    post '/h/:slug/diff' do
-      @group = Group.find_by(slug: params[:slug]) || not_found
-      @membership = @group.memberships.find_by(account: current_account)
-      group_admins_only!
-      erb :diff      
+    post '/update_facebook_name/:id' do
+      halt unless current_account and current_account.admin?
+      Account.find(params[:id]).update_attribute(:facebook_name, params[:facebook_name])
+      redirect back
     end
-    
+        
     get '/h/new' do
       sign_in_required!
       @group = Group.new

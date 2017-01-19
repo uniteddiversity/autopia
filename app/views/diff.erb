@@ -1,4 +1,4 @@
-<% form_tag '' do %>
+<% form_tag '', :method => :get do %>
   <%= text_area_tag :names, :class => 'form-control' %>
   <%= submit_tag 'Submit', :class => 'btn btn-primary', :style => 'margin-top: 5px' %>
 <% end %>
@@ -8,6 +8,20 @@
   <%= (f & h).join(' <br /> ') %>
   <h2>On Facebook group, not on Huddl</h2>
   <%= (f - h).join(' <br /> ') %>
-  <h2>On Huddl, not on Facebook group</h2>
-  <%= (h - f).join(' <br /> ') %>
+  <h2>On Huddl, not on Facebook group</h2>  
+  <table class="table" style="width: auto">
+    <% (h - f).each { |name| account = Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(facebook_name: name) || Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(name: name) %>
+      <tr>
+        <td>
+          <%= name %>
+        </td>
+        <td>
+          <% form_tag "/update_facebook_name/#{account.id}" do %>
+            <%= text_field_tag :facebook_name, :class => 'form-control', :value => account.facebook_name %>
+          <% end %>
+        </td>
+      <% } %>
+    </tr>
+  </table>
 <% end %>
+
