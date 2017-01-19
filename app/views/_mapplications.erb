@@ -51,9 +51,9 @@
             <div>
               <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
                 <% if @group.send("anonymous_#{noun.pluralize}") %>
-                  <i data-toggle="tooltip" title="<%=verdict.reason%>" class="fa fa-user-circle" style="font-size: 20px;"></i>
-                <% else %>              
-                  <img data-toggle="tooltip" title="<%=account.name%><% if verdict.reason%>: <%=verdict.reason%><% end %>" style="width: 50px" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" />
+                  <i data-toggle="tooltip" title="<%=verdict.reason%>"  class="fa fa-user-circle" style="font-size: 20px; <% if verdict.reason %> color: #CE2828 <% end %>"></i>
+                <% else %> 
+                  <img data-toggle="tooltip" title="<%=account.name%><% if verdict.reason%>: <%=verdict.reason%><% end %>" style="width: 50px; <% if verdict.reason %>border-bottom: 2px solid #CE2828 <% end %>" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" />
                 <% end %>
               <% } %>
 
