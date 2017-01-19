@@ -3,7 +3,7 @@
 
 <% x = [] %>
 <%  x << capture do %>
-<i style="color: #CE2828;" data-toggle="tooltip" title="Members" class="fa fa-group"></i> <%= @group.memberships.count %>
+  <i style="color: #CE2828;" data-toggle="tooltip" title="Members" class="fa fa-group"></i> <%= @group.memberships.count %>
 <% end %>
 <% Account.genders.reject(&:blank?).map { |gender| x << capture do %>
     <span style="color: #CE2828;"><%= Account.gender_symbol(gender, pluralize: true) %></span> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:gender => gender).count %>
@@ -12,8 +12,8 @@
   <span style="color: #CE2828; font-weight: bold" data-toggle="tooltip" title="People of colour">P</span> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:poc => true).count %>
 <% end %>
 <% if a = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first; a.date_of_birth.year.to_s[2].to_i.upto(9) do |d| d = "#{d}0".to_i; x << capture do %>
-<span style="color: #CE2828;" data-toggle="tooltip" title="Born in the <%=d%>s"><%= d %>s</span> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.gte => "19#{d}-01-01").where(:date_of_birth.lt => "19#{d+10}-01-01").count %>
-<% end; end; end %>
+      <span style="color: #CE2828;" data-toggle="tooltip" title="Born in the <%=d%>s"><%= d %>s</span> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.gte => "19#{d}-01-01").where(:date_of_birth.lt => "19#{d+10}-01-01").count %>
+    <% end; end; end %>
 
 <div style="margin: 10px 0; font-size: 20px"><%= x.map(&:strip).join(' &middot; ') %></div>
 
@@ -79,11 +79,15 @@
       <% end %>
       <td>
         <% if @membership.admin? %>
-          <% form_tag "/memberships/#{membership.id}/paid" do %>
-            <div class="input-group">
-              <span class="input-group-addon">£</span>
-              <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid %>
-            </div>
+          <% if membership.paid %>
+            <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "£#{membership.paid}" if membership.paid %></a>
+            <% form_tag "/memberships/#{membership.id}/paid", :style => ('display:none' if membership.paid) do %>
+              <div class="input-group">
+                <span class="input-group-addon">£</span>
+                <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid %>
+              </div>
+            <% end %>
+
           <% end %>
         <% else %>
           <%= "£#{membership.paid}" if membership.paid %>
