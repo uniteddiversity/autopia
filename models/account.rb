@@ -87,9 +87,9 @@ class Account
   def self.gender_symbol(gender, pluralize: false)
     case gender
     when 'Man'
-      %Q{<i title="#{'Man'.pluralize}" class="fa fa-mars"></i>}
+      %Q{<i title="#{pluralize ? 'Men' : 'Man'}" class="fa fa-mars"></i>}
     when 'Woman'
-      %Q{<i title="#{'Woman'.pluralize}" class="fa fa-venus"></i>}
+      %Q{<i title="#{pluralize ? 'Women' : 'Woman'}" class="fa fa-venus"></i>}
     when 'Nonbinary'
       '<i title="Nonbinary" class="fa fa-transgender"></i>'
     end
