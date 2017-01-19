@@ -3,6 +3,7 @@
 
 <% form_for @account, @account.new_record? ? url(:accounts, :new) : url(:accounts, :edit), :class => 'form-horizontal', :multipart => true do |f| %>
   <%= f.text_block :name %>
+  <%= f.text_block :facebook_name %>
   <%= f.text_block :email %>
   <%= f.image_block :picture, rotate: false %>
   <%= f.date_block :date_of_birth, :start_year => 1900, :end_year => Time.now.year %>
