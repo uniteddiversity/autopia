@@ -1,0 +1,13 @@
+<% form_tag '' do %>
+  <%= text_area_tag :names, :class => 'form-control' %>
+  <%= submit_tag 'Submit', :class => 'btn btn-primary', :style => 'margin-top: 5px' %>
+<% end %>
+
+<% if params[:names]; f = params[:names].split("\n").map(&:strip); h = @group.memberships.map(&:account).map(&:name) %>
+<h2>On Facebook group and Huddl</h2>
+<%= (f & h).join(' <br /> ') %>
+<h2>On Facebook group, not on Huddl</h2>
+<%= (f - h).join(' <br /> ') %>
+<h2>On Huddl, not on Facebook group</h2>
+<%= (h - f).join(' <br /> ') %>
+<% end %>

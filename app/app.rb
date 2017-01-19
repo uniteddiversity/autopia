@@ -56,6 +56,20 @@ module ActivateApp
       erb :home
     end
     
+    get '/h/:slug/diff' do
+      @group = Group.find_by(slug: params[:slug]) || not_found
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      erb :diff      
+    end
+    
+    post '/h/:slug/diff' do
+      @group = Group.find_by(slug: params[:slug]) || not_found
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      erb :diff      
+    end
+    
     get '/h/new' do
       sign_in_required!
       @group = Group.new
