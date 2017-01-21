@@ -195,7 +195,7 @@ module ActivateApp
       @mapplication.status = params[:status]
       @mapplication.processed_by = current_account
       @mapplication.save
-      if params[:status] == 'accepted' and @mapplication.acceptable?
+      if @mapplication.acceptable? and params[:status] == 'accepted'
         @mapplication.accept    
       end
       redirect back
