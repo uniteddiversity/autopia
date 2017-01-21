@@ -1,5 +1,10 @@
 
 <%= partial :group_header %>
+
+<% if @group.threshold %>
+  <p style="font-size: 20px; margin: 10px 0">Automatically accepting applications with <%=@group.threshold%> proposers + supporters</p>
+<% end %>
+
 <%= partial :mapplications %>
 
 <% if @group.mapplications.rejected.count > 0 %>
