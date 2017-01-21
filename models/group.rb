@@ -13,6 +13,7 @@ class Group
   field :application_questions, :type => String
   field :anonymous_supporters, :type => Boolean
   field :anonymous_blockers, :type => Boolean
+  field :threshold, :type => Integer
   
   belongs_to :account
   
@@ -45,9 +46,10 @@ class Group
   def self.admin_fields
     {
       :name => :text,
-      :slug => :slug,
+      :slug => :slug,      
       :image => :image,
       :facebook_group => :text,
+      :threshold => :number,
       :application_preamble => :wysiwyg,
       :application_questions => :text_area,
       :anonymous_supporters => :text_area,
@@ -60,5 +62,15 @@ class Group
       :teams => :collection
     }
   end
+  
+  def self.new_tips
+    {
+      :threshold => 'Automatically accept applications with this many supporters + proposers'
+    }
+  end
+  
+  def self.edit_tips
+    self.new_tips
+  end  
     
 end

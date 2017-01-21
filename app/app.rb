@@ -196,27 +196,7 @@ module ActivateApp
       @mapplication.processed_by = current_account
       @mapplication.save
       if params[:status] == 'accepted' and @mapplication.acceptable?
-        @group.memberships.create account: @mapplication.account, mapplication: @mapplication
-        password = Account.generate_password(8)
-        @mapplication.account.update_attribute(:password, password)
-        
-        if ENV['SMTP_ADDRESS']
-          mail = Mail.new
-          mail.to = @mapplication.account.email
-          mail.from = "Huddl <team@huddl.tech>"
-          mail.subject = "You're now a member of #{@group.name}"
-          
-          account = @mapplication.account
-          group = @group
-          html_part = Mail::Part.new do
-            content_type 'text/html; charset=UTF-8'
-            body "Hi #{account.firstname},<br /><br />You were accepted into #{group.name}. Sign in at http://#{ENV['DOMAIN']}/h/#{group.slug} using the password #{password} to get involved with the co-creation!<br /><br />Best,<br />Team Huddl" 
-          end
-          mail.html_part = html_part
-      
-          mail.deliver
-        end
-    
+        @mapplication.accept    
       end
       redirect back
     end   

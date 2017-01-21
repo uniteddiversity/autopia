@@ -20,6 +20,12 @@ class Verdict
     }
   end
   
+  after_create do
+    if mapplication.acceptable? and mapplication.meets_threshold
+      mapplication.accept    
+    end    
+  end
+  
   def self.types
     %w{proposer supporter blocker}
   end
