@@ -42,7 +42,9 @@
             <% elsif !current_account.verdicts.find_by(mapplication: mapplication) %>
               &middot; <a onclick="
                         var reason = prompt('Explain your decision (optional)');
-                        if (reason != null) {
+                        if (reason == null) {
+                          return false
+                        } else {
                           $(this).attr('href', $(this).attr('href') + '&reason=' + reason)
                         }
                           " href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
