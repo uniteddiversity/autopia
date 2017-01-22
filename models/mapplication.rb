@@ -61,6 +61,20 @@ class Mapplication
       mail.html_part = html_part
       
       mail.deliver
+            
+      mail = Mail.new
+      mail.bcc = Account.where(:id.in => group.memberships.where(admin: true).pluck(:account_id)).pluck(:email)
+      mail.from = "Huddl <team@huddl.tech>"
+      mail.subject = "#{account.name} was accepted into #{group.name}"
+      
+      html_part = Mail::Part.new do
+        content_type 'text/html; charset=UTF-8'
+        body %Q{Hi admins of #{group.name},<br /><br />#{account.name} was #{'automatically ' if !mapplication.processed_by}accepted into #{group.name}#{" by #{mapplication.processed_by.name}" if mapplication.processed_by}. <a href="http://#{ENV['DOMAIN']}/h/#{group.slug}">View members</a><br /><br />Best,<br />Team Huddl}
+      end
+      mail.html_part = html_part       
+      
+      mail.deliver
+      
     end    
   end
         
