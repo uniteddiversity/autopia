@@ -9,7 +9,7 @@
 
   <h2>Co-creating <%=@group.name%></h2>
 
-  <% @group.memberships.shuffle.each { |membership| account = membership.account %><img style="margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" /><% } %>
+  <% @group.memberships.shuffle.each { |membership| account = membership.account %><img style=""width: 50px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" /><% } %>
 
   <h2>Express your interest</h2>
 
