@@ -8,7 +8,15 @@
 <% else %>
 
   <div class="row" style="margin-top: 15px">
-    <div class="col-sm-8">
+    <div class="col-sm-4 col-sm-push-8">
+
+      <div style="margin-bottom: 15px">
+        <h2 style="margin-top: 0">Co-creators</h2>
+        <% (Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %><img style="width: 50px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% } %>      
+      </div>
+      
+    </div>    
+    <div class="col-sm-8 col-sm-pull-4">
 
       <% if @group.application_preamble %>
         <%=@group.application_preamble%>
@@ -16,6 +24,11 @@
 
       <% form_for @account, "/h/#{@group.slug}/apply", :class => 'form-horizontal' do |f| %>
 
+        <script>
+          $(function () {
+            $('.form-group > div.col-sm-6').removeClass('col-sm-6').addClass('col-sm-8')
+          })
+        </script>
         <% if !current_account %>
           <%= f.text_block :name %>
           <%= f.text_block :email %>
@@ -37,13 +50,6 @@
         <%= f.submit_block button_text: 'Submit' %>            
 
       <% end %>      
-
-    </div>
-    <div class="col-sm-4">
-
-      <h2 style="margin-top: 0">Co-creators</h2>
-
-      <% (Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %><img style="width: 50px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" /><% } %>      
 
     </div>
   </div>

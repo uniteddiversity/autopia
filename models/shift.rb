@@ -7,7 +7,7 @@ class Shift
   belongs_to :rslot
   belongs_to :rota
   
-  validates_presence_of :account, :role, :rslot, :rota
+  validates_presence_of :role, :rslot, :rota
         
   def self.admin_fields
     {
@@ -19,7 +19,7 @@ class Shift
   end
   
   after_create do
-    if ENV['SMTP_ADDRESS']
+    if account and ENV['SMTP_ADDRESS']
       shift = self
       account = shift.account
       group = rota.group

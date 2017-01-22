@@ -341,7 +341,7 @@ module ActivateApp
       @rota = Rota.find(params[:rota_id]) || not_found 
       @group = @rota.group
       membership_required!
-      Shift.create!(account: current_account, rota_id: params[:rota_id], rslot_id: params[:rslot_id], role_id: params[:role_id])
+      Shift.create!(account: (params[:na] ? nil : current_account), rota_id: params[:rota_id], rslot_id: params[:rslot_id], role_id: params[:role_id])
       redirect back
     end      
     
@@ -349,7 +349,7 @@ module ActivateApp
       @shift = Shift.find(params[:id]) || not_found
       @group = @shift.rota.group
       @membership = @group.memberships.find_by(account: current_account)
-      halt unless @shift.account.id == current_account.id or @membership.admin?
+      halt unless (@shift.account and @shift.account.id == current_account.id) or @membership.admin?
       @shift.destroy
       redirect back
     end    

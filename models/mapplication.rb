@@ -100,7 +100,7 @@ class Mapplication
       group = self.group
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body "#{account.name} expressed an interest in joining #{group.name}. Visit http://#{ENV['DOMAIN']}/h/#{group.slug}/applications to review the application.<br /><br />Best,<br />Team Huddl"
+        body %Q{#{account.name} expressed an interest in joining #{group.name}. <a href="http://#{ENV['DOMAIN']}/h/#{group.slug}/applications">View applications</a><br /><br />Best,<br />Team Huddl}
       end
       mail.html_part = html_part       
       
