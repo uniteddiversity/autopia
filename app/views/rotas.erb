@@ -76,7 +76,7 @@
                   <a data-confirm="Remove this person from this shift?" href="/shifts/<%=shift.id%>/destroy">
                     <%=account.name%>
                   </a>
-                <% else %>
+                <% elsif @membership.admin? %>
                   <a href="/shifts/<%=shift.id%>/destroy">
                     n/a
                   </a>
