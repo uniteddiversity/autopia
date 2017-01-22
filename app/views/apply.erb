@@ -7,7 +7,7 @@
 
 <% else %>
 
-  <div class="row">
+  <div class="row" style="margin-top: 10px">
     <div class="col-sm-8">
 
       <% if @group.application_preamble %>
@@ -41,7 +41,7 @@
     </div>
     <div class="col-sm-4">
 
-      <h2>Co-creators</h2>
+      <h2 style="margin-top: 0">Co-creators</h2>
 
       <% (Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %><img style="width: 50px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" /><% } %>      
 
