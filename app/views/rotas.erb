@@ -82,7 +82,11 @@
                   </a>
                 <% end %>
               <% else %>
-                <%=account.name%>
+                <% if shift.account %>
+                  <%=account.name%>
+                <% else %>
+                  n/a
+                <% end %>
               <% end %>            
             <% else %>
               <a class="btn btn-primary btn-sm" href="/shifts/create?rota_id=<%=rota.id%>&rslot_id=<%=rslot.id%>&role_id=<%=role.id%>">Sign up</a>
