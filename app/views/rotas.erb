@@ -76,7 +76,7 @@
                   <a data-confirm="Remove this person from this shift?" href="/shifts/<%=shift.id%>/destroy">
                     <%=account.name%>
                   </a>
-                <% elsif @membership.admin? %>
+                <% else %>
                   <a href="/shifts/<%=shift.id%>/destroy">
                     n/a
                   </a>
@@ -90,7 +90,9 @@
               <% end %>            
             <% else %>
               <a class="btn btn-primary btn-sm" href="/shifts/create?rota_id=<%=rota.id%>&rslot_id=<%=rslot.id%>&role_id=<%=role.id%>">Sign up</a>
-              <a class="btn btn-primary btn-sm" href="/shifts/create?rota_id=<%=rota.id%>&rslot_id=<%=rslot.id%>&role_id=<%=role.id%>&na=true">n/a</a>
+              <% if @membership.admin? %>
+                <a class="btn btn-primary btn-sm" href="/shifts/create?rota_id=<%=rota.id%>&rslot_id=<%=rslot.id%>&role_id=<%=role.id%>&na=true">n/a</a>
+              <% end %>
             <% end %>
           </td>
         <% } %>
