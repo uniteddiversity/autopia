@@ -43,7 +43,7 @@
     </div>
     <div class="col-sm-4">
 
-      <h2>Co-creating <%=@group.name%></h2>
+      <h3>Co-creators</h3>
 
       <% (Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %><img style="width: 50px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" /><% } %>      
 
