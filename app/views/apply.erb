@@ -7,6 +7,10 @@
 
 <% else %>
 
+  <% @group.memberships.each { |membership| account = membership.account %>
+    <img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('50x50#').url : '/images/silhouette.png'%>" />
+  <% } %>  
+
   <h2>Express your interest</h2>
 
   <% if @group.application_preamble %>
