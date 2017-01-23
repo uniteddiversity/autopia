@@ -35,7 +35,7 @@
       <% end %>           
     </tr>
   </thead>
-  <% (memberships = @group.membershipsorder('created_at desc').page(params[:page])).each { |membership| account = membership.account %>
+  <% (memberships = @group.memberships.order('created_at desc').page(params[:page])).each { |membership| account = membership.account %>
     <tr>
       <td>
         <%= partial :account, :object => account, :locals => {:membership => membership} %>
