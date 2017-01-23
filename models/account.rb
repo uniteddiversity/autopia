@@ -9,6 +9,7 @@ class Account
   field :gender, :type => String
   field :date_of_birth, :type => Date
   field :poc, :type => Boolean
+  field :dietary_requirements, :type => String
   field :admin, :type => Boolean
   field :time_zone, :type => String
   field :crypted_password, :type => String
@@ -52,6 +53,7 @@ class Account
       :gender => :select,
       :date_of_birth => :date,
       :poc => :check_box,
+      :dietary_requirements => :text,
       :picture => :image,
       :admin => :check_box,
       :time_zone => :select,
