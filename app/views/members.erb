@@ -35,7 +35,7 @@
       <% end %>           
     </tr>
   </thead>
-  <% @group.memberships.order('created_at desc').each { |membership| account = membership.account %>
+  <% (memberships = @group.membershipsorder('created_at desc').page(params[:page])).each { |membership| account = membership.account %>
     <tr>
       <td>
         <%= partial :account, :object => account, :locals => {:membership => membership} %>
@@ -117,3 +117,7 @@
     <% end %>        
   </tr>
 </table>
+
+<div style="text-align: center">
+  <%= will_paginate memberships, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+</div>
