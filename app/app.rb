@@ -112,6 +112,9 @@ module ActivateApp
       @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       redirect "/h/#{@group.slug}/apply" unless @membership
+      @memberships = @group.memberships
+      @memberships = @memberships.where(:account_id.in => Account.where(name: /#{Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
+      @memberships = @memberships.order('created_at desc').page(params[:page])
       erb :members
     end
             

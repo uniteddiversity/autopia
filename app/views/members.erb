@@ -17,6 +17,10 @@
 
 <div style="margin: 10px 0; font-size: 20px"><%= x.map(&:strip).join(' &middot; ') %></div>
 
+<% form_tag '', :method => 'get' do %>
+  <%= text_field_tag :q, :class => 'form-control', :style => 'width: auto;', :placeholder => 'Search members', :value => params[:q] %>
+<% end %>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -35,7 +39,7 @@
       <% end %>           
     </tr>
   </thead>
-  <% (memberships = @group.memberships.order('created_at desc').page(params[:page])).each { |membership| account = membership.account %>
+  <% @memberships.each { |membership| account = membership.account %>
     <tr>
       <td>
         <%= partial :account, :object => account, :locals => {:membership => membership} %>
@@ -119,5 +123,5 @@
 </table>
 
 <div style="text-align: center">
-  <%= will_paginate memberships, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+  <%= will_paginate @memberships, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 </div>
