@@ -14,6 +14,7 @@ class Account
   field :time_zone, :type => String
   field :crypted_password, :type => String
   field :picture_uid, :type => String
+  field :stop_emails, :type => Boolean
   
   has_many :mapplications, :class_name => "Membership", :inverse_of => :account, :dependent => :destroy
   has_many :mapplications_processed, :class_name => "Membership", :inverse_of => :processed_by, :dependent => :nullify  
@@ -58,7 +59,8 @@ class Account
       :admin => :check_box,
       :time_zone => :select,
       :password => :password,
-      :provider_links => :collection
+      :provider_links => :collection,
+      :stop_emails => :check_box
     }
   end
   

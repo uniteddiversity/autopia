@@ -27,7 +27,7 @@ class Activity
       group = self.group
       
       mail = Mail.new
-      mail.bcc = Account.where(:id.in => group.memberships.where(admin: true).pluck(:account_id)).pluck(:email)
+      mail.bcc = group.admin_emails
       mail.from = "Huddl <team@huddl.tech>"
       mail.subject = "#{account.name} listed an activity in #{group.name}"
       

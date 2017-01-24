@@ -63,7 +63,7 @@ class Mapplication
       mail.deliver
             
       mail = Mail.new
-      mail.bcc = Account.where(:id.in => group.memberships.where(admin: true).pluck(:account_id)).pluck(:email)
+      mail.bcc = group.admin_emails
       mail.from = "Huddl <team@huddl.tech>"
       mail.subject = "#{account.name} was accepted into #{group.name}"
       
@@ -91,13 +91,14 @@ class Mapplication
   
   after_create do
     if ENV['SMTP_ADDRESS']
-      mail = Mail.new
-      mail.bcc = Account.where(:id.in => group.memberships.pluck(:account_id)).pluck(:email)
-      mail.from = "Huddl <team@huddl.tech>"
-      mail.subject = "#{account.name} expressed an interest in #{group.name}"
-      
       account = self.account
       group = self.group
+      
+      mail = Mail.new
+      mail.bcc = group.emails
+      mail.from = "Huddl <team@huddl.tech>"
+      mail.subject = "#{account.name} expressed an interest in #{group.name}"
+     
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
         body %Q{#{account.name} expressed an interest in joining #{group.name}. <a href="http://#{ENV['DOMAIN']}/h/#{group.slug}/applications">View applications</a><br /><br />Best,<br />Team Huddl}

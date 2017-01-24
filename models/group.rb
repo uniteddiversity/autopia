@@ -39,6 +39,14 @@ class Group
     Account.where(:id.in => memberships.pluck(:account_id))
   end
   
+  def admin_emails
+    Account.where(:stop_emails.ne => true).where(:id.in => memberships.where(admin: true).pluck(:account_id)).pluck(:email)
+  end
+  
+  def emails
+    Account.where(:stop_emails.ne => true).where(:id.in => memberships.pluck(:account_id)).pluck(:email)
+  end  
+  
   def anonymous_proposers
     false
   end
