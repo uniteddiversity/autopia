@@ -40,7 +40,7 @@ module ActivateApp
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
       @title = 'Huddl'
       @og_desc = 'For co-created gatherings'
-      @og_image = "http://#{ENV['DOMAIN']}/images/huddl.png"
+      @og_image = "http://#{ENV['DOMAIN']}/images/penguins-link.png"
     end        
                 
     error do
