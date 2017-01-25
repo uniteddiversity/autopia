@@ -18,110 +18,127 @@
 <div style="margin: 10px 0; font-size: 20px"><%= x.map(&:strip).join(' &middot; ') %></div>
 
 <% form_tag '', :method => 'get' do %>
-  <%= text_field_tag :q, :class => 'form-control', :style => 'width: auto;', :placeholder => 'Search members', :value => params[:q] %>
+  <%= text_field_tag :q, :class => 'form-control', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>
+  &middot;
+  <% if params[:view] == 'wall' %>
+    <a href="?">Table view</a>
+  <% else %>
+    <a href="?view=wall">Wall view</a>
+  <% end %>
 <% end %>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th style="width: 1px">Name</th>      
-      <th>Proposed by</th>
-      <th>Accepted at</th>
-      <th>Accepted on</th>
-      <% if @membership.admin %>
-        <% if @group.facebook_group %>
-          <th>Added to Facebook group?</th>
-        <% end %>
-      <% end %>
-      <th>Paid</th>
-      <% if @membership.admin %>
-        <th></th>
-      <% end %>           
-    </tr>
-  </thead>
-  <% @memberships.each { |membership| account = membership.account %>
-    <tr>
-      <td>
-        <%= partial :account, :object => account, :locals => {:membership => membership} %>
-        <div>
-          <% membership.teamships.each { |teamship| %>
-            <a href="/h/<%=@group.slug%>/teams"><span class="label label-primary"><%=teamship.team.name%></span></a>
-          <% } %>        
-        </div>
-      </td>
-      <td>
-        <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : '' %>
-      </td>        
-      <td>
-        <% if membership.mapplication; mapplication = membership.mapplication %>
-          <%=pluralize(mapplication.verdicts.supporters.count,'supporter') %>
+<% if params[:view] == 'wall' %>
 
-          <% if mapplication.answers %>
-            <div>
-              <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
-                          $('#modal').modal('show')
-                        });">
-                <i class="fa fa-file-text-o" style="font-size: 20px"></i>
-              </a>
-            </div>
+  <div style="margin-top: 15px">
+    <% (Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %><img style="width: 100px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% } %>      
+  </div>
+
+<% else; @memberships = @memberships.page(params[:page]) %>
+
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th style="width: 1px">Name</th>      
+        <th>Proposed by</th>
+        <th>Accepted at</th>
+        <th>Accepted on</th>
+        <% if @membership.admin %>
+          <% if @group.facebook_group %>
+            <th>Added to Facebook group?</th>
           <% end %>
         <% end %>
-      </td>  
-      <td>
-        <%= membership.created_at %>
-      </td>
-      <% if @membership.admin? %>
-        <% if @group.facebook_group %>
-          <td>
-            <% if membership.added_to_facebook_group  %>
-              <i class="fa fa-check"></i>
-            <% else %>
-              <input type="checkbox" onclick="window.location = '/memberships/<%=membership.id%>/added_to_facebook_group'">
-            <% end %>
-          </td>      
-        <% end %>
-      <% end %>
-      <td>
-        <% if @membership.admin? %>
-          <% if membership.paid %>
-            <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "£#{membership.paid}" if membership.paid %></a>
-          <% end %>
-          <% form_tag "/memberships/#{membership.id}/paid", :style => ('display:none' if membership.paid) do %>
-            <div class="input-group">
-              <span class="input-group-addon">£</span>
-              <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid %>
-            </div>
-          <% end %>
-        <% else %>
-          <%= "£#{membership.paid}" if membership.paid %>
-        <% end %>
-      </td>   
-      <% if @membership.admin? %>
+        <th>Paid</th>
+        <% if @membership.admin %>
+          <th></th>
+        <% end %>           
+      </tr>
+    </thead>
+    <% @memberships.each { |membership| account = membership.account %>
+      <tr>
         <td>
-          <% if !membership.admin %>
-            <a class="btn btn-success" href="/memberships/<%=membership.id%>/make_admin">Make admin</a>
-          <% end %>
+          <%= partial :account, :object => account, :locals => {:membership => membership} %>
+          <div>
+            <% membership.teamships.each { |teamship| %>
+              <a href="/h/<%=@group.slug%>/teams"><span class="label label-primary"><%=teamship.team.name%></span></a>
+            <% } %>        
+          </div>
         </td>
-      <% end %>
-    </tr>
-  <% } %>
-  <tr>
-    <th></th>      
-    <th></th>
-    <th></th>
-    <th></th>
-    <% if @membership.admin %>
-      <% if @group.facebook_group %>
-        <th></th>
-      <% end %>
-    <% end %>        
-    <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
-    <% if @membership.admin %>
-      <th></th>
-    <% end %>        
-  </tr>
-</table>
+        <td>
+          <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : '' %>
+        </td>        
+        <td>
+          <% if membership.mapplication; mapplication = membership.mapplication %>
+            <%=pluralize(mapplication.verdicts.supporters.count,'supporter') %>
 
-<div style="text-align: center">
-  <%= will_paginate @memberships, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
-</div>
+            <% if mapplication.answers %>
+              <div>
+                <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
+                              $('#modal').modal('show')
+                            });">
+                  <i class="fa fa-file-text-o" style="font-size: 20px"></i>
+                </a>
+              </div>
+            <% end %>
+          <% end %>
+        </td>  
+        <td>
+          <%= membership.created_at %>
+        </td>
+        <% if @membership.admin? %>
+          <% if @group.facebook_group %>
+            <td>
+              <% if membership.added_to_facebook_group  %>
+                <i class="fa fa-check"></i>
+              <% else %>
+                <input type="checkbox" onclick="window.location = '/memberships/<%=membership.id%>/added_to_facebook_group'">
+              <% end %>
+            </td>      
+          <% end %>
+        <% end %>
+        <td>
+          <% if @membership.admin? %>
+            <% if membership.paid %>
+              <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "£#{membership.paid}" if membership.paid %></a>
+            <% end %>
+            <% form_tag "/memberships/#{membership.id}/paid", :style => ('display:none' if membership.paid) do %>
+              <div class="input-group">
+                <span class="input-group-addon">£</span>
+                <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid %>
+              </div>
+            <% end %>
+          <% else %>
+            <%= "£#{membership.paid}" if membership.paid %>
+          <% end %>
+        </td>   
+        <% if @membership.admin? %>
+          <td>
+            <% if !membership.admin %>
+              <a class="btn btn-success" href="/memberships/<%=membership.id%>/make_admin">Make admin</a>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% } %>
+    <tr>
+      <th></th>      
+      <th></th>
+      <th></th>
+      <th></th>
+      <% if @membership.admin %>
+        <% if @group.facebook_group %>
+          <th></th>
+        <% end %>
+      <% end %>        
+      <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
+      <% if @membership.admin %>
+        <th></th>
+      <% end %>        
+    </tr>
+  </table>
+
+  <div style="text-align: center">
+    <%= will_paginate @memberships, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+  </div>
+
+<% end %>
