@@ -1,6 +1,13 @@
-<a href="<%=account.picture ? account.picture.url : '/images/silhouette.png'%>">   
-  <img title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('400x400').url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
-</a>
+<% if account.picture %>
+  <a href="<%=account.picture.url%>">   
+    <img title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('400x400').url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
+  </a>
+<% else %>
+  <a href="javascript:;" data-upload-url="/groups/<%=@group.slug%>/upload_picture/<%=account.id%>">   
+    <img title="Upload a picture for <%=account.name%>" src="/images/silhouette.png" style="width: 100px; display: block"/>
+  </a>
+<% end %>
+
 <strong><%= account.name %></strong>
 <div>
   <%= [
@@ -8,7 +15,6 @@
     account.gender_symbol,
     account.age ? %Q{<span data-toggle="tooltip" title="#{account.age} years old">#{account.age}</span>} : nil,
     account.poc ? '<span data-toggle="tooltip" style="font-weight: bold" title="Identifies as a person of colour">P</span>' : nil,
-    @membership.admin? ? %Q{<a href="javascript:;" data-upload-url="/groups/#{@group.slug}/upload_picture/#{account.id}" ><i data-toggle="tooltip" title="Upload picture" class="fa fa-upload"></i></a>} : nil,
     (membership.shifts.map { |shift| %Q{<a href="/h/#{@group.slug}/rotas"><i data-toggle="tooltip" title="#{shift.rota.name} shift" class="fa fa-hand-paper-o"></i></a>} }.join(' ') if defined?(membership) and membership and membership.shifts.count > 0)
     ].compact.join(' &middot; ') %>
 </div>
