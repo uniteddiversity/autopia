@@ -454,6 +454,15 @@ module ActivateApp
       partial :mapplication, :object => @mapplication
     end
     
+    
+    post '/groups/:slug/upload_picture/:account_id' do
+      @group = Group.find_by(slug: params[:slug]) || not_found      
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      @group.memberships.find_by(account_id: params[:account_id]).account.update_attribute(:picture, params[:upload])
+      redirect back
+    end
+    
                 
     get '/:slug' do
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)

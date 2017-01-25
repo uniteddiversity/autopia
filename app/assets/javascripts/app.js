@@ -1,6 +1,14 @@
 
 $(function () {
 
+  $('[data-upload-url]').click(function () {
+    var form = $('<form action="' + $(this).attr('data-upload-url') + '" method="post" enctype="multipart/form-data"><input style="display: none" type="file" name="upload"></form>')
+    form.insertAfter(this)
+    form.find('input').click().change(function () {
+      this.form.submit()
+    })
+  })
+
   $('[data-toggle="tooltip"]').tooltip()
 
   if ($('label[for=account_poc').length > 0)
