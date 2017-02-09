@@ -14,26 +14,29 @@
 <% if a = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first; a.date_of_birth.year.to_s[2].to_i.upto(9) do |d| d = "#{d}0".to_i; x << capture do %>
       <a href="?d=<%=d%>" data-toggle="tooltip" title="Born in the <%=d%>s"><%= d %>s</a> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.gte => "19#{d}-01-01").where(:date_of_birth.lt => "19#{d+10}-01-01").count %>
     <% end; end; end %>
-<% x << capture do %>
-  <a href="?paid=true" style="font-weight: bold" data-toggle="tooltip" title="Paid"><i class="fa fa-gbp"></i></a> <%= @group.memberships.where(:paid.ne => nil).count %>
+      
+      <% y = [] %>
+<% y << capture do %>
+  <a href="?paid=true">Payment received</a> <%= @group.memberships.where(:paid.ne => nil).count %>
 <% end %>
-<% x << capture do %>
-  <a href="?not_paid=true" style="font-weight: bold" data-toggle="tooltip" title="Not paid"><i class="fa fa-warning"></i></a> <%= @group.memberships.where(:paid => nil).count %>
+<% y << capture do %>
+  <a href="?not_paid=true">Payment not received</a> <%= @group.memberships.where(:paid => nil).count %>
 <% end %>
-<% x << capture do %>
-  <a href="?shifts=true" style="font-weight: bold" data-toggle="tooltip" title="People with shifts"><i class="fa fa-hand-paper-o"></i></a> <%= @group.memberships.where(:account_id.in => Shift.pluck(:account_id)).count %>
+<% y << capture do %>
+  <a href="?shifts=true">People with shifts</a> <%= @group.memberships.where(:account_id.in => Shift.pluck(:account_id)).count %>
 <% end %>
-<% x << capture do %>
-  <a href="?no_shifts=true" style="font-weight: bold" data-toggle="tooltip" title="People without shifts"><i class="fa fa-warning"></i></a> <%= @group.memberships.where(:account_id.nin => Shift.pluck(:account_id)).count %>
+<% y << capture do %>
+  <a href="?no_shifts=true">People without shifts</a> <%= @group.memberships.where(:account_id.nin => Shift.pluck(:account_id)).count %>
 <% end %>
-  <% x << capture do %>
-  <a href="?facebook=true" style="font-weight: bold" data-toggle="tooltip" title="On Facebook group"><i class="fa fa-facebook-square"></i></a> <%= @group.memberships.where(:added_to_facebook_group => true).count %>
+  <% y << capture do %>
+  <a href="?facebook=true">On Facebook group</a> <%= @group.memberships.where(:added_to_facebook_group => true).count %>
 <% end %>
-<% x << capture do %>
-  <a href="?not_facebook=true" style="font-weight: bold" data-toggle="tooltip" title="Not on Facebook group"><i class="fa fa-warning"></i></a> <%= @group.memberships.where(:added_to_facebook_group.ne => true).count %>
+<% y << capture do %>
+  <a href="?not_facebook=true">Not on Facebook group</a> <%= @group.memberships.where(:added_to_facebook_group.ne => true).count %>
 <% end %>
 
-<div style="margin: 10px 0; font-size: 20px"><%= x.map(&:strip).join(' &middot; ') %></div>
+<div style="margin-top: 10px; font-size: 20px"><%= x.map(&:strip).join(' &middot; ') %></div>
+<div style="margin-bottom: 10px; font-size: 13px;"><%= y.map(&:strip).join(' &middot; ') %></div>
 
 <% form_tag '', :method => 'get' do %>
   <%= text_field_tag :q, :class => 'form-control', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>
