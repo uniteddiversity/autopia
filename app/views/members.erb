@@ -6,14 +6,26 @@
   <a href="?"><i data-toggle="tooltip" title="Members" class="fa fa-group"></i></a> <%= @group.memberships.count %>
 <% end %>
 <% Account.genders.reject(&:blank?).map { |gender| x << capture do %>
-    <a href="?gender=<%=gender%>"><%= Account.gender_symbol(gender, pluralize: true) %></a> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:gender => gender).count %>
+    <a href="?gender=<%=gender%>"><%= Account.gender_symbol(gender, pluralize: true) %></a> <%= @group.memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id)).count %>
   <% end  } %>
 <% x << capture do %>
-  <a href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:poc => true).count %>
+  <a href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= @group.memberships.where(:account_id.in => Account.where(:poc => true).pluck(:id)).count %>
 <% end %>
 <% if a = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first; a.date_of_birth.year.to_s[2].to_i.upto(9) do |d| d = "#{d}0".to_i; x << capture do %>
       <a href="?d=<%=d%>" data-toggle="tooltip" title="Born in the <%=d%>s"><%= d %>s</a> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.gte => "19#{d}-01-01").where(:date_of_birth.lt => "19#{d+10}-01-01").count %>
     <% end; end; end %>
+<% x << capture do %>
+  <a href="?paid=true" style="font-weight: bold" data-toggle="tooltip" title="Paid"><i class="fa fa-gbp"></i></a> <%= @group.memberships.where(:account_id.in => Account.where(:paid.ne => nil).pluck(:id)).count %>
+<% end %>
+<% x << capture do %>
+  <a href="?not_paid=true" style="font-weight: bold" data-toggle="tooltip" title="Not paid"><i class="fa fa-warning"></i></a> <%= @group.memberships.where(:account_id.in => Account.where(:paid => nil).pluck(:id)).count %>
+<% end %>
+<% x << capture do %>
+  <a href="?shifts=true" style="font-weight: bold" data-toggle="tooltip" title="Shifts"><i class="fa fa-hand-paper-o"></i></a> <%= @group.memberships.where(:account_id.in => Shift.pluck(:account_id)).count %>
+<% end %>
+<% x << capture do %>
+  <a href="?no_shifts=true" style="font-weight: bold" data-toggle="tooltip" title="No shifts"><i class="fa fa-warning"></i></a> <%= @group.memberships.where(:account_id.nin => Shift.pluck(:account_id)).count %>
+<% end %>
 
 <div style="margin: 10px 0; font-size: 20px"><%= x.map(&:strip).join(' &middot; ') %></div>
 
