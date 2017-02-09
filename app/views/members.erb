@@ -27,10 +27,10 @@
   <a href="?no_shifts=true" style="font-weight: bold" data-toggle="tooltip" title="People without shifts"><i class="fa fa-warning"></i></a> <%= @group.memberships.where(:account_id.nin => Shift.pluck(:account_id)).count %>
 <% end %>
   <% x << capture do %>
-  <a href="?facebook=true" style="font-weight: bold" data-toggle="tooltip" title="On Facebook group"><i class="fa fa-facebook-square"></i></a> <%= @group.memberships.where(:added_to_facebook_group.ne => nil).count %>
+  <a href="?facebook=true" style="font-weight: bold" data-toggle="tooltip" title="On Facebook group"><i class="fa fa-facebook-square"></i></a> <%= @group.memberships.where(:added_to_facebook_group => true).count %>
 <% end %>
 <% x << capture do %>
-  <a href="?not_facebook=true" style="font-weight: bold" data-toggle="tooltip" title="Not on Facebook group"><i class="fa fa-warning"></i></a> <%= @group.memberships.where(:added_to_facebook_group => nil).count %>
+  <a href="?not_facebook=true" style="font-weight: bold" data-toggle="tooltip" title="Not on Facebook group"><i class="fa fa-warning"></i></a> <%= @group.memberships.where(:added_to_facebook_group.ne => true).count %>
 <% end %>
 
 <div style="margin: 10px 0; font-size: 20px"><%= x.map(&:strip).join(' &middot; ') %></div>

@@ -121,8 +121,8 @@ module ActivateApp
       @memberships = @memberships.where(:paid => nil) if params[:not_paid]
       @memberships = @memberships.where(:account_id.in => Shift.pluck(:account_id)) if params[:shifts]
       @memberships = @memberships.where(:account_id.nin => Shift.pluck(:account_id)) if params[:no_shifts]      
-      @memberships = @memberships.where(:added_to_facebook_group.ne => nil) if params[:facebook]
-      @memberships = @memberships.where(:added_to_facebook_group => nil) if params[:not_facebook]      
+      @memberships = @memberships.where(:added_to_facebook_group => true) if params[:facebook]
+      @memberships = @memberships.where(:added_to_facebook_group.ne => true) if params[:not_facebook]      
       @memberships = @memberships.order('created_at desc')
       erb :members
     end
