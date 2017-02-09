@@ -15,10 +15,10 @@
       <a href="?d=<%=d%>" data-toggle="tooltip" title="Born in the <%=d%>s"><%= d %>s</a> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.gte => "19#{d}-01-01").where(:date_of_birth.lt => "19#{d+10}-01-01").count %>
     <% end; end; end %>
 <% x << capture do %>
-  <a href="?paid=true" style="font-weight: bold" data-toggle="tooltip" title="Paid"><i class="fa fa-gbp"></i></a> <%= @group.memberships.where(:account_id.in => Account.where(:paid.ne => nil).pluck(:id)).count %>
+  <a href="?paid=true" style="font-weight: bold" data-toggle="tooltip" title="Paid"><i class="fa fa-gbp"></i></a> <%= @group.memberships.where(:paid.ne => nil).count %>
 <% end %>
 <% x << capture do %>
-  <a href="?not_paid=true" style="font-weight: bold" data-toggle="tooltip" title="Not paid"><i class="fa fa-warning"></i></a> <%= @group.memberships.where(:account_id.in => Account.where(:paid => nil).pluck(:id)).count %>
+  <a href="?not_paid=true" style="font-weight: bold" data-toggle="tooltip" title="Not paid"><i class="fa fa-warning"></i></a> <%= @group.memberships.where(:paid => nil).count %>
 <% end %>
 <% x << capture do %>
   <a href="?shifts=true" style="font-weight: bold" data-toggle="tooltip" title="Shifts"><i class="fa fa-hand-paper-o"></i></a> <%= @group.memberships.where(:account_id.in => Shift.pluck(:account_id)).count %>
