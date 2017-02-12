@@ -231,6 +231,24 @@ module ActivateApp
       redirect back      
     end
     
+    get '/memberships/:id/unadmin' do
+      membership = Membership.find(params[:id]) || not_found
+      @group = membership.group
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      membership.update_attribute(:admin, false)
+      redirect back      
+    end    
+    
+    get '/memberships/:id/remove' do
+      membership = Membership.find(params[:id]) || not_found
+      @group = membership.group
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      membership.destroy
+      redirect back      
+    end    
+    
     post '/memberships/:id/paid' do
       membership = Membership.find(params[:id]) || not_found
       @group = membership.group
