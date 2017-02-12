@@ -32,7 +32,9 @@
 
       </td>    
       <td>
-        <div data-pagelet-url="/mapplications/<%=mapplication.id%>/verdicts"></div>        
+        <div data-pagelet-url="/mapplications/<%=mapplication.id%>/verdicts">
+          <%= partial :verdicts, :locals => {:mapplication => mapplication} %>
+        </div>        
       </td>          
 
       <% if @membership.admin? %>
