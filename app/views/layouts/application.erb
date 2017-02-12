@@ -23,13 +23,13 @@
 
     <% [
       '/stylesheets/share.css',
-      '/stylesheets/app.css?v=1'
+      "/stylesheets/app.css?t=#{Time.to_i}"
       ].each { |f| %> 
       <link rel="stylesheet" href="<%=f%>" />    
     <% } %>
 
     <% [
-      '/javascripts/app.js?v=1'
+      "/javascripts/app.js?t=#{Time.to_i}""
       ].each { |f| %>
       <script src="<%=f%>"></script>
     <% } %>  

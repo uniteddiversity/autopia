@@ -1,0 +1,24 @@
+<% if shift = Shift.find_by(rslot: rslot, role: role); account = shift.account %>
+  <% if (shift.account and shift.account == current_account) or @membership.admin? %>
+    <% if shift.account %>
+      <a class="pagelet-trigger" data-confirm="Remove this person from this shift?" href="/shifts/<%=shift.id%>/destroy">
+        <%=account.name%>
+      </a>
+    <% else %>
+      <a class="pagelet-trigger" href="/shifts/<%=shift.id%>/destroy">
+        n/a
+      </a>
+    <% end %>
+  <% else %>
+    <% if shift.account %>
+      <%=account.name%>
+    <% else %>
+      n/a
+    <% end %>
+  <% end %>            
+<% else %>
+  <a class="pagelet-trigger btn btn-primary btn-sm" href="/shifts/create?rota_id=<%=rota.id%>&rslot_id=<%=rslot.id%>&role_id=<%=role.id%>">Sign up</a>
+  <% if @membership.admin? %>
+    <a class="pagelet-trigger btn btn-primary btn-sm" href="/shifts/create?rota_id=<%=rota.id%>&rslot_id=<%=rslot.id%>&role_id=<%=role.id%>&na=true">n/a</a>
+  <% end %>
+<% end %>

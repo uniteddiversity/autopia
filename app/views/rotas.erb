@@ -56,30 +56,9 @@
         </td>
         <% rota.rslots.order('created_at asc').each { |rslot| %>
           <td>
-            <% if shift = Shift.find_by(rslot: rslot, role: role); account = shift.account %>
-              <% if (shift.account and shift.account == current_account) or @membership.admin? %>
-                <% if shift.account %>
-                  <a data-confirm="Remove this person from this shift?" href="/shifts/<%=shift.id%>/destroy">
-                    <%=account.name%>
-                  </a>
-                <% else %>
-                  <a href="/shifts/<%=shift.id%>/destroy">
-                    n/a
-                  </a>
-                <% end %>
-              <% else %>
-                <% if shift.account %>
-                  <%=account.name%>
-                <% else %>
-                  n/a
-                <% end %>
-              <% end %>            
-            <% else %>
-              <a class="btn btn-primary btn-sm" href="/shifts/create?rota_id=<%=rota.id%>&rslot_id=<%=rslot.id%>&role_id=<%=role.id%>">Sign up</a>
-              <% if @membership.admin? %>
-                <a class="btn btn-primary btn-sm" href="/shifts/create?rota_id=<%=rota.id%>&rslot_id=<%=rslot.id%>&role_id=<%=role.id%>&na=true">n/a</a>
-              <% end %>
-            <% end %>
+            <div data-pagelet-url="/rota/rslot/role/<%=rota.id%>/<%=rslot.id%>/<%=role.id%>">
+              <%= partial :rota_rslot_role, :locals => {:rota => rota, :rslot => rslot, :role => role} %>
+            </div>
           </td>          
         <% } %>
         <% if @membership.admin? %>
