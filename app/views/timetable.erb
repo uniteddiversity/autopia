@@ -1,27 +1,6 @@
 
 <%= partial :group_header %>
 
-<% if @membership.admin? %>
-  <table style="margin-top: 10px">
-    <tr>
-      <td></td>
-      <td>
-        <% form_tag "/spaces/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'display: inline' do %>
-          <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New space' %>
-        <% end %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <% form_tag "/tslots/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'display: inline' do %>
-          <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New slot' %>
-        <% end %>          
-      </td>      
-      <td></td>
-    </tr>    
-  </table>    
-<% end %>
-
 <table class="table table-striped">
   <tr>
     <td></td>
@@ -38,6 +17,13 @@
         </strong>
       </td>
     <% } %>
+    <% if @membership.admin? %>
+      <td>
+        <% form_tag "/spaces/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'display: inline' do %>
+          <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New space' %>
+        <% end %>        
+      </td>
+    <% end %>
   </tr>
   <% @group.tslots.each { |tslot| %>
     <tr>
@@ -70,6 +56,18 @@
 
         </td>
       <% } %>
+      <% if @membership.admin? %>
+        <td></td>
+      <% end %>        
     </tr>
   <% } %>
+  <% if @membership.admin? %>
+    <tr>
+      <td>
+        <% form_tag "/tslots/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'display: inline' do %>
+          <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New slot' %>
+        <% end %>                  
+      </td>
+    </tr>
+  <% end %>
 </table>

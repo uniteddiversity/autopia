@@ -17,27 +17,6 @@
     <% end %>     
   </h2>
 
-  <% if @membership.admin? %>
-    <table>
-      <tr>
-        <td></td>
-        <td>
-          <% form_tag "/rslots/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
-            <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New slot' %>
-          <% end %>          
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <% form_tag "/roles/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
-            <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New role' %>
-          <% end %>
-        </td>
-        <td></td>
-      </tr>    
-    </table>    
-  <% end %>
-
   <table class="table table-striped">
     <tr>
       <td></td>
@@ -54,6 +33,13 @@
           </strong>
         </td>
       <% } %>
+      <% if @membership.admin? %>
+        <td>        
+          <% form_tag "/rslots/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
+            <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New slot' %>
+          <% end %>           
+        </td>
+      <% end %>
     </tr>
     <% rota.roles.each { |role| %>
       <tr>
@@ -94,10 +80,22 @@
                 <a class="btn btn-primary btn-sm" href="/shifts/create?rota_id=<%=rota.id%>&rslot_id=<%=rslot.id%>&role_id=<%=role.id%>&na=true">n/a</a>
               <% end %>
             <% end %>
-          </td>
+          </td>          
         <% } %>
+        <% if @membership.admin? %>
+          <td></td>
+        <% end %>
       </tr>
     <% } %>
+    <% if @membership.admin? %>
+      <tr>      
+        <td>        
+          <% form_tag "/roles/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
+            <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New role' %>
+          <% end %>          
+        </td>      
+      </tr>
+    <% end %>
   </table>
 
 <% } %>
