@@ -109,13 +109,17 @@
         <% if @membership.admin? %>
           <% if @group.facebook_group %>
             <td>
-              <div data-pagelet-url="/memberships/<%=membership.id%>/added_to_facebook_group"></div>
+              <div data-pagelet-url="/memberships/<%=membership.id%>/added_to_facebook_group">
+                <%= partial :added_to_facebook_group, :locals => {:membership => membership} %>
+              </div>
             </td>      
           <% end %>
         <% end %>
         <td>
           <% if @membership.admin? %>
-            <div data-pagelet-url="/memberships/<%=membership.id%>/paid"></div>
+            <div data-pagelet-url="/memberships/<%=membership.id%>/paid">
+            <%= partial :paid, :locals => {:membership => membership} %>
+            </div>
           <% else %>
             <%= "£#{membership.paid}" if membership.paid %>
           <% end %>

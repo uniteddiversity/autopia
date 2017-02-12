@@ -13,7 +13,7 @@ $(function () {
     return false
   })
 
-  $(document).on('click', '[data-pagelet-url] a:not([target])', function () {
+  $(document).on('click', '[data-pagelet-url] a.pagelet-trigger', function () {
     var a = this
     var pagelet = $(a).closest('[data-pagelet-url]')
     pagelet.css('opacity', '0.1')

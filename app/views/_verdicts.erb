@@ -3,9 +3,9 @@
   <div style="margin-bottom: 10px">
     <%=pluralize(mapplication.verdicts.send(noun.pluralize).count,noun)%>          
     <% if verdict = current_account.verdicts.send(noun.pluralize).find_by(mapplication: mapplication) %>
-      &middot; <a href="/verdicts/<%=verdict.id%>/destroy"><%= "Un#{verb}" %></a>
+      &middot; <a class="pagelet-trigger" href="/verdicts/<%=verdict.id%>/destroy"><%= "Un#{verb}" %></a>
     <% elsif !current_account.verdicts.find_by(mapplication: mapplication) %>
-      &middot; <a onclick="
+      &middot; <a class="pagelet-trigger" onclick="
                       var reason = prompt('Explain your decision (optional)');
                       if (reason == null) {
                         return false
