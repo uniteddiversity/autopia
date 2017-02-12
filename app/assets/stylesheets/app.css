@@ -33,3 +33,5 @@ select[name$='[year]'], select[name$='[month]'], select[name$='[day]'], select[n
   background-color: #CE2828;
   border-color: #AA1C1C;
 }
+
+.panel-danger > .panel-heading { background-color: #CE2828; }

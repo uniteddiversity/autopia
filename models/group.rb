@@ -14,6 +14,7 @@ class Group
   field :anonymous_supporters, :type => Boolean
   field :anonymous_blockers, :type => Boolean
   field :threshold, :type => Integer
+  field :payment_details, :type => String
   
   belongs_to :account
   
@@ -60,8 +61,9 @@ class Group
       :threshold => :number,
       :application_preamble => :wysiwyg,
       :application_questions => :text_area,
-      :anonymous_supporters => :text_area,
-      :anonymous_blockers => :text_area,
+      :anonymous_supporters => :check_box,
+      :anonymous_blockers => :check_box,
+      :payment_details => :text_area,
       :account_id => :lookup,
       :memberships => :collection,
       :mapplications => :collection,
