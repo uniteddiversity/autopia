@@ -12,10 +12,10 @@
   <a href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= @group.memberships.where(:account_id.in => Account.where(:poc => true).pluck(:id)).count %>
 <% end %>
 <% if a = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first; a.date_of_birth.year.to_s[2].to_i.upto(9) do |d| d = "#{d}0".to_i; x << capture do %>
-      <a href="?d=<%=d%>" data-toggle="tooltip" title="Born in the <%=d%>s"><%= d %>s</a> <%= Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.gte => "19#{d}-01-01").where(:date_of_birth.lt => "19#{d+10}-01-01").count %>
-    <% end; end; end %>
-      
-      <% y = [] %>
+      <a href="?d=<%=d%>" data-toggle="tooltip" title="Born in the <%=d%>s"><%= d %>s</a> <%= @group.memberships.where(:account_id.in => Account.where(:date_of_birth.gte => "19#{d}-01-01").where(:date_of_birth.lt => "19#{d+10}-01-01").pluck(:id)).count %>
+    <% end; end; end %>      
+
+<% y = [] %>
 <% y << capture do %>
   <a href="?paid=true">Payment received</a> <%= @group.memberships.where(:paid.ne => nil).count %>
 <% end %>
@@ -28,7 +28,7 @@
 <% y << capture do %>
   <a href="?no_shifts=true">People without shifts</a> <%= @group.memberships.where(:account_id.nin => Shift.pluck(:account_id)).count %>
 <% end %>
-  <% y << capture do %>
+<% y << capture do %>
   <a href="?facebook=true">On Facebook group</a> <%= @group.memberships.where(:added_to_facebook_group => true).count %>
 <% end %>
 <% y << capture do %>
