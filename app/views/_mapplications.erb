@@ -32,39 +32,7 @@
 
       </td>    
       <td>
-
-        <% [ ['proposer','propose'], ['supporter','support'], ['blocker','block'] ].each { |noun, verb| %>
-
-          <div style="margin-bottom: 10px">
-            <%=pluralize(mapplication.verdicts.send(noun.pluralize).count,noun)%>          
-            <% if verdict = current_account.verdicts.send(noun.pluralize).find_by(mapplication: mapplication) %>
-              &middot; <a href="/verdicts/<%=verdict.id%>/destroy"><%= "Un#{verb}" %></a>
-            <% elsif !current_account.verdicts.find_by(mapplication: mapplication) %>
-              &middot; <a onclick="
-                        var reason = prompt('Explain your decision (optional)');
-                        if (reason == null) {
-                          return false
-                        } else {
-                          $(this).attr('href', $(this).attr('href') + '&reason=' + (reason == 'undefined' ? null : reason))
-                        }
-                          " href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
-                        <% end %>
-
-            <div>
-              <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
-                <% if @group.send("anonymous_#{noun.pluralize}") %>
-                  <i data-toggle="tooltip" title="<%=verdict.reason%>"  class="fa fa-user-circle" style="font-size: 20px; <% if verdict.reason %> color: #CE2828 <% end %>"></i>
-                <% else %> 
-                  <img data-toggle="tooltip" title="<%=account.name%><% if verdict.reason%>: <%=verdict.reason%><% end %>" style="width: 50px; <% if verdict.reason %>border-bottom: 2px solid #CE2828 <% end %>" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" />
-                <% end %>
-              <% } %>
-
-            </div>
-
-          </div>        
-
-        <% } %>
-
+        <div data-pagelet-url="/mapplications/<%=mapplication.id%>/verdicts"></div>        
       </td>          
 
       <% if @membership.admin? %>

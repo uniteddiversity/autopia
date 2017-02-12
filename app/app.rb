@@ -218,8 +218,16 @@ module ActivateApp
       @group = membership.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
+      partial :added_to_facebook_group, :locals => {:membership => membership}
+    end    
+    
+    post '/memberships/:id/added_to_facebook_group' do
+      membership = Membership.find(params[:id]) || not_found
+      @group = membership.group
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
       membership.update_attribute(:added_to_facebook_group, true)
-      redirect back
+      200
     end
     
     get '/memberships/:id/make_admin' do
@@ -249,13 +257,21 @@ module ActivateApp
       redirect back      
     end    
     
+    get '/memberships/:id/paid' do
+      membership = Membership.find(params[:id]) || not_found
+      @group = membership.group
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only!
+      partial :paid, :locals => {:membership => membership}      
+    end
+    
     post '/memberships/:id/paid' do
       membership = Membership.find(params[:id]) || not_found
       @group = membership.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
       membership.update_attribute(:paid, params[:paid])
-      redirect back
+      200
     end    
     
     
@@ -477,6 +493,14 @@ module ActivateApp
       membership_required!
       partial :mapplication, :object => @mapplication
     end
+    
+    get '/mapplications/:id/verdicts' do
+      @mapplication = Mapplication.find(params[:id]) || not_found
+      @group = @mapplication.group
+      @membership = @group.memberships.find_by(account: current_account)      
+      membership_required!
+      partial :verdicts, :locals => {:mapplication => @mapplication}
+    end    
     
     
     post '/groups/:slug/upload_picture/:account_id' do

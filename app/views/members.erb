@@ -109,25 +109,13 @@
         <% if @membership.admin? %>
           <% if @group.facebook_group %>
             <td>
-              <% if membership.added_to_facebook_group  %>
-                <i class="fa fa-check"></i>
-              <% else %>
-                <input type="checkbox" onclick="window.location = '/memberships/<%=membership.id%>/added_to_facebook_group'">
-              <% end %>
+              <div data-pagelet-url="/memberships/<%=membership.id%>/added_to_facebook_group"></div>
             </td>      
           <% end %>
         <% end %>
         <td>
           <% if @membership.admin? %>
-            <% if membership.paid %>
-              <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "£#{membership.paid}" if membership.paid %></a>
-            <% end %>
-            <% form_tag "/memberships/#{membership.id}/paid", :style => ('display:none' if membership.paid) do %>
-              <div class="input-group">
-                <span class="input-group-addon">£</span>
-                <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid %>
-              </div>
-            <% end %>
+            <div data-pagelet-url="/memberships/<%=membership.id%>/paid"></div>
           <% else %>
             <%= "£#{membership.paid}" if membership.paid %>
           <% end %>

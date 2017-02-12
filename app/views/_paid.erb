@@ -1,0 +1,9 @@
+<% if membership.paid %>
+  <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "£#{membership.paid}" if membership.paid %></a>
+<% end %>
+<% form_tag "/memberships/#{membership.id}/paid", :style => ('display:none' if membership.paid) do %>
+  <div class="input-group">
+    <span class="input-group-addon">£</span>
+    <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid %>
+  </div>              
+<% end %>

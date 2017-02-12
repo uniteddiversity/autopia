@@ -1,0 +1,7 @@
+<% if membership.added_to_facebook_group  %>
+  <i class="fa fa-check"></i>
+<% else %>
+  <% form_tag "/memberships/#{membership.id}/added_to_facebook_group" do %>
+    <%= check_box_tag :added, :onclick => '$(this.form).submit()' %>
+  <% end %>
+<% end %>
