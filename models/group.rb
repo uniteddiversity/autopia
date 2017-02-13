@@ -79,13 +79,14 @@ class Group
     {
       :facebook_group => 'URL of any associated Facebook group',
       :application_questions => 'One per line',
-      :democratic_threshold => 'Setting a magic number results in applications with a certain number of proposers + supporters being accepted automatically. Democratising the magic number means all group members have a say over the number.'
+      :democratic_threshold => 'Setting a magic number results in applications with a certain number of proposers + supporters being accepted automatically. A democratic magic number means all group members have a say over the number.',
+      :fixed_threshold => 'Takes precedence over democratic magic number'
     }
   end
   
   def self.human_attribute_name(attr, options={})  
     {
-      :democratic_threshold => 'Democratise magic number',
+      :democratic_threshold => 'Democratic magic number',
       :fixed_threshold => 'Fixed magic number'
     }[attr.to_sym] || super  
   end   
