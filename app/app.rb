@@ -123,8 +123,8 @@ module ActivateApp
       @memberships = @memberships.where(:account_id.nin => Shift.pluck(:account_id)) if params[:no_shifts]      
       @memberships = @memberships.where(:added_to_facebook_group => true) if params[:facebook]
       @memberships = @memberships.where(:added_to_facebook_group.ne => true) if params[:not_facebook]     
-      @memberships = @memberships.where(:threshold.ne => nil) if params[:threshold]
-      @memberships = @memberships.where(:threshold => nil) if params[:no_threshold]      
+      @memberships = @memberships.where(:desired_threshold.ne => nil) if params[:threshold]
+      @memberships = @memberships.where(:desired_threshold => nil) if params[:no_threshold]      
       @memberships = @memberships.order('created_at desc')
       erb :members
     end

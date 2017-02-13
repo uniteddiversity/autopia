@@ -34,12 +34,14 @@
 <% y << capture do %>
   <a href="?not_facebook=true">Not on Facebook group</a> <%= @group.memberships.where(:added_to_facebook_group.ne => true).count %>
 <% end %>
-<% y << capture do %>
-  <a href="?threshold=true">Desired threshold</a> <%= @group.memberships.where(:threshold.ne => nil).count %>
+<% if @group.democratic_threshold %>
+  <% y << capture do %>
+    <a href="?threshold=true">Desired threshold</a> <%= @group.memberships.where(:desired_threshold.ne => nil).count %>
+  <% end %>
+  <% y << capture do %>
+    <a href="?no_threshold=true">No desired threshold</a> <%= @group.memberships.where(:desired_threshold => nil).count %>
+  <% end %>  
 <% end %>
-<% y << capture do %>
-  <a href="?no_threshold=true">No desired threshold</a> <%= @group.memberships.where(:threshold => nil).count %>
-<% end %>  
 
 <div style="margin-top: 10px; font-size: 20px"><%= x.map(&:strip).join(' &middot; ') %></div>
 <div style="margin-bottom: 10px; font-size: 13px;"><%= y.map(&:strip).join(' &middot; ') %></div>
