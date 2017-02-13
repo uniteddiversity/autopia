@@ -1,6 +1,19 @@
 
 <%= partial :group_header %>
 
+<% if @membership.admin? %>
+  <div style=" margin-top: 10px">
+    <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('input[name=name]').focus()"><i class="fa fa-plus-circle"></i> Add member</a>
+    <div style="display: none;">
+      <% form_tag "/h/#{@group.slug}/add_member", :class => 'form-inline' do %>
+        <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name' %>
+        <%= email_field_tag :email, :class => 'form-control', :placeholder => 'Email' %>
+        <%= submit_tag 'Add member', :class => 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
 <% x = [] %>
 <%  x << capture do %>
   <a href="?"><i data-toggle="tooltip" title="Members" class="fa fa-group"></i></a> <%= @group.memberships.count %>
@@ -50,9 +63,9 @@
   <%= text_field_tag :q, :class => 'form-control', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>
   &middot;
   <% if params[:view] == 'wall' %>
-    <a href="?">Table view</a>
+    <a href="?"><i title="Table view" class="fa fa-table"></i></a>
   <% else %>
-    <a href="?view=wall">Wall view</a>
+    <a href="?view=wall"><i title="Wall view" class="fa fa-th-large"></i></a>
   <% end %>
 <% end %>
 
@@ -106,8 +119,8 @@
             <% if mapplication.answers %>
               <div>
                 <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
-                              $('#modal').modal('show')
-                            });">
+                                $('#modal').modal('show')
+                              });">
                   <i class="fa fa-file-text-o" style="font-size: 20px"></i>
                 </a>
               </div>

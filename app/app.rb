@@ -128,6 +128,53 @@ module ActivateApp
       @memberships = @memberships.order('created_at desc')
       erb :members
     end
+    
+    post '/h/:slug/add_member' do
+      @group = Group.find_by(slug: params[:slug]) || not_found
+      @membership = @group.memberships.find_by(account: current_account)
+      group_admins_only! 
+      
+      if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:email])}$/i))
+        @account = Account.new(name: params[:name], email: params[:email])
+        @account.password = Account.generate_password(8) # not used
+        if !@account.save
+          flash[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
+          redirect back
+        end
+      end
+      
+      if @group.memberships.find_by(account: @account)
+        flash[:notice] = "That person is already a member of the group"
+        redirect back
+      elsif @group.mapplications.find_by(account: @account)
+        flash[:notice] = "That person has already applied to the group"
+        redirect back
+      else
+        membership = @group.memberships.create account: @account
+        (flash[:error] = "The membership could not be created" and redirect back) unless membership.persisted?
+        
+        account = @account
+        group = @group
+        password = @account.password
+        if ENV['SMTP_ADDRESS']
+          mail = Mail.new
+          mail.to = account.email
+          mail.from = "Huddl <team@huddl.tech>"
+          mail.subject = "You were added to #{group.name}"
+          
+          html_part = Mail::Part.new do
+            content_type 'text/html; charset=UTF-8'
+            body "Hi #{account.firstname},<br /><br />You were added to #{group.name} on Huddl. Sign in at http://#{ENV['DOMAIN']}/h/#{group.slug} with the password #{password} to get involved with the co-creation!<br /><br />Best,<br />Team Huddl" 
+          end
+          mail.html_part = html_part
+      
+          mail.deliver
+        end
+        
+        redirect back
+      end       
+        
+    end
             
     get '/h/:slug/apply' do      
       @group = Group.find_by(slug: params[:slug]) || not_found
@@ -169,7 +216,7 @@ module ActivateApp
         redirect "/h/#{@group.slug}/apply?applied=true"
       end    
     end
-    
+           
     get '/h/:slug/applications' do     
       @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
