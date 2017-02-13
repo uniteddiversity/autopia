@@ -136,7 +136,8 @@ module ActivateApp
       
       if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:email])}$/i))
         @account = Account.new(name: params[:name], email: params[:email])
-        @account.password = Account.generate_password(8) # not used
+        password = Account.generate_password(8)
+        @account.password = password
         if !@account.save
           flash[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
           redirect back
@@ -155,7 +156,6 @@ module ActivateApp
         
         account = @account
         group = @group
-        password = @account.password
         if ENV['SMTP_ADDRESS']
           mail = Mail.new
           mail.to = account.email
