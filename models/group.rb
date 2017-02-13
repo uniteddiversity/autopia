@@ -13,7 +13,7 @@ class Group
   field :application_questions, :type => String
   field :anonymous_supporters, :type => Boolean
   field :anonymous_blockers, :type => Boolean
-  field :threshold, :type => Integer
+  field :fixed_threshold, :type => Integer
   field :payment_details, :type => String
   
   belongs_to :account
@@ -58,7 +58,7 @@ class Group
       :slug => :slug,      
       :image => :image,
       :facebook_group => :text,
-      :threshold => :number,
+      :fixed_threshold => :number,
       :application_preamble => :wysiwyg,
       :application_questions => :text_area,
       :anonymous_supporters => :check_box,
@@ -75,12 +75,25 @@ class Group
   
   def self.new_tips
     {
-      :threshold => 'Automatically accept applications with this many supporters + proposers'
+      :fixed_threshold => 'Automatically accept applications with this many supporters + proposers. Leave blank to decide democratically'
     }
   end
   
   def self.edit_tips
     self.new_tips
   end  
+  
+  def threshold
+    fixed_threshold ? fixed_threshold : median_threshold
+  end
+  
+  def median_threshold
+    array = memberships.pluck(:desired_threshold).compact
+    if array.length > 0
+      sorted = array.sort
+      len = sorted.length
+      ((sorted[(len - 1) / 2] + sorted[len / 2]) / 2.0).round
+    end
+  end
     
 end

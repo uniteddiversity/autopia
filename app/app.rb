@@ -122,7 +122,9 @@ module ActivateApp
       @memberships = @memberships.where(:account_id.in => Shift.pluck(:account_id)) if params[:shifts]
       @memberships = @memberships.where(:account_id.nin => Shift.pluck(:account_id)) if params[:no_shifts]      
       @memberships = @memberships.where(:added_to_facebook_group => true) if params[:facebook]
-      @memberships = @memberships.where(:added_to_facebook_group.ne => true) if params[:not_facebook]      
+      @memberships = @memberships.where(:added_to_facebook_group.ne => true) if params[:not_facebook]     
+      @memberships = @memberships.where(:threshold.ne => nil) if params[:threshold]
+      @memberships = @memberships.where(:threshold => nil) if params[:no_threshold]      
       @memberships = @memberships.order('created_at desc')
       erb :members
     end
@@ -174,7 +176,22 @@ module ActivateApp
       membership_required!
       @mapplications = @group.mapplications.pending
       erb :pending
-    end    
+    end   
+    
+    get '/h/:slug/threshold' do     
+      @group = Group.find_by(slug: params[:slug]) || not_found
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      partial :threshold
+    end     
+    
+    post '/h/:slug/threshold' do     
+      @group = Group.find_by(slug: params[:slug]) || not_found
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      @membership.update_attribute(:desired_threshold, params[:desired_threshold])
+      200
+    end         
     
     get '/h/:slug/applications/rejected' do     
       @group = Group.find_by(slug: params[:slug]) || not_found
@@ -189,14 +206,14 @@ module ActivateApp
       @group = @mapplication.group      
       membership_required!
       Verdict.create!(account: current_account, mapplication_id: params[:mapplication_id], type: params[:type], reason: params[:reason])
-      redirect back
+      200
     end       
     
     get '/verdicts/:id/destroy' do
       @verdict = Verdict.find(params[:id]) || not_found
       halt unless @verdict.account.id == current_account.id
       @verdict.destroy
-      redirect back
+      200
     end     
         
     get '/mapplications/:id/process' do

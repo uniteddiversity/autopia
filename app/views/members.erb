@@ -34,6 +34,12 @@
 <% y << capture do %>
   <a href="?not_facebook=true">Not on Facebook group</a> <%= @group.memberships.where(:added_to_facebook_group.ne => true).count %>
 <% end %>
+<% y << capture do %>
+  <a href="?threshold=true">Desired threshold</a> <%= @group.memberships.where(:threshold.ne => nil).count %>
+<% end %>
+<% y << capture do %>
+  <a href="?no_threshold=true">No desired threshold</a> <%= @group.memberships.where(:threshold => nil).count %>
+<% end %>  
 
 <div style="margin-top: 10px; font-size: 20px"><%= x.map(&:strip).join(' &middot; ') %></div>
 <div style="margin-bottom: 10px; font-size: 13px;"><%= y.map(&:strip).join(' &middot; ') %></div>
@@ -64,6 +70,9 @@
         <th>Proposed by</th>
         <th>Accepted at</th>
         <th>Accepted on</th>
+        <% unless @group.fixed_threshold %>
+          <th>Desired threshold</th>
+        <% end %>
         <% if @membership.admin %>
           <% if @group.facebook_group %>
             <th>Added to Facebook group?</th>
@@ -106,6 +115,9 @@
         <td>
           <%= membership.created_at %>
         </td>
+        <% unless @group.fixed_threshold %>
+          <td><%=membership.desired_threshold%></td>
+        <% end %>        
         <% if @membership.admin? %>
           <% if @group.facebook_group %>
             <td>
@@ -118,7 +130,7 @@
         <td>
           <% if @membership.admin? %>
             <div data-pagelet-url="/memberships/<%=membership.id%>/paid">
-            <%= partial :paid, :locals => {:membership => membership} %>
+              <%= partial :paid, :locals => {:membership => membership} %>
             </div>
           <% else %>
             <%= "£#{membership.paid}" if membership.paid %>
@@ -149,6 +161,9 @@
       <th></th>
       <th></th>
       <th></th>
+      <% unless @group.fixed_threshold %>
+        <th></th>
+      <% end %>              
       <% if @membership.admin %>
         <% if @group.facebook_group %>
           <th></th>

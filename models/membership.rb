@@ -5,6 +5,7 @@ class Membership
   field :admin, :type => Boolean
   field :paid, :type => Integer
   field :added_to_facebook_group, :type => Boolean
+  field :desired_threshold, :type => Integer
   
   belongs_to :group    
   belongs_to :account, index: true, class_name: "Account", inverse_of: :memberships
@@ -28,6 +29,7 @@ class Membership
       :mapplication_id => :lookup,
       :admin => :check_box,
       :paid => :number,
+      :desired_threshold => :number,
       :added_to_facebook_group => :check_box,
     }
   end
