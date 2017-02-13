@@ -16,6 +16,9 @@ class Group
   field :democratic_threshold, :type => Boolean
   field :fixed_threshold, :type => Integer
   field :payment_details, :type => String
+  field :ask_for_date_of_birth, :type => Boolean
+  field :ask_for_gender, :type => Boolean
+  field :ask_for_poc, :type => Boolean
   
   belongs_to :account
   
@@ -65,6 +68,9 @@ class Group
       :application_questions => :text_area,
       :anonymous_supporters => :check_box,
       :anonymous_blockers => :check_box,
+      :ask_for_date_of_birth => :check_box,
+      :ask_for_gender => :check_box,
+      :ask_for_poc => :check_box,
       :payment_details => :text_area,
       :account_id => :lookup,
       :memberships => :collection,
@@ -76,7 +82,7 @@ class Group
   end
   
   def self.new_tips
-    {
+    {      
       :facebook_group => 'URL of any associated Facebook group',
       :application_questions => 'One per line',
       :democratic_threshold => 'Setting a magic number results in applications with a certain number of proposers + supporters being accepted automatically. A democratic magic number means all group members have a say over the number.',
@@ -86,6 +92,7 @@ class Group
   
   def self.human_attribute_name(attr, options={})  
     {
+      :ask_for_poc => 'Ask whether applicants identify as a person of colour',
       :democratic_threshold => 'Democratic magic number',
       :fixed_threshold => 'Fixed magic number'
     }[attr.to_sym] || super  

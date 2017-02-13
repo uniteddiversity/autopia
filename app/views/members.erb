@@ -18,15 +18,16 @@
 <%  x << capture do %>
   <a href="?"><i data-toggle="tooltip" title="Members" class="fa fa-group"></i></a> <%= @group.memberships.count %>
 <% end %>
-<% Account.genders.reject(&:blank?).map { |gender| x << capture do %>
-    <a href="?gender=<%=gender%>"><%= Account.gender_symbol(gender, pluralize: true) %></a> <%= @group.memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id)).count %>
-  <% end  } %>
-<% x << capture do %>
-  <a href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= @group.memberships.where(:account_id.in => Account.where(:poc => true).pluck(:id)).count %>
+<% if @group.ask_for_gender %>
+  <% Account.genders.reject(&:blank?).map { |gender| x << capture do %>
+      <a href="?gender=<%=gender%>"><%= Account.gender_symbol(gender, pluralize: true) %></a> <%= @group.memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id)).count %>
+    <% end  } %>
 <% end %>
-<% if a = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first; a.date_of_birth.year.to_s[2].to_i.upto(9) do |d| d = "#{d}0".to_i; x << capture do %>
-      <a href="?d=<%=d%>" data-toggle="tooltip" title="Born in the <%=d%>s"><%= d %>s</a> <%= @group.memberships.where(:account_id.in => Account.where(:date_of_birth.gte => "19#{d}-01-01").where(:date_of_birth.lt => "19#{d+10}-01-01").pluck(:id)).count %>
-    <% end; end; end %>      
+<% if @group.ask_for_poc %>
+  <% x << capture do %>
+    <a href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= @group.memberships.where(:account_id.in => Account.where(:poc => true).pluck(:id)).count %>
+  <% end %>
+<% end %>
 
 <% y = [] %>
 <% y << capture do %>
@@ -119,8 +120,8 @@
             <% if mapplication.answers %>
               <div>
                 <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
-                                $('#modal').modal('show')
-                              });">
+                              $('#modal').modal('show')
+                            });">
                   <i class="fa fa-file-text-o" style="font-size: 20px"></i>
                 </a>
               </div>

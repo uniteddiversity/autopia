@@ -14,7 +14,7 @@
         <h2 style="margin-top: 0">Co-creators</h2>
         <% (Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %><img style="width: 50px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% } %>      
       </div>
-      
+
     </div>    
     <div class="col-sm-8 col-sm-pull-4">
 
@@ -32,10 +32,16 @@
         <% if !current_account %>
           <%= f.text_block :name %>
           <%= f.text_block :email %>
-          <%= f.image_block :picture %>    
-          <%= f.date_block :date_of_birth, :start_year => 1900, :end_year => Time.now.year %>
-          <%= f.select_block :gender %>
-          <%= f.check_box_block :poc %>      
+          <%= f.image_block :picture %>  
+          <% if @group.ask_for_date_of_birth %>
+            <%= f.date_block :date_of_birth, :start_year => 1900, :end_year => Time.now.year %>
+          <% end %>
+          <% if @group.ask_for_gender %>
+            <%= f.select_block :gender %>
+          <% end %>
+          <% if @group.ask_for_poc %>
+            <%= f.check_box_block :poc %>      
+          <% end %>
         <% end %>
 
         <% @group.application_questions_a.each_with_index { |q,i| %>
