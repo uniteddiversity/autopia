@@ -71,7 +71,7 @@ $(function () {
   $(document).on('submit', '[data-pagelet-url] form', function () {
     var form = this
     var pagelet = $(form).closest('[data-pagelet-url]')
-    pagelet.css('opacity', '0.1')
+    pagelet.css('opacity', '0.3')
     $.post($(form).attr('action'), $(form).serialize(), function () {
       pagelet.load(pagelet.attr('data-pagelet-url'), function () {
         pagelet.css('opacity', '1')
@@ -83,7 +83,7 @@ $(function () {
   $(document).on('click', '[data-pagelet-url] a.pagelet-trigger', function () {        
     var a = this
     var pagelet = $(a).closest('[data-pagelet-url]')    
-    pagelet.css('opacity', '0.1')
+    pagelet.css('opacity', '0.3')
     $.get($(a).attr('href'), function () {
       pagelet.load(pagelet.attr('data-pagelet-url'), function () {
         pagelet.css('opacity', '1')
