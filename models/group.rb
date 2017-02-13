@@ -77,7 +77,7 @@ class Group
   
   def self.new_tips
     {
-      :democratic_threshold => 'Automatically accept applications with a certain number of proposers + supporters (the median of all contributions)',
+      :democratic_threshold => 'Automatically accept applications with a certain number of proposers + supporters (the group median)',
       :fixed_threshold => 'Takes precedence over democratic threshold'
     }
   end
