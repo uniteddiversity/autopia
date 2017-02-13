@@ -16,6 +16,11 @@ class Account
   field :picture_uid, :type => String
   field :stop_emails, :type => Boolean
   field :sign_ins, :type => Integer
+  field :sign_in_token, :type => String
+  
+  before_validation do
+    self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
+  end
   
   has_many :mapplications, :class_name => "Membership", :inverse_of => :account, :dependent => :destroy
   has_many :mapplications_processed, :class_name => "Membership", :inverse_of => :processed_by, :dependent => :nullify  

@@ -37,6 +37,10 @@ module ActivateApp
       redirect "http://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : 'London'
       fix_params!
+      if params[:sign_in_token] and account = Account.find_by(sign_in_token: params[:sign_in_token])
+        session[:account_id] = account.id
+        account.update_attribute(:sign_in_token, SecureRandom.uuid)
+      end      
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
       @title = 'Huddl'
       @og_desc = 'For co-created gatherings'
@@ -135,16 +139,17 @@ module ActivateApp
       group_admins_only! 
       
       if !params[:email] or !params[:name]
-          flash[:error] = "Please provide a name and email address"
-          redirect back        
+        flash[:error] = "Please provide a name and email address"
+        redirect back        
       end
-      
-      using_password = ''
-      if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:email])}$/i))
+            
+      if @account = Account.find_by(email: /^#{Regexp.escape(params[:email])}$/i)
+        action = %Q{<a href="http://#{ENV['DOMAIN']}/h/#{@group.slug}?token=#{@account.sign_in_token}">Sign in to get involved with the co-creation!</a>}
+      else
         @account = Account.new(name: params[:name], email: params[:email])
         password = Account.generate_password(8)
-        using_password = "using the password #{password} "
         @account.password = password
+        action = %Q{<a href="http://#{ENV['DOMAIN']}/accounts/edit?token=#{@account.sign_in_token}">Click here to finish setting up your account and get involved with the co-creation!</a>}
         if !@account.save
           flash[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
           redirect back
@@ -171,7 +176,7 @@ module ActivateApp
           
           html_part = Mail::Part.new do
             content_type 'text/html; charset=UTF-8'
-            body "Hi #{account.firstname},<br /><br />You were added to #{group.name} on Huddl. Sign in at http://#{ENV['DOMAIN']}/accounts/sign_in #{using_password}to get involved with the co-creation!<br /><br />Best,<br />Team Huddl" 
+            body %Q{Hi #{account.firstname},<br /><br />You were added to #{group.name} on Huddl. #{action}<br /><br />Best,<br />Team Huddl}
           end
           mail.html_part = html_part
       
