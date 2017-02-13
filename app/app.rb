@@ -521,12 +521,16 @@ module ActivateApp
       partial :mapplication, :object => @mapplication
     end
     
-    get '/mapplications/:id/verdicts' do
+    get '/mapplication_row/:id' do
       @mapplication = Mapplication.find(params[:id]) || not_found
       @group = @mapplication.group
       @membership = @group.memberships.find_by(account: current_account)      
       membership_required!
-      partial :verdicts, :locals => {:mapplication => @mapplication}
+      if @mapplication.status == 'accepted'
+        200
+      else
+        partial :mapplication_row, :locals => {:mapplication => @mapplication}
+      end
     end    
     
     

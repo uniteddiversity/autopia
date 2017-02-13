@@ -1,0 +1,39 @@
+<td>
+  <%= partial :account, :object => (account = mapplication.account) %>
+</td>
+<td>
+  <%=mapplication.created_at%>
+</td>           
+<td>
+
+  <% if mapplication.answers %>
+    <div>
+      <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
+                    $('#modal').modal('show')
+                  });">
+        <i class="fa fa-file-text-o" style="font-size: 20px"></i>
+      </a>
+    </div>
+  <% end %>
+
+</td>    
+<td>
+  <%= partial :verdicts, :locals => {:mapplication => mapplication} %>
+</td>          
+
+<% if @membership.admin? %>
+  <td>
+    <% if mapplication.status == 'rejected' %>
+      Rejected by <%=mapplication.processed_by.name%>
+      <% if mapplication.acceptable? %>
+        &middot; 
+      <% end %>
+    <% end %>          
+    <% if mapplication.acceptable? %>
+      <a class="btn btn-success" href="/mapplications/<%=mapplication.id%>/process?status=accepted">Accept</a>
+    <% end %>
+    <% unless mapplication.status == 'rejected' %>
+      <a class="btn btn-danger" href="/mapplications/<%=mapplication.id%>/process?status=rejected">Reject</a>
+    <% end %>
+  </td>
+<% end %>
