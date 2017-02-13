@@ -1,3 +1,22 @@
+
+<div style="text-align: center">
+
+  <p class="lead" style="font-size: 22px; margin-bottom: 0">
+    <span class="hw">Huddl</span> is a tool for organising co-created gatherings, typically for up to 150 people.  
+  </p>
+
+  <p class="lead" style="font-size: 22px;">
+    It can be used to organise stand alone events, or camps/barrios at larger events like <a href="http://goingnowhere.org/">Nowhere</a> or <a href="http://theborderland.se/">The Borderland</a>.
+  </p>
+
+  <% unless current_account %>
+    <p class="lead" style="font-size: 22px;">
+      <a class="btn btn-primary" href="/accounts/sign_up">Sign up</a>
+    </p>  
+  <% end %>
+
+</div>
+
 <div class="row">
 
   <% Group.all.each { |group| %>

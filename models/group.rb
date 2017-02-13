@@ -77,7 +77,9 @@ class Group
   
   def self.new_tips
     {
-      :democratic_threshold => 'Automatically accept applications with a certain number of proposers + supporters (the group median)',
+      :facebook_group => 'URL of any associated Facebook group',
+      :application_questions => 'One per line',
+      :democratic_threshold => 'Setting a threshold results in applications with a certain number of proposers + supporters being accepted automatically. With a democratic threshold, all group members have a say over the magic number.',
       :fixed_threshold => 'Takes precedence over democratic threshold'
     }
   end
