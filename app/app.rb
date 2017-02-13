@@ -160,9 +160,6 @@ module ActivateApp
       if @group.memberships.find_by(account: @account)
         flash[:notice] = "That person is already a member of the group"
         redirect back
-      elsif @group.mapplications.find_by(account: @account)
-        flash[:notice] = "That person has already applied to the group"
-        redirect back
       else
         membership = @group.memberships.create account: @account
         (flash[:error] = "The membership could not be created" and redirect back) unless membership.persisted?
