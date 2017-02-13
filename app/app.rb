@@ -150,7 +150,7 @@ module ActivateApp
         password = Account.generate_password(8)
         @account.password = password        
         if @account.save
-          action = %Q{<a href="http://#{ENV['DOMAIN']}/accounts/edit?sign_in_token=#{@account.sign_in_token}">Click here to finish setting up your account and get involved with the co-creation!</a>}
+          action = %Q{<a href="http://#{ENV['DOMAIN']}/accounts/edit?sign_in_token=#{@account.sign_in_token}&h=#{@group.slug}">Click here to finish setting up your account and get involved with the co-creation!</a>}
         else
           flash[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
           redirect back

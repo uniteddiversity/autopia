@@ -60,7 +60,7 @@ ActivateApp::App.controller :accounts do
     @account = current_account
     if @account.update_attributes(params[:account])      
       flash[:notice] = "<strong>Awesome!</strong> Your account was updated successfully."
-      redirect url(:accounts, :edit)
+      redirect (params[:h] ? "/h/#{params[:h]}" : url(:accounts, :edit))
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
       erb :'accounts/build'
