@@ -134,9 +134,11 @@ module ActivateApp
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only! 
       
+      using_password = ''
       if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:email])}$/i))
         @account = Account.new(name: params[:name], email: params[:email])
         password = Account.generate_password(8)
+        using_password = " using the password #{password} "
         @account.password = password
         if !@account.save
           flash[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
@@ -164,7 +166,7 @@ module ActivateApp
           
           html_part = Mail::Part.new do
             content_type 'text/html; charset=UTF-8'
-            body "Hi #{account.firstname},<br /><br />You were added to #{group.name} on Huddl. Sign in at http://#{ENV['DOMAIN']}/h/#{group.slug} with the password #{password} to get involved with the co-creation!<br /><br />Best,<br />Team Huddl" 
+            body "Hi #{account.firstname},<br /><br />You were added to #{group.name} on Huddl. Sign in at http://#{ENV['DOMAIN']}/h/#{group.slug}#{using_password}to get involved with the co-creation!<br /><br />Best,<br />Team Huddl" 
           end
           mail.html_part = html_part
       
