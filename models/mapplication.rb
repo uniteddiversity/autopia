@@ -45,12 +45,11 @@ class Mapplication
     group = mapplication.group    
     update_attribute(:status, 'accepted')
     group.memberships.create account: account, mapplication: mapplication
-    
-    using_password = ''
+            
     if !mapplication.account.sign_ins or mapplication.account.sign_ins == 0
-      password = Account.generate_password(8)
-      using_password = "using the password #{password} "
-      mapplication.account.update_attribute(:password, password)
+      action = %Q{<a href="http://#{ENV['DOMAIN']}/accounts/edit?sign_in_token=#{account.sign_in_token}">Click here to finish setting up your account and get involved with the co-creation!</a>}
+    else
+      action = %Q{<a href="http://#{ENV['DOMAIN']}/h/#{group.slug}?sign_in_token=#{account.sign_in_token}">Sign in to get involved with the co-creation!</a>}
     end
         
     if ENV['SMTP_ADDRESS']
@@ -58,10 +57,10 @@ class Mapplication
       mail.to = mapplication.account.email
       mail.from = "Huddl <team@huddl.tech>"
       mail.subject = "You're now a member of #{group.name}"
-          
+      
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body "Hi #{account.firstname},<br /><br />You were accepted into #{group.name} on Huddl. Sign in at http://#{ENV['DOMAIN']}/accounts/sign_in #{using_password}to get involved with the co-creation!<br /><br />Best,<br />Team Huddl" 
+        body "Hi #{account.firstname},<br /><br />You were accepted into #{group.name} on Huddl. #{action}<br /><br />Best,<br />Team Huddl" 
       end
       mail.html_part = html_part
       
