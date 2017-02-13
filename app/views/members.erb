@@ -36,10 +36,10 @@
 <% end %>
 <% if @group.democratic_threshold %>
   <% y << capture do %>
-    <a href="?threshold=true">Suggested threshold</a> <%= @group.memberships.where(:desired_threshold.ne => nil).count %>
+    <a href="?threshold=true">Suggested magic number</a> <%= @group.memberships.where(:desired_threshold.ne => nil).count %>
   <% end %>
   <% y << capture do %>
-    <a href="?no_threshold=true">No suggested threshold</a> <%= @group.memberships.where(:desired_threshold => nil).count %>
+    <a href="?no_threshold=true">No suggested magic number</a> <%= @group.memberships.where(:desired_threshold => nil).count %>
   <% end %>  
 <% end %>
 
@@ -73,7 +73,7 @@
         <th>Accepted at</th>
         <th>Accepted on</th>
         <% if @group.democratic_threshold %>
-          <th>Suggested threshold</th>
+          <th>Suggested magic number</th>
         <% end %>
         <% if @membership.admin %>
           <% if @group.facebook_group %>
