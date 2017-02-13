@@ -13,6 +13,7 @@ class Group
   field :application_questions, :type => String
   field :anonymous_supporters, :type => Boolean
   field :anonymous_blockers, :type => Boolean
+  field :democratic_threshold, :type => Boolean
   field :fixed_threshold, :type => Integer
   field :payment_details, :type => String
   
@@ -59,6 +60,7 @@ class Group
       :image => :image,
       :facebook_group => :text,
       :fixed_threshold => :number,
+      :democratic_threshold => :check_box,
       :application_preamble => :wysiwyg,
       :application_questions => :text_area,
       :anonymous_supporters => :check_box,
@@ -75,7 +77,8 @@ class Group
   
   def self.new_tips
     {
-      :fixed_threshold => 'Automatically accept applications with this many supporters + proposers. Leave blank to decide democratically'
+      :democratic_threshold => 'Automatically accept applications with this many supporters + proposers',
+      :fixed_threshold => 'Takes precedence over democratic threshold'
     }
   end
   
@@ -84,7 +87,14 @@ class Group
   end  
   
   def threshold
-    fixed_threshold ? fixed_threshold : median_threshold
+    fixed_threshold ? fixed_threshold : (median_threshold if democratic_threshold)
+  end
+  
+  before_validation do
+    if fixed_threshold
+      self.democratic_threshold = false
+    end
+    true
   end
   
   def median_threshold

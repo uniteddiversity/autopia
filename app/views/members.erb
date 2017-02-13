@@ -70,7 +70,7 @@
         <th>Proposed by</th>
         <th>Accepted at</th>
         <th>Accepted on</th>
-        <% unless @group.fixed_threshold %>
+        <% if @group.democratic_threshold %>
           <th>Desired threshold</th>
         <% end %>
         <% if @membership.admin %>
@@ -115,7 +115,7 @@
         <td>
           <%= membership.created_at %>
         </td>
-        <% unless @group.fixed_threshold %>
+        <% if @group.democratic_threshold %>
           <td><%=membership.desired_threshold%></td>
         <% end %>        
         <% if @membership.admin? %>
@@ -161,7 +161,7 @@
       <th></th>
       <th></th>
       <th></th>
-      <% unless @group.fixed_threshold %>
+      <% if @group.democratic_threshold %>
         <th></th>
       <% end %>              
       <% if @membership.admin %>
