@@ -166,7 +166,7 @@ module ActivateApp
           
           html_part = Mail::Part.new do
             content_type 'text/html; charset=UTF-8'
-            body "Hi #{account.firstname},<br /><br />You were added to #{group.name} on Huddl. Sign in at http://#{ENV['DOMAIN']}/h/#{group.slug}#{using_password}to get involved with the co-creation!<br /><br />Best,<br />Team Huddl" 
+            body "Hi #{account.firstname},<br /><br />You were added to #{group.name} on Huddl. Sign in at http://#{ENV['DOMAIN']}/accounts/sign_in#{using_password}to get involved with the co-creation!<br /><br />Best,<br />Team Huddl" 
           end
           mail.html_part = html_part
       
