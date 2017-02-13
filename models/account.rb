@@ -15,6 +15,7 @@ class Account
   field :crypted_password, :type => String
   field :picture_uid, :type => String
   field :stop_emails, :type => Boolean
+  field :sign_ins, :type => Integer
   
   has_many :mapplications, :class_name => "Membership", :inverse_of => :account, :dependent => :destroy
   has_many :mapplications_processed, :class_name => "Membership", :inverse_of => :processed_by, :dependent => :nullify  
@@ -60,7 +61,8 @@ class Account
       :time_zone => :select,
       :password => :password,
       :provider_links => :collection,
-      :stop_emails => :check_box
+      :stop_emails => :check_box,
+      :sign_ins => :number
     }
   end
   

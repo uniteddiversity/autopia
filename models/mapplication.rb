@@ -47,7 +47,7 @@ class Mapplication
     group.memberships.create account: account, mapplication: mapplication
     
     using_password = ''
-    if mapplication.account.memberships.count == 1          
+    if mapplication.account.sign_ins == 0
       password = Account.generate_password(8)
       using_password = " using the password #{password} "
       mapplication.account.update_attribute(:password, password)

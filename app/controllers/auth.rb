@@ -26,8 +26,9 @@ ActivateApp::App.controller do
         redirect url(:accounts, :edit)
       else # not signed in
         if account # sign in
+          account.update_attribute(:sign_ins, (account.sign_ins or 0) + 1)
           session['account_id'] = account.id
-          flash[:notice] = "Signed in!"
+          flash[:notice] = "Signed in!"                    
           if session[:return_to]
             redirect session[:return_to]
           else
