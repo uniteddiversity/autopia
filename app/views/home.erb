@@ -19,7 +19,7 @@
 
 <div class="row">
   
-  <% Group.order(:image_uid.desc).each { |group| %>
+  <% Group.where(:featured => true).each { |group| %>
     <div class="col-sm-4">
       <%= partial :group, :object => group  %>
     </div>

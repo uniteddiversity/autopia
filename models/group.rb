@@ -19,6 +19,7 @@ class Group
   field :ask_for_date_of_birth, :type => Boolean
   field :ask_for_gender, :type => Boolean
   field :ask_for_poc, :type => Boolean
+  field :featured, :type => Boolean
   
   belongs_to :account
   
@@ -72,6 +73,7 @@ class Group
       :ask_for_date_of_birth => :check_box,
       :ask_for_gender => :check_box,
       :ask_for_poc => :check_box,
+      :featured => :check_box,
       :payment_details => :text_area,
       :account_id => :lookup,
       :memberships => :collection,
