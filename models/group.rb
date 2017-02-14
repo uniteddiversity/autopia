@@ -21,6 +21,10 @@ class Group
   field :ask_for_poc, :type => Boolean
   field :featured, :type => Boolean
   
+  before_validation do
+    self.featured = true if self.featured.nil?
+  end
+  
   belongs_to :account
   
   validates_presence_of :name, :slug, :account
