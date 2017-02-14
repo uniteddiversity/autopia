@@ -31,6 +31,7 @@ class Group
   has_many :spends, :dependent => :destroy
   has_many :rotas, :dependent => :destroy
   has_many :teams, :dependent => :destroy
+  has_many :activities, :dependent => :destroy
   
   has_many :spaces, :dependent => :destroy
   has_many :tslots, :dependent => :destroy

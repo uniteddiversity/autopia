@@ -19,7 +19,7 @@
 
 <div class="row">
   
-  <% Group.all.each { |group| %>
+  <% Group.order(:image_uid.desc).each { |group| %>
     <div class="col-sm-4">
       <%= partial :group, :object => group  %>
     </div>
