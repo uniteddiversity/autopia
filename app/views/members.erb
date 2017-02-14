@@ -15,6 +15,17 @@
     <a href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= @group.memberships.where(:account_id.in => Account.where(:poc => true).pluck(:id)).count %>
   <% end %>
 <% end %>
+<% if @group.ask_for_date_of_birth %>
+  <% x << capture do %>
+    <% youngest_p = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth desc').first.age.to_s[0] %>
+    <% oldest_p = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first.age.to_s[0] %>
+    <% youngest_p.upto(oldest_p) do |p| p = "#{p}0".to_i; %>
+      <a href="?p=<%=p%>" data-toggle="tooltip" title="People in their <%=p%>s"><%=p%>s</a>
+      <%= @group.memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-p.years)).where(:date_of_birth.gt => (Date.today-(p+10).years)).pluck(:id)).count %>
+    <% end %>    
+  <% end %>
+<% end %>
+
 
 <% y = [] %>
 <% y << capture do %>
@@ -48,7 +59,7 @@
 <div style="margin-bottom: 10px; font-size: 13px;"><%= y.map(&:strip).join(' &middot; ') %></div>
 
 <div>
-  
+
   <% form_tag '', :style => 'display:inline', :method => 'get' do %>
     <%= text_field_tag :q, :class => 'form-control', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>
     &middot;

@@ -37,3 +37,5 @@ select[name$='[year]'], select[name$='[month]'], select[name$='[day]'], select[n
 }
 
 .panel-primary > .panel-heading { background-color: #CE2828; }
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {  background-color: #CE2828; }

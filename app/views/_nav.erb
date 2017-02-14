@@ -12,7 +12,14 @@
   </div>
   <div class="collapse navbar-collapse navbar-top-collapse"> 
 
-    <%= eval(f('nav')) %>
+    <% if current_account %>  
+      <ul class="nav navbar-nav navbar-left">                  
+        <li class="dropdown">
+          <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">My groups <b class="caret"></b></a>
+          <%= ul_nav 'dropdown-menu', current_account.memberships.map { |membership| [membership.group.name, "/h/#{membership.group.slug}"] } %>
+        </li>                                   
+      </ul>    
+    <% end %>
 
     <ul class="nav navbar-nav navbar-right">
       <% if current_account %>              
