@@ -10,11 +10,6 @@
       <a href="?gender=<%=gender%>"><%= Account.gender_symbol(gender, pluralize: true) %></a> <%= @group.memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id)).count %>
     <% end  } %>
 <% end %>
-<% if @group.ask_for_poc %>
-  <% x << capture do %>
-    <a href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= @group.memberships.where(:account_id.in => Account.where(:poc => true).pluck(:id)).count %>
-  <% end %>
-<% end %>
 <% if @group.ask_for_date_of_birth %>
   <% youngest_p = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth desc').first.age.to_s[0] %>
   <% oldest_p = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first.age.to_s[0] %>
@@ -25,7 +20,11 @@
     <% end %>
   <% end %>    
 <% end %>
-
+<% if @group.ask_for_poc %>
+  <% x << capture do %>
+    <a href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= @group.memberships.where(:account_id.in => Account.where(:poc => true).pluck(:id)).count %>
+  <% end %>
+<% end %>
 
 <% y = [] %>
 <% y << capture do %>
