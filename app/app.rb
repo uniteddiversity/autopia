@@ -262,7 +262,7 @@ module ActivateApp
       @mapplication = Mapplication.find(params[:mapplication_id]) || not_found
       @group = @mapplication.group      
       membership_required!
-      Verdict.create!(account: current_account, mapplication_id: params[:mapplication_id], type: params[:type], reason: params[:reason])
+      Verdict.create(account: current_account, mapplication_id: params[:mapplication_id], type: params[:type], reason: params[:reason])
       200
     end       
     
@@ -363,7 +363,7 @@ module ActivateApp
       @group = Group.find(params[:group_id])  || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      Team.create!(name: params[:name], group: @group)
+      Team.create(name: params[:name], group: @group)
       redirect back
     end
     
@@ -380,7 +380,7 @@ module ActivateApp
       @team = Team.find(params[:team_id]) || not_found
       @group = @team.group      
       membership_required!      
-      Teamship.create!(account: current_account, team_id: params[:team_id])
+      Teamship.create(account: current_account, team_id: params[:team_id])
       redirect back
     end    
     
@@ -408,7 +408,7 @@ module ActivateApp
       @group = Group.find(params[:group_id]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      Rota.create!(name: params[:name], group: @group)
+      Rota.create(name: params[:name], group: @group)
       redirect back
     end
     
@@ -426,7 +426,7 @@ module ActivateApp
       @group = @rota.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      Role.create!(name: params[:name], rota: @rota)
+      Role.create(name: params[:name], rota: @rota)
       redirect back
     end   
     
@@ -444,7 +444,7 @@ module ActivateApp
       @group = @rota.group
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      Rslot.create!(name: params[:name], rota: @rota)
+      Rslot.create(name: params[:name], rota: @rota)
       redirect back
     end      
     
@@ -471,7 +471,7 @@ module ActivateApp
       @rota = Rota.find(params[:rota_id]) || not_found 
       @group = @rota.group
       membership_required!
-      Shift.create!(account: (params[:na] ? nil : current_account), rota_id: params[:rota_id], rslot_id: params[:rslot_id], role_id: params[:role_id])
+      Shift.create(account: (params[:na] ? nil : current_account), rota_id: params[:rota_id], rslot_id: params[:rslot_id], role_id: params[:role_id])
       200
     end      
     
@@ -497,7 +497,7 @@ module ActivateApp
       @group = Group.find(params[:group_id]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      Space.create!(name: params[:name], group: @group)
+      Space.create(name: params[:name], group: @group)
       redirect back
     end   
     
@@ -514,7 +514,7 @@ module ActivateApp
       @group = Group.find(params[:group_id]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      Tslot.create!(name: params[:name], group: @group)
+      Tslot.create(name: params[:name], group: @group)
       redirect back
     end      
     
@@ -531,7 +531,7 @@ module ActivateApp
       @group = Group.find(params[:group_id]) || not_found
       membership_required!
       Activity.find_by(tslot_id: params[:tslot_id], space_id: params[:space_id]).try(:destroy)
-      Activity.create!(description: params[:description], account: current_account, group_id: params[:group_id], tslot_id: params[:tslot_id], space_id: params[:space_id])
+      Activity.create(description: params[:description], account: current_account, group_id: params[:group_id], tslot_id: params[:tslot_id], space_id: params[:space_id])
       redirect back
     end      
     
@@ -548,7 +548,7 @@ module ActivateApp
       @group = Group.find(params[:group_id]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      Spend.create!(item: params[:item], amount: params[:amount], account: current_account, group: @group)
+      Spend.create(item: params[:item], amount: params[:amount], account: current_account, group: @group)
       redirect back
     end
     
