@@ -16,8 +16,14 @@
       <ul class="nav navbar-nav navbar-left">                  
         <li class="dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">Groups <b class="caret"></b></a>
-          <%= ul_nav 'dropdown-menu', current_account.memberships.map { |membership| [membership.group.name, "/h/#{membership.group.slug}"] } %>
-        </li>                                   
+          <ul class="dropdown-menu">                       
+            <% current_account.memberships.each { |membership| %>
+              <li><a href="/h/<%=membership.group.slug%>"><%=membership.group.name%></a></li> 
+            <%  } %>
+            <li role="separator" class="divider"></li>
+            <li><a href="/h/new">Create a group</a></li>              
+          </ul>
+        </li>                                           
       </ul>    
     <% end %>
 
