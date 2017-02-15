@@ -20,6 +20,7 @@ class Group
   field :ask_for_gender, :type => Boolean
   field :ask_for_poc, :type => Boolean
   field :featured, :type => Boolean
+  field :member_limit, :type => Integer
   
   before_validation do
     self.featured = true if self.featured.nil?
@@ -69,6 +70,7 @@ class Group
       :image => :image,
       :facebook_group => :text,
       :fixed_threshold => :number,
+      :member_limit => :number,
       :democratic_threshold => :check_box,
       :application_preamble => :wysiwyg,
       :application_questions => :text_area,

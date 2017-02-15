@@ -32,7 +32,7 @@ class Mapplication
   end
   
   def acceptable?
-    verdicts.proposers.count > 0 and verdicts.blockers.count == 0
+    (!group.member_limit or (group.memberships.count < group.member_limit)) and verdicts.proposers.count > 0 and verdicts.blockers.count == 0
   end
   
   def meets_threshold
