@@ -6,7 +6,7 @@
     </p>
   <% end %>
 
-  <% if @group.threshold %>
+  <% if @group.fixed_threshold or @group.democratic_threshold %>
     <p style="font-size: 20px; margin: 0">
       Automatically accepting applications with <%=@group.threshold%> proposers + supporters
     </p>

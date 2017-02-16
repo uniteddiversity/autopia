@@ -110,7 +110,7 @@ class Group
   def self.edit_tips
     self.new_tips
   end  
-  
+    
   def threshold
     fixed_threshold ? fixed_threshold : (median_threshold if democratic_threshold)
   end
