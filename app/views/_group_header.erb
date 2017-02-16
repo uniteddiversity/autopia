@@ -23,4 +23,16 @@
     </div>
   <% end %>
 
+  <% if @group.facebook_group and !@membership.added_to_facebook_group %>
+    <div class="panel panel-primary" style="margin-top: 20px">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-warning"></i> Not on Facebook group</h3>
+      </div>
+      <div class="panel-body">
+        It looks like you're not a member of the <a href="<%=@group.facebook_group%>">Facebook group</a>.
+        Please ask someone that is to add you.
+      </div>
+    </div>
+  <% end %>
+
 <% end %>

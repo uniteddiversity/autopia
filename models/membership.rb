@@ -14,6 +14,10 @@ class Membership
   validates_presence_of :account, :group
   validates_uniqueness_of :account, :scope => :group
   
+  before_validation do
+    self.desired_threshold = 1 if self.desired_threshold < 1
+  end
+  
   def shifts
     Shift.where(:account_id => account_id, :rota_id.in => group.rota_ids)
   end
