@@ -15,7 +15,7 @@ class Membership
   validates_uniqueness_of :account, :scope => :group
   
   before_validation do
-    self.desired_threshold = 1 if self.desired_threshold < 1
+    self.desired_threshold = 1 if (self.desired_threshold and self.desired_threshold < 1)
   end
   
   def shifts
