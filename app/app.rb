@@ -252,7 +252,8 @@ module ActivateApp
       @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!      
-      @membership.update_attribute(:desired_threshold, params[:desired_threshold])
+      @membership.desired_threshold = params[:desired_threshold]
+      @membership.save
       200
     end         
     
