@@ -8,7 +8,7 @@ class Membership
   field :desired_threshold, :type => Integer
   
   belongs_to :group    
-  belongs_to :account, index: true, class_name: "Account", inverse_of: :memberships
+  belongs_to :account
   belongs_to :mapplication
   
   validates_presence_of :account, :group

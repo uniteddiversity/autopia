@@ -23,8 +23,8 @@ class Account
     self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
   end
   
-  has_many :mapplications, :class_name => "Membership", :inverse_of => :account, :dependent => :destroy
-  has_many :mapplications_processed, :class_name => "Membership", :inverse_of => :processed_by, :dependent => :nullify  
+  has_many :mapplications, :class_name => "Mapplication", :inverse_of => :account, :dependent => :destroy
+  has_many :mapplications_processed, :class_name => "Mapplication", :inverse_of => :processed_by, :dependent => :nullify  
     
   has_many :groups, :dependent => :nullify
   has_many :memberships, :dependent => :destroy
