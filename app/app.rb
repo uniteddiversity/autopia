@@ -73,6 +73,12 @@ module ActivateApp
       Account.find(params[:id]).update_attribute(:facebook_name, params[:facebook_name])
       redirect back
     end
+    
+    get '/not_on_facebook' do
+      halt unless current_account
+      current_account.update_attribute(:not_on_facebook, true)
+      redirect back
+    end    
         
     get '/h/new' do
       sign_in_required!

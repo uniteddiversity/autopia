@@ -103,10 +103,8 @@
         <% if @group.democratic_threshold %>
           <th>Suggested magic number</th>
         <% end %>
-        <% if @membership.admin %>
-          <% if @group.facebook_group %>
-            <th>Added to Facebook group?</th>
-          <% end %>
+        <% if @membership.admin and @group.facebook_group %>
+          <th>Added to Facebook group?</th>
         <% end %>
         <th>Paid</th>
         <% if @membership.admin %>
@@ -148,14 +146,12 @@
         <% if @group.democratic_threshold %>
           <td><%=membership.desired_threshold%></td>
         <% end %>        
-        <% if @membership.admin? %>
-          <% if @group.facebook_group %>
-            <td>
-              <div data-pagelet-url="/memberships/<%=membership.id%>/added_to_facebook_group">
-                <%= partial :added_to_facebook_group, :locals => {:membership => membership} %>
-              </div>
-            </td>      
-          <% end %>
+        <% if @membership.admin? and @group.facebook_group %>
+          <td>
+            <div data-pagelet-url="/memberships/<%=membership.id%>/added_to_facebook_group">
+              <%= partial :added_to_facebook_group, :locals => {:membership => membership} %>
+            </div>
+          </td>      
         <% end %>
         <td>
           <% if @membership.admin? %>

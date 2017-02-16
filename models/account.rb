@@ -17,6 +17,7 @@ class Account
   field :stop_emails, :type => Boolean
   field :sign_ins, :type => Integer
   field :sign_in_token, :type => String
+  field :not_on_facebook, :type => Boolean
   
   before_validation do
     self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
@@ -66,6 +67,7 @@ class Account
       :time_zone => :select,
       :password => :password,
       :provider_links => :collection,
+      :not_on_facebook => :check_box,
       :stop_emails => :check_box,
       :sign_ins => :number
     }
@@ -121,6 +123,7 @@ class Account
   
   def self.human_attribute_name(attr, options={})  
     {
+      :not_on_facebook => "I don't use Facebook",
       :poc => 'I identify as a person of colour'
     }[attr.to_sym] || super  
   end   
