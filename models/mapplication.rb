@@ -101,11 +101,11 @@ class Mapplication
       mail = Mail.new
       mail.bcc = group.emails
       mail.from = "Huddl <team@huddl.tech>"
-      mail.subject = "#{account.name} expressed an interest in #{group.name}"
+      mail.subject = "#{account.name} applied to #{group.name}"
      
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body %Q{#{account.name} expressed an interest in joining #{group.name}. <a href="http://#{ENV['DOMAIN']}/h/#{group.slug}/applications">View applications</a><br /><br />Best,<br />Team Huddl<br /><br /><a href="http://#{ENV['DOMAIN']}/accounts/edit">Stop these emails</a>}
+        body %Q{#{account.name} applied to #{group.name}. <a href="http://#{ENV['DOMAIN']}/h/#{group.slug}/applications">View applications</a><br /><br />Best,<br />Team Huddl<br /><br /><a href="http://#{ENV['DOMAIN']}/accounts/edit">Stop these emails</a>}
       end
       mail.html_part = html_part       
       
