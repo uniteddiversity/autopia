@@ -3,21 +3,9 @@
 
 <% if params[:applied] or (current_account and @mapplicaton = @group.mapplications.find_by(account: current_account)) %>
 
-  <h2>Thanks for expressing your interest</h2>
+  <h2>Thanks for applying</h2>
 
-  <p>
-    Your application is visible to all existing members.    
-  </p>
-
-  <% if @group.threshold %>
-    <p>    
-      Applications are accepted upon gathering <%=@group.threshold%> proposers + supporters.
-      <% if @group.democratic_threshold %>
-      (This number is decided democratically by all group members.)
-      <% end %>    
-    <% end %>
-  </p>
-
+  <%= partial :threshold_info %>
 
 <% else %>
 
@@ -68,6 +56,12 @@
         <% } %>
 
         <%= f.submit_block button_text: ((current_account and @group.application_questions_a.count == 0) ? 'Express interest' : 'Submit') %>            
+
+        <div class="row">
+          <div class="col-sm-8 col-sm-offset-3" style="font-style: italic; margin-top: -5px">
+            <%= partial :threshold_info %>
+          </div>
+        </div>
 
       <% end %>      
 
