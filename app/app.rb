@@ -167,8 +167,7 @@ module ActivateApp
         flash[:notice] = "That person is already a member of the group"
         redirect back
       else
-        membership = @group.memberships.create account: @account
-        (flash[:error] = "The membership could not be created" and redirect back) unless membership.persisted?
+        membership = @group.memberships.create! account: @account
         
         account = @account
         group = @group
@@ -227,8 +226,7 @@ module ActivateApp
         flash[:notice] = "You've already applied to that group"
         redirect back
       else
-        @mapplication = @group.mapplications.create :account => @account, :status => 'pending', :answers => (params[:answers].map { |i,x| [@group.application_questions_a[i.to_i],x] } if params[:answers])
-        (flash[:error] = "The application could not be created" and redirect back) unless @mapplication.persisted?        
+        @mapplication = @group.mapplications.create! :account => @account, :status => 'pending', :answers => (params[:answers].map { |i,x| [@group.application_questions_a[i.to_i],x] } if params[:answers])
         redirect "/h/#{@group.slug}/apply?applied=true"
       end    
     end

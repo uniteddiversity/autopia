@@ -6,8 +6,8 @@ class Mapplication
   field :answers, :type => Array  
 
   belongs_to :group             
-  belongs_to :account, index: true, class_name: "Account", inverse_of: :mapplications
-  belongs_to :processed_by, index: true, class_name: "Account", inverse_of: :mapplications_processed
+  belongs_to :account, class_name: "Account", inverse_of: :mapplications
+  belongs_to :processed_by, class_name: "Account", inverse_of: :mapplications_processed
   
   has_many :verdicts, :dependent => :destroy
   has_one :membership, :dependent => :nullify
