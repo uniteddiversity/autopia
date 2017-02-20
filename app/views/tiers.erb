@@ -41,7 +41,7 @@
         £<%=tier.cost%>
       </td>
       <td>
-        <% unless group.tierships.find_by(account: current_account) %>
+        <% unless @group.tierships.find_by(account: current_account) %>
           <a class="btn btn-primary" href="/tierships/create?tier_id=<%=tier.id%>">Join</a>
         <% end %>
       </td>      
