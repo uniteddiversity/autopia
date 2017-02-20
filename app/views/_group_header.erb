@@ -37,7 +37,7 @@
     </div>
   <% end %>
 
-  <% if @group.payment_details and @membership.contribution > 0 and @membership.paid < @membership.contribution %>
+  <% if @group.payment_details and @membership.contribution > 0 and @membership.paid and @membership.paid < @membership.contribution %>
     <div class="panel panel-primary" style="margin-top: 20px">
       <div class="panel-heading">
         <h3 class="panel-title"><i class="fa fa-warning"></i> Payment required</h3>
