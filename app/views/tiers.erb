@@ -1,0 +1,62 @@
+<%= partial :group_header %>
+
+<% if @membership.admin? %>
+  <% form_tag "/tiers/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
+    <%= text_field_tag :name, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New tier' %>
+    <%= text_field_tag :description, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Description' %>          
+
+    <div class="input-group">
+      <span class="input-group-addon">£</span>
+      <%= number_field_tag :cost, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Cost' %>
+    </div>
+
+    <%= submit_tag 'Submit', :class => 'btn btn-primary' %>
+
+  <% end %>    
+<% end %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Tier</th>
+      <th>Cost</th>
+      <th></th>
+      <th>People</th> 
+    </tr>
+  </thead>
+  <% @group.tiers.order('name asc').each { |tier| %>
+    <tr>
+      <td>
+        <% if @membership.admin? %>
+          <a data-confirm="Delete this tier?" href="/tiers/<%=tier.id%>/destroy">
+            <%=tier.name%>
+          </a>
+        <% else %>
+          <%=tier.name%>
+        <% end %>       
+        <br />
+        <%= tier.description %>
+      </td>
+      <td>
+        £<%=tier.cost%>
+      </td>
+      <td>
+        <% unless tier.tierships.find_by(account: current_account) %>
+          <a class="btn btn-primary" href="/tierships/create?tier_id=<%=tier.id%>">Join</a>
+        <% end %>
+      </td>      
+      <td>
+        <% names = tier.tierships.map { |tiership| account = tiership.account; capture do %>
+            <% if tiership.account == current_account or @membership.admin? %>
+              <a data-confirm="Remove this person from this tier?" href="/tierships/<%=tiership.id%>/destroy">
+                <%=account.name%>
+              </a>
+            <% else %>
+              <%=account.name%>
+            <% end %>
+          <% end }.map(&:strip).join(', ') %>
+        <%= names %>
+      </td>
+    </tr>
+  <% } %>
+</table>

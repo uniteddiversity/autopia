@@ -100,6 +100,10 @@
         <th>Proposed by</th>
         <th>Accepted at</th>
         <th>Accepted on</th>
+        <th>Tier</th>
+        <th>Accommodation</th>
+        <th>Transport</th>
+        <th>Requested contribution</th>
         <% if @group.democratic_threshold %>
           <th>Suggested magic number</th>
         <% end %>
@@ -143,6 +147,26 @@
         <td>
           <%= membership.created_at %>
         </td>
+        <td>
+          <% if tiership = membership.tiership %>
+            <%= tiership.tier.name %> (£<%= tiership.tier.cost %>)
+          <% end %>
+        </td>
+        <td>
+          <% if accomship = membership.accomship %>
+            <%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)
+          <% end %>
+        </td>    
+        <td>
+          <% membership.transportships.each { |transportship| %>
+            <%= transportship.transport.name %> (£<%= transportship.transport.cost %>) <br />
+          <% } %>
+        </td>      
+        <td>
+          <% if membership.contribution > 0 %>
+            £<%= membership.contribution %>
+          <% end %>
+        </td>
         <% if @group.democratic_threshold %>
           <td><%=membership.desired_threshold%></td>
         <% end %>        
@@ -184,6 +208,10 @@
     <% } %>
     <tr>
       <th></th>      
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>

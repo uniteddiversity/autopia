@@ -16,5 +16,9 @@ class Accomship
       :group_id => :lookup
     }
   end
+  
+  before_validation do
+    errors.add(:accom, 'is full') if accom and accom.capacity and accom.accomships.count == accom.capacity
+  end
     
 end

@@ -1,0 +1,67 @@
+<%= partial :group_header %>
+
+<% if @membership.admin? %>
+  <% form_tag "/transports/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
+    <%= text_field_tag :name, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New transport' %>
+    <%= text_field_tag :description, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Description' %>          
+    <%= number_field_tag :capacity, :required => true, :class => 'form-control', :style => 'width: 6em', :placeholder => 'Capacity' %>
+
+    <div class="input-group">
+      <span class="input-group-addon">£</span>
+      <%= number_field_tag :cost, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Cost' %>
+    </div>
+
+    <%= submit_tag 'Submit', :class => 'btn btn-primary' %>
+
+  <% end %>    
+<% end %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Transport</th>
+      <th>Cost</th>
+      <th>Places taken</th>
+      <th></th>
+      <th>People</th> 
+    </tr>
+  </thead>
+  <% @group.transports.order('name asc').each { |transport| %>
+    <tr>
+      <td>
+        <% if @membership.admin? %>
+          <a data-confirm="Delete this transport?" href="/transports/<%=transport.id%>/destroy">
+            <%=transport.name%>
+          </a>
+        <% else %>
+          <%=transport.name%>
+        <% end %>            
+        <br />
+        <%= transport.description %>        
+      </td>
+      <td>
+        £<%=transport.cost%>
+      </td>
+      <td>
+        <%=transport.transportships.count%>/<%= transport.capacity %>
+      </td>
+      <td>
+        <% unless transport.transportships.find_by(account: current_account) %>
+          <a class="btn btn-primary" href="/transportships/create?transport_id=<%=transport.id%>">Join</a>
+        <% end %>          
+      </td>      
+      <td>
+        <% names = transport.transportships.map { |transportship| account = transportship.account; capture do %>
+            <% if transportship.account == current_account or @membership.admin? %>
+              <a data-confirm="Remove this person from this transport?" href="/transportships/<%=transportship.id%>/destroy">
+                <%=account.name%>
+              </a>
+            <% else %>
+              <%=account.name%>
+            <% end %>
+          <% end }.map(&:strip).join(', ') %>
+        <%= names %>
+      </td>
+    </tr>
+  <% } %>
+</table>

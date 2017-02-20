@@ -7,6 +7,7 @@ class Membership
   field :added_to_facebook_group, :type => Boolean
   field :desired_threshold, :type => Integer
   
+  belongs_to :tier
   belongs_to :group    
   belongs_to :account
   belongs_to :mapplication
@@ -25,6 +26,32 @@ class Membership
   def teamships
     Teamship.where(:account_id => account_id, :team_id.in => group.team_ids)
   end
+  
+  def tiership
+    Tiership.find_by(:account_id => account_id, :group_id => group_id)
+  end  
+  
+  def accomship
+    Accomship.find_by(:account_id => account_id, :group_id => group_id)
+  end    
+  
+  def transportships
+    Transportship.where(:account_id => account_id, :group_id => group_id)
+  end  
+  
+  def contribution
+    c = 0
+    if tiership
+      c += tiership.tier.cost
+    end
+    if accomship
+      c += accomship.accom.cost_per_person
+    end    
+    transportships.each { |transportship|
+      c += transportship.transport.cost
+    }
+    c
+  end
         
   def self.admin_fields
     {
@@ -37,5 +64,5 @@ class Membership
       :added_to_facebook_group => :check_box,
     }
   end
-    
+      
 end
