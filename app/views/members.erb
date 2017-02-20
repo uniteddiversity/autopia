@@ -104,13 +104,13 @@
         <th>Accommodation</th>
         <th>Transport</th>
         <th>Requested contribution</th>
+        <th>Paid</th>
         <% if @group.democratic_threshold %>
           <th>Suggested magic number</th>
         <% end %>
         <% if @membership.admin and @group.facebook_group %>
           <th>Added to Facebook group?</th>
-        <% end %>
-        <th>Paid</th>
+        <% end %>        
         <% if @membership.admin %>
           <th></th>
         <% end %>           
@@ -167,6 +167,15 @@
             £<%= membership.contribution %>
           <% end %>
         </td>
+        <td>
+          <% if @membership.admin? %>
+            <div data-pagelet-url="/memberships/<%=membership.id%>/paid">
+              <%= partial :paid, :locals => {:membership => membership} %>
+            </div>
+          <% else %>
+            <%= "£#{membership.paid}" if membership.paid %>
+          <% end %>
+        </td>          
         <% if @group.democratic_threshold %>
           <td><%=membership.desired_threshold%></td>
         <% end %>        
@@ -176,16 +185,7 @@
               <%= partial :added_to_facebook_group, :locals => {:membership => membership} %>
             </div>
           </td>      
-        <% end %>
-        <td>
-          <% if @membership.admin? %>
-            <div data-pagelet-url="/memberships/<%=membership.id%>/paid">
-              <%= partial :paid, :locals => {:membership => membership} %>
-            </div>
-          <% else %>
-            <%= "£#{membership.paid}" if membership.paid %>
-          <% end %>
-        </td>   
+        <% end %> 
         <% if @membership.admin? %>
           <td style="font-size: 13px">
             <% y = [] %>
