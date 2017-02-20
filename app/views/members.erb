@@ -160,19 +160,19 @@
         <td>
           <%= membership.created_at %>
         </td>
-        <td>
+        <td>          
           <% if tiership = membership.tiership %>
-            <%= tiership.tier.name %> (£<%= tiership.tier.cost %>)
-          <% end %>
+            <span class="label label-primary"><%= tiership.tier.name %> (£<%= tiership.tier.cost %>)</span>
+          <% end %>          
         </td>
-        <td>
+        <td>          
           <% if accomship = membership.accomship %>
-            <%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)
-          <% end %>
+            <span class="label label-primary"><%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)</span>
+          <% end %>          
         </td>    
         <td>
           <% membership.transportships.each { |transportship| %>
-            <%= transportship.transport.name %> (£<%= transportship.transport.cost %>) <br />
+            <span class="label label-primary"><%= transportship.transport.name %> (£<%= transportship.transport.cost %>)</span> <br />
           <% } %>
         </td>      
         <td>
