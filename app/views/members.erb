@@ -34,10 +34,10 @@
   <a href="?not_paid=true">Payment not received</a> <%= @group.memberships.where(:paid => nil).count %>
 <% end %>
 <% y << capture do %>
-  <a href="?shifts=true">People with shifts</a> <%= @group.memberships.where(:account_id.in => Shift.pluck(:account_id)).count %>
+  <a href="?shifts=true">People with shifts</a> <%= @group.memberships.where(:account_id.in => @group.shifts.pluck(:account_id)).count %>
 <% end %>
 <% y << capture do %>
-  <a href="?no_shifts=true">People without shifts</a> <%= @group.memberships.where(:account_id.nin => Shift.pluck(:account_id)).count %>
+  <a href="?no_shifts=true">People without shifts</a> <%= @group.memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)).count %>
 <% end %>
 <% y << capture do %>
   <a href="?facebook=true">On Facebook group</a> <%= @group.memberships.where(:added_to_facebook_group => true).count %>
