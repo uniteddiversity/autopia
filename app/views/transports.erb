@@ -53,9 +53,7 @@
       <td>
         <% names = transport.transportships.map { |transportship| account = transportship.account; capture do %>
             <% if transportship.account == current_account or @membership.admin? %>
-              <a data-confirm="Remove this person from this transport?" href="/transportships/<%=transportship.id%>/destroy">
-                <%=account.name%>
-              </a>
+              <a data-confirm="Remove this person from this transport?" href="/transportships/<%=transportship.id%>/destroy"><%=account.name%></a>
             <% else %>
               <%=account.name%>
             <% end %>
