@@ -40,6 +40,7 @@ class Group
   has_many :tiers, :dependent => :destroy
   has_many :tierships, :dependent => :destroy
   has_many :transports, :dependent => :destroy
+  has_many :transportships, :dependent => :destroy
   has_many :accoms, :dependent => :destroy
   has_many :accomships, :dependent => :destroy
   has_many :activities, :dependent => :destroy
