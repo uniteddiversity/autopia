@@ -15,6 +15,39 @@
     (["Facebook group", @group.facebook_group] if @group.facebook_group)
     ] %>
 
+  <% if !@membership.tiership %>
+    <div class="panel panel-primary" style="margin-top: 20px">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-warning"></i> No tier selected</h3>
+      </div>
+      <div class="panel-body">
+        <p>Please select a <a href="/h/<%=@group.slug%>/tiers">tier</a>.
+      </div>
+    </div>
+  <% end %>
+
+  <% if !@membership.accommodation %>
+    <div class="panel panel-primary" style="margin-top: 20px">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-warning"></i> No accommodation selected</h3>
+      </div>
+      <div class="panel-body">
+        <p>Please select your <a href="/h/<%=@group.slug%>/accoms">accommodation</a>.
+      </div>
+    </div>
+  <% end %>
+
+  <% if !@membership.tiership %>
+    <div class="panel panel-primary" style="margin-top: 20px">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-warning"></i> Select a tier</h3>
+      </div>
+      <div class="panel-body">
+        <p>Please select a <a href="/h/<%=@group.slug%>/tiers">tier</a>.
+      </div>
+    </div>
+  <% end %>
+
   <% if @group.payment_details and @membership.contribution > 0 and @membership.paid < @membership.contribution %>
     <div class="panel panel-primary" style="margin-top: 20px">
       <div class="panel-heading">
