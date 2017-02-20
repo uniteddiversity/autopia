@@ -6,13 +6,14 @@ class Tiership
   belongs_to :tier
   belongs_to :group
   
-  validates_presence_of :account, :tier
+  validates_presence_of :account, :tier, :group
   validates_uniqueness_of :account, :scope => :group
            
   def self.admin_fields
     {
       :account_id => :lookup,
-      :tier_id => :lookup
+      :tier_id => :lookup,
+      :group_id => :lookup
     }
   end
       

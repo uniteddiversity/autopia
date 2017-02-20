@@ -6,12 +6,13 @@ class Transportship
   belongs_to :transport 
   belongs_to :group
   
-  validates_presence_of :account, :transport
+  validates_presence_of :account, :transport, :group
            
   def self.admin_fields
     {
       :account_id => :lookup,
-      :transport_id => :lookup
+      :transport_id => :lookup,
+      :group_id => :lookup
     }
   end
   

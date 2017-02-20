@@ -138,7 +138,7 @@ module ActivateApp
       @memberships = @memberships.order('created_at desc')
       erb :members
     end
-    
+        
     post '/h/:slug/add_member' do
       @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)

@@ -6,7 +6,7 @@ class Accomship
   belongs_to :accom
   belongs_to :group
   
-  validates_presence_of :account, :accom
+  validates_presence_of :account, :accom, :group
   validates_uniqueness_of :account, :scope => :group
         
   def self.admin_fields
