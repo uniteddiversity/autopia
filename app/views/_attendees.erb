@@ -1,5 +1,5 @@
 <% if activity.attendances.count > 0 %>
-  <span><%=pluralize(activity.attendances.count,'person')%> interested</span>
+  <span data-toggle="tooltip" title="<%=activity.attendances.map { |attendance| attendance.account.name }.join('<br />')%>"><%=pluralize(activity.attendances.count,'person')%> interested</span>
 <% end %>
 <% if activity.attendances.find_by(account: current_account) %>
   <a class="pagelet-trigger" title="No longer interested" href="/activities/<%=activity.id%>/unattend"><i class="fa fa-times"></i></a>    
