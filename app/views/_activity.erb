@@ -1,0 +1,14 @@
+<div class="activity" data-activity-id="<%=activity.id%>" style="z-index: 99; margin-bottom: 10px; background-image: url(<%=activity.image.try(:url)%>); background-size: cover; background-position: center center; position: relative;">  
+  <div style="padding: 10px;">
+    <h3 style="color: white; margin-top: 0">
+      <%=activity.name%>
+    </h3>  
+    <p style="color: white"><%=activity.description%></p>
+    <% if activity.space_id %>
+      <a style="font-size: 13px; color: white;" href="/activities/unschedule?activity_id=<%=activity.id%>">
+        <i class="fa fa-calendar-minus-o"></i>
+      </a>
+    <% end %>
+  </div>        
+  <div style="background: black; opacity: 0.5; height: 100%; width: 100%; position: absolute; top: 0; left: 0; z-index: -1"></div>
+</div>

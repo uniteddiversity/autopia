@@ -1,19 +1,26 @@
 class Activity
   include Mongoid::Document
   include Mongoid::Timestamps
-   
+  extend Dragonfly::Model
+     
   belongs_to :account
   belongs_to :space
   belongs_to :tslot
   belongs_to :group
   
+  field :name, :type => String
   field :description, :type => String
+  field :image_uid, :type => String
   
-  validates_presence_of :account, :space, :tslot, :group
+  dragonfly_accessor :image
+  
+  validates_presence_of :name, :description, :account, :group
         
   def self.admin_fields
     {
+      :name => :text,
       :description => :text_area,
+      :image => :image,
       :account_id => :lookup,
       :space_id => :lookup,
       :tslot_id => :lookup,    

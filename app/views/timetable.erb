@@ -1,73 +1,118 @@
 
 <%= partial :group_header %>
 
-<table class="table table-striped">
-  <tr>
-    <td></td>
-    <% @group.spaces.each { |space| %>
-      <td>
-        <strong>
-          <% if @membership.admin? %>
-            <a data-confirm="Delete this space?" href="/spaces/<%=space.id%>/destroy">
-              <%=space.name%>
-            </a>
-          <% else %>
-            <%=space.name%>
-          <% end %>       
-        </strong>
-      </td>
-    <% } %>
-    <% if @membership.admin? %>
-      <td>
-        <% form_tag "/spaces/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'display: inline' do %>
-          <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New space' %>
-        <% end %>        
-      </td>
-    <% end %>
-  </tr>
-  <% @group.tslots.each { |tslot| %>
-    <tr>
-      <td>
-        <strong>
-          <% if @membership.admin? %>
-            <a data-confirm="Delete this slot?" href="/tslots/<%=tslot.id%>/destroy">
-              <%=tslot.name%>
-            </a>
-          <% else %>
-            <%=tslot.name%>
-          <% end %> 
-        </strong>
-      </td>
-      <% @group.spaces.each { |space| activity = Activity.find_by(tslot: tslot, space: space) %>
-        <td>
+<script>
+  $(function () {
+    $('.activity').draggable({revert: "invalid"});
+    $('.activity-accept').droppable({
+      drop: function (event, ui) {
+        var activity = $(ui.draggable)
+        var accept = $(this)
+        $.post('/activities/schedule', {activity_id: $(activity).attr('data-activity-id'), tslot_id: $(accept).attr('data-tslot-id'), space_id: $(accept).attr('data-space-id')}, function () {
+          console.log(activity.parent())
+          $(accept).droppable("option", "disabled", true);
+          if (activity.parent().hasClass('activity-accept'))
+            $(activity.parent()).droppable("option", "disabled", false);
+          $(activity).detach().css({top: 0, left: 0}).appendTo(accept);
+        })
+      }
+    });
+    $('.activity-accept[data-activity-id]').droppable("option", "disabled", true);
+  });
+</script>
 
-          <% form_tag "/activities/create" do %>
-            <%= hidden_field_tag :group_id, :value => @group.id  %>
-            <%= hidden_field_tag :tslot_id, :value => tslot.id  %>
-            <%= hidden_field_tag :space_id, :value => space.id  %>
-            <%= text_area_tag :description, :class => 'form-control', :style => 'min-width: 200px', :value => activity.try(:description), :onfocus => '$(this).next().show()', :onblur => 'var t = this; setTimeout(function() { $(t).next().hide() }, 500)' %>
-            <%= submit_tag 'Submit', :style => 'display: none; margin-top: 5px;', :class => 'btn btn-primary btn-sm' %>
-          <% end %>  
-          <% if activity %>
-            <div style="text-align: right">
-              <small style="color: #aaa"><i class="fa fa-pencil"></i> <%=activity.account.name%>, <%=time_ago_in_words activity.created_at %> ago</small>
-            </div>
-          <% end %>
+<style>
+  .activity, .activity-accept { height: 150px }
+  td .activity, td .activity-accept { width: 250px }
+</style>
 
-        </td>
+<div class="row">
+
+  <div class="col-sm-4">
+    <h2>Unscheduled</h2>
+
+    <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List activity</a>
+    <% form_for @activity ||= Activity.new, "/activities/create?group_id=#{@group.id}", :class => 'form-horizontal', :style => 'display:none' do |f| %>
+      <%= f.text_block :name, div_class: 'col-sm-9' %>
+      <%= f.text_area_block :description, div_class: 'col-sm-9' %>
+      <%= f.image_block :image, div_class: 'col-sm-9' %>
+      <%= f.submit_block %>
+    <% end %>     
+
+    <div class="row" style="margin-top: 10px">
+      <% @group.activities.where(space_id: nil).each { |activity| %>
+        <div class="col-sm-6">        
+          <%= partial :activity, :object => activity %>
+        </div>
+      <% } %>
+    </div>
+
+  </div>
+  <div class="col-sm-8">
+    <h2>Scheduled</h2>
+
+
+    <table class="table table-striped">
+      <tr>
+        <td></td>
+        <% @group.spaces.each { |space| %>
+          <td>
+            <strong>
+              <% if @membership.admin? %>
+                <a data-confirm="Delete this space?" href="/spaces/<%=space.id%>/destroy">
+                  <%=space.name%>
+                </a>
+              <% else %>
+                <%=space.name%>
+              <% end %>       
+            </strong>
+          </td>
+        <% } %>
+        <% if @membership.admin? %>
+          <td style="width: 1px">
+            <% form_tag "/spaces/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'display: inline' do %>
+              <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New space' %>
+            <% end %>        
+          </td>
+        <% end %>
+      </tr>
+      <% @group.tslots.each { |tslot| %>
+        <tr>
+          <td style="width: 1px">
+            <strong>
+              <% if @membership.admin? %>
+                <a data-confirm="Delete this slot?" href="/tslots/<%=tslot.id%>/destroy">
+                  <%=tslot.name%>
+                </a>
+              <% else %>
+                <%=tslot.name%>
+              <% end %> 
+            </strong>
+          </td>
+          <% @group.spaces.each { |space| activity = Activity.find_by(tslot: tslot, space: space) %>
+            <td>
+              <div class="activity-accept" style="background: #ddd;" <% if activity %>data-activity-id="<%=activity.id%>"<% end %> data-tslot-id="<%=tslot.id%>" data-space-id="<%=space.id%>">
+                <% if activity  %>
+                  <%= partial :activity, :object => activity %>
+                <% end %>                  
+              </div>
+            </td>
+          <% } %>
+          <% if @membership.admin? %>
+            <td></td>
+          <% end %>        
+        </tr>
       <% } %>
       <% if @membership.admin? %>
-        <td></td>
-      <% end %>        
-    </tr>
-  <% } %>
-  <% if @membership.admin? %>
-    <tr>
-      <td>
-        <% form_tag "/tslots/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'display: inline' do %>
-          <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New slot' %>
-        <% end %>                  
-      </td>
-    </tr>
-  <% end %>
-</table>
+        <tr>
+          <td>
+            <% form_tag "/tslots/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'display: inline' do %>
+              <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New slot' %>
+            <% end %>                  
+          </td>
+        </tr>
+      <% end %>
+    </table>
+
+  </div>
+</div>

@@ -1,6 +1,5 @@
 module ActivateApp
   class App < Padrino::Application
-    use Rack::Timeout
     register Padrino::Rendering
     register Padrino::Helpers
     register WillPaginate::Sinatra
@@ -661,11 +660,40 @@ module ActivateApp
          
     post '/activities/create' do
       @group = Group.find(params[:group_id]) || not_found
-      membership_required!
-      Activity.find_by(tslot_id: params[:tslot_id], space_id: params[:space_id]).try(:destroy)
-      Activity.create(description: params[:description], account: current_account, group_id: params[:group_id], tslot_id: params[:tslot_id], space_id: params[:space_id])
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      @activity = Activity.new(params[:activity])
+      @activity.group = @group
+      @activity.account = current_account
+      if @activity.save
+        redirect back
+      else
+        flash[:error] = 'There was an error creating the activity'
+        erb :timetable
+      end
+    end     
+    
+    post '/activities/schedule' do
+      @activity = Activity.find(params[:activity_id])
+      @group = @activity.group
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      @activity.tslot_id = params[:tslot_id]
+      @activity.space_id = params[:space_id]
+      @activity.save
+      200      
+    end
+    
+    get '/activities/unschedule' do
+      @activity = Activity.find(params[:activity_id])
+      @group = @activity.group
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      @activity.tslot_id = nil
+      @activity.space_id = nil
+      @activity.save
       redirect back
-    end      
+    end    
     
   
     

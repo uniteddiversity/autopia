@@ -178,7 +178,6 @@ GEM
     rack (1.6.5)
     rack-protection (1.5.3)
       rack
-    rack-timeout (0.4.2)
     rake (12.0.0)
     sinatra (1.4.8)
       rack (~> 1.5)
@@ -216,7 +215,6 @@ DEPENDENCIES
   padrino
   puma
   rack
-  rack-timeout
   rake
   will_paginate!
 
