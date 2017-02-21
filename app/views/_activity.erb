@@ -1,13 +1,9 @@
 <div class="activity" data-activity-id="<%=activity.id%>" style="z-index: 99; margin-bottom: 10px; background-image: url(<%=activity.image.try(:url)%>); background-size: cover; background-position: center center; position: relative;">  
   <div style="background: black; opacity: 0.5; height: 100%"></div>
   <div style="position: absolute; bottom: 10px; left: 10px; color: white">
-    <h3 style="color: white; margin-top: 0">
+    <h3 data-toggle="tooltip" title="<%=activity.description.gsub("\n","<br />")%>" style="color: white; margin-top: 0">
       <%=activity.name%>
     </h3>  
-    <p><a href="javascript:;" onclick="$('#modal .modal-content').load('/activities/<%=activity.id%>', function () {
-          $('#modal').modal('show')
-        });"><i class="fa fa-file-text-o" style="font-size: 20px"></i>
-      </a></p>
     <span style="color: white">by <%=activity.account.name%></span>
     <div data-pagelet-url="/activities/<%=activity.id%>/attendees">
       <%= partial :attendees, :locals => {:activity => activity}  %>
