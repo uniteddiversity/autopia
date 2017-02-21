@@ -3,7 +3,10 @@
     <h3 style="color: white; margin-top: 0">
       <%=activity.name%>
     </h3>  
-    <p style="color: white"><%=activity.description%></p>
+    <p><a href="javascript:;" onclick="$('#modal .modal-content').load('/activities/<%=activity.id%>', function () {
+          $('#modal').modal('show')
+        });"><i class="fa fa-file-text-o" style="font-size: 20px"></i>
+      </a></p>
     <span style="color: white">by <%=activity.account.name%></span>
     <div data-pagelet-url="/activities/attendees?activity_id=<%=activity.id%>">
       <%= partial :attendees, :locals => {:activity => activity}  %>
