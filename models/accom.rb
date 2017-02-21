@@ -33,7 +33,7 @@ class Accom
   end
   
   def full?
-    accomship.count == capacity
+    accomships.count == capacity
   end
     
 end
