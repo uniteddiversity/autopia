@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: 3713917a4b83fe386610f8ba224e0a90b499e7e0
+  revision: ffabe789bc796852f7213c66e9dc0467a9538cff
   specs:
     activate-tools (0.0.1)
       padrino
@@ -124,8 +124,8 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    omniauth (1.5.0)
-      hashie (~> 3.5.0, < 4)
+    omniauth (1.6.1)
+      hashie (>= 3.4.6, < 3.6.0)
       rack (>= 1.6.2, < 3)
     omniauth-facebook (4.0.0)
       omniauth-oauth2 (~> 1.2)
@@ -174,7 +174,7 @@ GEM
     padrino-support (0.13.3.3)
       activesupport (>= 3.1)
     public_suffix (2.0.5)
-    puma (3.7.0)
+    puma (3.7.1)
     rack (1.6.5)
     rack-protection (1.5.3)
       rack
