@@ -111,7 +111,7 @@
       <tr>
         <th style="width: 1px">Name</th>      
         <th>Proposed by</th>
-        <th>Accepted on</th>
+        <th>Accepted at</th>
         <% if @membership.admin and @group.facebook_group %>
           <th>Added to Facebook group?</th>
         <% end %>         
@@ -144,7 +144,7 @@
         <td>
           <%= membership.created_at %>          
           <% if membership.mapplication; mapplication = membership.mapplication %>
-          with
+          <br />
             <%=pluralize(mapplication.verdicts.supporters.count,'supporter') %>
 
             <% if mapplication.answers %>
