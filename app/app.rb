@@ -702,8 +702,8 @@ module ActivateApp
       end
     end     
     
-    post '/activities/schedule' do
-      @activity = Activity.find(params[:activity_id])
+    post '/activities/:id/schedule' do
+      @activity = Activity.find(params[:id])
       @group = @activity.group
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!      
@@ -713,8 +713,8 @@ module ActivateApp
       200      
     end
     
-    get '/activities/unschedule' do
-      @activity = Activity.find(params[:activity_id])
+    get '/activities/:id/unschedule' do
+      @activity = Activity.find(params[:id])
       @group = @activity.group
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!      
@@ -724,16 +724,16 @@ module ActivateApp
       redirect back
     end  
     
-    get '/activities/attendees' do
-      @activity = Activity.find(params[:activity_id])
+    get '/activities/:id/attendees' do
+      @activity = Activity.find(params[:id])
       @group = @activity.group
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!        
       partial :attendees, :locals => {:activity => @activity}
     end
     
-    get '/activities/attend' do
-      @activity = Activity.find(params[:activity_id])
+    get '/activities/:id/attend' do
+      @activity = Activity.find(params[:id])
       @group = @activity.group
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!      
@@ -741,8 +741,8 @@ module ActivateApp
       200
     end     
     
-    get '/activities/unattend' do
-      @activity = Activity.find(params[:activity_id])
+    get '/activities/:id/unattend' do
+      @activity = Activity.find(params[:id])
       @group = @activity.group
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!      

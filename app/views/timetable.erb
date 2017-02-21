@@ -8,7 +8,7 @@
       drop: function (event, ui) {
         var activity = $(ui.draggable)
         var accept = $(this)
-        $.post('/activities/schedule', {activity_id: $(activity).attr('data-activity-id'), tslot_id: $(accept).attr('data-tslot-id'), space_id: $(accept).attr('data-space-id')}, function () {
+        $.post('/activities/'+ $(activity).attr('data-activity-id') +'/schedule', {tslot_id: $(accept).attr('data-tslot-id'), space_id: $(accept).attr('data-space-id')}, function () {
           console.log(activity.parent())
           $(accept).droppable("option", "disabled", true);
           if (activity.parent().hasClass('activity-accept'))

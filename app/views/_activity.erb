@@ -8,7 +8,7 @@
         });"><i class="fa fa-file-text-o" style="font-size: 20px"></i>
       </a></p>
     <span style="color: white">by <%=activity.account.name%></span>
-    <div data-pagelet-url="/activities/attendees?activity_id=<%=activity.id%>">
+    <div data-pagelet-url="/activities/<%=activity.id%>/attendees">
       <%= partial :attendees, :locals => {:activity => activity}  %>
     </div>
   </div>        
