@@ -6,11 +6,11 @@
     ["Members (#{@group.memberships.count})", "/h/#{@group.slug}"],
     ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],      
     ["Timetable (#{@group.activities.count})", "/h/#{@group.slug}/timetable"],
+    ["Rotas (#{@group.rotas.count})", "/h/#{@group.slug}/rotas"],    
     ["Teams (#{@group.teams.count})", "/h/#{@group.slug}/teams"],
     ["Tiers (#{@group.tiers.count})", "/h/#{@group.slug}/tiers"],    
     ["Accommodation (#{@group.accoms.count})", "/h/#{@group.slug}/accoms"],
     ["Transport (#{@group.transports.count})", "/h/#{@group.slug}/transports"],        
-    ["Rotas (#{@group.rotas.count})", "/h/#{@group.slug}/rotas"],
     ["Spending", "/h/#{@group.slug}/spending"],    
     (["Facebook group", @group.facebook_group] if @group.facebook_group)
     ] %>
