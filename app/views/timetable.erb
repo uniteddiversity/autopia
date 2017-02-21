@@ -8,7 +8,7 @@
       drop: function (event, ui) {
         var activity = $(ui.draggable)
         var accept = $(this)
-        $.post('/activities/'+ $(activity).attr('data-activity-id') +'/schedule', {tslot_id: $(accept).attr('data-tslot-id'), space_id: $(accept).attr('data-space-id')}, function () {
+        $.post('/activities/' + $(activity).attr('data-activity-id') + '/schedule', {tslot_id: $(accept).attr('data-tslot-id'), space_id: $(accept).attr('data-space-id')}, function () {
           console.log(activity.parent())
           $(accept).droppable("option", "disabled", true);
           if (activity.parent().hasClass('activity-accept'))
@@ -18,7 +18,7 @@
       }
     });
     $('.activity-accept[data-activity-id]').droppable("option", "disabled", true);
-    
+
     $('#activity-form div.col-sm-6').removeClass('col-sm-6').addClass('col-sm-9')
   });
 </script>
@@ -39,11 +39,9 @@
       <%= partial :activity_form %>  
     </div>
 
-    <div class="row" style="margin-top: 10px">
-      <% @group.activities.where(space_id: nil).each { |activity| %>
-        <div class="col-sm-6">        
-          <%= partial :activity, :object => activity %>
-        </div>
+    <div style="margin-top: 10px">
+      <% @group.activities.where(space_id: nil).each { |activity| %>             
+        <%= partial :activity, :object => activity %>        
       <% } %>
     </div>
 
