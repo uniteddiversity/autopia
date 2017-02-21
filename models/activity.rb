@@ -15,6 +15,8 @@ class Activity
   dragonfly_accessor :image
   
   validates_presence_of :name, :description, :account, :group
+  
+  has_many :attendances, :dependent => :destroy
         
   def self.admin_fields
     {

@@ -30,6 +30,7 @@ class Account
   has_many :memberships, :dependent => :destroy
   has_many :verdicts, :dependent => :destroy     
   has_many :activities, :dependent => :destroy
+  has_many :attendances, :dependent => :destroy
   
   # Dragonfly
   dragonfly_accessor :picture  

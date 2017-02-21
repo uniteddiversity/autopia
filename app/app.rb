@@ -693,7 +693,33 @@ module ActivateApp
       @activity.space_id = nil
       @activity.save
       redirect back
-    end    
+    end  
+    
+    get '/activities/attendees' do
+      @activity = Activity.find(params[:activity_id])
+      @group = @activity.group
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!        
+      partial :attendees, :locals => {:activity => @activity}
+    end
+    
+    get '/activities/attend' do
+      @activity = Activity.find(params[:activity_id])
+      @group = @activity.group
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      @activity.attendances.create account: current_account
+      200
+    end     
+    
+    get '/activities/unattend' do
+      @activity = Activity.find(params[:activity_id])
+      @group = @activity.group
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      @activity.attendances.find_by(account: current_account).try(:destroy)
+      200
+    end       
     
   
     
