@@ -4,6 +4,8 @@ class Space
  
   field :name, :type => String
   
+  has_many :activities, :dependent => :destroy
+  
   belongs_to :group  
   validates_presence_of :group
         

@@ -28,7 +28,8 @@ class Account
     
   has_many :groups, :dependent => :nullify
   has_many :memberships, :dependent => :destroy
-  has_many :verdicts, :dependent => :destroy      
+  has_many :verdicts, :dependent => :destroy     
+  has_many :activities, :dependent => :destroy
   
   # Dragonfly
   dragonfly_accessor :picture  
