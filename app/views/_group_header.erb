@@ -5,7 +5,7 @@
   <%= ul_nav 'nav nav-pills', [
     ["Members (#{@group.memberships.count})", "/h/#{@group.slug}"],
     ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],      
-    ["Timetable", "/h/#{@group.slug}/timetable"],
+    ["Timetable (#{@group.activities.count})", "/h/#{@group.slug}/timetable"],
     ["Teams (#{@group.teams.count})", "/h/#{@group.slug}/teams"],
     ["Tiers (#{@group.tiers.count})", "/h/#{@group.slug}/tiers"],    
     ["Accommodation (#{@group.accoms.count})", "/h/#{@group.slug}/accoms"],
