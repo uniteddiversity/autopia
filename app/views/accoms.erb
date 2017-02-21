@@ -47,7 +47,7 @@
         <%=accom.accomships.count%>/<%=accom.capacity%>
       </td>      
       <td>
-        <% unless @group.accomships.find_by(account: current_account) %>
+        <% if !@group.accomships.find_by(account: current_account) and !accom.full?  %>
           <a class="btn btn-primary" href="/accomships/create?accom_id=<%=accom.id%>">Join</a>
         <% end %>
       </td>      

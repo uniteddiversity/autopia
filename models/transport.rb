@@ -25,5 +25,9 @@ class Transport
       :transportships => :collection,
     }
   end
+  
+  def full?
+    transportships.count == capacity
+  end
     
 end

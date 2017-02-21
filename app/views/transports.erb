@@ -46,7 +46,7 @@
         <%=transport.transportships.count%>/<%= transport.capacity %>
       </td>
       <td>
-        <% unless transport.transportships.find_by(account: current_account) %>
+        <% if !transport.transportships.find_by(account: current_account) and !transport.full?  %>
           <a class="btn btn-primary" href="/transportships/create?transport_id=<%=transport.id%>">Join</a>
         <% end %>          
       </td>      

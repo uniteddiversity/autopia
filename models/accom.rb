@@ -31,5 +31,9 @@ class Accom
       (cost.to_f / accomships.count).round
     end
   end
+  
+  def full?
+    accomship.count == capacity
+  end
     
 end
