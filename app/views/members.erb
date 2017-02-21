@@ -111,7 +111,6 @@
       <tr>
         <th style="width: 1px">Name</th>      
         <th>Proposed by</th>
-        <th>Accepted at</th>
         <th>Accepted on</th>
         <% if @membership.admin and @group.facebook_group %>
           <th>Added to Facebook group?</th>
@@ -143,7 +142,9 @@
           <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : '' %>
         </td>        
         <td>
+          <%= membership.created_at %>          
           <% if membership.mapplication; mapplication = membership.mapplication %>
+          with
             <%=pluralize(mapplication.verdicts.supporters.count,'supporter') %>
 
             <% if mapplication.answers %>
@@ -155,10 +156,7 @@
                 </a>
               </div>
             <% end %>
-          <% end %>
-        </td>  
-        <td>
-          <%= membership.created_at %>
+          <% end %>          
         </td>
         <% if @membership.admin? and @group.facebook_group %>
           <td>
@@ -225,7 +223,6 @@
     <% } %>
     <tr>
       <th></th>      
-      <th></th>
       <th></th>
       <th></th>
       <th></th>
