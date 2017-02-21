@@ -4,7 +4,7 @@
       <%=activity.name%>
     </h3>  
     <p style="color: white"><%=activity.description%></p>
-
+    <span style="color: white">by <%=activity.account.name%></span>
     <div data-pagelet-url="/activities/attendees?activity_id=<%=activity.id%>">
       <%= partial :attendees, :locals => {:activity => activity}  %>
     </div>

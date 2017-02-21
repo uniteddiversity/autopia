@@ -18,13 +18,15 @@
       }
     });
     $('.activity-accept[data-activity-id]').droppable("option", "disabled", true);
+    
+    $('#activity-form div.col-sm-6').removeClass('col-sm-6').addClass('col-sm-9')
   });
 </script>
 
 <style>
   .activity a, .activity span { font-size: 12px; color: white }
-  .activity, .activity-accept { height: 150px }
-  td .activity, td .activity-accept { width: 250px }
+  .activity, .activity-accept { height: 200px }
+  td .activity, td .activity-accept { width: 300px }
 </style>
 
 <div class="row">
@@ -33,12 +35,9 @@
     <h2>Unscheduled</h2>
 
     <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List activity</a>
-    <% form_for @activity ||= Activity.new, "/activities/create?group_id=#{@group.id}", :class => 'form-horizontal', :style => 'display:none' do |f| %>
-      <%= f.text_block :name, div_class: 'col-sm-9' %>
-      <%= f.text_area_block :description, div_class: 'col-sm-9' %>
-      <%= f.image_block :image, div_class: 'col-sm-9' %>
-      <%= f.submit_block %>
-    <% end %>     
+    <div style="display: none" id="activity-form">
+      <%= partial :activity_form %>  
+    </div>
 
     <div class="row" style="margin-top: 10px">
       <% @group.activities.where(space_id: nil).each { |activity| %>

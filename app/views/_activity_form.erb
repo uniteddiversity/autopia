@@ -1,0 +1,6 @@
+<% form_for @activity ||= Activity.new, @activity.new_record? ? "/activities/create?group_id=#{@group.id}" : "/activities/#{@activity.id}/edit", :class => 'form-horizontal' do |f| %>
+  <%= f.text_block :name %>
+  <%= f.text_area_block :description %>
+  <%= f.image_block :image %>
+  <%= f.submit_block %>
+<% end %>  

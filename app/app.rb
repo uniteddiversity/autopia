@@ -671,6 +671,27 @@ module ActivateApp
         flash[:error] = 'There was an error creating the activity'
         erb :timetable
       end
+    end  
+    
+    get '/activities/:id/edit' do
+      @activity = Activity.find(params[:id])
+      @group = @activity.group
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      erb :edit_activity
+    end 
+        
+    post '/activities/:id/edit' do
+      @activity = Activity.find(params[:id])
+      @group = @activity.group
+      @membership = @group.memberships.find_by(account: current_account)
+      membership_required!      
+      if @activity.update_attributes(params[:activity])
+        redirect "/h/#{@group.slug}/timetable"
+      else
+        flash[:error] = 'There was an error saving the activity'
+        erb :edit_activity
+      end
     end     
     
     post '/activities/schedule' do
