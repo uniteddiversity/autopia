@@ -762,7 +762,7 @@ module ActivateApp
     post '/spends/create' do
       @group = Group.find(params[:group_id]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
-      group_admins_only!
+      membership_required!
       Spend.create(item: params[:item], amount: params[:amount], account: current_account, group: @group)
       redirect back
     end
