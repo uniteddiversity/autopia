@@ -1,19 +1,19 @@
 <%= partial :group_header %>
 
-<% if @membership.admin? %>
-  <% form_tag "/transports/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
-    <%= text_field_tag :name, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New transport' %>
-    <%= text_field_tag :description, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Description' %>          
-    <%= number_field_tag :capacity, :required => true, :class => 'form-control', :style => 'width: 6em', :placeholder => 'Capacity' %>
+<% form_tag "/transports/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
+  <%= text_field_tag :name, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New transport' %>
+  <%= text_field_tag :description, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Description' %>          
+  <%= number_field_tag :capacity, :required => true, :class => 'form-control', :style => 'width: 6em', :placeholder => 'Capacity' %>
 
+  <% if @membership.admin? %>
     <div class="input-group">
       <span class="input-group-addon">£</span>
       <%= number_field_tag :cost, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Cost' %>
     </div>
+  <% end %>
 
-    <%= submit_tag 'Submit', :class => 'btn btn-primary' %>
+  <%= submit_tag 'Submit', :class => 'btn btn-primary' %>
 
-  <% end %>    
 <% end %>
 
 <table class="table table-striped">

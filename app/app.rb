@@ -407,8 +407,8 @@ module ActivateApp
     post '/transports/create' do
       @group = Group.find(params[:group_id])  || not_found
       @membership = @group.memberships.find_by(account: current_account)
-      group_admins_only!
-      Transport.create(name: params[:name], cost: params[:cost], capacity: params[:capacity], description: params[:description], group: @group)
+      membership_required!
+      Transport.create(name: params[:name], cost: (@membership.admin? ? params[:cost] : 0), capacity: params[:capacity], description: params[:description], group: @group)
       redirect back
     end    
 
