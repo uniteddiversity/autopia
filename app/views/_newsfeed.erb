@@ -3,7 +3,7 @@
   <% notifications.each_with_index { |notification,i| %>
     <li>
       <i class="fa fa-li <%=notification.icon%>"></i>
-      <a <% if defined? more %> class="truncate" <% end %> href="<%= notification.link[1] %>"><%= notification.sentence %></a>
+      <a href="<%= notification.link[1] %>"><%= defined?(more) ? HTML_Truncator.truncate(notification.sentence, 50, :length_in_chars => true) : notification.sentence %></a>
       <span style="font-size: 11px"><%= timeago(notification.created_at) %></span>      
       <% if @notifications %>
         <hr />

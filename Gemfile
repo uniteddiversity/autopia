@@ -32,3 +32,5 @@ gem 'airbrake', '4.3.5'
 gem 'mechanize'
 gem 'activemodel', '~>4.2'
 
+gem 'html_truncator'
+

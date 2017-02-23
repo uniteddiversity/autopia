@@ -1,10 +1,6 @@
 
 $(function () {
 
-  $('.truncate').each(function () {
-    $(this).html($.truncate($(this).html(), {length: 50}))
-  })
-
   $("abbr.timeago").timeago()
 
   $('[data-upload-url]').click(function () {
