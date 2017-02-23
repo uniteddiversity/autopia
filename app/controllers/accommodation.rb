@@ -1,4 +1,4 @@
-ActivateApp::App.controller do
+Huddl::App.controller do
   
   get '/h/:slug/accoms' do
     @group = Group.find_by(slug: params[:slug]) || not_found

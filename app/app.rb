@@ -1,4 +1,4 @@
-module ActivateApp
+module Huddl
   class App < Padrino::Application
     register Padrino::Rendering
     register Padrino::Helpers
