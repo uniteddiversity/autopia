@@ -349,7 +349,7 @@ module ActivateApp
       @group = Group.find(params[:group_id])  || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      Accom.create(name: params[:name], cost: params[:cost], description: params[:description], capacity: params[:capacity], group: @group)
+      Accom.create(name: params[:name], cost: params[:cost], description: params[:description], capacity: params[:capacity], group: @group, account: current_account)
       redirect back
     end    
 
@@ -392,7 +392,7 @@ module ActivateApp
       @group = Group.find(params[:group_id])  || not_found
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!
-      Transport.create(name: params[:name], cost: (@membership.admin? ? params[:cost] : 0), capacity: params[:capacity], description: params[:description], group: @group)
+      Transport.create(name: params[:name], cost: (@membership.admin? ? params[:cost] : 0), capacity: params[:capacity], description: params[:description], group: @group, account: current_account)
       redirect back
     end    
 
@@ -435,7 +435,7 @@ module ActivateApp
       @group = Group.find(params[:group_id])  || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      Tier.create(name: params[:name], cost: params[:cost], description: params[:description], group: @group)
+      Tier.create(name: params[:name], cost: params[:cost], description: params[:description], group: @group, account: current_account)
       redirect back
     end    
 
@@ -478,7 +478,7 @@ module ActivateApp
       @group = Group.find(params[:group_id])  || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      Team.create(name: params[:name], group: @group)
+      Team.create(name: params[:name], group: @group, account: current_account)
       redirect back
     end
     
@@ -523,7 +523,7 @@ module ActivateApp
       @group = Group.find(params[:group_id]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       group_admins_only!
-      Rota.create(name: params[:name], group: @group)
+      Rota.create(name: params[:name], group: @group, account: current_account)
       redirect back
     end
     
