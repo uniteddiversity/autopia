@@ -41,59 +41,43 @@ class Notification
     case type.to_sym
     when :joined_team
       teamship = notifiable
-      account = teamship.account
-      team = teamship.team
-      "<strong>#{account.name}</strong> joined the <strong>#{team.name}</strong> team"
+      "<strong>#{teamship.account.name}</strong> joined the <strong>#{teamship.team.name}</strong> team"
     when :listed_spend
       spend = notifiable
-      account = spend.account
-      "<strong>#{account.name}</strong> listed an expense: <strong>#{spend.item}</strong>"
+      "<strong>#{spend.account.name}</strong> listed an expense: <strong>#{spend.item}</strong>"
     when :listed_activity
       activity = notifiable
-      account = activity.account
-      "<strong>#{account.name}</strong> listed an activity: <strong>#{activity.name}</strong>"
+      "<strong>#{activity.account.name}</strong> listed an activity: <strong>#{activity.name}</strong>"
     when :signed_up_to_a_shift
       shift = notifiable
-      rota = shift.rota
-      account = shift.account
-      "<strong>#{account.name}</strong> signed up for a <strong>#{rota.name}</strong> shift"
+      "<strong>#{shift.account.name}</strong> signed up for a <strong>#{shift.rota.name}</strong> shift"
     when :applied
       mapplication = notifiable
-      account = mapplication.account
-      "<strong>#{account.name}</strong> applied"
+      "<strong>#{mapplication.account.name}</strong> applied"
     when :joined_group
       membership = notifiable
-      account =  membership.account
       mapplication = membership.mapplication
       if mapplication
         if mapplication.processed_by
-          "<strong>#{account.name}</strong> was accepted by <strong>#{mapplication.processed_by.name}</strong>"
+          "<strong>#{membership.account.name}</strong> was accepted by <strong>#{mapplication.processed_by.name}</strong>"
         else
-          "<strong>#{account.name}</strong> was automatically accepted"
+          "<strong>#{membership.account.name}</strong> was automatically accepted"
         end
       else
-        "<strong>#{account.name}</strong> was added"
+        "<strong>#{membership.account.name}</strong> was added"
       end
     when :joined_tier
       tiership = notifiable
-      account = tiership.account
-      tier = tiership.tier
-      "<strong>#{account.name}</strong> joined the <strong>#{tier.name}</strong> tier"      
+      "<strong>#{tiership.account.name}</strong> joined the <strong>#{tiership.tier.name}</strong> tier"      
     when :joined_transport
       transportship = notifiable
-      account = transportship.account
-      transport = transportship.transport
-      "<strong>#{account.name}</strong> joined the <strong>#{transport.name}</strong> transport"   
+      "<strong>#{transportship.account.name}</strong> joined the <strong>#{transportship.transport.name}</strong> transport"   
     when :joined_accom
       accomship = notifiable
-      account = accomship.account
-      accom = accomship.accom
-      "<strong>#{account.name}</strong> joined the <strong>#{accom.name}</strong> accommodation"        
+      "<strong>#{accomship.account.name}</strong> joined the <strong>#{accomship.accom.name}</strong> accommodation"        
     when :interested_in_activity
       attendance = notifiable
-      account = attendance.account
-      activity = attendance.activity
-      "<strong>#{account.name}</strong> is interested in <strong>#{activity.name}</strong>"
+      "<strong>#{attendance.account.name}</strong> is interested in <strong>#{attendance.activity.name}</strong>"
     when :gave_verdict
       verdict = notifiable
       "<strong>#{verdict.account.name}</strong> #{verdict.ed} <strong>#{verdict.mapplication.account.name}</strong>"
