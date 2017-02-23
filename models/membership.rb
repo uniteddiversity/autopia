@@ -45,7 +45,7 @@ class Membership
   end     
   
   after_destroy do
-    membership.mapplication.destroy if membership.mapplication
+    mapplication.destroy if mapplication
   end
   
   before_validation do
