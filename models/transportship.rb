@@ -7,6 +7,11 @@ class Transportship
   belongs_to :group
   
   validates_presence_of :account, :transport, :group
+  
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :group => group, :type => 'joined_transport'
+  end      
            
   def self.admin_fields
     {

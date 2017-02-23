@@ -43,10 +43,10 @@ class Group
   has_many :transportships, :dependent => :destroy
   has_many :accoms, :dependent => :destroy
   has_many :accomships, :dependent => :destroy
-  has_many :activities, :dependent => :destroy
-  
+  has_many :activities, :dependent => :destroy  
   has_many :spaces, :dependent => :destroy
-  has_many :tslots, :dependent => :destroy
+  has_many :tslots, :dependent => :destroy  
+  has_many :notifications, :dependent => :destroy
   
   def application_questions_a
     q = (application_questions || '').split("\n").map(&:strip) 

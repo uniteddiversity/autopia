@@ -137,7 +137,7 @@ module ActivateApp
       @memberships = @memberships.order('created_at desc')
       erb :members
     end
-        
+            
     post '/h/:slug/add_member' do
       @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
@@ -148,15 +148,9 @@ module ActivateApp
         redirect back        
       end
             
-      if @account = Account.find_by(email: /^#{Regexp.escape(params[:email])}$/i)
-        action = %Q{<a href="http://#{ENV['DOMAIN']}/h/#{@group.slug}?sign_in_token=#{@account.sign_in_token}">Sign in to get involved with the co-creation!</a>}
-      else
-        @account = Account.new(name: params[:name], email: params[:email])
-        password = Account.generate_password(8)
-        @account.password = password        
-        if @account.save
-          action = %Q{<a href="http://#{ENV['DOMAIN']}/accounts/edit?sign_in_token=#{@account.sign_in_token}&h=#{@group.slug}">Click here to finish setting up your account and get involved with the co-creation!</a>}
-        else
+      if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:email])}$/i))
+        @account = Account.new(name: params[:name], email: params[:email], password: Account.generate_password(8))
+        if !@account.save
           flash[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
           redirect back
         end
@@ -166,25 +160,7 @@ module ActivateApp
         flash[:notice] = "That person is already a member of the group"
         redirect back
       else
-        membership = @group.memberships.create! account: @account
-        
-        account = @account
-        group = @group
-        if ENV['SMTP_ADDRESS']
-          mail = Mail.new
-          mail.to = account.email
-          mail.from = "Huddl <team@huddl.tech>"
-          mail.subject = "You were added to #{group.name}"
-          
-          html_part = Mail::Part.new do
-            content_type 'text/html; charset=UTF-8'
-            body %Q{Hi #{account.firstname},<br /><br />You were added to #{group.name} on Huddl. #{action}<br /><br />Best,<br />Team Huddl}
-          end
-          mail.html_part = html_part
-      
-          mail.deliver
-        end
-        
+        membership = @group.memberships.create! account: @account              
         redirect back
       end       
         

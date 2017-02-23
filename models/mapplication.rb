@@ -14,6 +14,11 @@ class Mapplication
   
   validates_presence_of :account, :group, :status
   validates_uniqueness_of :account, :scope => :group  
+  
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :group => group, :type => 'applied'
+  end    
       
   def self.pending
     where(status: 'pending')
@@ -44,42 +49,7 @@ class Mapplication
     account = mapplication.account
     group = mapplication.group    
     update_attribute(:status, 'accepted')
-    group.memberships.create account: account, mapplication: mapplication
-            
-    if !mapplication.account.sign_ins or mapplication.account.sign_ins == 0
-      action = %Q{<a href="http://#{ENV['DOMAIN']}/accounts/edit?sign_in_token=#{account.sign_in_token}&h=#{group.slug}">Click here to finish setting up your account and get involved with the co-creation!</a>}
-    else
-      action = %Q{<a href="http://#{ENV['DOMAIN']}/h/#{group.slug}?sign_in_token=#{account.sign_in_token}">Sign in to get involved with the co-creation!</a>}
-    end
-        
-    if ENV['SMTP_ADDRESS']
-      mail = Mail.new
-      mail.to = mapplication.account.email
-      mail.from = "Huddl <team@huddl.tech>"
-      mail.subject = "You're now a member of #{group.name}"
-      
-      html_part = Mail::Part.new do
-        content_type 'text/html; charset=UTF-8'
-        body "Hi #{account.firstname},<br /><br />You were accepted into #{group.name} on Huddl. #{action}<br /><br />Best,<br />Team Huddl" 
-      end
-      mail.html_part = html_part
-      
-      mail.deliver
-            
-      mail = Mail.new
-      mail.bcc = group.admin_emails
-      mail.from = "Huddl <team@huddl.tech>"
-      mail.subject = "#{account.name} was accepted into #{group.name}"
-      
-      html_part = Mail::Part.new do
-        content_type 'text/html; charset=UTF-8'
-        body %Q{Hi admins of #{group.name},<br /><br />#{account.name} was #{'automatically ' if !mapplication.processed_by}accepted into #{group.name}#{" by #{mapplication.processed_by.name}" if mapplication.processed_by}. <a href="http://#{ENV['DOMAIN']}/h/#{group.slug}">View members</a><br /><br />Best,<br />Team Huddl}
-      end
-      mail.html_part = html_part       
-      
-      mail.deliver
-      
-    end    
+    group.memberships.create! account: account, mapplication: mapplication                            
   end
         
   def self.admin_fields
@@ -92,27 +62,7 @@ class Mapplication
       :answers => :text_area
     }
   end
-  
-  after_create do
-    if ENV['SMTP_ADDRESS']
-      account = self.account
-      group = self.group
-      
-      mail = Mail.new
-      mail.bcc = group.emails
-      mail.from = "Huddl <team@huddl.tech>"
-      mail.subject = "#{account.name} applied to #{group.name}"
-     
-      html_part = Mail::Part.new do
-        content_type 'text/html; charset=UTF-8'
-        body %Q{#{account.name} applied to #{group.name}. <a href="http://#{ENV['DOMAIN']}/h/#{group.slug}/applications">View applications</a><br /><br />Best,<br />Team Huddl<br /><br /><a href="http://#{ENV['DOMAIN']}/accounts/edit">Stop these emails</a>}
-      end
-      mail.html_part = html_part       
-      
-      mail.deliver
-    end    
-  end
-  
+    
   def summary
     "#{self.account.name} - #{self.group.name}"
   end

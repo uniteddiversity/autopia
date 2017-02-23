@@ -8,6 +8,11 @@ class Tiership
   
   validates_presence_of :account, :tier, :group
   validates_uniqueness_of :account, :scope => :group
+  
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :group => group, :type => 'joined_tier'
+  end    
            
   def self.admin_fields
     {

@@ -8,6 +8,11 @@ class Attendance
   
   validates_presence_of :activity, :account
   validates_uniqueness_of :activity, :scope => :account
+  
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :group => activity.group, :type => 'interested_in_activity'
+  end      
         
   def self.admin_fields
     {

@@ -8,7 +8,7 @@ class Tier
   
   belongs_to :group
   validates_presence_of :name, :cost, :group
-  
+    
   has_many :tierships, :dependent => :destroy
   
   def members

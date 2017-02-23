@@ -15,6 +15,32 @@ class Membership
   validates_presence_of :account, :group
   validates_uniqueness_of :account, :scope => :group
   
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :group => group, :type => 'joined_group'
+    
+    if ENV['SMTP_ADDRESS']
+      mail = Mail.new
+      mail.to = account.email
+      mail.from = "Huddl <team@huddl.tech>"
+      mail.subject = "You're now a member of #{group.name}"
+      
+      if !account.sign_ins or account.sign_ins == 0
+        action = %Q{<a href="http://#{ENV['DOMAIN']}/accounts/edit?sign_in_token=#{account.sign_in_token}&h=#{group.slug}">Click here to finish setting up your account and get involved with the co-creation!</a>}
+      else
+        action = %Q{<a href="http://#{ENV['DOMAIN']}/h/#{group.slug}?sign_in_token=#{account.sign_in_token}">Sign in to get involved with the co-creation!</a>}
+      end      
+      
+      html_part = Mail::Part.new do
+        content_type 'text/html; charset=UTF-8'
+        body "Hi #{account.firstname},<br /><br />You're now a member of #{group.name} on Huddl. #{action}<br /><br />Best,<br />Team Huddl" 
+      end
+      mail.html_part = html_part
+      
+      mail.deliver  
+    end
+  end     
+  
   before_validation do
     self.desired_threshold = 1 if (self.desired_threshold and self.desired_threshold < 1)
   end

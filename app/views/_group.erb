@@ -1,5 +1,10 @@
 <div style="margin-bottom: 10px; background-image: url(<%=group.image.try(:url)%>); background-size: cover; background-position: center center; height: 200px; position: relative">    
   <div style="background: black; opacity: 0.4; height: 100%"></div>
+
+  <div class="hidden-sm hidden-xs" style="position: absolute; right: 10px; bottom: 0">
+    <%= partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3)} %>
+  </div>
+
   <div style="position: absolute; bottom: 0; left: 10px;">
     <h1>
       <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
@@ -9,7 +14,7 @@
     </h1>  
     <% if @group and @membership %>
       <p style="color: white;">Non-members can apply at <a href="<%="http://#{ENV['DOMAIN']}/h/#{group.slug}"%>" style="color: white; text-decoration: none; border-bottom: 1px dotted white"><%="http://#{ENV['DOMAIN']}/h/#{group.slug}"%></a></p>
-    <% end %>
+      <% end %>
   </div>
 
 </div>

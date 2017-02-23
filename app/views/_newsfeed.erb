@@ -1,0 +1,10 @@
+
+<ul class="fa-ul" style="color: white">
+  <% notifications.each { |notification| %>
+    <li>
+      <i class="fa fa-li <%=notification.icon%>"></i>
+      <a href="<%= notification.link[1] %>"><%= notification.sentence %></a>
+      <span style="font-size: 11px"><%= time_ago_in_words notification.created_at %> ago</span>
+    </li>
+  <% } %>
+</ul>
