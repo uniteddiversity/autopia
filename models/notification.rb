@@ -17,6 +17,23 @@ class Notification
     %w{joined_team listed_spend listed_activity signed_up_to_a_shift applied joined_group joined_tier joined_transport joined_accom interested_in_activity}
   end
   
+  after_create do
+    if ENV['SMTP_ADDRESS']
+      mail = Mail.new
+      mail.bcc = group.emails
+      mail.from = "Huddl <team@huddl.tech>"
+      mail.subject =  Nokogiri::HTML(notification.sentence).text
+            
+      html_part = Mail::Part.new do
+        content_type 'text/html; charset=UTF-8'
+        body %Q{#{notification.sentence}. <a href="#{link[1]}">#{link[0]}</a><br /><br />Best,<br />Team Huddl}
+      end
+      mail.html_part = html_part
+      
+      mail.deliver  
+    end    
+  end
+  
   def sentence    
     case type.to_sym
     when :joined_team
