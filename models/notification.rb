@@ -19,6 +19,8 @@ class Notification
   
   after_create do
     if ENV['SMTP_ADDRESS']
+      notification = self
+      
       mail = Mail.new
       mail.bcc = group.emails
       mail.from = "Huddl <team@huddl.tech>"
