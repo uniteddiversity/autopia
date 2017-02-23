@@ -136,7 +136,7 @@ class Notification
     when :listed_activity
       'fa-paper-plane'
     when :signed_up_to_a_shift
-      'fa-briefcase'
+      'fa-hand-paper-o'
     when :applied
       'fa-file-text-o'
     when :joined_group
@@ -149,6 +149,8 @@ class Notification
       'fa-home'
     when :interested_in_activity
       'fa-thumbs-up'
+    when :gave_verdict
+      'fa-gavel'
     end    
   end
 
