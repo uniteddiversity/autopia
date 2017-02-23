@@ -24,7 +24,7 @@ class Notification
       mail = Mail.new
       mail.bcc = group.emails
       mail.from = "Huddl <team@huddl.tech>"
-      mail.subject =  Nokogiri::HTML(notification.sentence).text
+      mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
             
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
