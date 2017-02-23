@@ -23,29 +23,38 @@ class Account
     self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
   end
   
+  has_many :groups, :dependent => :nullify  
+  
   has_many :mapplications, :class_name => "Mapplication", :inverse_of => :account, :dependent => :destroy
   has_many :mapplications_processed, :class_name => "Mapplication", :inverse_of => :processed_by, :dependent => :nullify  
+  
+  has_many :verdicts, :dependent => :destroy
   
   has_many :memberships, :class_name => "Membership", :inverse_of => :account, :dependent => :destroy
   has_many :memberships_added, :class_name => "Membership", :inverse_of => :added_by, :dependent => :nullify    
     
-  has_many :groups, :dependent => :nullify  
-  has_many :verdicts, :dependent => :destroy     
+  # Timetable
   has_many :activities, :dependent => :destroy
-  has_many :attendances, :dependent => :destroy  
+  has_many :attendances, :dependent => :destroy
+  # Teams
+  has_many :teams, :dependent => :nullify  
+  has_many :teamships, :dependent => :destroy  
+  # Rotas
+  has_many :rotas, :dependent => :nullify  
+  has_many :shifts, :dependent => :destroy
+  # Tiers
+  has_many :tiers, :dependent => :nullify  
+  has_many :tierships, :dependent => :destroy 
+  # Accommodation
+  has_many :accoms, :dependent => :nullify        
+  has_many :accomships, :dependent => :destroy  
+  # Transport
+  has_many :transports, :dependent => :nullify
+  has_many :transportships, :dependent => :destroy 
+  # Spending
   has_many :spends, :dependent => :destroy
 
-  has_many :transports, :dependent => :nullify
-  has_many :tiers, :dependent => :nullify
-  has_many :teams, :dependent => :nullify  
-  has_many :accoms, :dependent => :nullify    
-  has_many :rotas, :dependent => :nullify  
-  
-  has_many :accomships, :dependent => :destroy
-  has_many :teamships, :dependent => :destroy
-  has_many :tierships, :dependent => :destroy
-  has_many :transportships, :dependent => :destroy
-  has_many :shifts, :dependent => :destroy
+
   
   # Dragonfly
   dragonfly_accessor :picture  

@@ -33,20 +33,30 @@ class Group
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/
   
   has_many :memberships, :dependent => :destroy
-  has_many :mapplications, :dependent => :destroy
-  has_many :spends, :dependent => :destroy
-  has_many :rotas, :dependent => :destroy
-  has_many :teams, :dependent => :destroy
-  has_many :tiers, :dependent => :destroy
-  has_many :tierships, :dependent => :destroy
-  has_many :transports, :dependent => :destroy
-  has_many :transportships, :dependent => :destroy
-  has_many :accoms, :dependent => :destroy
-  has_many :accomships, :dependent => :destroy
-  has_many :activities, :dependent => :destroy  
+  has_many :mapplications, :dependent => :destroy  
+  has_many :notifications, :dependent => :destroy
+  
+  # Timetable
   has_many :spaces, :dependent => :destroy
   has_many :tslots, :dependent => :destroy  
-  has_many :notifications, :dependent => :destroy
+  has_many :activities, :dependent => :destroy
+  # Teams
+  has_many :teams, :dependent => :destroy
+  # Rotas
+  has_many :rotas, :dependent => :destroy
+  # Tiers
+  has_many :tiers, :dependent => :destroy
+  has_many :tierships, :dependent => :destroy
+  # Accommodation
+  has_many :accoms, :dependent => :destroy
+  has_many :accomships, :dependent => :destroy
+  # Transport
+  has_many :transports, :dependent => :destroy
+  has_many :transportships, :dependent => :destroy
+  # Spending  
+  has_many :spends, :dependent => :destroy
+  
+  
   
   def application_questions_a
     q = (application_questions || '').split("\n").map(&:strip) 
