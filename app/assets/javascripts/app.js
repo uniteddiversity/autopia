@@ -1,5 +1,10 @@
 
 $(function () {
+  
+  $('.truncate').each(function () {
+    console.log(this)
+    $(this).html($.truncate($(this).html(), {length: 50}))
+  })  
 
   $('[data-upload-url]').click(function () {
     var form = $('<form action="' + $(this).attr('data-upload-url') + '" method="post" enctype="multipart/form-data"><input style="display: none" type="file" name="upload"></form>')
