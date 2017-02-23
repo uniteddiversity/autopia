@@ -57,7 +57,7 @@ class Notification
         else
           "<strong>#{membership.account.name}</strong> was automatically accepted"
         end
-      else
+      elsif membership.added_by
         "<strong>#{membership.account.name}</strong> was added by #{membership.added_by.name}"
       end      
     when :joined_team
