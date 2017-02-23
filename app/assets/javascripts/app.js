@@ -1,10 +1,11 @@
 
 $(function () {
-  
+
   $('.truncate').each(function () {
-    console.log(this)
     $(this).html($.truncate($(this).html(), {length: 50}))
-  })  
+  })
+
+  $("abbr.timeago").timeago()
 
   $('[data-upload-url]').click(function () {
     var form = $('<form action="' + $(this).attr('data-upload-url') + '" method="post" enctype="multipart/form-data"><input style="display: none" type="file" name="upload"></form>')
@@ -72,7 +73,7 @@ $(function () {
       $(textarea).val($(summernote).code());
     });
   });
-  
+
   $(document).on('submit', '[data-pagelet-url] form', function () {
     var form = this
     var pagelet = $(form).closest('[data-pagelet-url]')
@@ -85,9 +86,9 @@ $(function () {
     return false
   })
 
-  $(document).on('click', '[data-pagelet-url] a.pagelet-trigger', function () {        
+  $(document).on('click', '[data-pagelet-url] a.pagelet-trigger', function () {
     var a = this
-    var pagelet = $(a).closest('[data-pagelet-url]')    
+    var pagelet = $(a).closest('[data-pagelet-url]')
     pagelet.css('opacity', '0.3')
     $.get($(a).attr('href'), function () {
       pagelet.load(pagelet.attr('data-pagelet-url'), function () {
@@ -101,6 +102,6 @@ $(function () {
     var pagelet = this;
     if ($(pagelet).html().length == 0)
       $(pagelet).load($(pagelet).attr('data-pagelet-url'))
-  })  
+  })
 
 });

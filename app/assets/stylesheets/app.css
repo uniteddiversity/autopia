@@ -18,6 +18,8 @@ input[name$='[lat]'], input[name$='[lng]'] { display:inline; width: auto }
 
 .navbar { border-radius: 0 }
 
+abbr[title] { border: none; }
+
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus { background: #CE2828 }
 a, a:hover, a:focus { color: #CE2828 }
 

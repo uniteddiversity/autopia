@@ -12,6 +12,10 @@ ActivateApp::App.helpers do
     end
   end  
   
+  def timeago(x)
+    %Q{<abbr class="timeago" title="#{x.iso8601}">#{x}</abbr>}
+  end  
+  
   def f(slug)
     (if fragment = Fragment.find_by(slug: slug) and fragment.body
         "\"#{fragment.body.to_s.gsub('"','\"')}\""
