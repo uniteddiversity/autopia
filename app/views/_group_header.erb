@@ -1,19 +1,24 @@
 
 <%= partial :group, :object => @group  %>
 
+
 <% if @membership %>
-  <%= ul_nav 'nav nav-pills', [
-    ["Members (#{@group.memberships.count})", "/h/#{@group.slug}"],
-    ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],      
-    ["Timetable (#{@group.activities.count})", "/h/#{@group.slug}/timetable"],
-    ["Teams (#{@group.teams.count})", "/h/#{@group.slug}/teams"],
-    ["Rotas (#{@group.rotas.count})", "/h/#{@group.slug}/rotas"],        
-    ["Tiers (#{@group.tiers.count})", "/h/#{@group.slug}/tiers"],    
-    ["Accommodation (#{@group.accoms.count})", "/h/#{@group.slug}/accoms"],
-    ["Transport (#{@group.transports.count})", "/h/#{@group.slug}/transports"],        
-    ["Spending", "/h/#{@group.slug}/spending"],    
-    (["Facebook group", @group.facebook_group] if @group.facebook_group)
-    ] %>
+
+  <div style="font-size: 13px">
+    <%= ul_nav 'nav nav-pills', [
+      ["Members (#{@group.memberships.count})", "/h/#{@group.slug}"],
+      ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],      
+      ["Timetable (#{@group.activities.count})", "/h/#{@group.slug}/timetable"],
+      ["Teams (#{@group.teams.count})", "/h/#{@group.slug}/teams"],
+      ["Rotas (#{@group.rotas.count})", "/h/#{@group.slug}/rotas"],        
+      ["Tiers (#{@group.tiers.count})", "/h/#{@group.slug}/tiers"],    
+      ["Accommodation (#{@group.accoms.count})", "/h/#{@group.slug}/accoms"],
+      ["Transport (#{@group.transports.count})", "/h/#{@group.slug}/transports"],        
+      ["Spending", "/h/#{@group.slug}/spending"],    
+      ["Newsfeed", "/h/#{@group.slug}/newsfeed"],
+      (["Facebook group", @group.facebook_group] if @group.facebook_group),    
+      ] %>
+  </div>
 
   <% if @group.tiers.count > 0 and !@membership.tiership %>
     <div class="panel panel-primary" style="margin-top: 20px">

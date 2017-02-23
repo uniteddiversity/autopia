@@ -150,7 +150,7 @@ class Notification
     when :interested_in_activity
       'fa-thumbs-up'
     when :gave_verdict
-      'fa-gavel'
+      'fa-puzzle-piece'
     end    
   end
 
