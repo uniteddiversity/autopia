@@ -10,7 +10,6 @@ class Mapplication
   belongs_to :processed_by, class_name: "Account", inverse_of: :mapplications_processed
   
   has_many :verdicts, :dependent => :destroy
-  has_one :membership, :dependent => :nullify
   
   validates_presence_of :account, :group, :status
   validates_uniqueness_of :account, :scope => :group  
