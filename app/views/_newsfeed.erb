@@ -10,7 +10,7 @@
       <% end %>
     </li>
   <% } %>
-  <% if notifications.pluck(:id).length < @group.notifications.count %>
+  <% if defined? more %>
     <li><a href="/h/<%=@group.slug%>/newsfeed">More...</a></li>
   <% end %>
 </ul>

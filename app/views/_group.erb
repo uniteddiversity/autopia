@@ -8,7 +8,7 @@
         #notifications li a { color: white }
         #notifications li span { opacity: 0.6 }
       </style>
-      <%= partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3)} %>      
+      <%= partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :more => true} %>      
     </div>
   <% end %>
 
