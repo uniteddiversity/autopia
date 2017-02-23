@@ -25,9 +25,11 @@ class Account
   
   has_many :mapplications, :class_name => "Mapplication", :inverse_of => :account, :dependent => :destroy
   has_many :mapplications_processed, :class_name => "Mapplication", :inverse_of => :processed_by, :dependent => :nullify  
+  
+  has_many :memberships, :class_name => "Membership", :inverse_of => :account, :dependent => :destroy
+  has_many :memberships_added, :class_name => "Membership", :inverse_of => :added_by, :dependent => :nullify    
     
-  has_many :groups, :dependent => :nullify
-  has_many :memberships, :dependent => :destroy
+  has_many :groups, :dependent => :nullify  
   has_many :verdicts, :dependent => :destroy     
   has_many :activities, :dependent => :destroy
   has_many :attendances, :dependent => :destroy  

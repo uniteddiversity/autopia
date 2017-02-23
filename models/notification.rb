@@ -14,7 +14,11 @@ class Notification
   end
   
   def self.types
-    %w{joined_team listed_spend listed_activity signed_up_to_a_shift applied joined_group joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota}
+    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota}
+  end
+  
+  def self.mailable_types
+    %w{applied joined_group listed_activity created_transport created_tier created_team created_accom created_rota listed_spend}
   end
   
   after_create do
@@ -22,35 +26,25 @@ class Notification
       notification = self
       group = self.group
       
-      mail = Mail.new
-      mail.bcc = group.admin_emails
-      mail.from = "Huddl <team@huddl.tech>"
-      mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
+      if mailable_types.include?(type)
+        mail = Mail.new
+        mail.bcc = group.emails
+        mail.from = "Huddl <team@huddl.tech>"
+        mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
             
-      html_part = Mail::Part.new do
-        content_type 'text/html; charset=UTF-8'
-        body %Q{<h2 style="margin-top: 0"><a href="http://#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a></h2>#{notification.sentence}. <a href="#{notification.link[1]}">#{notification.link[0]}</a><br /><br />Best,<br />Team Huddl<br /><br /><a style="font-size: 12px; color: #ccc" href="http://#{ENV['DOMAIN']}/accounts/edit">Stop these emails</a>}
-      end
-      mail.html_part = html_part
+        html_part = Mail::Part.new do
+          content_type 'text/html; charset=UTF-8'
+          body %Q{<h2 style="margin-top: 0"><a href="http://#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a></h2>#{notification.sentence}. <a href="#{notification.link[1]}">#{notification.link[0]}</a><br /><br />Best,<br />Team Huddl<br /><br /><a style="font-size: 12px; color: #ccc" href="http://#{ENV['DOMAIN']}/accounts/edit">Stop these emails</a>}
+        end
+        mail.html_part = html_part
       
-      mail.deliver  
+        mail.deliver  
+      end
     end    
   end
   
   def sentence    
     case type.to_sym
-    when :joined_team
-      teamship = notifiable
-      "<strong>#{teamship.account.name}</strong> joined the <strong>#{teamship.team.name}</strong> team"
-    when :listed_spend
-      spend = notifiable
-      "<strong>#{spend.account.name}</strong> listed an expense: <strong>#{spend.item}</strong>"
-    when :listed_activity
-      activity = notifiable
-      "<strong>#{activity.account.name}</strong> listed an activity: <strong>#{activity.name}</strong>"
-    when :signed_up_to_a_shift
-      shift = notifiable
-      "<strong>#{shift.account.name}</strong> signed up for a <strong>#{shift.rota.name}</strong> shift"
     when :applied
       mapplication = notifiable
       "<strong>#{mapplication.account.name}</strong> applied"
@@ -64,8 +58,20 @@ class Notification
           "<strong>#{membership.account.name}</strong> was automatically accepted"
         end
       else
-        "<strong>#{membership.account.name}</strong> was added"
-      end
+        "<strong>#{membership.account.name}</strong> was added by #{membership.added_by.name}"
+      end      
+    when :joined_team
+      teamship = notifiable
+      "<strong>#{teamship.account.name}</strong> joined the <strong>#{teamship.team.name}</strong> team"
+    when :listed_spend
+      spend = notifiable
+      "<strong>#{spend.account.name}</strong> listed an expense: <strong>#{spend.item}</strong>"
+    when :listed_activity
+      activity = notifiable
+      "<strong>#{activity.account.name}</strong> listed an activity: <strong>#{activity.name}</strong>"
+    when :signed_up_to_a_shift
+      shift = notifiable
+      "<strong>#{shift.account.name}</strong> signed up for a <strong>#{shift.rota.name}</strong> shift"
     when :joined_tier
       tiership = notifiable
       "<strong>#{tiership.account.name}</strong> joined the <strong>#{tiership.tier.name}</strong> tier"      
@@ -101,6 +107,10 @@ class Notification
   
   def link
     case type.to_sym
+    when :applied
+      ['View applications', "http://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
+    when :joined_group
+      ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :joined_team
       ['View teams', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams"]
     when :listed_spend
@@ -109,10 +119,6 @@ class Notification
       ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable"]
     when :signed_up_to_a_shift
       ['View rotas', "http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
-    when :applied
-      ['View applications', "http://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
-    when :joined_group
-      ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]
     when :joined_tier
       ['View tiers', "http://#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
     when :joined_transport
@@ -138,6 +144,10 @@ class Notification
   
   def icon
     case type.to_sym
+    when :applied
+      'fa-file-text-o'
+    when :joined_group
+      'fa-user-plus'      
     when :joined_team
       'fa-group'
     when :listed_spend
@@ -146,10 +156,6 @@ class Notification
       'fa-paper-plane'
     when :signed_up_to_a_shift
       'fa-hand-paper-o'
-    when :applied
-      'fa-file-text-o'
-    when :joined_group
-      'fa-user-plus'
     when :joined_tier
       'fa-align-justify'
     when :joined_transport

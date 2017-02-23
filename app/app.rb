@@ -168,7 +168,7 @@ module ActivateApp
         flash[:notice] = "That person is already a member of the group"
         redirect back
       else
-        membership = @group.memberships.create! account: @account              
+        membership = @group.memberships.create! account: @account, added_by: current_account
         redirect back
       end       
         

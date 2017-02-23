@@ -9,7 +9,8 @@ class Membership
   
   belongs_to :tier
   belongs_to :group    
-  belongs_to :account
+  belongs_to :account, class_name: "Account", inverse_of: :memberships
+  belongs_to :added_by, class_name: "Account", inverse_of: :memberships_added
   belongs_to :mapplication
   
   validates_presence_of :account, :group
