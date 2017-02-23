@@ -42,8 +42,14 @@ class Group
   has_many :activities, :dependent => :destroy
   # Teams
   has_many :teams, :dependent => :destroy
+  def teamships
+    Teamship.where(:team_id.in => teams.pluck(:id))
+  end    
   # Rotas
   has_many :rotas, :dependent => :destroy
+  def shifts
+    Shift.where(:rota_id.in => rotas.pluck(:id))
+  end  
   # Tiers
   has_many :tiers, :dependent => :destroy
   has_many :tierships, :dependent => :destroy
@@ -66,11 +72,7 @@ class Group
   def members
     Account.where(:id.in => memberships.pluck(:account_id))
   end
-  
-  def shifts
-    Shift.where(:rota_id.in => rotas.pluck(:id))
-  end
-  
+    
   def admin_emails
     Account.where(:stop_emails.ne => true).where(:id.in => memberships.where(admin: true).pluck(:account_id)).pluck(:email)
   end
