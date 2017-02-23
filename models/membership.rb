@@ -44,6 +44,10 @@ class Membership
     end
   end     
   
+  after_destroy do
+    membership.mapplication.destroy if membership.mapplication
+  end
+  
   before_validation do
     self.desired_threshold = 1 if (self.desired_threshold and self.desired_threshold < 1)
   end
