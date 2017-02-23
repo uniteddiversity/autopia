@@ -34,7 +34,7 @@ class Verdict
   end
   
   def ed
-    "#{verdict.type[0..-2]}d"
+    "#{type[0..-2]}d"
   end
   
   def self.types
