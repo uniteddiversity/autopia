@@ -121,7 +121,9 @@ class Notification
     when :joined_accom
       ['View accommodation', "http://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
     when :interested_in_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable"]      
+      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable"]  
+    when :gave_verdict
+      ['View applications', "http://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
     end
   end
   
