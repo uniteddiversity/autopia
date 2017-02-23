@@ -8,9 +8,15 @@ class Accom
   field :cost, :type => Integer
   
   belongs_to :group  
-  validates_presence_of :name, :cost, :capacity, :group
+  belongs_to :account
+  validates_presence_of :name, :cost, :capacity, :group, :account
   
   has_many :accomships, :dependent => :destroy
+  
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :group => group, :type => 'created_accom'
+  end      
   
   def members
     Account.where(:id.in => accomship.pluck(:account_id))
@@ -22,7 +28,8 @@ class Accom
       :description => :text_area,
       :capacity => :number,
       :cost => :number,
-      :group_id => :lookup
+      :group_id => :lookup,
+      :account_id => :lookup
     }
   end
   

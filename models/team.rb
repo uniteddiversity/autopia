@@ -5,9 +5,15 @@ class Team
   field :name, :type => String
   
   belongs_to :group
-  validates_presence_of :group
+  belongs_to :account
+  validates_presence_of :group, :account
   
   has_many :teamships, :dependent => :destroy
+  
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :group => group, :type => 'created_team'
+  end      
   
   def members
     Account.where(:id.in => teamships.pluck(:account_id))
@@ -17,6 +23,7 @@ class Team
     {
       :name => :text,
       :group_id => :lookup,
+      :account_id => :lookup,
       :teamships => :collection,
     }
   end

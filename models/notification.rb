@@ -14,7 +14,7 @@ class Notification
   end
   
   def self.types
-    %w{joined_team listed_spend listed_activity signed_up_to_a_shift applied joined_group joined_tier joined_transport joined_accom interested_in_activity gave_verdict}
+    %w{joined_team listed_spend listed_activity signed_up_to_a_shift applied joined_group joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota}
   end
   
   after_create do
@@ -97,6 +97,21 @@ class Notification
     when :gave_verdict
       verdict = notifiable
       "<strong>#{verdict.account.name}</strong> #{verdict.ed} <strong>#{verdict.mapplication.account.name}</strong>"
+    when :created_transport
+      transport = notifiable
+      "<strong>#{transport.account.name}</strong> created the transport <strong>#{transport.name}</strong>"
+    when :created_tier
+      tier = notifiable
+      "<strong>#{tier.account.name}</strong> created the tier <strong>#{tier.name}</strong>"      
+    when :created_team
+      team = notifiable
+      "<strong>#{team.account.name}</strong> created the team <strong>#{team.name}</strong>"            
+    when :created_accom
+      accom = notifiable
+      "<strong>#{accom.account.name}</strong> craeted the accommodation <strong>#{accom.name}</strong>"                  
+    when :created_rota
+      rota = notifiable
+      "<strong>#{rota.account.name}</strong> created the rota <strong>#{rota.name}</strong>"                        
     end
   end
   
@@ -124,6 +139,16 @@ class Notification
       ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable"]  
     when :gave_verdict
       ['View applications', "http://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
+    when :created_transport
+      ['View transport', "http://#{ENV['DOMAIN']}/h/#{group.slug}/transports"] 
+    when :created_tier
+      ['View tiers', "http://#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
+    when :created_team
+      ['View teams', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams"]
+    when :created_accom
+      ['View accommodation', "http://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
+    when :created_rota
+      ['View rotas', "http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
     end
   end
   
@@ -151,6 +176,16 @@ class Notification
       'fa-thumbs-up'
     when :gave_verdict
       'fa-puzzle-piece'
+    when :created_transport
+      'fa-bus'
+    when :created_tier
+      'fa-align-justify'
+    when :created_team
+      'fa-group'
+    when :created_accom
+      'fa-home'
+    when :created_rota
+      'fa-table'
     end    
   end
 

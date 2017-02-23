@@ -8,7 +8,13 @@ class Transport
   field :cost, :type => Integer
   
   belongs_to :group
-  validates_presence_of :name, :cost, :capacity, :group
+  belongs_to :account
+  validates_presence_of :name, :cost, :capacity, :group, :account
+  
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :group => group, :type => 'created_transport'
+  end      
   
   has_many :transportships, :dependent => :destroy
   
@@ -22,6 +28,7 @@ class Transport
       :description => :text_area,      
       :capacity => :number,
       :group_id => :lookup,
+      :account_id => :lookup,
       :transportships => :collection,
     }
   end
