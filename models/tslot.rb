@@ -4,7 +4,7 @@ class Tslot
  
   field :name, :type => String
   
-  has_many :activities, :dependent => :destroy
+  has_many :activities, :dependent => :nullify
   
   belongs_to :group  
   validates_presence_of :group
