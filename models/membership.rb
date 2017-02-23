@@ -25,6 +25,9 @@ class Membership
       mail.from = "Huddl <team@huddl.tech>"
       mail.subject = "You're now a member of #{group.name}"
       
+      account = self.account
+      group = self.group
+      
       if !account.sign_ins or account.sign_ins == 0
         action = %Q{<a href="http://#{ENV['DOMAIN']}/accounts/edit?sign_in_token=#{account.sign_in_token}&h=#{group.slug}">Click here to finish setting up your account and get involved with the co-creation!</a>}
       else
