@@ -1,4 +1,4 @@
-<div class="activity" data-activity-id="<%=activity.id%>" style="z-index: 99; margin-bottom: 10px; background-image: url(<%=activity.image.try(:url)%>); background-size: cover; background-position: center center; position: relative;">  
+<div class="activity" data-activity-id="<%=activity.id%>" style="z-index: 99; margin-bottom: 10px; background-image: url('<%=activity.image.try(:url)%>'); background-size: cover; background-position: center center; position: relative;">  
   <div style="background: black; opacity: 0.5; height: 100%"></div>
   <div style="position: absolute; bottom: 10px; left: 10px; color: white">
     <h3 data-toggle="tooltip" title="<%=activity.description.gsub("\n","<br />")%>" style="color: white; margin-top: 0; margin-bottom: 0">
