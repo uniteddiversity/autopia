@@ -1,10 +1,16 @@
 
-<ul class="fa-ul" style="color: white">
-  <% notifications.each { |notification| %>
+<ul class="fa-ul" id="notifications">
+  <% notifications.each_with_index { |notification,i| %>
     <li>
       <i class="fa fa-li <%=notification.icon%>"></i>
       <a href="<%= notification.link[1] %>"><%= notification.sentence %></a>
-      <span style="font-size: 11px"><%= time_ago_in_words notification.created_at %> ago</span>
+      <span style="font-size: 11px"><%= time_ago_in_words notification.created_at %> ago</span>      
+      <% if @notifications %>
+        <hr />
+      <% end %>
     </li>
   <% } %>
+  <% if notifications.pluck(:id).length < @group.notifications.count %>
+    <li><a href="/h/<%=@group.slug%>/newsfeed">More...</a></li>
+  <% end %>
 </ul>

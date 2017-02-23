@@ -1,0 +1,7 @@
+
+<%= partial :group_header %>
+
+<style>
+  #notifications { font-size: 16px; margin-top: 20px }
+</style>
+<%= partial :newsfeed, :locals => {:notifications => @notifications} %>      

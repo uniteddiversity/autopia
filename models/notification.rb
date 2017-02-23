@@ -23,57 +23,57 @@ class Notification
       teamship = notifiable
       account = teamship.account
       team = teamship.team
-      "#{account.name} joined the #{team.name} team"
+      "<strong>#{account.name}</strong> joined the <strong>#{team.name}</strong> team"
     when :listed_spend
       spend = notifiable
       account = spend.account
-      "#{account.name} listed an expense"
+      "<strong>#{account.name}</strong> listed an expense: <strong>#{spend.item}</strong>"
     when :listed_activity
       activity = notifiable
       account = activity.account
-      "#{account.name} listed an activity"
+      "<strong>#{account.name}</strong> listed an activity: <strong>#{activity.name}</strong>"
     when :signed_up_to_a_shift
       shift = notifiable
       rota = shift.rota
       account = shift.account
-      "#{account.name} signed up for a #{rota.name} shift"
+      "<strong>#{account.name}</strong> signed up for a <strong>#{rota.name}</strong> shift"
     when :applied
       mapplication = notifiable
       account = mapplication.account
-      "#{account.name} applied"
+      "<strong>#{account.name}</strong> applied"
     when :joined_group
       membership = notifiable
       account =  membership.account
       mapplication = membership.mapplication
       if mapplication
         if mapplication.processed_by
-          "#{account.name} was accepted by #{mapplication.processed_by.name}"
+          "<strong>#{account.name}</strong> was accepted by <strong>#{mapplication.processed_by.name}</strong>"
         else
-          "#{account.name} was automatically accepted"
+          "<strong>#{account.name}</strong> was automatically accepted"
         end
       else
-        "#{account.name} was added"
+        "<strong>#{account.name}</strong> was added"
       end
     when :joined_tier
       tiership = notifiable
       account = tiership.account
       tier = tiership.tier
-      "#{account.name} joined the #{tier.name} tier"      
+      "<strong>#{account.name}</strong> joined the <strong>#{tier.name}</strong> tier"      
     when :joined_transport
       transportship = notifiable
       account = transportship.account
       transport = transportship.transport
-      "#{account.name} joined the #{transport.name} transport"   
+      "<strong>#{account.name}</strong> joined the <strong>#{transport.name}</strong> transport"   
     when :joined_accom
       accomship = notifiable
       account = accomship.account
       accom = accomship.accom
-      "#{account.name} joined the #{accom.name} accommodation"        
+      "<strong>#{account.name}</strong> joined the <strong>#{accom.name}</strong> accommodation"        
     when :interested_in_activity
       attendance = notifiable
       account = attendance.account
       activity = attendance.activity
-      "#{account.name} is interested in #{activity.name}"        
+      "<strong>#{account.name}</strong> is interested in <strong>#{activity.name}</strong>"
     end
   end
   
