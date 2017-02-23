@@ -142,7 +142,7 @@ module ActivateApp
       @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
       membership_required!
-      @notifications = @group.notifications.order('created_at desc')
+      @notifications = @group.notifications.order('created_at desc').page(params[:page])
       erb :newsfeed
     end
             
