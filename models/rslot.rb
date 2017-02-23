@@ -12,7 +12,7 @@ class Rslot
   def self.admin_fields
     {
       :name => :text,
-      :rota_id => :lookup,
+      :rota_id => :lookup
     }
   end
     
