@@ -26,7 +26,7 @@ class Notification
       notification = self
       group = self.group
       
-      if mailable_types.include?(type)
+      if Notification.mailable_types.include?(type)
         mail = Mail.new
         mail.bcc = group.emails
         mail.from = "Huddl <team@huddl.tech>"
