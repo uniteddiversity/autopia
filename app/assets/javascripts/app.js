@@ -11,7 +11,7 @@ $(function () {
     })
   })
 
-  $('[data-toggle="tooltip"]').tooltip({html: true})
+  $('[data-toggle="tooltip"]').tooltip({html: true, viewport: false})
 
   if ($('label[for=account_poc').length > 0)
     $('label[for=account_poc').html($('label[for=account_poc').html().replace('person of colour', '<a target="_blank" href="https://en.wikipedia.org/wiki/Person_of_color">person of colour</a>'))
