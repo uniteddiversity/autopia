@@ -14,7 +14,7 @@ class Notification
   end
   
   def self.types
-    %w{joined_team listed_spend listed_activity signed_up_to_a_shift applied joined_group joined_tier joined_transport joined_accom interested_in_activity}
+    %w{joined_team listed_spend listed_activity signed_up_to_a_shift applied joined_group joined_tier joined_transport joined_accom interested_in_activity gave_verdict}
   end
   
   after_create do
@@ -23,7 +23,7 @@ class Notification
       group = self.group
       
       mail = Mail.new
-      mail.bcc = group.emails
+      mail.bcc = group.admin_emails
       mail.from = "Huddl <team@huddl.tech>"
       mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
             
@@ -94,6 +94,9 @@ class Notification
       account = attendance.account
       activity = attendance.activity
       "<strong>#{account.name}</strong> is interested in <strong>#{activity.name}</strong>"
+    when :gave_verdict
+      verdict = notifiable
+      "<strong>#{verdict.account.name}</strong> #{verdict.ed} <strong>#{verdict.mapplication.account.name}</strong>"
     end
   end
   
