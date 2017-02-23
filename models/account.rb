@@ -38,8 +38,14 @@ class Account
   has_many :transports, :dependent => :nullify
   has_many :tiers, :dependent => :nullify
   has_many :teams, :dependent => :nullify  
-  has_many :accoms, :dependent => :nullify  
+  has_many :accoms, :dependent => :nullify    
   has_many :rotas, :dependent => :nullify  
+  
+  has_many :accomships, :dependent => :destroy
+  has_many :teamships, :dependent => :destroy
+  has_many :tierships, :dependent => :destroy
+  has_many :transportships, :dependent => :destroy
+  has_many :shifts, :dependent => :destroy
   
   # Dragonfly
   dragonfly_accessor :picture  

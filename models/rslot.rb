@@ -4,6 +4,8 @@ class Rslot
  
   field :name, :type => String
   
+  has_many :shifts, :dependent => :destroy
+  
   belongs_to :rota  
   validates_presence_of :rota
           
