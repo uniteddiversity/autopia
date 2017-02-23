@@ -17,7 +17,9 @@ class Membership
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :group => group, :type => 'joined_group'
+    if mapplication or added_by
+      notifications.create! :group => group, :type => 'joined_group'
+    end
     
     if ENV['SMTP_ADDRESS']
       mail = Mail.new
