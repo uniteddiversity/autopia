@@ -14,7 +14,7 @@ class Notification
   end
   
   def self.types
-    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity}
+    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined}
   end
   
   def self.mailable_types
@@ -108,6 +108,12 @@ class Notification
     when :unscheduled_activity
       activity = notifiable
       "<strong>#{activity.scheduled_by.name}</strong> unscheduled the activity <strong>#{activity.name}</strong>"
+    when :made_admin
+      membership = notifiable
+      "<strong>#{membership.account.name}</strong> was made an admin by <strong>#{membership.admin_status_changed_by.name}</strong>"
+    when :unadmined
+      membership = notifiable
+      "<strong>#{membership.account.name}</strong> was unadmined by <strong>#{membership.admin_status_changed_by.name}</strong>"      
     end
   end
   
@@ -149,6 +155,10 @@ class Notification
       ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable"]  
     when :unscheduled_activity
       ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable"]  
+    when :made_admin
+      ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
+    when :unadmined
+      ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
     end
   end
   
@@ -190,6 +200,10 @@ class Notification
       'fa-calendar-plus-o'
     when :unscheduled_activity
       'fa-calendar-minus-o'
+    when :made_admin
+      'fa-key'
+    when :unadmined
+      'fa-key'
     end    
   end
 

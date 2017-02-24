@@ -94,6 +94,7 @@ Huddl::App.controller do
     @activity.space_id = params[:space_id]
     @activity.scheduled_by = current_account
     @activity.save!
+    @activity.notifications.where(:type.in => ['scheduled_activity', 'unscheduled_activity']).destroy_all
     @activity.notifications.create! :group => @group, :type => 'scheduled_activity'   
     200      
   end
@@ -107,6 +108,7 @@ Huddl::App.controller do
     @activity.space_id = nil
     @activity.scheduled_by = current_account
     @activity.save!
+    @activity.notifications.where(:type.in => ['scheduled_activity', 'unscheduled_activity']).destroy_all
     @activity.notifications.create! :group => @group, :type => 'unscheduled_activity'
     redirect back
   end  

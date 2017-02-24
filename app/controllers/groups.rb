@@ -218,7 +218,11 @@ Huddl::App.controller do
     @group = membership.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    membership.update_attribute(:admin, true)
+    membership.admin = true
+    membership.admin_status_changed_by = current_account
+    membership.save!
+    membership.notifications.where(:type.in => ['made_admin', 'unadmined']).destroy_all
+    membership.notifications.create! :group => @group, :type => 'made_admin'
     redirect back      
   end
     
@@ -227,7 +231,11 @@ Huddl::App.controller do
     @group = membership.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    membership.update_attribute(:admin, false)
+    membership.admin = false
+    membership.admin_status_changed_by = current_account
+    membership.save!
+    membership.notifications.where(:type.in => ['made_admin', 'unadmined']).destroy_all
+    membership.notifications.create! :group => @group, :type => 'unadmined'
     redirect back      
   end    
     

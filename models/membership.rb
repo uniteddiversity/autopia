@@ -10,6 +10,7 @@ class Membership
   belongs_to :group    
   belongs_to :account, class_name: "Account", inverse_of: :memberships
   belongs_to :added_by, class_name: "Account", inverse_of: :memberships_added
+  belongs_to :admin_status_changed_by, class_name: "Account", inverse_of: :memberships_admin_status_changed
   belongs_to :mapplication
   
   validates_presence_of :account, :group
