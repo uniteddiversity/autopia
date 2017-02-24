@@ -34,7 +34,8 @@ class Account
   has_many :memberships_added, :class_name => "Membership", :inverse_of => :added_by, :dependent => :nullify    
     
   # Timetable
-  has_many :activities, :dependent => :destroy
+  has_many :activities, :class_name => "Activity", :inverse_of => :account, :dependent => :destroy
+  has_many :activities_scheduled, :class_name => "Activity", :inverse_of => :scheduled_by, :dependent => :nullify    
   has_many :attendances, :dependent => :destroy
   # Teams
   has_many :teams, :dependent => :nullify  

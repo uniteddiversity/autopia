@@ -14,7 +14,7 @@ class Notification
   end
   
   def self.types
-    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota}
+    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity}
   end
   
   def self.mailable_types
@@ -102,6 +102,12 @@ class Notification
     when :created_rota
       rota = notifiable
       "<strong>#{rota.account.name}</strong> created the rota <strong>#{rota.name}</strong>"                        
+    when :scheduled_activity
+      activity = notifiable
+      "<strong>#{activity.scheduled_by.name}</strong> scheduled the activity <strong>#{activity.name}</strong>"
+    when :unscheduled_activity
+      activity = notifiable
+      "<strong>#{activity.scheduled_by.name}</strong> unscheduled the activity <strong>#{activity.name}</strong>"
     end
   end
   
@@ -139,6 +145,10 @@ class Notification
       ['View accommodation', "http://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
     when :created_rota
       ['View rotas', "http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
+    when :scheduled_activity
+      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable"]  
+    when :unscheduled_activity
+      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable"]  
     end
   end
   
@@ -176,6 +186,10 @@ class Notification
       'fa-home'
     when :created_rota
       'fa-table'
+    when :scheduled_activity
+      'fa-calendar-plus-o'
+    when :unscheduled_activity
+      'fa-calendar-minus-o'
     end    
   end
 

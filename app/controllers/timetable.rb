@@ -92,7 +92,9 @@ Huddl::App.controller do
     membership_required!      
     @activity.tslot_id = params[:tslot_id]
     @activity.space_id = params[:space_id]
-    @activity.save
+    @activity.scheduled_by = current_account
+    @activity.save!
+    @activity.notifications.create! :group => @group, :type => 'scheduled_activity'   
     200      
   end
     
@@ -103,7 +105,9 @@ Huddl::App.controller do
     membership_required!      
     @activity.tslot_id = nil
     @activity.space_id = nil
-    @activity.save
+    @activity.scheduled_by = current_account
+    @activity.save!
+    @activity.notifications.create! :group => @group, :type => 'unscheduled_activity'
     redirect back
   end  
     

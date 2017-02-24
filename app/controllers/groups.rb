@@ -155,7 +155,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
     @membership.desired_threshold = params[:desired_threshold]
-    @membership.save
+    @membership.save!
     200
   end         
     
@@ -189,7 +189,7 @@ Huddl::App.controller do
     group_admins_only!
     @mapplication.status = params[:status]
     @mapplication.processed_by = current_account
-    @mapplication.save
+    @mapplication.save!
     if @mapplication.acceptable? and params[:status] == 'accepted'
       @mapplication.accept    
     end
