@@ -4,7 +4,7 @@
       <% if activity.attendances.count == 1 %>
         1 person interested (you)
       <% else %>
-        You and <%=pluralize(activity.attendances.count - 1,'other person')%> interested
+        You and <%=pluralize(activity.attendances.count - 1,'other')%> interested
       <% end %>
     <% else %>
       <%=pluralize(activity.attendances.count,'person')%> interested
