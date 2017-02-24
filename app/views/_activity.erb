@@ -8,5 +8,12 @@
     <div data-pagelet-url="/activities/<%=activity.id%>/attendees">
       <%= partial :attendees, :locals => {:activity => activity}  %>
     </div>
-  </div>        
+  </div>  
+    <div style="position: absolute; right: 10px; bottom: 10px; color: white">
+      <% if activity.space_id %>      
+        <a title="Unschedule" href="/activities/<%=activity.id%>/unschedule"><i class="fa fa-calendar-minus-o"></i></a>
+        &middot;
+      <% end %>      
+      <a title="Edit" href="/activities/<%=activity.id%>/edit"><i class="fa fa-pencil"></i></a>      
+    </div>  
 </div>
