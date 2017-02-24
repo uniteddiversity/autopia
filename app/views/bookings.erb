@@ -1,4 +1,6 @@
 
+<%= partial :group_header %>
+
 <% (Date.civil(Date.today.year,1,1)..Date.civil(Date.today.year,12,31)).each { |date| %>
   <%= date %>
   <% unless @group.bookings.find_by(account: current_account, date: date) %>
