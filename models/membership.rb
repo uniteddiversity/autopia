@@ -6,6 +6,7 @@ class Membership
   field :paid, :type => Integer
   field :added_to_facebook_group, :type => Boolean
   field :desired_threshold, :type => Integer
+  field :booking_limit, :type => Integer
   
   belongs_to :group    
   belongs_to :account, class_name: "Account", inverse_of: :memberships
@@ -75,6 +76,10 @@ class Membership
     Transportship.where(:account_id => account_id, :group_id => group_id)
   end  
   
+  def bookings
+    Booking.where(:account_id => account_id, :group_id => group_id)
+  end
+  
   def contribution
     c = 0
     if tiership
@@ -97,6 +102,7 @@ class Membership
       :admin => :check_box,
       :paid => :number,
       :desired_threshold => :number,
+      :booking_limit => :number,
       :added_to_facebook_group => :check_box,
     }
   end

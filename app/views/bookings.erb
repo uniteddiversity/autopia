@@ -1,9 +1,13 @@
 
 <%= partial :group_header %>
 
+<p>
+  You've used <%=@membership.bookings.count%> of <%=pluralize(@membership.booking_limit,'day') %>
+</p>
+
 <% (Date.civil(Date.today.year,1,1)..Date.civil(Date.today.year,12,31)).each { |date| %>
   <%= date %>
-  <% unless @group.bookings.find_by(account: current_account, date: date) %>
+  <% if @membership.bookings.count < @membership.booking_limit and !@membership.bookings.find_by(date: date) %>
     &middot; <a href="/h/<%=@group.slug%>/book?date=<%=date.to_s(:db)%>">Book</a><br />
   <% end %>
 
