@@ -44,6 +44,9 @@ module Huddl
       @title = 'Huddl'
       @og_desc = 'For co-created gatherings'
       @og_image = "http://#{ENV['DOMAIN']}/images/penguins-link.png"
+      if current_account
+        current_account.update_attribute(:last_active, Time.now)
+      end
     end        
                 
     error do

@@ -1,9 +1,17 @@
 
 <%= partial :group_header %>
 
-<style>
-  #notifications { font-size: 16px; margin-top: 20px }
-</style>
-<%= partial :newsfeed, :locals => {:notifications => @notifications} %>      
+<div class="row">
+  <div class="col-sm-4 col-sm-push-8">
+    <h2 style="margin-top: 10px">Online now</h2>
+    <% @group.members.where(:last_active.gt => 5.minutes.ago).each { |account| %><img style="width: 50px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%><br /><%=time_ago_in_words account.last_active%> ago" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% } %>
+  </div>  
+  <div class="col-sm-8 col-sm-pull-4">
+    <style>
+      #notifications { font-size: 16px; margin-top: 20px }
+    </style>
+    <%= partial :newsfeed, :locals => {:notifications => @notifications} %>      
+  </div>
+</div>
 
 <%= will_paginate @notifications, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>

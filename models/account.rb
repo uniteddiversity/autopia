@@ -18,6 +18,7 @@ class Account
   field :sign_ins, :type => Integer
   field :sign_in_token, :type => String
   field :not_on_facebook, :type => Boolean
+  field :last_active, :type => Time
   
   before_validation do
     self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
