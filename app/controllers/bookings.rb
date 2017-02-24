@@ -24,4 +24,21 @@ Huddl::App.controller do
     redirect back
   end
   
+  get '/h/:slug/create_booking_lift' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @group.booking_lifts.create :account => current_account, :date => Date.parse(params[:date])
+    redirect back
+  end  
+  
+  get '/booking_lifts/:id/destroy' do
+    @booking_lift = BookingLift.find(params[:id])
+    @group = @booking_lift.group
+    @membership = @group.memberships.find_by(account: current_account)    
+    group_admins_only!
+    @booking_lift.destroy
+    redirect back
+  end  
+  
 end

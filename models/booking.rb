@@ -15,7 +15,8 @@ class Booking
   end
   
   before_validation do
-    errors.add(:account, 'is at the booking limit') if membership.bookings.count == membership.booking_limit
+    errors.add(:account, 'is at the booking limit') if membership.bookings.count >= membership.booking_limit
+    errors.add(:group, 'is at the booking limit for this date') if !group.booking_lifts.find_by(date: date) and group.bookings.where(date: date).count >= group.booking_limit
   end
         
   def self.admin_fields

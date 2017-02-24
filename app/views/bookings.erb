@@ -6,11 +6,29 @@
 </p>
 
 <% (Date.civil(Date.today.year,1,1)..Date.civil(Date.today.year,12,31)).each { |date| %>
-  <%= date %>
-  <% if @membership.bookings.count < @membership.booking_limit and !@membership.bookings.find_by(date: date) %>
-    &middot; <a href="/h/<%=@group.slug%>/book?date=<%=date.to_s(:db)%>">Book</a><br />
+<h2><%= date %></h2>
+  
+  <% if booking_lift = @group.booking_lifts.find_by(date: date) %>
+    No limit on this day
+
+    <% if @membership.admin? %>
+      &middot; 
+      <a href="/booking_lifts/<%=booking_lift.id%>/destroy">Reinstate limit</a>
+    <% end %>
+  <% else %>
+    Limit <%= @group.booking_limit %>
+    <% if @membership.admin? %>
+      &middot;
+      <a href="/h/<%=@group.slug%>/create_booking_lift?date=<%=date.to_s(:db)%>">Lift limit</a>
+    <% end %>
   <% end %>
 
+
+  <% if @membership.bookings.count < @membership.booking_limit and (@group.booking_lifts.find_by(date: date) or @group.bookings.where(date: date).count < @group.booking_limit) and !@membership.bookings.find_by(date: date) %>
+    &middot; <a href="/h/<%=@group.slug%>/book?date=<%=date.to_s(:db)%>">Book</a>
+  <% end %>
+
+    
   <ul>
     <% @group.bookings.where(:date => date).each { |booking| %>
       <li>

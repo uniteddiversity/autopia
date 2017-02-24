@@ -21,6 +21,7 @@ class Group
   field :ask_for_poc, :type => Boolean
   field :featured, :type => Boolean
   field :member_limit, :type => Integer
+  field :booking_limit, :type => Integer
   
   before_validation do
     self.featured = true if self.featured.nil?
@@ -63,7 +64,7 @@ class Group
   has_many :spends, :dependent => :destroy
   # Bookings
   has_many :bookings, :dependent => :destroy
-  
+  has_many :booking_lifts, :dependent => :destroy
   
   def application_questions_a
     q = (application_questions || '').split("\n").map(&:strip) 
@@ -94,6 +95,7 @@ class Group
       :facebook_group => :text,
       :fixed_threshold => :number,
       :member_limit => :number,
+      :booking_limit => :number,
       :democratic_threshold => :check_box,
       :application_preamble => :wysiwyg,
       :application_questions => :text_area,
