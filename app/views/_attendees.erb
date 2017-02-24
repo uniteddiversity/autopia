@@ -2,7 +2,7 @@
   <span data-toggle="tooltip" title="<%=activity.attendances.map { |attendance| attendance.account.name }.join('<br />')%>">
     <% if activity.attendances.find_by(account: current_account) %>
       <% if activity.attendances.count == 1 %>
-        1 person interested (you)
+        You're interested
       <% else %>
         You and <%=pluralize(activity.attendances.count - 1,'other')%> interested
       <% end %>
