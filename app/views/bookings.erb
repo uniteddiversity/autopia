@@ -1,0 +1,22 @@
+
+<% (Date.civil(Date.today.year,1,1)..Date.civil(Date.today.year,12,31)).each { |date| %>
+  <%= date %>
+  <% unless @group.bookings.find_by(account: current_account, date: date) %>
+    &middot; <a href="/h/<%=@group.slug%>/book?date=<%=date.to_s(:db)%>">Book</a><br />
+  <% end %>
+
+  <ul>
+    <% @group.bookings.where(:date => date).each { |booking| %>
+      <li>
+        <% if (booking.account == current_account) or @membership.admin? %>
+          <a data-confirm="Remove this person from this booking?" href="/bookings/<%=booking.id%>/destroy">
+            <%=booking.account.name%>
+          </a>
+        <% else %>        
+          <%=booking.account.name%>
+        <% end %>
+      </li>
+    <% } %>
+  </ul>
+
+<% }  %>

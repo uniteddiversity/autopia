@@ -56,7 +56,8 @@ class Account
   has_many :transportships, :dependent => :destroy 
   # Spending
   has_many :spends, :dependent => :destroy
-
+  # Bookings
+  has_many :bookings, :dependent => :destroy
 
   
   # Dragonfly
