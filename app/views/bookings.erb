@@ -5,7 +5,7 @@
   You've used <%=@membership.bookings.count%> of <%=pluralize(@membership.booking_limit,'day') %>
 </p>
 
-<% (Date.civil(Date.today.year,1,1)..Date.civil(Date.today.year,12,31)).each { |date| %>
+<% (Date.civil(Date.today.year,1,1)..Date.civil(Date.today.year,1,31)).each { |date| %>
 <h2><%= date %></h2>
   
   <% if booking_lift = @group.booking_lifts.find_by(date: date) %>
