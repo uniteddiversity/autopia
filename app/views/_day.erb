@@ -22,7 +22,7 @@
   <a class="btn btn-primary" href="/h/<%=@group.slug%>/book?date=<%=date.to_s(:db)%>">Book</a>
 <% end %>
 
-<ul>
+<ul style="margin-top: 10px">
   <% @group.bookings.where(:date => date).each { |booking| %>
     <li>
       <% if (booking.account == current_account) or @membership.admin? %>
