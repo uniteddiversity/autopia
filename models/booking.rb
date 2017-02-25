@@ -10,6 +10,11 @@ class Booking
   validates_presence_of :account, :group, :date
   validates_uniqueness_of :account, :scope => [:group, :date]
   
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :group => group, :type => 'booked'
+  end    
+  
   def membership
     group.memberships.find_by(account: account)
   end

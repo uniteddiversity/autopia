@@ -3,6 +3,9 @@ Huddl::App.controller do
   get '/h/new' do
     sign_in_required!
     @group = Group.new
+    Group.enablable.each { |x|
+      @group.send("enable_#{x}=", true)
+    }
     erb :build
   end  
     

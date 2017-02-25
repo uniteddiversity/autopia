@@ -21,5 +21,8 @@
   <%= f.check_box_block :democratic_threshold %>
   <%= f.number_block :fixed_threshold %>
   <%= f.number_block :member_limit %>
+  <% Group.enablable.each { |x| %>
+    <%= f.check_box_block "enable_#{x}".to_sym %>
+  <% } %>
   <%= f.submit_block %>  
 <% end %>

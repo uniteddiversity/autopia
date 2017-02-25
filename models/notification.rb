@@ -14,7 +14,7 @@ class Notification
   end
   
   def self.types
-    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined}
+    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked}
   end
   
   def self.mailable_types
@@ -114,6 +114,9 @@ class Notification
     when :unadmined
       membership = notifiable
       "<strong>#{membership.account.name}</strong> was unadmined by <strong>#{membership.admin_status_changed_by.name}</strong>"      
+    when :booked
+      booking = notifiable
+      "<strong>#{booking.account.name}</strong> booked <strong>#{booking.date}</strong>"      
     end
   end
   
@@ -159,6 +162,8 @@ class Notification
       ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :unadmined
       ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
+    when :booked
+      ['View bookings', "http://#{ENV['DOMAIN']}/h/#{group.slug}/bookings"]  
     end
   end
   
@@ -204,6 +209,8 @@ class Notification
       'fa-key'
     when :unadmined
       'fa-key'
+    when :booked
+      'fa-calendar'
     end    
   end
 

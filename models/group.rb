@@ -5,6 +5,10 @@ class Group
   
   dragonfly_accessor :image
   
+  def self.enablable
+    %w{timetable teams rotas tiers bookings accommodation transport spending}
+  end  
+  
   field :name, :type => String
   field :slug, :type => String
   field :image_uid, :type => String
@@ -22,7 +26,10 @@ class Group
   field :featured, :type => Boolean
   field :member_limit, :type => Integer
   field :booking_limit, :type => Integer
-  
+  enablable.each { |x|
+    field :"enable_#{x}", :type => Boolean
+  }
+    
   before_validation do
     self.featured = true if self.featured.nil?
   end
@@ -88,7 +95,7 @@ class Group
   end
         
   def self.admin_fields
-    {
+    h = {
       :name => :text,
       :slug => :slug,      
       :image => :image,
@@ -113,6 +120,9 @@ class Group
       :rotas => :collection,
       :teams => :collection
     }
+    h.merge(Hash[enablable.map { |x|
+          ["enable_#{x}".to_sym, :check_box]
+        }])
   end
   
   def self.new_tips
