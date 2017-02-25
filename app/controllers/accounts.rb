@@ -14,7 +14,7 @@ Huddl::App.controller do
     redirect '/'
   end
   
-  post :forgot_password do
+  post '/accounts/forgot_password' do
     if @account = Account.find_by(email: /^#{Regexp.escape(params[:email])}$/i)
       if @account.reset_password!        
         flash[:notice] = "A new password was sent to #{@account.email}"
