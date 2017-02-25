@@ -4,7 +4,6 @@
   <p>
     <% if booking_lift = @group.booking_lifts.find_by(date: date) %>
       No limit on this day
-
       <% if @membership.admin? %>
         &middot; 
         <a href="/booking_lifts/<%=booking_lift.id%>/destroy">Reinstate limit</a>
