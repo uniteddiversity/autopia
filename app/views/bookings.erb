@@ -13,6 +13,9 @@
   $(function () {
     $('#calendar').fullCalendar({
       events: '/h/<%=@group.slug%>/bookings',
+      buttonText: {
+        today: 'Today'
+      },
       eventClick: function (day) {
         console.log(day)
         $('.popover').remove()
