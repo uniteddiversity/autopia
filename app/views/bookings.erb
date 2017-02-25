@@ -1,46 +1,37 @@
 
 <%= partial :group_header %>
 
-<p>
-  You've used <%=@membership.bookings.count%> of <%=pluralize(@membership.booking_limit,'day') %>
-</p>
-
-<% (Date.civil(Date.today.year,1,1)..Date.civil(Date.today.year,1,31)).each { |date| %>
-<h2><%= date %></h2>
-  
-  <% if booking_lift = @group.booking_lifts.find_by(date: date) %>
-    No limit on this day
-
-    <% if @membership.admin? %>
-      &middot; 
-      <a href="/booking_lifts/<%=booking_lift.id%>/destroy">Reinstate limit</a>
-    <% end %>
-  <% else %>
-    <%= @group.bookings.where(:date => date).count %> of <%= pluralize(@group.booking_limit,'place') %> taken
-    <% if @membership.admin? %>
-      &middot;
-      <a href="/h/<%=@group.slug%>/create_booking_lift?date=<%=date.to_s(:db)%>">Lift limit</a>
-    <% end %>
-  <% end %>
+<% if @membership.booking_limit %>
+  <p>
+    You've used <%=@membership.bookings.count%> of <%=pluralize(@membership.booking_limit,'day') %>
+  </p>
+<% end %>
 
 
-  <% if @membership.bookings.count < @membership.booking_limit and (@group.booking_lifts.find_by(date: date) or @group.bookings.where(date: date).count < @group.booking_limit) and !@membership.bookings.find_by(date: date) %>
-    &middot; <a href="/h/<%=@group.slug%>/book?date=<%=date.to_s(:db)%>">Book</a>
-  <% end %>
 
-    
-  <ul>
-    <% @group.bookings.where(:date => date).each { |booking| %>
-      <li>
-        <% if (booking.account == current_account) or @membership.admin? %>
-          <a data-confirm="Remove this person from this booking?" href="/bookings/<%=booking.id%>/destroy">
-            <%=booking.account.name%>
-          </a>
-        <% else %>        
-          <%=booking.account.name%>
-        <% end %>
-      </li>
-    <% } %>
-  </ul>
-
-<% }  %>
+<script>
+  $(function () {
+    $('#calendar').fullCalendar({
+      events: '/h/<%=@group.slug%>/bookings',
+      eventClick: function (day) {
+        console.log(day)
+        $('.popover').remove()
+        el = $(this);
+        $.get('/h/<%=@group.slug%>/bookings?date=' + day._start._i, function (response) {
+          el.popover({
+            content: response,
+            trigger: 'manual',
+            title: moment(day._start._d).format('dddd, Do MMM YYYY'),
+            placement: 'auto top',
+            container: 'body',
+            html: true
+          }).popover('show');
+        });
+      },
+      viewDestroy: function () {
+        $('.popover').remove()
+      }
+    })
+  });
+</script>
+<div id="calendar"></div>

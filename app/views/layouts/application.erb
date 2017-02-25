@@ -13,6 +13,8 @@
       'codemirror/5.0.0' => 'codemirror.min.css theme/monokai.min.css codemirror.min.js mode/xml/xml.min.js',      
       'summernote/0.6.1' => 'summernote.min.css summernote.min.js',      
       'jquery-timeago/1.4.3' => 'jquery.timeago.min.js',
+      'moment.js/2.17.1' => 'moment.min.js locale/en-gb.js',     
+      'fullcalendar/3.2.0' => 'fullcalendar.min.js fullcalendar.min.css'
       }.each { |k,v| %>    
       <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>

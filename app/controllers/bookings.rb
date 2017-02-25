@@ -1,10 +1,19 @@
 Huddl::App.controller do
   
-  get '/h/:slug/bookings' do
+  get '/h/:slug/bookings', :provides => [:html, :json] do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    erb :bookings
+    case content_type
+    when :html       
+      if params[:date]
+        partial :day, :locals => {:date => Date.parse(params[:date])}
+      else
+        erb :bookings
+      end
+    when :json
+      @group.bookings.json(Date.parse(params[:start]), Date.parse(params[:end]))
+    end
   end  
   
   get '/h/:slug/book' do
