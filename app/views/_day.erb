@@ -19,10 +19,10 @@
 <% end %> 
 
 <% if (!@membership.booking_limit or @membership.bookings.count < @membership.booking_limit) and (!@group.booking_limit or @group.booking_lifts.find_by(date: date) or @group.bookings.where(date: date).count < @group.booking_limit) and !@membership.bookings.find_by(date: date) %>
-  <a class="btn btn-primary" href="/h/<%=@group.slug%>/book?date=<%=date.to_s(:db)%>">Book</a>
+  <a style="margin-bottom: 10px; display: inline-block" class="btn btn-primary" href="/h/<%=@group.slug%>/book?date=<%=date.to_s(:db)%>">Book</a>
 <% end %>
 
-<ul style="margin-top: 10px">
+<ul>
   <% @group.bookings.where(:date => date).each { |booking| %>
     <li>
       <% if (booking.account == current_account) or @membership.admin? %>
