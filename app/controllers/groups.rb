@@ -6,6 +6,7 @@ Huddl::App.controller do
     Group.enablable.each { |x|
       @group.send("enable_#{x}=", true)
     }
+    @group.enable_bookings = false
     erb :build
   end  
     
@@ -267,6 +268,23 @@ Huddl::App.controller do
     membership.update_attribute(:paid, params[:paid])
     200
   end  
+  
+  get '/memberships/:id/booking_limit' do
+    membership = Membership.find(params[:id]) || not_found
+    @group = membership.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    partial :booking_limit, :locals => {:membership => membership}      
+  end
+    
+  post '/memberships/:id/booking_limit' do
+    membership = Membership.find(params[:id]) || not_found
+    @group = membership.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    membership.update_attribute(:booking_limit, params[:booking_limit])
+    200
+  end    
   
   get '/mapplications/:id' do
     @mapplication = Mapplication.find(params[:id]) || not_found

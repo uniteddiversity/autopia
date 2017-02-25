@@ -9,7 +9,7 @@
         <a href="/booking_lifts/<%=booking_lift.id%>/destroy">Reinstate limit</a>
       <% end %>
     <% else %>
-      <%= @group.bookings.where(:date => date).count %> of <%= pluralize(@group.booking_limit,'place') %> taken    
+      <%= @group.bookings.where(:date => date).count %>/<%= pluralize(@group.booking_limit,'place') %> taken    
       <% if @membership.admin? %>
         &middot;
         <a href="/h/<%=@group.slug%>/create_booking_lift?date=<%=date.to_s(:db)%>">Lift limit</a>

@@ -122,7 +122,8 @@
         <th>Accommodation</th>
         <th>Transport</th>
         <th>Requested contribution</th>
-        <th>Paid</th>       
+        <th>Paid</th>     
+        <th>Booking limit</th>     
         <% if @membership.admin %>
           <th></th>
         <% end %>           
@@ -144,7 +145,7 @@
         <td>
           <%= membership.created_at %>          
           <% if membership.mapplication; mapplication = membership.mapplication %>
-          <br />
+            <br />
             <%=pluralize(mapplication.verdicts.supporters.count,'supporter') %>
 
             <% if mapplication.answers %>
@@ -200,7 +201,18 @@
           <% else %>
             <%= "£#{membership.paid}" if membership.paid %>
           <% end %>
-        </td>                           
+        </td>        
+        <% if @group.enable_bookings %>
+          <td>
+            <% if @membership.admin? %>
+              <div data-pagelet-url="/memberships/<%=membership.id%>/booking_limit">
+                <%= partial :booking_limit, :locals => {:membership => membership} %>
+              </div>
+            <% else %>
+              <%= membership.booking_limit if membership.booking_limit %>
+            <% end %>
+          </td>          
+        <% end %>        
         <% if @membership.admin? %>
           <td style="font-size: 13px">
             <% y = [] %>
@@ -223,6 +235,7 @@
     <% } %>
     <tr>
       <th></th>      
+      <th></th>
       <th></th>
       <th></th>
       <th></th>

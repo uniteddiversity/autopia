@@ -2,7 +2,7 @@
 <%= partial :group_header %>
 
 <% if @membership.booking_limit %>
-  <p>
+  <p style="font-size: 20px">
     You've used <%=@membership.bookings.count%> of <%=pluralize(@membership.booking_limit,'day') %>
   </p>
 <% end %>
