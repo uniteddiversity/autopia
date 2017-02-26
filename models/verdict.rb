@@ -5,8 +5,8 @@ class Verdict
   field :type, :type => String 
   field :reason, :type => String
   
-  belongs_to :account
-  belongs_to :mapplication
+  belongs_to :account, index: true
+  belongs_to :mapplication, index: true
   
   validates_presence_of :account, :mapplication, :type
   validates_uniqueness_of :account, :scope => :mapplication

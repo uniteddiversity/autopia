@@ -3,11 +3,11 @@ class Activity
   include Mongoid::Timestamps
   extend Dragonfly::Model
      
-  belongs_to :space
-  belongs_to :tslot
-  belongs_to :group
-  belongs_to :account, class_name: "Account", inverse_of: :activities
-  belongs_to :scheduled_by, class_name: "Account", inverse_of: :activities_scheduled
+  belongs_to :space, index: true
+  belongs_to :tslot, index: true
+  belongs_to :group, index: true
+  belongs_to :account, class_name: "Account", inverse_of: :activities, index: true
+  belongs_to :scheduled_by, class_name: "Account", inverse_of: :activities_scheduled, index: true
   
   field :name, :type => String
   field :description, :type => String

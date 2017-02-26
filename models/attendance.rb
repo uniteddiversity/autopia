@@ -3,8 +3,8 @@ class Attendance
   include Mongoid::Timestamps
   extend Dragonfly::Model
      
-  belongs_to :activity
-  belongs_to :account
+  belongs_to :activity, index: true
+  belongs_to :account, index: true
   
   validates_presence_of :activity, :account
   validates_uniqueness_of :activity, :scope => :account

@@ -2,9 +2,9 @@ class Transportship
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  belongs_to :account
-  belongs_to :transport 
-  belongs_to :group
+  belongs_to :account, index: true
+  belongs_to :transport, index: true 
+  belongs_to :group, index: true
   
   validates_presence_of :account, :transport, :group
   

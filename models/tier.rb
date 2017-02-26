@@ -6,8 +6,8 @@ class Tier
   field :description, :type => String
   field :cost, :type => Integer
   
-  belongs_to :group
-  belongs_to :account
+  belongs_to :group, index: true
+  belongs_to :account, index: true
   validates_presence_of :name, :cost, :group, :account
     
   has_many :tierships, :dependent => :destroy

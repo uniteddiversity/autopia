@@ -4,8 +4,8 @@ class Notification
 
   field :type, :type => String
   
-  belongs_to :group  
-  belongs_to :notifiable, polymorphic: true
+  belongs_to :group, index: true
+  belongs_to :notifiable, polymorphic: true, index: true
   
   validates_presence_of :group, :notifiable, :type
   

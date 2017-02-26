@@ -6,8 +6,8 @@ class Spend
   field :amount, :type => Integer
   field :reimbursed, :type => Boolean
 
-  belongs_to :group
-  belongs_to :account
+  belongs_to :group, index: true
+  belongs_to :account, index: true
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do

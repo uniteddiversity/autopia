@@ -6,7 +6,7 @@ class Tslot
   
   has_many :activities, :dependent => :nullify
   
-  belongs_to :group  
+  belongs_to :group, index: true  
   validates_presence_of :group
           
   def self.admin_fields

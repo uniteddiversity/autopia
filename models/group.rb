@@ -34,7 +34,7 @@ class Group
     self.featured = true if self.featured.nil?
   end
   
-  belongs_to :account
+  belongs_to :account, index: true
   
   validates_presence_of :name, :slug, :account
   validates_uniqueness_of :slug

@@ -5,9 +5,9 @@ class Mapplication
   field :status, :type => String
   field :answers, :type => Array  
 
-  belongs_to :group             
-  belongs_to :account, class_name: "Account", inverse_of: :mapplications
-  belongs_to :processed_by, class_name: "Account", inverse_of: :mapplications_processed
+  belongs_to :group, index: true
+  belongs_to :account, class_name: "Account", inverse_of: :mapplications, index: true
+  belongs_to :processed_by, class_name: "Account", inverse_of: :mapplications_processed, index: true
   
   has_many :verdicts, :dependent => :destroy
   # has_one :membership, :dependent => :destroy

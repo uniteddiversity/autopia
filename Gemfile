@@ -17,6 +17,7 @@ gem 'mongoid'
 gem 'delayed_job_mongoid'
 gem 'dragonfly'
 gem 'dragonfly-s3_data_store'
+gem 'activemodel', '~>4.2'
 
 # Authentication
 gem 'bcrypt'
@@ -30,7 +31,6 @@ gem 'mail'
 # Interacting with other websites
 gem 'airbrake', '4.3.5'
 gem 'mechanize'
-gem 'activemodel', '~>4.2'
 
 gem 'html_truncator'
 

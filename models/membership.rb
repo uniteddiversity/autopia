@@ -8,11 +8,11 @@ class Membership
   field :desired_threshold, :type => Integer
   field :booking_limit, :type => Integer
   
-  belongs_to :group    
-  belongs_to :account, class_name: "Account", inverse_of: :memberships
-  belongs_to :added_by, class_name: "Account", inverse_of: :memberships_added
-  belongs_to :admin_status_changed_by, class_name: "Account", inverse_of: :memberships_admin_status_changed
-  belongs_to :mapplication
+  belongs_to :group, index: true
+  belongs_to :account, class_name: "Account", inverse_of: :memberships, index: true
+  belongs_to :added_by, class_name: "Account", inverse_of: :memberships_added, index: true
+  belongs_to :admin_status_changed_by, class_name: "Account", inverse_of: :memberships_admin_status_changed, index: true
+  belongs_to :mapplication, index: true
   
   validates_presence_of :account, :group
   validates_uniqueness_of :account, :scope => :group

@@ -6,7 +6,7 @@ class Role
   
   has_many :shifts, :dependent => :destroy
   
-  belongs_to :rota  
+  belongs_to :rota, index: true
   validates_presence_of :rota
         
   def self.admin_fields
