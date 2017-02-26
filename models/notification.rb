@@ -62,7 +62,7 @@ class Notification
       end      
     when :joined_team
       teamship = notifiable
-      "<strong>#{teamship.account.name}</strong> joined the team <strong>#{teamship.team.name}</strong>"
+      "<strong>#{teamship.account.name}</strong> joined the <strong>#{teamship.team.name}</strong> team"
     when :listed_spend
       spend = notifiable
       "<strong>#{spend.account.name}</strong> spent £#{spend.amount} on <strong>#{spend.item}</strong>"
@@ -74,13 +74,13 @@ class Notification
       "<strong>#{shift.account.name}</strong> signed up for a <strong>#{shift.rota.name}</strong> shift"
     when :joined_tier
       tiership = notifiable
-      "<strong>#{tiership.account.name}</strong> joined the tier <strong>#{tiership.tier.name}</strong>"      
+      "<strong>#{tiership.account.name}</strong> joined the <strong>#{tiership.tier.name}</strong> tier"      
     when :joined_transport
       transportship = notifiable
-      "<strong>#{transportship.account.name}</strong> joined the transport <strong>#{transportship.transport.name}</strong>"   
+      "<strong>#{transportship.account.name}</strong> joined the <strong>#{transportship.transport.name}</strong> transport"   
     when :joined_accom
       accomship = notifiable
-      "<strong>#{accomship.account.name}</strong> joined the accommodation <strong>#{accomship.accom.name}</strong>"        
+      "<strong>#{accomship.account.name}</strong> joined the <strong>#{accomship.accom.name}</strong> accommodation"
     when :interested_in_activity
       attendance = notifiable
       "<strong>#{attendance.account.name}</strong> is interested in <strong>#{attendance.activity.name}</strong>"
