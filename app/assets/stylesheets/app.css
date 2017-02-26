@@ -2,7 +2,8 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,400i,700,700i,900,900i');
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
 
-p, ul, ol, input, select, .form-control, body { font-family: 'Raleway', 'Helvetica Neue',Helvetica,Arial,sans-serif }
+p, ul, ol, input, select, .form-control, body, .popover { font-family: 'Raleway', 'Helvetica Neue',Helvetica,Arial,sans-serif }
+.popover { font-size: 12px }
 h1, h2, h3, h4, h5, h6, .h { font-family: 'Raleway'; text-transform: uppercase; font-weight: 900 }
 .hw { font-family: 'Pacifico'; text-transform: lowercase }
 
