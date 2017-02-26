@@ -83,7 +83,16 @@ Huddl::App.controller do
       flash[:error] = 'There was an error saving the activity'
       erb :edit_activity
     end
-  end     
+  end   
+
+  get '/activities/:id/destroy' do
+    @activity = Activity.find(params[:id])
+    @group = @activity.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @activity.destroy
+    redirect "/h/#{@group.slug}/timetable"
+  end 
     
   post '/activities/:id/schedule' do
     @activity = Activity.find(params[:id])
