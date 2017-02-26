@@ -34,7 +34,24 @@ class Notification
             
         html_part = Mail::Part.new do
           content_type 'text/html; charset=UTF-8'
-          body %Q{<h2 style="margin-top: 0"><a href="http://#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a></h2>#{notification.sentence}. <a href="#{notification.link[1]}">#{notification.link[0]}</a><br /><br />Best,<br />Team Huddl<br /><br /><a style="font-size: 12px; color: #aaa" href="http://#{ENV['DOMAIN']}/accounts/edit">Stop these emails</a>}
+          body %Q{
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">    
+    <style>
+      p, ul, ol, input, select, .form-control, body { font-family: 'Raleway', 'Helvetica Neue',Helvetica,Arial,sans-serif }
+      h1, h2, h3, h4, h5, h6, .h { font-family: 'Raleway'; text-transform: uppercase; font-weight: 900 }
+    </style>
+  </head>
+  <body>
+    <h2 style="margin-top: 0"><a href="http://#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a></h2>
+    <p>#{notification.sentence}. <a href="#{notification.link[1]}">#{notification.link[0]}</a></p>
+    <p>Best,<br />Team Huddl</p>
+    <p style="font-size: 12px;"><a style="color: #aaa" href="http://#{ENV['DOMAIN']}/accounts/edit">Stop these emails</a></p>
+  </body>
+</html>
+          }
         end
         mail.html_part = html_part
       
