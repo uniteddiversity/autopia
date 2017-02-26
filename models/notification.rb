@@ -42,10 +42,11 @@ class Notification
     <style>
       p, ul, ol, input, select, .form-control, body { font-family: 'Raleway', 'Helvetica Neue',Helvetica,Arial,sans-serif }
       h1, h2, h3, h4, h5, h6, .h { font-family: 'Raleway'; text-transform: uppercase; font-weight: 900 }
+      a, a:hover, a:focus { color: #CE2828; }
     </style>
   </head>
   <body>
-    <h2 style="margin-top: 0"><a href="http://#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a></h2>
+    <h2 style="margin-top: 0"><a style="text-decoration: none" href="http://#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a></h2>
     <p>#{notification.sentence}. <a href="#{notification.link[1]}">#{notification.link[0]}</a></p>
     <p>Best,<br />Team Huddl</p>
     <p style="font-size: 12px;"><a style="color: #aaa" href="http://#{ENV['DOMAIN']}/accounts/edit">Stop these emails</a></p>
