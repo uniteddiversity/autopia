@@ -49,37 +49,63 @@ class Membership
   end     
   
   after_destroy do
-    mapplication.destroy if mapplication
+    mapplication.try(:destroy)
+    verdicts.destroy_all
+    activities.destroy_all
+    attendances.destroy_all
+    teamships.destroy_all
+    shifts.destroy_all
+    tiership.try(:destroy)
+    accomship.try(:destroy)
+    transportships.destroy_all
+    spends.destroy_all
+    bookings.destroy_all
   end
+  
+  def verdicts
+    Verdict.where(:account_id => account_id, :mapplication_id.in => group.mapplication_ids)
+  end
+  
+  # Timetable
+  def activities
+    Activity.where(:account_id => account_id, :group_id => group_id)
+  end  
+  def attendances
+    Attendance.where(:account_id => account_id, :activity_id.in => group.activity_ids)
+  end
+  # Teams
+  def teamships
+    Teamship.where(:account_id => account_id, :team_id.in => group.team_ids)
+  end
+  # Rotas
+  def shifts
+    Shift.where(:account_id => account_id, :rota_id.in => group.rota_ids)
+  end
+  # Tiers
+  def tiership
+    Tiership.find_by(:account_id => account_id, :group_id => group_id)
+  end  
+  # Accommodation
+  def accomship
+    Accomship.find_by(:account_id => account_id, :group_id => group_id)
+  end    
+  # Transport
+  def transportships
+    Transportship.where(:account_id => account_id, :group_id => group_id)
+  end  
+  # Spending
+  def spends
+    Spend.where(:account_id => account_id, :group_id => group_id)
+  end
+  # Bookings
+  def bookings
+    Booking.where(:account_id => account_id, :group_id => group_id)
+  end  
   
   before_validation do
     self.desired_threshold = 1 if (self.desired_threshold and self.desired_threshold < 1)
   end
-  
-  def shifts
-    Shift.where(:account_id => account_id, :rota_id.in => group.rota_ids)
-  end
-  
-  def teamships
-    Teamship.where(:account_id => account_id, :team_id.in => group.team_ids)
-  end
-  
-  def tiership
-    Tiership.find_by(:account_id => account_id, :group_id => group_id)
-  end  
-  
-  def accomship
-    Accomship.find_by(:account_id => account_id, :group_id => group_id)
-  end    
-  
-  def transportships
-    Transportship.where(:account_id => account_id, :group_id => group_id)
-  end  
-  
-  def bookings
-    Booking.where(:account_id => account_id, :group_id => group_id)
-  end
-  
+    
   def contribution
     c = 0
     if tiership

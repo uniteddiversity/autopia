@@ -62,7 +62,7 @@ class Account
   has_many :spends, :dependent => :destroy
   # Bookings
   has_many :bookings, :dependent => :destroy
-  has_many :booking_lifts, :dependent => :destroy
+  has_many :booking_lifts, :dependent => :nullify
 
   
   # Dragonfly

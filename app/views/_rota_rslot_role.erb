@@ -1,7 +1,7 @@
 <% if shift = Shift.find_by(rslot: rslot, role: role); account = shift.account %>
   <% if (shift.account and shift.account == current_account) or @membership.admin? %>
     <% if shift.account %>
-      <a class="pagelet-trigger" data-confirm="Remove this person from this shift?" href="/shifts/<%=shift.id%>/destroy">
+      <a class="pagelet-trigger" href="/shifts/<%=shift.id%>/destroy">
         <%=account.name%>
       </a>
     <% else %>
