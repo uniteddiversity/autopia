@@ -3,7 +3,6 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
 
 p, ul, ol, input, select, .form-control, body, .popover, .tooltip { font-family: 'Raleway', 'Helvetica Neue',Helvetica,Arial,sans-serif }
-.popover { font-size: 12px }
 h1, h2, h3, h4, h5, h6, .h { font-family: 'Raleway'; text-transform: uppercase; font-weight: 900 }
 .hw { font-family: 'Pacifico'; text-transform: lowercase }
 
