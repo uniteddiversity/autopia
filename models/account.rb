@@ -24,6 +24,10 @@ class Account
     self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
   end
   
+  def network
+    Account.where(:id.in => Membership.where(:group_id.in => memberships.pluck(:group_id)).pluck(:account_id))
+  end
+  
   has_many :groups, :dependent => :nullify  
   
   has_many :mapplications, :class_name => "Mapplication", :inverse_of => :account, :dependent => :destroy
