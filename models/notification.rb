@@ -39,10 +39,9 @@ class Notification
 <html lang="en">
   <head>
     <meta charset="utf-8">    
-    <link href="http://fonts.googleapis.com/css?family=Raleway:400,400i,700,700i,900,900i" rel="stylesheet" type="text/css">
     <style>
       p, ul, ol, input, select, .form-control, body { font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif }
-      h1, h2, h3, h4, h5, h6, .h { font-family: 'Raleway'; text-transform: uppercase; font-weight: 900 }
+      h1, h2, h3, h4, h5, h6, .h { font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif; text-transform: uppercase; font-weight: 900 }
       a, a:hover, a:focus { color: #CE2828 !important; }
     </style>    
   </head>
