@@ -6,6 +6,16 @@ Huddl::App.controller do
     membership_required!
     erb :timetable      
   end
+  
+  post '/spaces/order' do
+    @group = Group.find(params[:group_id]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    params[:space_ids].each_with_index { |space_id,i|
+      @group.spaces.find(space_id).update_attribute(:o, i)
+    }
+    200
+  end
     
   post '/spaces/create' do
     @group = Group.find(params[:group_id]) || not_found
@@ -23,6 +33,16 @@ Huddl::App.controller do
     @space.destroy
     redirect back      
   end      
+  
+  post '/tslots/order' do
+    @group = Group.find(params[:group_id]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    params[:tslot_ids].each_with_index { |tslot_id,i|
+      @group.tslots.find(tslot_id).update_attribute(:o, i)
+    }
+    200
+  end  
     
   post '/tslots/create' do
     @group = Group.find(params[:group_id]) || not_found

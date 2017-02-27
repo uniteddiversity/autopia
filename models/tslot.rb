@@ -3,6 +3,7 @@ class Tslot
   include Mongoid::Timestamps
  
   field :name, :type => String
+  field :o, :type => Integer
   
   has_many :activities, :dependent => :nullify
   
@@ -12,6 +13,7 @@ class Tslot
   def self.admin_fields
     {
       :name => :text,
+      :o => :number,
       :group_id => :lookup
     }
   end

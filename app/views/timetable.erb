@@ -50,11 +50,10 @@
   <div class="col-sm-9">
     <h2>Scheduled</h2>
 
-
     <table class="table table-striped">
       <tr>
         <td></td>
-        <% @group.spaces.each { |space| %>
+        <% @group.spaces.order('o asc').each { |space| %>
           <td>
             <strong>
               <% if @membership.admin? %>
@@ -75,7 +74,7 @@
           </td>
         <% end %>
       </tr>
-      <% @group.tslots.each { |tslot| %>
+      <% @group.tslots.order('o asc').each { |tslot| %>
         <tr>
           <td style="width: 1px">
             <strong>
@@ -112,6 +111,55 @@
         </tr>
       <% end %>
     </table>
+
+
+    <% if @membership.admin? %>
+
+      <script>
+        $(function () {
+
+          $("#spaces").sortable({
+            update: function (event, ui) {
+              $.post('/spaces/order', {group_id: '<%=@group.id%>', space_ids: $("#spaces").sortable("toArray")}, function () {
+                $('#refresh-please').show()
+              })
+            }
+          });
+
+          $("#tslots").sortable({
+            update: function (event, ui) {
+              $.post('/tslots/order', {group_id: '<%=@group.id%>', tslot_ids: $("#tslots").sortable("toArray")}, function () {
+                $('#refresh-please').show()
+              })
+            }
+          });
+
+        })
+      </script>
+
+      <style>
+        #spaces li, #tslots li { cursor: move }
+      </style>                           
+
+      <h3>Reorder spaces</h3>
+      <ul id="spaces">
+        <% @group.spaces.order('o asc').each { |space| %>
+          <li id="<%=space.id%>"><%= space.name %></li>
+        <% } %>
+      </ul>
+
+      <h3>Reorder slots</h3>
+      <ul id="tslots">
+        <% @group.tslots.order('o asc').each { |tslot| %>
+          <li id="<%=tslot.id%>"><%= tslot.name %></li>
+        <% } %>
+      </ul>  
+
+      <p style="display: none" id="refresh-please">
+        <em>Refresh the page to see your changes</em>
+      </p>    
+
+    <% end %>
 
   </div>
 </div>
