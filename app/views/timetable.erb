@@ -87,7 +87,7 @@
               <% end %> 
             </strong>
           </td>
-          <% @group.spaces.order('o asc').spaces.each { |space| activity = Activity.find_by(tslot: tslot, space: space) %>
+          <% @group.spaces.order('o asc').each { |space| activity = Activity.find_by(tslot: tslot, space: space) %>
             <td>
               <div class="activity-accept" style="background: #ddd;" <% if activity %>data-activity-id="<%=activity.id%>"<% end %> data-tslot-id="<%=tslot.id%>" data-space-id="<%=space.id%>">
                 <% if activity  %>
