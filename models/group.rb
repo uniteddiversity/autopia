@@ -6,7 +6,7 @@ class Group
   dragonfly_accessor :image
   
   def self.enablable
-    %w{timetable teams rotas tiers bookings accommodation transport spending}
+    %w{timetables teams rotas tiers bookings accommodation transport spending}
   end  
   
   field :name, :type => String
@@ -45,19 +45,20 @@ class Group
   has_many :notifications, :dependent => :destroy
   
   # Timetable
+  has_many :timetables, :dependent => :destroy
   has_many :spaces, :dependent => :destroy
-  has_many :tslots, :dependent => :destroy  
+  has_many :tslots, :dependent => :destroy
   has_many :activities, :dependent => :destroy
   # Teams
   has_many :teams, :dependent => :destroy
   def teamships
-    Teamship.where(:team_id.in => teams.pluck(:id))
+    Teamship.where(:team_id.in => team_ids)
   end    
   # Rotas
   has_many :rotas, :dependent => :destroy
-  def shifts
-    Shift.where(:rota_id.in => rotas.pluck(:id))
-  end  
+  has_many :roles, :dependent => :destroy
+  has_many :rslots, :dependent => :destroy
+  has_many :shifts, :dependent => :destroy
   # Tiers
   has_many :tiers, :dependent => :destroy
   has_many :tierships, :dependent => :destroy

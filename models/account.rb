@@ -40,6 +40,7 @@ class Account
   has_many :memberships_admin_status_changed, :class_name => "Membership", :inverse_of => :admin_status_changed_by, :dependent => :nullify    
     
   # Timetable
+  has_many :timetables, :dependent => :nullify
   has_many :activities, :class_name => "Activity", :inverse_of => :account, :dependent => :destroy
   has_many :activities_scheduled, :class_name => "Activity", :inverse_of => :scheduled_by, :dependent => :nullify    
   has_many :attendances, :dependent => :destroy

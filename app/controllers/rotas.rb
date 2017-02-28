@@ -23,6 +23,17 @@ Huddl::App.controller do
     @rota.destroy
     redirect back      
   end   
+  
+  post '/roles/order' do
+    @rota = Rota.find(params[:rota_id]) || not_found
+    @group = @rota.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    params[:role_ids].each_with_index { |role_id,i|
+      @rota.roles.find(role_id).update_attribute(:o, i)
+    }
+    200
+  end  
     
   post '/roles/create' do
     @rota = Rota.find(params[:rota_id]) || not_found
@@ -35,12 +46,23 @@ Huddl::App.controller do
     
   get '/roles/:id/destroy' do
     @role = Role.find(params[:id]) || not_found
-    @group = @role.rota.group
+    @group = @role.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @role.destroy
     redirect back      
   end     
+  
+  post '/rslots/order' do
+    @rota = Rota.find(params[:rota_id]) || not_found
+    @group = @rota.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    params[:rslot_ids].each_with_index { |rslot_id,i|
+      @rota.rslots.find(rslot_id).update_attribute(:o, i)
+    }
+    200
+  end    
     
   post '/rslots/create' do
     @rota = Rota.find(params[:rota_id]) || not_found
@@ -53,7 +75,7 @@ Huddl::App.controller do
     
   get '/rslots/:id/destroy' do
     @rslot = Rslot.find(params[:id]) || not_found
-    @group = @rslot.rota.group
+    @group = @rslot.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @rslot.destroy

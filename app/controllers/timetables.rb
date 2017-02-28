@@ -1,27 +1,46 @@
 Huddl::App.controller do
 
-  get '/h/:slug/timetable' do
+  get '/h/:slug/timetables' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    erb :timetable      
+    erb :timetables      
   end
   
-  post '/spaces/order' do
+  post '/timetables/create' do
     @group = Group.find(params[:group_id]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
+    Timetable.create(name: params[:name], group: @group, account: current_account)
+    redirect back
+  end
+    
+  get '/timetables/:id/destroy' do
+    @timetable = Timetable.find(params[:id]) || not_found
+    @group = @timetable.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @timetable.destroy
+    redirect back      
+  end    
+  
+  post '/spaces/order' do
+    @timetable = Timetable.find(params[:timetable_id]) || not_found
+    @group = @timetable.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
     params[:space_ids].each_with_index { |space_id,i|
-      @group.spaces.find(space_id).update_attribute(:o, i)
+      @timetable.spaces.find(space_id).update_attribute(:o, i)
     }
     200
   end
     
   post '/spaces/create' do
-    @group = Group.find(params[:group_id]) || not_found
+    @timetable = Timetable.find(params[:timetable_id]) || not_found
+    @group = @timetable.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    Space.create(name: params[:name], group: @group)
+    Space.create(name: params[:name], timetable: @timetable)
     redirect back
   end   
     
@@ -35,20 +54,22 @@ Huddl::App.controller do
   end      
   
   post '/tslots/order' do
-    @group = Group.find(params[:group_id]) || not_found
+    @timetable = Timetable.find(params[:timetable_id]) || not_found
+    @group = @timetable.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     params[:tslot_ids].each_with_index { |tslot_id,i|
-      @group.tslots.find(tslot_id).update_attribute(:o, i)
+      @timetable.tslots.find(tslot_id).update_attribute(:o, i)
     }
     200
   end  
     
   post '/tslots/create' do
-    @group = Group.find(params[:group_id]) || not_found
+    @timetable = Timetable.find(params[:timetable_id]) || not_found
+    @group = @timetable.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    Tslot.create(name: params[:name], group: @group)
+    Tslot.create(name: params[:name], timetable: @timetable)
     redirect back
   end      
     
@@ -62,17 +83,18 @@ Huddl::App.controller do
   end    
          
   post '/activities/create' do
-    @group = Group.find(params[:group_id]) || not_found
+    @timetable = Timetable.find(params[:timetable_id]) || not_found
+    @group = @timetable.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
     @activity = Activity.new(params[:activity])
-    @activity.group = @group
+    @activity.timetable = @timetable
     @activity.account = current_account
     if @activity.save
       redirect back
     else
       flash[:error] = 'There was an error creating the activity'
-      erb :timetable
+      erb :timetables
     end
   end  
     
@@ -98,7 +120,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
     if @activity.update_attributes(params[:activity])
-      redirect "/h/#{@group.slug}/timetable"
+      redirect "/h/#{@group.slug}/timetables"
     else
       flash[:error] = 'There was an error saving the activity'
       erb :edit_activity
@@ -111,7 +133,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @activity.destroy
-    redirect "/h/#{@group.slug}/timetable"
+    redirect "/h/#{@group.slug}/timetables"
   end 
     
   post '/activities/:id/schedule' do

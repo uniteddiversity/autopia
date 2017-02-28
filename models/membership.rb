@@ -69,7 +69,7 @@ class Membership
   # Timetable
   def activities
     Activity.where(:account_id => account_id, :group_id => group_id)
-  end  
+  end
   def attendances
     Attendance.where(:account_id => account_id, :activity_id.in => group.activity_ids)
   end
@@ -79,7 +79,7 @@ class Membership
   end
   # Rotas
   def shifts
-    Shift.where(:account_id => account_id, :rota_id.in => group.rota_ids)
+    Shift.where(:account_id => account_id, :group_id => group_id)
   end
   # Tiers
   def tiership

@@ -6,8 +6,14 @@ class Shift
   belongs_to :role, index: true
   belongs_to :rslot, index: true
   belongs_to :rota, index: true
+  belongs_to :group, index: true
   
-  validates_presence_of :role, :rslot, :rota
+  validates_presence_of :role, :rslot, :rota, :group
+  
+  before_validation do
+    self.rota = self.role.rota if self.role
+    self.group = self.rota.group if self.rota
+  end  
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do

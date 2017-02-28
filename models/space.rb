@@ -7,14 +7,19 @@ class Space
   
   has_many :activities, :dependent => :nullify
   
+  belongs_to :timetable, index: true  
   belongs_to :group, index: true  
-  validates_presence_of :group
+  validates_presence_of :timetable, :group
+  
+  before_validation do
+    self.group = self.timetable.group if self.timetable
+  end    
         
   def self.admin_fields
     {
       :name => :text,
       :o => :number,
-      :group_id => :lookup
+      :timetable_id => :lookup
     }
   end
     

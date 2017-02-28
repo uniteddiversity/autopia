@@ -14,11 +14,11 @@ class Notification
   end
   
   def self.types
-    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked}
+    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable}
   end
   
   def self.mailable_types
-    %w{applied joined_group listed_activity created_transport created_tier created_team created_accom created_rota listed_spend}
+    %w{applied joined_group listed_activity created_transport created_tier created_team created_accom created_rota listed_spend created_timetable}
   end
   
   after_create do
@@ -86,7 +86,7 @@ class Notification
       "<strong>#{spend.account.name}</strong> spent £#{spend.amount} on <strong>#{spend.item}</strong>"
     when :listed_activity
       activity = notifiable
-      "<strong>#{activity.account.name}</strong> listed the activity <strong>#{activity.name}</strong>"
+      "<strong>#{activity.account.name}</strong> proposed the activity <strong>#{activity.name}</strong> under <strong>#{activity.timetable.name}</strong>"
     when :signed_up_to_a_shift
       shift = notifiable
       "<strong>#{shift.account.name}</strong> signed up for a <strong>#{shift.rota.name}</strong> shift"
@@ -135,6 +135,9 @@ class Notification
     when :booked
       booking = notifiable
       "<strong>#{booking.account.name}</strong> booked <strong>#{booking.date}</strong>"      
+    when :created_timetable
+      timetable = notifiable
+      "<strong>#{timetable.account.name}</strong> created the timetable <strong>#{timetable.name}</strong>"      
     end
   end
   
@@ -182,6 +185,8 @@ class Notification
       ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :booked
       ['View bookings', "http://#{ENV['DOMAIN']}/h/#{group.slug}/bookings"]  
+    when :created_timetable
+      ['View timetables', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]      
     end
   end
   
@@ -229,6 +234,8 @@ class Notification
       'fa-key'
     when :booked
       'fa-calendar'
+    when :created_timetable
+      'fa-table'      
     end    
   end
 
