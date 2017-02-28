@@ -1,6 +1,10 @@
 
 $(function () {
 
+  $('form').submit(function () {
+    $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
+  });
+
   $("abbr.timeago").timeago()
 
   $('[data-upload-url]').click(function () {
