@@ -152,7 +152,7 @@ class Notification
     when :listed_spend
       ['View spending', "http://#{ENV['DOMAIN']}/h/#{group.slug}/spending"]
     when :listed_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable"]
+      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]
     when :signed_up_to_a_shift
       ['View rotas', "http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
     when :joined_tier
@@ -162,7 +162,7 @@ class Notification
     when :joined_accom
       ['View accommodation', "http://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
     when :interested_in_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable"]  
+      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
     when :gave_verdict
       ['View applications', "http://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
     when :created_transport
@@ -176,9 +176,9 @@ class Notification
     when :created_rota
       ['View rotas', "http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
     when :scheduled_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable"]  
+      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
     when :unscheduled_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetable"]  
+      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
     when :made_admin
       ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :unadmined
