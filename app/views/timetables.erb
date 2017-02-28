@@ -16,8 +16,6 @@
     });
     $('.activity-accept[data-activity-id]').droppable("option", "disabled", true);
 
-    $('.activity-form div.col-sm-6').removeClass('col-sm-6').addClass('col-sm-9')
-
     $(".spaces").sortable({
       update: function (event, ui) {
         $.post('/spaces/order', {timetable_id: $(event.target).attr('data-timetable-id'), space_ids: $(event.target).sortable("toArray")}, function () {
@@ -63,15 +61,15 @@
     <% end %>     
   </h2>
 
+  <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> Propose an activity</a>
+  <div style="display: none" class="activity-form">
+    <%= partial :activity_form, :locals => {:timetable => timetable}%>  
+  </div>
+
   <div class="row">
 
     <div class="col-sm-3">
       <h3>Unscheduled</h3>
-
-      <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> Propose an activity</a>
-      <div style="display: none" class="activity-form">
-        <%= partial :activity_form, :locals => {:timetable => timetable}%>  
-      </div>
 
       <div style="margin-top: 10px">
         <% timetable.activities.where(space_id: nil).each { |activity| %>             
@@ -146,7 +144,7 @@
       </table>
 
       <% if @membership.admin? %>
-                         
+
         <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-exchange"></i> Reorder</a>
         <div style="display: none" class="activity-form">
 

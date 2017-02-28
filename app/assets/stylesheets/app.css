@@ -30,7 +30,7 @@ a, a:hover, a:focus { color: #CE2828 }
   border-color: #AA1C1C;
   color: #ffffff;
 }
-.btn-primary:hover, .btn-primary:focus, .btn-group.open .dropdown-toggle.btn-primary {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:disabled, .btn-group.open .dropdown-toggle.btn-primary {
   background-color: #CE2828;
   border-color: #AA1C1C;
 }
