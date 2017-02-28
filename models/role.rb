@@ -19,7 +19,8 @@ class Role
     {
       :name => :text,
       :o => :number,
-      :rota_id => :lookup
+      :rota_id => :lookup,
+      :group_id => :lookup
     }
   end
     

@@ -19,7 +19,8 @@ class Tslot
     {
       :name => :text,
       :o => :number,
-      :timetable_id => :lookup
+      :timetable_id => :lookup,
+      :group_id => :lookup
     }
   end
     
