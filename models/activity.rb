@@ -42,5 +42,11 @@ class Activity
       :group_id => :lookup      
     }
   end
+  
+  def self.human_attribute_name(attr, options={})  
+    {
+      :name => "Activity name",
+    }[attr.to_sym] || super  
+  end     
         
 end
