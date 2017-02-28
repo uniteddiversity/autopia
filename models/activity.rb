@@ -38,7 +38,8 @@ class Activity
       :account_id => :lookup,
       :space_id => :lookup,
       :tslot_id => :lookup,    
-      :timetable_id => :lookup      
+      :timetable_id => :lookup,
+      :group_id => :lookup      
     }
   end
         

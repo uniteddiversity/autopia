@@ -27,7 +27,8 @@ class Shift
       :account_id => :lookup,
       :role_id => :lookup,
       :rslot_id => :lookup,    
-      :rota_id => :lookup      
+      :rota_id => :lookup,
+      :group_id => :lookup      
     }
   end
       
