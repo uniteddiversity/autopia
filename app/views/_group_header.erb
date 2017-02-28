@@ -8,7 +8,7 @@
     <%= ul_nav 'nav nav-pills', [
       ["Members (#{@group.memberships.count})", "/h/#{@group.slug}"],
       ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],      
-      (["Timetables (#{@group.activities.count})", "/h/#{@group.slug}/timetables"] if @group.enable_timetables),
+      (["Timetables (#{@group.timetables.count})", "/h/#{@group.slug}/timetables"] if @group.enable_timetables),
       (["Teams (#{@group.teams.count})", "/h/#{@group.slug}/teams"] if @group.enable_teams),
       (["Rotas (#{@group.rotas.count})", "/h/#{@group.slug}/rotas"] if @group.enable_rotas),
       (["Tiers (#{@group.tiers.count})", "/h/#{@group.slug}/tiers"] if @group.enable_tiers),
