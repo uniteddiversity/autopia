@@ -1,28 +1,95 @@
 
 <%= partial :group_header %>
 
-<% form_tag "/spends/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
-  <%= text_field_tag :item, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Item' %>          
-
-  <div class="input-group">
-    <span class="input-group-addon">£</span>
-    <%= number_field_tag :amount, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Amount' %>
-  </div>
-
-  <%= submit_tag 'Submit expense', :class => 'btn btn-primary' %>
-<% end %>  
-
-<table class="table table-striped">
-  <thead>
+<table class="table">
+  <tr>
+    <td colspan="4">
+      <h2>Incomings</h2>
+    </td>
+  </tr>    
+  <tr>
+    <th>Item</th>
+    <th>Amount</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td colspan="4">
+      <em>Tiers</em>
+    </td>
+  </tr>
+  <% @group.tiers.each { |tier| %>
     <tr>
-      <th>Item</th>
-      <th>Amount</th>
-      <th>Paid by</th>
-      <% if @membership.admin? %>
-        <th>Reimbused?</th>
-      <% end %>
+      <td>
+        <%= tier.name %> x <%=tier.tierships.count%>                
+      </td>
+      <td>£<%=tier.cost*tier.tierships.count%></td>      
+      <td></td>
+      <td></td>
     </tr>
-  </thead>
+  <% } %>
+  <tr>
+    <td colspan="4">
+      <em>Accommodation</em>
+    </td>
+  </tr>    
+  <% @group.accoms.each { |accom| %>
+    <tr>
+      <td>
+        <%= accom.name %> x <%=accom.accomships.count%>                
+      </td>
+      <td>£<%=accom.cost_per_person%></td>      
+      <td></td>
+      <td></td>
+    </tr>
+  <% } %>   
+  <tr>
+    <td colspan="4">
+      <em>Transport</em>
+    </td>
+  </tr>   
+  <% @group.transports.each { |transport| %>
+    <tr>
+      <td>
+        <%= transport.name %> x <%=transport.transportships.count%>                
+      </td>
+      <td>£<%=transport.cost*transport.transportships.count%></td>      
+      <td></td>
+      <td></td>
+    </tr>
+  <% } %>    
+  <tr>   
+    <th></th>      
+    <th>£<%=@group.incomings%></th>    
+    <th></th>
+    <th></th>
+  </tr>    
+
+  <tr>
+    <td colspan="4">
+      <h2>Outgoings</h2>
+
+      <% form_tag "/spends/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
+        <%= text_field_tag :item, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Item' %>          
+
+        <div class="input-group">
+          <span class="input-group-addon">£</span>
+          <%= number_field_tag :amount, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Amount' %>
+        </div>
+
+        <%= submit_tag 'Submit expense', :class => 'btn btn-primary' %>
+      <% end %>  
+
+    </td>
+  </tr>
+
+  <tr>
+    <th>Item</th>
+    <th>Amount</th>
+    <th>Paid by</th>
+    <th>Reimbused?</th>
+  </tr>  
+
   <% @group.spends.each { |spend| %>
     <tr>
       <td>
@@ -36,23 +103,19 @@
       </td>
       <td>£<%=spend.amount%></td>
       <td><%=spend.account.name%></td>
-      <% if @membership.admin? %>
-        <td>
-          <% if spend.reimbursed %>
-            <i class="fa fa-check"></i>
-          <% else %>
-            <input type="checkbox" onclick="window.location = '/spends/<%=spend.id%>/reimbursed'">
-          <% end %>                
-        </td>
-      <% end %>
+      <td>
+        <% if spend.reimbursed %>
+          <i class="fa fa-check"></i>
+        <% else %>
+          <input type="checkbox" onclick="window.location = '/spends/<%=spend.id%>/reimbursed'">
+        <% end %>                
+      </td>
     </tr>
   <% } %>
   <tr>   
     <th></th>      
     <th>£<%= @group.spends.pluck(:amount).sum %></th>
     <th></th>
-    <% if @membership.admin? %>
-      <th></th>
-    <% end %>       
+    <th></th>       
   </tr>    
 </table>

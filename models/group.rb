@@ -91,6 +91,20 @@ class Group
     Account.where(:stop_emails.ne => true).where(:id.in => memberships.pluck(:account_id)).pluck(:email)
   end  
   
+  def incomings
+    i = 0
+    tiers.each { |tier|
+      i += tier.cost*tier.tierships.count
+    }
+    accoms.each { |accom|
+      i += (accom.cost_per_person || 0)
+    }
+    transports.each { |transport|
+      i += transport.cost*transport.transportships.count
+    }
+    i
+  end
+  
   def anonymous_proposers
     false
   end
