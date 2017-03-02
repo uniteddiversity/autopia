@@ -3,7 +3,13 @@
   <%= submit_tag 'Submit', :class => 'btn btn-primary', :style => 'margin-top: 5px' %>
 <% end %>
 
-<% if params[:names]; f = params[:names].split("\n").map(&:strip); h = @group.memberships.map(&:account).map { |a| a.facebook_name || a.name } %>
+<% if params[:names] %>
+
+  <%
+  f = params[:names].split("\n").map(&:strip)
+  h = @group.memberships.map(&:account).map { |a| a.facebook_name || a.name }
+%>
+
   <h2>On Facebook group and Huddl <small><%= (x = (f & h)).count %></small></h2>
   <%= x.join(' <br /> ') %>
   <h2>On Facebook group, not on Huddl <small><%= (x = (f - h)).count %></small></h2>
@@ -13,19 +19,19 @@
     <% x.each { |name| account = Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(facebook_name: name) || Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(name: name) %>
       <tr>
         <td>
-          <%= name %>
+          <%= account.name %>
         </td>
         <td>
           <% if account.not_on_facebook %>
             <i class="fa fa-times"></i>
           <% else %>
-            <% form_tag "/update_facebook_name/#{account.id}" do %>
-              <%= text_field_tag :facebook_name, :class => 'form-control', :value => account.facebook_name %>
-            <% end %>
+            <div data-pagelet-url="/update_facebook_name/<%=account.id%>">
+              <%= partial :update_facebook_name, :locals => {:account => account} %>
+            </div>
           <% end %>
         </td>
-      <% } %>
-    </tr>
+      </tr>
+    <% } %>
   </table>
 <% end %>
 
