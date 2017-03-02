@@ -33,12 +33,12 @@
       <em>Accommodation</em>
     </td>
   </tr>    
-  <% @group.accoms.each { |accom| %>
+  <% @group.accoms.select { |accom| accom.accomships.count > 0 }.each { |accom| %>
     <tr>
       <td>
-        <%= accom.name %> x <%=accom.accomships.count%>                
+        <%= accom.name %>
       </td>
-      <td>£<%=accom.cost_per_person%></td>      
+      <td>£<%=accom.cost%></td>      
       <td></td>
       <td></td>
     </tr>

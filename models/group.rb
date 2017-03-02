@@ -96,8 +96,8 @@ class Group
     tiers.each { |tier|
       i += tier.cost*tier.tierships.count
     }
-    accoms.each { |accom|
-      i += (accom.cost_per_person || 0)
+    accoms.select { |accom| accom.accomships.count > 0 }.each { |accom|
+      i += accom.cost
     }
     transports.each { |transport|
       i += transport.cost*transport.transportships.count
