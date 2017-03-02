@@ -104,11 +104,17 @@
       <td>£<%=spend.amount%></td>
       <td><%=spend.account.name%></td>
       <td>
-        <% if spend.reimbursed %>
-          <i class="fa fa-check"></i>
+        <% if @membership.admin? %>       
+          <% if spend.reimbursed %>
+            <i class="fa fa-check"></i>
+          <% else %>
+            <input type="checkbox" onclick="window.location = '/spends/<%=spend.id%>/reimbursed'">
+          <% end %> 
         <% else %>
-          <input type="checkbox" onclick="window.location = '/spends/<%=spend.id%>/reimbursed'">
-        <% end %>                
+          <% if spend.reimbursed %>
+            <i class="fa fa-check"></i>
+          <% end %>          
+        <% end %>
       </td>
     </tr>
   <% } %>
