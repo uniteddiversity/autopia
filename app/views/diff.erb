@@ -16,8 +16,12 @@
           <%= name %>
         </td>
         <td>
-          <% form_tag "/update_facebook_name/#{account.id}" do %>
-            <%= text_field_tag :facebook_name, :class => 'form-control', :value => account.facebook_name %>
+          <% if account.not_on_facebook %>
+            <i class="fa fa-times"></i>
+          <% else %>
+            <% form_tag "/update_facebook_name/#{account.id}" do %>
+              <%= text_field_tag :facebook_name, :class => 'form-control', :value => account.facebook_name %>
+            <% end %>
           <% end %>
         </td>
       <% } %>

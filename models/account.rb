@@ -22,6 +22,7 @@ class Account
   
   before_validation do
     self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
+    self.name = self.name.strip if self.name
   end
   
   def network
