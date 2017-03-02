@@ -1,0 +1,7 @@
+<% if tiership = membership.tiership %>
+  <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (£<%= tiership.tier.cost %>)</span>
+<% end %>
+
+<% form_tag "/memberships/#{membership.id}/tier", :style => ('display:none' if tiership) do %>
+    <%= select_tag :tier_id, :class => 'form-control', :options => [''] + @group.tiers.map { |tier| [tier.name, tier.id] }, :selected => tiership.try(:tier_id), :onchange => '$(this.form).submit()' %>
+<% end %>

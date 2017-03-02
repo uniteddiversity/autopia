@@ -1,0 +1,7 @@
+<% if accomship = membership.accomship %>
+  <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)</span>
+<% end %>
+
+<% form_tag "/memberships/#{membership.id}/accom", :style => ('display:none' if accomship) do %>
+    <%= select_tag :accom_id, :class => 'form-control', :options => [''] + @group.accoms.map { |accom| [accom.name, accom.id] }, :selected => accomship.try(:accom_id), :onchange => '$(this.form).submit()' %>
+<% end %>

@@ -1,11 +1,7 @@
 <% if membership.account.not_on_facebook %>
   <i title="<%=membership.account.firstname%> doesn't use Facebook" class="fa fa-times"></i>
-<% else %>
-  <% if membership.added_to_facebook_group  %>
-    <i class="fa fa-check"></i>
-  <% else %>
-    <% form_tag "/memberships/#{membership.id}/added_to_facebook_group" do %>
-      <%= check_box_tag :added, :onclick => '$(this.form).submit()' %>
-    <% end %>
-  <% end %>
+<% else %>         
+  <% form_tag "/memberships/#{membership.id}/added_to_facebook_group" do %>
+    <%= check_box_tag :added_to_facebook_group, :onclick => '$(this.form).submit()', :checked => membership.added_to_facebook_group %>
+  <% end %>  
 <% end %>

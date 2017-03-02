@@ -213,7 +213,7 @@ Huddl::App.controller do
     @group = membership.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    membership.update_attribute(:added_to_facebook_group, true)
+    membership.update_attribute(:added_to_facebook_group, params[:added_to_facebook_group])
     200
   end
     
@@ -268,6 +268,42 @@ Huddl::App.controller do
     membership.update_attribute(:paid, params[:paid])
     200
   end  
+  
+  get '/memberships/:id/tier' do
+    membership = Membership.find(params[:id]) || not_found
+    @group = membership.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    partial :tier, :locals => {:membership => membership}      
+  end
+    
+  post '/memberships/:id/tier' do
+    membership = Membership.find(params[:id]) || not_found
+    @group = membership.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @group.tierships.find_by(account: membership.account_id).try(:destroy)
+    @group.tierships.create(account: membership.account_id, tier_id: params[:tier_id])
+    200
+  end    
+  
+  get '/memberships/:id/accom' do
+    membership = Membership.find(params[:id]) || not_found
+    @group = membership.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    partial :accom, :locals => {:membership => membership}      
+  end
+    
+  post '/memberships/:id/accom' do
+    membership = Membership.find(params[:id]) || not_found
+    @group = membership.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @group.accomships.find_by(account: membership.account_id).try(:destroy)
+    @group.accomships.create(account: membership.account_id, accom_id: params[:accom_id])
+    200
+  end   
   
   get '/memberships/:id/booking_limit' do
     membership = Membership.find(params[:id]) || not_found

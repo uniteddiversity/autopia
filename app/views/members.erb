@@ -122,7 +122,7 @@
         <th style="width: 1px">Name</th>      
         <th>Proposed by</th>
         <th>Accepted at</th>
-        <% if @membership.admin and @group.facebook_group %>
+        <% if @membership.admin? and @group.facebook_group %>
           <th>Added to Facebook group?</th>
         <% end %>         
         <% if @group.democratic_threshold %>
@@ -179,19 +179,31 @@
         <% if @group.democratic_threshold %>
           <td><%=membership.desired_threshold%></td>
         <% end %>        
-        <td>          
-          <% if tiership = membership.tiership %>
-            <span class="label label-primary"><%= tiership.tier.name %> (£<%= tiership.tier.cost %>)</span>
-          <% else %>          
-            <i class="fa fa-warning"></i>
-          <% end %>       
+        <td>        
+          <% if @membership.admin? %>
+            <div data-pagelet-url="/memberships/<%=membership.id%>/tier">
+              <%= partial :tier, :locals => {:membership => membership} %>
+            </div>
+          <% else %>
+            <% if tiership = membership.tiership %>
+              <span class="label label-primary"><%= tiership.tier.name %> (£<%= tiership.tier.cost %>)</span>
+            <% else %>          
+              <i class="fa fa-warning"></i>
+            <% end %>   
+          <% end %>                       
         </td>
-        <td>          
-          <% if accomship = membership.accomship %>
-            <span class="label label-primary"><%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)</span>
-          <% else %>          
-            <i class="fa fa-warning"></i>
-          <% end %>
+        <td>       
+          <% if @membership.admin? %>
+            <div data-pagelet-url="/memberships/<%=membership.id%>/accom">
+              <%= partial :accom, :locals => {:membership => membership} %>
+            </div>
+          <% else %>
+            <% if accomship = membership.accomship %>
+              <span class="label label-primary"><%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)</span>
+            <% else %>          
+              <i class="fa fa-warning"></i>
+            <% end %>
+          <% end %>           
         </td>    
         <td>
           <% membership.transportships.each { |transportship| %>
@@ -255,10 +267,8 @@
       <% if @group.democratic_threshold %>
         <th></th>
       <% end %>              
-      <% if @membership.admin %>
-        <% if @group.facebook_group %>
-          <th></th>
-        <% end %>
+      <% if @membership.admin? and @group.facebook_group %>
+        <th></th>
       <% end %>        
       <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
       <% if @membership.admin %>
