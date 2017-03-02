@@ -41,6 +41,13 @@ Huddl::App.controller do
       erb :build        
     end
   end
+  
+  get '/h/:slug/quicklinks' do   
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    membership_required!     
+    partial :quicklinks
+  end
 
   get '/h/:slug' do        
     @group = Group.find_by(slug: params[:slug]) || not_found
