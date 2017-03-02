@@ -3,5 +3,5 @@
 <% end %>
 
 <% form_tag "/memberships/#{membership.id}/accom", :style => ('display:none' if accomship) do %>
-    <%= select_tag :accom_id, :class => 'form-control', :options => [''] + @group.accoms.map { |accom| [accom.name, accom.id] }, :selected => accomship.try(:accom_id), :onchange => '$(this.form).submit()' %>
+    <%= select_tag :accom_id, :class => 'form-control', :options => [''] + @group.accoms.select { |accom| !accom.full? }.map { |accom| [accom.name, accom.id] }, :selected => accomship.try(:accom_id), :onchange => '$(this.form).submit()' %>
 <% end %>
