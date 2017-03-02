@@ -46,6 +46,9 @@
         <% end %>
       </td>      
       <td>
+        <% if tier.tierships.count > 0 %>
+          <%= pluralize(tier.tierships.count, 'person') %>:
+        <% end %>
         <% names = tier.tierships.map { |tiership| account = tiership.account; capture do %>
             <% if tiership.account == current_account or @membership.admin? %>
               <a data-confirm="Remove this person from this tier?" href="/tierships/<%=tiership.id%>/destroy"><%=account.name%></a>
