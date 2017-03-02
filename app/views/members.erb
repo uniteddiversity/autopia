@@ -38,18 +38,18 @@
   <a href="?no_shifts=true">People without shifts</a> <%= @group.memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)).count %>
 <% end %>
 <% y << capture do %>
-  <a href="?facebook=true">On Facebook group</a> <%= @group.memberships.where(:added_to_facebook_group => true).count %>
-<% end %>
-<% y << capture do %>
   <a href="?not_facebook=true">Not on Facebook group</a> <%= @group.memberships.where(:added_to_facebook_group.ne => true).count %>
 <% end %>
+<% y << capture do %>
+  <a href="?no_tier=true">No tier</a> <%= @group.memberships.where(:account_id.nin => @group.tierships.pluck(:account_id)).count %>
+<% end %>
+<% y << capture do %>
+  <a href="?no_accom=true">No accommodation</a> <%= @group.memberships.where(:account_id.nin => @group.accomships.pluck(:account_id)).count %>
+<% end %>  
 <% if @group.democratic_threshold %>
   <% y << capture do %>
     <a href="?threshold=true">Suggested magic number</a> <%= @group.memberships.where(:desired_threshold.ne => nil).count %>
   <% end %>
-  <% y << capture do %>
-    <a href="?no_threshold=true">No suggested magic number</a> <%= @group.memberships.where(:desired_threshold => nil).count %>
-  <% end %>  
 <% end %>
 
 <div style="margin-top: 10px; font-size: 20px"><%= x.map(&:strip).join(' &middot; ') %></div>

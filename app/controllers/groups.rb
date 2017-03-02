@@ -41,7 +41,7 @@ Huddl::App.controller do
       erb :build        
     end
   end
-               
+
   get '/h/:slug' do        
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
@@ -55,10 +55,10 @@ Huddl::App.controller do
     @memberships = @memberships.where(:paid => nil) if params[:not_paid]
     @memberships = @memberships.where(:account_id.in => @group.shifts.pluck(:account_id)) if params[:shifts]
     @memberships = @memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)) if params[:no_shifts]      
-    @memberships = @memberships.where(:added_to_facebook_group => true) if params[:facebook]
     @memberships = @memberships.where(:added_to_facebook_group.ne => true) if params[:not_facebook]     
+    @memberships = @memberships.where(:account_id.nin => @group.tierships.pluck(:account_id)) if params[:no_tier]     
+    @memberships = @memberships.where(:account_id.nin => @group.accomships.pluck(:account_id)) if params[:no_accom]     
     @memberships = @memberships.where(:desired_threshold.ne => nil) if params[:threshold]
-    @memberships = @memberships.where(:desired_threshold => nil) if params[:no_threshold]      
     @memberships = @memberships.order('created_at desc')
     erb :members
   end
