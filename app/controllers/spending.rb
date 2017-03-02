@@ -1,10 +1,10 @@
 Huddl::App.controller do
 
-  get '/h/:slug/spending' do
+  get '/h/:slug/budget' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    erb :spending
+    erb :budget
   end
 
   post '/spends/create' do

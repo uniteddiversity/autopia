@@ -6,7 +6,7 @@ class Group
   dragonfly_accessor :image
   
   def self.enablable
-    %w{timetables teams rotas tiers bookings accommodation transport spending}
+    %w{timetables teams rotas tiers bookings accommodation transport budget}
   end  
   
   field :name, :type => String
@@ -68,7 +68,7 @@ class Group
   # Transport
   has_many :transports, :dependent => :destroy
   has_many :transportships, :dependent => :destroy
-  # Spending  
+  # Budget  
   has_many :spends, :dependent => :destroy
   # Bookings
   has_many :bookings, :dependent => :destroy

@@ -93,7 +93,7 @@ class Membership
   def transportships
     Transportship.where(:account_id => account_id, :group_id => group_id)
   end  
-  # Spending
+  # Budget
   def spends
     Spend.where(:account_id => account_id, :group_id => group_id)
   end

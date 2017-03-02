@@ -15,7 +15,7 @@
       (["Bookings (#{@group.bookings.count})", "/h/#{@group.slug}/bookings"] if @group.enable_bookings),
       (["Accommodation (#{@group.accoms.count})", "/h/#{@group.slug}/accoms"] if @group.enable_accommodation),
       (["Transport (#{@group.transports.count})", "/h/#{@group.slug}/transports"] if @group.enable_transport),        
-      (["Spending (#{@group.spends.count})", "/h/#{@group.slug}/spending"] if @group.enable_spending),    
+      (["Budget (#{@group.spends.count})", "/h/#{@group.slug}/budget"] if @group.enable_budget),    
       ["Newsfeed", "/h/#{@group.slug}/newsfeed"],
       (["Facebook group", @group.facebook_group] if @group.facebook_group),    
       ].compact %>

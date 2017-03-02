@@ -60,7 +60,7 @@ class Account
   # Transport
   has_many :transports, :dependent => :nullify
   has_many :transportships, :dependent => :destroy 
-  # Spending
+  # Budget
   has_many :spends, :dependent => :destroy
   # Bookings
   has_many :bookings, :dependent => :destroy

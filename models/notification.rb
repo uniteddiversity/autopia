@@ -150,7 +150,7 @@ class Notification
     when :joined_team
       ['View teams', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams"]
     when :listed_spend
-      ['View spending', "http://#{ENV['DOMAIN']}/h/#{group.slug}/spending"]
+      ['View budget', "http://#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
     when :listed_activity
       ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]
     when :signed_up_to_a_shift
