@@ -113,7 +113,7 @@
   <pre style="margin-top: 15px;"><%= Account.where(:id.in => @memberships.pluck(:account_id)).map do |account| "#{account.name} &lt;#{account.email}&gt;" end.join(', ') %></pre>
 
 
-<% else @memberships = @memberships.page(params[:page]) %>
+<% else @memberships = @memberships.per_page(10).page(params[:page]) %>
 
 
   <table class="table table-striped">
