@@ -133,7 +133,9 @@
         <th>Transport</th>
         <th>Requested contribution</th>
         <th>Paid</th>     
-        <th>Booking limit</th>     
+        <% if @group.enable_bookings %>
+          <th>Booking limit</th>     
+        <% end %>
         <% if @membership.admin %>
           <th></th>
         <% end %>           
