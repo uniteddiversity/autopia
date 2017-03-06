@@ -266,7 +266,8 @@ Huddl::App.controller do
     @group = membership.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    membership.update_attribute(:paid, params[:paid])
+    membership.paid = params[:paid]
+    membership.save
     200
   end  
   
