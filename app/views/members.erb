@@ -164,8 +164,8 @@
             <% if mapplication.answers %>
               <div>
                 <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
-                              $('#modal').modal('show')
-                            });">
+                      $('#modal').modal('show')
+                    });">
                   <i class="fa fa-file-text-o" style="font-size: 20px"></i>
                 </a>
               </div>
@@ -214,9 +214,7 @@
           <% } %>
         </td>      
         <td>
-          <% if membership.requested_contribution and membership.requested_contribution > 0 %>
-            £<%= membership.requested_contribution %>
-          <% end %>
+          £<%= membership.requested_contribution %>
         </td>
         <td>
           <% if @membership.admin? %>
