@@ -9,6 +9,11 @@
 <% end %>
 
 <strong><%= account.name %></strong>
+<% if @membership.admin? %>
+  <div style="font-size: 12px">
+    <%=account.email%>
+  <% end %>
+</div>
 <div>
   <%= [
     ('<i data-toggle="tooltip" title="Admin" class="fa fa-key"></i>' if defined?(membership) and membership.admin?),

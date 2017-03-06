@@ -142,8 +142,9 @@ Huddl::App.controller do
   get '/h/:slug/applications' do     
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    membership_required!    
     @mapplications = @group.mapplications.pending
+    @mapplications = @mapplications.where(:account_id.in => Account.where(name: /#{Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
     erb :pending
   end   
     
