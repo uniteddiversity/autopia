@@ -53,6 +53,7 @@ Huddl::App.controller do
     @memberships = @memberships.where(:account_id.in => Account.where(name: /#{Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
     @memberships = @memberships.where('this.requested_contribution == this.paid') if params[:paid]
     @memberships = @memberships.where('this.requested_contribution > this.paid') if params[:more_to_pay]
+    @memberships = @memberships.where(:paid => 0) if params[:paid_nothing]
     @memberships = @memberships.where(:account_id.in => @group.shifts.pluck(:account_id)) if params[:shifts]
     @memberships = @memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)) if params[:no_shifts]      
     @memberships = @memberships.where(:added_to_facebook_group.ne => true) if params[:not_facebook]     

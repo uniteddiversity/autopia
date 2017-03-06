@@ -33,6 +33,9 @@
   <a href="?more_to_pay=true">More to pay</a> <%= @group.memberships.where('this.requested_contribution > this.paid').count %>
 <% end %>
 <% y << capture do %>
+  <a href="?paid_nothing=true">Paid nothing</a> <%= @group.memberships.where(:paid => 0).count %>
+<% end %>  
+<% y << capture do %>
   <a href="?shifts=true">People with shifts</a> <%= @group.memberships.where(:account_id.in => @group.shifts.pluck(:account_id)).count %>
 <% end %>
 <% y << capture do %>
