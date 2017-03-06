@@ -18,6 +18,11 @@ class Membership
   validates_presence_of :account, :group
   validates_uniqueness_of :account, :scope => :group
   
+  before_validation do
+    self.paid = 0 if self.paid.nil?
+    self.requested_contribution = 0 if self.paid.nil?
+  end
+  
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     if mapplication or added_by
