@@ -22,6 +22,12 @@ class Accomship
     }
   end
   
+  def membership
+    group.memberships.find_by(account: account)
+  end
+  after_save do membership.update_requested_contribution end
+  after_destroy do membership.update_requested_contribution end
+  
   before_validation do
     errors.add(:accom, 'is full') if accom and accom.capacity and accom.accomships.count == accom.capacity
   end

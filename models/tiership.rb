@@ -21,5 +21,11 @@ class Tiership
       :group_id => :lookup
     }
   end
+  
+  def membership
+    group.memberships.find_by(account: account)
+  end
+  after_save do membership.update_requested_contribution end
+  after_destroy do membership.update_requested_contribution end
       
 end

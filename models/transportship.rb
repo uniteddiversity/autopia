@@ -21,6 +21,12 @@ class Transportship
     }
   end
   
+  def membership
+    group.memberships.find_by(account: account)
+  end
+  after_save do membership.update_requested_contribution end
+  after_destroy do membership.update_requested_contribution end
+  
   before_validation do
     errors.add(:transport, 'is full') if transport and transport.capacity and transport.transportships.count == transport.capacity
   end  

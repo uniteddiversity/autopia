@@ -7,6 +7,7 @@ class Membership
   field :added_to_facebook_group, :type => Boolean
   field :desired_threshold, :type => Integer
   field :booking_limit, :type => Integer
+  field :requested_contribution, :type => Integer
   
   belongs_to :group, index: true
   belongs_to :account, class_name: "Account", inverse_of: :memberships, index: true
@@ -105,8 +106,8 @@ class Membership
   before_validation do
     self.desired_threshold = 1 if (self.desired_threshold and self.desired_threshold < 1)
   end
-    
-  def contribution
+        
+  def update_requested_contribution
     c = 0
     if tiership
       c += tiership.tier.cost
@@ -117,7 +118,7 @@ class Membership
     transportships.each { |transportship|
       c += transportship.transport.cost
     }
-    c
+    update_attribute(:requested_contribution, c)
   end
         
   def self.admin_fields
@@ -130,6 +131,7 @@ class Membership
       :desired_threshold => :number,
       :booking_limit => :number,
       :added_to_facebook_group => :check_box,
+      :requested_contribution => :number
     }
   end
       
