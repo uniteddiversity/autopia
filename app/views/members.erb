@@ -27,10 +27,10 @@
 
 <% y = [] %>
 <% y << capture do %>
-  <a href="?paid=true">Payment received</a> <%= @group.memberships.where('this.requested_contribution == this.paid').count %>
+  <a href="?paid=true">Paid in full</a> <%= @group.memberships.where('this.requested_contribution == this.paid').count %>
 <% end %>
 <% y << capture do %>
-  <a href="?not_paid=true">Payment not received</a> <%= @group.memberships.where('this.requested_contribution > this.paid').count %>
+  <a href="?not_paid=true">More to pay</a> <%= @group.memberships.where('this.requested_contribution > this.paid').count %>
 <% end %>
 <% y << capture do %>
   <a href="?shifts=true">People with shifts</a> <%= @group.memberships.where(:account_id.in => @group.shifts.pluck(:account_id)).count %>
