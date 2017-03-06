@@ -201,15 +201,7 @@ Huddl::App.controller do
     end
     redirect back
   end   
-    
-  get '/memberships/:id/added_to_facebook_group' do
-    membership = Membership.find(params[:id]) || not_found
-    @group = membership.group
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    partial :added_to_facebook_group, :locals => {:membership => membership}
-  end    
-    
+        
   post '/memberships/:id/added_to_facebook_group' do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group
@@ -253,15 +245,7 @@ Huddl::App.controller do
     membership.destroy
     redirect back      
   end    
-    
-  get '/memberships/:id/paid' do
-    membership = Membership.find(params[:id]) || not_found
-    @group = membership.group
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    partial :paid, :locals => {:membership => membership}      
-  end
-    
+        
   post '/memberships/:id/paid' do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group
@@ -271,15 +255,7 @@ Huddl::App.controller do
     membership.save
     200
   end  
-  
-  get '/memberships/:id/tier' do
-    membership = Membership.find(params[:id]) || not_found
-    @group = membership.group
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    partial :tier, :locals => {:membership => membership}      
-  end
-    
+      
   post '/memberships/:id/tier' do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group
@@ -289,15 +265,7 @@ Huddl::App.controller do
     @group.tierships.create(account: membership.account_id, tier_id: params[:tier_id])
     200
   end    
-  
-  get '/memberships/:id/accom' do
-    membership = Membership.find(params[:id]) || not_found
-    @group = membership.group
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    partial :accom, :locals => {:membership => membership}      
-  end
-    
+      
   post '/memberships/:id/accom' do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group
@@ -307,15 +275,7 @@ Huddl::App.controller do
     @group.accomships.create(account: membership.account_id, accom_id: params[:accom_id])
     200
   end   
-  
-  get '/memberships/:id/booking_limit' do
-    membership = Membership.find(params[:id]) || not_found
-    @group = membership.group
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    partial :booking_limit, :locals => {:membership => membership}      
-  end
-    
+      
   post '/memberships/:id/booking_limit' do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group
@@ -323,7 +283,15 @@ Huddl::App.controller do
     group_admins_only!
     membership.update_attribute(:booking_limit, params[:booking_limit])
     200
-  end    
+  end   
+  
+  get '/membership_row/:id' do
+    membership = Membership.find(params[:id]) || not_found
+    @group = membership.group
+    @membership = @group.memberships.find_by(account: current_account)
+    membership_required!
+    partial :membership_row, :locals => {:membership => membership}
+  end     
   
   get '/mapplications/:id' do
     @mapplication = Mapplication.find(params[:id]) || not_found

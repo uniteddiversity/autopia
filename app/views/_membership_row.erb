@@ -1,0 +1,135 @@
+<% account = membership.account %>
+<td>
+  <%= partial :account, :object => account, :locals => {:membership => membership} %>
+  <div>
+    <% membership.teamships.each { |teamship| %>
+      <a href="/h/<%=@group.slug%>/teams"><span class="label label-primary"><%=teamship.team.name%></span></a>
+    <% } %>        
+  </div>
+</td>
+<td>
+  <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : '' %>
+</td>        
+<td>
+  <%= membership.created_at %>          
+  <% if membership.mapplication; mapplication = membership.mapplication %>
+    <br />
+    <%=pluralize(mapplication.verdicts.supporters.count,'supporter') %>
+
+    <% if mapplication.answers %>
+      <div>
+        <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
+              $('#modal').modal('show')
+            });">
+          <i class="fa fa-file-text-o" style="font-size: 20px"></i>
+        </a>
+      </div>
+    <% end %>
+  <% end %>          
+</td>
+<% if @membership.admin? and @group.facebook_group %>
+  <td>
+    <% if membership.account.not_on_facebook %>
+      <i title="<%=membership.account.firstname%> doesn't use Facebook" class="fa fa-times"></i>
+    <% else %>         
+      <% form_tag "/memberships/#{membership.id}/added_to_facebook_group" do %>
+        <%= check_box_tag :added_to_facebook_group, :onclick => '$(this.form).submit()', :checked => membership.added_to_facebook_group %>
+      <% end %>  
+    <% end %>
+  </td>      
+<% end %> 
+<% if @group.democratic_threshold %>
+  <td><%=membership.desired_threshold%></td>
+<% end %>        
+<td>        
+  <% if @membership.admin? %>
+    <% if tiership = membership.tiership %>
+      <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (£<%= tiership.tier.cost %>)</span>
+    <% end %>
+
+    <% form_tag "/memberships/#{membership.id}/tier", :style => ('display:none' if tiership) do %>
+      <%= select_tag :tier_id, :class => 'form-control', :options => [''] + @group.tiers.map { |tier| [tier.name, tier.id] }, :selected => tiership.try(:tier_id), :onchange => '$(this.form).submit()' %>
+    <% end %>
+
+  <% else %>
+    <% if tiership = membership.tiership %>
+      <span class="label label-primary"><%= tiership.tier.name %> (£<%= tiership.tier.cost %>)</span>
+    <% else %>          
+      <i class="fa fa-warning"></i>
+    <% end %>   
+  <% end %>                       
+</td>
+<td>       
+  <% if @membership.admin? %>
+    <% if accomship = membership.accomship %>
+      <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)</span>
+    <% end %>
+
+    <% form_tag "/memberships/#{membership.id}/accom", :style => ('display:none' if accomship) do %>
+      <%= select_tag :accom_id, :class => 'form-control', :options => [''] + @group.accoms.select { |accom| !accom.full? }.map { |accom| [accom.name, accom.id] }, :selected => accomship.try(:accom_id), :onchange => '$(this.form).submit()' %>
+    <% end %>
+
+  <% else %>
+    <% if accomship = membership.accomship %>
+      <span class="label label-primary"><%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)</span>
+    <% else %>          
+      <i class="fa fa-warning"></i>
+    <% end %>
+  <% end %>           
+</td>    
+<td>
+  <% membership.transportships.each { |transportship| %>
+    <span class="label label-primary"><%= transportship.transport.name %> (£<%= transportship.transport.cost %>)</span> <br />
+  <% } %>
+</td>      
+<td>
+  £<%= membership.requested_contribution %>
+</td>
+<td>
+  <% if @membership.admin? %>
+    <% if membership.paid %>
+      <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "£#{membership.paid}" if membership.paid %></a>
+    <% end %>
+    <% form_tag "/memberships/#{membership.id}/paid", :style => ('display:none' if membership.paid) do %>
+      <div class="input-group">
+        <span class="input-group-addon">£</span>
+        <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid, :onblur => '$(this.form).submit()' %>
+      </div>              
+    <% end %>
+  <% else %>
+    <%= "£#{membership.paid}" if membership.paid %>
+  <% end %>
+</td>        
+<% if @group.enable_bookings %>
+  <td>
+    <% if @membership.admin? %>
+      <% if membership.booking_limit %>
+        <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= membership.booking_limit if membership.booking_limit %></a>
+      <% end %>
+      <% form_tag "/memberships/#{membership.id}/booking_limit", :style => ('display:none' if membership.booking_limit) do %>
+        <%= number_field_tag :booking_limit, :class => 'form-control', :style => 'width: 6em', :value => membership.booking_limit, :onblur => '$(this.form).submit()' %>
+      <% end %>
+    <% else %>
+      <%= membership.booking_limit if membership.booking_limit %>
+    <% end %>
+  </td>          
+<% end %>        
+<% if @membership.admin? %>
+  <td style="font-size: 13px">
+    <% y = [] %>
+    <% if membership.admin %>
+      <% y << capture do %>            
+        <a href="/memberships/<%=membership.id%>/unadmin">Unadmin</a>
+      <% end %>
+    <% else %>
+      <% y << capture do %>            
+        <a href="/memberships/<%=membership.id%>/make_admin">Make admin</a>
+      <% end %>
+    <% end %>
+    <% y << capture do %>            
+      <a data-confirm="Are you sure you want to remove this person from the group?" href="/memberships/<%=membership.id%>/remove">Remove</a>
+    <% end %>
+    <%= y.map(&:strip).join(' &middot; ') %>
+  </td>
+<% end %>
+</tr>
