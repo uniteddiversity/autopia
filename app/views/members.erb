@@ -256,25 +256,27 @@
         <% end %>
       </tr>
     <% } %>
-    <tr>
-      <th></th>      
+    <tr>     
+      <th style="width: 1px"></th>      
       <th></th>
       <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <% if @group.democratic_threshold %>
-        <th></th>
-      <% end %>              
       <% if @membership.admin? and @group.facebook_group %>
         <th></th>
-      <% end %>        
-      <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
-      <% if @membership.admin %>
+      <% end %>         
+      <% if @group.democratic_threshold %>
         <th></th>
       <% end %>        
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
+      <% if @group.enable_bookings %>
+        <th></th>     
+      <% end %>
+      <% if @membership.admin %>
+        <th></th>
+      <% end %>                 
     </tr>
   </table>
 
