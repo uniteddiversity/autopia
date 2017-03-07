@@ -20,7 +20,7 @@ class Membership
   
   before_validation do
     self.paid = 0 if self.paid.nil?
-    self.requested_contribution = 0 if self.paid.nil?
+    self.requested_contribution = 0 if self.requested_contribution.nil?
   end
   
   has_many :notifications, as: :notifiable, dependent: :destroy
