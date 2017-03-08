@@ -21,7 +21,7 @@ class Booking
   end
   
   before_validation do
-    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
+    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
     errors.add(:account, 'is at the booking limit') if membership.booking_limit and membership.bookings.count >= membership.booking_limit
     errors.add(:group, 'is at the booking limit for this date') if group.booking_limit and !group.booking_lifts.find_by(date: date) and group.bookings.where(date: date).count >= group.booking_limit
   end
@@ -30,6 +30,7 @@ class Booking
     {
       :account_id => :lookup,
       :group_id => :lookup,
+      :membership_id => :lookup
       :date => :date
     }
   end

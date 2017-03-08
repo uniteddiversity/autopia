@@ -14,7 +14,7 @@ class Activity
   before_validation do    
     self.timetable = self.space.timetable if self.space
     self.group = self.timetable.group if self.timetable
-    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
+    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end    
   
   field :name, :type => String
@@ -41,7 +41,8 @@ class Activity
       :space_id => :lookup,
       :tslot_id => :lookup,    
       :timetable_id => :lookup,
-      :group_id => :lookup      
+      :group_id => :lookup,
+      :membership_id => :lookup
     }
   end
   

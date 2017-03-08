@@ -10,7 +10,7 @@ class Transportship
   validates_presence_of :account, :transport, :group, :membership
     
   before_validation do
-    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
+    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end   
   
   has_many :notifications, as: :notifiable, dependent: :destroy
@@ -22,7 +22,8 @@ class Transportship
     {
       :account_id => :lookup,
       :transport_id => :lookup,
-      :group_id => :lookup
+      :group_id => :lookup,
+      :membership_id => :lookup
     }
   end
   

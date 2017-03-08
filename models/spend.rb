@@ -13,7 +13,7 @@ class Spend
   validates_presence_of :group, :account, :membership
   
   before_validation do
-    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
+    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end    
     
   has_many :notifications, as: :notifiable, dependent: :destroy
@@ -27,7 +27,8 @@ class Spend
       :amount => :number,
       :reimbursed => :check_box,
       :group_id => :lookup,      
-      :account_id => :lookup      
+      :account_id => :lookup,
+      :membership_id => :lookup
     }
   end
   

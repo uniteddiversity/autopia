@@ -11,7 +11,7 @@ class Accomship
   validates_uniqueness_of :account, :scope => :group
   
   before_validation do
-    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
+    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end  
   
   has_many :notifications, as: :notifiable, dependent: :destroy

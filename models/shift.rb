@@ -14,7 +14,7 @@ class Shift
   before_validation do
     self.rota = self.role.rota if self.role
     self.group = self.rota.group if self.rota
-    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
+    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end  
   
   has_many :notifications, as: :notifiable, dependent: :destroy
@@ -30,7 +30,8 @@ class Shift
       :role_id => :lookup,
       :rslot_id => :lookup,    
       :rota_id => :lookup,
-      :group_id => :lookup      
+      :group_id => :lookup,
+      :membership_id => :lookup
     }
   end
       

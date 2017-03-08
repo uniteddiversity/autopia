@@ -10,7 +10,7 @@ class Attendance
   
   before_validation do
     self.group = self.activity.group if self.activity
-    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
+    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end  
   
   validates_presence_of :activity, :account, :group, :membership
@@ -25,6 +25,8 @@ class Attendance
     {
       :activity_id => :lookup,
       :account_id => :lookup,
+      :group_id => :lookup,
+      :membership_id => :lookup
     }
   end
     

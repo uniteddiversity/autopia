@@ -9,7 +9,7 @@ class Teamship
   
   before_validation do
     self.group = self.team.group if self.team
-    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
+    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end    
   
   validates_presence_of :account, :team, :group, :membership
@@ -22,7 +22,9 @@ class Teamship
   def self.admin_fields
     {
       :account_id => :lookup,
-      :team_id => :lookup
+      :team_id => :lookup,
+      :group_id => :lookup,
+      :membership_id => :lookup
     }
   end
     
