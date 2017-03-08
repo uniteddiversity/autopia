@@ -27,17 +27,6 @@
     <% end %>
   <% end %>          
 </td>
-<% if @membership.admin? and @group.facebook_group %>
-  <td>
-    <% if membership.account.not_on_facebook %>
-      <i title="<%=membership.account.firstname%> doesn't use Facebook" class="fa fa-times"></i>
-    <% else %>         
-      <% form_tag "/memberships/#{membership.id}/added_to_facebook_group" do %>
-        <%= check_box_tag :added_to_facebook_group, :onclick => '$(this.form).submit()', :checked => membership.added_to_facebook_group %>
-      <% end %>  
-    <% end %>
-  </td>      
-<% end %> 
 <% if @group.democratic_threshold %>
   <td><%=membership.desired_threshold%></td>
 <% end %>        

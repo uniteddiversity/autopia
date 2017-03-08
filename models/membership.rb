@@ -4,7 +4,6 @@ class Membership
   
   field :admin, :type => Boolean
   field :paid, :type => Integer
-  field :added_to_facebook_group, :type => Boolean
   field :desired_threshold, :type => Integer
   field :booking_limit, :type => Integer
   field :requested_contribution, :type => Integer
@@ -105,7 +104,6 @@ class Membership
       :paid => :number,
       :desired_threshold => :number,
       :booking_limit => :number,
-      :added_to_facebook_group => :check_box,
       :requested_contribution => :number
     }
   end

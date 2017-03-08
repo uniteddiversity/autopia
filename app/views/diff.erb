@@ -22,13 +22,9 @@
           <%= account.name %>
         </td>
         <td>
-          <% if account.not_on_facebook %>
-            <i class="fa fa-times"></i>
-          <% else %>
-            <div data-pagelet-url="/update_facebook_name/<%=account.id%>">
-              <%= partial :update_facebook_name, :locals => {:account => account} %>
-            </div>
-          <% end %>
+          <div data-pagelet-url="/update_facebook_name/<%=account.id%>">
+            <%= partial :update_facebook_name, :locals => {:account => account} %>
+          </div>
         </td>
       </tr>
     <% } %>

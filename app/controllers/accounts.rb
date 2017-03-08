@@ -93,11 +93,5 @@ Huddl::App.controller do
       erb :'accounts/build'
     end
   end   
-  
-  get '/accounts/not_on_facebook' do
-    halt unless current_account
-    current_account.update_attribute(:not_on_facebook, true)
-    redirect back
-  end   
-   
+     
 end

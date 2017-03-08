@@ -56,7 +56,6 @@ Huddl::App.controller do
     @memberships = @memberships.where(:paid => 0) if params[:paid_nothing]
     @memberships = @memberships.where(:account_id.in => @group.shifts.pluck(:account_id)) if params[:shifts]
     @memberships = @memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)) if params[:no_shifts]      
-    @memberships = @memberships.where(:added_to_facebook_group.ne => true) if params[:not_facebook]     
     @memberships = @memberships.where(:account_id.nin => @group.tierships.pluck(:account_id)) if params[:no_tier]     
     @memberships = @memberships.where(:account_id.nin => @group.accomships.pluck(:account_id)) if params[:no_accom]     
     @memberships = @memberships.where(:desired_threshold.ne => nil) if params[:threshold]
@@ -201,16 +200,7 @@ Huddl::App.controller do
     end
     redirect back
   end   
-        
-  post '/memberships/:id/added_to_facebook_group' do
-    membership = Membership.find(params[:id]) || not_found
-    @group = membership.group
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    membership.update_attribute(:added_to_facebook_group, params[:added_to_facebook_group])
-    200
-  end
-    
+            
   get '/memberships/:id/make_admin' do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group

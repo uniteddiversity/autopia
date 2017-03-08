@@ -17,7 +17,7 @@
       (["Transport (#{@group.transports.count})", "/h/#{@group.slug}/transports"] if @group.enable_transport),        
       (["Budget", "/h/#{@group.slug}/budget"] if @group.enable_budget),    
       ["Newsfeed", "/h/#{@group.slug}/newsfeed"],
-      (["Facebook group", @group.facebook_group] if @group.facebook_group),    
+      (["Discussion", @group.discussion_url] if @group.discussion_url),    
       ].compact %>
   </div>
 
@@ -51,18 +51,6 @@
       <div class="panel-body">
         <p>You've paid £<%=@membership.paid or 0%> of a requested contribution of £<%=@membership.requested_contribution%>.</p>
         <%=@group.payment_details%>
-      </div>
-    </div>
-  <% end %>
-
-  <% if !current_account.not_on_facebook and @group.facebook_group and !@membership.added_to_facebook_group %>
-    <div class="panel panel-primary" style="margin-top: 20px">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-warning"></i> Not on Facebook group</h3>
-      </div>
-      <div class="panel-body">
-        It looks like you're not a member of the <a href="<%=@group.facebook_group%>">Facebook group</a>.
-        Please ask someone that is to add you, or <a href="/accounts/not_on_facebook">click here to let us know that you don't use Facebook</a>
       </div>
     </div>
   <% end %>
