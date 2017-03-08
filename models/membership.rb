@@ -68,9 +68,9 @@ class Membership
   # Rotas
   has_many :shifts, :dependent => :destroy
   # Tiers
-  has_many :tierships, :dependent => :destroy
+  has_one :tiership, :dependent => :destroy
   # Accommodation
-  has_many :accomships, :dependent => :destroy 
+  has_one :accomship, :dependent => :destroy 
   # Transport
   has_many :transportships, :dependent => :destroy
   # Budget

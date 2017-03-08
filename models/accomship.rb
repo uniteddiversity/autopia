@@ -23,7 +23,8 @@ class Accomship
     {
       :account_id => :lookup,
       :accom_id => :lookup,
-      :group_id => :lookup
+      :group_id => :lookup,
+      :membership_id => :lookup
     }
   end
   
