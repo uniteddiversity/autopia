@@ -4,10 +4,11 @@ class Booking
 
   belongs_to :account, index: true
   belongs_to :group, index: true
+  belongs_to :membership, index: true
   
   field :date, :type => Date
   
-  validates_presence_of :account, :group, :date
+  validates_presence_of :account, :group, :date, :membership
   validates_uniqueness_of :account, :scope => [:group, :date]
   
   has_many :notifications, as: :notifiable, dependent: :destroy
@@ -20,6 +21,7 @@ class Booking
   end
   
   before_validation do
+    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
     errors.add(:account, 'is at the booking limit') if membership.booking_limit and membership.bookings.count >= membership.booking_limit
     errors.add(:group, 'is at the booking limit for this date') if group.booking_limit and !group.booking_lifts.find_by(date: date) and group.bookings.where(date: date).count >= group.booking_limit
   end

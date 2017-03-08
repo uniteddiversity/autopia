@@ -53,60 +53,30 @@ class Membership
       mail.deliver  
     end
   end     
-  
+   
   after_destroy do
     mapplication.try(:destroy)
-    verdicts.destroy_all
-    activities.destroy_all
-    attendances.destroy_all
-    teamships.destroy_all
-    shifts.destroy_all
-    tiership.try(:destroy)
-    accomship.try(:destroy)
-    transportships.destroy_all
-    spends.destroy_all
-    bookings.destroy_all
   end
   
-  def verdicts
-    Verdict.where(:account_id => account_id, :mapplication_id.in => group.mapplication_ids)
-  end
+  has_many :verdicts, :dependent => :destroy
   
   # Timetable
-  def activities
-    Activity.where(:account_id => account_id, :group_id => group_id)
-  end
-  def attendances
-    Attendance.where(:account_id => account_id, :activity_id.in => group.activity_ids)
-  end
+  has_many :activities, :dependent => :destroy
+  has_many :attendances, :dependent => :destroy
   # Teams
-  def teamships
-    Teamship.where(:account_id => account_id, :team_id.in => group.team_ids)
-  end
+  has_many :teamships, :dependent => :destroy
   # Rotas
-  def shifts
-    Shift.where(:account_id => account_id, :group_id => group_id)
-  end
+  has_many :shifts, :dependent => :destroy
   # Tiers
-  def tiership
-    Tiership.find_by(:account_id => account_id, :group_id => group_id)
-  end  
+  has_many :tierships, :dependent => :destroy
   # Accommodation
-  def accomship
-    Accomship.find_by(:account_id => account_id, :group_id => group_id)
-  end    
+  has_many :accomships, :dependent => :destroy 
   # Transport
-  def transportships
-    Transportship.where(:account_id => account_id, :group_id => group_id)
-  end  
+  has_many :transportships, :dependent => :destroy
   # Budget
-  def spends
-    Spend.where(:account_id => account_id, :group_id => group_id)
-  end
+  has_many :spends, :dependent => :destroy
   # Bookings
-  def bookings
-    Booking.where(:account_id => account_id, :group_id => group_id)
-  end  
+  has_many :bookings, :dependent => :destroy
   
   before_validation do
     self.desired_threshold = 1 if (self.desired_threshold and self.desired_threshold < 1)

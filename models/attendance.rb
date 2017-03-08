@@ -5,8 +5,15 @@ class Attendance
      
   belongs_to :activity, index: true
   belongs_to :account, index: true
+  belongs_to :group, index: true
+  belongs_to :membership, index: true
   
-  validates_presence_of :activity, :account
+  before_validation do
+    self.group = self.activity.group if self.activity
+    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
+  end  
+  
+  validates_presence_of :activity, :account, :group, :membership
   validates_uniqueness_of :activity, :scope => :account
   
   has_many :notifications, as: :notifiable, dependent: :destroy

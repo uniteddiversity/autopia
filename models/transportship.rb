@@ -5,8 +5,13 @@ class Transportship
   belongs_to :account, index: true
   belongs_to :transport, index: true 
   belongs_to :group, index: true
+  belongs_to :membership, index: true
   
-  validates_presence_of :account, :transport, :group
+  validates_presence_of :account, :transport, :group, :membership
+    
+  before_validation do
+    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
+  end   
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
@@ -21,9 +26,6 @@ class Transportship
     }
   end
   
-  def membership
-    group.memberships.find_by(account: account)
-  end
   after_save do membership.update_requested_contribution end
   after_destroy do membership.update_requested_contribution end
   

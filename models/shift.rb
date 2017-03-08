@@ -7,12 +7,14 @@ class Shift
   belongs_to :rslot, index: true
   belongs_to :rota, index: true
   belongs_to :group, index: true
+  belongs_to :membership, index: true
   
   validates_presence_of :role, :rslot, :rota, :group
   
   before_validation do
     self.rota = self.role.rota if self.role
     self.group = self.rota.group if self.rota
+    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
   end  
   
   has_many :notifications, as: :notifiable, dependent: :destroy

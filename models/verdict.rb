@@ -6,10 +6,17 @@ class Verdict
   field :reason, :type => String
   
   belongs_to :account, index: true
+  belongs_to :group, index: true
+  belongs_to :membership, index: true
   belongs_to :mapplication, index: true
   
-  validates_presence_of :account, :mapplication, :type
+  validates_presence_of :account, :group, :membership, :mapplication, :type
   validates_uniqueness_of :account, :scope => :mapplication
+  
+  before_validation do
+    self.group = self.mapplication.group if self.mapplication
+    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
+  end
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do

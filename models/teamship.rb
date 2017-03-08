@@ -4,6 +4,15 @@ class Teamship
 
   belongs_to :account, index: true
   belongs_to :team, index: true
+  belongs_to :group, index: true
+  belongs_to :membership, index: true
+  
+  before_validation do
+    self.group = self.team.group if self.team
+    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
+  end    
+  
+  validates_presence_of :account, :team, :group, :membership
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do

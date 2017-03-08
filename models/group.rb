@@ -43,17 +43,17 @@ class Group
   has_many :memberships, :dependent => :destroy
   has_many :mapplications, :dependent => :destroy  
   has_many :notifications, :dependent => :destroy
+  has_many :verdicts, :dependent => :destroy
   
   # Timetable
   has_many :timetables, :dependent => :destroy
   has_many :spaces, :dependent => :destroy
   has_many :tslots, :dependent => :destroy
   has_many :activities, :dependent => :destroy
+  has_many :attendances, :dependent => :destroy
   # Teams
   has_many :teams, :dependent => :destroy
-  def teamships
-    Teamship.where(:team_id.in => team_ids)
-  end    
+  has_many :teamships, :dependent => :destroy  
   # Rotas
   has_many :rotas, :dependent => :destroy
   has_many :roles, :dependent => :destroy

@@ -9,10 +9,12 @@ class Activity
   belongs_to :account, class_name: "Account", inverse_of: :activities, index: true
   belongs_to :scheduled_by, class_name: "Account", inverse_of: :activities_scheduled, index: true
   belongs_to :group, index: true
+  belongs_to :membership, index: true
   
-  before_validation do
+  before_validation do    
     self.timetable = self.space.timetable if self.space
     self.group = self.timetable.group if self.timetable
+    self.membership = self.group.find_by(account: self.account) if self.group and self.account and !self.membership
   end    
   
   field :name, :type => String
@@ -21,7 +23,7 @@ class Activity
   
   dragonfly_accessor :image
   
-  validates_presence_of :name, :description, :account, :timetable, :group
+  validates_presence_of :name, :description, :account, :timetable, :group, :membership
   
   has_many :attendances, :dependent => :destroy
   
