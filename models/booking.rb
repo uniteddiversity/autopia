@@ -30,7 +30,7 @@ class Booking
     {
       :account_id => :lookup,
       :group_id => :lookup,
-      :membership_id => :lookup
+      :membership_id => :lookup,
       :date => :date
     }
   end
