@@ -18,6 +18,7 @@ class Membership
   validates_uniqueness_of :account, :scope => :group
   
   before_validation do
+    self.desired_threshold = 1 if (self.desired_threshold and self.desired_threshold < 1)
     self.paid = 0 if self.paid.nil?
     self.requested_contribution = 0 if self.requested_contribution.nil?
   end
@@ -69,7 +70,7 @@ class Membership
   # Tiers
   has_many :tierships, :dependent => :destroy
   def tiership
-    tiership.first
+    tierships.first
   end
   # Accommodation
   has_many :accomships, :dependent => :destroy 
@@ -82,11 +83,7 @@ class Membership
   has_many :spends, :dependent => :destroy
   # Bookings
   has_many :bookings, :dependent => :destroy
-  
-  before_validation do
-    self.desired_threshold = 1 if (self.desired_threshold and self.desired_threshold < 1)
-  end
-        
+          
   def update_requested_contribution
     c = 0
     if tiership
