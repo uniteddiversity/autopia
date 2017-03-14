@@ -11,7 +11,7 @@
 <style>
   .quality a, .quality span { font-size: 12px; color: white }
   .quality { height: 120px }
-  .quality h3 { font-size: 18px; line-height: 20px }
+  .quality h3 a { font-size: 18px; line-height: 20px }
 </style>
 <div class="row">
   <% @group.qualities.sort_by { |quality| -quality.cultivations.count }.each { |quality| %>

@@ -11,7 +11,7 @@ class Quality
  
   belongs_to :group, index: true
   belongs_to :account, index: true
-  validates_presence_of :name, :description, :group
+  validates_presence_of :name, :link, :group
   
   has_many :cultivations, :dependent => :destroy
      
