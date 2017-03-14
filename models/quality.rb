@@ -4,7 +4,7 @@ class Quality
   extend Dragonfly::Model
     
   field :name, :type => String
-  field :description, :type => String
+  field :link, :type => String
   field :image_uid, :type => String
   
   dragonfly_accessor :image
