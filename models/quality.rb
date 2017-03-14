@@ -18,7 +18,7 @@ class Quality
   def self.admin_fields
     {
       :name => :text,
-      :description => :text_area,
+      :link => :url,
       :image => :image,
       :group_id => :lookup,
       :account_id => :lookup,
