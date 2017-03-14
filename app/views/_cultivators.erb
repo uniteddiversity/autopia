@@ -1,0 +1,18 @@
+<% if quality.cultivations.count > 0 %>
+  <span data-toggle="tooltip" title="<%=quality.cultivations.map { |cultivation| cultivation.account.name }.join('<br />')%>">
+    <% if quality.cultivations.find_by(account: current_account) %>
+      <% if quality.cultivations.count == 1 %>
+        You're cultivating this quality
+      <% else %>
+        You and <%=pluralize(quality.cultivations.count - 1,'other')%> cultivating this quality
+      <% end %>
+    <% else %>
+      <%=pluralize(quality.cultivations.count,'person')%> cultivating this quality
+    <% end %>
+  </span>
+<% end %>
+<% if quality.cultivations.find_by(account: current_account) %>
+  <a class="pagelet-trigger" title="No longer interested" href="/qualities/<%=quality.id%>/uncultivate"><i class="fa fa-times"></i></a>    
+<% else %>
+  <a class="pagelet-trigger" title="Interested"  href="/qualities/<%=quality.id%>/cultivate"><i class="fa fa-thumbs-o-up"></i></a>
+<% end %>

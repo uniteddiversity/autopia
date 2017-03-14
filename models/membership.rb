@@ -83,7 +83,9 @@ class Membership
   has_many :spends, :dependent => :destroy
   # Bookings
   has_many :bookings, :dependent => :destroy
-          
+  # Qualities
+  has_many :cultivations, :dependent => :destroy
+  
   def update_requested_contribution
     c = 0
     if tiership

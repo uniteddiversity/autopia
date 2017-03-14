@@ -1,0 +1,37 @@
+
+<%= partial :group_header %>
+
+<div style="margin: 10px 0">
+  <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List a quality</a>
+  <div style="display: none" class="quality-form">
+    <%= partial :quality_form %>  
+  </div>
+</div>
+
+<style>
+  .quality a, .quality span { font-size: 12px; color: white }
+  .quality { height: 120px }
+  .quality h3 { font-size: 18px; line-height: 20px }
+</style>
+<div class="row">
+  <% @group.qualities.sort_by { |quality| -quality.cultivations.count }.each { |quality| %>
+    <div class="col-sm-3">
+      <%= partial :quality, :object => quality %>
+    </div>
+  <% } %>
+</div>
+
+<h2>Who's cultivating what</h2>
+
+<table class="table">
+<% @group.members.each { |account| %>
+  <tr>
+    <td>
+      <%=account.name%>
+    </td>
+    <td>
+      <%= @group.cultivations.where(:account_id => account.id).map { |cultivation| cultivation.quality.name }.join(', ') %>     
+    </td>
+  </tr>
+<% } %>
+  </table>

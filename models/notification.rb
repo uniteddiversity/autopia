@@ -14,7 +14,7 @@ class Notification
   end
   
   def self.types
-    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable}
+    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality}
   end
   
   def self.mailable_types
@@ -138,6 +138,9 @@ class Notification
     when :created_timetable
       timetable = notifiable
       "<strong>#{timetable.account.name}</strong> created the timetable <strong>#{timetable.name}</strong>"      
+    when :cultivating_quality
+      cultivation = notifiable
+      "<strong>#{cultivation.account.name}</strong> is cultivating <strong>#{cultivation.quality.name}</strong>"                  
     end
   end
   
@@ -187,6 +190,8 @@ class Notification
       ['View bookings', "http://#{ENV['DOMAIN']}/h/#{group.slug}/bookings"]  
     when :created_timetable
       ['View timetables', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]      
+    when :cultivating_quality
+      ['View qualities', "http://#{ENV['DOMAIN']}/h/#{group.slug}/qualities"]      
     end
   end
   
@@ -235,7 +240,9 @@ class Notification
     when :booked
       'fa-calendar'
     when :created_timetable
-      'fa-table'      
+      'fa-table'   
+    when :cultivating_quality
+      'fa-star'      
     end    
   end
 

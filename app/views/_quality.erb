@@ -1,0 +1,17 @@
+<div class="quality" data-quality-id="<%=quality.id%>" style="z-index: 99; margin-bottom: 10px; background-image: url('<%=quality.image.try(:url)%>'); background-size: cover; background-position: center center; position: relative;">  
+  <div style="background: black; opacity: 0.5; height: 100%"></div>
+  <div style="position: absolute; bottom: 10px; left: 10px; color: white">
+    <h3 style="color: white; margin-top: 0; margin-bottom: 0; position: relative" data-toggle="tooltip">
+      <%=quality.name%>
+    </h3>
+    <p class="description" style="display: none">
+      <%=quality.description.gsub("\n","<br />")%>
+    </p>
+    <div data-pagelet-url="/qualities/<%=quality.id%>/cultivators">
+      <%= partial :cultivators, :locals => {:quality => quality}  %>
+    </div>
+  </div>  
+  <div style="position: absolute; right: 10px; bottom: 10px; color: white">
+    <a title="Edit" href="/qualities/<%=quality.id%>/edit"><i class="fa fa-pencil"></i></a>      
+  </div>  
+</div>

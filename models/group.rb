@@ -6,7 +6,7 @@ class Group
   dragonfly_accessor :image
   
   def self.enablable
-    %w{timetables teams rotas tiers bookings accommodation transport budget}
+    %w{qualities timetables teams rotas tiers bookings accommodation transport budget}
   end  
   
   field :name, :type => String
@@ -73,6 +73,9 @@ class Group
   # Bookings
   has_many :bookings, :dependent => :destroy
   has_many :booking_lifts, :dependent => :destroy
+  # Qualities
+  has_many :qualities, :dependent => :destroy
+  has_many :cultivations, :dependent => :destroy
   
   def application_questions_a
     q = (application_questions || '').split("\n").map(&:strip) 
