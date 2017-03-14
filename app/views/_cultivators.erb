@@ -12,7 +12,7 @@
   </span>
 <% end %>
 <% if quality.cultivations.find_by(account: current_account) %>
-  <a class="pagelet-trigger" href="/qualities/<%=quality.id%>/uncultivate"><i class="fa fa-times"></i></a>    
+  <a class="pagelet-trigger" title="Not cultivating" href="/qualities/<%=quality.id%>/uncultivate"><i class="fa fa-times"></i></a>    
 <% else %>
-  <a class="pagelet-trigger" href="/qualities/<%=quality.id%>/cultivate"><i class="fa fa-star-o"></i></a>
+  <a class="pagelet-trigger" title="Cultivate" href="/qualities/<%=quality.id%>/cultivate"><i class="fa fa-star-o"></i></a>
 <% end %>
