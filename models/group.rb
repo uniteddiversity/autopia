@@ -85,6 +85,10 @@ class Group
   def members
     Account.where(:id.in => memberships.pluck(:account_id))
   end
+  
+  def cultivators
+    Account.where(:id.in => cultivations.pluck(:account_id))
+  end
       
   def admin_emails
     Account.where(:stop_emails.ne => true).where(:id.in => memberships.where(admin: true).pluck(:account_id)).pluck(:email)

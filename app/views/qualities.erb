@@ -24,7 +24,7 @@
 <h2>Who's cultivating what</h2>
 
 <table class="table">
-<% @group.members.each { |account| %>
+<% @group.cultivators.order('name asc').each { |account| %>
   <tr>
     <td>
       <%=account.name%>
