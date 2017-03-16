@@ -10,6 +10,7 @@ class Shift
   belongs_to :membership, index: true
   
   validates_presence_of :role, :rslot, :rota, :group
+  validates_uniqueness_of :role, :scope => :rslot
   
   before_validation do
     self.rota = self.role.rota if self.role

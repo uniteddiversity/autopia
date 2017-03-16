@@ -26,9 +26,9 @@
 <table class="table">
 <% @group.cultivators.order('name asc').each { |account| %>
   <tr>
-    <td>
+    <th>
       <%=account.name%>
-    </td>
+    </th>
     <td>
       <%= @group.cultivations.where(:account_id => account.id).map { |cultivation| cultivation.quality.name }.join(', ') %>     
     </td>

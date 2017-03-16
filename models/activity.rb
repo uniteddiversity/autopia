@@ -24,6 +24,7 @@ class Activity
   dragonfly_accessor :image
   
   validates_presence_of :name, :description, :account, :timetable, :group, :membership
+  validates_uniqueness_of :space, :scope => :tslot, :allow_nil => true
   
   has_many :attendances, :dependent => :destroy
   
