@@ -34,3 +34,4 @@ gem 'mechanize'
 
 gem 'html_truncator'
 
+
