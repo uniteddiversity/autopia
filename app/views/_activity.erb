@@ -8,9 +8,7 @@
       <%=activity.description.gsub("\n","<br />")%>
     </p>
     <span style="color: white">by <%=activity.account.name%></span>
-    <div data-pagelet-url="/activities/<%=activity.id%>/attendees">
-      <%= partial :attendees, :locals => {:activity => activity}  %>
-    </div>
+    <div data-pagelet-url="/activities/<%=activity.id%>/attendees"></div>
   </div>  
   <div style="position: absolute; right: 10px; bottom: 10px; color: white">
     <% if activity.space_id %>      

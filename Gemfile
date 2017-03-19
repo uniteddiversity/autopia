@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.3.3'
+ruby '2.3.0'
 gem 'puma'
-gem 'padrino'
+gem 'padrino', '0.13.3.2'
 gem 'rake'
 gem 'erubis'
 gem 'rack'

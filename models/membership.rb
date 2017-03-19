@@ -86,7 +86,7 @@ class Membership
   # Qualities
   has_many :cultivations, :dependent => :destroy
   
-  def update_requested_contribution
+  def update_requested_contribution    
     c = 0
     if tiership
       c += tiership.tier.cost
