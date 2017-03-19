@@ -58,6 +58,10 @@ module Huddl
       erb :not_found, :layout => :application
     end
     
+    get '/raise' do
+      raise Time.to_i.to_s
+    end    
+    
     get '/' do
       erb :home
     end
