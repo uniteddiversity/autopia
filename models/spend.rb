@@ -8,9 +8,7 @@ class Spend
 
   belongs_to :group, index: true
   belongs_to :account, index: true
-  belongs_to :membership, index: true
-  
-  validates_presence_of :group, :account, :membership
+  belongs_to :membership, index: true 
   
   before_validation do
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership

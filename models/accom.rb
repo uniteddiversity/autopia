@@ -9,7 +9,7 @@ class Accom
   
   belongs_to :group, index: true
   belongs_to :account, index: true
-  validates_presence_of :name, :cost, :capacity, :group, :account
+  validates_presence_of :name, :cost, :capacity
   
   has_many :accomships, :dependent => :destroy
   

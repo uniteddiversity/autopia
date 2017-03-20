@@ -8,7 +8,7 @@ class Tier
   
   belongs_to :group, index: true
   belongs_to :account, index: true
-  validates_presence_of :name, :cost, :group, :account
+  validates_presence_of :name, :cost
     
   has_many :tierships, :dependent => :destroy
   

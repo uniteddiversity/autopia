@@ -8,7 +8,7 @@ class Booking
   
   field :date, :type => Date
   
-  validates_presence_of :account, :group, :date, :membership
+  validates_presence_of :date
   validates_uniqueness_of :account, :scope => [:group, :date]
   
   has_many :notifications, as: :notifiable, dependent: :destroy

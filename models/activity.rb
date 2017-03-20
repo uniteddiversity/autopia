@@ -3,13 +3,14 @@ class Activity
   include Mongoid::Timestamps
   extend Dragonfly::Model
      
-  belongs_to :space, index: true
-  belongs_to :tslot, index: true
   belongs_to :timetable, index: true
   belongs_to :account, class_name: "Account", inverse_of: :activities, index: true
-  belongs_to :scheduled_by, class_name: "Account", inverse_of: :activities_scheduled, index: true
   belongs_to :group, index: true
   belongs_to :membership, index: true
+  
+  belongs_to :space, index: true, optional: true
+  belongs_to :tslot, index: true, optional: true  
+  belongs_to :scheduled_by, class_name: "Account", inverse_of: :activities_scheduled, index: true, optional: true
   
   before_validation do    
     self.timetable = self.space.timetable if self.space
@@ -23,7 +24,7 @@ class Activity
   
   dragonfly_accessor :image
   
-  validates_presence_of :name, :description, :account, :timetable, :group, :membership
+  validates_presence_of :name, :description
   validates_uniqueness_of :space, :scope => :tslot, :allow_nil => true
   
   has_many :attendances, :dependent => :destroy

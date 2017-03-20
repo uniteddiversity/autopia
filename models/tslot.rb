@@ -9,7 +9,6 @@ class Tslot
   
   belongs_to :timetable, index: true  
   belongs_to :group, index: true  
-  validates_presence_of :timetable, :group
   
   before_validation do
     self.group = self.timetable.group if self.timetable

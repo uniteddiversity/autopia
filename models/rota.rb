@@ -6,7 +6,6 @@ class Rota
  
   belongs_to :group, index: true
   belongs_to :account, index: true
-  validates_presence_of :group, :account
   
   has_many :roles, :dependent => :destroy
   has_many :rslots, :dependent => :destroy

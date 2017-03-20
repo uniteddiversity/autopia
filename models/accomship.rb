@@ -7,7 +7,6 @@ class Accomship
   belongs_to :group, index: true
   belongs_to :membership, index: true
   
-  validates_presence_of :account, :accom, :group, :membership
   validates_uniqueness_of :account, :scope => :group
   
   before_validation do

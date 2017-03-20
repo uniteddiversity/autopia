@@ -7,7 +7,7 @@ class BookingLift
   
   field :date, :type => Date
   
-  validates_presence_of :group, :date
+  validates_presence_of :date
   validates_uniqueness_of :date, :scope => :group
           
   def self.admin_fields

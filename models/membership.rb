@@ -10,11 +10,10 @@ class Membership
   
   belongs_to :group, index: true
   belongs_to :account, class_name: "Account", inverse_of: :memberships, index: true
-  belongs_to :added_by, class_name: "Account", inverse_of: :memberships_added, index: true
-  belongs_to :admin_status_changed_by, class_name: "Account", inverse_of: :memberships_admin_status_changed, index: true
-  belongs_to :mapplication, index: true
+  belongs_to :added_by, class_name: "Account", inverse_of: :memberships_added, index: true, optional: true
+  belongs_to :admin_status_changed_by, class_name: "Account", inverse_of: :memberships_admin_status_changed, index: true, optional: true
+  belongs_to :mapplication, index: true, optional: true
   
-  validates_presence_of :account, :group
   validates_uniqueness_of :account, :scope => :group
   
   before_validation do

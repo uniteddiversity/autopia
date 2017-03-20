@@ -36,7 +36,7 @@ class Group
   
   belongs_to :account, index: true
   
-  validates_presence_of :name, :slug, :account
+  validates_presence_of :name, :slug
   validates_uniqueness_of :slug
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/
   

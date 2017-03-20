@@ -6,8 +6,6 @@ class Transportship
   belongs_to :transport, index: true 
   belongs_to :group, index: true
   belongs_to :membership, index: true
-  
-  validates_presence_of :account, :transport, :group, :membership
     
   before_validation do
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership

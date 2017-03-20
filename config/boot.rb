@@ -11,4 +11,3 @@ Padrino.load!
 
 Mongoid.load!("#{PADRINO_ROOT}/config/mongoid.yml")
 Mongoid.raise_not_found_error = false
-Mongoid.belongs_to_required_by_default = false

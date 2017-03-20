@@ -12,8 +12,6 @@ class Teamship
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end    
   
-  validates_presence_of :account, :team, :group, :membership
-  
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     notifications.create! :group => team.group, :type => 'joined_team'

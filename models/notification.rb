@@ -7,7 +7,7 @@ class Notification
   belongs_to :group, index: true
   belongs_to :notifiable, polymorphic: true, index: true
   
-  validates_presence_of :group, :notifiable, :type
+  validates_presence_of :type
   
   before_validation do
     errors.add(:type, 'not found') unless Notification.types.include?(type)

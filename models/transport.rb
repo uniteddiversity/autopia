@@ -9,7 +9,7 @@ class Transport
   
   belongs_to :group, index: true
   belongs_to :account, index: true
-  validates_presence_of :name, :cost, :capacity, :group, :account
+  validates_presence_of :name, :cost, :capacity
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do

@@ -9,7 +9,6 @@ class Role
   
   belongs_to :rota, index: true
   belongs_to :group, index: true
-  validates_presence_of :rota, :group
   
   before_validation do
     self.group = self.rota.group if self.rota

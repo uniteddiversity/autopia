@@ -13,7 +13,6 @@ class Cultivation
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end  
   
-  validates_presence_of :quality, :account, :group, :membership
   validates_uniqueness_of :quality, :scope => :account
   
   has_many :notifications, as: :notifiable, dependent: :destroy

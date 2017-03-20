@@ -10,7 +10,7 @@ class Verdict
   belongs_to :membership, index: true
   belongs_to :mapplication, index: true
   
-  validates_presence_of :account, :group, :membership, :mapplication, :type
+  validates_presence_of :type
   validates_uniqueness_of :account, :scope => :mapplication
   
   before_validation do

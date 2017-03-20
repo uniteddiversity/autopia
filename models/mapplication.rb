@@ -7,12 +7,12 @@ class Mapplication
 
   belongs_to :group, index: true
   belongs_to :account, class_name: "Account", inverse_of: :mapplications, index: true
-  belongs_to :processed_by, class_name: "Account", inverse_of: :mapplications_processed, index: true
+  belongs_to :processed_by, class_name: "Account", inverse_of: :mapplications_processed, index: true, optional: true
   
   has_many :verdicts, :dependent => :destroy
   # has_one :membership, :dependent => :destroy
   
-  validates_presence_of :account, :group, :status
+  validates_presence_of :status
   validates_uniqueness_of :account, :scope => :group  
   
   has_many :notifications, as: :notifiable, dependent: :destroy

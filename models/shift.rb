@@ -1,15 +1,14 @@
 class Shift
   include Mongoid::Document
   include Mongoid::Timestamps
-   
-  belongs_to :account, index: true
+     
   belongs_to :role, index: true
   belongs_to :rslot, index: true
   belongs_to :rota, index: true
   belongs_to :group, index: true
-  belongs_to :membership, index: true
+  belongs_to :account, index: true, optional: true
+  belongs_to :membership, index: true, optional: true
   
-  validates_presence_of :role, :rslot, :rota, :group
   validates_uniqueness_of :role, :scope => :rslot
   
   before_validation do
