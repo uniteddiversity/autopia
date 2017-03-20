@@ -50,7 +50,7 @@ module Huddl
     end        
                 
     error do
-      Airbrake.notify(env['sinatra.error'], :session => session)
+      Airbrake.notify(env['sinatra.error'], :session => session) if ENV['AIRBRAKE_HOST']
       erb :error, :layout => :application
     end        
     
