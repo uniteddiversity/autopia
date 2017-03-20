@@ -30,7 +30,7 @@ module Huddl
         :address => ENV['SMTP_ADDRESS'],
         :port => 587
       }   
-    end
+    end  
        
     before do
       redirect "http://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
