@@ -29,7 +29,7 @@ module Huddl
         :password => ENV['SMTP_PASSWORD'],
         :address => ENV['SMTP_ADDRESS'],
         :port => 587
-      }   
+      } 
     end  
        
     before do
