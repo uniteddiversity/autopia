@@ -83,6 +83,7 @@ Huddl::App.controller do
   
   get '/comments/:id/edit' do
     @comment = Comment.find(params[:id])
+    @team = @comment.team
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
     halt unless @comment.account.id == current_account.id or @membership.admin?

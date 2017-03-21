@@ -3,11 +3,14 @@
 	<%= partial :group_header %>
 
 	<div class="row" style="margin-top: 10px">
-  	<div class="col-sm-2">
-	    <%= partial :'teams/team_list' %>
-	  </div>
-	    <div class="col-sm-7">
+    <div class="col-sm-7 col-sm-push-2">
+    	<% if @team %>
+    	<h2 style="margin-top: 0" class="hidden-sm hidden-md hidden-lg"># <%=@team.name%></h2>
+    	<% end %>
 	  	<%= yield %>
+	  </div>		
+  	<div class="col-sm-2 col-sm-pull-7">
+	    <%= partial :'teams/team_list' %>
 	  </div>
 	  <div class="col-sm-3">
 	  	<% if @team %>
