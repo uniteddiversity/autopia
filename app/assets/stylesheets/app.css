@@ -56,3 +56,5 @@ a.fc-event { text-decoration: none !important; background:  #CE2828; border-colo
 a.fc-event.no-bookings { opacity: 0.2 }
 
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus { background: #CE2828; border-color: #CE2828;}
+
+.note-group-select-from-files { display: none }
