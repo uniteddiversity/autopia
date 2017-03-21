@@ -1,3 +1,6 @@
+
+<%= @team.description %>
+
 <% @team.comments.order('created_at asc').each { |comment| %>
 
 	<div class="media">
@@ -18,8 +21,6 @@
 	      	<% end %>
 	      	
       	</small>
-      	
-	      
 	
 	      <div style="margin-bottom: 1em">
 	      	<%= Rinku.auto_link(comment.body) %>
