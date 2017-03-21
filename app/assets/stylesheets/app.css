@@ -10,6 +10,8 @@ body { padding-bottom: 20px }
 
 img { image-orientation: from-image; }
 
+.note-editor { margin-bottom: 0 }
+
 input[name$='[day]'], input[name$='[month]'], input[name$='[year]'], select[name$='[hour]'], select[name$='[min]'] { display:inline; } 
 input[name$='[day]'], input[name$='[year]'] { width: 4em }
 input[name$='[month]'] { width: 8em }
@@ -52,3 +54,5 @@ select[name$='[year]'], select[name$='[month]'], select[name$='[day]'], select[n
 
 a.fc-event { text-decoration: none !important; background:  #CE2828; border-color:  #CE2828; }
 a.fc-event.no-bookings { opacity: 0.2 }
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus { background: #CE2828; border-color: #CE2828;}

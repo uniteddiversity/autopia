@@ -30,5 +30,6 @@ gem 'airbrake'
 gem 'mechanize'
 
 gem 'html_truncator'
+gem 'rinku'
 
 

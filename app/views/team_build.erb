@@ -1,0 +1,5 @@
+
+<% form_for @team, @team.new_record? ? "/h/#{@group.slug}/teams/new" : "/h/#{@group.slug}/teams/#{@team.id}/edit", :class => 'form-horizontal' do |f| %>
+	<%= f.text_block :name %>
+	<%= f.submit_block %>
+<% end %>

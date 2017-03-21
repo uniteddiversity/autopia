@@ -1,0 +1,43 @@
+<% @team.comments.order('created_at asc').each { |comment| %>
+
+	<div class="media">
+	  <span class="pull-left">
+	    <img class="media-object" style="width: 32px" src="<%=comment.account.picture ? comment.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+	  </span>
+	  <div class="media-body">
+	
+	    <div>
+	    	
+	      <strong><%=comment.account.name%></strong>
+	
+	      <div style="margin-bottom: 1em">
+	      	<%= Rinku.auto_link(comment.body) %>
+      	</div>
+      	
+	    </div>
+	
+	  </div>
+	</div> 
+
+<% } %>
+
+
+<div class="media">
+  <span class="pull-left">
+    <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+  </span>
+  <div class="media-body">
+
+		<script>
+			$(function() {
+				$('#comment_body').parent().removeClass('col-sm-6').addClass('col-md-12')
+			})
+		</script>
+		
+	   <% form_for @comment, "/h/#{@group.slug}/teams/#{@team.id}/comment", :class => 'form-horizontal placeholders-only' do |f| %>
+	    <%= f.wysiwyg_block :body %>
+	    <button type="submit" class="btn btn-primary">Submit</button>
+		<% end %>       
+
+  </div>
+</div> 

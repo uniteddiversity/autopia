@@ -1,5 +1,12 @@
 
 $(function () {
+  
+  $('form.placeholders-only label[for]').each(function () {
+    var input = $(this).next().children().first()
+    if (!$(input).attr('placeholder'))
+      $(input).attr('placeholder', $.trim($(this).text()))
+    $(this).hide()
+  });
 
   $('form').submit(function () {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
@@ -79,14 +86,14 @@ $(function () {
         ['table', ['table']],
         ['insert', ['link', 'picture', 'video']],
       ],
-      height: 300,
+      minHeight: '6em',
       codemirror: {theme: 'monokai'},
     });
     $(textarea).prop('required', false);
-    $(summernote).code($(textarea).val());
+    $(summernote).summernote("code", $(textarea).val());
     $(textarea).hide();
     $(textarea.form).submit(function () {
-      $(textarea).val($(summernote).code());
+      $(textarea).val($(summernote).summernote("code"));
     });
   });
 

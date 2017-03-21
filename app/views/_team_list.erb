@@ -1,0 +1,21 @@
+<div class="list-group">
+	<% @group.teams.each { |team| %>
+
+		<a
+			class="list-group-item <% if team == @team %>active<% end %>"   style="white-space: nowrap; overflow: hidden;"
+			href="/h/<%=@group.slug%>/teams/<%=team.id%>"
+		>
+			<i class="fa fa-fw fa-hashtag"></i> <%=team.name%>
+		</a>
+
+	<% } %>
+
+	<a
+		class="list-group-item <% if @team and @team.new_record? %>active<% end %>"
+		href="/h/<%=@group.slug%>/teams/new"
+	>
+		<i class="fa fa-plus-circle fa-fw"></i> New team
+	</a>
+
+
+</div>

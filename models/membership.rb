@@ -64,6 +64,7 @@ class Membership
   has_many :attendances, :dependent => :destroy
   # Teams
   has_many :teamships, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
   # Rotas
   has_many :shifts, :dependent => :destroy
   # Tiers

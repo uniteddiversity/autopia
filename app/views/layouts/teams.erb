@@ -1,0 +1,25 @@
+<% content_for :content do %>
+
+	<%= partial :group_header %>
+
+	<div class="row" style="margin-top: 10px">
+  	<div class="col-sm-2">
+	    <%= partial :team_list %>
+	  </div>
+	    <div class="col-sm-7">
+	  	<%= yield %>
+	  </div>
+	  <div class="col-sm-3">
+	  	<% if @team %>
+		  	<h2 style="margin-top: 0">Team members</h2>
+	  		<% @team.members.each { |account| %><img style="width: 75px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%><br /><%=time_ago_in_words account.last_active%> ago" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% } %>
+	  	<% end %>
+	  	
+       <% if @team and !@team.teamships.find_by(account: current_account) %>
+          <a class="btn btn-primary" href="/teamships/create?team_id=<%=@team.id%>">Join</a>
+      <% end %>
+      
+	  </div>	  
+	</div>
+<% end %>
+<%= render 'layouts/application' %>

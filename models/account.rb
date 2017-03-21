@@ -46,7 +46,8 @@ class Account
   has_many :attendances, :dependent => :destroy
   # Teams
   has_many :teams, :dependent => :nullify  
-  has_many :teamships, :dependent => :destroy  
+  has_many :teamships, :dependent => :destroy 
+  has_many :comments, :dependent => :destroy
   # Rotas
   has_many :rotas, :dependent => :nullify  
   has_many :shifts, :dependent => :destroy
