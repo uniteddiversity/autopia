@@ -1,24 +1,22 @@
-class Comment
+class CommentLike
   include Mongoid::Document
   include Mongoid::Timestamps
   
   belongs_to :account
+  belongs_to :comment
   belongs_to :group
   belongs_to :membership
   belongs_to :team
-
-  field :body, :type => String 
-  
-  has_many :comment_likes, :dependent => :destroy
   
   before_validation do
+  	self.team = self.comment.team
     self.group = self.team.group if self.team
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end    
 
   def self.admin_fields
     {
-      :body => :wysiwyg,
+			:comment_id => :lookup,
       :account_id => :lookup,
       :group_id => :lookup,
       :membership_id => :lookup,

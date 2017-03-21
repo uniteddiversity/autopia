@@ -9,6 +9,7 @@ class Team
   
   has_many :teamships, :dependent => :destroy
   has_many :comments, :dependent => :destroy
+  has_many :comment_likes, :dependent => :destroy
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do

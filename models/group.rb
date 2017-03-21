@@ -55,6 +55,7 @@ class Group
   has_many :teams, :dependent => :destroy
   has_many :teamships, :dependent => :destroy  
   has_many :comments, :dependent => :destroy
+  has_many :comment_likes, :dependent => :destroy
   # Rotas
   has_many :rotas, :dependent => :destroy
   has_many :roles, :dependent => :destroy

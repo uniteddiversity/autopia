@@ -5,7 +5,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
     @team = Team.new
-    erb :team_build, :layout => 'layouts/teams'   
+    erb :'teams/build', :layout => 'layouts/teams' 
   end
   
   post '/h/:slug/teams/new' do
@@ -17,7 +17,7 @@ Huddl::App.controller do
     if @team.save
       redirect "/h/#{@group.slug}/teams/#{@team.id}"
     else
-      erb :team_build, :layout => 'layouts/teams'   
+      erb :'teams/build', :layout => 'layouts/teams' 
     end
   end
   
@@ -25,7 +25,7 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    erb :teams, :layout => 'layouts/teams'      
+    erb :'teams/teams', :layout => 'layouts/teams' 
   end
   
   get '/h/:slug/teams/:id' do
@@ -34,7 +34,7 @@ Huddl::App.controller do
     membership_required!
     @team = @group.teams.find(params[:id])
     @comment = @team.comments.build
-    erb :team, :layout => 'layouts/teams'
+    erb :'teams/team', :layout => 'layouts/teams' 
   end
   
   get '/h/:slug/teams/:id/edit' do
@@ -42,7 +42,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
     @team = @group.teams.find(params[:id])
-    erb :team_build, :layout => 'layouts/teams'
+    erb :'teams/build', :layout => 'layouts/teams' 
   end  
   
   post '/h/:slug/teams/:id/edit' do
@@ -53,7 +53,7 @@ Huddl::App.controller do
     if @team.update_attributes(params[:team])
       redirect "/h/#{@group.slug}/teams/#{@team.id}"
     else
-      erb :team_build, :layout => 'layouts/teams'  
+      erb :'teams/build', :layout => 'layouts/teams' 
     end
   end    
   
@@ -77,9 +77,70 @@ Huddl::App.controller do
       redirect back
     else
       flash[:error] = 'There was an error saving the comment'
-      erb :team
+      erb :'teams/team'
     end
   end
+  
+  get '/comments/:id/edit' do
+    @comment = Comment.find(params[:id])
+    @group = @comment.group
+    @membership = @group.memberships.find_by(account: current_account)
+    halt unless @comment.account.id == current_account.id or @membership.admin?
+    erb :'teams/comment', :layout => 'layouts/teams' 
+  end
+  
+  post '/comments/:id/edit' do
+    @comment = Comment.find(params[:id])
+    @team = @comment.team
+    @group = @comment.group
+    @membership = @group.memberships.find_by(account: current_account)
+    halt unless @comment.account.id == current_account.id or @membership.admin?
+    if @comment.update_attributes(params[:comment])
+      redirect "/h/#{@group.slug}/teams/#{@team.id}"
+    else
+      flash[:error] = 'There was an error saving the comment'
+      erb :'teams/team'
+    end
+  end  
+  
+  get '/comments/:id/destroy' do
+    @comment = Comment.find(params[:id])
+    @team = @comment.team
+    @group = @comment.group
+    @membership = @group.memberships.find_by(account: current_account)
+    halt unless @comment.account.id == current_account.id or @membership.admin?
+    @comment.destroy
+    redirect "/h/#{@group.slug}/teams/#{@team.id}"
+  end  
+  
+  get '/comments/:id/likes' do
+    @comment = Comment.find(params[:id])
+    @team = @comment.team
+    @group = @comment.group
+    @membership = @group.memberships.find_by(account: current_account)    
+    membership_required!
+    partial :'teams/comment_likes', :locals => {:comment => @comment}
+  end  
+  
+  get '/comments/:id/like' do
+    @comment = Comment.find(params[:id])
+    @team = @comment.team
+    @group = @comment.group
+    @membership = @group.memberships.find_by(account: current_account)    
+    membership_required!
+    @comment.comment_likes.create account: current_account
+    200
+  end
+  
+  get '/comments/:id/unlike' do
+    @comment = Comment.find(params[:id])
+    @team = @comment.team
+    @group = @comment.group
+    @membership = @group.memberships.find_by(account: current_account)    
+    membership_required!
+    @comment.comment_likes.find_by(account: current_account).try(:destroy)
+    200
+  end  
            
   get '/teamships/create' do
     @team = Team.find(params[:team_id]) || not_found

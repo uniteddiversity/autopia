@@ -48,6 +48,7 @@ class Account
   has_many :teams, :dependent => :nullify  
   has_many :teamships, :dependent => :destroy 
   has_many :comments, :dependent => :destroy
+  has_many :comment_likes, :dependent => :destroy
   # Rotas
   has_many :rotas, :dependent => :nullify  
   has_many :shifts, :dependent => :destroy
