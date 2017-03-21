@@ -6,6 +6,10 @@
 			class="list-group-item <% if team == @team %>active<% end %>"   style="white-space: nowrap; overflow: hidden;"
 			href="/h/<%=@group.slug%>/teams/<%=team.id%>"
 		>
+			<% if team.comments.count > 0 %>
+				<span class="badge"><%=team.comments.count%></span>
+			<% end %>
+			
 			<i class="fa fa-fw fa-hashtag"></i> <%=team.name%>
 		</a>
 
