@@ -37,6 +37,35 @@ Huddl::App.controller do
     erb :team, :layout => 'layouts/teams'
   end
   
+  get '/h/:slug/teams/:id/edit' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    membership_required!
+    @team = @group.teams.find(params[:id])
+    erb :team_build, :layout => 'layouts/teams'
+  end  
+  
+  post '/h/:slug/teams/:id/edit' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    membership_required!
+    @team = @group.teams.find(params[:id])
+    if @team.update_attributes(params[:team])
+      redirect "/h/#{@group.slug}/teams/#{@team.id}"
+    else
+      erb :team_build, :layout => 'layouts/teams'  
+    end
+  end    
+  
+  get '/h/:slug/teams/:id/destroy' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    membership_required!
+    @team = @group.teams.find(params[:id])
+    @team.destroy
+    redirect "/h/#{@group.slug}/teams"
+  end    
+  
   post '/h/:slug/teams/:id/comment' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
@@ -52,23 +81,6 @@ Huddl::App.controller do
     end
   end
            
-  post '/teams/create' do
-    @group = Group.find(params[:group_id])  || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    Team.create(name: params[:name], group: @group, account: current_account)
-    redirect back
-  end
-    
-  get '/teams/:id/destroy' do
-    @team = Team.find(params[:id]) || not_found
-    @group = @team.group
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    @team.destroy
-    redirect back      
-  end
-        
   get '/teamships/create' do
     @team = Team.find(params[:team_id]) || not_found
     @group = @team.group      
