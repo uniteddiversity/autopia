@@ -1,5 +1,5 @@
 <div class="list-group">
-	<% @group.teams.each { |team| %>
+	<% @group.teams.order('name asc').each { |team| %>
 
 		<a
 			class="list-group-item <% if team == @team %>active<% end %>"   style="white-space: nowrap; overflow: hidden;"
