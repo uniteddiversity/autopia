@@ -10,6 +10,13 @@ class Comment
   field :body, :type => String 
   
   has_many :comment_likes, :dependent => :destroy
+
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    if account
+      notifications.create! :group => group, :type => 'commented'
+    end
+  end  
   
   before_validation do
     self.group = self.team.group if self.team

@@ -14,7 +14,7 @@ class Notification
   end
   
   def self.types
-    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality}
+    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment}
   end
   
   def self.mailable_types
@@ -141,57 +141,67 @@ class Notification
     when :cultivating_quality
       cultivation = notifiable
       "<strong>#{cultivation.account.name}</strong> is cultivating <strong>#{cultivation.quality.name}</strong>"                  
+    when :commented
+      comment = notifiable
+      "<strong>#{comment.account.name}</strong> commented in <strong>#{comment.team.name}</strong>"                  
+    when :liked_a_comment
+      comment_like = notifiable
+      "<strong>#{comment_like.account.name}</strong> liked <strong>#{comment_like.comment.account.name}'s</strong> comment in <strong>#{comment_like.team.name}</strong>"                        
     end
   end
   
   def link
     case type.to_sym
     when :applied
-      ['View applications', "http://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
+      ['View applications', "//#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
     when :joined_group
-      ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
+      ['View members', "//#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :joined_team
-      ['View teams', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams"]
+      ['View teams', "//#{ENV['DOMAIN']}/h/#{group.slug}/teams"]
     when :listed_spend
-      ['View budget', "http://#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
+      ['View budget', "//#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
     when :listed_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]
+      ['View timetable', "//#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]
     when :signed_up_to_a_shift
-      ['View rotas', "http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
+      ['View rotas', "//#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
     when :joined_tier
-      ['View tiers', "http://#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
+      ['View tiers', "//#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
     when :joined_transport
-      ['View transport', "http://#{ENV['DOMAIN']}/h/#{group.slug}/transports"] 
+      ['View transport', "//#{ENV['DOMAIN']}/h/#{group.slug}/transports"] 
     when :joined_accom
-      ['View accommodation', "http://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
+      ['View accommodation', "//#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
     when :interested_in_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
+      ['View timetable', "//#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
     when :gave_verdict
-      ['View applications', "http://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
+      ['View applications', "//#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
     when :created_transport
-      ['View transport', "http://#{ENV['DOMAIN']}/h/#{group.slug}/transports"] 
+      ['View transport', "//#{ENV['DOMAIN']}/h/#{group.slug}/transports"] 
     when :created_tier
-      ['View tiers', "http://#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
+      ['View tiers', "//#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
     when :created_team
-      ['View teams', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams"]
+      ['View team', "//#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.id}"]
     when :created_accom
-      ['View accommodation', "http://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
+      ['View accommodation', "//#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
     when :created_rota
-      ['View rotas', "http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
+      ['View rotas', "//#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
     when :scheduled_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
+      ['View timetable', "//#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
     when :unscheduled_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
+      ['View timetable', "//#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
     when :made_admin
-      ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
+      ['View members', "//#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :unadmined
-      ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
+      ['View members', "//#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :booked
-      ['View bookings', "http://#{ENV['DOMAIN']}/h/#{group.slug}/bookings"]  
+      ['View bookings', "//#{ENV['DOMAIN']}/h/#{group.slug}/bookings"]  
     when :created_timetable
-      ['View timetables', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]      
+      ['View timetables', "//#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]      
     when :cultivating_quality
-      ['View qualities', "http://#{ENV['DOMAIN']}/h/#{group.slug}/qualities"]      
+      ['View qualities', "//#{ENV['DOMAIN']}/h/#{group.slug}/qualities"]
+    when :commented
+      ['View team', "//#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team.id}"]
+    when :liked_a_comment
+      ['View team', "//#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team.id}"]      
     end
   end
   
@@ -242,7 +252,11 @@ class Notification
     when :created_timetable
       'fa-table'   
     when :cultivating_quality
-      'fa-star'      
+      'fa-star'  
+    when :commented
+      'fa-comment'       
+    when :liked_a_comment
+      'fa-thumbs-up' 
     end    
   end
 

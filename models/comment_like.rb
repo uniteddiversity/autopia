@@ -13,6 +13,13 @@ class CommentLike
     self.group = self.team.group if self.team
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end    
+  
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    if account
+      notifications.create! :group => group, :type => 'liked_a_comment'
+    end
+  end    
 
   def self.admin_fields
     {
