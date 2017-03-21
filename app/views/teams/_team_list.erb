@@ -7,7 +7,7 @@
 			href="/h/<%=@group.slug%>/teams/<%=team.id%>"
 		>
 			<% if team.comments.count > 0 %>
-				<span class="badge"><%=team.comments.count%></span>
+				<span class="badge" style="z-index: 999"><%=team.comments.count%></span>
 			<% end %>
 			
 			<i class="fa fa-fw fa-hashtag"></i> <%=team.name%>
