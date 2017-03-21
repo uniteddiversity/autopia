@@ -8,7 +8,7 @@
 	
 	    <div>
 	    	
-	      <strong><%=comment.account.name%></strong>
+	      <strong><%=comment.account.name%></strong> <small style="opacity: 0.5"><%= timeago(comment.created_at) %></small>
 	
 	      <div style="margin-bottom: 1em">
 	      	<%= Rinku.auto_link(comment.body) %>
@@ -22,7 +22,7 @@
 <% } %>
 
 
-<div class="media">
+<div class="media" style="margin-bottom: 20px">
   <span class="pull-left">
     <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
   </span>
