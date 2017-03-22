@@ -35,7 +35,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @transport = @group.transports.find(params[:id]) || not_found
-    if @transport.update_attributes!(params[:transport])
+    if @transport.update_attributes(params[:transport])
       redirect "/h/#{@group.slug}/transports"
     else
       erb :'transports/build'
