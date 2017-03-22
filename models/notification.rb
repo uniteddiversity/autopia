@@ -148,7 +148,7 @@ class Notification
       "<strong>#{cultivation.account.name}</strong> is cultivating <strong>#{cultivation.quality.name}</strong>"                  
     when :commented
       comment = notifiable
-      "<strong>#{comment.account.name}</strong> commented in <strong>#{comment.team.name}</strong>"                  
+      "<strong>#{comment.account.name}</strong> posted in <strong>#{comment.team.name}</strong>"                  
     when :liked_a_comment
       comment_like = notifiable
       "<strong>#{comment_like.account.name}</strong> liked <strong>#{comment_like.comment.account.name}'s</strong> comment in <strong>#{comment_like.team.name}</strong>"                        
