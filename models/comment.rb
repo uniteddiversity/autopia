@@ -28,6 +28,10 @@ class Comment
     self.group = self.team.group if self.team
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end    
+  
+  def first_in_post?
+    !post or post.new_record? or post.comments.order('created_at asc').first.id == self.id
+  end
 
   def self.admin_fields
     {

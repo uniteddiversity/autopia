@@ -7,7 +7,7 @@
 	})
 </script>
 
-<% if defined?(post); comment = post.comments.build; end %>
+<% if defined?(post); comment = post.comments.build; end # if we provided a post instead of a comment %>
  <% form_for comment, comment.new_record ? "/h/#{@group.slug}/teams/#{@team.id}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal placeholders-only #{'with-post' if defined?(post)}" do |f| %>
 	 	<% if defined?(post) %>
 	 		<%= f.hidden_field :post_id, :value => post.id %>
@@ -17,14 +17,16 @@
 		 		<%= f.text_block :title %>
 		 	</div>	 	
 			<%= f.text_area_block :body, :placeholder => "What's on your mind?" %>
-			<a id="create-a-poll" style="display:block; margin-bottom: 5px; margin-top: -10px; text-decoration: none" href="javascript:;" onclick="$(this).hide();$('#title').show().find('input').focus();$('textarea[id=comment_body]').attr('placeholder', 'Description')">
-				<i class="fa fa-bar-chart"></i>
-				<% if comment.new_record? %>
-					Create a poll
-				<% else %>
-					Convert to poll
-				<% end %>
-			</a>
+			<% if comment.first_in_post? %>
+				<a id="create-a-poll" style="display:block; margin-bottom: 5px; margin-top: -10px; text-decoration: none" href="javascript:;" onclick="$(this).hide();$('#title').show().find('input').focus();$('textarea[id=comment_body]').attr('placeholder', 'Description')">
+					<i class="fa fa-bar-chart"></i>
+					<% if comment.new_record? %>
+						Create a poll
+					<% else %>
+						Convert to poll
+					<% end %>
+				</a>
+			<% end %>
 			<%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy" %>
 	  <% end %>
 <% end %> 
