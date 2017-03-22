@@ -9,12 +9,12 @@
   <%= f.text_block :name %>
   <%= f.slug_block :slug %>
   <%= f.image_block :image %>
-  <%= f.url_block :discussion_url %>
   <%= f.wysiwyg_block :application_preamble %>
   <%= f.text_area_block :application_questions %>
   <%= f.check_box_block :ask_for_date_of_birth %>  
   <%= f.check_box_block :ask_for_gender %>  
-  <%= f.check_box_block :ask_for_poc %>  
+  <%= f.check_box_block :ask_for_poc %>
+  <%= f.wysiwyg_block :intro %>
   <%= f.wysiwyg_block :payment_details %>
   <%= f.check_box_block :anonymous_supporters %>
   <%= f.check_box_block :anonymous_blockers %>  

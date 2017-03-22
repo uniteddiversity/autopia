@@ -18,7 +18,6 @@
       (["Transport (#{@group.transports.count})", "/h/#{@group.slug}/transports"] if @group.enable_transport),        
       (["Budget", "/h/#{@group.slug}/budget"] if @group.enable_budget),    
       ["Newsfeed", "/h/#{@group.slug}/newsfeed"],
-      (["Discussion", @group.discussion_url] if @group.discussion_url),    
       ].compact %>
   </div>
 

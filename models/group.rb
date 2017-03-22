@@ -12,7 +12,7 @@ class Group
   field :name, :type => String
   field :slug, :type => String
   field :image_uid, :type => String
-  field :discussion_url, :type => String
+  field :intro, :type => String
   field :application_preamble, :type => String
   field :application_questions, :type => String
   field :anonymous_supporters, :type => Boolean
@@ -124,7 +124,7 @@ class Group
       :name => :text,
       :slug => :slug,      
       :image => :image,
-      :discussion_url => :text,
+      :intro => :wysiwyg,
       :fixed_threshold => :number,
       :member_limit => :number,
       :booking_limit => :number,
@@ -152,7 +152,7 @@ class Group
   
   def self.new_tips
     {      
-      :discussion_url => 'Link to a Facebook Group, Google Group, Slack site etc',
+      :intro => 'Intro for members',
       :application_questions => 'One per line',
       :democratic_threshold => 'Setting a magic number results in applications with a certain number of proposers + supporters (including at least one proposer) being accepted automatically. A democratic magic number means all group members have a say over the number.',
       :fixed_threshold => 'Takes precedence over democratic magic number'
@@ -161,7 +161,6 @@ class Group
   
   def self.human_attribute_name(attr, options={})  
     {
-      :discussion_url => 'Discussion URL',
       :ask_for_poc => 'Ask whether applicants identify as a person of colour',
       :democratic_threshold => 'Democratic magic number',
       :fixed_threshold => 'Fixed magic number'
