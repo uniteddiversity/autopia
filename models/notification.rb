@@ -41,7 +41,7 @@ class Notification
   <head>
     <meta charset="utf-8">    
     <style>
-      p, ul, ol, input, select, .form-control, body { font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif }
+      p, ul, ol, input, select, .form-control, body, blockquote { font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif }
       h1, h2, h3, h4, h5, h6, .h { font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif; text-transform: uppercase; font-weight: 900 }
       a, a:hover, a:focus { color: #CE2828 !important; }
     </style>    
