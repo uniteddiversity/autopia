@@ -1,0 +1,35 @@
+<div class="media" style="padding: 10px 10px 0 10px; margin: 0">
+  <span class="pull-left">
+    <img class="media-object" style="width: 32px" src="<%=comment.account.picture ? comment.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+  </span>
+  <div class="media-body">
+
+    <div>
+    	
+    	<strong><%=comment.account.name%></strong>
+			<small style="opacity: 0.5">
+				<%= timeago(comment.created_at) %>
+				
+				<% if comment.account.id == current_account.id or @membership.admin? %>
+			  	&middot;
+			  	<a href="/comments/<%=comment.id%>/edit"><i class="fa fa-pencil"></i></a>
+				<% end %>
+				
+			</small>
+			
+			<div style="margin-bottom: 10px">
+				<%= Rinku.auto_link(comment.body.gsub("\n","<br />")) %>
+			</div>
+			
+			<div style="background: #F7F2F2; font-size: 12px;">
+				<div data-pagelet-url="/comments/<%=comment.id%>/likes">
+					<%= partial :'teams/comment_likes', :locals => {:comment => comment} %>
+				</div>
+			</div>					
+			
+    </div>
+
+  </div>
+</div> 
+		
+		

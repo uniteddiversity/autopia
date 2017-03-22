@@ -9,6 +9,7 @@ class Team
   belongs_to :account, index: true
   
   has_many :teamships, :dependent => :destroy
+  has_many :posts, :dependent => :destroy
   has_many :comments, :dependent => :destroy
   has_many :comment_likes, :dependent => :destroy
   

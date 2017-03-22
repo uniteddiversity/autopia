@@ -1,52 +1,78 @@
 
+<script>
+	$(function() {
+		$('[id=comment_body]').parent().attr('class','col-md-12')
+		$('textarea[id=comment_body]').css('height', '6em')
+		$('.comment-form .btn-primary').parent().attr('class','col-md-12')
+	})
+</script>
+
 <%= @team.intro %>
 
-<% @team.comments.order('created_at asc').each { |comment| %>
-
-	<div class="media">
-	  <span class="pull-left">
-	    <img class="media-object" style="width: 32px" src="<%=comment.account.picture ? comment.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
-	  </span>
-	  <div class="media-body">
-	
-	    <div>
-	    	
-	      <strong><%=comment.account.name%></strong>
-	      <small style="opacity: 0.5">
-	      	<%= timeago(comment.created_at) %>
-	      	
-	      	<% if comment.account.id == current_account.id or @membership.admin? %>
-		      	&middot;
-		      	<a href="/comments/<%=comment.id%>/edit"><i class="fa fa-pencil"></i></a>
-	      	<% end %>
-	      	
-      	</small>
-	
-	      <div style="margin-bottom: 1em">
-	      	<%= Rinku.auto_link(comment.body) %>
-      	</div>
-      	
-      	<div style="border-radius: 4px; background: #efefef; padding: 5px 10px; font-size: 12px">
-					<div data-pagelet-url="/comments/<%=comment.id%>/likes">
-						<%= partial :'teams/comment_likes', :locals => {:comment => comment} %>
-					</div>
-      	</div>
-      	
-	    </div>
-	
-	  </div>
-	</div> 
-
-<% } %>
-
-
-<div class="media" style="margin-bottom: 20px">
+<div class="media">
   <span class="pull-left">
     <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
   </span>
   <div class="media-body">
-
-		<%= partial :'teams/comment_form' %>      
-
+		<%= partial :'teams/comment_form', :locals => {:comment => @comment} %>
   </div>
 </div> 
+
+<% @team.posts.order('created_at desc').each { |post| comments = post.comments.order('created_at asc'); comment = comments.first %>
+
+	<div style="border: 1px solid #DDCECE; margin: 20px 0">
+
+		<div class="media" style="padding: 10px 10px 0 10px;">
+		  <span class="pull-left">
+		    <img class="media-object" style="width: 32px" src="<%=comment.account.picture ? comment.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+		  </span>
+		  <div class="media-body">
+		
+		    <div>
+		    	
+		    	<strong><%=comment.account.name%></strong>
+					<small style="opacity: 0.5">
+						<%= timeago(comment.created_at) %>
+						
+						<% if comment.account.id == current_account.id or @membership.admin? %>
+					  	&middot;
+					  	<a href="/comments/<%=comment.id%>/edit"><i class="fa fa-pencil"></i></a>
+						<% end %>
+						
+					</small>
+					
+					<div style="margin-bottom: 10px">
+						<%= Rinku.auto_link(comment.body.gsub("\n","<br />")) %>
+					</div>
+					
+		    </div>
+		
+		  </div>
+		</div> 
+		
+		<div style="background: #F7F2F2; padding: 5px 10px; font-size: 12px; border-top: 1px solid #DDCECE">
+			<div data-pagelet-url="/comments/<%=comment.id%>/likes">
+				<%= partial :'teams/comment_likes', :locals => {:comment => comment} %>
+			</div>
+			<hr style="border-color: #DDCECE; margin: 0; margin-top: 5px" />
+		</div>
+				
+		<div style="background: #F7F2F2">
+			<% comments.skip(1).each { |comment| %>
+				<%= partial :'teams/comment', :locals => {:comment => comment}  %>
+			<% } %>
+			
+			<div class="media" style="padding: 10px 10px 0 10px; margin: 0">
+			  <span class="pull-left">
+			    <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+			  </span>
+			  <div class="media-body">
+					<%= partial :'teams/comment_form', :locals => {:post => comment.post} %>
+			  </div>
+			</div> 
+			
+		</div>
+
+	</div>
+	      	
+<% } %>

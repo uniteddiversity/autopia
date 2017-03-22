@@ -1,11 +1,10 @@
-<script>
-	$(function() {
-		$('#comment_body').parent().attr('class','col-md-12')
-		$('#comment-form .btn-primary').parent().attr('class','col-md-12')
-	})
-</script>
-
- <% form_for @comment, @comment.new_record ? "/h/#{@group.slug}/teams/#{@team.id}/comment" : "/comments/#{@comment.id}/edit", :id => 'comment-form', :class => 'form-horizontal placeholders-only' do |f| %>
-  <%= f.wysiwyg_block :body %>
-  <%= f.submit_block button_text: 'Submit', destroy_url: "/comments/#{@comment.id}/destroy" %>
+<% if defined?(post); comment = post.comments.build; end %>
+ <% form_for comment, comment.new_record ? "/h/#{@group.slug}/teams/#{@team.id}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal placeholders-only #{'with-post' if defined?(post)}" do |f| %>
+ 	<% if defined?(post) %>
+ 		<%= f.hidden_field :post_id, :value => post.id %>
+ 	 <%= f.text_block :body, :placeholder => 'Write a comment...' %>
+ 	<% else %>
+   <%= f.text_area_block :body, :placeholder => "What's on your mind?" %>
+   <%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy" %>
+  <% end %>
 <% end %> 

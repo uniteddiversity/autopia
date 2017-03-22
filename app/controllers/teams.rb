@@ -73,11 +73,16 @@ Huddl::App.controller do
     @team = @group.teams.find(params[:id])    
     @comment = @team.comments.build(params[:comment])
     @comment.account = current_account
+    if !@comment.post
+      @post = @team.posts.build
+      @post.account = current_account
+      @comment.post = @post
+    end
     if @comment.save
       redirect back
     else
       flash[:error] = 'There was an error saving the comment'
-      erb :'teams/team'
+      erb :'teams/team', :layout => 'layouts/teams' 
     end
   end
   
