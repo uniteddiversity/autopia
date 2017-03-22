@@ -1,6 +1,6 @@
 
 <% form_for @team, @team.new_record? ? "/h/#{@group.slug}/teams/new" : "/h/#{@group.slug}/teams/#{@team.id}/edit", :class => 'form-horizontal' do |f| %>
 	<%= f.text_block :name %>
-	<%= f.wysiwyg_block :description %>
+	<%= f.wysiwyg_block :introduction %>
 	<%= f.submit_block destroy_url: "/h/#{@group.slug}/teams/#{@team.id}/destroy" %>
 <% end %>

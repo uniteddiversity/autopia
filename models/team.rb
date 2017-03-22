@@ -3,7 +3,7 @@ class Team
   include Mongoid::Timestamps
 
   field :name, :type => String
-  field :description, :type => String
+  field :intro, :type => String
   
   belongs_to :group, index: true
   belongs_to :account, index: true
@@ -28,7 +28,7 @@ class Team
   def self.admin_fields
     {
       :name => :text,
-      :description => :wysiwyg,
+      :intro => :wysiwyg,
       :group_id => :lookup,
       :account_id => :lookup,
       :teamships => :collection,
