@@ -26,6 +26,9 @@ class Notification
       notification = self
       group = self.group
       bcc = (type == 'commented' ? notifiable.team.emails : group.emails)
+      if notifiable.respond_to?(:account)
+        bcc = bcc - notifiable.account.email
+      end
       
       if Notification.mailable_types.include?(type) and bcc.length > 0
         mail = Mail.new
