@@ -204,9 +204,9 @@ class Notification
     when :cultivating_quality
       ['View qualities', "http://#{ENV['DOMAIN']}/h/#{group.slug}/qualities"]
     when :commented
-      ['View team', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team.id}"]
+      ['View post', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}##{notifiable.post_id}"]
     when :liked_a_comment
-      ['View team', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team.id}"]      
+      ['View post', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}##{notifiable.post_id}"]      
     end
   end
   
