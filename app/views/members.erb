@@ -2,8 +2,10 @@
 <%= partial :group_header %>
 
 <% if @group.intro %>
-  <div style="margin-top: 10px">
-    <%= @group.intro %>
+  <div class="panel" style="margin-top: 10px">
+    <div class="panel-body">    
+      <%= @group.intro %>
+    </div>
   </div>
 <% end %>
 
