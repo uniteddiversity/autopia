@@ -1,3 +1,11 @@
+<script>
+	$(function() {
+		$('[id=comment_body]').parent().attr('class','col-md-12')
+		$('textarea[id=comment_body]').css('height', '6em')
+		$('.comment-form .btn-primary').parent().attr('class','col-md-12')
+	})
+</script>
+
 <% if defined?(post); comment = post.comments.build; end %>
  <% form_for comment, comment.new_record ? "/h/#{@group.slug}/teams/#{@team.id}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal placeholders-only #{'with-post' if defined?(post)}" do |f| %>
  	<% if defined?(post) %>

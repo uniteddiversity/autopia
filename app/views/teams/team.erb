@@ -1,12 +1,4 @@
 
-<script>
-	$(function() {
-		$('[id=comment_body]').parent().attr('class','col-md-12')
-		$('textarea[id=comment_body]').css('height', '6em')
-		$('.comment-form .btn-primary').parent().attr('class','col-md-12')
-	})
-</script>
-
 <%= @team.intro %>
 
 <div class="media" style="margin-top: 0">
@@ -18,7 +10,8 @@
   </div>
 </div> 
 
-<% @team.posts.order('created_at desc').each { |post| comments = post.comments.order('created_at asc'); comment = comments.first %>
+<% @team.posts.order('created_at desc').each { |post|
+comments = post.comments.order('created_at asc'); comment = comments.first; if comment %>
 
 	<div style="border: 1px solid #DDCECE; margin: 20px 0">
 
@@ -75,4 +68,4 @@
 
 	</div>
 	      	
-<% } %>
+<% end } %>
