@@ -89,14 +89,16 @@ class Membership
   
   def update_requested_contribution    
     c = 0
-    if tiership
+    if tiership and !tiership.flagged_for_destroy?
       c += tiership.tier.cost
     end
-    if accomship
+    if accomship and !accomship.flagged_for_destroy?
       c += accomship.accom.cost_per_person
     end    
     transportships.each { |transportship|
-      c += transportship.transport.cost
+      if !transportship.flagged_for_destroy?
+        c += transportship.transport.cost
+      end
     }
     update_attribute(:requested_contribution, c)
   end

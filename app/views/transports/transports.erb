@@ -1,20 +1,11 @@
 <%= partial :group_header %>
 
-<% form_tag "/transports/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
-  <%= text_field_tag :name, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New transport' %>
-  <%= text_field_tag :description, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Description' %>          
-  <%= number_field_tag :capacity, :required => true, :class => 'form-control', :style => 'width: 6em', :placeholder => 'Capacity' %>
-
-  <% if @membership.admin? %>
-    <div class="input-group">
-      <span class="input-group-addon">£</span>
-      <%= number_field_tag :cost, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Cost' %>
-    </div>
-  <% end %>
-
-  <%= submit_tag 'Submit', :class => 'btn btn-primary' %>
-
-<% end %>
+<div style="margin: 10px 0">
+  <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List transport</a>
+  <div style="display: none" class="transport-form">
+    <%= partial :'transports/build' %>  
+  </div>
+</div>
 
 <table class="table table-striped">
   <thead>
@@ -30,7 +21,7 @@
     <tr>
       <td>
         <% if @membership.admin? %>
-          <a data-confirm="Delete this transport?" href="/transports/<%=transport.id%>/destroy">
+          <a href="/h/<%=@group.slug%>/transports/<%=transport.id%>/edit">
             <%=transport.name%>
           </a>
         <% else %>

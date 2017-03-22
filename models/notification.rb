@@ -18,7 +18,7 @@ class Notification
   end
   
   def self.mailable_types
-    %w{applied joined_group listed_activity created_transport created_tier created_team created_accom created_rota listed_spend created_timetable}
+    %w{applied joined_group listed_activity created_transport created_tier created_team created_accom created_rota listed_spend created_timetable commented}
   end
   
   after_create do
@@ -28,7 +28,7 @@ class Notification
       
       if Notification.mailable_types.include?(type)
         mail = Mail.new
-        mail.bcc = group.emails
+        mail.bcc = (type == 'commented' ? team.emails : group.emails)
         mail.from = "Huddl <team@huddl.tech>"
         mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
             

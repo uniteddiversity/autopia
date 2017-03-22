@@ -4,25 +4,52 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    erb :transports
+    @transport = Transport.new
+    erb :'transports/transports'
   end
-    
-  post '/transports/create' do
-    @group = Group.find(params[:group_id])  || not_found
+  
+  post '/h/:slug/transports/new' do
+    @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    Transport.create(name: params[:name], cost: (@membership.admin? ? params[:cost] : 0), capacity: params[:capacity], description: params[:description], group: @group, account: current_account)
-    redirect back
+    @transport = @group.transports.new(params[:transport])
+    @transport.cost = 0 unless @membership.admin?
+    @transport.account = current_account
+    if @transport.save
+      redirect back
+    else
+      erb :'transports/build'
+    end
   end    
-
-  get '/transports/:id/destroy' do
-    @transport = Transport.find(params[:id]) || not_found
-    @group = @transport.group
+  
+  get '/h/:slug/transports/:id/edit' do
+    @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    @transport.destroy
-    redirect back      
-  end
+    @transport = @group.transports.find(params[:id]) || not_found
+    erb :'transports/build'     
+  end  
+  
+  post '/h/:slug/transports/:id/edit' do
+    @group = Group.find_by(slug: params[:slug])  || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @transport = @group.transports.find(params[:id]) || not_found
+    if @transport.update_attributes(params[:transport])
+      redirect "/h/#{@group.slug}/transports"
+    else
+      erb :'transports/build'
+    end
+  end   
+
+  get '/h/:slug/transports/:id/destroy' do
+    @group = Group.find_by(slug: params[:slug])  || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @transport = @group.transports.find(params[:id]) || not_found
+    @transport.destroy   
+    redirect "/h/#{@group.slug}/transports"
+  end  
     
   get '/transportships/create' do
     @transport = Transport.find(params[:transport_id]) || not_found
