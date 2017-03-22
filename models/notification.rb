@@ -49,6 +49,7 @@ class Notification
   <body>
     <h1 style="margin-top: 0"><a style="text-decoration: none" href="http://#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a></h1>
     <p>#{notification.sentence}. <a href="#{notification.link[1]}">#{notification.link[0]}</a></p>
+    #{notification.more}
     <p>Best,<br />Team Huddl</p>
     <p style="font-size: 12px;"><a style="color: #aaa !important" href="http://#{ENV['DOMAIN']}/accounts/edit">Edit your profile to stop these emails</a></p>
   </body>
@@ -205,6 +206,15 @@ class Notification
       ['View team', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team.id}"]      
     end
   end
+  
+  def more
+    case type.to_sym
+    when :commented
+      comment = notifiable
+      "<blockquote>#{comment.body}</blockquote>"
+    end
+  end
+      
   
   def icon
     case type.to_sym
