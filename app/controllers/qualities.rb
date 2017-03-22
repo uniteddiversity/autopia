@@ -4,7 +4,7 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    erb :qualities      
+    erb :'qualities/qualities'      
   end     
 
   post '/qualities/create' do
@@ -19,7 +19,7 @@ Huddl::App.controller do
       redirect back
     else
       flash[:error] = 'There was an error creating the quality'
-      erb :qualities
+      erb :'qualities/qualities'
     end
   end
   
@@ -28,7 +28,7 @@ get '/qualities/:id/edit' do
     @group = @quality.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
-    erb :edit_quality
+    erb :'qualities/edit_quality'
   end 
         
   post '/qualities/:id/edit' do
@@ -40,7 +40,7 @@ get '/qualities/:id/edit' do
       redirect "/h/#{@group.slug}/qualities"
     else
       flash[:error] = 'There was an error saving the quality'
-      erb :edit_quality
+      erb :'qualities/edit_quality'
     end
   end   
 

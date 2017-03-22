@@ -4,7 +4,7 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    erb :timetables      
+    erb :'timetables/timetables'      
   end
   
   post '/timetables/create' do
@@ -94,7 +94,7 @@ Huddl::App.controller do
       redirect back
     else
       flash[:error] = 'There was an error creating the activity'
-      erb :timetables
+      erb :'timetables/timetables'
     end
   end  
         
@@ -103,7 +103,7 @@ Huddl::App.controller do
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
-    erb :edit_activity
+    erb :'timetables/edit_activity'
   end 
         
   post '/activities/:id/edit' do
@@ -115,7 +115,7 @@ Huddl::App.controller do
       redirect "/h/#{@group.slug}/timetables"
     else
       flash[:error] = 'There was an error saving the activity'
-      erb :edit_activity
+      erb :'timetables/edit_activity'
     end
   end   
 

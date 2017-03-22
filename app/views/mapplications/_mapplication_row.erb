@@ -18,7 +18,7 @@
 
 </td>    
 <td>
-  <%= partial :verdicts, :locals => {:mapplication => mapplication} %>
+  <%= partial :'mapplications/verdicts', :locals => {:mapplication => mapplication} %>
 </td>          
 
 <% if @membership.admin? %>

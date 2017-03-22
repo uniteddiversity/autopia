@@ -4,7 +4,7 @@
 <div style="margin: 10px 0">
   <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List a quality</a>
   <div style="display: none" class="quality-form">
-    <%= partial :quality_form %>  
+    <%= partial :'qualities/quality_form' %>  
   </div>
 </div>
 
@@ -16,7 +16,7 @@
 <div class="row">
   <% @group.qualities.sort_by { |quality| -quality.cultivations.count }.each { |quality| %>
     <div class="col-sm-3">
-      <%= partial :quality, :object => quality %>
+      <%= partial :'qualities/quality', :object => quality %>
     </div>
   <% } %>
 </div>
