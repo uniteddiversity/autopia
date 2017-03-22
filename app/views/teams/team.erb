@@ -13,7 +13,7 @@
 <% @team.posts.order('created_at desc').each { |post|
 comments = post.comments.order('created_at asc'); comment = comments.first; if comment %>
 
-	<div style="border: 1px solid #DDCECE; margin: 20px 0">
+	<div style="border: 1px solid #DDCECE; margin: 20px 0" id="post-<%=post.id%>">
 
 		<div class="media" style="padding: 10px 10px 0 10px;">
 		  <span class="pull-left">

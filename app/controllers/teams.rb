@@ -79,7 +79,7 @@ Huddl::App.controller do
       @comment.post = @post
     end
     if @comment.save
-      redirect back
+      redirect "/h/#{@group.slug}/teams/#{@team.id}#post-#{@comment.post_id}"
     else
       flash[:error] = 'There was an error saving the comment'
       erb :'teams/team', :layout => 'layouts/teams' 
@@ -102,7 +102,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     halt unless @comment.account.id == current_account.id or @membership.admin?
     if @comment.update_attributes(params[:comment])
-      redirect "/h/#{@group.slug}/teams/#{@team.id}"
+      redirect "/h/#{@group.slug}/teams/#{@team.id}#post-#{@comment.post_id}"
     else
       flash[:error] = 'There was an error saving the comment'
       erb :'teams/team'
