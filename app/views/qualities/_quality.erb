@@ -5,7 +5,7 @@
       <a target="_blank" href="<%=quality.link%>"><%=quality.name%></a>
     </h3>
     <div data-pagelet-url="/qualities/<%=quality.id%>/cultivators">
-      <%= partial :cultivators, :locals => {:quality => quality}  %>
+      <%= partial :'qualities/cultivators', :locals => {:quality => quality}  %>
     </div>
   </div>  
   <div style="position: absolute; right: 10px; bottom: 10px; color: white">

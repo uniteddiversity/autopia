@@ -175,7 +175,7 @@
     </thead>
     <% @memberships.each { |membership| account = membership.account %>
       <tr data-pagelet-url="/membership_row/<%=membership.id%>">
-        <%= partial :membership_row, :locals => {:membership => membership}  %>
+        <%= partial :'members/membership_row', :locals => {:membership => membership}  %>
       </tr>
     <% } %>
     <tr>     

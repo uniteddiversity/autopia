@@ -87,7 +87,7 @@
         <% rota.rslots.order('o asc').each { |rslot| %>
           <td>
             <div data-pagelet-url="/rota/rslot/role/<%=rota.id%>/<%=rslot.id%>/<%=role.id%>">
-              <%= partial :rota_rslot_role, :locals => {:rota => rota, :rslot => rslot, :role => role} %>
+              <%= partial :'rotas/rota_rslot_role', :locals => {:rota => rota, :rslot => rslot, :role => role} %>
             </div>
           </td>          
         <% } %>

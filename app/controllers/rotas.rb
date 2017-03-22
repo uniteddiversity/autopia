@@ -4,7 +4,7 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    erb :rotas     
+    erb :'rotas/rotas'     
   end     
     
   post '/rotas/create' do

@@ -58,7 +58,7 @@ get '/qualities/:id/edit' do
     @group = @quality.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!        
-    partial :cultivators, :locals => {:quality => @quality}
+    partial :'qualities/cultivators', :locals => {:quality => @quality}
   end
     
   get '/qualities/:id/cultivate' do

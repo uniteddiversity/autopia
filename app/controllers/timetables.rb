@@ -161,7 +161,7 @@ Huddl::App.controller do
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!        
-    partial :attendees, :locals => {:activity => @activity}
+    partial :'timetables/attendees', :locals => {:activity => @activity}
   end
     
   get '/activities/:id/attend' do
