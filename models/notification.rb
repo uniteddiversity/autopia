@@ -25,10 +25,11 @@ class Notification
     if ENV['SMTP_ADDRESS']
       notification = self
       group = self.group
+      bcc = (type == 'commented' ? notifiable.team.emails : group.emails)
       
-      if Notification.mailable_types.include?(type)
+      if Notification.mailable_types.include?(type) and bcc.length > 0
         mail = Mail.new
-        mail.bcc = (type == 'commented' ? notifiable.team.emails : group.emails)
+        mail.bcc = bcc
         mail.from = "Huddl <team@huddl.tech>"
         mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
             
