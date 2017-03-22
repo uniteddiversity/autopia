@@ -79,7 +79,7 @@ Huddl::App.controller do
       @comment.post = @post
     end
     if @comment.save
-      request.xhr? ? 200 :redirect("/h/#{@group.slug}/teams/#{@team.id}#post-#{@comment.post_id}")
+      request.xhr? ? 200 : redirect("/h/#{@group.slug}/teams/#{@team.id}#post-#{@comment.post_id}")
     else
       flash[:error] = 'There was an error saving the comment'
       erb :'teams/team', :layout => 'layouts/teams' 
@@ -92,7 +92,7 @@ Huddl::App.controller do
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
     halt unless @comment.account.id == current_account.id or @membership.admin?
-    erb :'teams/comment', :layout => 'layouts/teams' 
+    erb :'teams/comment_build', :layout => 'layouts/teams' 
   end
   
   post '/comments/:id/edit' do
@@ -202,5 +202,13 @@ Huddl::App.controller do
     end
     200
   end  
+  
+  get '/options/:id/destroy' do
+    @option = Option.find(params[:id]) || not_found
+    @group = @option.comment.group      
+    membership_required!      
+    @option.destroy
+    redirect back
+  end    
   
 end

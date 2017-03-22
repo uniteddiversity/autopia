@@ -1,5 +1,6 @@
 <script>
 	$(function() {
+		$('[id=comment_title]').parent().attr('class','col-md-12')
 		$('[id=comment_body]').parent().attr('class','col-md-12')
 		$('textarea[id=comment_body]').css('height', '6em')
 		$('.comment-form .btn-primary').parent().attr('class','col-md-12')
@@ -16,9 +17,22 @@
 		 		<%= f.text_block :title %>
 		 	</div>	 	
 			<%= f.text_area_block :body, :placeholder => "What's on your mind?" %>
-			<% if comment.new_record? %>
-				<a style="display:block; margin-bottom: 5px; margin-top: -10px; text-decoration: none" href="javascript:;" onclick="$(this).hide();$('#title').show().find('input').focus();$('textarea[id=comment_body]').attr('placeholder', 'Description')"><i class="fa fa-bar-chart"></i> Create a poll</a>
-			<% end %>
+			<a id="create-a-poll" style="display:block; margin-bottom: 5px; margin-top: -10px; text-decoration: none" href="javascript:;" onclick="$(this).hide();$('#title').show().find('input').focus();$('textarea[id=comment_body]').attr('placeholder', 'Description')">
+				<i class="fa fa-bar-chart"></i>
+				<% if comment.new_record? %>
+					Create a poll
+				<% else %>
+					Convert to poll
+				<% end %>
+			</a>
 			<%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy" %>
 	  <% end %>
 <% end %> 
+
+<% if comment.title %>
+	<script>
+		$(function() {
+			$('#create-a-poll').click()
+		})
+	</script>
+<% end %>

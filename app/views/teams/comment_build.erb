@@ -1,0 +1,10 @@
+<%= partial :'teams/comment_form', :locals => {:comment => @comment} %>      
+
+<% if @comment.options.count > 0 %>
+	<h3>Options</h3>
+	<% @comment.options.each { |option| %>
+		<label style="background: #F7F2F2; padding: 5px; margin: 0; display: inline-block ">
+			<%= option.text %> <a data-confirm="Are you sure you want to delete this option?" href="/options/<%=option.id%>/destroy"><i class="fa fa-times"></i></a>
+		</label>
+	<% } %>
+<% end %>
