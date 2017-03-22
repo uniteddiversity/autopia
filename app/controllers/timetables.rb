@@ -103,7 +103,7 @@ Huddl::App.controller do
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
-    erb :'timetables/edit_activity'
+    erb :'timetables/activity_build'
   end 
         
   post '/activities/:id/edit' do
@@ -115,7 +115,7 @@ Huddl::App.controller do
       redirect "/h/#{@group.slug}/timetables"
     else
       flash[:error] = 'There was an error saving the activity'
-      erb :'timetables/edit_activity'
+      erb :'timetables/activity_build'
     end
   end   
 
