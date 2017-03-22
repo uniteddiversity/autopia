@@ -2,12 +2,14 @@
 
 $(function () {
   
-  $('form.placeholders-only label[for]').each(function () {
-    var input = $(this).next().children().first()
-    if (!$(input).attr('placeholder'))
-      $(input).attr('placeholder', $.trim($(this).text()))
-    $(this).hide()
-  });
+  function placeholdersOnly() {
+    $('form.placeholders-only label[for]').each(function () {
+      var input = $(this).next().children().first()
+      if (!$(input).attr('placeholder'))
+        $(input).attr('placeholder', $.trim($(this).text()))
+      $(this).hide()
+    });
+  }
 
   $('form').submit(function () {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
@@ -38,8 +40,10 @@ $(function () {
 
   $(document).ajaxComplete(function () {
     tooltip();
+    placeholdersOnly();
   });
   tooltip();
+  placeholdersOnly();
 
   if ($('label[for=account_poc').length > 0)
     $('label[for=account_poc').html($('label[for=account_poc').html().replace('person of colour', '<a target="_blank" href="https://en.wikipedia.org/wiki/Person_of_color">person of colour</a>'))

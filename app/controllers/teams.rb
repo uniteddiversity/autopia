@@ -79,7 +79,7 @@ Huddl::App.controller do
       @comment.post = @post
     end
     if @comment.save
-      redirect "/h/#{@group.slug}/teams/#{@team.id}#post-#{@comment.post_id}"
+      request.xhr? ? 200 :redirect("/h/#{@group.slug}/teams/#{@team.id}#post-#{@comment.post_id}")
     else
       flash[:error] = 'There was an error saving the comment'
       erb :'teams/team', :layout => 'layouts/teams' 
@@ -164,6 +164,15 @@ Huddl::App.controller do
     @teamship.destroy
     redirect back
   end  
+  
+  get '/posts/:id/replies' do
+    @post = Post.find(params[:id])
+    @team = @post.team
+    @group = @post.group
+    @membership = @group.memberships.find_by(account: current_account)    
+    membership_required!
+    partial :'teams/replies', :locals => {:post => @post}    
+  end
   
   get '/comments/:id/options' do
     @comment = Comment.find(params[:id])

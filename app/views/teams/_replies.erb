@@ -1,0 +1,14 @@
+<div style="background: #F7F2F2">
+	<% post.comments.order('created_at asc').skip(1).each { |comment| %>
+		<%= partial :'teams/comment', :locals => {:comment => comment}  %>
+	<% } %>
+	
+	<div class="media" style="padding: 10px 10px 0 10px; margin: 0">
+	  <span class="pull-left">
+	    <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+	  </span>
+	  <div class="media-body">
+			<%= partial :'teams/comment_form', :locals => {:post => post} %>
+	  </div>
+	</div> 
+</div>
