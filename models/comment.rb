@@ -9,10 +9,12 @@ class Comment
   belongs_to :post
 
   field :body, :type => String 
+  field :title, :type => String 
   
   validates_presence_of :body
   
   has_many :comment_likes, :dependent => :destroy
+  has_many :options, :dependent => :destroy
 
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
@@ -30,6 +32,7 @@ class Comment
   def self.admin_fields
     {
       :body => :text_area,
+      :title => :text,
       :account_id => :lookup,
       :group_id => :lookup,
       :membership_id => :lookup,

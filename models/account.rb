@@ -50,6 +50,8 @@ class Account
   has_many :posts, :dependent => :destroy
   has_many :comments, :dependent => :destroy
   has_many :comment_likes, :dependent => :destroy
+  has_many :options, :dependent => :destroy
+  has_many :votes, :dependent => :destroy
   # Rotas
   has_many :rotas, :dependent => :nullify  
   has_many :shifts, :dependent => :destroy

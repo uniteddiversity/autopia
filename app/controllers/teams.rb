@@ -165,4 +165,33 @@ Huddl::App.controller do
     redirect back
   end  
   
+  get '/comments/:id/options' do
+    @comment = Comment.find(params[:id])
+    @team = @comment.team
+    @group = @comment.group
+    @membership = @group.memberships.find_by(account: current_account)    
+    membership_required!
+    partial :'teams/options', :locals => {:comment => @comment}
+  end
+  
+  post '/options/create' do
+    @comment = Comment.find(params[:comment_id]) || not_found
+    @group = @comment.group      
+    membership_required!      
+    @comment.options.create!(account: current_account, text: params[:text])
+    200   
+  end  
+  
+  post '/options/:id/vote' do
+    @option = Option.find(params[:id]) || not_found
+    @group = @option.comment.group      
+    membership_required!      
+    if params[:vote]
+      @option.votes.create!(account: current_account)
+    else
+      @option.votes.find_by(account: current_account).try(:destroy)
+    end
+    200
+  end  
+  
 end

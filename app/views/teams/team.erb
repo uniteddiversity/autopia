@@ -35,7 +35,21 @@ comments = post.comments.order('created_at asc'); comment = comments.first; if c
 					</small>
 					
 					<div style="margin-bottom: 10px">
+						
+						<% if comment.title %>
+							<div style="margin: 10px 0">
+								<strong><%=comment.title%></strong>
+							</div>
+						<% end %>
+						
 						<%= Rinku.auto_link(comment.body.gsub("\n","<br />")) %>
+						
+						<% if comment.title %>
+							<div data-pagelet-url="/comments/<%=comment.id%>/options">
+								<%= partial :'teams/options', :locals => {:comment => comment} %>
+							</div>
+						<% end %>
+						
 					</div>
 					
 		    </div>

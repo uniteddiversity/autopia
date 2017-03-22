@@ -1,0 +1,23 @@
+<div style="margin-top: 10px">
+	<% comment.options.each { |option| %>
+		<div style="margin-bottom: 5px">
+			<% form_tag "/options/#{option.id}/vote" do %>
+				<label style="background: #F7F2F2; padding: 5px; margin: 0; display: inline-block ">
+					<%= check_box_tag :vote, :value => true, :checked => option.votes.find_by(account: current_account), :onclick => '$(this.form).submit()' %>
+					<%= option.text %>
+				</label>
+			<% end %>
+			<% if option.votes.count > 0 %>
+				<div style="margin-top: 5px">
+					<% option.votes.each { |vote| account = vote.account %>
+						<img style="width: 32px;" data-toggle="tooltip" title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" />
+					<% } %>
+				</div>
+			<% end %>
+		</div>
+	<% } %>
+	<% form_tag '/options/create' do %>
+		<%= hidden_field_tag :comment_id, :value => comment.id %>
+		<%= text_field_tag :text, :class => 'form-control', :placeholder => 'Add an option...' %>
+	<% end %>
+</div>
