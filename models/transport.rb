@@ -36,5 +36,9 @@ class Transport
   def full?
     transportships.count == capacity
   end
+  
+  after_save do
+    transportships.each { |transportship| transportship.membership.update_requested_contribution }
+  end
     
 end

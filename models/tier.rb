@@ -30,5 +30,9 @@ class Tier
       :tierships => :collection,
     }
   end
+  
+  after_save do
+    tierships.each { |tiership| tiership.membership.update_requested_contribution }
+  end  
     
 end

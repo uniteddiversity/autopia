@@ -42,5 +42,9 @@ class Accom
   def full?
     accomships.count == capacity
   end
+  
+  after_save do
+    accomships.each { |accomship| accomship.membership.update_requested_contribution }
+  end    
     
 end
