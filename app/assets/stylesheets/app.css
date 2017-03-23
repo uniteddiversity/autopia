@@ -27,6 +27,9 @@ abbr[title] { border: none; }
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus { background: #CE2828 }
 a, a:hover, a:focus, a:active { color: #CE2828 }
 
+.subtle { color: #999 !important }
+.subtle.active, .subtle:hover { color: #CE2828 !important }
+
 .btn { text-transform: none }
 
 .btn-primary {
@@ -34,7 +37,8 @@ a, a:hover, a:focus, a:active { color: #CE2828 }
   border-color: #AA1C1C;
   color: #ffffff;
 }
-.btn-primary:hover, .btn-primary:focus, .btn-primary:disabled, .btn-group.open .dropdown-toggle.btn-primary {
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
   background-color: #CE2828;
   border-color: #AA1C1C;
 }
@@ -60,3 +64,5 @@ a.fc-event.no-bookings { opacity: 0.2 }
 .note-group-select-from-files { display: none }
 
 .list-group-item.active > .badge, .nav-pills > .active > a > .badge { color: #CE2828 }
+
+

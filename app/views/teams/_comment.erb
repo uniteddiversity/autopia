@@ -7,7 +7,7 @@
     <div>
     	
     	<strong><%=comment.account.name%></strong>
-			<small style="opacity: 0.5">
+			<small class="subtle">
 				<%= timeago(comment.created_at) %>
 				
 				<% if comment.account.id == current_account.id or @membership.admin? %>
@@ -22,9 +22,10 @@
 			</div>
 			
 			<div style="background: #F7F2F2; font-size: 12px;">
-				<div data-pagelet-url="/comments/<%=comment.id%>/likes">
+				<div data-pagelet-url="/comments/<%=comment.id%>/likes" style="display: inline">
 					<%= partial :'teams/comment_likes', :locals => {:comment => comment} %>
 				</div>
+				<%= partial :'teams/read_receipts', :locals => {:comment => comment} %>
 			</div>					
 			
     </div>

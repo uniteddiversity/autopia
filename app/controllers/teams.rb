@@ -33,6 +33,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
     @team = @group.teams.find(params[:id])
+    @team.comments.each { |comment| comment.read_receipts.create account: current_account }
     @comment = @team.comments.build
     erb :'teams/team', :layout => 'layouts/teams' 
   end
@@ -171,6 +172,7 @@ Huddl::App.controller do
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
+    @post.comments.each { |comment| comment.read_receipts.create account: current_account }
     partial :'teams/replies', :locals => {:post => @post}    
   end
   

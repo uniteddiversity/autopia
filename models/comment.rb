@@ -15,6 +15,7 @@ class Comment
   
   has_many :comment_likes, :dependent => :destroy
   has_many :options, :dependent => :destroy
+  has_many :read_receipts, :dependent => :destroy
 
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
