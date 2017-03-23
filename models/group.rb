@@ -154,7 +154,7 @@ class Group
     {      
       :intro => 'Intro for members',
       :application_questions => 'One per line',
-      :democratic_threshold => 'Setting a magic number results in applications with a certain number of proposers + supporters (including at least one proposer) being accepted automatically. A democratic magic number means all group members have a say over the number.',
+      :democratic_threshold => 'Setting a magic number results in applications with a certain number of proposers + supporters (with at least one proposer) being accepted automatically. A democratic magic number means all group members have a say over the number.',
       :fixed_threshold => 'Takes precedence over democratic magic number'
     }
   end
