@@ -54,6 +54,7 @@ class Membership
   end     
    
   after_destroy do
+    account.notifications.create! :group => group, :type => 'left_group'
     mapplication.try(:destroy)
   end
   

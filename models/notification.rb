@@ -14,11 +14,11 @@ class Notification
   end
   
   def self.types
-    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment}
+    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment left_group}
   end
   
   def self.mailable_types
-    %w{applied joined_group listed_activity created_transport created_tier created_team created_accom created_rota listed_spend created_timetable commented}
+    %w{applied joined_group listed_activity created_transport created_tier created_team created_accom created_rota listed_spend created_timetable commented left_group}
   end
   
   after_create do
@@ -148,7 +148,10 @@ class Notification
       "<strong>#{comment.account.name}</strong> posted in <strong>#{comment.team.name}</strong>"                  
     when :liked_a_comment
       comment_like = notifiable
-      "<strong>#{comment_like.account.name}</strong> liked <strong>#{comment_like.comment.account.name}'s</strong> comment in <strong>#{comment_like.team.name}</strong>"                        
+      "<strong>#{comment_like.account.name}</strong> liked <strong>#{comment_like.comment.account.name}'s</strong> comment in <strong>#{comment_like.team.name}</strong>"
+    when :left_group
+      account = notifiable
+      "<strong>#{account.name}</strong> left <strong>#{group.name}</strong>"
     end
   end
   
@@ -204,6 +207,8 @@ class Notification
       ['View post', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]
     when :liked_a_comment
       ['View post', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]      
+    when :left_group
+      ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]            
     end
   end
   
@@ -268,6 +273,8 @@ class Notification
       'fa-comment'       
     when :liked_a_comment
       'fa-thumbs-up' 
+    when :left_group
+      'fa fa-sign-out'
     end    
   end
 
