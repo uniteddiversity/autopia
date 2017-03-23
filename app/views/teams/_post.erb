@@ -37,6 +37,12 @@
 						</div>
 					<% end %>
 					
+					<% if comment.file %>
+						<div>
+							<i class="fa fa-paperclip"></i> <a href="<%=comment.file.url%>"><%=comment.file.name%></a>
+						</div>
+					<% end %>
+					
 				</div>
 				
 	    </div>

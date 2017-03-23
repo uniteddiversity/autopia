@@ -89,7 +89,7 @@ Huddl::App.controller do
     @group = @rota.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
-    partial :rota_rslot_role, :locals => {:rota => @rota, :rslot => @rslot, :role => @role}
+    partial :'rotas/rota_rslot_role', :locals => {:rota => @rota, :rslot => @rslot, :role => @role}
   end
          
   get '/shifts/create' do

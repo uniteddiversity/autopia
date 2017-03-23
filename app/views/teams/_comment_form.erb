@@ -7,34 +7,64 @@
 	})
 </script>
 
-<% if defined?(post); comment = post.comments.build; end # if we provided a post instead of a comment %>
- <% form_for comment, comment.new_record ? "/h/#{@group.slug}/teams/#{@team.id}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal placeholders-only #{'with-post' if defined?(post)}" do |f| %>
-	 	<% if defined?(post) %>
-	 		<%= f.hidden_field :post_id, :value => post.id %>
+ <% form_for comment, comment.new_record ? "/h/#{@group.slug}/teams/#{@team.id}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal placeholders-only" do |f| %>
+		<%= f.hidden_field :post_id, :value => comment.post_id %>
+	 	<% if defined?(reply) %>
 			<%= f.text_block :body, :placeholder => 'Write a comment...' %>
 	 	<% else %>
-		 	<div id="title" style="display: none">
-		 		<%= f.text_block :title %>
-		 	</div>	 	
+	 	
+		 	<% if comment.first_in_post? %>
+			 	<div id="comment-title-container" style="display: none">
+		 			<%= f.text_block :title %>
+	 			</div>	 	
+		 	<% end %>
+		 	
 			<%= f.text_area_block :body, :placeholder => "What's on your mind?" %>
+			
+			<div id="comment-file-container" style="display: none">
+				<%= f.file_block :file %>
+			</div>
+						
 			<% if comment.first_in_post? %>
-				<a id="create-a-poll" style="display:block; margin-bottom: 5px; margin-top: -10px; text-decoration: none" href="javascript:;" onclick="$(this).hide();$('#title').show().find('input').focus();$('textarea[id=comment_body]').attr('placeholder', 'Description')">
-					<i class="fa fa-bar-chart"></i>
-					<% if comment.new_record? %>
-						Create a poll
-					<% else %>
-						Convert to poll
-					<% end %>
-				</a>
+				
+				<div style="margin-bottom: 5px; margin-top: -10px;">
+				
+					<a id="create-a-poll" style="text-decoration: none" href="javascript:;" onclick="$(this).hide();$('#divider').hide();$('#comment-title-container').show().find('input').focus();$('textarea[id=comment_body]').attr('placeholder', 'Description')">
+						<i class="fa fa-bar-chart"></i>
+						<% if comment.new_record? %>
+							Create a poll
+						<% else %>
+							Convert to poll
+						<% end %>
+					</a>
+					<% if comment.title %>
+						<script>
+							$(function() {
+								$('#create-a-poll').click()
+							})
+						</script>
+					<% end %>	
+					
+					<span id="divider">&middot;</span>
+					
+					<a id="attach-a-file" style="text-decoration: none" href="javascript:;" onclick="$(this).hide();$('#divider').hide();$('#comment-file-container').show().find('input').click();">
+						<i class="fa fa-paperclip"></i>
+						Attach a file
+					</a>
+					<% if comment.title %>
+						<script>
+							$(function() {
+								$('#attach-a-file').hide();
+								$('#divider').hide();
+								$('#comment-file-container').show()
+							})
+						</script>
+					<% end %>						
+					
+				</div>
+				
 			<% end %>
+			
 			<%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy" %>
 	  <% end %>
 <% end %> 
-
-<% if comment.title %>
-	<script>
-		$(function() {
-			$('#create-a-poll').click()
-		})
-	</script>
-<% end %>

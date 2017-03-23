@@ -1,6 +1,7 @@
 class Comment
   include Mongoid::Document
   include Mongoid::Timestamps
+  extend Dragonfly::Model
   
   belongs_to :account
   belongs_to :group
@@ -9,7 +10,10 @@ class Comment
   belongs_to :post
 
   field :body, :type => String 
-  field :title, :type => String 
+  field :title, :type => String
+  field :file_uid, :type => String
+  
+  dragonfly_accessor :file  
   
   validates_presence_of :body
   
@@ -38,6 +42,7 @@ class Comment
     {
       :body => :text_area,
       :title => :text,
+      :file => :file,
       :account_id => :lookup,
       :group_id => :lookup,
       :membership_id => :lookup,

@@ -38,7 +38,7 @@ a, a:hover, a:focus, a:active { color: #CE2828 }
   color: #ffffff;
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:disabled {
   background-color: #CE2828;
   border-color: #AA1C1C;
 }

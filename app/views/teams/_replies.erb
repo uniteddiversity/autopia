@@ -8,7 +8,7 @@
 	    <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
 	  </span>
 	  <div class="media-body">
-			<%= partial :'teams/comment_form', :locals => {:post => post} %>
+			<%= partial :'teams/comment_form', :locals => {:comment => post.comments.build, :reply => true} %>
 	  </div>
 	</div> 
 </div>
