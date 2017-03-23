@@ -30,6 +30,8 @@ class Account
   
   has_many :groups, :dependent => :nullify  
   
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  
   has_many :mapplications, :class_name => "Mapplication", :inverse_of => :account, :dependent => :destroy
   has_many :mapplications_processed, :class_name => "Mapplication", :inverse_of => :processed_by, :dependent => :nullify  
   
