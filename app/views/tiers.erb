@@ -24,7 +24,7 @@
       <th>People</th> 
     </tr>
   </thead>
-  <% @group.tiers.order('name asc').each { |tier| %>
+  <% @group.tiers.order('cost asc').each { |tier| %>
     <tr>
       <td>
         <% if @membership.admin? %>
