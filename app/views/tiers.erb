@@ -41,22 +41,16 @@
         £<%=tier.cost%>
       </td>
       <td>
-        <% unless @group.tierships.find_by(account: current_account) %>
+        <% if tiership = @group.tierships.find_by(tier: tier, account: current_account) %>
+          <a class="btn btn-primary" href="/tierships/<%=tiership.id%>/destroy">Leave</a>
+        <% elsif !@group.tierships.find_by(account: current_account) %>
           <a class="btn btn-primary" href="/tierships/create?tier_id=<%=tier.id%>">Join</a>
         <% end %>
       </td>      
       <td>
-        <% if tier.tierships.count > 0 %>
-          <%= pluralize(tier.tierships.count, 'person') %>:
-        <% end %>
-        <% names = tier.tierships.map { |tiership| account = tiership.account; capture do %>
-            <% if tiership.account == current_account or @membership.admin? %>
-              <a data-confirm="Remove this person from this tier?" href="/tierships/<%=tiership.id%>/destroy"><%=account.name%></a>
-            <% else %>
-              <%=account.name%>
-            <% end %>
-          <% end }.map(&:strip).join(', ') %>
-        <%= names %>
+        <% tier.tierships.map { |tiership| account = tiership.account; %>
+          <img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" />
+        <% } %>
       </td>
     </tr>
   <% } %>
