@@ -29,48 +29,54 @@
 </td>
 <% if @group.democratic_threshold %>
   <td><%=membership.desired_threshold%></td>
-<% end %>        
-<td>        
-  <% if @membership.admin? %>
-    <% if tiership = membership.tiership %>
-      <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (£<%= tiership.tier.cost %>)</span>
-    <% end %>
-
-    <% form_tag "/memberships/#{membership.id}/tier", :style => ('display:none' if tiership) do %>
-      <%= select_tag :tier_id, :class => 'form-control', :options => [''] + @group.tiers.map { |tier| [tier.name, tier.id] }, :selected => tiership.try(:tier_id), :onchange => '$(this.form).submit()' %>
-    <% end %>
-
-  <% else %>
-    <% if tiership = membership.tiership %>
-      <span class="label label-primary"><%= tiership.tier.name %> (£<%= tiership.tier.cost %>)</span>
-    <% else %>          
-      <i class="fa fa-warning"></i>
-    <% end %>   
-  <% end %>                       
-</td>
-<td>       
-  <% if @membership.admin? %>
-    <% if accomship = membership.accomship %>
-      <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)</span>
-    <% end %>
-
-    <% form_tag "/memberships/#{membership.id}/accom", :style => ('display:none' if accomship) do %>
-      <%= select_tag :accom_id, :class => 'form-control', :options => [''] + @group.accoms.select { |accom| !accom.full? }.map { |accom| [accom.name, accom.id] }, :selected => accomship.try(:accom_id), :onchange => '$(this.form).submit()' %>
-    <% end %>
-
-  <% else %>
-    <% if accomship = membership.accomship %>
-      <span class="label label-primary"><%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)</span>
-    <% else %>          
-      <i class="fa fa-warning"></i>
-    <% end %>
-  <% end %>           
-</td>    
-<td>
-  <% membership.transportships.each { |transportship| %>
-    <span class="label label-primary"><%= transportship.transport.name %> (£<%= transportship.transport.cost %>)</span> <br />
-  <% } %>
-</td>      
+<% end %>   
+<% if @group.enable_tiers %>
+  <td>        
+    <% if @membership.admin? %>
+      <% if tiership = membership.tiership %>
+        <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (£<%= tiership.tier.cost %>)</span>
+      <% end %>
+  
+      <% form_tag "/memberships/#{membership.id}/tier", :style => ('display:none' if tiership) do %>
+        <%= select_tag :tier_id, :class => 'form-control', :options => [''] + @group.tiers.map { |tier| [tier.name, tier.id] }, :selected => tiership.try(:tier_id), :onchange => '$(this.form).submit()' %>
+      <% end %>
+  
+    <% else %>
+      <% if tiership = membership.tiership %>
+        <span class="label label-primary"><%= tiership.tier.name %> (£<%= tiership.tier.cost %>)</span>
+      <% else %>          
+        <i class="fa fa-warning"></i>
+      <% end %>   
+    <% end %>                       
+  </td>
+<% end %>
+<% if @group.enable_accommodation %>
+  <td>       
+    <% if @membership.admin? %>
+      <% if accomship = membership.accomship %>
+        <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)</span>
+      <% end %>
+  
+      <% form_tag "/memberships/#{membership.id}/accom", :style => ('display:none' if accomship) do %>
+        <%= select_tag :accom_id, :class => 'form-control', :options => [''] + @group.accoms.select { |accom| !accom.full? }.map { |accom| [accom.name, accom.id] }, :selected => accomship.try(:accom_id), :onchange => '$(this.form).submit()' %>
+      <% end %>
+  
+    <% else %>
+      <% if accomship = membership.accomship %>
+        <span class="label label-primary"><%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)</span>
+      <% else %>          
+        <i class="fa fa-warning"></i>
+      <% end %>
+    <% end %>           
+  </td> 
+<% end %>
+<% if @group.enable_transport %>
+  <td>
+    <% membership.transportships.each { |transportship| %>
+      <span class="label label-primary"><%= transportship.transport.name %> (£<%= transportship.transport.cost %>)</span> <br />
+    <% } %>
+  </td>      
+<% end %>
 <td>
   £<%= membership.requested_contribution %>
 </td>
