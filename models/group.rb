@@ -12,7 +12,7 @@ class Group
   field :name, :type => String
   field :slug, :type => String
   field :image_uid, :type => String
-  field :intro, :type => String
+  field :intro_for_members, :type => String
   field :application_preamble, :type => String
   field :application_questions, :type => String
   field :anonymous_supporters, :type => Boolean
@@ -124,7 +124,7 @@ class Group
       :name => :text,
       :slug => :slug,      
       :image => :image,
-      :intro => :wysiwyg,
+      :intro_for_members => :wysiwyg,
       :fixed_threshold => :number,
       :member_limit => :number,
       :booking_limit => :number,
@@ -152,7 +152,6 @@ class Group
   
   def self.new_tips
     {      
-      :intro => 'Intro for members',
       :application_questions => 'One per line',
       :democratic_threshold => 'Setting a magic number results in applications with a certain number of proposers + supporters (with at least one proposer) being accepted automatically. A democratic magic number means all group members have a say over the number.',
       :fixed_threshold => 'Takes precedence over democratic magic number'
