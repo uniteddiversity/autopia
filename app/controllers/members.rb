@@ -129,6 +129,18 @@ post '/h/:slug/add_member' do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
     partial :'members/membership_row', :locals => {:membership => membership}
-  end       
+  end     
+  
+    get '/update_facebook_name/:id' do
+      halt unless current_account and current_account.admin?
+      account = Account.find(params[:id]) || not_found
+      partial :'members/update_facebook_name', :locals => {:account => account}
+    end    
+    
+    post '/update_facebook_name/:id' do
+      halt unless current_account and current_account.admin?
+      Account.find(params[:id]).update_attribute(:facebook_name, params[:facebook_name])
+      200
+    end  
   
 end

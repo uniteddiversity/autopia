@@ -70,18 +70,6 @@ module Huddl
       erb :diff      
     end
     
-    get '/update_facebook_name/:id' do
-      halt unless current_account and current_account.admin?
-      account = Account.find(params[:id]) || not_found
-      partial :update_facebook_name, :locals => {:account => account}
-    end    
-    
-    post '/update_facebook_name/:id' do
-      halt unless current_account and current_account.admin?
-      Account.find(params[:id]).update_attribute(:facebook_name, params[:facebook_name])
-      200
-    end
-                                
     get '/:slug' do
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)
         erb :page
