@@ -37,6 +37,10 @@ class Comment
   def first_in_post?
     !post or post.new_record? or post.comments.order('created_at asc').first.id == self.id
   end
+  
+  after_create do
+    post.update_attribute(:updated_at, Time.now)
+  end
 
   def self.admin_fields
     {

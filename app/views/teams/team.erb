@@ -10,7 +10,7 @@
   </div>
 </div> 
 
-<% @team.posts.order('created_at desc').each { |post| %>
+<% @team.posts.order('updated_at desc').each { |post| %>
 	<% if post.comments.count > 0 %>
 		<%= partial :'teams/post', :object => post %>
 	<% end %>
