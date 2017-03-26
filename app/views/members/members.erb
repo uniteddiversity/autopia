@@ -179,8 +179,10 @@
         <% if @group.enable_transport %>
           <th>Transport</th>
         <% end %>
-        <th>Requested contribution</th>
-        <th>Paid</th>     
+        <% if @group.enable_budget %>
+          <th>Requested contribution</th>
+          <th>Paid</th>     
+        <% end %>
         <% if @group.enable_bookings %>
           <th>Booking limit</th>     
         <% end %>
@@ -201,17 +203,19 @@
       <% if @group.democratic_threshold %>
         <th></th>
       <% end %>        
-        <% if @group.enable_tiers %>
-          <th></th>
-        <% end %>
-        <% if @group.enable_accommodation %>
-          <th></th>
-        <% end %>
-        <% if @group.enable_transport %>
-          <th></th>
-        <% end %>
-      <th></th>
-      <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
+      <% if @group.enable_tiers %>
+        <th></th>
+      <% end %>
+      <% if @group.enable_accommodation %>
+        <th></th>
+      <% end %>
+      <% if @group.enable_transport %>
+        <th></th>
+      <% end %>
+      <% if @group.enable_budget %>
+        <th></th>
+        <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
+      <% end %>
       <% if @group.enable_bookings %>
         <th></th>     
       <% end %>
