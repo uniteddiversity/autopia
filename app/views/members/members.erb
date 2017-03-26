@@ -43,18 +43,28 @@
 <% y << capture do %>
   <a href="?paid_nothing=true">Paid nothing</a> <%= @group.memberships.where(:paid => 0).count %>
 <% end %>  
-<% y << capture do %>
-  <a href="?shifts=true">People with shifts</a> <%= @group.memberships.where(:account_id.in => @group.shifts.pluck(:account_id)).count %>
+
+<% if @group.enable_rotas %>
+  <% y << capture do %>
+    <a href="?shifts=true">People with shifts</a> <%= @group.memberships.where(:account_id.in => @group.shifts.pluck(:account_id)).count %>
+  <% end %>
+  <% y << capture do %>
+    <a href="?no_shifts=true">People without shifts</a> <%= @group.memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)).count %>
+  <% end %>
 <% end %>
-<% y << capture do %>
-  <a href="?no_shifts=true">People without shifts</a> <%= @group.memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)).count %>
+
+<% if @group.enable_tiers %>
+  <% y << capture do %>
+    <a href="?no_tier=true">No tier</a> <%= @group.memberships.where(:account_id.nin => @group.tierships.pluck(:account_id)).count %>
+  <% end %>
 <% end %>
-<% y << capture do %>
-  <a href="?no_tier=true">No tier</a> <%= @group.memberships.where(:account_id.nin => @group.tierships.pluck(:account_id)).count %>
+
+<% if @group.enable_accommodation %>
+  <% y << capture do %>
+    <a href="?no_accom=true">No accommodation</a> <%= @group.memberships.where(:account_id.nin => @group.accomships.pluck(:account_id)).count %>
+  <% end %>  
 <% end %>
-<% y << capture do %>
-  <a href="?no_accom=true">No accommodation</a> <%= @group.memberships.where(:account_id.nin => @group.accomships.pluck(:account_id)).count %>
-<% end %>  
+
 <% if @group.democratic_threshold %>
   <% y << capture do %>
     <a href="?threshold=true">Suggested magic number</a> <%= @group.memberships.where(:desired_threshold.ne => nil).count %>
@@ -160,9 +170,15 @@
         <% if @group.democratic_threshold %>
           <th>Suggested magic number</th>
         <% end %>        
-        <th>Tier</th>
-        <th>Accommodation</th>
-        <th>Transport</th>
+        <% if @group.enable_tiers %>
+          <th>Tier</th>
+        <% end %>
+        <% if @group.enable_accommodation %>
+          <th>Accommodation</th>
+        <% end %>
+        <% if @group.enable_transport %>
+          <th>Transport</th>
+        <% end %>
         <th>Requested contribution</th>
         <th>Paid</th>     
         <% if @group.enable_bookings %>
@@ -185,9 +201,15 @@
       <% if @group.democratic_threshold %>
         <th></th>
       <% end %>        
-      <th></th>
-      <th></th>
-      <th></th>
+        <% if @group.enable_tiers %>
+          <th></th>
+        <% end %>
+        <% if @group.enable_accommodation %>
+          <th></th>
+        <% end %>
+        <% if @group.enable_transport %>
+          <th></th>
+        <% end %>
       <th></th>
       <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
       <% if @group.enable_bookings %>
