@@ -16,10 +16,6 @@ class Booking
     notifications.create! :group => group, :type => 'booked'
   end    
   
-  def membership
-    group.memberships.find_by(account: account)
-  end
-  
   before_validation do
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
     errors.add(:account, 'is at the booking limit') if membership.booking_limit and membership.bookings.count >= membership.booking_limit

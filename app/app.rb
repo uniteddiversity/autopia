@@ -37,7 +37,7 @@ module Huddl
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : 'London'
       fix_params!
       if params[:sign_in_token] and account = Account.find_by(sign_in_token: params[:sign_in_token])
-        session[:account_id] = account.id
+        session[:account_id] = account.id.to_s
         account.update_attribute(:sign_in_token, SecureRandom.uuid)
       end      
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
