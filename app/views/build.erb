@@ -34,7 +34,9 @@
     <div class="col-sm-offset-3 col-sm-6">
       <h2>Payout</h2>
       <p>
-        <strong>£<%=@group.balance%></strong> is waiting to be paid out (there's a 5% fee for transactions made via Huddl). Payouts are via PayPal.
+        There's a 5% fee for transactions made via Huddl (less than Eventbrite, which is at least 5.5%).
+        <br />
+        <strong>£<%="#{'%.2f' % @group.balance}"%></strong> is waiting to be paid out. Payouts are via PayPal.
       </p>
     </div>
   </div>
