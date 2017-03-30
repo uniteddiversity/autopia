@@ -29,15 +29,13 @@
   <%= f.submit_block %>  
 <% end %>
 
-<% if @group.persisted? %>
+<% if @group.persisted? and @group.balance > 0 %>
   <div class="row">
     <div class="col-sm-offset-3 col-sm-6">
       <h2>Payout details</h2>
-      <% if @group.balance > 0 %>
-        <p>
-          <strong>£<%=@group.balance%></strong> is waiting to be paid out. Payouts are via PayPal.
-        </p>
-      <% end %>
+      <p>
+        <strong>£<%=@group.balance%></strong> is waiting to be paid out. Payouts are via PayPal.
+      </p>
     </div>
   </div>
   <% form_for @group, "/h/#{@group.slug}/payout", :class => 'form-horizontal', :multipart => true do |f| %>
