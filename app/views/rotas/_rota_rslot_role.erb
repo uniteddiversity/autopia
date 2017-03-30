@@ -2,7 +2,7 @@
   <% if (shift.account and shift.account == current_account) or @membership.admin? %>
     <% if shift.account %>
       <a class="pagelet-trigger" href="/shifts/<%=shift.id%>/destroy">
-        <%=account.name%>
+        <img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" />
       </a>
     <% else %>
       <a class="pagelet-trigger" href="/shifts/<%=shift.id%>/destroy">
@@ -11,7 +11,7 @@
     <% end %>
   <% else %>
     <% if shift.account %>
-      <%=account.name%>
+      <img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" />
     <% else %>
       n/a
     <% end %>
