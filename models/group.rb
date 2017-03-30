@@ -25,7 +25,7 @@ class Group
   field :featured, :type => Boolean
   field :member_limit, :type => Integer
   field :booking_limit, :type => Integer
-  field :balance, :type => Integer
+  field :balance, :type => Float
   field :paypal_email, :type => String
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
