@@ -25,6 +25,7 @@ class Group
   field :featured, :type => Boolean
   field :member_limit, :type => Integer
   field :booking_limit, :type => Integer
+  field :processed_via_huddl, :type => Integer
   field :balance, :type => Float
   field :paypal_email, :type => String
   enablable.each { |x|
@@ -34,6 +35,7 @@ class Group
   before_validation do
     self.featured = true if self.featured.nil?
     self.balance = 0 if self.balance.nil?
+    self.processed_via_huddl = 0 if self.processed_via_huddl.nil?
   end
   
   belongs_to :account, index: true
@@ -130,6 +132,7 @@ class Group
       :fixed_threshold => :number,
       :member_limit => :number,
       :booking_limit => :number,
+      :processed_via_huddl => :number,
       :balance => :number,
       :democratic_threshold => :check_box,
       :application_preamble => :wysiwyg,

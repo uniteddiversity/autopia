@@ -13,6 +13,7 @@ Huddl::App.controller do
       :description => "Payment for #{@group.name}"
     )
     @membership.update_attribute(:paid, @membership.paid + params[:amount].to_i)
+    @group.update_attribute(:processed_via_huddl, @group.processed_via_huddl + params[:amount].to_i)
     @group.update_attribute(:balance, @group.balance + params[:amount].to_i*0.95)
     200
   end 
