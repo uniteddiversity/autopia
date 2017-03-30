@@ -50,10 +50,10 @@
       </div>
       <div class="panel-body">
         <p>
-          You still owe £<%= @membership.requested_contribution - @membership.paid%>. 
+          You owe £<%= @membership.requested_contribution - @membership.paid%>. 
           (You've paid £<%=@membership.paid or 0%> of a requested contribution of £<%=@membership.requested_contribution%>.)
         </p>
-        <%= partial :'members/pay', :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
+        <%= partial :pay, :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
       </div>
     </div>
   <% end %>
