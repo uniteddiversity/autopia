@@ -91,7 +91,7 @@
   </tr> 
   
   <tr>   
-    <td>5% transaction fees on £<%="#{'%.2f' % @group.processed_via_huddl}"%> processed via Huddl</td>      
+    <td>5% transaction fees on £<%=@group.processed_via_huddl%> processed via Huddl</td>      
     <td>£<%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>      
     <td></td>      
     <td></td>      
@@ -127,7 +127,7 @@
   <% } %>
   <tr>   
     <th></th>      
-    <th>£<%="#{'%.2f' % (@group.spends.pluck(:amount).sum + (0.05*@group.processed_via_huddl))}"%></th>
+    <th>£<%=@group.spends.pluck(:amount).sum + (0.05*@group.processed_via_huddl).round%></th>
     <th></th>
     <th></th>       
   </tr>    
