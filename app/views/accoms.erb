@@ -47,19 +47,14 @@
         <%=accom.accomships.count%>/<%=accom.capacity%>
       </td>      
       <td>
-        <% if !@group.accomships.find_by(account: current_account) and !accom.full?  %>
+        <% if accomship = @group.accomships.find_by(accom: accom, account: current_account) %>
+          <a class="btn btn-primary" href="/accomships/<%=accomship.id%>/destroy">Leave</a>
+        <% elsif !@group.accomships.find_by(account: current_account) and !accom.full? %>
           <a class="btn btn-primary" href="/accomships/create?accom_id=<%=accom.id%>">Join</a>
         <% end %>
       </td>      
       <td>
-        <% names = accom.accomships.map { |accomship| account = accomship.account; capture do %>
-            <% if accomship.account == current_account or @membership.admin? %>
-              <a data-confirm="Remove this person from this accommodation?" href="/accomships/<%=accomship.id%>/destroy"><%=account.name%></a>
-            <% else %>
-              <%=account.name%>
-            <% end %>
-          <% end }.map(&:strip).join(', ') %>
-        <%= names %>
+        <% accom.accomships.map { |accomship| account = accomship.account; %><img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% } %>
       </td>
       <td>
         <% if accom.cost_per_person %>
