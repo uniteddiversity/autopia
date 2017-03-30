@@ -1,5 +1,5 @@
 Huddl::App.controller do
-
+  
 	get '/h/:slug' do        
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
@@ -21,7 +21,7 @@ Huddl::App.controller do
     erb :'members/members'
   end
   
-post '/h/:slug/add_member' do
+  post '/h/:slug/add_member' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only! 

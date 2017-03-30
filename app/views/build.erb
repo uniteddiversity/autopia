@@ -15,7 +15,6 @@
   <%= f.check_box_block :ask_for_gender %>  
   <%= f.check_box_block :ask_for_poc %>
   <%= f.wysiwyg_block :intro_for_members %>
-  <%= f.wysiwyg_block :payment_details %>
   <%= f.check_box_block :anonymous_supporters %>
   <%= f.check_box_block :anonymous_blockers %>  
   <%= f.check_box_block :democratic_threshold %>
@@ -28,4 +27,23 @@
     <%= f.number_block :booking_limit %>
   <% end %>
   <%= f.submit_block %>  
+<% end %>
+
+<% if @group.persisted? %>
+  <div class="row">
+    <div class="col-sm-offset-3 col-sm-6">
+      <h2>Payout details</h2>
+      
+      <p>
+        <strong>£<%=@group.balance%></strong> is waiting to be paid out.
+      </p>
+    </div>
+  </div>
+  <% form_for @group, "/h/#{@group.slug}/payout", :class => 'form-horizontal', :multipart => true do |f| %>
+    <%= f.text_block :name_on_account %>
+    <%= f.text_block :sort_code %>
+    <%= f.text_block :account_number %>
+    <%= f.submit_block button_text: 'Request payout' %> 
+  <% end %>
+
 <% end %>

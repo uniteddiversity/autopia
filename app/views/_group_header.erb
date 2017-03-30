@@ -43,14 +43,17 @@
     </div>
   <% end %>
 
-  <% if @group.payment_details and @membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution)) %>
+  <% if @membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution)) %>
     <div class="panel panel-primary" style="margin-top: 20px">
       <div class="panel-heading">
         <h3 class="panel-title"><i class="fa fa-warning"></i> Payment required</h3>
       </div>
       <div class="panel-body">
-        <p>You've paid £<%=@membership.paid or 0%> of a requested contribution of £<%=@membership.requested_contribution%>.</p>
-        <%=@group.payment_details%>
+        <p>
+          You still owe £<%= @membership.requested_contribution - @membership.paid%>. 
+          (You've paid £<%=@membership.paid or 0%> of a requested contribution of £<%=@membership.requested_contribution%>.)
+        </p>
+        <%= partial :'members/pay', :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
       </div>
     </div>
   <% end %>

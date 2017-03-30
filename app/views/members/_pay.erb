@@ -1,0 +1,49 @@
+<% form_tag '', :class => 'form-inline', :id => 'pay-form' do %>
+  <div class="form-group">
+    <div class="input-group" style="width: 1px; margin: 0 auto;">
+      <div class="input-group-addon">£</div>
+      <%= number_field_tag :amount, :value => (amount if defined?(amount)), :style => 'display: inline; width: 4.5em;', :required => 'required', :class => 'form-control', :id => 'amount' %>
+    </div>
+  </div>  
+  <button type="submit" class="btn btn-primary">Pay</button> 
+<% end %>
+
+<div id="card-error" style="display: none">
+	<p>There was an error processing the transaction. You have not been charged.</p>
+</div>
+
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<script>
+  var handler = StripeCheckout.configure({
+    key: '<%=ENV['STRIPE_PK']%>',
+    image: 'https://<%=ENV['DOMAIN']%>/images/h.png',
+    email: '<%=current_account.email%>',
+    locale: 'auto',
+    allowRememberMe: false,
+    token: function (token) {
+    	$('#pay-form').css('opacity', 0.25)
+      $.post('/h/<%=@group.slug%>/pay', jQuery.extend(token, {amount: $('#amount').val()}), function () {
+        window.location.reload()
+      }).fail(function () {
+        $('#pay-form').hide()
+        $('#card-error').show()
+      }).always(function () {
+        $('#pay-form').css('opacity', 1)
+      })
+    }
+  });
+
+  $('#pay-form').submit(function () {
+    handler.open({
+      name: 'Huddl',
+      description: 'Payment for <%=@group.name%>',
+      currency: 'GBP',
+      amount: $('#amount').val() * 100,
+      closed: function() { $('#pay-form .btn').removeAttr('disabled').text('Pay') }
+    });
+    return false
+  });
+  window.addEventListener('popstate', function () {
+    handler.close();
+  });
+</script> 

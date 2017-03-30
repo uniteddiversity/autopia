@@ -19,19 +19,23 @@ class Group
   field :anonymous_blockers, :type => Boolean
   field :democratic_threshold, :type => Boolean
   field :fixed_threshold, :type => Integer
-  field :payment_details, :type => String
   field :ask_for_date_of_birth, :type => Boolean
   field :ask_for_gender, :type => Boolean
   field :ask_for_poc, :type => Boolean
   field :featured, :type => Boolean
   field :member_limit, :type => Integer
   field :booking_limit, :type => Integer
+  field :balance, :type => Integer
+  field :name_on_account, :type => String
+  field :sort_code, :type => String
+  field :account_number, :type => String
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
   }
     
   before_validation do
     self.featured = true if self.featured.nil?
+    self.balance = 0 if self.balance.nil?
   end
   
   belongs_to :account, index: true
@@ -128,6 +132,7 @@ class Group
       :fixed_threshold => :number,
       :member_limit => :number,
       :booking_limit => :number,
+      :balance => :number,
       :democratic_threshold => :check_box,
       :application_preamble => :wysiwyg,
       :application_questions => :text_area,
@@ -137,7 +142,9 @@ class Group
       :ask_for_gender => :check_box,
       :ask_for_poc => :check_box,
       :featured => :check_box,
-      :payment_details => :text_area,
+      :name_on_account => :text,
+      :sort_code => :text,
+      :account_number => :text,
       :account_id => :lookup,
       :memberships => :collection,
       :mapplications => :collection,
