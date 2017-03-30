@@ -17,7 +17,7 @@
         <li class="dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">Groups <b class="caret"></b></a>
           <ul class="dropdown-menu">                       
-            <% current_account.memberships.each { |membership| %>
+            <% current_account.memberships.sort_by { |membership| membership.group.name }.each { |membership| %>
               <li><a href="/h/<%=membership.group.slug%>"><%=membership.group.name%></a></li> 
             <%  } %>
             <li role="separator" class="divider"></li>
