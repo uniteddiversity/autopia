@@ -2,7 +2,7 @@
   <div class="form-group">
     <div class="input-group" style="width: 1px; margin: 0 auto;">
       <div class="input-group-addon">£</div>
-      <%= number_field_tag :amount, :value => (amount if defined?(amount)), :style => 'display: inline; width: 4.5em;', :required => 'required', :class => 'form-control', :id => 'amount' %>
+      <%= number_field_tag :amount, :value => (amount if defined?(amount)), :style => 'display: inline; width: 4.5em;', :required => 'required', :class => 'form-control', :min => 10, :id => 'amount' %>
     </div>
   </div>  
   <button type="submit" class="btn btn-primary">Pay</button> 
