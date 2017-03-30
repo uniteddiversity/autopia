@@ -26,9 +26,7 @@ class Group
   field :member_limit, :type => Integer
   field :booking_limit, :type => Integer
   field :balance, :type => Integer
-  field :name_on_account, :type => String
-  field :sort_code, :type => String
-  field :account_number, :type => String
+  field :paypal_email, :type => String
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
   }
@@ -142,9 +140,7 @@ class Group
       :ask_for_gender => :check_box,
       :ask_for_poc => :check_box,
       :featured => :check_box,
-      :name_on_account => :text,
-      :sort_code => :text,
-      :account_number => :text,
+      :paypal_email => :text,
       :account_id => :lookup,
       :memberships => :collection,
       :mapplications => :collection,

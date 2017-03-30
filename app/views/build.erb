@@ -33,16 +33,15 @@
   <div class="row">
     <div class="col-sm-offset-3 col-sm-6">
       <h2>Payout details</h2>
-      
-      <p>
-        <strong>£<%=@group.balance%></strong> is waiting to be paid out.
-      </p>
+      <% if @group.balance > 0 %>
+        <p>
+          <strong>£<%=@group.balance%></strong> is waiting to be paid out. Payouts are via PayPal.
+        </p>
+      <% end %>
     </div>
   </div>
   <% form_for @group, "/h/#{@group.slug}/payout", :class => 'form-horizontal', :multipart => true do |f| %>
-    <%= f.text_block :name_on_account %>
-    <%= f.text_block :sort_code %>
-    <%= f.text_block :account_number %>
+    <%= f.text_block :paypal_email %>
     <%= f.submit_block button_text: 'Request payout' %> 
   <% end %>
 

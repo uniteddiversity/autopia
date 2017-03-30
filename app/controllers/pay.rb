@@ -28,7 +28,7 @@ Huddl::App.controller do
 	      mail.to = "team@huddl.tech"
 	      mail.from = "Huddl <payouts@huddl.tech>"
 	      mail.subject = "Payout requested"
-	      mail.body = "#{current_account.name} (#{current_account.email}) requested a payout:\n\n#{@group.name_on_account}\n#{@group.sort_code}\n#{@group.account_number}"
+	      mail.body = "#{current_account.name} (#{current_account.email}) requested a payout to #{@group.paypal_email}"
 	      mail.deliver
       end
 
