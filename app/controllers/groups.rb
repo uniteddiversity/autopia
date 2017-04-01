@@ -15,7 +15,6 @@ Huddl::App.controller do
     @group = Group.new(params[:group])
     @group.account = current_account
     if @group.save
-      @group.memberships.create! account: current_account, admin: true
       redirect "/h/#{@group.slug}"
     else
       flash.now[:error] = 'Some errors prevented the group from being created'
