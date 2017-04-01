@@ -27,7 +27,7 @@ Huddl::App.controller do
     	if ENV['SMTP_ADDRESS']
 	      mail = Mail.new
 	      mail.to = "team@huddl.tech"
-	      mail.from = "Huddl <payouts@huddl.tech>"
+	      mail.from = "Huddl <notifications@huddl.tech>"
 	      mail.subject = "Payout requested for #{@group.name}"
 	      mail.body = "#{current_account.name} (#{current_account.email}) requested a payout for #{@group.name}:\n£#{@group.balance} to #{@group.paypal_email}"   
 	      mail.deliver

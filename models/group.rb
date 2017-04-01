@@ -33,9 +33,19 @@ class Group
   }
     
   before_validation do
-    self.featured = true if self.featured.nil?
     self.balance = 0 if self.balance.nil?
     self.processed_via_huddl = 0 if self.processed_via_huddl.nil?
+  end
+  
+  after_create do
+   	if ENV['SMTP_ADDRESS']
+      mail = Mail.new
+      mail.to = "team@huddl.tech"
+      mail.from = "Huddl <notifications@huddl.tech>"
+      mail.subject = "New group: #{name}"
+      mail.body = %Q{#{account.name} (#{account.email}) created a new group: <a href="http://#{ENV['DOMAIN']}/h/#{slug}">#{name}</a>"}
+      mail.deliver
+    end
   end
   
   belongs_to :account, index: true
