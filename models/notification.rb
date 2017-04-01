@@ -216,7 +216,7 @@ class Notification
     case type.to_sym
     when :commented
       comment = notifiable
-      "<blockquote>#{comment.body}</blockquote>"
+      "<blockquote>#{comment.body.gsub("\n","<br />")}</blockquote>"
     end
   end
       
