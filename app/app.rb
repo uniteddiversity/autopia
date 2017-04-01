@@ -43,7 +43,7 @@ module Huddl
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
       @title = 'Huddl'
       @og_desc = 'For co-created gatherings'
-      @og_image = "http://#{ENV['DOMAIN']}/images/penguins-link.png"
+      @og_image = "http://#{ENV['DOMAIN']}/images/link.png"
       if current_account
         current_account.update_attribute(:last_active, Time.now)
       end
