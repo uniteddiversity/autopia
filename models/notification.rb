@@ -162,7 +162,7 @@ class Notification
     when :joined_group
       ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :joined_team
-      ['View teams', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams"]
+      ['View team', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}"]
     when :listed_spend
       ['View budget', "http://#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
     when :listed_activity
