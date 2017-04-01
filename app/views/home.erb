@@ -15,7 +15,11 @@
       Use it to organise stand-alone events, or camps/barrios at larger events like <a href="http://goingnowhere.org/">Nowhere</a> or <a href="http://theborderland.se/">The Borderland</a>
     </p>
   
-    <% unless current_account %>
+    <% if current_account %>
+      <p>
+        <a class="btn btn-primary" href="/h/new">Create a group</a>
+      </p>      
+    <% else %>
       <p>
         <a class="btn btn-primary" href="/accounts/sign_up">Sign up</a>
       </p>  
