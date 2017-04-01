@@ -17,6 +17,16 @@
   <%= f.submit_block %>  
 <% end %>
 
+<% if @account.new_record? %>
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <p>
+        Already have an account? <a href="/accounts/sign_in">Sign in</a>
+      </p>
+    </div>
+  </div>
+<% end %>
+
 <script>
   $(function () {
     $('.use-picture').popover({trigger: 'hover', html: true});
