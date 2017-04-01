@@ -131,6 +131,18 @@ If you choose to take payments through Huddl's awesome integrated payments syste
   
 </div>
 
+<hr style="margin: 50px 0" />
+<h1 class="section-title" style="text-align: center;">Groups using <span class="hw">huddl</span></h1>
+
+<div class="row">
+  
+  <% Group.where(:featured => true).each { |group| %>
+    <div class="col-sm-4">
+      <%= partial :group, :object => group  %>
+    </div>
+  <% } %>
+
+</div>
 
 <hr style="margin: 50px 0" />
 <h1 class="section-title" style="text-align: center; margin-bottom: 20px">Let the co-creation begin!</h1>

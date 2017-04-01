@@ -20,7 +20,7 @@
   <%= f.check_box_block :democratic_threshold %>
   <%= f.number_block :fixed_threshold %>
   <%= f.number_block :member_limit %>
-  <% Group.enablable.each { |x| %>
+  <% (Group.enablable - %w{bookings}).each { |x| %>
     <%= f.check_box_block "enable_#{x}".to_sym %>
   <% } %>
   <% if @group.enable_bookings %>

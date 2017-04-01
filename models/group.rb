@@ -6,7 +6,7 @@ class Group
   dragonfly_accessor :image
   
   def self.enablable
-    %w{qualities timetables teams rotas tiers bookings accommodation transport budget}
+    %w{teams qualities timetables rotas tiers accommodation transport bookings budget}
   end  
   
   field :name, :type => String
