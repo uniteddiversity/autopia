@@ -43,7 +43,13 @@ class Group
       mail.to = "team@huddl.tech"
       mail.from = "Huddl <notifications@huddl.tech>"
       mail.subject = "New group: #{name}"
-      mail.body = %Q{#{account.name} (#{account.email}) created a new group: <a href="http://#{ENV['DOMAIN']}/h/#{slug}">#{name}</a>"}
+      
+      html_part = Mail::Part.new do
+        content_type 'text/html; charset=UTF-8'
+        body %Q{#{account.name} (#{account.email}) created a new group: <a href="http://#{ENV['DOMAIN']}/h/#{slug}">#{name}</a>"}
+      end
+      mail.html_part = html_part
+      
       mail.deliver
     end
   end
