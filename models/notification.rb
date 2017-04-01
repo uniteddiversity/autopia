@@ -118,7 +118,7 @@ class Notification
       "<strong>#{team.account.name}</strong> created the team <strong>#{team.name}</strong>"            
     when :created_accom
       accom = notifiable
-      "<strong>#{accom.account.name}</strong> craeted the accommodation <strong>#{accom.name}</strong>"                  
+      "<strong>#{accom.account.name}</strong> created the accommodation <strong>#{accom.name}</strong>"                  
     when :created_rota
       rota = notifiable
       "<strong>#{rota.account.name}</strong> created the rota <strong>#{rota.name}</strong>"                        
