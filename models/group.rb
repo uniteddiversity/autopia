@@ -38,6 +38,10 @@ class Group
   end
   
   after_create do
+    
+    general = teams.create name: 'General', prevent_notifications: true
+    general.teamships.create account: account
+    
    	if ENV['SMTP_ADDRESS']
       mail = Mail.new
       mail.to = "team@huddl.tech"

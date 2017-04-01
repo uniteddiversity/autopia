@@ -13,9 +13,12 @@ class Team
   has_many :comments, :dependent => :destroy
   has_many :comment_likes, :dependent => :destroy
   
+  attr_accessor :prevent_notifications
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :group => group, :type => 'created_team'
+    unless prevent_notifications
+      notifications.create! :group => group, :type => 'created_team'
+    end
   end      
   
   def members
