@@ -16,7 +16,7 @@
 	  	<% if @team and @team.persisted? %>
 		  	<h2 style="margin-top: 0">Team members</h2>
 		  	
-	  		<% @team.members.order('last_active desc').each { |account| %><img style="width: 75px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%><br />Active <%=time_ago_in_words account.last_active%> ago" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% } %>
+	  		<% @team.members.order('last_active desc').each { |account| %><img style="width: 75px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%><% if account.last_active%><br />Active <%=time_ago_in_words account.last_active%> ago<% end %>" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% } %>
 
       	<% if !@team.teamships.find_by(account: current_account) %>
 	        <a class="btn btn-primary" href="/teamships/create?team_id=<%=@team.id%>">Join</a>
