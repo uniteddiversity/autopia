@@ -26,7 +26,7 @@ class Team
   end
   
   def emails
-    Account.where(:stop_emails.ne => true).where(:id.in => teamships.pluck(:account_id)).pluck(:email)
+    Account.where(:id.in => teamships.pluck(:account_id)).pluck(:email)
   end    
         
   def self.admin_fields
