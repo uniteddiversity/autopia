@@ -37,7 +37,7 @@
     handler.open({
       name: 'Huddl',
       description: 'Payment for <%=@group.name%>',
-      currency: 'GBP',
+      currency: '<%=@group.currency%>',
       amount: $('#amount').val() * 100,
       closed: function() { $('#pay-form .btn').removeAttr('disabled').text('Pay') }
     });
