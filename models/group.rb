@@ -121,11 +121,11 @@ class Group
   end
       
   def admin_emails
-    Account.where(:stop_emails.ne => true).where(:id.in => memberships.where(admin: true).pluck(:account_id)).pluck(:email)
+    Account.where(:id.in => memberships.where(admin: true).pluck(:account_id)).pluck(:email)
   end
   
   def emails
-    Account.where(:stop_emails.ne => true).where(:id.in => memberships.pluck(:account_id)).pluck(:email)
+    Account.where(:id.in => memberships.where(:receive_emails => true).pluck(:account_id)).pluck(:email)
   end  
   
   def incomings

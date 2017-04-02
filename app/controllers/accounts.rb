@@ -93,5 +93,18 @@ Huddl::App.controller do
       erb :'accounts/build'
     end
   end   
+  
+  get '/receive_emails/:membership_id' do
+    sign_in_required!
+    membership = current_account.memberships.find(params[:membership_id])
+    partial :'accounts/receive_emails', :locals => {:membership => membership}
+  end
+  
+  post '/receive_emails/:membership_id' do
+    sign_in_required!
+    membership = current_account.memberships.find(params[:membership_id])
+    membership.update_attribute(:receive_emails, params[:receive_emails] == 'true')
+    200
+  end
      
 end

@@ -12,7 +12,6 @@
     <%= f.select_block :gender %>
     <%= f.check_box_block :poc %>
     <%= f.text_block :dietary_requirements %>
-    <%= f.check_box_block :stop_emails %>
   <% end %>
   <%= f.submit_block %>  
 <% end %>
@@ -25,6 +24,28 @@
       </p>
     </div>
   </div>
+<% end %>
+
+<% if @account.persisted? %>
+
+  <h2>Notifications</h2>
+  
+  <style>
+    @media(min-width: 768px) {
+      .group-name { text-align: right }
+    }
+  </style>
+    <% @account.memberships.each { |membership| group = membership.group %>
+      <div class="form-group">
+        <div class="col-sm-3 group-name">
+          <%=group.name%>
+        </div>    
+        <div class="col-sm-6" data-pagelet-url="/receive_emails/<%=membership.id%>">
+          <%= partial :'accounts/receive_emails', :locals => {:membership => membership} %>
+        </div>
+      </div>
+    <% } %>
+
 <% end %>
 
 <script>

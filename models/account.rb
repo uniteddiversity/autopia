@@ -14,7 +14,6 @@ class Account
   field :time_zone, :type => String
   field :crypted_password, :type => String
   field :picture_uid, :type => String
-  field :stop_emails, :type => Boolean
   field :sign_ins, :type => Integer
   field :sign_in_token, :type => String
   field :last_active, :type => Time
@@ -114,7 +113,6 @@ class Account
       :time_zone => :select,
       :password => :password,
       :provider_links => :collection,
-      :stop_emails => :check_box,
       :sign_ins => :number
     }
   end
