@@ -26,7 +26,7 @@ get '/mapplications/:id' do
     redirect "/h/#{@group.slug}" if @membership
     @title = "#{@group.name} · Huddl"
     @og_desc = "#{@group.name} is being co-created on Huddl"
-    @og_image = @group.image ? @group.image.url : "http://#{ENV['DOMAIN']}/images/huddl.png"
+    @og_image = @group.image ? @group.image.url : "https://#{ENV['DOMAIN']}/images/huddl.png"
     @account = Account.new
     erb :'mapplications/apply'
   end    

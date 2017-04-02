@@ -9,7 +9,7 @@ class Provider
     @omniauth_name = options[:omniauth_name] || display_name.downcase
     @icon = options[:icon] || display_name.downcase
     @nickname = options[:nickname] || ->(hash){ hash['info']['nickname'] }
-    @profile_url = options[:profile_url] || ->(hash){ "http://#{hash['provider']}.com/#{hash['info']['nickname']}" }
+    @profile_url = options[:profile_url] || ->(hash){ "https://#{hash['provider']}.com/#{hash['info']['nickname']}" }
     @image = options[:image] || ->(hash){ hash['info']['image'] }
     @@all << self
   end
@@ -32,5 +32,5 @@ class Provider
 
 end
 
-Provider.new('Facebook', icon: 'facebook-square', nickname: ->(hash) { hash['info']['name'] }, image: ->(hash){ hash['info']['image'] + '?type=large' }, profile_url: ->(hash){ "http://facebook.com/#{hash['uid']}"})
-Provider.new('Google', omniauth_name: 'google_oauth2', icon: 'google-plus', nickname: ->(hash) { hash['info']['name'] }, profile_url: ->(hash){ "http://plus.google.com/#{hash['uid']}"})
+Provider.new('Facebook', icon: 'facebook-square', nickname: ->(hash) { hash['info']['name'] }, image: ->(hash){ hash['info']['image'] + '?type=large' }, profile_url: ->(hash){ "https://facebook.com/#{hash['uid']}"})
+Provider.new('Google', omniauth_name: 'google_oauth2', icon: 'google-plus', nickname: ->(hash) { hash['info']['name'] }, profile_url: ->(hash){ "https://plus.google.com/#{hash['uid']}"})

@@ -33,7 +33,7 @@ module Huddl
     end
        
     before do
-      redirect "http://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'].split(':').first != ENV['DOMAIN']
+      redirect "https://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'].split(':').first != ENV['DOMAIN']
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : 'London'
       fix_params!
       if params[:sign_in_token] and account = Account.find_by(sign_in_token: params[:sign_in_token])
@@ -43,7 +43,7 @@ module Huddl
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
       @title = 'Huddl'
       @og_desc = 'For co-created gatherings'
-      @og_image = "http://#{ENV['DOMAIN']}/images/link.png"
+      @og_image = "https://#{ENV['DOMAIN']}/images/link.png"
       if current_account
         current_account.update_attribute(:last_active, Time.now)
       end

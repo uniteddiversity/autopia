@@ -47,11 +47,11 @@ class Notification
     </style>    
   </head>
   <body>
-    <h1 style="margin-top: 0"><a style="text-decoration: none" href="http://#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a></h1>
+    <h1 style="margin-top: 0"><a style="text-decoration: none" href="https://#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a></h1>
     <p>#{notification.sentence}. <a href="#{notification.link[1]}">#{notification.link[0]}</a></p>
     #{notification.more}
     <p>Best,<br />Team Huddl</p>
-    <p style="font-size: 12px;"><a style="color: #aaa !important" href="http://#{ENV['DOMAIN']}/accounts/edit">Edit your profile to stop these emails</a></p>
+    <p style="font-size: 12px;"><a style="color: #aaa !important" href="https://#{ENV['DOMAIN']}/accounts/edit">Edit your profile to stop these emails</a></p>
   </body>
 </html>
           }
@@ -158,57 +158,57 @@ class Notification
   def link
     case type.to_sym
     when :applied
-      ['View applications', "http://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
+      ['View applications', "https://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
     when :joined_group
-      ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
+      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :joined_team
-      ['View team', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}"]
+      ['View team', "https://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}"]
     when :listed_spend
-      ['View budget', "http://#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
+      ['View budget', "https://#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
     when :listed_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]
+      ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]
     when :signed_up_to_a_shift
-      ['View rotas', "http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
+      ['View rotas', "https://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
     when :joined_tier
-      ['View tiers', "http://#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
+      ['View tiers', "https://#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
     when :joined_transport
-      ['View transport', "http://#{ENV['DOMAIN']}/h/#{group.slug}/transports"] 
+      ['View transport', "https://#{ENV['DOMAIN']}/h/#{group.slug}/transports"] 
     when :joined_accom
-      ['View accommodation', "http://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
+      ['View accommodation', "https://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
     when :interested_in_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
+      ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
     when :gave_verdict
-      ['View applications', "http://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
+      ['View applications', "https://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
     when :created_transport
-      ['View transport', "http://#{ENV['DOMAIN']}/h/#{group.slug}/transports"] 
+      ['View transport', "https://#{ENV['DOMAIN']}/h/#{group.slug}/transports"] 
     when :created_tier
-      ['View tiers', "http://#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
+      ['View tiers', "https://#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
     when :created_team
-      ['View team', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.id}"]
+      ['View team', "https://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.id}"]
     when :created_accom
-      ['View accommodation', "http://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
+      ['View accommodation', "https://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
     when :created_rota
-      ['View rotas', "http://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
+      ['View rotas', "https://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
     when :scheduled_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
+      ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
     when :unscheduled_activity
-      ['View timetable', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
+      ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
     when :made_admin
-      ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
+      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :unadmined
-      ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]      
+      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :booked
-      ['View bookings', "http://#{ENV['DOMAIN']}/h/#{group.slug}/bookings"]  
+      ['View bookings', "https://#{ENV['DOMAIN']}/h/#{group.slug}/bookings"]  
     when :created_timetable
-      ['View timetables', "http://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]      
+      ['View timetables', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]      
     when :cultivating_quality
-      ['View qualities', "http://#{ENV['DOMAIN']}/h/#{group.slug}/qualities"]
+      ['View qualities', "https://#{ENV['DOMAIN']}/h/#{group.slug}/qualities"]
     when :commented
-      ['View post', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]
+      ['View post', "https://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]
     when :liked_a_comment
-      ['View post', "http://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]      
+      ['View post', "https://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]      
     when :left_group
-      ['View members', "http://#{ENV['DOMAIN']}/h/#{group.slug}"]            
+      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}"]            
     end
   end
   

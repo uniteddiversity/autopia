@@ -212,7 +212,7 @@ class Account
       mail.to = self.email
       mail.from = "Huddl <team@huddl.tech>"
       mail.subject = "New password for Huddl"
-      mail.body = "Hi #{self.firstname},\n\nSomeone (hopefully you) requested a new password on Huddl.\n\nYour new password is: #{self.password}\n\nYou can sign in at http://#{ENV['DOMAIN']}/accounts/sign_in."
+      mail.body = "Hi #{self.firstname},\n\nSomeone (hopefully you) requested a new password on Huddl.\n\nYour new password is: #{self.password}\n\nYou can sign in at https://#{ENV['DOMAIN']}/accounts/sign_in."
       mail.deliver       
     else
       return false
