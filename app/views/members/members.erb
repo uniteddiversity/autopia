@@ -217,7 +217,7 @@
       <% end %>
       <% if @group.enable_budget %>
         <th></th>
-        <th>£<%= @group.memberships.pluck(:paid).compact.sum %></th>
+        <th><%=@group.currency_symbol%><%= @group.memberships.pluck(:paid).compact.sum %></th>
       <% end %>
       <% if @group.enable_bookings %>
         <th></th>     

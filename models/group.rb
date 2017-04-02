@@ -28,6 +28,7 @@ class Group
   field :processed_via_huddl, :type => Integer
   field :balance, :type => Float
   field :paypal_email, :type => String
+  field :currency, :type => String
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
   }
@@ -166,6 +167,7 @@ class Group
       :ask_for_poc => :check_box,
       :featured => :check_box,
       :paypal_email => :text,
+      :currency => :select,
       :account_id => :lookup,
       :memberships => :collection,
       :mapplications => :collection,
@@ -177,6 +179,19 @@ class Group
           ["enable_#{x}".to_sym, :check_box]
         }])
   end
+  
+  def self.currencies
+    %w{GBP EUR USD}
+  end
+  
+  def currency_symbol
+    case currency
+      when 'GBP'; '£'
+      when 'EUR'; '€'
+      when 'USD'; '$'
+    end
+  end
+    
   
   def self.new_tips
     {      

@@ -34,7 +34,7 @@
   <td>        
     <% if @membership.admin? %>
       <% if tiership = membership.tiership %>
-        <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (£<%= tiership.tier.cost %>)</span>
+        <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (<%=@group.currency_symbol%><%= tiership.tier.cost %>)</span>
       <% end %>
   
       <% form_tag "/memberships/#{membership.id}/tier", :style => ('display:none' if tiership) do %>
@@ -43,7 +43,7 @@
   
     <% else %>
       <% if tiership = membership.tiership %>
-        <span class="label label-primary"><%= tiership.tier.name %> (£<%= tiership.tier.cost %>)</span>
+        <span class="label label-primary"><%= tiership.tier.name %> (<%=@group.currency_symbol%><%= tiership.tier.cost %>)</span>
       <% else %>          
         <i class="fa fa-warning"></i>
       <% end %>   
@@ -54,7 +54,7 @@
   <td>       
     <% if @membership.admin? %>
       <% if accomship = membership.accomship %>
-        <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)</span>
+        <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (<%=@group.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
       <% end %>
   
       <% form_tag "/memberships/#{membership.id}/accom", :style => ('display:none' if accomship) do %>
@@ -63,7 +63,7 @@
   
     <% else %>
       <% if accomship = membership.accomship %>
-        <span class="label label-primary"><%= accomship.accom.name %> (£<%= accomship.accom.cost_per_person %>)</span>
+        <span class="label label-primary"><%= accomship.accom.name %> (<%=@group.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
       <% else %>          
         <i class="fa fa-warning"></i>
       <% end %>
@@ -73,27 +73,27 @@
 <% if @group.enable_transport %>
   <td>
     <% membership.transportships.each { |transportship| %>
-      <span class="label label-primary"><%= transportship.transport.name %> (£<%= transportship.transport.cost %>)</span> <br />
+      <span class="label label-primary"><%= transportship.transport.name %> (<%=@group.currency_symbol%><%= transportship.transport.cost %>)</span> <br />
     <% } %>
   </td>      
 <% end %>
 <% if @group.enable_budget %>
   <td>
-    £<%= membership.requested_contribution %>
+    <%=@group.currency_symbol%><%= membership.requested_contribution %>
   </td>
   <td>
     <% if @membership.admin? %>
       <% if membership.paid %>
-        <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "£#{membership.paid}" if membership.paid %></a>
+        <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "#{@group.currency_symbol}#{membership.paid}" if membership.paid %></a>
       <% end %>
       <% form_tag "/memberships/#{membership.id}/paid", :style => ('display:none' if membership.paid) do %>
         <div class="input-group">
-          <span class="input-group-addon">£</span>
+          <span class="input-group-addon"><%=@group.currency_symbol%></span>
           <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid, :onblur => '$(this.form).submit()' %>
         </div>              
       <% end %>
     <% else %>
-      <%= "£#{membership.paid}" if membership.paid %>
+      <%= "#{@group.currency_symbol}#{membership.paid}" if membership.paid %>
     <% end %>
   </td> 
 <% end %>

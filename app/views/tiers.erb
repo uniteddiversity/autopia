@@ -6,7 +6,7 @@
     <%= text_field_tag :description, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Description' %>          
 
     <div class="input-group">
-      <span class="input-group-addon">£</span>
+      <span class="input-group-addon"><%=@group.currency_symbol%></span>
       <%= number_field_tag :cost, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Cost' %>
     </div>
 
@@ -38,7 +38,7 @@
         <%= tier.description %>
       </td>
       <td>
-        £<%=tier.cost%>
+        <%=@group.currency_symbol%><%=tier.cost%>
       </td>
       <td>
         <% if tiership = @group.tierships.find_by(tier: tier, account: current_account) %>

@@ -7,7 +7,7 @@
     <%= number_field_tag :capacity, :required => true, :class => 'form-control', :style => 'width: 6em', :placeholder => 'Capacity' %>
 
     <div class="input-group">
-      <span class="input-group-addon">£</span>
+      <span class="input-group-addon"><%=@group.currency_symbol%></span>
       <%= number_field_tag :cost, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Cost' %>
     </div>
 
@@ -41,7 +41,7 @@
         <%= accom.description %>        
       </td>
       <td>
-        £<%=accom.cost%>
+        <%=@group.currency_symbol%><%=accom.cost%>
       </td>
       <td>
         <%=accom.accomships.count%>/<%=accom.capacity%>
@@ -58,7 +58,7 @@
       </td>
       <td>
         <% if accom.cost_per_person %>
-          £<%=accom.cost_per_person%>
+          <%=@group.currency_symbol%><%=accom.cost_per_person%>
         <% end %>
       </td>
     </tr>

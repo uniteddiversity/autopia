@@ -31,7 +31,7 @@
         <%= transport.description %>        
       </td>
       <td>
-        £<%=transport.cost%>
+        <%=@group.currency_symbol%><%=transport.cost%>
       </td>
       <td>
         <%=transport.transportships.count%>/<%= transport.capacity %>
