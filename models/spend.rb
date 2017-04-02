@@ -16,7 +16,7 @@ class Spend
     
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :group => group, :type => 'listed_spend'
+    notifications.create! :group => group, :type => 'created_spend'
   end
           
   def self.admin_fields

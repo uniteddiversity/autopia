@@ -14,11 +14,11 @@ class Notification
   end
   
   def self.types
-    %w{applied joined_group joined_team listed_spend listed_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment left_group}
+    %w{applied joined_group joined_team created_spend created_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment left_group}
   end
   
   def self.mailable_types
-    %w{applied joined_group listed_activity created_transport created_team created_rota listed_spend created_timetable commented}
+    %w{applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend commented}
   end
   
   after_create do
@@ -83,10 +83,10 @@ class Notification
     when :joined_team
       teamship = notifiable
       "<strong>#{teamship.account.name}</strong> joined the <strong>#{teamship.team.name}</strong> team"
-    when :listed_spend
+    when :created_spend
       spend = notifiable
       "<strong>#{spend.account.name}</strong> spent #{group.currency_symbol}#{spend.amount} on <strong>#{spend.item}</strong>"
-    when :listed_activity
+    when :created_activity
       activity = notifiable
       "<strong>#{activity.account.name}</strong> proposed the activity <strong>#{activity.name}</strong> under <strong>#{activity.timetable.name}</strong>"
     when :signed_up_to_a_shift
@@ -163,9 +163,9 @@ class Notification
       ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :joined_team
       ['View team', "https://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}"]
-    when :listed_spend
+    when :created_spend
       ['View budget', "https://#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
-    when :listed_activity
+    when :created_activity
       ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]
     when :signed_up_to_a_shift
       ['View rotas', "https://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
@@ -229,9 +229,9 @@ class Notification
       'fa-user-plus'      
     when :joined_team
       'fa-group'
-    when :listed_spend
+    when :created_spend
       'fa-money'
-    when :listed_activity
+    when :created_activity
       'fa-paper-plane'
     when :signed_up_to_a_shift
       'fa-hand-paper-o'
