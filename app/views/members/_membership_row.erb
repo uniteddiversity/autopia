@@ -2,9 +2,9 @@
 <td>
   <%= partial :account, :object => account, :locals => {:membership => membership} %>
   <div>
-    <% membership.teamships.each { |teamship| %>
+    <% membership.teamships.each { |teamship| unless teamship.team.name == 'General' %>
       <a href="/h/<%=@group.slug%>/teams"><span class="label label-primary"><%=teamship.team.name%></span></a>
-    <% } %>        
+    <% end } %>        
   </div>
 </td>
 <td>
