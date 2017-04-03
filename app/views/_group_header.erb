@@ -13,7 +13,8 @@
       (["Timetables",
         (
           @group.timetables.empty? ? "/h/#{@group.slug}/timetables" : @group.timetables.map { |timetable| [timetable.name, "/h/#{@group.slug}/timetables/#{timetable.id}"] }
-        )] if @group.enable_timetables),
+        )
+      ] if @group.enable_timetables),
       (["Rotas (#{@group.rotas.count})", "/h/#{@group.slug}/rotas"] if @group.enable_rotas),
       (["Tiers (#{@group.tiers.count})", "/h/#{@group.slug}/tiers"] if @group.enable_tiers),
       (["Bookings (#{@group.bookings.count})", "/h/#{@group.slug}/bookings"] if @group.enable_bookings),
