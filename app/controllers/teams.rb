@@ -23,6 +23,9 @@ Huddl::App.controller do
   
   get '/h/:slug/teams' do
     @group = Group.find_by(slug: params[:slug]) || not_found
+    if general = @group.teams.find_by(name: 'General')
+      redirect "/h/#{@group.slug}/teams/#{general.id}"
+    end
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
     erb :'teams/teams', :layout => 'layouts/teams' 
