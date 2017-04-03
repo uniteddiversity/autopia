@@ -166,7 +166,7 @@ class Notification
     when :created_spend
       ['View budget', "https://#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
     when :created_activity
-      ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]
+      ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]
     when :signed_up_to_a_shift
       ['View rotas', "https://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
     when :joined_tier
@@ -176,7 +176,7 @@ class Notification
     when :joined_accom
       ['View accommodation', "https://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
     when :interested_in_activity
-      ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
+      ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.activity.timetable_id}"]  
     when :gave_verdict
       ['View applications', "https://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
     when :created_transport
@@ -190,9 +190,9 @@ class Notification
     when :created_rota
       ['View rotas', "https://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
     when :scheduled_activity
-      ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
+      ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]  
     when :unscheduled_activity
-      ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]  
+      ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]  
     when :made_admin
       ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}"]      
     when :unadmined
@@ -200,7 +200,7 @@ class Notification
     when :booked
       ['View bookings', "https://#{ENV['DOMAIN']}/h/#{group.slug}/bookings"]  
     when :created_timetable
-      ['View timetables', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables"]      
+      ['View timetables', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.id}"]      
     when :cultivating_quality
       ['View qualities', "https://#{ENV['DOMAIN']}/h/#{group.slug}/qualities"]
     when :commented

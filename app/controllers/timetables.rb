@@ -7,6 +7,14 @@ Huddl::App.controller do
     erb :'timetables/timetables'      
   end
   
+  get '/h/:slug/timetables/:id' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    @timetable = @group.timetables.find(params[:id])
+    membership_required!
+    erb :'timetables/timetable'      
+  end  
+  
   post '/timetables/create' do
     @group = Group.find(params[:group_id]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
@@ -112,7 +120,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
     if @activity.update_attributes(params[:activity])
-      redirect "/h/#{@group.slug}/timetables"
+      redirect "/h/#{@group.slug}/timetables/#{@activity.timetable_id}"
     else
       flash[:error] = 'There was an error saving the activity'
       erb :'timetables/activity_build'
@@ -125,7 +133,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @activity.destroy
-    redirect "/h/#{@group.slug}/timetables"
+    redirect "/h/#{@group.slug}/timetables/#{@activity.timetable_id}"
   end 
     
   post '/activities/:id/schedule' do
