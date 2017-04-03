@@ -19,8 +19,8 @@ Huddl::App.controller do
     @group = Group.find(params[:group_id]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    Timetable.create(name: params[:name], group: @group, account: current_account)
-    redirect back
+    @timetable = Timetable.create(name: params[:name], group: @group, account: current_account)
+    redirect "/h/#{@group.slug}/timetables/#{@timetable.id}"
   end
     
   get '/timetables/:id/destroy' do
