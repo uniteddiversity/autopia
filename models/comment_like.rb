@@ -2,12 +2,12 @@ class CommentLike
   include Mongoid::Document
   include Mongoid::Timestamps
   
-  belongs_to :account
-  belongs_to :comment
-  belongs_to :post
-  belongs_to :group
-  belongs_to :membership
-  belongs_to :team
+  belongs_to :account, index: true
+  belongs_to :comment, index: true
+  belongs_to :post, index: true
+  belongs_to :group, index: true
+  belongs_to :membership, index: true
+  belongs_to :team, index: true
   
   before_validation do
   	self.post = self.comment.post if self.comment

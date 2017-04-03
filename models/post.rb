@@ -2,10 +2,10 @@ class Post
   include Mongoid::Document
   include Mongoid::Timestamps
   
-  belongs_to :account
-  belongs_to :group
-  belongs_to :membership
-  belongs_to :team
+  belongs_to :account, index: true
+  belongs_to :group, index: true
+  belongs_to :membership, index: true
+  belongs_to :team, index: true
 
   has_many :comments, :dependent => :destroy
   has_many :comment_likes, :dependent => :destroy
