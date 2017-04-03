@@ -10,7 +10,7 @@
       ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],        
       (["Teams (#{@group.teams.count})", "/h/#{@group.slug}/teams"] if @group.enable_teams),
       (["Qualities (#{@group.qualities.count})", "/h/#{@group.slug}/qualities"] if @group.enable_qualities),
-      (["Timetables", (@group.timetables.empty? ? ["Timetables", "/h/#{@group.slug}/timetables"] : @group.timetables.map { |timetable| [timetable.name, "/h/#{@group.slug}/timetables/#{timetable.id}"] } ]) if @group.enable_timetables),
+      (["Timetables", (@group.timetables.empty? ? "/h/#{@group.slug}/timetables" : @group.timetables.map { |timetable| [timetable.name, "/h/#{@group.slug}/timetables/#{timetable.id}"] } ) if @group.enable_timetables)],
       (["Rotas (#{@group.rotas.count})", "/h/#{@group.slug}/rotas"] if @group.enable_rotas),
       (["Tiers (#{@group.tiers.count})", "/h/#{@group.slug}/tiers"] if @group.enable_tiers),
       (["Bookings (#{@group.bookings.count})", "/h/#{@group.slug}/bookings"] if @group.enable_bookings),
