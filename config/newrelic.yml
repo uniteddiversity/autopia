@@ -11,9 +11,6 @@
 # https://docs.newrelic.com/docs/agents/ruby-agent/installation-configuration/ruby-agent-configuration
 
 common: &default_settings
-  # Required license key associated with your New Relic account.
-  license_key: da214c25d272d1d317e367ab06215604c2063bac
-
   # Your application name. Renaming here affects where data displays in New
   # Relic.  For more details, see https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/renaming-applications
   app_name: Huddl
