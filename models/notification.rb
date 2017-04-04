@@ -188,7 +188,7 @@ class Notification
     when :created_accom
       ['View accommodation', "https://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
     when :created_rota
-      ['View rotas', "https://#{ENV['DOMAIN']}/h/#{group.slug}/rotas/#{nofitiable.id}"]
+      ['View rotas', "https://#{ENV['DOMAIN']}/h/#{group.slug}/rotas/#{notifiable.id}"]
     when :scheduled_activity
       ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]  
     when :unscheduled_activity
