@@ -32,5 +32,5 @@ gem 'mechanize'
 gem 'html_truncator'
 gem 'rinku'
 gem 'stripe'
-
+gem 'newrelic_rpm'
 
