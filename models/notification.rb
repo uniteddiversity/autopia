@@ -168,7 +168,7 @@ class Notification
     when :created_activity
       ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]
     when :signed_up_to_a_shift
-      ['View rotas', "https://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
+      ['View rotas', "https://#{ENV['DOMAIN']}/h/#{group.slug}/rotas/#{notifiable.rota_id}"]
     when :joined_tier
       ['View tiers', "https://#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
     when :joined_transport
@@ -188,7 +188,7 @@ class Notification
     when :created_accom
       ['View accommodation', "https://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
     when :created_rota
-      ['View rotas', "https://#{ENV['DOMAIN']}/h/#{group.slug}/rotas"]
+      ['View rotas', "https://#{ENV['DOMAIN']}/h/#{group.slug}/rotas/#{nofitiable.id}"]
     when :scheduled_activity
       ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]  
     when :unscheduled_activity

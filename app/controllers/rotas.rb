@@ -6,13 +6,21 @@ Huddl::App.controller do
     membership_required!
     erb :'rotas/rotas'     
   end     
+  
+  get '/h/:slug/rotas/:id' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    @rota = @group.rotas.find(params[:id])
+    membership_required!
+    erb :'rotas/rota'
+  end
     
   post '/rotas/create' do
     @group = Group.find(params[:group_id]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    Rota.create(name: params[:name], group: @group, account: current_account)
-    redirect back
+    @rota = Rota.create(name: params[:name], group: @group, account: current_account)
+    redirect "/h/#{@group.slug}/rotas/#{@rota.id}"
   end
     
   get '/rotas/:id/destroy' do
@@ -21,7 +29,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @rota.destroy
-    redirect back      
+    redirect "/h/#{@group.slug}/rotas"      
   end   
   
   post '/roles/order' do
