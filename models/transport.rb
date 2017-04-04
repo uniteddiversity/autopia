@@ -27,6 +27,7 @@ class Transport
       :name => :text,
       :description => :text_area,      
       :capacity => :number,
+      :cost => :number,
       :group_id => :lookup,
       :account_id => :lookup,
       :transportships => :collection,
