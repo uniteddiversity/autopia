@@ -41,8 +41,8 @@ class Group
   after_create do
     
     memberships.create! account: account, admin: true
-    general = teams.create! name: 'General', prevent_notifications: true, account: account
-    general.teamships.create! account: account
+    general = teams.create! name: 'General', account: account, prevent_notifications: true
+    general.teamships.create! account: account, prevent_notifications: true
     
    	if ENV['SMTP_ADDRESS']
       mail = Mail.new

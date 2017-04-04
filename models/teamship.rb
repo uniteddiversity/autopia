@@ -12,9 +12,12 @@ class Teamship
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end    
   
+  attr_accessor :prevent_notifications
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :group => team.group, :type => 'joined_team'
+    unless prevent_notifications
+      notifications.create! :group => team.group, :type => 'joined_team'
+    end
   end  
   
   def self.admin_fields
