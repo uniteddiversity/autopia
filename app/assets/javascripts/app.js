@@ -91,14 +91,14 @@ $(function () {
         ['table', ['table']],
         ['insert', ['link', 'picture', 'video']],
       ],
-      minHeight: '6em',
+      height: 300,
       codemirror: {theme: 'monokai'},
     });
     $(textarea).prop('required', false);
-    $(summernote).summernote("code", $(textarea).val());
+    $(summernote).code($(textarea).val());
     $(textarea).hide();
     $(textarea.form).submit(function () {
-      $(textarea).val($(summernote).summernote("code"));
+      $(textarea).val($(summernote).code());
     });
   });
 
