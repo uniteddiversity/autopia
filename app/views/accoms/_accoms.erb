@@ -1,3 +1,19 @@
+<% if @membership.admin? %>
+  <% form_tag "/accoms/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
+    <%= text_field_tag :name, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New accommodation' %>
+    <%= text_field_tag :description, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Description' %>          
+    <%= number_field_tag :capacity, :required => true, :class => 'form-control', :style => 'width: 6em', :placeholder => 'Capacity' %>
+
+    <div class="input-group">
+      <span class="input-group-addon"><%=@group.currency_symbol%></span>
+      <%= number_field_tag :cost, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Cost' %>
+    </div>
+
+    <%= submit_tag 'Submit', :class => 'btn btn-primary' %>
+
+  <% end %>    
+<% end %>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -13,7 +29,7 @@
     <tr>
       <td>
         <% if @membership.admin? %>
-          <a data-confirm="Delete this accommodation?" href="/accoms/<%=accom.id%>/destroy">
+          <a class="pagelet-trigger" data-confirm="Delete this accommodation?" href="/accoms/<%=accom.id%>/destroy">
             <%=accom.name%>
           </a>
         <% else %>

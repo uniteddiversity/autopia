@@ -16,7 +16,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     Accom.create(name: params[:name], cost: params[:cost], description: params[:description], capacity: params[:capacity], group: @group, account: current_account)
-    redirect back
+    200
   end    
 
   get '/accoms/:id/destroy' do
@@ -25,7 +25,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @accom.destroy
-    redirect back
+    200
   end
     
   get '/accomships/create' do
