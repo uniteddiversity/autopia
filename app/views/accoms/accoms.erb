@@ -1,0 +1,21 @@
+<%= partial :group_header %>
+
+<% if @membership.admin? %>
+  <% form_tag "/accoms/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
+    <%= text_field_tag :name, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New accommodation' %>
+    <%= text_field_tag :description, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Description' %>          
+    <%= number_field_tag :capacity, :required => true, :class => 'form-control', :style => 'width: 6em', :placeholder => 'Capacity' %>
+
+    <div class="input-group">
+      <span class="input-group-addon"><%=@group.currency_symbol%></span>
+      <%= number_field_tag :cost, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Cost' %>
+    </div>
+
+    <%= submit_tag 'Submit', :class => 'btn btn-primary' %>
+
+  <% end %>    
+<% end %>
+
+<div data-pagelet-url="/h/<%=@group.slug%>/accoms">
+  <%= partial :'accoms/accoms' %>
+</div>

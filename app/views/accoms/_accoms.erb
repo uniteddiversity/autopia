@@ -1,21 +1,3 @@
-<%= partial :group_header %>
-
-<% if @membership.admin? %>
-  <% form_tag "/accoms/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
-    <%= text_field_tag :name, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New accommodation' %>
-    <%= text_field_tag :description, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Description' %>          
-    <%= number_field_tag :capacity, :required => true, :class => 'form-control', :style => 'width: 6em', :placeholder => 'Capacity' %>
-
-    <div class="input-group">
-      <span class="input-group-addon"><%=@group.currency_symbol%></span>
-      <%= number_field_tag :cost, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Cost' %>
-    </div>
-
-    <%= submit_tag 'Submit', :class => 'btn btn-primary' %>
-
-  <% end %>    
-<% end %>
-
 <table class="table table-striped">
   <thead>
     <tr>
@@ -48,9 +30,9 @@
       </td>      
       <td>
         <% if accomship = @group.accomships.find_by(accom: accom, account: current_account) %>
-          <a class="btn btn-primary" href="/accomships/<%=accomship.id%>/destroy">Leave</a>
+          <a class="pagelet-trigger btn btn-primary" href="/accomships/<%=accomship.id%>/destroy">Leave</a>
         <% elsif !@group.accomships.find_by(account: current_account) and !accom.full? %>
-          <a class="btn btn-primary" href="/accomships/create?accom_id=<%=accom.id%>">Join</a>
+          <a class="pagelet-trigger btn btn-primary" href="/accomships/create?accom_id=<%=accom.id%>">Join</a>
         <% end %>
       </td>      
       <td>

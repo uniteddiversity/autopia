@@ -4,7 +4,11 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    erb :accoms
+    if request.xhr?
+      partial :'accoms/accoms'
+    else
+      erb :'accoms/accoms'
+    end
   end
     
   post '/accoms/create' do
@@ -21,7 +25,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @accom.destroy
-    redirect back      
+    redirect back
   end
     
   get '/accomships/create' do
@@ -29,7 +33,7 @@ Huddl::App.controller do
     @group = @accom.group      
     membership_required!      
     Accomship.create(account: current_account, accom_id: params[:accom_id], group: @group)
-    redirect back
+    200
   end    
     
   get '/accomships/:id/destroy' do
@@ -38,7 +42,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     halt unless @accomship.account.id == current_account.id or @membership.admin?
     @accomship.destroy
-    redirect back
+    200
   end        
   
 end
