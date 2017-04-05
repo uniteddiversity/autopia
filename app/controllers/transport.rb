@@ -5,7 +5,11 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
     @transport = Transport.new
-    erb :'transports/transports'
+    if request.xhr?
+      partial :'transports/transports'
+    else
+      erb :'transports/transports'
+    end
   end
   
   post '/h/:slug/transports/new' do
@@ -56,7 +60,7 @@ Huddl::App.controller do
     @group = @transport.group      
     membership_required!      
     Transportship.create(account: current_account, transport_id: params[:transport_id], group: @group)
-    redirect back
+    200
   end    
     
   get '/transportships/:id/destroy' do
@@ -65,7 +69,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     halt unless @transportship.account.id == current_account.id or @membership.admin?
     @transportship.destroy
-    redirect back
+    200
   end 
     
 end

@@ -4,7 +4,11 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    erb :tiers
+    if request.xhr?
+      partial :'tiers/tiers'
+    else
+      erb :'tiers/tiers'
+    end
   end
     
   post '/tiers/create' do
@@ -12,7 +16,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     Tier.create(name: params[:name], cost: params[:cost], description: params[:description], group: @group, account: current_account)
-    redirect back
+    200
   end    
 
   get '/tiers/:id/destroy' do
@@ -21,7 +25,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @tier.destroy
-    redirect back      
+    200
   end
     
   get '/tierships/create' do
@@ -29,7 +33,7 @@ Huddl::App.controller do
     @group = @tier.group      
     membership_required!      
     Tiership.create(account: current_account, tier_id: params[:tier_id], group: @group)
-    redirect back
+    200
   end    
     
   get '/tierships/:id/destroy' do
@@ -38,7 +42,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     halt unless @tiership.account.id == current_account.id or @membership.admin?
     @tiership.destroy
-    redirect back
+    200
   end       
     
 end

@@ -1,5 +1,3 @@
-<%= partial :group_header %>
-
 <% if @membership.admin? %>
   <% form_tag "/tiers/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
     <%= text_field_tag :name, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New tier' %>
@@ -42,9 +40,9 @@
       </td>
       <td>
         <% if tiership = @group.tierships.find_by(tier: tier, account: current_account) %>
-          <a class="btn btn-primary" href="/tierships/<%=tiership.id%>/destroy">Leave</a>
+          <a class="pagelet-trigger btn btn-primary" href="/tierships/<%=tiership.id%>/destroy">Leave</a>
         <% elsif !@group.tierships.find_by(account: current_account) %>
-          <a class="btn btn-primary" href="/tierships/create?tier_id=<%=tier.id%>">Join</a>
+          <a class="pagelet-trigger btn btn-primary" href="/tierships/create?tier_id=<%=tier.id%>">Join</a>
         <% end %>
       </td>      
       <td>

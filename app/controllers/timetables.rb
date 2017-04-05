@@ -33,7 +33,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @timetable.destroy
-    redirect back      
+    redirect "/h/#{@group.slug}/timetables"  
   end    
   
   post '/spaces/order' do
