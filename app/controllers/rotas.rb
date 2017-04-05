@@ -12,7 +12,11 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     @rota = @group.rotas.find(params[:id])
     membership_required!
-    erb :'rotas/rota'
+    if request.xhr?
+      partial :'rotas/rota', :locals => {:rota => @rota}
+    else
+      erb :'rotas/rota'
+    end
   end
     
   post '/rotas/create' do
@@ -49,7 +53,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     Role.create(name: params[:name], rota: @rota)
-    redirect back
+    200
   end   
     
   get '/roles/:id/destroy' do
@@ -58,7 +62,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @role.destroy
-    redirect back      
+    200 
   end     
   
   post '/rslots/order' do
@@ -78,7 +82,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     Rslot.create(name: params[:name], rota: @rota)
-    redirect back
+    200
   end      
     
   get '/rslots/:id/destroy' do
@@ -87,7 +91,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @rslot.destroy
-    redirect back      
+    200    
   end      
     
   get '/rota/rslot/role/:rota_id/:rslot_id/:role_id' do
