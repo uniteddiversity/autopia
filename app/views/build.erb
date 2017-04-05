@@ -26,6 +26,7 @@
   <% if @group.enable_bookings %>
     <%= f.number_block :booking_limit %>
   <% end %>
+  <%= f.url_block :teamup_calendar_url %>
   <%= f.select_block :currency %>
   <%= f.submit_block %>  
 <% end %>

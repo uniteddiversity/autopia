@@ -13,6 +13,7 @@
     ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],        
     (["Teams (#{@group.teams.count})", "/h/#{@group.slug}/teams"] if @group.enable_teams),
     (["Qualities (#{@group.qualities.count})", "/h/#{@group.slug}/qualities"] if @group.enable_qualities),
+    (["Calendar", "/h/#{@group.slug}/calendar"] if @group.teamup_calendar_url),
     (["Timetables",
       (
         @group.timetables.empty? ? "/h/#{@group.slug}/timetables" : @group.timetables.map { |timetable| [timetable.name, "/h/#{@group.slug}/timetables/#{timetable.id}"] }

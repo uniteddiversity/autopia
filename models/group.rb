@@ -29,6 +29,7 @@ class Group
   field :balance, :type => Float
   field :paypal_email, :type => String
   field :currency, :type => String
+  field :teamup_calendar_url, :type => String
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
   }
@@ -168,6 +169,7 @@ class Group
       :featured => :check_box,
       :paypal_email => :text,
       :currency => :select,
+      :teamup_calendar_url => :url,
       :account_id => :lookup,
       :memberships => :collection,
       :mapplications => :collection,
@@ -205,7 +207,8 @@ class Group
     {
       :ask_for_poc => 'Ask whether applicants identify as a person of colour',
       :democratic_threshold => 'Democratic magic number',
-      :fixed_threshold => 'Fixed magic number'
+      :fixed_threshold => 'Fixed magic number',
+      :teamup_calendar_url => 'Teamup calendar URL'
     }[attr.to_sym] || super  
   end   
   
