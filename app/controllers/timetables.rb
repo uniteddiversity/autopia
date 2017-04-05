@@ -12,7 +12,11 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     @timetable = @group.timetables.find(params[:id])
     membership_required!
-    erb :'timetables/timetable'      
+    if request.xhr?
+      partial :'timetables/timetable', :locals => {:timetable => @timetable}
+    else
+      erb :'timetables/timetable'      
+    end
   end  
   
   post '/timetables/create' do
@@ -49,7 +53,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     Space.create(name: params[:name], timetable: @timetable)
-    redirect back
+    200
   end   
     
   get '/spaces/:id/destroy' do
@@ -58,7 +62,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @space.destroy
-    redirect back      
+    200
   end      
   
   post '/tslots/order' do
@@ -78,7 +82,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     Tslot.create(name: params[:name], timetable: @timetable)
-    redirect back
+    200
   end      
     
   get '/tslots/:id/destroy' do
@@ -87,7 +91,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @tslot.destroy
-    redirect back      
+    200  
   end    
          
   post '/activities/create' do
@@ -161,7 +165,7 @@ Huddl::App.controller do
     @activity.save!
     @activity.notifications.where(:type.in => ['scheduled_activity', 'unscheduled_activity']).destroy_all
     @activity.notifications.create! :group => @group, :type => 'unscheduled_activity'
-    redirect back
+    200
   end  
     
   get '/activities/:id/attendees' do
