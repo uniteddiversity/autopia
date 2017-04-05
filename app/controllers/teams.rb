@@ -38,7 +38,11 @@ Huddl::App.controller do
     @team = @group.teams.find(params[:id])
     @team.comments.each { |comment| comment.read_receipts.create account: current_account }
     @comment = @team.comments.build
-    erb :'teams/team', :layout => 'layouts/teams' 
+    if request.xhr?
+      partial :'teams/team'
+    else
+      erb :'teams/team', :layout => 'layouts/teams' 
+    end
   end
   
   get '/h/:slug/teams/:id/edit' do

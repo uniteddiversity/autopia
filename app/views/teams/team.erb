@@ -1,17 +1,4 @@
 
-<%= @team.intro %>
-
-<div class="media" style="margin-top: 0">
-  <span class="pull-left">
-    <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
-  </span>
-  <div class="media-body">
-		<%= partial :'teams/comment_form', :locals => {:comment => @comment} %>
-  </div>
-</div> 
-
-<% @team.posts.order('updated_at desc').each { |post| %>
-	<% if post.comments.count > 0 %>
-		<%= partial :'teams/post', :object => post %>
-	<% end %>
-<% } %>
+<div data-pagelet-url="/h/<%=@group.slug%>/teams/<%=@team.id%>">
+	<%= partial :'teams/team' %>
+</div>
