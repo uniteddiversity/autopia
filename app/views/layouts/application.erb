@@ -60,7 +60,7 @@
       <%= partial :nav %>
       <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
           
-      <hr />
+      <hr style="margin: 10px 0" />
       
       <% if current_account %>
         <% form_tag '/suggest', :style => 'margin-bottom: 10px' do %>

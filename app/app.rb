@@ -62,7 +62,7 @@ module Huddl
       erb :home
     end
     
-    get '/suggest' do
+    post '/suggest' do
       sign_in_required!
     	if ENV['SMTP_ADDRESS']
 	      mail = Mail.new
