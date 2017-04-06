@@ -59,9 +59,16 @@
     <div class="container-fluid">
       <%= partial :nav %>
       <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
-
-      <div style="text-align: center; font-size: 13px">
-        <hr />
+          
+      <hr />
+      
+      <% if current_account %>
+        <% form_tag '/suggest', :style => 'margin-bottom: 10px' do %>
+          <%= text_field_tag :suggestion, :class => 'form-control', :placeholder => 'Suggest a feature/improvement for this page or report a bug' %>
+        <% end %>
+      <% end %>
+        
+      <div style="text-align: center; font-size: 13px">        
         <i class="fa fa-envelope"></i> <a href="mailto:team@huddl.tech">team@huddl.tech</a>
         <i class="fa fa-facebook-official"></i> <a href="https://www.facebook.com/groups/huddl/">/groups/huddl</a>
       </div>

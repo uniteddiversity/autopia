@@ -62,6 +62,18 @@ module Huddl
       erb :home
     end
     
+    get '/suggest' do
+      sign_in_required!
+    	if ENV['SMTP_ADDRESS']
+	      mail = Mail.new
+	      mail.to = "team@huddl.tech"
+	      mail.from = "Huddl <suggestions@huddl.tech>"
+	      mail.subject = "Suggestion from #{current_account.name}"
+	      mail.body = params[:suggestion]
+	      mail.deliver
+      end      
+    end
+    
     get '/h/:slug/diff' do
       halt unless current_account and current_account.admin?
       @group = Group.find_by(slug: params[:slug]) || not_found
