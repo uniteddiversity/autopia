@@ -68,10 +68,12 @@ module Huddl
 	      mail = Mail.new
 	      mail.to = "team@huddl.tech"
 	      mail.from = "Huddl <suggestions@huddl.tech>"
-	      mail.subject = "Suggestion from #{current_account.name}"
+	      mail.subject = "Suggestion from #{current_account.name} (#{current_account.email})"
 	      mail.body = params[:suggestion]
 	      mail.deliver
-      end      
+      end
+      flash[:notice] = 'Thanks!'
+      redirect back
     end
     
     get '/h/:slug/diff' do
