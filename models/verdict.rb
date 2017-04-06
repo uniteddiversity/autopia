@@ -20,7 +20,7 @@ class Verdict
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    if type == 'proposer' or (type == 'supporter' and !mapplication.group.anonymous_supporters) or (type == 'blocker' and !mapplication.group.anonymous_blockers)
+    if type == 'proposer' or (type == 'supporter' and !mapplication.group.anonymise_supporters) or (type == 'blocker' and !mapplication.group.anonymise_blockers)
       notifications.create! :group => mapplication.group, :type => 'gave_verdict'
     end
   end   

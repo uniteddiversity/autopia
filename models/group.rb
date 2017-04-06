@@ -15,8 +15,8 @@ class Group
   field :intro_for_members, :type => String
   field :application_preamble, :type => String
   field :application_questions, :type => String
-  field :anonymous_supporters, :type => Boolean
-  field :anonymous_blockers, :type => Boolean
+  field :anonymise_supporters, :type => Boolean
+  field :anonymise_blockers, :type => Boolean
   field :democratic_threshold, :type => Boolean
   field :fixed_threshold, :type => Integer
   field :ask_for_date_of_birth, :type => Boolean
@@ -143,7 +143,7 @@ class Group
     i
   end
   
-  def anonymous_proposers
+  def anonymise_proposers
     false
   end
         
@@ -161,8 +161,8 @@ class Group
       :democratic_threshold => :check_box,
       :application_preamble => :wysiwyg,
       :application_questions => :text_area,
-      :anonymous_supporters => :check_box,
-      :anonymous_blockers => :check_box,
+      :anonymise_supporters => :check_box,
+      :anonymise_blockers => :check_box,
       :ask_for_date_of_birth => :check_box,
       :ask_for_gender => :check_box,
       :ask_for_poc => :check_box,
