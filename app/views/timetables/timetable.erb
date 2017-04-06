@@ -1,8 +1,9 @@
 <%= partial :group_header %>
 
 <% if @membership.admin? %>
-  <% form_tag "/timetables/create?group_id=#{@group.id}" do %>
+  <% form_tag "/timetables/create?group_id=#{@group.id}", :class => 'form-inline' do %>
     <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New timetable' %>
+    <%= submit_tag :class => 'btn btn-primary' %>
   <% end %>
 <% end %>
 

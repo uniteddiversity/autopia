@@ -1,8 +1,9 @@
 <%= partial :group_header %>
 
 <% if @membership.admin? %>
-  <% form_tag "/rotas/create?group_id=#{@group.id}" do %>
+  <% form_tag "/rotas/create?group_id=#{@group.id}", :class => 'form-inline' do %>
     <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New rota' %>
+    <%= submit_tag :class => 'btn btn-primary' %>
   <% end %>
 <% end %>
 

@@ -26,14 +26,14 @@ class Membership
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    
-    if general = group.teams.find_by(name: 'General')
-      general.teamships.create! account: account
-    end
-    
+        
     if mapplication or added_by
       notifications.create! :group => group, :type => 'joined_group'
     end
+    
+    if general = group.teams.find_by(name: 'General')
+      general.teamships.create! account: account
+    end    
     
     if ENV['SMTP_ADDRESS']
       mail = Mail.new
