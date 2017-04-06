@@ -29,6 +29,30 @@
 
 <% if @membership.admin? %>
 
+  <script>
+    $(function () {
+      $(".spaces").sortable({
+        update: function (event, ui) {
+          $.post('/spaces/order', {timetable_id: $(event.target).attr('data-timetable-id'), space_ids: $(event.target).sortable("toArray")}, function () {
+            $(event.target).next().show()
+          })
+        }
+      });
+  
+      $(".tslots").sortable({
+        update: function (event, ui) {
+          $.post('/tslots/order', {timetable_id: $(event.target).attr('data-timetable-id'), tslot_ids: $(event.target).sortable("toArray")}, function () {
+            $(event.target).next().show()
+          })
+        }
+      });
+    });
+  </script>
+  
+  <style>
+    .spaces li, .tslots li { cursor: move }
+  </style>
+
   <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-exchange"></i> Reorder</a>
   <div style="display: none" class="activity-form">
 

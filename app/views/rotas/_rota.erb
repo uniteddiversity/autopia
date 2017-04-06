@@ -1,33 +1,3 @@
-<script>
-  $(function () {
-    
-    $(".roles").sortable({
-      update: function (event, ui) {
-        $.post('/roles/order', {rota_id: $(event.target).attr('data-rota-id'), role_ids: $(event.target).sortable("toArray")}, function () {
-          $(event.target).next().show()
-        })
-      }
-    });
-
-    $(".rslots").sortable({
-      update: function (event, ui) {
-        $.post('/rslots/order', {rota_id: $(event.target).attr('data-rota-id'), rslot_ids: $(event.target).sortable("toArray")}, function () {
-          $(event.target).next().show()
-        })
-      }
-    });
-
-  })
-</script>
-
-<style>
-  .activity a, .activity span { font-size: 12px; color: white }
-  .activity, .activity-accept { height: 120px }
-  td .activity, td .activity-accept { width: 240px }
-  .activity h3 { font-size: 18px; line-height: 20px }
-  .roles li, .rslots li { cursor: move }
-</style>
-
 <h2>
   <% if @membership.admin? %>
     <a data-confirm="Delete this rota?" href="/rotas/<%=rota.id%>/destroy">
@@ -77,9 +47,7 @@
       </td>
       <% rota.rslots.order('o asc').each { |rslot| %>
         <td>
-          <div data-pagelet-url="/rota/rslot/role/<%=rota.id%>/<%=rslot.id%>/<%=role.id%>">
-            <%= partial :'rotas/rota_rslot_role', :locals => {:rota => rota, :rslot => rslot, :role => role} %>
-          </div>
+          <%= partial :'rotas/rota_rslot_role', :locals => {:rota => rota, :rslot => rslot, :role => role} %>
         </td>          
       <% } %>
       <% if @membership.admin? %>
@@ -97,3 +65,7 @@
     </tr>
   <% end %>
 </table>
+
+<% if params[:view] != 'names' %>
+  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/h/<%=@group.slug%>/rotas/<%=rota.id%>?view=names')" href="/h/<%=@group.slug%>/rotas/<%=rota.id%>" class="pagelet-trigger">Show names instead of pictures</a>
+<% end %>

@@ -14,22 +14,6 @@
       }
     });
     $('.activity-accept[data-activity-id]').droppable("option", "disabled", true);
-
-    $(".spaces").sortable({
-      update: function (event, ui) {
-        $.post('/spaces/order', {timetable_id: $(event.target).attr('data-timetable-id'), space_ids: $(event.target).sortable("toArray")}, function () {
-          $(event.target).next().show()
-        })
-      }
-    });
-
-    $(".tslots").sortable({
-      update: function (event, ui) {
-        $.post('/tslots/order', {timetable_id: $(event.target).attr('data-timetable-id'), tslot_ids: $(event.target).sortable("toArray")}, function () {
-          $(event.target).next().show()
-        })
-      }
-    });
   });
 </script>
 
@@ -38,7 +22,6 @@
   .activity, .activity-accept { height: 120px }
   td .activity, td .activity-accept { width: 240px }
   .activity h3 { font-size: 18px; line-height: 20px }
-  .spaces li, .tslots li { cursor: move }
 </style>
 
 <div class="row">
