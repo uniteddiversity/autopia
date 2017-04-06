@@ -8,10 +8,11 @@ Huddl::App.controller do
     Stripe::Charge.create(
       :source => params[:id],
       :amount => params[:amount].to_i * 100,
-      :currency => "GBP",
+      :currency => @group.currency,
       :receipt_email => params[:email],
       :description => "Payment for #{@group.name}"
     )
+    @membership.payments.create! :amount => params[:amount].to_i, :currency => @group.currency
     @membership.update_attribute(:paid, @membership.paid + params[:amount].to_i)
     @group.update_attribute(:processed_via_huddl, @group.processed_via_huddl + params[:amount].to_i)
     @group.update_attribute(:balance, @group.balance + params[:amount].to_i*0.95)

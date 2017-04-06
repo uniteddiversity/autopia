@@ -72,6 +72,7 @@ class Group
   has_many :mapplications, :dependent => :destroy  
   has_many :notifications, :dependent => :destroy
   has_many :verdicts, :dependent => :destroy
+  has_many :payments, :dependent => :nullify
   
   # Timetable
   has_many :timetables, :dependent => :destroy

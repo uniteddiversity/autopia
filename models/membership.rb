@@ -66,6 +66,7 @@ class Membership
   end
   
   has_many :verdicts, :dependent => :destroy
+  has_many :payments, :dependent => :nullify
   
   # Timetable
   has_many :activities, :dependent => :destroy
