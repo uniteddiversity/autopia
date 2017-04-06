@@ -197,17 +197,21 @@ class Group
   
   def self.new_tips
     {      
-      :application_questions => 'One per line',
-      :democratic_threshold => 'Setting a magic number results in applications with a certain number of proposers + supporters (with at least one proposer) being accepted automatically. A democratic magic number means all group members have a say over the number.',
-      :fixed_threshold => 'Takes precedence over democratic magic number'
+      :application_questions => 'One per line'
+    }
+  end
+  
+  def self.new_hints
+    {
+      :fixed_threshold => 'Automatically accept applications with this number of proposers + supporters (with at least one proposer, and no blockers)'
     }
   end
   
   def self.human_attribute_name(attr, options={})  
     {
       :ask_for_poc => 'Ask whether applicants identify as a person of colour',
-      :democratic_threshold => 'Democratic magic number',
-      :fixed_threshold => 'Fixed magic number',
+      :fixed_threshold => 'Magic number',
+      :democratic_threshold => 'Allow all group members to suggest the magic number, and use the median',
       :teamup_calendar_url => 'Teamup calendar URL'
     }[attr.to_sym] || super  
   end   
@@ -215,14 +219,18 @@ class Group
   def self.edit_tips
     self.new_tips
   end  
+  
+  def self.edit_hints
+    self.new_hints
+  end    
     
   def threshold
-    fixed_threshold ? fixed_threshold : (median_threshold if democratic_threshold)
+    democratic_threshold ? (median_threshold if democratic_threshold) : fixed_threshold
   end
   
   before_validation do
-    if fixed_threshold
-      self.democratic_threshold = false
+    if democratic_threshold
+      self.fixed_threshold = false
     end
     true
   end

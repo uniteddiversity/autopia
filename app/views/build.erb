@@ -17,8 +17,8 @@
   <%= f.wysiwyg_block :intro_for_members %>
   <%= f.check_box_block :anonymous_supporters %>
   <%= f.check_box_block :anonymous_blockers %>  
-  <%= f.check_box_block :democratic_threshold %>
   <%= f.number_block :fixed_threshold %>
+  <%= f.check_box_block :democratic_threshold %>  
   <%= f.number_block :member_limit %>
   <% (Group.enablable - %w{bookings}).each { |x| %>
     <%= f.check_box_block "enable_#{x}".to_sym %>

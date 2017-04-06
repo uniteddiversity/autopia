@@ -7,9 +7,11 @@
   <% end %>
 
   <% if @group.fixed_threshold or @group.democratic_threshold %>
-    <p style="font-size: 20px; margin: 0">
-      Automatically accepting applications with <%=@group.threshold%> proposers + supporters (with at least one proposer)
-    </p>
+    <% if @group.threshold%>
+      <p style="font-size: 20px; margin: 0">
+        Automatically accepting applications with <%=@group.threshold%> proposers + supporters (with at least one proposer, and no blockers)
+      </p>
+    <% end %>
 
     <% if @group.democratic_threshold %>
       What do you think the magic number should be?

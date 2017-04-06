@@ -1,6 +1,6 @@
 <% if @group.threshold %>
   <p>    
-    Applications are visible to all existing members, and are accepted upon gathering <%=@group.threshold%> proposers + supporters (with at least one proposer).
+    Applications are visible to all existing members, and are accepted upon gathering <%=@group.threshold%> proposers + supporters (with at least one proposer, and no blockers).
     <% if @group.democratic_threshold %>
       This number is decided democratically by all group members.
     <% end %>    
