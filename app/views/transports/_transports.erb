@@ -35,8 +35,12 @@
         <% end %>       
       </td>      
       <td>
-        <% transport.transportships.map { |transportship| account = transportship.account; %><img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% } %>
+        <% transport.transportships.map { |transportship| account = transportship.account; %><% if params[:view] == 'names' %><%= account.name %><% else %><img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% end %><% } %>
       </td>
     </tr>
   <% } %>
 </table>
+
+<% if params[:view] != 'names' %>
+  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/h/<%=@group.slug%>/transports?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+<% end %>
