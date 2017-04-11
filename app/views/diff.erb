@@ -6,7 +6,7 @@
 <% if params[:names] %>
 
   <%
-  f = params[:names].split("\n").map(&:strip)
+  f = params[:names].split(", ").map(&:strip)
   h = @group.memberships.map(&:account).map { |a| a.facebook_name || a.name }
 %>
 
