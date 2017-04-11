@@ -38,12 +38,12 @@ $(function () {
     })
   }
 
-  $(document).ajaxComplete(function () {
-    tooltip();
+  $(document).ajaxComplete(function () {    
     placeholdersOnly();
+    tooltip();
   });
-  tooltip();
   placeholdersOnly();
+  tooltip();
 
   if ($('label[for=account_poc').length > 0)
     $('label[for=account_poc').html($('label[for=account_poc').html().replace('person of colour', '<a target="_blank" href="https://en.wikipedia.org/wiki/Person_of_color">person of colour</a>'))
