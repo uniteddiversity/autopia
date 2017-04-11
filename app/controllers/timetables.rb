@@ -149,9 +149,11 @@ Huddl::App.controller do
     @activity.tslot_id = params[:tslot_id]
     @activity.space_id = params[:space_id]
     @activity.scheduled_by = current_account
-    @activity.save!
+    @activity.save!  
     @activity.notifications.where(:type.in => ['scheduled_activity', 'unscheduled_activity']).destroy_all
-    @activity.notifications.create! :group => @group, :type => 'scheduled_activity'   
+    if @group.scheduling_by_all
+      @activity.notifications.create! :group => @group, :type => 'scheduled_activity'   
+    end
     200      
   end
     
