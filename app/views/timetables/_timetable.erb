@@ -35,7 +35,7 @@
     <h3>Unscheduled</h3>
 
     <div style="margin-top: 10px">
-      <% timetable.activities.where(space_id: nil).sort_by { |activity| activity.attendances.count }.each { |activity| %>             
+      <% timetable.activities.where(space_id: nil).sort_by { |activity| -activity.attendances.count }.each { |activity| %>             
         <%= partial :'timetables/activity', :object => activity %>        
       <% } %>
     </div>
