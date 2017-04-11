@@ -42,10 +42,13 @@
               <%= account.name %>
             <% end %>
           <% else %>
-            <img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" />
-          <% end %>
+          <% y << capture do %><img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% end %>
         <% } %>
-        <%= y.map(&:strip).join(', ') %>
+        <% if params[:view] == 'names' %>
+          <%= y.map(&:strip).join(', ') %>
+        <% else %>
+          <%= y.map(&:strip).join('') %>
+        <% end %>
       </td>
     </tr>
   <% } %>
