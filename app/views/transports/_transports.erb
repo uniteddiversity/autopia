@@ -34,8 +34,18 @@
           <a class="pagelet-trigger btn btn-primary" href="/transportships/create?transport_id=<%=transport.id%>">Join</a>
         <% end %>       
       </td>      
-      <td>
-        <% transport.transportships.map { |transportship| account = transportship.account; %><% if params[:view] == 'names' %><%= account.name %><% else %><img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% end %><% } %>
+      <td>  
+        <% y = [] %>
+        <% transport.transportships.each { |transportship| account = transportship.account; %>
+          <% if params[:view] == 'names' %>
+            <% y << capture do %>   
+              <%= account.name %>
+            <% end %>
+          <% else %>
+            <img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" />
+          <% end %>
+        <% } %>
+        <%= y.map(&:strip).join(', ') %>
       </td>
     </tr>
   <% } %>
