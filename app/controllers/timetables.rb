@@ -168,7 +168,9 @@ Huddl::App.controller do
     @activity.scheduled_by = current_account
     @activity.save!
     @activity.notifications.where(:type.in => ['scheduled_activity', 'unscheduled_activity']).destroy_all
-    @activity.notifications.create! :group => @group, :type => 'unscheduled_activity'
+    if @group.scheduling_by_all
+      @activity.notifications.create! :group => @group, :type => 'unscheduled_activity'
+    end
     200
   end  
     
