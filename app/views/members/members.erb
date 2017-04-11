@@ -37,14 +37,17 @@
 
 <% if @group.enable_budget %>
   <% y << capture do %>
-    <a href="?paid=true">Paid in full</a> <%= @group.memberships.where('this.requested_contribution == this.paid').count %>
+    <a href="?paid=true">Paid in full</a> <%= @group.memberships.where('this.paid == this.requested_contribution').count %>
   <% end %>
   <% y << capture do %>
-    <a href="?more_to_pay=true">More to pay</a> <%= @group.memberships.where('this.requested_contribution > this.paid').count %>
+    <a href="?more_to_pay=true">More to pay</a> <%= @group.memberships.where('this.paid < this.requested_contribution').count %>
   <% end %>
   <% y << capture do %>
     <a href="?paid_nothing=true">Paid nothing</a> <%= @group.memberships.where(:paid => 0).count %>
   <% end %>  
+  <% y << capture do %>
+    <a href="?overpaid=true">Overpaid</a> <%= @group.memberships.where('this.paid > this.requested_contribution').count %>
+  <% end %>   
 <% end %>
 
 <% if @group.enable_rotas %>
