@@ -5,6 +5,28 @@
 
 <h1><%= @group.persisted? ? '' : 'Create a group' %></h1>
 
+<script>
+  $(function() {
+  
+    var pairs = [['#group_enable_timetables', '#group_scheduling_by_all'], ['#group_enable_bookings', '#group_booking_limit']]
+    $.each(pairs, function(i,pair) {
+      var a = pair[0]
+      var b = pair[1]
+      $(a).click(function() {
+        if($(a).is(':checked'))
+          $(b).parent().parent().show()
+        else
+          $(b).parent().parent().hide()
+      });    
+      if($(a).is(':checked'))
+        $(b).parent().parent().show()
+      else
+        $(b).parent().parent().hide()    
+    });
+    
+  })
+</script>
+
 <% form_for @group, @group.new_record? ? '/h/new' : "/h/#{@group.slug}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
   <%= f.text_block :name %>
   <%= f.slug_block :slug %>
@@ -23,9 +45,8 @@
   <% (Group.enablable - %w{bookings}).each { |x| %>
     <%= f.check_box_block "enable_#{x}".to_sym %>
   <% } %>
-  <% if @group.enable_bookings %>
-    <%= f.number_block :booking_limit %>
-  <% end %>
+  <%= f.number_block :booking_limit %>
+  <%= f.check_box_block :scheduling_by_all %>
   <%= f.url_block :teamup_calendar_url %>
   <%= f.select_block :currency %>
   <%= f.submit_block %>  

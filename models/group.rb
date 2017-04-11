@@ -25,6 +25,7 @@ class Group
   field :featured, :type => Boolean
   field :member_limit, :type => Integer
   field :booking_limit, :type => Integer
+  field :scheduling_by_all, :type => Boolean
   field :processed_via_huddl, :type => Integer
   field :balance, :type => Float
   field :paypal_email, :type => String
@@ -164,6 +165,7 @@ class Group
       :application_questions => :text_area,
       :anonymise_supporters => :check_box,
       :anonymise_blockers => :check_box,
+      :scheduling_by_all => :check_box,
       :ask_for_date_of_birth => :check_box,
       :ask_for_gender => :check_box,
       :ask_for_poc => :check_box,
@@ -198,7 +200,8 @@ class Group
   
   def self.new_tips
     {      
-      :application_questions => 'One per line'
+      :application_questions => 'One per line',
+      :scheduling_by_all => 'By default, only admins can schedule activities',
     }
   end
   
@@ -210,6 +213,7 @@ class Group
   
   def self.human_attribute_name(attr, options={})  
     {
+      :scheduling_by_all => 'Allow all members to schedule activities',
       :ask_for_poc => 'Ask whether applicants identify as a person of colour',
       :fixed_threshold => 'Magic number',
       :democratic_threshold => 'Allow all group members to suggest the magic number, and use the median',

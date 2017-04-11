@@ -1,21 +1,26 @@
-<script>
-  $(function () {
-    $('.activity').draggable({revert: "invalid"});
-    $('.activity-accept').droppable({
-      drop: function (event, ui) {
-        var activity = $(ui.draggable)
-        var accept = $(this)
-        $.post('/activities/' + $(activity).attr('data-activity-id') + '/schedule', {tslot_id: $(accept).attr('data-tslot-id'), space_id: $(accept).attr('data-space-id')}, function () {
-          $(accept).droppable("option", "disabled", true);
-          if (activity.parent().hasClass('activity-accept'))
-            $(activity.parent()).droppable("option", "disabled", false);
-          $(activity).detach().css({top: 0, left: 0}).appendTo(accept);
-        })
-      }
+
+<% if @membership.admin? or @group.scheduling_by_all %>
+
+  <script>
+    $(function () {
+      $('.activity').draggable({revert: "invalid"});
+      $('.activity-accept').droppable({
+        drop: function (event, ui) {
+          var activity = $(ui.draggable)
+          var accept = $(this)
+          $.post('/activities/' + $(activity).attr('data-activity-id') + '/schedule', {tslot_id: $(accept).attr('data-tslot-id'), space_id: $(accept).attr('data-space-id')}, function () {
+            $(accept).droppable("option", "disabled", true);
+            if (activity.parent().hasClass('activity-accept'))
+              $(activity.parent()).droppable("option", "disabled", false);
+            $(activity).detach().css({top: 0, left: 0}).appendTo(accept);
+          })
+        }
+      });
+      $('.activity-accept[data-activity-id]').droppable("option", "disabled", true);
     });
-    $('.activity-accept[data-activity-id]').droppable("option", "disabled", true);
-  });
-</script>
+  </script>
+
+<% end %>
 
 <style>
   .activity a, .activity span { font-size: 12px; color: white }

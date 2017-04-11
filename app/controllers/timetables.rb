@@ -145,6 +145,7 @@ Huddl::App.controller do
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
+    halt unless @membership.admin? or @group.scheduling_by_all
     @activity.tslot_id = params[:tslot_id]
     @activity.space_id = params[:space_id]
     @activity.scheduled_by = current_account
@@ -158,7 +159,8 @@ Huddl::App.controller do
     @activity = Activity.find(params[:id])
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!      
+    membership_required!    
+    halt unless @membership.admin? or @group.scheduling_by_all
     @activity.tslot_id = nil
     @activity.space_id = nil
     @activity.scheduled_by = current_account
