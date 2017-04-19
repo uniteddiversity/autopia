@@ -25,7 +25,7 @@
   
   <div class="row">
     
-    <% Group.where(:featured => true).each { |group| %>
+    <% Group.where(:featured => true).where(:id.nin => current_account.memberships.pluck(:group_id)).each { |group| %>
       <div class="col-sm-4">
         <%= partial :group, :object => group  %>
       </div>
