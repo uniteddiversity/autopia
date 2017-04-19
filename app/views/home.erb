@@ -3,6 +3,10 @@
 
   <h1>Welcome, <%=current_account.firstname%>!</h1>
   
+  <a class="btn btn-primary" href="/h/new">Create a group</a>
+  
+  <h2>Your groups</h2>
+  
   <div class="row">
     
     <% current_account.memberships.each { |membership| group = membership.group %>
@@ -10,15 +14,7 @@
         <%= partial :group, :object => group  %>
       </div>
     <% } %>
-    
-  <div class="col-sm-4">
-    <div style="margin-bottom: 10px; height: 200px; position: relative">          
-      <h1 style="position: absolute; bottom: 0; left: 10px;">
-        <a href="/h/new">Create a group</a>
-      </h1>
-    </div>     
-   </div>     
-  
+      
   </div>  
   
   <h2>Featured groups</h2>
