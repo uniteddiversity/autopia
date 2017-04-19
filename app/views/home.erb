@@ -1,13 +1,11 @@
 
 <% if current_account %>
-
-  <h1>Welcome, <%=current_account.firstname%>!</h1>
   
   <a class="btn btn-primary" href="/h/new"><i class="fa fa-plus"></i> Create a group</a>
   
   <% if current_account.memberships.count > 0 %>
   
-    <h2>Your groups</h2>
+    <h1>Your groups</h1>
     
     <div class="row">
       
@@ -23,7 +21,7 @@
   
   <% if (featured_groups = Group.where(:featured => true).where(:id.nin => current_account.memberships.pluck(:group_id))).count > 0 %>
   
-    <h2>Featured groups</h2>
+    <h1>Featured groups</h1>
     
     <div class="row">
       
