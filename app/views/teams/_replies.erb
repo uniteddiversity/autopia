@@ -1,4 +1,4 @@
-<div style="background: #F7F2F2">
+<div style="background: #FDF8FD">
 	<% post.comments.order('created_at asc').skip(1).each { |comment| %>
 		<%= partial :'teams/comment', :locals => {:comment => comment}  %>
 	<% } %>
