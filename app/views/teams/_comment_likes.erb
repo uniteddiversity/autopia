@@ -1,13 +1,13 @@
 <% if !comment.comment_likes.find_by(account: current_account) %>
-  <a class="pagelet-trigger subtle" href="/comments/<%=comment.id%>/like" title="Like this post"><i class="fa fa-thumbs-o-up"></i> Like</a>
+  <a class="pagelet-trigger subtle" href="/comments/<%=comment.id%>/like" title="Like this post">Like</a>
 <% else %>        
-  <a class="pagelet-trigger subtle active" href="/comments/<%=comment.id%>/unlike" title="Remove your like"><i class="fa fa-thumbs-o-up"></i> Like</a>
+  <a class="pagelet-trigger subtle active" href="/comments/<%=comment.id%>/unlike" title="Remove your like">Unlike</a>
 <% end %>
 
 
 <% if comment.comment_likes.count > 0 %>
 	&middot;  
-	<a href="javascript:;" class="subtle" data-toggle="tooltip"><%=pluralize(comment.comment_likes.count,'person')%> liked this</a>
+	<a href="javascript:;" data-toggle="tooltip"><i class="fa fa-thumbs-o-up"></i> <%=pluralize(comment.comment_likes.count,'person')%> liked this</a>
 	<span style="display: none">
 		<%=comment.comment_likes.map { |comment_like| comment_like.account.name }.join('<br />') %> 
 	</span>						
