@@ -5,8 +5,8 @@
 		$('textarea[id=comment_body]').css('height', '4em').click(function() {
 			$(this.form).find('.btn-primary').parent().parent().show()
 		})
-		$('.comment-form .btn-primary').parent().attr('class','col-md-12').parent().hide()
-	})
+		$('.comment-form .btn-primary').parent().attr('class','col-md-12').parent().hide()  
+	}) 
 </script>
 
  <% form_for comment, comment.new_record ? "/h/#{@group.slug}/teams/#{@team.id}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal placeholders-only" do |f| %>
