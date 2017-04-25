@@ -15,13 +15,15 @@
   <div style="position: absolute; bottom: 0; left: 10px;">
     <h1>
       <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
-      <% if @group and @membership and @membership.admin? %>
-        <a href="/h/<%=group.slug%>/edit"><i class="fa fa-pencil"></i></a>
-      <% end %>
     </h1>  
     <% if @group and @membership %>
-      <p style="color: white;">Non-members can apply at <a href="<%="https://#{ENV['DOMAIN']}/h/#{group.slug}"%>" style="color: white; text-decoration: none; border-bottom: 1px dotted white"><%="https://#{ENV['DOMAIN']}/h/#{group.slug}"%></a></p>
-      <% end %>
+      <p style="color: white;">
+        Non-members can apply at <a href="<%="https://#{ENV['DOMAIN']}/h/#{group.slug}"%>" style="color: white; text-decoration: none; border-bottom: 1px dotted white"><%="https://#{ENV['DOMAIN']}/h/#{group.slug}"%></a>
+        <% if @membership.admin? %>
+          &middot; <a class="btn btn-primary btn-small" href="/h/<%=group.slug%>/edit">Settings</a>
+        <% end %>            
+      </p>
+    <% end %>
   </div>
 
 </div>
