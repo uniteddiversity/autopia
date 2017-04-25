@@ -104,7 +104,7 @@ $(function () {
     });
   });
 
-  $(document).on('submit', '[data-pagelet-url] form', function () {
+  $(document).on('submit', '[data-pagelet-url] form', function (event) {
     var form = this
     var pagelet = $(form).closest('[data-pagelet-url]')
     pagelet.css('opacity', '0.3')
@@ -113,10 +113,11 @@ $(function () {
         pagelet.css('opacity', '1')
       })
     })
+    event.preventDefault();
     return false
   })
 
-  $(document).on('click', '[data-pagelet-url] a.pagelet-trigger', function () {
+  $(document).on('click', '[data-pagelet-url] a.pagelet-trigger', function (event) {
     var a = this
     var pagelet = $(a).closest('[data-pagelet-url]')
     pagelet.css('opacity', '0.3')
@@ -125,6 +126,7 @@ $(function () {
         pagelet.css('opacity', '1')
       })
     })
+    event.preventDefault();
     return false
   })
 
