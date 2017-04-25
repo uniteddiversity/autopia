@@ -13,18 +13,18 @@
   <% end %>
 
   <div style="position: absolute; bottom: 0; left: 10px;">
-    <h1>
-      <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
-    </h1>  
+    <div>
+      <h1 style="display: inline">
+        <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
+      </h1> 
+      <% if @group and @membership and@membership.admin? %>        
+        <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/edit">Edit group</a>
+      <% end %> 
+    </div>
     <% if @group and @membership %>
       <p style="color: white;">
         Non-members can apply at <a href="<%="https://#{ENV['DOMAIN']}/h/#{group.slug}"%>" style="color: white; text-decoration: none; border-bottom: 1px dotted white"><%="https://#{ENV['DOMAIN']}/h/#{group.slug}"%></a>
-      </p>
-      <% if @membership.admin? %>
-        <p style="color: white;">
-          <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/edit">Edit group</a>
-        </p>                
-      <% end %>                  
+      </p>                 
     <% end %>
   </div>
 
