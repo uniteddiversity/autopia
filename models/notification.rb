@@ -30,7 +30,7 @@ class Notification
       if Notification.mailable_types.include?(type) and bcc.length > 0
         mail = Mail.new
         mail.bcc = bcc
-        mail.from = "Huddl <team@huddl.tech>"
+        mail.from = "Huddl <notifications@huddl.tech>"
         mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
             
         html_part = Mail::Part.new do

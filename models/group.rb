@@ -49,7 +49,7 @@ class Group
    	if ENV['SMTP_ADDRESS']
       mail = Mail.new
       mail.to = "team@huddl.tech"
-      mail.from = "Huddl <notifications@huddl.tech>"
+      mail.from = "Huddl <bot@huddl.tech>"
       mail.subject = "New group: #{name}"
       
       group = self

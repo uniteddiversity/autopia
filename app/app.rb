@@ -67,7 +67,7 @@ module Huddl
     	if ENV['SMTP_ADDRESS']
 	      mail = Mail.new
 	      mail.to = "team@huddl.tech"
-	      mail.from = "Huddl <suggestions@huddl.tech>"
+	      mail.from = "Huddl <bot@huddl.tech>"
 	      mail.subject = "Suggestion from #{current_account.name} (#{current_account.email})"
 	      mail.body = params[:suggestion]
 	      mail.deliver

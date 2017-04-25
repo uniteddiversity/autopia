@@ -38,7 +38,7 @@ class Membership
     if ENV['SMTP_ADDRESS']
       mail = Mail.new
       mail.to = account.email
-      mail.from = "Huddl <team@huddl.tech>"
+      mail.from = "Huddl <notifications@huddl.tech>"
       mail.subject = "You're now a member of #{group.name}"
       
       account = self.account
