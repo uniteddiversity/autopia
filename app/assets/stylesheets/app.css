@@ -70,4 +70,4 @@ a.fc-event.no-bookings { opacity: 0.2 }
 
 .list-group-item.active > .badge, .nav-pills > .active > a > .badge { color: #CE2828 }
 
-
+table a:not(.btn), .table a:not(.btn) { text-decoration: none }

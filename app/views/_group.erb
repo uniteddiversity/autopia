@@ -1,31 +1,39 @@
-<div style="margin-bottom: 10px; background-image: url('<%=group.image.try(:url)%>'); background-size: cover; background-position: center center; height: 200px; position: relative">    
-  <div style="background: black; opacity: 0.4; height: 100%"></div>
 
-  <% if @group and @membership and !@notifications; @minifeed = true %>  
-    <div class="hidden-sm hidden-xs" style="position: absolute; right: 10px; bottom: 0;">
-      <style>
-        #notifications { color: white }
-        #notifications li a { color: white }
-        #notifications li span { opacity: 0.6 }
-      </style>
-      <%= partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :more => true} %>      
-    </div>
-  <% end %>
-
-  <div style="position: absolute; bottom: 0; left: 10px;">
-    <div>
-      <h1 style="display: inline">
-        <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
-      </h1> 
-      <% if @group and @membership and@membership.admin? %>        
-        <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/edit">Edit group</a>
-      <% end %> 
-    </div>
-    <% if @group and @membership %>
-      <p style="color: white;">
-        Non-members can apply at <a href="<%="https://#{ENV['DOMAIN']}/h/#{group.slug}"%>" style="color: white; text-decoration: none; border-bottom: 1px dotted white"><%="https://#{ENV['DOMAIN']}/h/#{group.slug}"%></a>
-      </p>                 
-    <% end %>
-  </div>
-
+<div style="position: relative; margin-bottom: 10px; background-image: url('<%=group.image.try(:url)%>'); background-size: cover; background-position: center center;">
+  <div style="background: black; opacity: 0.4; position: absolute; width: 100%; height: 100%; z-index: 0"></div>
+  <table style="width: 100%; position: relative">
+    <tr>
+      <td>
+        <div style="padding: 20px">
+          <h1 style="display: inline">
+            <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
+          </h1> 
+          <% if @group and @membership and@membership.admin? %>        
+            <p style="color: white;"> 
+              <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/edit">Edit group</a>
+              &middot;
+              <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/balance">Balance: <%=@group.currency_symbol%><%="#{'%.2f' % @group.balance}"%></a>
+            </p>
+          <% end %> 
+          <% if @group and @membership %>
+            <p style="color: white; margin-bottom: 0">
+              Non-members can apply at <a href="<%="https://#{ENV['DOMAIN']}/h/#{group.slug}"%>" style="color: white; text-decoration: none; border-bottom: 1px dotted white"><%="https://#{ENV['DOMAIN']}/h/#{group.slug}"%></a>
+            </p>                 
+          <% end %>
+        </div>
+      </td>
+      <td>
+        <% if @group and @membership and !@notifications; @minifeed = true %>  
+          <div class="hidden-sm hidden-xs" style="padding: 20px">
+            <style>
+              #notifications { color: white }
+              #notifications li a { color: white }
+              #notifications li span { opacity: 0.6 }
+            </style>
+            <%= partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :more => true} %>      
+          </div>
+        <% end %>
+      </td>
+    </tr>
+  </table>
 </div>

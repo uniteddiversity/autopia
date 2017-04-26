@@ -1,0 +1,13 @@
+<% if @group.persisted? %>
+  <%= partial :group_header %>
+<% end %>
+
+<p class="lead">
+  <strong><%=@group.currency_symbol%><%="#{'%.2f' % @group.balance}"%></strong> is waiting to be paid out. Payouts are via PayPal.
+</p>
+
+<% form_for @group, "/h/#{@group.slug}/payout", :class => 'form-horizontal', :multipart => true do |f| %>
+  <%= f.text_block :paypal_email %>
+  <%= f.submit_block button_text: 'Request payout' %> 
+<% end %>
+

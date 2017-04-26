@@ -1,4 +1,11 @@
 Huddl::App.controller do
+  
+  get '/h/:slug/balance' do        
+    @group = Group.find_by(slug: params[:slug]) || not_found      
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    erb :balance
+  end    
 	
   post '/h/:slug/pay' do
     @group = Group.find_by(slug: params[:slug]) || not_found
