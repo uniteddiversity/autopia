@@ -51,7 +51,6 @@
     
 </table>
     
-
 <% if (@membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution))) %>
 
   You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 

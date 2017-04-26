@@ -68,7 +68,7 @@
 <% if @group.enable_transport %>
   <td>
     <% membership.transportships.each { |transportship| %>
-      <span class="label label-primary"><%= transportship.transport.name %> (<%=@group.currency_symbol%><%= transportship.transport.cost %>)</span> <br />
+      <span class="label label-primary"><%= transportship.transport.name %> (<%=@group.currency_symbol%><%= transportship.transport.cost %>)</span> 
     <% } %>
   </td>      
 <% end %>
