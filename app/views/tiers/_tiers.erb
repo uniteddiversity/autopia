@@ -46,8 +46,26 @@
         <% end %>
       </td>      
       <td>
-        <% tier.tierships.map { |tiership| account = tiership.account; %><img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% } %>
+        <% y = [] %>
+        <% tier.tierships.each { |tiership| account = tiership.account; %>
+          <% if params[:view] == 'names' %>
+            <% y << capture do %>   
+              <%= account.name %>
+            <% end %>
+          <% else %>
+            <% y << capture do %><img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% end %>
+          <% end %>
+        <% } %>
+        <% if params[:view] == 'names' %>
+          <%= y.map(&:strip).join(', ') %>
+        <% else %>
+          <%= y.map(&:strip).join('') %>
+        <% end %>       
       </td>
     </tr>
   <% } %>
 </table>
+
+<% if params[:view] != 'names' %>
+  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/h/<%=@group.slug%>/accoms?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+<% end %>
