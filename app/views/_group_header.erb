@@ -1,7 +1,6 @@
 
-<div style="margin-bottom: 20px">
+<div style="margin-bottom: 10px">
   <%= partial :group, :object => @group  %>
-  <%= partial :alerts %>
 </div>
 
 <% if @membership %>
@@ -11,7 +10,8 @@
   </style>
  <div id="group-header">
   <%= ul_nav 'nav nav-pills', [
-    ["Members (#{@group.memberships.count})", "/h/#{@group.slug}"],
+    ["Home", "/h/#{@group.slug}"],
+    ["Members (#{@group.memberships.count})", "/h/#{@group.slug}/members"],
     ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],        
     (["Teams (#{@group.teams.count})", "/h/#{@group.slug}/teams"] if @group.enable_teams),
     (["Qualities (#{@group.qualities.count})", "/h/#{@group.slug}/qualities"] if @group.enable_qualities),
@@ -31,7 +31,6 @@
     (["Accommodation (#{@group.accoms.count})", "/h/#{@group.slug}/accoms"] if @group.enable_accommodation),
     (["Transport (#{@group.transports.count})", "/h/#{@group.slug}/transports"] if @group.enable_transport),        
     (["Budget", "/h/#{@group.slug}/budget"] if @group.enable_budget),    
-    ["Newsfeed", "/h/#{@group.slug}/newsfeed"],
     ].compact %>
   </div>
 

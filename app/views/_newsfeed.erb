@@ -6,7 +6,7 @@
       <a href="<%= notification.link[1] %>"><%= defined?(more) ? HTML_Truncator.truncate(notification.sentence, 50, :length_in_chars => true) : notification.sentence %></a>
       <span style="font-size: 11px"><%= timeago(notification.created_at) %></span>      
       <% if @notifications %>
-        <hr />
+        <hr style="margin: 5px 0" />
       <% end %>
     </li>
   <% } %>

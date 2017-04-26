@@ -1,14 +1,6 @@
 
 <%= partial :group_header %>
 
-<% if @group.intro_for_members %>
-  <div class="panel" style="margin-top: 10px">
-    <div class="panel-body">    
-      <%= @group.intro_for_members %>
-    </div>
-  </div>
-<% end %>
-
 <% x = [] %>
 <%  x << capture do %>
   <a href="?"><i data-toggle="tooltip" title="Members" class="fa fa-group"></i></a> <%= @group.memberships.count %>
