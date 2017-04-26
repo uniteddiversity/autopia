@@ -64,14 +64,6 @@ $(function () {
     });
   });
 
-  $(document).on('click', 'a[data-confirm]', function (e) {
-    var message = $(this).data('confirm');
-    if (!confirm(message)) {
-      e.preventDefault();
-      e.stopped = true;
-    }
-  });
-
   $(document).on('click', 'a.popup', function (e) {
     window.open(this.href, null, 'scrollbars=yes,width=600,height=600,left=150,top=150').focus();
     return false;
@@ -113,20 +105,39 @@ $(function () {
         pagelet.css('opacity', '1')
       })
     })
-    event.preventDefault();
     return false
   })
+  
+  $(document).on('click', 'a[data-confirm]', function (e) {
+    var message = $(this).data('confirm');
+    if (!confirm(message)) {
+      return false
+    }
+  });  
+  
+  $(document).on('click', "a[href^='/verdicts/create']", function (e) {
+    var reason = prompt('Explain your decision (optional)');
+    if (reason == null) {      
+      $(this).addClass('no-trigger')
+      return false
+    } else {
+      $(this).attr('href', $(this).attr('href') + '&reason=' + ((reason == 'undefined' || reason == 'null') ? '' : reason))
+    }  
+  });     
 
   $(document).on('click', '[data-pagelet-url] a.pagelet-trigger', function (event) {
-    var a = this
-    var pagelet = $(a).closest('[data-pagelet-url]')
+    var a = this        
+    if ($(a).hasClass('no-trigger')) {
+      $(a).removeClass('no-trigger')
+      return false
+    }    
+    var pagelet = $(a).closest('[data-pagelet-url]')    
     pagelet.css('opacity', '0.3')
     $.get($(a).attr('href'), function () {
       pagelet.load(pagelet.attr('data-pagelet-url'), function () {
         pagelet.css('opacity', '1')
       })
     })
-    event.preventDefault();
     return false
   })
 
@@ -135,5 +146,6 @@ $(function () {
     if ($(pagelet).html().length == 0)
       $(pagelet).load($(pagelet).attr('data-pagelet-url'))
   })
-
+  
+  
 });
