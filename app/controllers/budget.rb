@@ -33,7 +33,7 @@ Huddl::App.controller do
     @group = @spend.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    @spend.update_attribute(:reimbursed, true)
+    @spend.update_attribute(:reimbursed, params[:reimbursed])
     200  
   end      
     
