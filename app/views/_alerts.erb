@@ -5,6 +5,8 @@
   <% payment_notice = (@membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution))) %>
   
   <% if tier_notice or accom_notice or payment_notice %>
+       
+    <h2>Your todos</h2> 
           
     <ul class="fa-ul">
     

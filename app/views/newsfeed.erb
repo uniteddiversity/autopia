@@ -8,7 +8,6 @@
         <%= @group.intro_for_members %>
       </div>
     <% end %>  
-    <h2>Your todos</h2>
     <%= partial :alerts %>
     <h2>Online now</h2>
     <% @group.members.where(:last_active.gt => 5.minutes.ago).each { |account| %><img style="width: 75px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%><br /><%=time_ago_in_words account.last_active%> ago" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% } %>
