@@ -6,23 +6,29 @@
   <a href="?"><i data-toggle="tooltip" title="Members" class="fa fa-group"></i></a> <%= @group.memberships.count %>
 <% end %>
 
-<% Account.genders.reject(&:blank?).map { |gender| x << capture do %>
+<% if @group.ask_for_gender %>
+  <% Account.genders.reject(&:blank?).map { |gender| x << capture do %>
     <a href="?gender=<%=gender%>"><%= Account.gender_symbol(gender, pluralize: true) %></a> <%= @group.memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id)).count %>
   <% end  } %>
-
-<% youngest = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth desc').first %>
-<% oldest = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first %>
-<% if youngest and oldest %>
-  <% (youngest.age.to_s[0].to_i).upto(oldest.age.to_s[0].to_i) do |p| p = "#{p}0".to_i; %>
-    <% x << capture do %>
-      <a href="?p=<%=p%>" data-toggle="tooltip" title="People in their <%=p%>s"><%=p%>s</a>
-      <%= @group.memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-p.years)).where(:date_of_birth.gt => (Date.today-(p+10).years)).pluck(:id)).count %>
-    <% end %>
-  <% end %>    
 <% end %>
 
-<% x << capture do %>
-  <a href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= @group.memberships.where(:account_id.in => Account.where(:poc => true).pluck(:id)).count %>
+<% if @group.ask_for_date_of_birth %>
+  <% youngest = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth desc').first %>
+  <% oldest = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first %>
+  <% if youngest and oldest %>
+    <% (youngest.age.to_s[0].to_i).upto(oldest.age.to_s[0].to_i) do |p| p = "#{p}0".to_i; %>
+      <% x << capture do %>
+        <a href="?p=<%=p%>" data-toggle="tooltip" title="People in their <%=p%>s"><%=p%>s</a>
+        <%= @group.memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-p.years)).where(:date_of_birth.gt => (Date.today-(p+10).years)).pluck(:id)).count %>
+      <% end %>
+    <% end %>    
+  <% end %>
+<% end %>
+
+<% if @group.ask_for_poc %>
+  <% x << capture do %>
+    <a href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= @group.memberships.where(:account_id.in => Account.where(:poc => true).pluck(:id)).count %>
+  <% end %>
 <% end %>
 
 <% y = [] %>

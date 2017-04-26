@@ -48,6 +48,8 @@
   <%= f.number_block :booking_limit %>
   <%= f.check_box_block :scheduling_by_all %>
   <%= f.url_block :teamup_calendar_url %>
-  <%= f.select_block :currency %>
+  <% if @group.new_record? %>
+    <%= f.select_block :currency %>
+  <% end %>
   <%= f.submit_block %>  
 <% end %>
