@@ -26,6 +26,7 @@ abbr[title] { border: none; }
 
 .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus { background: #CE2828 }
 a, a:hover, a:focus, a:active { color: #CE2828 }
+.label-primary[href]:hover, .label-primary[href]:focus { background: #CE2828 }
 
 .subtle { color: #999 !important }
 .subtle.active, .subtle:hover { color: #CE2828 !important }

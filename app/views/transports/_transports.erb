@@ -30,7 +30,7 @@
       <td>
         <% if transportship = @group.transportships.find_by(transport: transport, account: current_account) %>
           <a class="pagelet-trigger btn btn-primary" href="/transportships/<%=transportship.id%>/destroy">Leave</a>
-        <% elsif !@group.transportships.find_by(account: current_account) and !transport.full? %>
+        <% elsif !transport.full? %>
           <a class="pagelet-trigger btn btn-primary" href="/transportships/create?transport_id=<%=transport.id%>">Join</a>
         <% end %>       
       </td>      

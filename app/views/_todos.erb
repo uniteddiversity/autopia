@@ -32,15 +32,19 @@
     </tr>
   <% end %>  
   
-  <% if @group.enable_transport %>
+  <% if @group.transports.count > 0 %>
     <tr>
       <th>
       Your transport
       </th>
       <td>
-        <% @membership.transportships.each { |transportship| %>
-          <span class="label label-primary"><%= transportship.transport.name %> (<%=@group.currency_symbol%><%= transportship.transport.cost %>)</span> <br />
-        <% } %>     
+        <% if @membership.transportships.count > 0 %>
+          <% @membership.transportships.each { |transportship| %>
+            <a href="/h/<%=@group.slug%>/transports" class="label label-primary"><%= transportship.transport.name %> (<%=@group.currency_symbol%><%= transportship.transport.cost %>)</a> 
+          <% } %>     
+        <% else %>
+          <a href="/h/<%=@group.slug%>/transports">Join transport</a>
+        <% end %>
       </td>
     </tr>    
   <% end %>  
