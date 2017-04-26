@@ -3,11 +3,15 @@ Huddl::App.controller do
   get '/h/:slug' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
     @notifications = @group.notifications.order('created_at desc').page(params[:page])
-    erb :newsfeed
+    membership_required!
+    if request.xhr?
+      partial :newsfeed, :locals => {:notifications => @notifications}   
+    else
+      erb :group
+    end
   end  
-
+  
   get '/h/new' do
     sign_in_required!
     @group = Group.new

@@ -3,14 +3,18 @@
   <% notifications.each_with_index { |notification,i| %>
     <li>
       <i class="fa fa-li <%=notification.icon%>"></i>
-      <a href="<%= notification.link[1] %>"><%= defined?(more) ? HTML_Truncator.truncate(notification.sentence, 50, :length_in_chars => true) : notification.sentence %></a>
+      <a href="<%= notification.link[1] %>"><%= defined?(minifeed) ? HTML_Truncator.truncate(notification.sentence, 50, :length_in_chars => true) : notification.sentence %></a>
       <span style="font-size: 11px"><%= timeago(notification.created_at) %></span>      
-      <% if @notifications %>
+      <% if !defined?(minifeed) %>
         <hr style="margin: 5px 0" />
       <% end %>
     </li>
   <% } %>
-  <% if defined? more %>
-    <li><a href="/h/<%=@group.slug%>/newsfeed">More...</a></li>
+  <% if defined?(minifeed) %>
+    <li><a href="/h/<%=@group.slug%>">More...</a></li>
   <% end %>
 </ul>
+
+<% if !defined?(minifeed) %>
+  <%= will_paginate notifications, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+<% end %>

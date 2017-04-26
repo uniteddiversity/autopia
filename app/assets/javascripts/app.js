@@ -143,6 +143,16 @@ $(function () {
     })
     return false
   })
+  
+  $(document).on('click', '[data-pagelet-url] .pagination a', function (event) {
+    var a = this   
+    var pagelet = $(a).closest('[data-pagelet-url]')        
+    pagelet.css('opacity', '0.3')
+    pagelet.load($(a).attr('href'), function () {
+      pagelet.css('opacity', '1')
+    })
+    return false
+  })  
 
   $('[data-pagelet-url]').each(function () {
     var pagelet = this;

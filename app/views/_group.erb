@@ -23,14 +23,14 @@
         </div>
       </td>
       <td style="vertical-align: bottom;">
-        <% if @group and @membership and !@notifications; @minifeed = true %>  
+        <% if @group and @membership and !@notifications %>  
           <div class="hidden-sm hidden-xs" style="padding: 0 10px">
             <style>
               #notifications { color: white }
               #notifications li a { color: white }
               #notifications li span { opacity: 0.6 }
             </style>
-            <%= partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :more => true} %>      
+            <%= partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :minifeed => true} %>      
           </div>
         <% end %>
       </td>
