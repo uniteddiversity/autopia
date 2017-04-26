@@ -4,8 +4,8 @@
   <table style="width: 100%; position: relative; height: 200px">
     <tr>
       <td style="vertical-align: bottom">
-        <div style="padding: 20px">
-          <h1 style="display: inline">
+        <div style="padding: 0 10px">
+          <h1>
             <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
           </h1> 
           <% if @group and @membership and@membership.admin? %>        
@@ -16,15 +16,15 @@
             </p>
           <% end %> 
           <% if @group and @membership %>
-            <p style="color: white; margin-bottom: 0">
+            <p style="color: white;">
               Non-members can apply at <a href="<%="https://#{ENV['DOMAIN']}/h/#{group.slug}"%>" style="color: white; text-decoration: none; border-bottom: 1px dotted white"><%="https://#{ENV['DOMAIN']}/h/#{group.slug}"%></a>
             </p>                 
           <% end %>
         </div>
       </td>
-      <td style="vertical-align: bottom">
+      <td style="vertical-align: bottom;">
         <% if @group and @membership and !@notifications; @minifeed = true %>  
-          <div class="hidden-sm hidden-xs" style="padding: 20px">
+          <div class="hidden-sm hidden-xs" style="padding: 0 10px">
             <style>
               #notifications { color: white }
               #notifications li a { color: white }
