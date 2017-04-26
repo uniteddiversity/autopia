@@ -16,5 +16,5 @@
 </ul>
 
 <% if !defined?(minifeed) %>
-  <%= will_paginate notifications, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+  <%= will_paginate notifications, :inner_window => 2, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 <% end %>
