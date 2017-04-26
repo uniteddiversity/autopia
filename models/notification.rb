@@ -160,7 +160,7 @@ class Notification
     when :applied
       ['View applications', "https://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
     when :joined_group
-      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}"]      
+      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}/members"]      
     when :joined_team
       ['View team', "https://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}"]
     when :created_spend
@@ -194,9 +194,9 @@ class Notification
     when :unscheduled_activity
       ['View timetable', "https://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]  
     when :made_admin
-      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}"]      
+      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}/members"]      
     when :unadmined
-      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}"]      
+      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}/members"]      
     when :booked
       ['View bookings', "https://#{ENV['DOMAIN']}/h/#{group.slug}/bookings"]  
     when :created_timetable
@@ -208,7 +208,7 @@ class Notification
     when :liked_a_comment
       ['View post', "https://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]      
     when :left_group
-      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}"]            
+      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}/members"]            
     end
   end
   
