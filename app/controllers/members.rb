@@ -3,7 +3,7 @@ Huddl::App.controller do
 	get '/h/:slug/members' do        
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    redirect "/h/#{@group.slug}/apply" unless @membership
+    membership_required!
     @memberships = @group.memberships
     @memberships = @memberships.where(:account_id.in => Account.where(gender: params[:gender]).pluck(:id)) if params[:gender]
     @memberships = @memberships.where(:account_id.in => Account.where(poc: true).pluck(:id)) if params[:poc]      

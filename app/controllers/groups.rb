@@ -25,8 +25,8 @@ Huddl::App.controller do
   get '/h/:slug' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    redirect "/h/#{@group.slug}/apply" unless @membership
     @notifications = @group.notifications.order('created_at desc').page(params[:page])
-    membership_required!
     if request.xhr?
       partial :newsfeed, :locals => {:notifications => @notifications}   
     else
