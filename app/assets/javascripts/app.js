@@ -96,7 +96,7 @@ $(function () {
     });
   });
 
-  $(document).on('submit', '[data-pagelet-url] form', function (event) {
+  $(document).on('submit', '[data-pagelet-url] form:not(.no-trigger)', function (event) {
     var form = this
     var pagelet = $(form).closest('[data-pagelet-url]')
     pagelet.css('opacity', '0.3')
