@@ -10,7 +10,7 @@
     <div class="row">
       
       <% current_account.memberships.each { |membership| group = membership.group %>
-        <div class="col-sm-4">
+        <div class="col-sm-4" style="margin-bottom: 20px">
           <%= partial :group, :object => group  %>
         </div>
       <% } %>
