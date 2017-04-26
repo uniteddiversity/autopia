@@ -207,7 +207,7 @@ class Group
   
   def self.new_hints
     {
-      :currency => 'This cannot be changed',
+      :currency => 'This cannot be changed, choose wisely',
       :fixed_threshold => 'Automatically accept applications with this number of proposers + supporters (with at least one proposer, and no blockers)'
     }
   end
