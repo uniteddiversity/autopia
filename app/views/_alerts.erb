@@ -1,36 +1,44 @@
-<% if @group.tiers.count > 0 and !@membership.tiership %>
-  <div class="panel panel-primary" style="margin-top: 20px">
-    <div class="panel-heading">
-      <h3 class="panel-title"><i class="fa fa-warning"></i> No tier</h3>
-    </div>
-    <div class="panel-body">
-      <p>Please select a <a href="/h/<%=@group.slug%>/tiers">tier</a>.
-    </div>
-  </div>
-<% end %>
+<% tier_notice = (@group.tiers.count > 0 and !@membership.tiership) %>
+<% accom_notice = (@group.accoms.count > 0 and !@membership.accomship) %>
+<% payment_notice = (@membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution))) %>
 
-<% if @group.accoms.count > 0 and !@membership.accomship %>
-  <div class="panel panel-primary" style="margin-top: 20px">
-    <div class="panel-heading">
-      <h3 class="panel-title"><i class="fa fa-warning"></i> No accommodation</h3>
-    </div>
-    <div class="panel-body">
-      <p>Please select your <a href="/h/<%=@group.slug%>/accoms">accommodation</a>.
-    </div>
-  </div>
-<% end %>
+<% if tier_notice or accom_notice or payment_notice %>
 
-<% if @membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution)) %>
-  <div class="panel panel-primary" style="margin-top: 20px">
-    <div class="panel-heading">
-      <h3 class="panel-title"><i class="fa fa-warning"></i> Payment required</h3>
-    </div>
-    <div class="panel-body">
-      <p>
-        You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 
-        (You've paid <%=@group.currency_symbol%><%=@membership.paid or 0%> of a requested contribution of <%=@group.currency_symbol%><%=@membership.requested_contribution%>.)
-      </p>
-      <%= partial :pay, :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
+  <div style="box-shadow: 2px 2px 5px #ddd">
+    <h5 style="background: #CE2828; color: white; margin: 0; padding: 10px">Your todos</h5>
+    <div style="padding: 10px">
+      
+      <ul class="fa-ul">
+      
+        <% if tier_notice %>
+          <li>
+            <i class="fa fa-li fa-square-o"></i>
+            Join a <a href="/h/<%=@group.slug%>/tiers">tier</a>
+          </li>
+        <% end %>
+        
+        <% if accom_notice %>
+          <li>
+            <i class="fa fa-li fa-square-o"></i>
+            Select your <a href="/h/<%=@group.slug%>/accoms">accommodation</a>
+          </li>
+        <% end %>
+        
+        <% if payment_notice %>
+          <li>
+            <i class="fa fa-li fa-square-o"></i>
+            Make a payment:
+            You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 
+            (You've paid <%=@group.currency_symbol%><%=@membership.paid or 0%> of a requested contribution of <%=@group.currency_symbol%><%=@membership.requested_contribution%>.)          
+            <div style="margin-top: 10px">
+              <%= partial :pay, :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
+            </div>
+          </li>
+        <% end %>
+      
+      </ul>
+      
     </div>
   </div>
+
 <% end %>
