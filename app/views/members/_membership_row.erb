@@ -59,8 +59,6 @@
     <% else %>
       <% if accomship = membership.accomship %>
         <span class="label label-primary"><%= accomship.accom.name %> (<%=@group.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
-      <% else %>          
-        <i class="fa fa-warning"></i>
       <% end %>
     <% end %>           
   </td> 

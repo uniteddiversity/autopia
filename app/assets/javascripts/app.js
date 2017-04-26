@@ -95,18 +95,6 @@ $(function () {
       $(textarea).val($(summernote).code());
     });
   });
-
-  $(document).on('submit', '[data-pagelet-url] form:not(.no-trigger)', function (event) {
-    var form = this
-    var pagelet = $(form).closest('[data-pagelet-url]')
-    pagelet.css('opacity', '0.3')
-    $.post($(form).attr('action'), $(form).serialize(), function () {
-      pagelet.load(pagelet.attr('data-pagelet-url'), function () {
-        pagelet.css('opacity', '1')
-      })
-    })
-    return false
-  })
   
   $(document).on('click', 'a[data-confirm]', function (e) {
     $(this).removeClass('no-trigger')
@@ -126,8 +114,20 @@ $(function () {
     } else {
       $(this).attr('href', $(this).attr('href') + '&reason=' + ((reason == 'undefined' || reason == 'null') ? '' : reason))
     }  
-  });     
+  });    
 
+  $(document).on('submit', '[data-pagelet-url] form:not(.no-trigger)', function (event) {
+    var form = this
+    var pagelet = $(form).closest('[data-pagelet-url]')
+    pagelet.css('opacity', '0.3')
+    $.post($(form).attr('action'), $(form).serialize(), function () {
+      pagelet.load(pagelet.attr('data-pagelet-url'), function () {
+        pagelet.css('opacity', '1')
+      })
+    })
+    return false
+  })
+    
   $(document).on('click', '[data-pagelet-url] a.pagelet-trigger', function (event) {
     var a = this        
     if ($(a).hasClass('no-trigger')) {
