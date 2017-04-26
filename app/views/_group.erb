@@ -22,18 +22,20 @@
           <% end %>
         </div>
       </td>
-      <td style="vertical-align: bottom;">
         <% if @group and @membership and !@notifications %>  
-          <div class="hidden-sm hidden-xs" style="padding: 0 10px">
-            <style>
-              #notifications { color: white }
-              #notifications li a { color: white }
-              #notifications li span { opacity: 0.6 }
-            </style>
-            <%= partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :minifeed => true} %>      
-          </div>
+          <td style="vertical-align: bottom; width: 33%">
+            <div style="position: relative">
+              <div class="hidden-sm hidden-xs" style="padding: 0 10px; position: absolute; right: 0; bottom: 0">
+                <style>
+                  #notifications { color: white }
+                  #notifications li a { color: white }
+                  #notifications li span { opacity: 0.6 }
+                </style>
+                <%= partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :minifeed => true} %>      
+              </div>
+            </div>
+          </td>
         <% end %>
-      </td>
     </tr>
   </table>
 </div>
