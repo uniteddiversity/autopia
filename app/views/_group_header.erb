@@ -33,42 +33,4 @@
     ].compact %>
   </div>
 
-  <% if @group.tiers.count > 0 and !@membership.tiership %>
-    <div class="panel panel-primary" style="margin-top: 20px">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-warning"></i> No tier</h3>
-      </div>
-      <div class="panel-body">
-        <p>Please select a <a href="/h/<%=@group.slug%>/tiers">tier</a>.
-      </div>
-    </div>
-  <% end %>
-
-  <% if @group.accoms.count > 0 and !@membership.accomship %>
-    <div class="panel panel-primary" style="margin-top: 20px">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-warning"></i> No accommodation</h3>
-      </div>
-      <div class="panel-body">
-        <p>Please select your <a href="/h/<%=@group.slug%>/accoms">accommodation</a>.
-      </div>
-    </div>
-  <% end %>
-
-  <% if @membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution)) %>
-    <div class="panel panel-primary" style="margin-top: 20px">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-warning"></i> Payment required</h3>
-      </div>
-      <div class="panel-body">
-        <p>
-          You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 
-          (You've paid <%=@group.currency_symbol%><%=@membership.paid or 0%> of a requested contribution of <%=@group.currency_symbol%><%=@membership.requested_contribution%>.)
-        </p>
-        <%= partial :pay, :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
-      </div>
-    </div>
-  <% end %>
-
-
 <% end %>

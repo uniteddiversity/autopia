@@ -1,9 +1,9 @@
 
 <div style="position: relative; margin-bottom: 10px; background-image: url('<%=group.image.try(:url)%>'); background-size: cover; background-position: center center;">
   <div style="background: black; opacity: 0.4; position: absolute; width: 100%; height: 100%; z-index: 0"></div>
-  <table style="width: 100%; position: relative">
+  <table style="width: 100%; position: relative; height: 200px">
     <tr>
-      <td>
+      <td style="vertical-align: bottom">
         <div style="padding: 20px">
           <h1 style="display: inline">
             <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
@@ -22,7 +22,7 @@
           <% end %>
         </div>
       </td>
-      <td>
+      <td style="vertical-align: bottom">
         <% if @group and @membership and !@notifications; @minifeed = true %>  
           <div class="hidden-sm hidden-xs" style="padding: 20px">
             <style>
