@@ -1,6 +1,4 @@
 
-<%= partial :group_header %>
-
 <table class="table">
   <tr>
     <td colspan="4">
@@ -103,7 +101,7 @@
     <tr>
       <td>
         <% if @membership.admin? %>
-          <a data-confirm="Delete this spend?" href="/spends/<%=spend.id%>/destroy">
+          <a data-confirm="Delete this spend?" class="pagelet-trigger" href="/spends/<%=spend.id%>/destroy">
             <%=spend.item%>
           </a>
         <% else %>
@@ -117,7 +115,9 @@
           <% if spend.reimbursed %>
             <i class="fa fa-check"></i>
           <% else %>
-            <input type="checkbox" onclick="window.location = '/spends/<%=spend.id%>/reimbursed'">
+            <% form_tag "/spends/#{spend.id}/reimbursed" do %>
+              <%= check_box_tag :reimbursed, :onclick => '$(this.form).submit()' %>
+            <% end %>            
           <% end %> 
         <% else %>
           <% if spend.reimbursed %>
