@@ -2,6 +2,8 @@
   <%= partial :group_header %>
 <% end %>
 
+<h1>Balance</h1>
+
 <p class="lead">
   <strong><%=@group.currency_symbol%><%="#{'%.2f' % @group.balance}"%></strong> is waiting to be paid out. Payouts are via PayPal.
 </p>
