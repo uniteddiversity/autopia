@@ -35,17 +35,13 @@
     <% if @membership.admin? %>
       <% if tiership = membership.tiership %>
         <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (<%=@group.currency_symbol%><%= tiership.tier.cost %>)</span>
-      <% end %>
-  
+      <% end %>  
       <% form_tag "/memberships/#{membership.id}/tier", :style => ('display:none' if tiership) do %>
         <%= select_tag :tier_id, :class => 'form-control', :options => [''] + @group.tiers.map { |tier| [tier.name, tier.id] }, :selected => tiership.try(:tier_id), :onchange => '$(this.form).submit()' %>
-      <% end %>
-  
+      <% end %>  
     <% else %>
       <% if tiership = membership.tiership %>
         <span class="label label-primary"><%= tiership.tier.name %> (<%=@group.currency_symbol%><%= tiership.tier.cost %>)</span>
-      <% else %>          
-        <i class="fa fa-warning"></i>
       <% end %>   
     <% end %>                       
   </td>
@@ -55,8 +51,7 @@
     <% if @membership.admin? %>
       <% if accomship = membership.accomship %>
         <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (<%=@group.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
-      <% end %>
-  
+      <% end %>  
       <% form_tag "/memberships/#{membership.id}/accom", :style => ('display:none' if accomship) do %>
         <%= select_tag :accom_id, :class => 'form-control', :options => [''] + @group.accoms.select { |accom| !accom.full? }.map { |accom| [accom.name, accom.id] }, :selected => accomship.try(:accom_id), :onchange => '$(this.form).submit()' %>
       <% end %>

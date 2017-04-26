@@ -1,0 +1,62 @@
+<table class="table">
+
+  <% if @group.tiers.count > 0 %>         
+    <tr>
+      <th>
+      Your tier
+      </th>
+      <td>
+        <% if tiership = @membership.tiership %>
+          <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (<%=@group.currency_symbol%><%= tiership.tier.cost %>)</span>
+        <% end %>  
+        <% form_tag "/memberships/#{@membership.id}/tier", :style => ('display:none' if tiership) do %>
+          <%= select_tag :tier_id, :class => 'form-control', :options => [''] + @group.tiers.map { |tier| [tier.name, tier.id] }, :selected => tiership.try(:tier_id), :onchange => '$(this.form).submit()' %>
+        <% end %>        
+      </td>
+    </tr>
+  <% end %>
+  
+  <% if @group.accoms.count > 0 %>
+    <tr>
+      <th>
+      Your accommodation
+      </th>
+      <td>
+        <% if accomship = @membership.accomship %>
+          <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (<%=@group.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
+        <% end %>  
+        <% form_tag "/memberships/#{@membership.id}/accom", :style => ('display:none' if accomship) do %>
+          <%= select_tag :accom_id, :class => 'form-control', :options => [''] + @group.accoms.select { |accom| !accom.full? }.map { |accom| [accom.name, accom.id] }, :selected => accomship.try(:accom_id), :onchange => '$(this.form).submit()' %>
+        <% end %>      
+      </td>
+    </tr>
+  <% end %>  
+  
+  <% if @group.enable_transport %>
+    <tr>
+      <th>
+      Your transport
+      </th>
+      <td>
+        <% @membership.transportships.each { |transportship| %>
+          <span class="label label-primary"><%= transportship.transport.name %> (<%=@group.currency_symbol%><%= transportship.transport.cost %>)</span> <br />
+        <% } %>     
+      </td>
+    </tr>    
+  <% end %>  
+    
+</table>
+    
+
+<% if (@membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution))) %>
+
+  You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 
+  (You've paid <%=@group.currency_symbol%><%=@membership.paid or 0%> of a requested contribution of <%=@group.currency_symbol%><%=@membership.requested_contribution%>.)          
+  <div style="margin-top: 10px">
+    <%= partial :pay, :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
+  </div>
+
+<% end %>
+    
+  
+  

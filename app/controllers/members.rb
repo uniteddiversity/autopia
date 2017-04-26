@@ -99,7 +99,7 @@ Huddl::App.controller do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    (membership.id == @membership.id) or group_admins_only!
     @group.tierships.find_by(account: membership.account_id).try(:destroy)
     @group.tierships.create(account: membership.account_id, tier_id: params[:tier_id])
     200
@@ -109,7 +109,7 @@ Huddl::App.controller do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    (membership.id == @membership.id) or group_admins_only!
     @group.accomships.find_by(account: membership.account_id).try(:destroy)
     @group.accomships.create(account: membership.account_id, accom_id: params[:accom_id])
     200
@@ -131,17 +131,17 @@ Huddl::App.controller do
     membership_required!
     partial :'members/membership_row', :locals => {:membership => membership}
   end     
+
+  get '/update_facebook_name/:id' do
+    halt unless current_account and current_account.admin?
+    account = Account.find(params[:id]) || not_found
+    partial :'members/update_facebook_name', :locals => {:account => account}
+  end    
   
-    get '/update_facebook_name/:id' do
-      halt unless current_account and current_account.admin?
-      account = Account.find(params[:id]) || not_found
-      partial :'members/update_facebook_name', :locals => {:account => account}
-    end    
-    
-    post '/update_facebook_name/:id' do
-      halt unless current_account and current_account.admin?
-      Account.find(params[:id]).update_attribute(:facebook_name, params[:facebook_name])
-      200
-    end  
+  post '/update_facebook_name/:id' do
+    halt unless current_account and current_account.admin?
+    Account.find(params[:id]).update_attribute(:facebook_name, params[:facebook_name])
+    200
+  end  
   
 end
