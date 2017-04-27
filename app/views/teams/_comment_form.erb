@@ -1,30 +1,38 @@
+
+<style>
+	textarea[id=comment_body] { height: 4em; overflow:hidden; }
+</style>
 <script>
 	$(function() {
-		$('[id=comment_title]').parent().attr('class','col-md-12')
-		$('[id=comment_body]').parent().attr('class','col-md-12')
-		$('textarea[id=comment_body]').css('height', '4em').click(function() {
+		$('textarea[id=comment_body]').click(function() {
 			$(this.form).find('.btn-primary').parent().parent().show()  
-		}) 
-		$('.comment-form .btn-primary').parent().attr('class','col-md-12').parent().hide()
+		}).keydown(function() {
+		  var el = this;
+		  setTimeout(function(){
+		    el.style.cssText = 'height:4em; padding:0';
+		    el.style.cssText = 'height:' + el.scrollHeight + 'px';
+		  },0);			
+		})
+		$('.comment-form .btn-primary').parent().parent().hide()
 	}) 
 </script>
 
- <% form_for comment, comment.new_record ? "/h/#{@group.slug}/teams/#{@team.id}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal placeholders-only" do |f| %>
+ <% form_for comment, comment.new_record ? "/h/#{@group.slug}/teams/#{@team.id}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal add-placeholders" do |f| %>
 		<%= f.hidden_field :post_id, :value => comment.post_id %>
 	 	<% if defined?(reply) %>
-			<%= f.text_area_block :body, :placeholder => 'Write a comment...' %>
+			<%= f.text_area_block :body, :placeholder => 'Write a comment...', :label_class => 'hidden', :div_class => 'col-sm-12' %>
 	 	<% else %>
 	 	
 		 	<% if comment.first_in_post? %>
 			 	<div id="comment-title-container" style="display: none">
-		 			<%= f.text_block :title %>
+		 			<%= f.text_block :title, :label_class => 'hidden', :div_class => 'col-sm-12' %>
 	 			</div>	 	
 		 	<% end %>
 		 	
-			<%= f.text_area_block :body, :placeholder => "What's on your mind?" %>
+			<%= f.text_area_block :body, :placeholder => "What's on your mind?", :label_class => 'hidden', :div_class => 'col-sm-12' %>
 			
 			<div id="comment-file-container" style="display: none">
-				<%= f.file_block :file %>
+				<%= f.file_block :file, :label_class => 'hidden', :div_class => 'col-sm-12' %>
 			</div>
 						
 			<% if comment.first_in_post? %>
@@ -69,5 +77,5 @@
 						
 	  <% end %>
 	  
-	  <%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy" %>
+	  <%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy", :div_class => 'col-sm-12' %>
 <% end %> 

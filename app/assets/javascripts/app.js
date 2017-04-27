@@ -2,12 +2,11 @@
 
 $(function () {
   
-  function placeholdersOnly() {
-    $('form.placeholders-only label[for]').each(function () {
+  function addPlaceholders() {
+    $('form.add-placeholders label[for]').each(function () {
       var input = $(this).next().children().first()
       if (!$(input).attr('placeholder'))
-        $(input).attr('placeholder', $.trim($(this).text()))
-      $(this).hide()
+        $(input).attr('placeholder', $.trim($(this).text()))      
     });
   }
 
@@ -39,13 +38,11 @@ $(function () {
   }
 
   $(document).ajaxComplete(function () {    
-    placeholdersOnly();
+    addPlaceholders();
     tooltip();
-    autosize($('textarea'));
   });
-  placeholdersOnly();
+  addPlaceholders();
   tooltip();
-  autosize($('textarea'));
 
   if ($('label[for=account_poc]').length > 0)
     $('label[for=account_poc]').html($('label[for=account_poc]').html().replace('person of colour', '<a target="_blank" href="https://en.wikipedia.org/wiki/Person_of_color">person of colour</a>'))
