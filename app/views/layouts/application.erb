@@ -6,7 +6,9 @@
     
     <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
     <script>
-      Pusher.logToConsole = true;  
+      <% if Padrino.env == :development %>
+        Pusher.logToConsole = true;  
+      <% end %>
       pusher = new Pusher('<%=ENV['PUSHER_KEY']%>', {
         cluster: '<%=ENV['PUSHER_CLUSTER']%>',
         encrypted: true
