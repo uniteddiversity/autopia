@@ -6,7 +6,8 @@ module Huddl
     helpers Activate::DatetimeHelpers
     helpers Activate::ParamHelpers
     helpers Activate::NavigationHelpers
-            
+       
+    use ActivateSocket::Middleware
     use Dragonfly::Middleware       
     use Airbrake::Rack::Middleware
     use OmniAuth::Builder do
@@ -91,6 +92,6 @@ module Huddl
         pass
       end
     end    
-     
+         
   end         
 end

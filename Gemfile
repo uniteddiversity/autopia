@@ -34,3 +34,4 @@ gem 'rinku'
 gem 'stripe'
 gem 'newrelic_rpm'
 
+gem 'faye-websocket'

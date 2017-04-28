@@ -9,6 +9,14 @@ class Notification
   
   validates_presence_of :type
   
+  after_create do
+    EM.run {
+      ws = Faye::WebSocket::Client.new("wss://#{ENV['DOMAIN']}/h/#{group.slug}/minifeed")
+      ws.send('update')
+      EM.stop
+    }
+  end
+  
   before_validation do
     errors.add(:type, 'not found') unless Notification.types.include?(type)
   end

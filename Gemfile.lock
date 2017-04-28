@@ -55,9 +55,13 @@ GEM
       dragonfly (~> 1.0)
       fog-aws
     enumerable-lazy (0.0.2)
+    eventmachine (1.2.3)
     excon (0.55.0)
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
+    faye-websocket (0.10.7)
+      eventmachine (>= 0.12.0)
+      websocket-driver (>= 0.5.1)
     fog-aws (1.2.1)
       fog-core (~> 1.38)
       fog-json (~> 1.0)
@@ -192,6 +196,9 @@ GEM
       unf_ext
     unf_ext (0.0.7.2)
     webrobots (0.1.2)
+    websocket-driver (0.6.5)
+      websocket-extensions (>= 0.1.0)
+    websocket-extensions (0.1.2)
 
 PLATFORMS
   ruby
@@ -204,6 +211,7 @@ DEPENDENCIES
   delayed_job_mongoid
   dragonfly
   dragonfly-s3_data_store
+  faye-websocket
   html_truncator
   mail
   mechanize

@@ -161,6 +161,16 @@ $(function () {
       $(pagelet).load($(pagelet).attr('data-pagelet-url'))
     }, $(pagelet).attr('data-pagelet-interval'))
   })
+  
+  $('[data-pagelet-ws]').each(function() {
+    var pagelet = $(this)
+    var ws = new WebSocket('wss://' + window.document.location.host + pagelet.attr('data-pagelet-url'));
+    console.log(ws)
+    ws.onmessage = function(message) {
+      console.log(message)
+      $(pagelet).load($(pagelet).attr('data-pagelet-url'))
+    };    
+  });
 
   $('[data-pagelet-url]').each(function () {
     var pagelet = this;
