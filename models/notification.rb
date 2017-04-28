@@ -10,14 +10,13 @@ class Notification
   validates_presence_of :type
   
   after_create do
-    EM.run {
-      ws = Faye::WebSocket::Client.new("wss://#{ENV['DOMAIN']}/h/#{group.slug}/minifeed")
-      ws.on :open do |event|
-        ws.send('update')
-        ws.close
-        EM.stop
-      end
-    }
+    pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
+    pusher_client.trigger("notifications.#{group.slug}", 'updated', {})
+  end
+  
+  after_destroy do
+    pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
+    pusher_client.trigger("notifications.#{group.slug}", 'updated', {})    
   end
   
   before_validation do

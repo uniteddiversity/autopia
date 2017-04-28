@@ -3,6 +3,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
+    <script>
+      Pusher.logToConsole = true;  
+      pusher = new Pusher('<%=ENV['PUSHER_KEY']%>', {
+        cluster: '<%=ENV['PUSHER_CLUSTER']%>',
+        encrypted: true
+      });
+    </script>     
 
     <% {            
       'jquery/3.1.1' => 'jquery.min.js',
@@ -51,7 +60,7 @@
     <meta name="twitter:image" content="<%=@og_image%>">    
 
     <%= eval(f('head')) %>
-
+    
   </head>
   <body>
 

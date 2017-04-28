@@ -162,14 +162,12 @@ $(function () {
     }, $(pagelet).attr('data-pagelet-interval'))
   })
   
-  $('[data-pagelet-ws]').each(function() {
-    var pagelet = $(this)
-    var ws = new WebSocket('wss://' + window.document.location.host + pagelet.attr('data-pagelet-url'));
-    console.log(ws)
-    ws.onmessage = function(message) {
-      console.log(message)
+  $('[data-pusher-channel]').each(function() {
+    var pagelet = $(this)    
+    var channel = pusher.subscribe(pagelet.attr('data-pusher-channel'));
+    channel.bind('updated', function(data) {
       $(pagelet).load($(pagelet).attr('data-pagelet-url'))
-    };    
+    });    
   });
 
   $('[data-pagelet-url]').each(function () {
@@ -177,6 +175,6 @@ $(function () {
     if ($(pagelet).html().length == 0)
       $(pagelet).load($(pagelet).attr('data-pagelet-url'))
   })
-  
+    
   
 });
