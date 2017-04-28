@@ -13,6 +13,7 @@ class Notification
     EM.run {
       ws = Faye::WebSocket::Client.new("wss://#{ENV['DOMAIN']}/h/#{group.slug}/minifeed")
       ws.send('update')
+      ws.close
       EM.stop
     }
   end
