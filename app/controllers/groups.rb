@@ -32,7 +32,14 @@ Huddl::App.controller do
     else
       erb :group
     end
-  end    
+  end  
+  
+  get '/h/:slug/minifeed' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)    
+    membership_required!
+    partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :minifeed => true}
+  end
   
   get '/h/:slug/todos' do
     @group = Group.find_by(slug: params[:slug]) || not_found

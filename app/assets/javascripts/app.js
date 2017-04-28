@@ -13,9 +13,7 @@ $(function () {
   $('form').submit(function () {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
   });
-
-  $("abbr.timeago").timeago()
-
+  
   $('[data-upload-url]').click(function () {
     var form = $('<form action="' + $(this).attr('data-upload-url') + '" method="post" enctype="multipart/form-data"><input style="display: none" type="file" name="upload"></form>')
     form.insertAfter(this)
@@ -36,13 +34,19 @@ $(function () {
       }
     })
   }
+  
+  function timeago() {
+    $("abbr.timeago").timeago()
+  }
 
   $(document).ajaxComplete(function () {    
-    addPlaceholders();
-    tooltip();
+    addPlaceholders()
+    tooltip()
+    timeago()
   });
-  addPlaceholders();
-  tooltip();
+  addPlaceholders()
+  tooltip()
+  timeago()
 
   if ($('label[for=account_poc]').length > 0)
     $('label[for=account_poc]').html($('label[for=account_poc]').html().replace('person of colour', '<a target="_blank" href="https://en.wikipedia.org/wiki/Person_of_color">person of colour</a>'))
@@ -150,6 +154,13 @@ $(function () {
     })
     return false
   })  
+  
+  $('[data-pagelet-interval]').each(function() {
+    var pagelet = $(this)
+    setInterval(function() {
+      $(pagelet).load($(pagelet).attr('data-pagelet-url'))
+    }, $(pagelet).attr('data-pagelet-interval'))
+  })
 
   $('[data-pagelet-url]').each(function () {
     var pagelet = this;
