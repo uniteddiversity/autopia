@@ -10,8 +10,14 @@ class Role
   belongs_to :rota, index: true
   belongs_to :group, index: true
   
+  validates_presence_of :o
+  
   before_validation do
     self.group = self.rota.group if self.rota
+    if !self.o
+      max = self.rota.roles.pluck(:o).compact.max
+      self.o = max ? (max+1) : 0
+    end    
   end      
         
   def self.admin_fields

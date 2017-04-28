@@ -10,8 +10,14 @@ class Space
   belongs_to :timetable, index: true  
   belongs_to :group, index: true  
   
-  before_validation do
+  validates_presence_of :o
+  
+  before_validation do    
     self.group = self.timetable.group if self.timetable
+    if !self.o
+      max = self.timetable.spaces.pluck(:o).compact.max
+      self.o = max ? (max+1) : 0
+    end
   end    
         
   def self.admin_fields

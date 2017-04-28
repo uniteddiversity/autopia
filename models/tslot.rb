@@ -10,8 +10,14 @@ class Tslot
   belongs_to :timetable, index: true  
   belongs_to :group, index: true  
   
+  validates_presence_of :o
+  
   before_validation do
     self.group = self.timetable.group if self.timetable
+    if !self.o
+      max = self.timetable.tslots.pluck(:o).compact.max
+      self.o = max ? (max+1) : 0
+    end    
   end
           
   def self.admin_fields
