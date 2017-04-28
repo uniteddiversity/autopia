@@ -1,8 +1,3 @@
-require 'faye/websocket'
-require 'thread'
-require 'json'
-require 'erb'
-
 module ActivateSocket
   class Middleware
     KEEPALIVE_TIME = 15
@@ -13,7 +8,6 @@ module ActivateSocket
     end
 
     def call(env)
-
       if Faye::WebSocket.websocket?(env)
         ws = Faye::WebSocket.new(env, nil, {ping: KEEPALIVE_TIME })
         ws.on :open do |event|
