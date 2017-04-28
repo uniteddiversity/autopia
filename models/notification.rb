@@ -12,9 +12,11 @@ class Notification
   after_create do
     EM.run {
       ws = Faye::WebSocket::Client.new("wss://#{ENV['DOMAIN']}/h/#{group.slug}/minifeed")
-      ws.send('update')
-      ws.close
-      EM.stop
+      ws.on :open do |event|
+        ws.send('update')
+        ws.close
+        EM.stop
+      end
     }
   end
   
