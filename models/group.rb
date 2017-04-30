@@ -42,8 +42,9 @@ class Group
   
   after_create do
     
+    notifications.create! :notifiable => self, :type => 'created_group'
     memberships.create! account: account, admin: true
-    general = teams.create! name: 'General', account: account, prevent_notifications: true
+    general = teams.create! name: 'General', account: account
     general.teamships.create! account: account, prevent_notifications: true
     
    	if ENV['SMTP_ADDRESS']

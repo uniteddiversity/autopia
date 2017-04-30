@@ -24,11 +24,11 @@ class Notification
   end
   
   def self.types
-    %w{applied joined_group joined_team created_spend created_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment left_group}
+    %w{created_group applied joined_group joined_team created_spend created_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment left_group}
   end
   
   def self.mailable_types
-    %w{applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend commented}
+    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend commented}
   end
   
   after_create do
@@ -75,6 +75,9 @@ class Notification
   
   def sentence    
     case type.to_sym
+    when :created_group
+      group = notifiable
+      "<strong>#{group.account.name}</strong> created the group"    
     when :applied
       mapplication = notifiable
       "<strong>#{mapplication.account.name}</strong> applied"
@@ -167,6 +170,8 @@ class Notification
   
   def link
     case type.to_sym
+    when :created_group
+      ['View group', "https://#{ENV['DOMAIN']}/h/#{group.slug}"]
     when :applied
       ['View applications', "https://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
     when :joined_group
@@ -233,6 +238,8 @@ class Notification
   
   def icon
     case type.to_sym
+    when :created_group
+      'fa-group'
     when :applied
       'fa-file-text-o'
     when :joined_group

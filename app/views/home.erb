@@ -9,7 +9,7 @@
     
     <div class="row">
       
-      <% current_account.memberships.sort_by { |membership| membership.group.notifications.order('created_at desc').first.try(:created_at).try(:to_i) }.reverse.each { |membership| group = membership.group %>
+      <% current_account.memberships.sort_by { |membership| membership.group.notifications.order('created_at desc').first.created_at }.reverse.each { |membership| group = membership.group %>
         <div class="col-sm-4" style="margin-bottom: 20px">
           <%= partial :group, :object => group  %>
         </div>
