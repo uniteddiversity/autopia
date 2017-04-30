@@ -9,6 +9,19 @@
 
 <% else %>
 
+  <% if @membership %>
+    <script>
+      $(function() {
+        $('form[action$=apply] .btn-primary').prop('disabled',true)
+      });
+    </script>
+    <div class="panel">
+      <div class="panel-body">
+        <strong>Preview of application form (you are already a member of <%=@group.name%>)</strong>
+      </div>
+    </div>
+  <% end %>
+
   <div class="row" style="margin-top: 15px">
     <div class="col-sm-4 col-sm-push-8">
 
@@ -31,7 +44,7 @@
             $('.form-group > div.col-sm-6').removeClass('col-sm-6').addClass('col-sm-8')
           })
         </script>
-        <% if !current_account %>
+        <% if !current_account or @membership %>
           <%= f.text_block :name %>
           <%= f.text_block :email %>
           <%= f.image_block :picture %>  

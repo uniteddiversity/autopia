@@ -23,7 +23,6 @@ get '/mapplications/:id' do
  get '/h/:slug/apply' do      
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    redirect "/h/#{@group.slug}" if @membership
     @title = "#{@group.name} · Huddl"
     @og_desc = "#{@group.name} is being co-created on Huddl"
     @og_image = @group.image ? @group.image.url : "https://#{ENV['DOMAIN']}/images/huddl.png"

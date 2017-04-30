@@ -61,6 +61,9 @@
       <% end %>      
     </div>
     <div role="tabpanel" class="tab-pane" id="tab2">
+      <% if @group.persisted? %>
+        <p><a href="/h/<%=@group.slug%>/apply" target="_blank"><i class="fa fa-file-text-o"></i> Preview application form</a></p>
+      <% end %>
       <%= f.wysiwyg_block :application_preamble %>
       <%= f.text_area_block :application_questions %>
       <%= f.check_box_block :ask_for_date_of_birth %>  
