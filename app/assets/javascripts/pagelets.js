@@ -41,26 +41,40 @@ $(function () {
     return false
   })  
   
-  $('[data-pagelet-interval]').each(function() {
-    var pagelet = $(this)
-    setInterval(function() {
-    	pagelet.css('opacity', '0.3')
-      $(pagelet).load($(pagelet).attr('data-pagelet-url'), function () {
-    	  pagelet.css('opacity', '1')
-  		})
-    }, $(pagelet).attr('data-pagelet-interval'))
-  })
+  function pageletInterval() {    
+	  $('[data-pagelet-interval]').each(function() {
+	    var pagelet = $(this)
+	    setInterval(function() {
+	    	pagelet.css('opacity', '0.3')
+	      $(pagelet).load($(pagelet).attr('data-pagelet-url'), function () {
+	    	  pagelet.css('opacity', '1')
+	  		})
+	    }, $(pagelet).attr('data-pagelet-interval'))
+	  })  
+  }
   
-  $('[data-pusher-channel]').each(function() {
-    var pagelet = $(this)    
-    var channel = pusher.subscribe(pagelet.attr('data-pusher-channel'));
-    channel.bind('updated', function(data) {
-    	pagelet.css('opacity', '0.3')
-      $(pagelet).load($(pagelet).attr('data-pagelet-url'), function() {
-      	pagelet.css('opacity', '1')
-    	})
-    });    
-  });
+  function pageletPusher() {
+	  $('[data-pusher-channel]:not([data-pusher-channel-registered])').each(function() {
+	    var pagelet = $(this)    
+	    var channel = pusher.subscribe(pagelet.attr('data-pusher-channel'));	    
+	    channel.bind('updated', function(data) {
+        if($(document).find(pagelet).length == 1) { // if this pagelet still exists in the DOM
+  	    	pagelet.css('opacity', '0.3')
+  	      $(pagelet).load($(pagelet).attr('data-pagelet-url'), function() {
+  	      	pagelet.css('opacity', '1')
+  	    	})
+        }
+	    });    	    
+  	  $(pagelet).attr('data-pusher-channel-registered','true')
+	  });
+  }
+  
+	$(document).ajaxComplete(function () {      
+		pageletInterval()
+		pageletPusher()
+	})
+	pageletInterval()
+	pageletPusher()	
 
   $('[data-pagelet-url]').each(function () {
     var pagelet = this;
