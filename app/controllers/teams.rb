@@ -94,7 +94,7 @@ Huddl::App.controller do
   end
   
   get '/comments/:id/edit' do
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params[:id]) || not_found
     @team = @comment.team
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
@@ -103,7 +103,7 @@ Huddl::App.controller do
   end
   
   post '/comments/:id/edit' do
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params[:id]) || not_found
     @team = @comment.team
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
@@ -117,7 +117,7 @@ Huddl::App.controller do
   end  
   
   get '/comments/:id/destroy' do
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params[:id]) || not_found
     @team = @comment.team
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
@@ -127,7 +127,7 @@ Huddl::App.controller do
   end  
   
   get '/comments/:id/likes' do
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params[:id]) || not_found
     @team = @comment.team
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
@@ -136,7 +136,7 @@ Huddl::App.controller do
   end  
   
   get '/comments/:id/like' do
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params[:id]) || not_found
     @team = @comment.team
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
@@ -146,7 +146,7 @@ Huddl::App.controller do
   end
   
   get '/comments/:id/unlike' do
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params[:id]) || not_found
     @team = @comment.team
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
@@ -173,7 +173,7 @@ Huddl::App.controller do
   end  
   
   get '/posts/:id' do
-    @post = Post.find(params[:id])
+    @post = Post.find(params[:id]) || not_found
     @team = @post.team
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
@@ -182,7 +182,7 @@ Huddl::App.controller do
   end
   
   get '/posts/:id/replies' do
-    @post = Post.find(params[:id])
+    @post = Post.find(params[:id]) || not_found
     @team = @post.team
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
@@ -191,7 +191,7 @@ Huddl::App.controller do
   end  
     
   get '/comments/:id/options' do
-    @comment = Comment.find(params[:id])
+    @comment = Comment.find(params[:id]) || not_found
     @team = @comment.team
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
