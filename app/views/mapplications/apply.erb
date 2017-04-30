@@ -24,7 +24,7 @@
         <%=@group.application_preamble%>
       <% end %>
 
-      <% form_for @account, "/h/#{@group.slug}/apply", :class => 'form-horizontal' do |f| %>
+      <% form_for @account, "/h/#{@group.slug}/apply", :class => 'form-horizontal', :style => 'margin-top: 20px' do |f| %>
 
         <script>
           $(function () {

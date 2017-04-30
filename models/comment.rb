@@ -28,6 +28,16 @@ class Comment
     end
   end  
   
+  after_create do
+    pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
+    pusher_client.trigger("post.#{post.id}", 'updated', {})
+  end
+  
+  after_destroy do
+    pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
+    pusher_client.trigger("post.#{post.id}", 'updated', {})
+  end  
+  
   before_validation do
     self.team = self.post.team if self.post
     self.group = self.team.group if self.team

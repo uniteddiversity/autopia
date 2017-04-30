@@ -60,8 +60,20 @@
 		<hr style="border-color: #DDCECE; margin: 0; margin-top: 5px" />
 	</div>
 
-	<div data-pagelet-url="/posts/<%=post.id%>/replies">
-		<%= partial :'teams/replies', :locals => {:post => post} %>
+	<div style="background: #FDF8FD">
+		<div data-pagelet-url="/posts/<%=post.id%>/replies" data-pusher-channel="post.<%=post.id%>">
+			<%= partial :'teams/replies', :locals => {:post => post} %>
+		</div>
+		
+		<div class="media" style="padding: 10px 10px 0 10px; margin: 0">
+		  <span class="pull-left">
+		    <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+		  </span>
+		  <div class="media-body">
+				<%= partial :'teams/comment_form', :locals => {:comment => post.comments.build, :reply => true} %>
+		  </div>
+		</div> 
 	</div>
+	
 
 </div>

@@ -36,7 +36,6 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
     @team = @group.teams.find(params[:id])
-    @team.comments.each { |comment| comment.read_receipts.create account: current_account }
     @comment = @team.comments.build
     if request.xhr?
       partial :'teams/team'
@@ -173,16 +172,24 @@ Huddl::App.controller do
     redirect back
   end  
   
+  get '/posts/:id' do
+    @post = Post.find(params[:id])
+    @team = @post.team
+    @group = @post.group
+    @membership = @group.memberships.find_by(account: current_account)    
+    membership_required!
+    partial :'teams/post', :locals => {:post => @post}
+  end
+  
   get '/posts/:id/replies' do
     @post = Post.find(params[:id])
     @team = @post.team
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
-    @post.comments.each { |comment| comment.read_receipts.create account: current_account }
-    partial :'teams/replies', :locals => {:post => @post}    
-  end
-  
+    partial :'teams/replies', :locals => {:post => @post}
+  end  
+    
   get '/comments/:id/options' do
     @comment = Comment.find(params[:id])
     @team = @comment.team

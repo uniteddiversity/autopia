@@ -11,6 +11,8 @@
 
 <% @team.posts.order('updated_at desc').each { |post| %>
 	<% if post.comments.count > 0 %>
-		<%= partial :'teams/post', :object => post %>
+		<div data-pagelet-url="/posts/<%=post.id%>">
+			<%= partial :'teams/post', :object => post %>
+		</div>
 	<% end %>
 <% } %>
