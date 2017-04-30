@@ -40,19 +40,7 @@ $(function () {
     })
     return false
   })  
-  
-  function pageletInterval() {    
-	  $('[data-pagelet-interval]').each(function() {
-	    var pagelet = $(this)
-	    setInterval(function() {
-	    	pagelet.css('opacity', '0.3')
-	      $(pagelet).load($(pagelet).attr('data-pagelet-url'), function () {
-	    	  pagelet.css('opacity', '1')
-	  		})
-	    }, $(pagelet).attr('data-pagelet-interval'))
-	  })  
-  }
-  
+    
   function pageletPusher() {
 	  $('[data-pusher-channel]:not([data-pusher-channel-registered])').each(function() {
 	    var pagelet = $(this)    
@@ -70,10 +58,8 @@ $(function () {
   }
   
 	$(document).ajaxComplete(function () {      
-		pageletInterval()
 		pageletPusher()
 	})
-	pageletInterval()
 	pageletPusher()	
 
   $('[data-pagelet-url]').each(function () {
