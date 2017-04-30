@@ -47,10 +47,7 @@ $(function () {
 	    var channel = pusher.subscribe(pagelet.attr('data-pusher-channel'));	    	    	  
 	    channel.bind('updated', function(data) {
         if($(document).find(pagelet).length == 1) { // only proceed if this pagelet still exists in the DOM, to prevent unnecessary calls to .load()
-  	    	pagelet.css('opacity', '0.3')
-  	      $(pagelet).load($(pagelet).attr('data-pagelet-url'), function() {
-  	      	pagelet.css('opacity', '1')
-  	    	})
+  	      $(pagelet).load($(pagelet).attr('data-pagelet-url'))
         }        
 	    });    	    
   	  $(pagelet).attr('data-pusher-channel-registered','true')
