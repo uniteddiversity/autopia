@@ -164,7 +164,7 @@ class Notification
       "<strong>#{comment_like.account.name}</strong> liked <strong>#{comment_like.comment.account.name}'s</strong> comment in <strong>#{comment_like.team.name}</strong>"
     when :left_group
       account = notifiable
-      "<strong>#{account.name}</strong> is no longer a member of #{group.name}"
+      "<strong>#{account.name}</strong> is no longer a member of #{self.group.name}"
     end
   end
   
