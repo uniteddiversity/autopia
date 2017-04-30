@@ -11,7 +11,7 @@ To run locally, make sure you have **ruby** installed and an instance of **mongo
 gem install bundle foreman
 bundle install
 cp .env.example .env
-foreman run bundle exec padrino s
+foreman start
 ```
 
 Launches the app at **localhost:3000**

@@ -40,13 +40,15 @@ class Group
     self.processed_via_huddl = 0 if self.processed_via_huddl.nil?
   end
   
-  after_create do
-    
+  after_create do    
     notifications.create! :notifiable => self, :type => 'created_group'    
     memberships.create! account: account, admin: true        
     general = teams.create! name: 'General', account: account, prevent_notifications: true
-    general.teamships.create! account: account
-    
+    general.teamships.create! account: account    
+  end
+  
+  after_create :send_email
+  def send_email
    	if ENV['SMTP_ADDRESS']
       mail = Mail.new
       mail.to = "team@huddl.tech"
@@ -63,6 +65,7 @@ class Group
       mail.deliver
     end
   end
+  handle_asynchronously :send_email
   
   belongs_to :account, index: true
   

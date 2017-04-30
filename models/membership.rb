@@ -25,16 +25,17 @@ class Membership
   end
   
   has_many :notifications, as: :notifiable, dependent: :destroy
-  after_create do
-        
+  after_create do        
     if mapplication or added_by
       notifications.create! :group => group, :type => 'joined_group'
-    end
-    
+    end    
     if general = group.teams.find_by(name: 'General')
       general.teamships.create! account: account
     end    
-    
+  end
+  
+  after_create :send_email
+  def send_email    
     if ENV['SMTP_ADDRESS']
       mail = Mail.new
       mail.to = account.email
@@ -58,7 +59,8 @@ class Membership
       
       mail.deliver  
     end
-  end     
+  end  
+  handle_asynchronously :send_email
    
   after_destroy do
     account.notifications.create! :group => group, :type => 'left_group'

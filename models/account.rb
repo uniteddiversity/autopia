@@ -39,9 +39,7 @@ class Account
   has_many :memberships_admin_status_changed, :class_name => "Membership", :inverse_of => :admin_status_changed_by, :dependent => :nullify    
   
   has_many :payments, :dependent => :destroy
-  
-  has_many :notifications, as: :notifiable, dependent: :destroy
-    
+      
   # Timetable
   has_many :timetables, :dependent => :nullify
   has_many :activities, :class_name => "Activity", :inverse_of => :account, :dependent => :destroy
@@ -76,7 +74,8 @@ class Account
   # Qualities
   has_many :qualities, :dependent => :nullify
   has_many :cultivations, :dependent => :destroy
-
+  
+  has_many :notifications, as: :notifiable, dependent: :destroy
   
   # Dragonfly
   dragonfly_accessor :picture  

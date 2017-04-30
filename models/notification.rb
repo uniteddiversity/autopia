@@ -31,7 +31,8 @@ class Notification
     %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend commented}
   end
   
-  after_create do
+  after_create :send_email  
+  def send_email
     if ENV['SMTP_ADDRESS']
       notification = self
       group = self.group
@@ -68,10 +69,11 @@ class Notification
         end
         mail.html_part = html_part
       
-        mail.deliver  
+        mail.deliver
       end
     end    
   end
+  handle_asynchronously :send_email  
   
   def sentence    
     case type.to_sym
