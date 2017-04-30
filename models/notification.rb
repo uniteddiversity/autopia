@@ -98,7 +98,7 @@ class Notification
       "<strong>#{teamship.account.name}</strong> joined the <strong>#{teamship.team.name}</strong> team"
     when :created_spend
       spend = notifiable
-      "<strong>#{spend.account.name}</strong> spent #{group.currency_symbol}#{spend.amount} on <strong>#{spend.item}</strong>"
+      "<strong>#{spend.account.name}</strong> spent #{self.group.currency_symbol}#{spend.amount} on <strong>#{spend.item}</strong>"
     when :created_activity
       activity = notifiable
       "<strong>#{activity.account.name}</strong> proposed the activity <strong>#{activity.name}</strong> under <strong>#{activity.timetable.name}</strong>"
