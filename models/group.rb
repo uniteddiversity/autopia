@@ -42,10 +42,10 @@ class Group
   
   after_create do
     
-    notifications.create! :notifiable => self, :type => 'created_group'
-    memberships.create! account: account, admin: true
-    general = teams.create! name: 'General', account: account
-    general.teamships.create! account: account, prevent_notifications: true
+    notifications.create! :notifiable => self, :type => 'created_group'    
+    memberships.create! account: account, admin: true        
+    general = teams.create! name: 'General', account: account, prevent_notifications: true
+    general.teamships.create! account: account
     
    	if ENV['SMTP_ADDRESS']
       mail = Mail.new
