@@ -28,9 +28,7 @@ class Account
   end
   
   has_many :groups, :dependent => :nullify  
-  
-  has_many :notifications, as: :notifiable, dependent: :destroy
-  
+    
   has_many :mapplications, :class_name => "Mapplication", :inverse_of => :account, :dependent => :destroy
   has_many :mapplications_processed, :class_name => "Mapplication", :inverse_of => :processed_by, :dependent => :nullify  
   
@@ -41,6 +39,8 @@ class Account
   has_many :memberships_admin_status_changed, :class_name => "Membership", :inverse_of => :admin_status_changed_by, :dependent => :nullify    
   
   has_many :payments, :dependent => :destroy
+  
+  has_many :notifications, as: :notifiable, dependent: :destroy
     
   # Timetable
   has_many :timetables, :dependent => :nullify
