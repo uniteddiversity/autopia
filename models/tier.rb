@@ -24,7 +24,8 @@ class Tier
   def self.admin_fields
     {
       :name => :text,
-      :description => :text_area,      
+      :description => :text_area,
+      :cost => :number,
       :group_id => :lookup,
       :account_id => :lookup,
       :tierships => :collection,
