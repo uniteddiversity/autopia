@@ -16,7 +16,7 @@
 <script>
   var handler = StripeCheckout.configure({
     key: '<%=ENV['STRIPE_PK']%>',
-    image: '<%=ENV['SITE_LOGO']',
+    image: '<%=ENV['SITE_LOGO']%>',
     email: '<%=current_account.email%>',
     locale: 'auto',
     allowRememberMe: false,
