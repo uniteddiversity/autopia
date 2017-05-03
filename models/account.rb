@@ -114,7 +114,8 @@ class Account
       :time_zone => :select,
       :password => :password,
       :provider_links => :collection,
-      :sign_ins => :number
+      :sign_ins => :number,
+      :memberships => :collection
     }
   end
   
