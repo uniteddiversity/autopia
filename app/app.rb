@@ -62,7 +62,7 @@ module Huddl
       if ENV['DOMAIN'] == 'huddl.tech'  
         erb :home
       else
-        eval(f('home'))
+        redirect '/accounts/sign_in'
       end
     end
     
