@@ -39,7 +39,7 @@ class Membership
     if ENV['SMTP_ADDRESS']
       mail = Mail.new
       mail.to = account.email
-      mail.from = "Huddl <notifications@huddl.tech>"
+      mail.from = ENV['NOTIFICATION_EMAIL']
       mail.subject = "You're now a member of #{group.name}"
       
       account = self.account
@@ -53,7 +53,7 @@ class Membership
       
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body "Hi #{account.firstname},<br /><br />You're now a member of #{group.name} on Huddl. #{action}<br /><br />Best,<br />Team Huddl" 
+        body "Hi #{account.firstname},<br /><br />You're now a member of #{group.name} on #{ENV['SITE_TITLE']}. #{action}<br /><br />Best,<br />#{ENV['SIGNATURE']}" 
       end
       mail.html_part = html_part
       

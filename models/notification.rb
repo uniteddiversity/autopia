@@ -41,7 +41,7 @@ class Notification
       if Notification.mailable_types.include?(type) and bcc.length > 0
         mail = Mail.new
         mail.bcc = bcc
-        mail.from = "Huddl <notifications@huddl.tech>"
+        mail.from = ENV['NOTIFICATION_EMAIL']
         mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
             
         html_part = Mail::Part.new do
@@ -61,7 +61,7 @@ class Notification
     <h1 style="margin-top: 0"><a style="text-decoration: none" href="https://#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a></h1>
     <p>#{notification.sentence}. <a href="#{notification.link[1]}">#{notification.link[0]}</a></p>
     #{notification.more}
-    <p>Best,<br />Team Huddl</p>
+    <p>Best,<br />#{ENV['SIGNATURE']}</p>
     <p style="font-size: 12px;"><a style="color: #aaa !important" href="https://#{ENV['DOMAIN']}/accounts/edit">Edit your profile to stop these emails</a></p>
   </body>
 </html>

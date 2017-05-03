@@ -209,9 +209,9 @@ class Account
     if self.save
       mail = Mail.new
       mail.to = self.email
-      mail.from = "Huddl <team@huddl.tech>"
-      mail.subject = "New password for Huddl"
-      mail.body = "Hi #{self.firstname},\n\nSomeone (hopefully you) requested a new password on Huddl.\n\nYour new password is: #{self.password}\n\nYou can sign in at https://#{ENV['DOMAIN']}/accounts/sign_in."
+      mail.from = ENV['NOTIFICATION_EMAIL']
+      mail.subject = "New password for #{ENV['SITE_TITLE']}"
+      mail.body = "Hi #{self.firstname},\n\nSomeone (hopefully you) requested a new password on #{ENV['SITE_TITLE']}.\n\nYour new password is: #{self.password}\n\nYou can sign in at https://#{ENV['DOMAIN']}/accounts/sign_in."
       mail.deliver       
     else
       return false

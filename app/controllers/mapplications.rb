@@ -23,9 +23,9 @@ get '/mapplications/:id' do
  get '/h/:slug/apply' do      
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    @title = "#{@group.name} · Huddl"
-    @og_desc = "#{@group.name} is being co-created on Huddl"
-    @og_image = @group.image ? @group.image.url : "https://#{ENV['DOMAIN']}/images/huddl.png"
+    @title = "#{@group.name} · #{ENV['SITE_TITLE']}"
+    @og_desc = "#{@group.name} is being co-created on #{ENV['SITE_TITLE']}"
+    @og_image = @group.image ? @group.image.url : ENV['SITE_IMAGE']
     @account = Account.new
     erb :'mapplications/apply'
   end    

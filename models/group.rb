@@ -51,8 +51,8 @@ class Group
   def send_email
    	if ENV['SMTP_ADDRESS']
       mail = Mail.new
-      mail.to = "team@huddl.tech"
-      mail.from = "Huddl <bot@huddl.tech>"
+      mail.to = ENV['ADMIN_EMAIL']
+      mail.from = ENV['BOT_EMAIL']
       mail.subject = "New group: #{name}"
       
       group = self

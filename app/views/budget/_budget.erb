@@ -90,7 +90,7 @@
   
   <% if @group.processed_via_huddl > 0 %>
     <tr>   
-      <td>5% transaction fees on <%=@group.currency_symbol%><%=@group.processed_via_huddl%> processed via Huddl</td>      
+      <td>5% transaction fees on <%=@group.currency_symbol%><%=@group.processed_via_huddl%> processed via <%=ENV['SITE_TITLE']%></td>      
       <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>      
       <td></td>      
       <td></td>      

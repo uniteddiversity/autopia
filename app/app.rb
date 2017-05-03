@@ -41,8 +41,8 @@ module Huddl
         account.update_attribute(:sign_in_token, SecureRandom.uuid)
       end      
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
-      @title = 'Huddl'
-      @og_desc = 'For co-created gatherings'
+      @title = ENV['SITE_TITLE']
+      @og_desc = ENV['SITE_DESCRIPTION']
       @og_image = "https://#{ENV['DOMAIN']}/images/link.png"
       if current_account
         current_account.update_attribute(:last_active, Time.now)
@@ -59,15 +59,19 @@ module Huddl
     end
            
     get '/' do
-      erb :home
+      if ENV['DOMAIN'] == 'huddl.tech'  
+        erb :home
+      else
+        eval(f('home'))
+      end
     end
     
     post '/suggest' do
       sign_in_required!
     	if ENV['SMTP_ADDRESS']
 	      mail = Mail.new
-	      mail.to = "team@huddl.tech"
-	      mail.from = "Huddl <bot@huddl.tech>"
+	      mail.to = ENV['ADMIN_EMAIL']
+	      mail.from = ENV['BOT_EMAIL']
 	      mail.subject = "Suggestion from #{current_account.name} (#{current_account.email})"
 	      mail.body = params[:suggestion]
 	      mail.deliver
@@ -94,3 +98,4 @@ module Huddl
          
   end         
 end
+
