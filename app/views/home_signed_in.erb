@@ -1,0 +1,34 @@
+
+<a class="btn btn-primary" href="/h/new"><i class="fa fa-plus"></i> Create a group</a>
+
+<% if current_account.memberships.count > 0 %>
+
+  <h1>Your groups</h1>
+  
+  <div class="row">
+    
+    <% current_account.memberships.sort_by { |membership| membership.group.notifications.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.reverse.each { |membership| group = membership.group %>
+      <div class="col-sm-4" style="margin-bottom: 20px">
+        <%= partial :group, :object => group  %>
+      </div>
+    <% } %>
+      
+  </div>  
+
+<% end %>
+
+<% if (featured_groups = Group.where(:featured => true).where(:id.nin => current_account.memberships.pluck(:group_id))).count > 0 %>
+
+  <h1>Featured groups</h1>
+  
+  <div class="row">
+    
+    <% featured_groups.each { |group| %>
+      <div class="col-sm-4" style="margin-bottom: 20px">
+        <%= partial :group, :object => group  %>
+      </div>
+    <% } %>
+  
+  </div>
+  
+<% end %>

@@ -59,10 +59,14 @@ module Huddl
     end
            
     get '/' do
-      if ENV['DOMAIN'] == 'huddl.tech'  
-        erb :home
+      if current_account
+        erb :home_signed_in
       else
-        redirect '/accounts/sign_in'
+        if ENV['DOMAIN'] == 'huddl.tech'  
+          erb :home_not_signed_in
+        else
+          redirect '/accounts/sign_in'
+        end
       end
     end
     
