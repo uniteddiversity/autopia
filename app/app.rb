@@ -43,7 +43,7 @@ module Huddl
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
       @title = ENV['SITE_TITLE']
       @og_desc = ENV['SITE_DESCRIPTION']
-      @og_image = "https://#{ENV['DOMAIN']}/images/link.png"
+      @og_image = ENV['SITE_IMAGE']
       if current_account
         current_account.update_attribute(:last_active, Time.now)
       end
