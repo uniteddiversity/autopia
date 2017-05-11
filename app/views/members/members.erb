@@ -71,7 +71,7 @@
 
 <% if @group.democratic_threshold %>
   <% y << capture do %>
-    <a href="?threshold=true">Suggested magic number</a> <%= @group.memberships.where(:desired_threshold.ne => nil).count %>
+    <a href="?threshold=true">Suggesting magic number</a> <%= @group.memberships.where(:desired_threshold.ne => nil).count %>
   <% end %>
 <% end %>
 
