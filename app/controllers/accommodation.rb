@@ -1,4 +1,18 @@
 Huddl::App.controller do
+    
+  post '/h/:slug/accoms/new' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!    
+    @accom = @group.accoms.build(params[:accom])
+    @accom.account = current_account
+    if @accom.save
+      redirect "/h/#{@group.slug}/accoms"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the accommodation from being saved."
+      erb :'accoms/build'    
+    end
+  end  
   
   get '/h/:slug/accoms' do
     @group = Group.find_by(slug: params[:slug]) || not_found
@@ -11,22 +25,35 @@ Huddl::App.controller do
     end
   end
     
-  post '/accoms/create' do
-    @group = Group.find(params[:group_id])  || not_found
+  get '/h/:slug/accoms/:id/edit' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    Accom.create(name: params[:name], cost: params[:cost], description: params[:description], capacity: params[:capacity], group: @group, account: current_account)
-    200
-  end    
-
-  get '/accoms/:id/destroy' do
-    @accom = Accom.find(params[:id]) || not_found
-    @group = @accom.group
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    @accom.destroy
-    200
+    group_admins_only!    
+    @accom = @group.accoms.find(params[:id])
+    erb :'accoms/build'
   end
+  
+  post '/h/:slug/accoms/:id/edit' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!    
+    @accom = @group.accoms.find(params[:id])
+    if @accom.update_attributes(params[:accom])
+      redirect "/h/#{@group.slug}/accoms"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the accommodation from being saved." 
+      erb :'accoms/build'
+    end
+  end  
+  
+  get '/h/:slug/accoms/:id/destroy' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!    
+    @accom = @group.accoms.find(params[:id])
+    @accom.destroy
+    redirect "/h/#{@group.slug}/accoms"      
+  end 
     
   get '/accomships/create' do
     @accom = Accom.find(params[:accom_id]) || not_found

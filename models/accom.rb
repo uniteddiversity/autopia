@@ -46,5 +46,11 @@ class Accom
   after_save do
     accomships.each { |accomship| accomship.membership.update_requested_contribution }
   end    
+  
+  def self.human_attribute_name(attr, options={})  
+    {
+      :cost => 'Cost for the room'
+    }[attr.to_sym] || super  
+  end   
     
 end

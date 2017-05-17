@@ -1,0 +1,6 @@
+<% form_for @quality ||= Quality.new, @quality.new_record? ? "/h/#{@group.slug}/qualities/new" : "/h/#{@group.slug}/qualities/#{@quality.id}/edit", :class => 'form-horizontal' do |f| %>
+  <%= f.text_block :name %>
+  <%= f.url_block :link %>
+  <%= f.image_block :image %>
+  <%= f.submit_block destroy_url: ("/h/#{@group.slug}/qualities/#{@quality.id}/destroy" if @membership.admin?) %>
+<% end %>  

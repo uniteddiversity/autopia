@@ -1,13 +1,5 @@
 Huddl::App.controller do
-  
-  get '/h/:slug/tiers/new' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!    
-    @tier = @group.tiers.build
-    erb :'tiers/build'
-  end
-  
+    
   post '/h/:slug/tiers/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)

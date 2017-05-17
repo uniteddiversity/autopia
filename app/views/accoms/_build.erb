@@ -1,0 +1,7 @@
+<% form_for @accom ||= Accom.new, @accom.new_record? ? "/h/#{@group.slug}/accoms/new" : "/h/#{@group.slug}/accoms/#{@accom.id}/edit", :class => 'form-horizontal' do |f| %>
+  <%= f.text_block :name %>
+  <%= f.text_area_block :description %>
+  <%= f.number_block :capacity %>
+  <%= f.number_block :cost %>
+  <%= f.submit_block destroy_url: ("/h/#{@group.slug}/accoms/#{@accom.id}/destroy" if @membership.admin?) %>
+<% end %>  

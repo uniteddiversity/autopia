@@ -1,5 +1,14 @@
 <%= partial :group_header %>
 
+<% if @membership.admin? %>
+  <div style="margin: 10px 0">
+    <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List accommodation</a>
+    <div style="display: none" class="accom-form">
+      <%= partial :'accoms/build' %>  
+    </div>
+  </div>
+<% end %>
+
 <div data-pagelet-url="/h/<%=@group.slug%>/accoms">
   <%= partial :'accoms/accoms' %>
 </div>
