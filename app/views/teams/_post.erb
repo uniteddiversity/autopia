@@ -1,4 +1,5 @@
 <% comment = post.comments.order('created_at asc').first %>
+<% comment.read_receipts.create account: current_account %>
 
 <div style="border: 1px solid #DDCECE; margin: 20px 0" id="post-<%=post.id%>">
 
