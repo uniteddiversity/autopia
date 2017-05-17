@@ -18,12 +18,12 @@
     (["Calendar", "/h/#{@group.slug}/calendar"] if @group.teamup_calendar_url),
     (["Timetables",
       (
-        @group.timetables.map { |timetable| [timetable.name, "/h/#{@group.slug}/timetables/#{timetable.id}"] } + [[],['Create a timetable', "/h/#{@group.slug}/timetables/new"]]
+        @group.timetables(true).map { |timetable| [timetable.name, "/h/#{@group.slug}/timetables/#{timetable.id}"] } + [[],['Create a timetable', "/h/#{@group.slug}/timetables/new"]]
       )
     ] if @group.enable_timetables),
     (["Rotas",
       (
-        @group.rotas.map { |rota| [rota.name, "/h/#{@group.slug}/rotas/#{rota.id}"] } + [[],['Create a rota', "/h/#{@group.slug}/rotas/new"]]
+        @group.rotas(true).map { |rota| [rota.name, "/h/#{@group.slug}/rotas/#{rota.id}"] } + [[],['Create a rota', "/h/#{@group.slug}/rotas/new"]]
       )              
     ] if @group.enable_rotas),
     (["Tiers (#{@group.tiers.count})", "/h/#{@group.slug}/tiers"] if @group.enable_tiers),
