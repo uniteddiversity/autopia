@@ -27,7 +27,7 @@
   <%= partial :'timetables/timetable', :locals => {:timetable => @timetable} %>
 </div>
 
-<% if @membership.admin? %>
+<% if @membership.admin? and !@timetable.hide_schedule? %>
 
   <script>
     $(function () {

@@ -4,6 +4,7 @@ class Timetable
   
   field :name, :type => String
   field :description, :type => String
+  field :hide_schedule, :type => Boolean
  
   belongs_to :group, index: true
   belongs_to :account, index: true
@@ -21,6 +22,7 @@ class Timetable
     {
       :name => :text,
       :description => :wysiwyg,
+      :hide_schedule => :check_box,
       :group_id => :lookup,
       :account_id => :lookup,
       :spaces => :collection,
