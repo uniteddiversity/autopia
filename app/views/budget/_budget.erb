@@ -97,7 +97,7 @@
     </tr>   
   <% end %>
 
-  <% @group.spends.order('reimbursed asc').each { |spend| %>
+  <% @group.spends.order('reimbursed asc, amount desc').each { |spend| %>
     <tr>
       <td>
         <% if @membership.admin? %>
