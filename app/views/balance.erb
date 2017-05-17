@@ -2,11 +2,11 @@
 
 
 <div class="row">
-<div class="col-sm-6 col-sm-offset-3">
-<p class="lead" style="margin: 15px 0">
-  <strong><%=@group.currency_symbol%><%="#{'%.2f' % @group.balance}"%></strong> is waiting to be paid out. Payouts are via PayPal.
-</p>
-</div>
+  <div class="col-sm-6 col-sm-offset-3">
+    <p class="lead" style="margin: 15px 0">
+      <strong><%=@group.currency_symbol%><%="#{'%.2f' % @group.balance}"%></strong> is waiting to be paid out. Payouts are via PayPal.
+    </p>
+  </div>
 </div>
 
 <% form_for @group, "/h/#{@group.slug}/payout", :class => 'form-horizontal', :multipart => true do |f| %>
