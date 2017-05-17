@@ -10,7 +10,7 @@ class Rslot
   belongs_to :rota, index: true  
   belongs_to :group, index: true  
   
-  validates_presence_of :o
+  validates_presence_of :name, :o
   
   before_validation do
     self.group = self.rota.group if self.rota

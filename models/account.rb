@@ -78,7 +78,16 @@ class Account
   has_many :notifications, as: :notifiable, dependent: :destroy
   
   # Dragonfly
-  dragonfly_accessor :picture  
+  dragonfly_accessor :picture 
+  before_validation do
+    if self.picture
+      begin
+        self.picture.format
+      rescue        
+        errors.add(:picture, 'must be an image')
+      end
+    end
+  end   
   attr_accessor :rotate_picture_by
   before_validation :rotate_picture
   def rotate_picture
