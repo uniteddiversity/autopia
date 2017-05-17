@@ -1,4 +1,24 @@
 Huddl::App.controller do
+  
+  get '/h/:slug/tiers/new' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    @tier = @group.tiers.build
+    erb :'tiers/build'
+  end
+  
+  post '/h/:slug/tiers/new' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    @tier = @group.tiers.build(params[:tier])
+    @tier.account = current_account
+    if @tier.save
+      redirect "/h/#{@group.slug}/tiers"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the tier from being saved."
+      erb :'tiers/build'    
+    end
+  end  
  
   get '/h/:slug/tiers' do
     @group = Group.find_by(slug: params[:slug]) || not_found
@@ -10,24 +30,35 @@ Huddl::App.controller do
       erb :'tiers/tiers'
     end
   end
-    
-  post '/tiers/create' do
-    @group = Group.find(params[:group_id])  || not_found
+  
+  get '/h/:slug/tiers/:id/edit' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    Tier.create(name: params[:name], cost: params[:cost], description: params[:description], group: @group, account: current_account)
-    200
-  end    
-
-  get '/tiers/:id/destroy' do
-    @tier = Tier.find(params[:id]) || not_found
-    @group = @tier.group
+    @tier = @group.tiers.find(params[:id])
+    erb :'tiers/build'
+  end
+  
+  post '/h/:slug/tiers/:id/edit' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    @tier = @group.tiers.find(params[:id])
+    if @tier.update_attributes(params[:tier])
+      redirect "/h/#{@group.slug}/tiers"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the tier from being saved." 
+      erb :'tiers/build'
+    end
+  end  
+  
+  get '/h/:slug/tiers/:id/destroy' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    @tier = @group.tiers.find(params[:id])
     group_admins_only!
     @tier.destroy
-    200
-  end
-    
+    redirect "/h/#{@group.slug}/tiers"      
+  end     
+        
   get '/tierships/create' do
     @tier = Tier.find(params[:tier_id]) || not_found
     @group = @tier.group      

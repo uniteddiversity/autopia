@@ -1,0 +1,6 @@
+<% form_for @tier ||= Tier.new, @tier.new_record? ? "/h/#{@group.slug}/tiers/new" : "/h/#{@group.slug}/tiers/#{@tier.id}/edit", :class => 'form-horizontal' do |f| %>
+  <%= f.text_block :name %>
+  <%= f.text_area_block :description %>
+  <%= f.number_block :cost %>
+  <%= f.submit_block destroy_url: ("/h/#{@group.slug}/tiers/#{@tier.id}/destroy" if @membership.admin?) %>
+<% end %>  

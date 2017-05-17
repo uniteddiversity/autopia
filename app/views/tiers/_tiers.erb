@@ -1,18 +1,3 @@
-<% if @membership.admin? %>
-  <% form_tag "/tiers/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
-    <%= text_field_tag :name, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New tier' %>
-    <%= text_field_tag :description, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Description' %>          
-
-    <div class="input-group">
-      <span class="input-group-addon"><%=@group.currency_symbol%></span>
-      <%= number_field_tag :cost, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Cost' %>
-    </div>
-
-    <%= submit_tag 'Submit', :class => 'btn btn-primary' %>
-
-  <% end %>    
-<% end %>
-
 <table class="table table-striped">
   <thead>
     <tr>
@@ -26,7 +11,7 @@
     <tr>
       <td>
         <% if @membership.admin? %>
-          <a data-confirm="Delete this tier?" href="/tiers/<%=tier.id%>/destroy">
+          <a href="/h/<%=@group.slug%>/tiers/<%=tier.id%>/edit">
             <%=tier.name%>
           </a>
         <% else %>
