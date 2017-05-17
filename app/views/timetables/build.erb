@@ -1,6 +1,6 @@
 <%= partial :group_header %>
 
-<h2><%= @timetable.new_record? ? 'New timetable' : 'Edit timetable' %></h2>
+<h2><%= @timetable.new_record? ? 'Create a timetable' : 'Edit timetable' %></h2>
 
 <% form_for @timetable ||= Timetable.new, @timetable.new_record? ? "/h/#{@group.slug}/timetables/new" : "/h/#{@group.slug}/timetables/#{@timetable.id}/edit", :class => 'form-horizontal' do |f| %>
   <%= f.text_block :name %>

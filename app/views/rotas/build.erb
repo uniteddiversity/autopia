@@ -1,6 +1,6 @@
 <%= partial :group_header %>
 
-<h2><%= @rota.new_record? ? 'New rota' : 'Edit rota' %></h2>
+<h2><%= @rota.new_record? ? 'Create a rota' : 'Edit rota' %></h2>
 
 <% form_for @rota ||= Rota.new, @rota.new_record? ? "/h/#{@group.slug}/rotas/new" : "/h/#{@group.slug}/rotas/#{@rota.id}/edit", :class => 'form-horizontal' do |f| %>
   <%= f.text_block :name %>
