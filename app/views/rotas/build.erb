@@ -1,0 +1,9 @@
+<%= partial :group_header %>
+
+<h1><%= @rota.new_record? ? 'New rota' : 'Edit rota' %></h1>
+
+<% form_for @rota ||= Rota.new, @rota.new_record? ? "/h/#{@group.slug}/rotas/new" : "/h/#{@group.slug}/rotas/#{@rota.id}/edit", :class => 'form-horizontal' do |f| %>
+  <%= f.text_block :name %>
+  <%= f.wysiwyg_block :description %>
+  <%= f.submit_block destroy_url: ("/h/#{@group.slug}/rotas/#{@rota.id}/destroy" if @membership.admin?) %>
+<% end %>  

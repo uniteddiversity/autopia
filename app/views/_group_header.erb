@@ -23,7 +23,7 @@
     ] if @group.enable_timetables),
     (["Rotas",
       (
-        @group.rotas.empty? ? "/h/#{@group.slug}/rotas" : @group.rotas.map { |rota| [rota.name, "/h/#{@group.slug}/rotas/#{rota.id}"] }
+        @group.rotas.map { |rota| [rota.name, "/h/#{@group.slug}/rotas/#{rota.id}"] } + [[],['Create a rota', "/h/#{@group.slug}/rotas/new"]]
       )              
     ] if @group.enable_rotas),
     (["Tiers (#{@group.tiers.count})", "/h/#{@group.slug}/tiers"] if @group.enable_tiers),

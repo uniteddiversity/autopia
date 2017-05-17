@@ -1,14 +1,20 @@
 <h2>
-  <% if @membership.admin? %>
-    <a data-confirm="Delete this rota?" href="/rotas/<%=rota.id%>/destroy">
-      <%=rota.name%>
-    </a>
-  <% else %>
-    <%=rota.name%>
-  <% end %>     
+  <%=rota.name%>
 </h2>
 
-<table class="table table-striped">
+<% if @membership.admin? %>
+  <a style="border-bottom: 1px dotted; text-decoration: none" href="/h/<%=@group.slug%>/rotas/<%=rota.id%>/edit">
+    Edit rota
+  </a>
+<% end %>
+
+<% if rota.description %>
+  <div style="margin: 15px 0">
+    <%= rota.description %>
+  </div>
+<% end %>
+
+<table class="table table-striped" style="margin-top: 15px">
   <tr>
     <td></td>
     <% rota.rslots.order('o asc').each { |rslot| %>

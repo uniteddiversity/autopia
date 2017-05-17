@@ -3,6 +3,7 @@ class Rota
   include Mongoid::Timestamps
   
   field :name, :type => String
+  field :description, :type => String
  
   belongs_to :group, index: true
   belongs_to :account, index: true
@@ -19,6 +20,7 @@ class Rota
   def self.admin_fields
     {
       :name => :text,
+      :description => :wysiwyg,
       :group_id => :lookup,
       :account_id => :lookup,
       :roles => :collection,
