@@ -1,4 +1,8 @@
-<%= @team.intro %>
+<% if @team.intro %>
+	<div style="margin: 15px 0">
+		<%= @team.intro %>
+	</div>
+<% end %>
 
 <div class="media" style="margin-top: 0">
   <span class="pull-left">
