@@ -222,6 +222,7 @@ class Group
   
   def self.human_attribute_name(attr, options={})  
     {
+      :paypal_email => 'PayPal email',
       :scheduling_by_all => 'Allow all members to schedule activities',
       :ask_for_poc => 'Ask whether applicants identify as a person of colour',
       :fixed_threshold => 'Magic number',
