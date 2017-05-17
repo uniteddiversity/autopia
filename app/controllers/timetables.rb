@@ -3,6 +3,7 @@ Huddl::App.controller do
   get '/h/:slug/timetables/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
     @timetable = @group.timetables.build
     erb :'timetables/build'
   end
@@ -10,6 +11,7 @@ Huddl::App.controller do
   post '/h/:slug/timetables/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
     @timetable = @group.timetables.build(params[:timetable])
     @timetable.account = current_account
     if @timetable.save
@@ -42,6 +44,7 @@ Huddl::App.controller do
   get '/h/:slug/timetables/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!    
     @timetable = @group.timetables.find(params[:id])
     erb :'timetables/build'
   end
@@ -49,6 +52,7 @@ Huddl::App.controller do
   post '/h/:slug/timetables/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!    
     @timetable = @group.timetables.find(params[:id])
     if @timetable.update_attributes(params[:timetable])
       redirect "/h/#{@group.slug}/timetables/#{@timetable.id}"
@@ -61,8 +65,8 @@ Huddl::App.controller do
   get '/h/:slug/timetables/:id/destroy' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!    
     @timetable = @group.timetables.find(params[:id])
-    group_admins_only!
     @timetable.destroy
     redirect "/h/#{@group.slug}/timetables"      
   end    

@@ -2,16 +2,18 @@ Huddl::App.controller do
   
   get '/h/:slug/rotas/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    @rota = @group.rotas.build
+    @membership = @group.memberships.find_by(account: current_account)    
+    group_admins_only!
+    @rota = @group.rotas.build        
     erb :'rotas/build'
   end
   
   post '/h/:slug/rotas/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    @rota = @group.rotas.build(params[:rota])
-    @rota.account = current_account
+    group_admins_only!
+    @rota = @group.rotas.build(params[:rota])      
+    @rota.account = current_account    
     if @rota.save
       redirect "/h/#{@group.slug}/rotas/#{@rota.id}"
     else
@@ -30,8 +32,8 @@ Huddl::App.controller do
   get '/h/:slug/rotas/:id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    @rota = @group.rotas.find(params[:id])
     membership_required!
+    @rota = @group.rotas.find(params[:id])    
     if request.xhr?
       partial :'rotas/rota', :locals => {:rota => @rota}
     else
@@ -42,6 +44,7 @@ Huddl::App.controller do
   get '/h/:slug/rotas/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
     @rota = @group.rotas.find(params[:id])
     erb :'rotas/build'
   end
@@ -49,6 +52,7 @@ Huddl::App.controller do
   post '/h/:slug/rotas/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
     @rota = @group.rotas.find(params[:id])
     if @rota.update_attributes(params[:rota])
       redirect "/h/#{@group.slug}/rotas/#{@rota.id}"
@@ -61,8 +65,8 @@ Huddl::App.controller do
   get '/h/:slug/rotas/:id/destroy' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!    
     @rota = @group.rotas.find(params[:id])
-    group_admins_only!
     @rota.destroy
     redirect "/h/#{@group.slug}/rotas"      
   end   
