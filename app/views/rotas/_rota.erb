@@ -1,18 +1,3 @@
-<h2>
-  <%=rota.name%>
-</h2>
-
-<% if @membership.admin? %>
-  <a style="border-bottom: 1px dotted; text-decoration: none" href="/h/<%=@group.slug%>/rotas/<%=rota.id%>/edit">
-    Edit rota
-  </a>
-<% end %>
-
-<% if rota.description %>
-  <div style="margin: 15px 0">
-    <%= rota.description %>
-  </div>
-<% end %>
 
 <table class="table table-striped" style="margin-top: 15px">
   <tr>

@@ -1,0 +1,9 @@
+<%= partial :group_header %>
+
+<h1><%= @timetable.new_record? ? 'New timetable' : 'Edit timetable' %></h1>
+
+<% form_for @timetable ||= Timetable.new, @timetable.new_record? ? "/h/#{@group.slug}/timetables/new" : "/h/#{@group.slug}/timetables/#{@timetable.id}/edit", :class => 'form-horizontal' do |f| %>
+  <%= f.text_block :name %>
+  <%= f.wysiwyg_block :description %>
+  <%= f.submit_block destroy_url: ("/h/#{@group.slug}/timetables/#{@timetable.id}/destroy" if @membership.admin?) %>
+<% end %>  

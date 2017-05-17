@@ -1,4 +1,24 @@
 Huddl::App.controller do
+  
+  get '/h/:slug/timetables/new' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    @timetable = @group.timetables.build
+    erb :'timetables/build'
+  end
+  
+  post '/h/:slug/timetables/new' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    @timetable = @group.timetables.build(params[:timetable])
+    @timetable.account = current_account
+    if @timetable.save
+      redirect "/h/#{@group.slug}/timetables/#{@timetable.id}"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the timetable from being saved."
+      erb :'timetables/build'    
+    end
+  end  
 
   get '/h/:slug/timetables' do
     @group = Group.find_by(slug: params[:slug]) || not_found
@@ -19,21 +39,32 @@ Huddl::App.controller do
     end
   end  
   
-  post '/timetables/create' do
-    @group = Group.find(params[:group_id]) || not_found
+  get '/h/:slug/timetables/:id/edit' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    @timetable = Timetable.create(name: params[:name], group: @group, account: current_account)
-    redirect "/h/#{@group.slug}/timetables/#{@timetable.id}"
+    @timetable = @group.timetables.find(params[:id])
+    erb :'timetables/build'
   end
-    
-  get '/timetables/:id/destroy' do
-    @timetable = Timetable.find(params[:id]) || not_found
-    @group = @timetable.group
+  
+  post '/h/:slug/timetables/:id/edit' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    @timetable = @group.timetables.find(params[:id])
+    if @timetable.update_attributes(params[:timetable])
+      redirect "/h/#{@group.slug}/timetables/#{@timetable.id}"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the timetable from being saved." 
+      erb :'timetables/build'
+    end
+  end  
+        
+  get '/h/:slug/timetables/:id/destroy' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    @timetable = @group.timetables.find(params[:id])
     group_admins_only!
     @timetable.destroy
-    redirect "/h/#{@group.slug}/timetables"  
+    redirect "/h/#{@group.slug}/timetables"      
   end    
   
   post '/spaces/order' do

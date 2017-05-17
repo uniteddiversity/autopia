@@ -1,21 +1,20 @@
 <%= partial :group_header %>
 
+<h2>
+  <%=@timetable.name%>
+</h2>
+
 <% if @membership.admin? %>
-  <% form_tag "/timetables/create?group_id=#{@group.id}", :class => 'form-inline' do %>
-    <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New timetable' %>
-    <%= submit_tag :class => 'btn btn-primary' %>
-  <% end %>
+  <a style="border-bottom: 1px dotted; text-decoration: none" href="/h/<%=@group.slug%>/timetables/<%=@timetable.id%>/edit">
+    Edit timetable
+  </a>
 <% end %>
 
-<h2>
-  <% if @membership.admin? %>
-    <a data-confirm="Delete this timetable?" href="/timetables/<%=@timetable.id%>/destroy">
-      <%=@timetable.name%>
-    </a>
-  <% else %>
-    <%=@timetable.name%>
-  <% end %>     
-</h2>
+<% if @timetable.description %>
+  <div style="margin: 15px 0">
+    <%= @timetable.description %>
+  </div>
+<% end %>
 
 <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> Propose an activity</a>
 <div style="display: none" class="activity-form">
