@@ -2,5 +2,5 @@
   <%= f.text_block :name %>
   <%= f.url_block :link %>
   <%= f.image_block :image %>
-  <%= f.submit_block "/h/#{@group.slug}/qualities/#{@quality.id}/destroy" %>
+  <%= f.submit_block destroy_url: "/h/#{@group.slug}/qualities/#{@quality.id}/destroy" %>
 <% end %>  
