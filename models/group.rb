@@ -193,12 +193,16 @@ class Group
     %w{GBP EUR USD}
   end
   
-  def currency_symbol
-    case currency
+  def self.currency_symbol(code)
+    case code
       when 'GBP'; '£'
       when 'EUR'; '€'
       when 'USD'; '$'
-    end
+    end    
+  end
+  
+  def currency_symbol
+    Group.currency_symbol(currency)
   end
     
   

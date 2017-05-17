@@ -3,12 +3,17 @@ class Payment
   include Mongoid::Timestamps
   
   belongs_to :account, index: true
-  belongs_to :group, index: true, optional: true
-  belongs_to :membership, index: true, optional: true
+  belongs_to :group, index: true
+  belongs_to :membership, index: true
   
 	field :group_name, :type => String
   field :amount, :type => Integer
   field :currency, :type => String
+  
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :group => group, :type => 'created_payment'
+  end
   
   validates_presence_of :group_name, :amount, :currency
 

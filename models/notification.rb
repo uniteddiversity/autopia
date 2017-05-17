@@ -24,7 +24,7 @@ class Notification
   end
   
   def self.types
-    %w{created_group applied joined_group joined_team created_spend created_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment left_group}
+    %w{created_group applied joined_group joined_team created_spend created_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment left_group created_payment}
   end
   
   def self.mailable_types
@@ -167,6 +167,9 @@ class Notification
     when :left_group
       account = notifiable
       "<strong>#{account.name}</strong> is no longer a member of #{self.group.name}"
+    when :created_payment
+      payment = notifiable
+      "<strong>#{payment.account.name}</strong> made a payment of #{Group.currency_symbol(payment.currency)}#{payment.amount}"
     end
   end
   
@@ -225,7 +228,9 @@ class Notification
     when :liked_a_comment
       ['View post', "https://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]      
     when :left_group
-      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}/members"]            
+      ['View members', "https://#{ENV['DOMAIN']}/h/#{group.slug}/members"]
+    when :created_payment
+      ['View budget', "https://#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
     end
   end
   
@@ -294,6 +299,8 @@ class Notification
       'fa-thumbs-up' 
     when :left_group
       'fa fa-sign-out'
+    when :created_payment
+      'fa-money'      
     end    
   end
 
