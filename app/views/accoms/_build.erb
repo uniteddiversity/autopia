@@ -3,5 +3,5 @@
   <%= f.text_area_block :description %>
   <%= f.number_block :capacity %>
   <%= f.number_block :cost %>
-  <%= f.submit_block destroy_url: ("/h/#{@group.slug}/accoms/#{@accom.id}/destroy" if @membership.admin?) %>
+  <%= f.submit_block destroy_url: "/h/#{@group.slug}/accoms/#{@accom.id}/destroy" %>
 <% end %>  

@@ -25,7 +25,7 @@ Huddl::App.controller do
   get '/h/:slug/qualities/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!    
+    membership_required!    
     @quality = @group.qualities.find(params[:id])
     erb :'qualities/build'
   end
@@ -33,7 +33,7 @@ Huddl::App.controller do
   post '/h/:slug/qualities/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!    
+    membership_required!   
     @quality = @group.qualities.find(params[:id])
     if @quality.update_attributes(params[:quality])
       redirect "/h/#{@group.slug}/qualities"
@@ -46,7 +46,7 @@ Huddl::App.controller do
   get '/h/:slug/qualities/:id/destroy' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!    
+    membership_required!    
     @quality = @group.qualities.find(params[:id])
     @quality.destroy
     redirect "/h/#{@group.slug}/qualities"      

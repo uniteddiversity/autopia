@@ -2,5 +2,5 @@
   <%= f.text_block :name %>
   <%= f.text_area_block :description %>
   <%= f.number_block :cost %>
-  <%= f.submit_block destroy_url: ("/h/#{@group.slug}/tiers/#{@tier.id}/destroy" if @membership.admin?) %>
+  <%= f.submit_block destroy_url: "/h/#{@group.slug}/tiers/#{@tier.id}/destroy" %>
 <% end %>  
