@@ -31,6 +31,7 @@ class Group
   field :paypal_email, :type => String
   field :currency, :type => String
   field :teamup_calendar_url, :type => String
+  field :mailgun_route_id, :type => String
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
   }
@@ -69,8 +70,14 @@ class Group
     
   def create_route
     mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
-    mg_client.post("#{ENV['MAILGUN_DOMAIN']}/routes", {:expression => "match_recipient('^#{slug}\+(.*)@#{ENV['MAILGUN_DOMAIN']}$')", :action => "https://#{ENV['DOMAIN']}/h/#{slug}/inbound/\1"})
+    response = mg_client.post('routes', {:description => slug, :expression => "match_recipient('^#{slug}\\+(.*)@#{ENV['MAILGUN_DOMAIN']}$')", :action => "forward('https://#{ENV['DOMAIN']}/h/#{slug}/inbound/\\1')"})
+    update_attribute(:mailgun_route_id, JSON.parse(response.body)['route']['id'])    
   end  
+  
+  def delete_route
+    mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
+    response = mg_client.delete("routes/#{mailgun_route_id}")
+  end
   
   belongs_to :account, index: true
   
