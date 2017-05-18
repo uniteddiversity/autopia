@@ -40,3 +40,4 @@ group :production do
 end
 
 gem 'pusher'
+gem 'incoming'
