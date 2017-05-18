@@ -81,6 +81,17 @@ class Group
     response = mg_client.delete("routes/#{mailgun_route_id}")
   end
   
+  attr_accessor :_slug_changed
+  before_validation do
+    @_slug_changed = slug_changed?
+    true
+  end
+  after_save :replace_route, :if => Proc.new { |group| group.persisted? and group._slug_changed }
+  def replace_route
+    delete_route
+    create_route
+  end  
+  
   belongs_to :account, index: true
   
   validates_presence_of :name, :slug
