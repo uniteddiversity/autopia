@@ -68,7 +68,6 @@ class Group
   end
   handle_asynchronously :send_email
     
-  after_create :create_route  
   def create_route
     mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
     response = mg_client.post('routes', {:description => slug, :expression => "match_recipient('^#{slug}\\+(.*)@#{ENV['MAILGUN_DOMAIN']}$')", :action => "forward('https://#{ENV['DOMAIN']}/h/#{slug}/inbound/\\1')"})
@@ -89,7 +88,7 @@ class Group
     @_replace_route = slug_changed?
     true
   end
-  after_update :replace_route
+  after_save :replace_route
   def replace_route
     if @_replace_route
       @_replace_route = nil
