@@ -1,7 +1,8 @@
 Huddl::App.controller do
 
   post '/h/:slug/inbound/:post_id' do
-		EmailReceiver.receive(request)
+		mail = EmailReceiver.receive(request)
+		raise mail.inspect
   end
     
 end
