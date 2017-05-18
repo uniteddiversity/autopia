@@ -84,7 +84,7 @@ class Group
     update_attribute(:mailgun_route_id, nil)    
   end
   
-  attr_accessor :_slug_changed
+  attr_accessor :_replace_route
   before_validation do
     @_replace_route = slug_changed?
     true
