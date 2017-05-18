@@ -72,7 +72,7 @@ Huddl::App.controller do
     @team.destroy
     redirect "/h/#{@group.slug}/teams"
   end    
-  
+    
   post '/h/:slug/teams/:id/comment' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
@@ -92,6 +92,20 @@ Huddl::App.controller do
       erb :'teams/team', :layout => 'layouts/teams' 
     end
   end
+  
+  post '/h/:slug/inbound/:id' do
+    
+		mail = EmailReceiver.receive(request)		
+		raise [mail.from.first, mail.body].inspect		
+		
+		account = Account.find_by(email: mail.from.first)
+		@group = Group.find_by(slug: params[:slug]) || not_found          
+		@membership = @group.memberships.find_by(account: account)
+		membership_required!(@group, account)
+		@post = @group.posts.find(params[:id])
+		@post.comments.create! account: account, body: mail.body
+		200
+  end    
   
   get '/comments/:id/edit' do
     @comment = Comment.find(params[:id]) || not_found
