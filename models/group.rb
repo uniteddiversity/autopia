@@ -86,14 +86,15 @@ class Group
   
   attr_accessor :_slug_changed
   before_validation do
-    @_slug_changed = slug_changed?
+    @_replace_route = slug_changed?
     true
   end
   after_save :replace_route
   def replace_route
-    if persisted? and @_slug_changed
+    if persisted? and @_replace_route
       delete_route
       create_route
+      @_replace_route = nil
     end
   end  
   
