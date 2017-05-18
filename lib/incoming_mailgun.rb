@@ -35,8 +35,8 @@ class EmailReceiver < Incoming::Strategies::Mailgun
     html.search('.gmail_extra').remove
     html = html.search('body').inner_html 
     
-    html.gsub(/^\s*(?:<br\s*\/?\s*>)+|(?:<br\s*\/?\s*>)+\s*$/,'')
-       
-    return [mail, html]
+    plain_text = Premailer.new(html, :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_plain_text
+           
+    return [mail, html, plain_text]
   end
 end

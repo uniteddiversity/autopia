@@ -94,13 +94,13 @@ Huddl::App.controller do
   end
   
   post '/h/:slug/inbound/:id' do    
-		mail, html = EmailReceiver.receive(request)				    			
+		mail, html, plain_text = EmailReceiver.receive(request)				    			
 		account = Account.find_by(email: mail.from.first)
 		@group = Group.find_by(slug: params[:slug]) || not_found  
 		@membership = @group.memberships.find_by(account: account)
 		membership_required!(@group, account)
 		@post = @group.posts.find(params[:id])
-		@post.comments.create! account: account, body: html
+		@post.comments.create! account: account, body: plain_text		
 		200
   end    
   
