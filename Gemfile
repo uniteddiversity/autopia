@@ -42,3 +42,4 @@ end
 gem 'pusher'
 gem 'incoming'
 gem 'premailer'
+gem 'mailgun-ruby', require: 'mailgun'

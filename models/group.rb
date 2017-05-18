@@ -66,6 +66,11 @@ class Group
     end
   end
   handle_asynchronously :send_email
+    
+  def create_route
+    mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
+    mg_client.post("#{ENV['MAILGUN_DOMAIN']}/routes", {:expression => "match_recipient('^#{slug}\+(.*)@#{ENV['MAILGUN_DOMAIN']}$')", :action => "https://#{ENV['DOMAIN']}/h/#{slug}/inbound/\1"})
+  end  
   
   belongs_to :account, index: true
   
