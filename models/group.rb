@@ -92,9 +92,9 @@ class Group
   after_save :replace_route
   def replace_route
     if persisted? and @_replace_route
-      delete_route
-      create_route
       @_replace_route = nil
+      delete_route
+      create_route      
     end
   end  
   
