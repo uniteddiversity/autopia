@@ -41,7 +41,7 @@ class Notification
       if Notification.mailable_types.include?(type) and bcc.length > 0
         mail = Mail.new
         mail.bcc = bcc
-        mail.from = (type == 'commented' ? "#{group.slug}+#{notifiable.post_id}@#{ENV['MAILGUN_DOMAIN']}" : ENV['NOTIFICATION_EMAIL'])
+        mail.from = (type == 'commented' ? "#{ENV['SITE_TITLE']} <#{group.slug}+#{notifiable.post_id}@#{ENV['MAILGUN_DOMAIN']}>" : ENV['NOTIFICATION_EMAIL'])
         mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
             
         html_part = Mail::Part.new do
