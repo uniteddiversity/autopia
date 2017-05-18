@@ -32,8 +32,10 @@ class EmailReceiver < Incoming::Strategies::Mailgun
     
     html = Nokogiri::HTML.parse(html)
     html.search('style').remove
-    # html.search('.gmail_extra').remove
-    html = html.search('body').inner_html    	
+    html.search('.gmail_extra').remove
+    html = html.search('body').inner_html 
+    
+    html.gsub(/^\s*(?:<br\s*\/?\s*>)+|(?:<br\s*\/?\s*>)+\s*$/,'')
        
     return [mail, html]
   end
