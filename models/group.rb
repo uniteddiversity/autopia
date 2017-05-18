@@ -77,10 +77,9 @@ class Group
   after_destroy :delete_route
   def delete_route
     mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
-    begin
-      response = mg_client.delete("routes/#{mailgun_route_id}")
-    rescue; end
-    update_attribute(:mailgun_route_id, nil)    
+    response = mg_client.delete("routes/#{mailgun_route_id}")
+    update_attribute(:mailgun_route_id, nil)          
+    rescue
   end
   
   attr_accessor :_replace_route
