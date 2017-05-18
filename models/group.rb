@@ -89,7 +89,7 @@ class Group
     @_replace_route = slug_changed?
     true
   end
-  after_save :replace_route
+  after_update :replace_route
   def replace_route
     if persisted? and @_replace_route
       @_replace_route = nil
