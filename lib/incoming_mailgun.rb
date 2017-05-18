@@ -24,13 +24,17 @@ class EmailReceiver < Incoming::Strategies::Mailgun
       html = Premailer.new(html, :with_html_string => true, :adapter => 'nokogiri', :input_encoding => 'UTF-8').to_inline_css
     rescue => e
       Airbrake.notify(e)
-    end    
+    end  
+    
+    [/On.+, .+ wrote:/, /<span.*>From:<\/span>/, '___________','<hr id="stopSpelling">'].each { |pattern|
+      html = html.split(pattern).first
+    }    
     
     html = Nokogiri::HTML.parse(html)
     html.search('style').remove
     # html.search('.gmail_extra').remove
     html = html.search('body').inner_html    	
-  	
+       
     return [mail, html]
   end
 end
