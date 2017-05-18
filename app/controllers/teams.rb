@@ -95,9 +95,9 @@ Huddl::App.controller do
   
   post '/h/:slug/inbound/:id' do
     
-		mail = EmailReceiver.receive(request)		
-		raise [mail.from.first, mail.body].inspect		
-		
+		mail, html = EmailReceiver.receive(request)				    
+		raise [mail.from.first, html].inspect			
+			
 		account = Account.find_by(email: mail.from.first)
 		@group = Group.find_by(slug: params[:slug]) || not_found          
 		@membership = @group.memberships.find_by(account: account)

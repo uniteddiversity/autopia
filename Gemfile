@@ -41,3 +41,4 @@ end
 
 gem 'pusher'
 gem 'incoming'
+gem 'premailer'
