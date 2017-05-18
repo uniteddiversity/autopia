@@ -86,10 +86,12 @@ class Group
     @_slug_changed = slug_changed?
     true
   end
-  after_save :replace_route, :if => Proc.new { |group| group.persisted? and group._slug_changed }
+  after_save :replace_route
   def replace_route
-    delete_route
-    create_route
+    if persisted? and @_slug_changed
+      delete_route
+      create_route
+    end
   end  
   
   belongs_to :account, index: true
