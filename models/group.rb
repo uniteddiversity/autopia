@@ -79,6 +79,7 @@ class Group
   def delete_route
     mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
     response = mg_client.delete("routes/#{mailgun_route_id}")
+    update_attribute(:mailgun_route_id, nil)    
   end
   
   attr_accessor :_slug_changed
