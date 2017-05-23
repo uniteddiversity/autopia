@@ -2,7 +2,7 @@
 	<% comment.options.each { |option| %>
 		<div style="margin-bottom: 5px">
 			<% form_tag "/options/#{option.id}/vote" do %>
-				<label style="background: #FDF8FD; padding: 5px; margin: 0; display: inline-block ">
+				<label style="background: #FEF2F2; padding: 5px; margin: 0; display: inline-block ">
 					<%= check_box_tag :vote, :value => true, :checked => option.votes.find_by(account: current_account), :onclick => '$(this.form).submit()' %>
 					<%= option.text %>
 				</label>

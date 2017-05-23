@@ -60,7 +60,7 @@ class Notification
     case type.to_sym
     when :commented
       comment = notifiable
-      "<blockquote style=\"border-left: 4px solid #FDF8FD\">#{comment.body.gsub("\n","<br />")}</blockquote>"
+      "<blockquote>#{comment.body.gsub("\n","<br />")}</blockquote>"
     end
   end  
   
