@@ -24,7 +24,13 @@
     <% if notification.type == 'commented' %>
       <p>To continue the conversation, <a href="<%=notification.link[1]%>">view the post</a> or reply to this email</p>
     <% end %>
-    <p style="font-size: 12px;"><a style="color: #aaa !important" href="https://<%=ENV['DOMAIN']%>/accounts/edit">Edit your profile to stop these emails</a></p>
+    
+    <% if notification.type == 'commented' %>
+    <p style="font-size: 12px;"><a style="color: #aaa !important" href="https://<%=ENV['DOMAIN']%>/h/<%=group.slug%>/teams/<%=notification.notifiable.team_id%>">You're receiving this email as you're part of the <%=notification.notifiable.team.name%> team</a></p>
+	<% else %>
+	<p style="font-size: 12px;"><a style="color: #aaa !important" href="https://<%=ENV['DOMAIN']%>/accounts/edit">Edit your profile to stop these emails</a></p>
+	<% end %>    
+    
 
 </div>
 </div>
