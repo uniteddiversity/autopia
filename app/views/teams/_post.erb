@@ -53,7 +53,7 @@
 	  </div>
 	</div> 
 	
-	<div style="background: #FEF2F2; padding: 5px 10px; font-size: 12px; border-top: 1px solid #DDCECE">
+	<div style="background: #FFF6F6; padding: 5px 10px; font-size: 12px; border-top: 1px solid #DDCECE">
 		<div data-pagelet-url="/comments/<%=comment.id%>/likes" style="display: inline">
 			<%= partial :'teams/comment_likes', :locals => {:comment => comment} %>
 		</div>
@@ -61,7 +61,7 @@
 		<hr style="border-color: #DDCECE; margin: 0; margin-top: 5px" />
 	</div>
 
-	<div style="background: #FEF2F2">
+	<div style="background: #FFF6F6">
 		<div data-pagelet-url="/posts/<%=post.id%>/replies" data-pusher-channel="post.<%=post.id%>">
 			<%= partial :'teams/replies', :locals => {:post => post} %>
 		</div>
