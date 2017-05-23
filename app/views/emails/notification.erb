@@ -21,7 +21,7 @@
 
     <p><%=notification.sentence%>. <% unless notification.type == 'commented'%><a href="<%=notification.link[1]%>"><%=notification.link[0]%></a><% end %></p>
     <%=notification.more%>
-    <% if notification.type == 'commeneted' %>
+    <% if notification.type == 'commented' %>
       <p>To continue the conversation, <a href="<%=notification.link[1]%>">view the post</a> or reply to this email</p>
     <% end %>
     <p style="font-size: 12px;"><a style="color: #aaa !important" href="https://<%=ENV['DOMAIN']%>/accounts/edit">Edit your profile to stop these emails</a></p>
