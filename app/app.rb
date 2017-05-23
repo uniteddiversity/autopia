@@ -92,6 +92,12 @@ module Huddl
       erb :diff      
     end
     
+    get '/notifications/:id' do
+      halt unless current_account and current_account.admin?
+      @notification = Notification.find(params[:id]) || not_found
+      erb :'emails/notification', :locals => {:notification => @notification, :group => @notification.group}, :layout => false
+    end
+    
     get '/:slug' do
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)
         erb :page

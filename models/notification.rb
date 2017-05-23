@@ -46,40 +46,7 @@ class Notification
             
         html_part = Mail::Part.new do
           content_type 'text/html; charset=UTF-8'
-          body %Q{
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">    
-    <style>
-      p, ul, ol, input, select, .form-control, body, blockquote { font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif }
-      h1, h2, h3, h4, h5, h6, .h { font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-      a, a:hover, a:focus { color: #CE2828 !important; }
-    </style>    
-  </head>
-  <body>
-
-<div style="background: #FAFAFA; padding: 20px">
-<div style="max-width: 600px; margin: 0 auto; background: white">
-<div style="padding: 20px">
-
-
-    <h1 style="margin-top: 0">
-<img src="https://huddl.tech/images/h.png" style="vertical-align: bottom; width: 50px" />
-<a style="text-decoration: none" href="https://#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a></h1>
-
-    <p>#{notification.sentence}. <a href="#{notification.link[1]}">#{notification.link[0]}</a></p>
-    #{notification.more}
-    <p>Best,<br />#{ENV['SIGNATURE']}</p>
-    <p style="font-size: 12px;"><a style="color: #aaa !important" href="https://#{ENV['DOMAIN']}/accounts/edit">Edit your profile to stop these emails</a></p>
-
-</div>
-</div>
-</div>
-
-  </body>
-</html>
-          }
+          body ERB.new(File.read(Padrino.root('app/views/emails/notification.erb'))).result(binding)
         end
         mail.html_part = html_part
       
@@ -87,7 +54,15 @@ class Notification
       end
     end    
   end
-  handle_asynchronously :send_email  
+  handle_asynchronously :send_email 
+  
+  def more
+    case type.to_sym
+    when :commented
+      comment = notifiable
+      "<blockquote style=\"border-left: 4px solid #FDF8FD\">#{comment.body.gsub("\n","<br />")}</blockquote>"
+    end
+  end  
   
   def sentence    
     case type.to_sym
@@ -247,16 +222,7 @@ class Notification
       ['View budget', "https://#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
     end
   end
-  
-  def more
-    case type.to_sym
-    when :commented
-      comment = notifiable
-      "<blockquote>#{comment.body.gsub("\n","<br />")}</blockquote>"
-    end
-  end
-      
-  
+    
   def icon
     case type.to_sym
     when :created_group
