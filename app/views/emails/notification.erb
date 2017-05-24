@@ -22,7 +22,7 @@
           <p><%=notification.sentence%>. <% unless notification.type == 'commented'%><a href="<%=notification.link[1]%>"><%=notification.link[0]%></a><% end %></p>
           <%=notification.more%>
           <% if notification.type == 'commented' %>
-            <p style="font-size: 14px">To continue the conversation, <a href="<%=notification.link[1]%>">view the post</a> or reply to this email.</p>
+            <p style="font-size: 13px">To continue the conversation, <a href="<%=notification.link[1]%>">view the post</a> or reply to this email.</p>
           <% end %>
 
           <% if notification.type == 'commented' %>
@@ -34,10 +34,6 @@
 
         </div>
       </div>
-    </div>
-
-    <div style="text-align: center">
-      <a href="https://<%=ENV['DOMAIN']%>"><img src="https://<%=ENV['DOMAIN']%>/images/h-circle.png" style="width: 70px; margin: 10px 0" /></a>
     </div>
 
   </body>
