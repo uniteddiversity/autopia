@@ -29,13 +29,13 @@
 <% if @account.persisted? %>
 
   <h2>Email notifications</h2>
-  
+
   <style>
     @media(min-width: 768px) {
       .group-name { text-align: right }
     }
   </style>
-    <% @account.memberships.each { |membership| group = membership.group %>
+  <% @account.memberships.each { |membership| group = membership.group %>
     <div class="row">
       <div class="col-sm-3 group-name">
         <%=group.name%>
@@ -44,7 +44,7 @@
         <%= partial :'accounts/receive_emails', :locals => {:membership => membership} %>
       </div>
     </div>
-    <% } %>
+  <% } %>
 
 <% end %>
 

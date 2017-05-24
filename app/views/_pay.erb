@@ -9,7 +9,7 @@
 <% end %>
 
 <div id="card-error" style="display: none">
-	<p>There was an error processing the transaction. You have not been charged.</p>
+  <p>There was an error processing the transaction. You have not been charged.</p>
 </div>
 
 <script src="https://checkout.stripe.com/checkout.js"></script>
@@ -21,7 +21,7 @@
     locale: 'auto',
     allowRememberMe: false,
     token: function (token) {
-    	$('#pay-form').css('opacity', 0.25)
+      $('#pay-form').css('opacity', 0.25)
       $.post('/h/<%=@group.slug%>/pay', jQuery.extend(token, {amount: $('#amount').val()}), function () {
         window.location.reload()
       }).fail(function () {
@@ -39,7 +39,9 @@
       description: 'Payment for <%=@group.name%>',
       currency: '<%=@group.currency%>',
       amount: $('#amount').val() * 100,
-      closed: function() { $('#pay-form .btn').removeAttr('disabled').text('Pay') }
+      closed: function () {
+        $('#pay-form .btn').removeAttr('disabled').text('Pay')
+      }
     });
     return false
   });

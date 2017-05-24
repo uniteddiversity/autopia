@@ -3,78 +3,78 @@
 
 <div style="border: 1px solid #DDCECE; margin: 20px 0" id="post-<%=post.id%>">
 
-	<div class="media" style="padding: 10px 10px 0 10px;">
-	  <span class="pull-left">
-	    <img class="media-object" style="width: 32px" src="<%=comment.account.picture ? comment.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
-	  </span>
-	  <div class="media-body">
-	
-	    <div>
-	    	
-	    	<strong><%=comment.account.name%></strong>
-				<small class="subtle">
-					<%= timeago(comment.created_at) %>
-					
-					<% if comment.account.id == current_account.id or @membership.admin? %>
-				  	&middot;
-				  	<a href="/comments/<%=comment.id%>/edit"><i class="fa fa-pencil"></i></a>
-					<% end %>
-					
-				</small>
-				
-				<div style="margin-bottom: 10px">
-					
-					<% if comment.title %>
-						<div style="margin: 10px 0">
-							<strong><%=comment.title%></strong>
-						</div>
-					<% end %>
-					
-					<%= Rinku.auto_link(comment.body.gsub("\n","<br />")) %>
-					
-					<% if comment.title %>
-						<div data-pagelet-url="/comments/<%=comment.id%>/options">
-							<%= partial :'teams/options', :locals => {:comment => comment} %>
-						</div>
-					<% end %>
-					
-					<% if comment.file %>
-						<div style="margin-top: 10px">
-							<% if %w{png jpg gif jpeg}.any? { |x| comment.file.name.downcase.ends_with? ".#{x}" } %>
-								<img style="max-width: 100%;" src="<%=comment.file.url%>">
-							<% else %>
-								<i class="fa fa-paperclip"></i> <a href="<%=comment.file.url%>"><%=comment.file.name%></a>
-							<% end %>
-						</div>
-					<% end %>
-					
-				</div>
-	    </div>
-	  </div>
-	</div> 
-	
-	<div style="background: #FDF8FD; padding: 5px 10px; font-size: 12px; border-top: 1px solid #DDCECE">
-		<div data-pagelet-url="/comments/<%=comment.id%>/likes" style="display: inline">
-			<%= partial :'teams/comment_likes', :locals => {:comment => comment} %>
-		</div>
-		<%= partial :'teams/read_receipts', :locals => {:comment => comment} %>
-		<hr style="border-color: #DDCECE; margin: 0; margin-top: 5px" />
-	</div>
+  <div class="media" style="padding: 10px 10px 0 10px;">
+    <span class="pull-left">
+      <img class="media-object" style="width: 32px" src="<%=comment.account.picture ? comment.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+    </span>
+    <div class="media-body">
 
-	<div style="background: #FDF8FD">
-		<div data-pagelet-url="/posts/<%=post.id%>/replies" data-pusher-channel="post.<%=post.id%>">
-			<%= partial :'teams/replies', :locals => {:post => post} %>
-		</div>
-		
-		<div class="media" style="padding: 10px 10px 0 10px; margin: 0">
-		  <span class="pull-left">
-		    <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
-		  </span>
-		  <div class="media-body">
-				<%= partial :'teams/comment_form', :locals => {:comment => post.comments.build, :reply => true} %>
-		  </div>
-		</div> 
-	</div>
-	
+      <div>
+
+        <strong><%=comment.account.name%></strong>
+        <small class="subtle">
+          <%= timeago(comment.created_at) %>
+
+          <% if comment.account.id == current_account.id or @membership.admin? %>
+            &middot;
+            <a href="/comments/<%=comment.id%>/edit"><i class="fa fa-pencil"></i></a>
+          <% end %>
+
+        </small>
+
+        <div style="margin-bottom: 10px">
+
+          <% if comment.title %>
+            <div style="margin: 10px 0">
+              <strong><%=comment.title%></strong>
+            </div>
+          <% end %>
+
+          <%= Rinku.auto_link(comment.body.gsub("\n","<br />")) %>
+
+          <% if comment.title %>
+            <div data-pagelet-url="/comments/<%=comment.id%>/options">
+              <%= partial :'teams/options', :locals => {:comment => comment} %>
+            </div>
+          <% end %>
+
+          <% if comment.file %>
+            <div style="margin-top: 10px">
+              <% if %w{png jpg gif jpeg}.any? { |x| comment.file.name.downcase.ends_with? ".#{x}" } %>
+                <img style="max-width: 100%;" src="<%=comment.file.url%>">
+              <% else %>
+                <i class="fa fa-paperclip"></i> <a href="<%=comment.file.url%>"><%=comment.file.name%></a>
+              <% end %>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <div style="background: #FDF8FD; padding: 5px 10px; font-size: 12px; border-top: 1px solid #DDCECE">
+    <div data-pagelet-url="/comments/<%=comment.id%>/likes" style="display: inline">
+      <%= partial :'teams/comment_likes', :locals => {:comment => comment} %>
+    </div>
+    <%= partial :'teams/read_receipts', :locals => {:comment => comment} %>
+    <hr style="border-color: #DDCECE; margin: 0; margin-top: 5px" />
+  </div>
+
+  <div style="background: #FDF8FD">
+    <div data-pagelet-url="/posts/<%=post.id%>/replies" data-pusher-channel="post.<%=post.id%>">
+      <%= partial :'teams/replies', :locals => {:post => post} %>
+    </div>
+
+    <div class="media" style="padding: 10px 10px 0 10px; margin: 0">
+      <span class="pull-left">
+        <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+      </span>
+      <div class="media-body">
+        <%= partial :'teams/comment_form', :locals => {:comment => post.comments.build, :reply => true} %>
+      </div>
+    </div> 
+  </div>
+
 
 </div>

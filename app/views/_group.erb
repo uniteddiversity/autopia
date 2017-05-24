@@ -22,20 +22,20 @@
           <% end %>
         </div>
       </td>
-        <% if @group and @membership and !@notifications %>  
-          <td style="vertical-align: bottom; width: 1px">
-            <div class="hidden-sm hidden-xs" style="padding: 0 10px; white-space: nowrap">
-              <style>
-                #notifications { color: white }
-                #notifications li a { color: white }
-                #notifications li span { opacity: 0.6 }
-              </style>
-              <div data-pagelet-url="/h/<%=@group.slug%>/minifeed" data-pusher-channel="notifications.<%=@group.slug%>">
-                <%= partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :minifeed => true} %>
-              </div>
+      <% if @group and @membership and !@notifications %>  
+        <td style="vertical-align: bottom; width: 1px">
+          <div class="hidden-sm hidden-xs" style="padding: 0 10px; white-space: nowrap">
+            <style>
+              #notifications { color: white }
+              #notifications li a { color: white }
+              #notifications li span { opacity: 0.6 }
+            </style>
+            <div data-pagelet-url="/h/<%=@group.slug%>/minifeed" data-pusher-channel="notifications.<%=@group.slug%>">
+              <%= partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :minifeed => true} %>
             </div>
-          </td>
-        <% end %>
+          </div>
+        </td>
+      <% end %>
     </tr>
   </table>
 </div>

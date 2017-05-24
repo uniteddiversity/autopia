@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
     <script>
-      <% if Padrino.env == :development %>
-        Pusher.logToConsole = true;  
-      <% end %>
+<% if Padrino.env == :development %>
+        Pusher.logToConsole = true;
+<% end %>
       pusher = new Pusher('<%=ENV['PUSHER_KEY']%>', {
         cluster: '<%=ENV['PUSHER_CLUSTER']%>',
         encrypted: true
@@ -63,7 +63,7 @@
     <meta name="twitter:image" content="<%=@og_image%>">    
 
     <%= eval(f('head')) %>
-    
+
   </head>
   <body>
 
@@ -72,15 +72,15 @@
     <div class="container-fluid">
       <%= partial :nav %>
       <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
-          
+
       <hr style="margin: 10px 0" />
-      
+
       <% if current_account %>
         <% form_tag '/suggest', :style => 'margin-bottom: 10px' do %>
           <%= text_field_tag :suggestion, :class => 'form-control', :placeholder => 'Suggest a feature/improvement for this page or report a bug' %>
         <% end %>
       <% end %>
-        
+
       <div style="text-align: center; font-size: 13px"> 
         <% unless ENV['DOMAIN'] == 'huddl.tech' %><p>Powered by Huddl</p><% end %>
         <i class="fa fa-envelope"></i> <a href="mailto:team@huddl.tech">team@huddl.tech</a>

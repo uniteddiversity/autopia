@@ -6,7 +6,7 @@
       &middot; <a class="pagelet-trigger" href="/verdicts/<%=verdict.id%>/destroy"><%= "Un#{verb}" %></a>
     <% elsif !current_account.verdicts.find_by(mapplication: mapplication) %>
       &middot; <a class="pagelet-trigger" href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
-                <% end %>
+    <% end %>
 
     <div>
       <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>

@@ -24,14 +24,14 @@
 <h2>Who's cultivating what</h2>
 
 <table class="table">
-<% @group.cultivators.order('name asc').each { |account| %>
-  <tr>
-    <th>
-      <%=account.name%>
-    </th>
-    <td>
-      <%= @group.cultivations.where(:account_id => account.id).map { |cultivation| cultivation.quality.name }.join(', ') %>     
-    </td>
-  </tr>
-<% } %>
-  </table>
+  <% @group.cultivators.order('name asc').each { |account| %>
+    <tr>
+      <th>
+        <%=account.name%>
+      </th>
+      <td>
+        <%= @group.cultivations.where(:account_id => account.id).map { |cultivation| cultivation.quality.name }.join(', ') %>     
+      </td>
+    </tr>
+  <% } %>
+</table>

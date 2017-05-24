@@ -6,41 +6,41 @@
 <h1><%= @group.persisted? ? '' : 'Create a group' %></h1>
 
 <script>
-  $(function() {
-    
-  <% if @group.new_record? %>
-    $('.tab-pane').each(function() { 
-      var tabPane = this
-      $('<div class="form-group"><div class="col-sm-6 col-sm-offset-3"><a href="javascript:;" class="next btn btn-primary">Next</a></div></div>').appendTo(tabPane)
-      $(this).find('a.next').click(function() {
-        $('#group-build-nav a[href="#'+$(tabPane).next().attr('id')+'"]').tab('show')
-      })      
-    })
-    $('#tab4').find('a.next').parent().remove()
-  <% end %>     
-      
+  $(function () {
+
+<% if @group.new_record? %>
+      $('.tab-pane').each(function () {
+        var tabPane = this
+        $('<div class="form-group"><div class="col-sm-6 col-sm-offset-3"><a href="javascript:;" class="next btn btn-primary">Next</a></div></div>').appendTo(tabPane)
+        $(this).find('a.next').click(function () {
+          $('#group-build-nav a[href="#' + $(tabPane).next().attr('id') + '"]').tab('show')
+        })
+      })
+      $('#tab4').find('a.next').parent().remove()
+<% end %>
+
     var pairs = [['#group_enable_timetables', '#group_scheduling_by_all'], ['#group_enable_bookings', '#group_booking_limit']]
-    $.each(pairs, function(i,pair) {
+    $.each(pairs, function (i, pair) {
       var a = pair[0]
       var b = pair[1]
-      $(a).click(function() {
-        if($(a).is(':checked'))
+      $(a).click(function () {
+        if ($(a).is(':checked'))
           $(b).parent().parent().show()
         else
           $(b).parent().parent().hide()
-      });    
-      if($(a).is(':checked'))
+      });
+      if ($(a).is(':checked'))
         $(b).parent().parent().show()
       else
-        $(b).parent().parent().hide()    
+        $(b).parent().parent().hide()
     });
-        
+
   })
 </script>
 
 <% form_for @group, @group.new_record? ? '/h/new' : "/h/#{@group.slug}/edit", :class => 'form-horizontal', :multipart => true do |f| %>
-  
-  
+
+
   <style>
     #group-build-nav li { font-size: 12px }
   </style>  
@@ -94,5 +94,5 @@
   <% if @group.persisted? %>
     <%= f.submit_block %>  
   <% end %>
-  
+
 <% end %>

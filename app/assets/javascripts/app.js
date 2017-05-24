@@ -1,21 +1,21 @@
 /*global $*/
 
 $(function () {
-  
+
   $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-    var t = '_t='+Date.now()
+    var t = '_t=' + Date.now()
     console.log(options.data)
     if (options.data)
-      options.data += '&'+t
+      options.data += '&' + t
     else
       options.data = t
-  });  
-  
+  });
+
   function addPlaceholders() {
     $('form.add-placeholders label[for]').each(function () {
       var input = $(this).next().children().first()
       if (!$(input).attr('placeholder'))
-        $(input).attr('placeholder', $.trim($(this).text()))      
+        $(input).attr('placeholder', $.trim($(this).text()))
     });
   }
 
@@ -31,12 +31,12 @@ $(function () {
       }
     })
   }
-  
+
   function timeago() {
     $("abbr.timeago").timeago()
   }
 
-  $(document).ajaxComplete(function () {    
+  $(document).ajaxComplete(function () {
     addPlaceholders()
     tooltip()
     timeago()
@@ -44,18 +44,18 @@ $(function () {
   addPlaceholders()
   tooltip()
   timeago()
-  
+
   $('form').submit(function () {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
   });
-  
+
   $('[data-upload-url]').click(function () {
     var form = $('<form action="' + $(this).attr('data-upload-url') + '" method="post" enctype="multipart/form-data"><input style="display: none" type="file" name="upload"></form>')
     form.insertAfter(this)
     form.find('input').click().change(function () {
       this.form.submit()
     })
-  })  
+  })
 
   if ($('label[for=account_poc]').length > 0)
     $('label[for=account_poc]').html($('label[for=account_poc]').html().replace('person of colour', '<a target="_blank" href="https://en.wikipedia.org/wiki/Person_of_color">person of colour</a>'))
@@ -105,7 +105,7 @@ $(function () {
       $(textarea).val($(summernote).code());
     });
   });
-  
+
   $(document).on('click', 'a[data-confirm]', function (e) {
     $(this).removeClass('no-trigger')
     var message = $(this).data('confirm');
@@ -113,17 +113,17 @@ $(function () {
       $(this).addClass('no-trigger')
       return false
     }
-  });  
-  
+  });
+
   $(document).on('click', "a[href^='/verdicts/create']", function (e) {
     $(this).removeClass('no-trigger')
     var reason = prompt('Explain your decision (optional)');
-    if (reason == null) {      
+    if (reason == null) {
       $(this).addClass('no-trigger')
       return false
     } else {
       $(this).attr('href', $(this).attr('href') + '&reason=' + ((reason == 'undefined' || reason == 'null') ? '' : reason))
-    }  
-  }); 
-  
+    }
+  });
+
 });

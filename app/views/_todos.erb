@@ -3,7 +3,7 @@
   <% if @group.tiers.count > 0 %>         
     <tr>
       <th>
-      Your tier
+        Your tier
       </th>
       <td>
         <% if tiership = @membership.tiership %>
@@ -15,11 +15,11 @@
       </td>
     </tr>
   <% end %>
-  
+
   <% if @group.accoms.count > 0 %>
     <tr>
       <th>
-      Your accommodation
+        Your accommodation
       </th>
       <td>
         <% if accomship = @membership.accomship %>
@@ -31,11 +31,11 @@
       </td>
     </tr>
   <% end %>  
-  
+
   <% if @group.transports.count > 0 %>
     <tr>
       <th>
-      Your transport
+        Your transport
       </th>
       <td>
         <% if @membership.transportships.count > 0 %>
@@ -48,9 +48,9 @@
       </td>
     </tr>    
   <% end %>  
-    
+
 </table>
-    
+
 <% if (@membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution))) %>
 
   You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 
@@ -60,6 +60,5 @@
   </div>
 
 <% end %>
-    
-  
-  
+
+

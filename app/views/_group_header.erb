@@ -8,30 +8,30 @@
   <style>
     #group-header, #group-header li { font-size: 12px }
   </style>
- <div id="group-header">
-  <%= ul_nav 'nav nav-pills', [
-    ["Home", "/h/#{@group.slug}"],
-    ["Members (#{@group.memberships.count})", "/h/#{@group.slug}/members"],
-    ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],        
-    (["Teams (#{@group.teams.count})", "/h/#{@group.slug}/teams"] if @group.enable_teams),
-    (["Qualities (#{@group.qualities.count})", "/h/#{@group.slug}/qualities"] if @group.enable_qualities),
-    (["Calendar", "/h/#{@group.slug}/calendar"] if @group.teamup_calendar_url),
-    (["Timetables",
-      (
-        @group.timetables(true).map { |timetable| [timetable.name, "/h/#{@group.slug}/timetables/#{timetable.id}"] } + [[],['Create a timetable', "/h/#{@group.slug}/timetables/new"]]
-      )
-    ] if @group.enable_timetables),
-    (["Rotas",
-      (
-        @group.rotas(true).map { |rota| [rota.name, "/h/#{@group.slug}/rotas/#{rota.id}"] } + [[],['Create a rota', "/h/#{@group.slug}/rotas/new"]]
-      )              
-    ] if @group.enable_rotas),
-    (["Tiers (#{@group.tiers.count})", "/h/#{@group.slug}/tiers"] if @group.enable_tiers),
-    (["Bookings (#{@group.bookings.count})", "/h/#{@group.slug}/bookings"] if @group.enable_bookings),
-    (["Accommodation (#{@group.accoms.count})", "/h/#{@group.slug}/accoms"] if @group.enable_accommodation),
-    (["Transport (#{@group.transports.count})", "/h/#{@group.slug}/transports"] if @group.enable_transport),        
-    (["Budget", "/h/#{@group.slug}/budget"] if @group.enable_budget),    
-    ].compact %>
+  <div id="group-header">
+    <%= ul_nav 'nav nav-pills', [
+      ["Home", "/h/#{@group.slug}"],
+      ["Members (#{@group.memberships.count})", "/h/#{@group.slug}/members"],
+      ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],        
+      (["Teams (#{@group.teams.count})", "/h/#{@group.slug}/teams"] if @group.enable_teams),
+      (["Qualities (#{@group.qualities.count})", "/h/#{@group.slug}/qualities"] if @group.enable_qualities),
+      (["Calendar", "/h/#{@group.slug}/calendar"] if @group.teamup_calendar_url),
+      (["Timetables",
+          (
+            @group.timetables(true).map { |timetable| [timetable.name, "/h/#{@group.slug}/timetables/#{timetable.id}"] } + [[],['Create a timetable', "/h/#{@group.slug}/timetables/new"]]
+          )
+          ] if @group.enable_timetables),
+      (["Rotas",
+          (
+            @group.rotas(true).map { |rota| [rota.name, "/h/#{@group.slug}/rotas/#{rota.id}"] } + [[],['Create a rota', "/h/#{@group.slug}/rotas/new"]]
+          )              
+          ] if @group.enable_rotas),
+      (["Tiers (#{@group.tiers.count})", "/h/#{@group.slug}/tiers"] if @group.enable_tiers),
+      (["Bookings (#{@group.bookings.count})", "/h/#{@group.slug}/bookings"] if @group.enable_bookings),
+      (["Accommodation (#{@group.accoms.count})", "/h/#{@group.slug}/accoms"] if @group.enable_accommodation),
+      (["Transport (#{@group.transports.count})", "/h/#{@group.slug}/transports"] if @group.enable_transport),        
+      (["Budget", "/h/#{@group.slug}/budget"] if @group.enable_budget),    
+      ].compact %>
   </div>
 
 <% end %>

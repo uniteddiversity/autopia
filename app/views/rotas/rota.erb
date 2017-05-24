@@ -28,7 +28,7 @@
 
   <script>
     $(function () {
-      
+
       $(".roles").sortable({
         update: function (event, ui) {
           $.post('/roles/order', {rota_id: $(event.target).attr('data-rota-id'), role_ids: $(event.target).sortable("toArray")}, function () {
@@ -36,7 +36,7 @@
           })
         }
       });
-  
+
       $(".rslots").sortable({
         update: function (event, ui) {
           $.post('/rslots/order', {rota_id: $(event.target).attr('data-rota-id'), rslot_ids: $(event.target).sortable("toArray")}, function () {
@@ -44,14 +44,14 @@
           })
         }
       });
-  
+
     })
   </script>
 
   <div style="margin-top: 10px">
     <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-exchange"></i> Reorder</a>
     <div style="display: none" class="activity-form">
-  
+
       <h3>Reorder roles</h3>
       <ul class="roles" data-rota-id="<%=@rota.id%>">
         <% @rota.roles.order('o asc').each { |role| %>
@@ -61,7 +61,7 @@
       <p style="display: none">
         <em>Refresh the page to see your changes</em>
       </p>              
-  
+
       <h3>Reorder slots</h3>
       <ul class="rslots" data-rota-id="<%=@rota.id%>">
         <% @rota.rslots.order('o asc').each { |rslot| %>
@@ -71,7 +71,7 @@
       <p style="display: none">
         <em>Refresh the page to see your changes</em>
       </p>              
-  
+
     </div>      
   </div>      
 

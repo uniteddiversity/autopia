@@ -1,6 +1,6 @@
 Huddl::App.controller do
 	
-get '/mapplications/:id' do
+  get '/mapplications/:id' do
     @mapplication = Mapplication.find(params[:id]) || not_found
     @group = @mapplication.group
     @membership = @group.memberships.find_by(account: current_account)      
@@ -20,7 +20,7 @@ get '/mapplications/:id' do
     end
   end    	
 	
- get '/h/:slug/apply' do      
+  get '/h/:slug/apply' do      
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     @title = "#{@group.name} · #{ENV['SITE_TITLE']}"

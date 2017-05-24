@@ -1,80 +1,85 @@
 
 <style>
-	textarea[id=comment_body] { height: 4em; overflow:hidden; box-sizing: content-box }
+  textarea[id=comment_body] { height: 4em; overflow:hidden; box-sizing: content-box }
 </style>
 <script>
-	$(function() {
-		$('textarea[id=comment_body]').click(function() {
-			$(this.form).find('.btn-primary').parent().parent().removeClass('hidden')  
-		}).keydown(function() {
-		  var el = this;
-		  setTimeout(function(){
-		    el.style.cssText = 'height:4em; padding:0';
-		    el.style.cssText = 'height:' + el.scrollHeight + 'px';
-		  },0);			
-		})
-	}) 
+  $(function () {
+    $('textarea[id=comment_body]').click(function () {
+      $(this.form).find('.btn-primary').parent().parent().removeClass('hidden')
+    }).keydown(function () {
+      var el = this;
+      setTimeout(function () {
+        el.style.cssText = 'height:4em; padding:0';
+        el.style.cssText = 'height:' + el.scrollHeight + 'px';
+      }, 0);
+    })
+  })
 </script>
 
- <% form_for comment, comment.new_record ? "/h/#{@group.slug}/teams/#{@team.id}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal add-placeholders" do |f| %>
-		<%= f.hidden_field :post_id, :value => comment.post_id %>
-	 	<% if defined?(reply) %>
-			<%= f.text_area_block :body, :placeholder => 'Write a comment...', :label_class => 'hidden', :div_class => 'col-sm-12' %>
-	 	<% else %>
-	 	
-		 	<% if comment.first_in_post? %>
-			 	<div id="comment-title-container" style="display: none">
-		 			<%= f.text_block :title, :label_class => 'hidden', :div_class => 'col-sm-12' %>
-	 			</div>	 	
-		 	<% end %>
-		 	
-			<%= f.text_area_block :body, :placeholder => "What's on your mind?", :label_class => 'hidden', :div_class => 'col-sm-12' %>
-			
-			<div id="comment-file-container" style="display: none">
-				<%= f.file_block :file, :label_class => 'hidden', :div_class => 'col-sm-12' %>
-			</div>
-						
-			<% if comment.first_in_post? %>
-				
-				<div style="margin-bottom: 5px; margin-top: -10px;">
-				
-					<a id="create-a-poll" style="text-decoration: none" href="javascript:;" onclick="$(this).hide();$('#divider').hide();$('#comment-title-container').show().find('input').focus();$('textarea[id=comment_body]').attr('placeholder', 'Description')">
-						<i class="fa fa-bar-chart"></i>
-						<% if comment.new_record? %>
-							Create a poll
-						<% else %>
-							Convert to poll
-						<% end %>
-					</a>
-					<% if comment.title %>
-						<script>
-							$(function() {
-								$('#create-a-poll').click()
-							})
-						</script>
-					<% end %>	
-					
-					<span id="divider">&middot;</span>
-					
-					<a id="attach-a-file" style="text-decoration: none" href="javascript:;" onclick="$(this).hide();$('#divider').hide();$('#comment-file-container').show().find('input').click();">
-						<i class="fa fa-paperclip"></i>
-						Attach a file
-					</a>
-					<% if comment.file %>
-						<script>
-							$(function() {
-								$('#attach-a-file').hide();
-								$('#divider').hide();
-								$('#comment-file-container').show()
-							})
-						</script>
-					<% end %>						
-					
-				</div>
-				
-			<% end %>
-						
-	  <% end %>
-	  
-	  <%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy", :div_class => 'col-sm-12', :container_class => 'hidden' %>
+<% form_for comment, comment.new_record ? "/h/#{@group.slug}/teams/#{@team.id}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal add-placeholders" do |f| %>
+  <%= f.hidden_field :post_id, :value => comment.post_id %>
+  <% if defined?(reply) %>
+    <%= f.text_area_block :body, :placeholder => 'Write a comment...', :label_class => 'hidden', :div_class => 'col-sm-12' %>
+  <% else %>
+
+    <% if comment.first_in_post? %>
+      <div id="comment-title-container" style="display: none">
+        <%= f.text_block :title, :label_class => 'hidden', :div_class => 'col-sm-12' %>
+      </div>	 	
+    <% end %>
+
+    <%= f.text_area_block :body, :placeholder => "What's on your mind?", :label_class => 'hidden', :div_class => 'col-sm-12' %>
+
+    <div id="comment-file-container" style="display: none">
+      <%= f.file_block :file, :label_class => 'hidden', :div_class => 'col-sm-12' %>
+    </div>
+
+    <% if comment.first_in_post? %>
+
+      <div style="margin-bottom: 5px; margin-top: -10px;">
+
+        <a id="create-a-poll" style="text-decoration: none" href="javascript:;" onclick="$(this).hide();
+                    $('#divider').hide();
+                    $('#comment-title-container').show().find('input').focus();
+                    $('textarea[id=comment_body]').attr('placeholder', 'Description')">
+          <i class="fa fa-bar-chart"></i>
+      <% if comment.new_record? %>
+            Create a poll
+      <% else %>
+            Convert to poll
+      <% end %>
+        </a>
+      <% if comment.title %>
+          <script>
+            $(function () {
+              $('#create-a-poll').click()
+            })
+          </script>
+      <% end %>	
+
+        <span id="divider">&middot;</span>
+
+        <a id="attach-a-file" style="text-decoration: none" href="javascript:;" onclick="$(this).hide();
+                    $('#divider').hide();
+                    $('#comment-file-container').show().find('input').click();">
+          <i class="fa fa-paperclip"></i>
+          Attach a file
+        </a>
+      <% if comment.file %>
+          <script>
+            $(function () {
+              $('#attach-a-file').hide();
+              $('#divider').hide();
+              $('#comment-file-container').show()
+            })
+          </script>
+      <% end %>						
+
+      </div>
+
+    <% end %>
+
+  <% end %>
+
+  <%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy", :div_class => 'col-sm-12', :container_class => 'hidden' %>
 <% end %> 

@@ -87,7 +87,7 @@
     <th>Paid by</th>
     <th>Reimbused?</th>
   </tr> 
-  
+
   <% if @group.processed_via_huddl > 0 %>
     <tr>   
       <td>5% transaction fees on <%=@group.currency_symbol%><%=@group.processed_via_huddl%> processed via <%=ENV['SITE_TITLE']%></td>      
@@ -112,14 +112,14 @@
       <td><%=spend.account.name%></td>
       <td>
         <% if @membership.admin? %>   
-                  
+
           <% if spend.reimbursed %>
             <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
           <% end %>  
           <% form_tag "/spends/#{spend.id}/reimbursed", :style => ('display:none' if spend.reimbursed) do %>
             <%= check_box_tag :reimbursed, :value => true, :checked => spend.reimbursed, :onclick => '$(this.form).submit()' %>
           <% end %>       
-                 
+
         <% else %>
           <% if spend.reimbursed %>
             <i class="fa fa-check"></i>

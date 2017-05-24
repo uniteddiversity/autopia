@@ -3,10 +3,10 @@
 
 
 @font-face {
-    font-family: 'olivesbold';
-    src: url('olivesbold-webfont.woff2') format('woff2'),
-         url('olivesbold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'olivesbold';
+  src: url('olivesbold-webfont.woff2') format('woff2'),
+    url('olivesbold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 
 }

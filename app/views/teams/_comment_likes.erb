@@ -6,9 +6,9 @@
 
 
 <% if comment.comment_likes.count > 0 %>
-	&middot;  
-	<a href="javascript:;" data-toggle="tooltip"><i class="fa fa-thumbs-o-up"></i> <%=pluralize(comment.comment_likes.count,'person')%> liked this</a>
-	<span style="display: none">
-		<%=comment.comment_likes.map { |comment_like| comment_like.account.name }.join('<br />') %> 
-	</span>						
+  &middot;  
+  <a href="javascript:;" data-toggle="tooltip"><i class="fa fa-thumbs-o-up"></i> <%=pluralize(comment.comment_likes.count,'person')%> liked this</a>
+  <span style="display: none">
+    <%=comment.comment_likes.map { |comment_like| comment_like.account.name }.join('<br />') %> 
+  </span>						
 <% end %>

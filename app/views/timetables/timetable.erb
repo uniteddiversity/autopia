@@ -21,61 +21,61 @@
   <div style="display: none" class="activity-form">
     <%= partial :'timetables/activity_form', :locals => {:timetable => @timetable}%>  
   </div>
-<div>
+  <div>
 
-<div data-pagelet-url="/h/<%=@group.slug%>/timetables/<%=@timetable.id%>">
-  <%= partial :'timetables/timetable', :locals => {:timetable => @timetable} %>
-</div>
+    <div data-pagelet-url="/h/<%=@group.slug%>/timetables/<%=@timetable.id%>">
+      <%= partial :'timetables/timetable', :locals => {:timetable => @timetable} %>
+    </div>
 
-<% if @membership.admin? and !@timetable.hide_schedule? %>
+    <% if @membership.admin? and !@timetable.hide_schedule? %>
 
-  <script>
-    $(function () {
-      $(".spaces").sortable({
-        update: function (event, ui) {
-          $.post('/spaces/order', {timetable_id: $(event.target).attr('data-timetable-id'), space_ids: $(event.target).sortable("toArray")}, function () {
-            $(event.target).next().show()
-          })
-        }
-      });
-  
-      $(".tslots").sortable({
-        update: function (event, ui) {
-          $.post('/tslots/order', {timetable_id: $(event.target).attr('data-timetable-id'), tslot_ids: $(event.target).sortable("toArray")}, function () {
-            $(event.target).next().show()
-          })
-        }
-      });
-    });
-  </script>
-  
-  <style>
-    .spaces li, .tslots li { cursor: move }
-  </style>
+      <script>
+        $(function () {
+          $(".spaces").sortable({
+            update: function (event, ui) {
+              $.post('/spaces/order', {timetable_id: $(event.target).attr('data-timetable-id'), space_ids: $(event.target).sortable("toArray")}, function () {
+                $(event.target).next().show()
+              })
+            }
+          });
 
-  <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-exchange"></i> Reorder</a>
-  <div style="display: none" class="activity-form">
+          $(".tslots").sortable({
+            update: function (event, ui) {
+              $.post('/tslots/order', {timetable_id: $(event.target).attr('data-timetable-id'), tslot_ids: $(event.target).sortable("toArray")}, function () {
+                $(event.target).next().show()
+              })
+            }
+          });
+        });
+      </script>
 
-    <h3>Reorder spaces</h3>
-    <ul class="spaces" data-timetable-id="<%=@timetable.id%>">
-      <% @timetable.spaces.order('o asc').each { |space| %>
-        <li id="<%=space.id%>"><%= space.name %></li>
-      <% } %>
-    </ul>
-    <p style="display: none">
-      <em>Refresh the page to see your changes</em>
-    </p>              
+      <style>
+        .spaces li, .tslots li { cursor: move }
+      </style>
 
-    <h3>Reorder slots</h3>
-    <ul class="tslots" data-timetable-id="<%=@timetable.id%>">
-      <% @timetable.tslots.order('o asc').each { |tslot| %>
-        <li id="<%=tslot.id%>"><%= tslot.name %></li>
-      <% } %>
-    </ul>  
-    <p style="display: none">
-      <em>Refresh the page to see your changes</em>
-    </p>              
+      <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-exchange"></i> Reorder</a>
+      <div style="display: none" class="activity-form">
 
-  </div>        
+        <h3>Reorder spaces</h3>
+        <ul class="spaces" data-timetable-id="<%=@timetable.id%>">
+          <% @timetable.spaces.order('o asc').each { |space| %>
+            <li id="<%=space.id%>"><%= space.name %></li>
+          <% } %>
+        </ul>
+        <p style="display: none">
+          <em>Refresh the page to see your changes</em>
+        </p>              
 
-<% end %>
+        <h3>Reorder slots</h3>
+        <ul class="tslots" data-timetable-id="<%=@timetable.id%>">
+          <% @timetable.tslots.order('o asc').each { |tslot| %>
+            <li id="<%=tslot.id%>"><%= tslot.name %></li>
+          <% } %>
+        </ul>  
+        <p style="display: none">
+          <em>Refresh the page to see your changes</em>
+        </p>              
+
+      </div>        
+
+    <% end %>

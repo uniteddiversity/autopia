@@ -79,7 +79,7 @@ class Group
     mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
     response = mg_client.delete("routes/#{mailgun_route_id}")
     update_attribute(:mailgun_route_id, nil)          
-    rescue
+  rescue
   end
   
   attr_accessor :_replace_route
@@ -224,9 +224,9 @@ class Group
   
   def self.currency_symbol(code)
     case code
-      when 'GBP'; '£'
-      when 'EUR'; '€'
-      when 'USD'; '$'
+    when 'GBP'; '£'
+    when 'EUR'; '€'
+    when 'USD'; '$'
     end    
   end
   

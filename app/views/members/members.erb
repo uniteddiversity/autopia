@@ -8,8 +8,8 @@
 
 <% if @group.ask_for_gender %>
   <% Account.genders.reject(&:blank?).map { |gender| x << capture do %>
-    <a href="?gender=<%=gender%>"><%= Account.gender_symbol(gender, pluralize: true) %></a> <%= @group.memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id)).count %>
-  <% end  } %>
+      <a href="?gender=<%=gender%>"><%= Account.gender_symbol(gender, pluralize: true) %></a> <%= @group.memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id)).count %>
+    <% end  } %>
 <% end %>
 
 <% if @group.ask_for_date_of_birth %>
