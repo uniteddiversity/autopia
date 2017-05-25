@@ -87,7 +87,7 @@ Huddl::App.controller do
     if @comment.save
       request.xhr? ? 200 : redirect("/h/#{@group.slug}/teams/#{@team.id}#post-#{@comment.post_id}")
     else
-      @post.destroy
+      @post.destroy if @post
       flash[:error] = 'There was an error saving the comment'
       erb :'teams/team', :layout => 'layouts/teams' 
     end
