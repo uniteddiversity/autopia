@@ -9,6 +9,10 @@ class Teamship
   
   validates_uniqueness_of :account, :scope => :team
   
+  after_create do
+    team.posts.each { |post| post.subscriptions.create account: account }    
+  end  
+  
   before_validation do
     self.group = self.team.group if self.team
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
