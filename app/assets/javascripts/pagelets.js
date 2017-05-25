@@ -37,6 +37,8 @@ $(function () {
     pagelet.css('opacity', '0.3')
     pagelet.load($(a).attr('href'), function () {
       pagelet.css('opacity', '1')
+      var offset = pagelet.offset()
+      window.scrollTo(offset['left'], offset['top']);
     })
     return false
   })
