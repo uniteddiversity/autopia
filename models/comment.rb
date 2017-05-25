@@ -16,7 +16,7 @@ class Comment
   dragonfly_accessor :file  
   
   validates_presence_of :body
-  
+    
   has_many :comment_likes, :dependent => :destroy
   has_many :options, :dependent => :destroy
   has_many :read_receipts, :dependent => :destroy

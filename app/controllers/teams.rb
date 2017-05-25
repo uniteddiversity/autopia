@@ -86,6 +86,7 @@ Huddl::App.controller do
       @comment.post = @post
     end
     if @comment.save
+      @comment.post.subscriptions.create account: current_account
       request.xhr? ? 200 : redirect("/h/#{@group.slug}/teams/#{@team.id}#post-#{@comment.post_id}")
     else
       flash[:error] = 'There was an error saving the comment'

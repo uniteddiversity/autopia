@@ -36,7 +36,7 @@ class Notification
     if ENV['SMTP_ADDRESS']
       notification = self
       group = self.group
-      bcc = (type == 'commented' ? notifiable.team.emails : group.emails)
+      bcc = (type == 'commented' ? notifiable.post.emails : group.emails)
       
       if Notification.mailable_types.include?(type) and bcc.length > 0
         mail = Mail.new
