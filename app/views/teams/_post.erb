@@ -7,6 +7,13 @@
     <span class="pull-left">
       <img class="media-object" style="width: 32px" src="<%=comment.account.picture ? comment.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
     </span>
+    <span class="pull-right">
+      <% if subscription = comment.post.subscriptions.find_by(account: current_account) %>
+        <a title="Notifications on; click to turn off" class="pagelet-trigger" href="/subscriptions/<%=subscription.id%>/destroy"><i class="fa fa-eye"></i></a>
+      <% else %>
+        <a style="opacity: 0.3" title="Notifications off; click to turn on" class="pagelet-trigger" href="/subscriptions/create?post_id=<%=comment.post_id%>"><i class="fa fa-eye-slash"></i></a>
+      <% end %>
+    </span>
     <div class="media-body">
 
       <div>

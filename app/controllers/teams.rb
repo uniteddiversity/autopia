@@ -238,4 +238,20 @@ Huddl::App.controller do
     redirect back
   end    
   
+  get '/subscriptions/create' do
+    @post = Post.find(params[:post_id]) || not_found
+    @group = @post.group      
+    membership_required!      
+    @post.subscriptions.create!(account: current_account)
+    200   
+  end      
+  
+  get '/subscriptions/:id/destroy' do
+    @subscription = Subscription.find(params[:id]) || not_found
+    @group = @subscription.group      
+    membership_required!      
+    @subscription.destroy
+    200        
+  end
+  
 end
