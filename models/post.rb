@@ -26,7 +26,9 @@ class Post
       :account_id => :lookup,
       :group_id => :lookup,
       :membership_id => :lookup,
-      :team_id => :lookup
+      :team_id => :lookup,
+      :subscriptions => :collection,
+      :comments => :collection
     }
   end
   
