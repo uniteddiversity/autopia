@@ -81,17 +81,13 @@ Huddl::App.controller do
     @comment = @team.comments.build(params[:comment])
     @comment.account = current_account
     if !@comment.post
-      @post = @team.posts.build
-      @post.account = current_account
+      @post = @team.posts.create(account: current_account)
       @comment.post = @post
     end
     if @comment.save
-      @comment.post.subscriptions.create account: current_account
-      if @post
-        @post.team.members.each { |account| @post.subscriptions.create account: account }
-      end
       request.xhr? ? 200 : redirect("/h/#{@group.slug}/teams/#{@team.id}#post-#{@comment.post_id}")
     else
+      @post.destroy
       flash[:error] = 'There was an error saving the comment'
       erb :'teams/team', :layout => 'layouts/teams' 
     end

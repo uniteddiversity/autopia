@@ -20,6 +20,10 @@ class Comment
   has_many :comment_likes, :dependent => :destroy
   has_many :options, :dependent => :destroy
   has_many :read_receipts, :dependent => :destroy
+  
+  after_create do
+    post.subscriptions.create account: account
+  end
 
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
@@ -37,7 +41,7 @@ class Comment
     pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
     pusher_client.trigger("post.#{post.id}", 'updated', {})
   end  
-  
+    
   before_validation do
     self.team = self.post.team if self.post
     self.group = self.team.group if self.team

@@ -9,7 +9,11 @@ class Post
 
   has_many :subscriptions, :dependent => :destroy
   has_many :comments, :dependent => :destroy
-  has_many :comment_likes, :dependent => :destroy  
+  has_many :comment_likes, :dependent => :destroy 
+  
+  after_create do
+    team.members.each { |account| subscriptions.create account: account }    
+  end
 
   before_validation do
     self.group = self.team.group if self.team
