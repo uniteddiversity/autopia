@@ -19,7 +19,8 @@
       <%= partial :'teams/post', :object => post %>
     </div>
   <% end %>
-  <div style="text-align: center">
-    <%= will_paginate @posts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
-  </div> 
 <% } %>
+
+<div style="text-align: center">
+  <%= will_paginate @posts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+</div> 
