@@ -81,7 +81,7 @@ Huddl::App.controller do
     @comment = @team.comments.build(params[:comment])
     @comment.account = current_account
     if !@comment.post
-      @post = @team.posts.create(account: current_account)
+      @post = @team.posts.create!(account: current_account)
       @comment.post = @post
     end
     if @comment.save
