@@ -199,7 +199,8 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!    
     @post.subscriptions.find_by(account: current_account).destroy
-    200        
+    flash[:notice] = "You unsubscribed from the post"
+    redirect "/h/#{@group.slug}/teams/#{@team.id}#post-#{@post.id}"        
   end    
   
   get '/posts/:id/replies' do
