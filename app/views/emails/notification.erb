@@ -26,7 +26,7 @@
           <% end %>
 
           <% if notification.type == 'commented' %>
-            <p style="font-size: 12px;"><a style="color: #aaa !important" href="https://<%=ENV['DOMAIN']%>/h/<%=group.slug%>/teams/<%=notification.notifiable.team_id%>">You're receiving this email as you're a member of the <%=notification.notifiable.team.name%> team</a></p>
+            <p style="font-size: 12px;"><a style="color: #aaa !important" href="https://<%=ENV['DOMAIN']%>/subscriptions/<%=Subscription.find_by(account: current_account, post: notification.notifiable.post_id)%>/destroy">Unwatch this post</a></p>
           <% else %>
             <p style="font-size: 12px;"><a style="color: #aaa !important" href="https://<%=ENV['DOMAIN']%>/accounts/edit">Edit your profile to stop these emails</a></p>
           <% end %>    
