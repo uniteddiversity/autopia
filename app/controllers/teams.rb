@@ -192,6 +192,16 @@ Huddl::App.controller do
     partial :'teams/post', :locals => {:post => @post}
   end
   
+  get '/posts/:id/unsubscribe' do
+    @post = Post.find(params[:id]) || not_found
+    @team = @post.team
+    @group = @post.group
+    @membership = @group.memberships.find_by(account: current_account)    
+    membership_required!    
+    @post.subscriptions.find_by(account: current_account).destroy
+    200        
+  end    
+  
   get '/posts/:id/replies' do
     @post = Post.find(params[:id]) || not_found
     @team = @post.team
@@ -253,5 +263,5 @@ Huddl::App.controller do
     @subscription.destroy
     200        
   end
-  
+    
 end
