@@ -7,7 +7,7 @@
       href="/h/<%=@group.slug%>/teams/<%=team.id%>"
       >
         <% if (unread = team.comments.where(:id.nin => current_account.read_receipts.pluck(:comment_id)).count) > 0 %>
-        <span class="badge"><%=unread%></span>
+        <span class="badge" title="<%=pluralize(unread, 'unread comment')%>"><%=unread%></span>
       <% end %>
 
       <i class="fa fa-fw fa-hashtag"></i> <%=team.name%>
