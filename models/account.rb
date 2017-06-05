@@ -222,7 +222,7 @@ class Account
       mail.to = self.email
       mail.from = ENV['NOTIFICATION_EMAIL']
       mail.subject = "New password for #{ENV['SITE_TITLE']}"
-      mail.body = "Hi #{self.firstname},\n\nSomeone (hopefully you) requested a new password on #{ENV['SITE_TITLE']}.\n\nYour new password is: #{self.password}\n\nYou can sign in at //#{ENV['DOMAIN']}/accounts/sign_in."
+      mail.body = "Hi #{self.firstname},\n\nSomeone (hopefully you) requested a new password on #{ENV['SITE_TITLE']}.\n\nYour new password is: #{self.password}\n\nYou can sign in at #{ENV['SCHEME']}//#{ENV['DOMAIN']}/accounts/sign_in."
       mail.deliver       
     else
       return false
