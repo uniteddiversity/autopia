@@ -59,7 +59,7 @@ class Group
       group = self
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body %Q{#{group.account.name} (#{group.account.email}) created a new group: <a href="https://#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a>}
+        body %Q{#{group.account.name} (#{group.account.email}) created a new group: <a href="//#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a>}
       end
       mail.html_part = html_part
       
@@ -70,7 +70,7 @@ class Group
     
   def create_route
     mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
-    response = mg_client.post('routes', {:description => slug, :expression => "match_recipient('^#{slug}\\+(.*)@#{ENV['MAILGUN_DOMAIN']}$')", :action => "forward('https://#{ENV['DOMAIN']}/h/#{slug}/inbound/\\1')"})
+    response = mg_client.post('routes', {:description => slug, :expression => "match_recipient('^#{slug}\\+(.*)@#{ENV['MAILGUN_DOMAIN']}$')", :action => "forward('//#{ENV['DOMAIN']}/h/#{slug}/inbound/\\1')"})
     update_attribute(:mailgun_route_id, JSON.parse(response.body)['route']['id'])    
   end  
   

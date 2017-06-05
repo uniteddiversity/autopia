@@ -33,7 +33,7 @@ module Huddl
     end
        
     before do
-      redirect "https://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'].split(':').first != ENV['DOMAIN']
+      redirect "//#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'].split(':').first != ENV['DOMAIN']
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : 'London'
       fix_params!
       if params[:sign_in_token] and account = Account.find_by(sign_in_token: params[:sign_in_token])
