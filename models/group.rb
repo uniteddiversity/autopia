@@ -69,17 +69,21 @@ class Group
   handle_asynchronously :send_email
     
   def create_route
-    mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
-    response = mg_client.post('routes', {:description => slug, :expression => "match_recipient('^#{slug}\\+(.*)@#{ENV['MAILGUN_DOMAIN']}$')", :action => "forward('#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{slug}/inbound/\\1')"})
-    update_attribute(:mailgun_route_id, JSON.parse(response.body)['route']['id'])    
+    if ENV['MAILGUN_API_KEY']
+      mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
+      response = mg_client.post('routes', {:description => slug, :expression => "match_recipient('^#{slug}\\+(.*)@#{ENV['MAILGUN_DOMAIN']}$')", :action => "forward('#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{slug}/inbound/\\1')"})
+      update_attribute(:mailgun_route_id, JSON.parse(response.body)['route']['id'])    
+    end
   end  
   
   after_destroy :delete_route
   def delete_route
-    mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
-    response = mg_client.delete("routes/#{mailgun_route_id}")
-    update_attribute(:mailgun_route_id, nil)          
-  rescue
+    if ENV['MAILGUN_API_KEY']
+      mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
+      response = mg_client.delete("routes/#{mailgun_route_id}")
+      update_attribute(:mailgun_route_id, nil)          
+    end
+    rescue
   end
   
   attr_accessor :_replace_route
