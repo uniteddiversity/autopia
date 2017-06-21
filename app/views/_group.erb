@@ -17,7 +17,7 @@
           <% end %> 
           <% if @group and @membership %>
             <p style="color: white;">
-              Non-members can apply at <a href="<%="//#{ENV['DOMAIN']}/h/#{group.slug}"%>" style="color: white; text-decoration: none; border-bottom: 1px dotted white"><%="//#{ENV['DOMAIN']}/h/#{group.slug}"%></a>
+              Non-members can apply at <a href="<%="#{ENV['SCHEME']}//#{ENV['DOMAIN']}/h/#{group.slug}"%>" style="color: white; text-decoration: none; border-bottom: 1px dotted white"><%="#{ENV['SCHEME']}//#{ENV['DOMAIN']}/h/#{group.slug}"%></a>
             </p>                 
           <% end %>
         </div>
