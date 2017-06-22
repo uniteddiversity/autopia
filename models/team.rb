@@ -4,6 +4,7 @@ class Team
 
   field :name, :type => String
   field :intro, :type => String
+  field :budget, :type => Integer
   
   belongs_to :group, index: true
   belongs_to :account, index: true
@@ -30,7 +31,11 @@ class Team
   
   def emails
     Account.where(:id.in => teamships.pluck(:account_id)).pluck(:email)
-  end    
+  end  
+  
+  def spent
+    spends.pluck(:amount).sum
+  end
         
   def self.admin_fields
     {

@@ -1,6 +1,146 @@
 
 <%= partial :group_header %>
 
-<div data-pagelet-url="/h/<%=@group.slug%>/budget">
-  <%= partial :'budget/budget' %>
-</div>
+
+<h2>Incomings</h2>
+
+<table class="table"> 
+  <tr>
+    <th style="width: 33%">Item</th>
+    <th>Amount</th>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <em>Tiers</em>
+    </td>
+  </tr>
+  <% @group.tiers.each { |tier| %>
+    <tr>
+      <td>
+        <%= tier.name %> x <%=tier.tierships.count%>                
+      </td>
+      <td><%=@group.currency_symbol%><%=tier.cost*tier.tierships.count%></td>      
+    </tr>
+  <% } %>
+  <tr>
+    <td colspan="2">
+      <em>Accommodation</em>
+    </td>
+  </tr>    
+  <% @group.accoms.select { |accom| accom.accomships.count > 0 }.each { |accom| %>
+    <tr>
+      <td>
+        <%= accom.name %>
+      </td>
+      <td><%=@group.currency_symbol%><%=accom.cost%></td>      
+    </tr>
+  <% } %>   
+  <tr>
+    <td colspan="2">
+      <em>Transport</em>
+    </td>
+  </tr>   
+  <% @group.transports.each { |transport| %>
+    <tr>
+      <td>
+        <%= transport.name %> x <%=transport.transportships.count%>                
+      </td>
+      <td><%=@group.currency_symbol%><%=transport.cost*transport.transportships.count%></td>      
+    </tr>
+  <% } %>    
+  <tr>   
+    <th></th>      
+    <th><%=@group.currency_symbol%><%=@group.incomings%></th>    
+  </tr>    
+</table>
+
+
+
+<h2>Outgoings</h2>
+      
+<div style="margin: 10px 0">
+  <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List expense</a>
+  <div style="display: none">
+    <%= partial :'budget/build' %>  
+  </div>
+</div>      
+
+<table class="table"> 
+  <tr>
+    <th style="width: 33%">Item</th>
+    <th>Amount</th>
+    <th>Team</th>
+    <th>Paid by</th>
+    <th>Reimbused?</th>
+  </tr> 
+
+  <% if @group.processed_via_huddl > 0 %>
+    <tr>   
+      <td>5% transaction fees on <%=@group.currency_symbol%><%=@group.processed_via_huddl%> processed via <%=ENV['SITE_TITLE']%></td>      
+      <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>      
+      <td></td>   
+      <td></td>      
+      <td></td>      
+    </tr>   
+  <% end %>
+
+  <% @group.spends.order('reimbursed asc, team_id asc, amount desc').each { |spend| %>
+    <tr>
+      <td>
+        <% if @membership.admin? %>
+          <a href="/h/<%=@group.slug%>/spends/<%=spend.id%>/edit">
+            <%=spend.item%>
+          </a>
+        <% else %>
+          <%=spend.item%>
+        <% end %>                
+      </td>
+      <td><%=@group.currency_symbol%><%=spend.amount%></td>
+      <td>
+        <% if spend.team %>
+          <a href="/h/<%=@group.slug%>/teams/<%=spend.team_id%>"><%=spend.team.name%></a>
+        <% end %>
+      </td>   
+      <td><%=spend.account.name%></td>
+      <td>
+        <div data-pagelet-url="/spends/<%=spend.id%>/reimbursed">      
+          <%= partial :'budget/reimbursed', :locals => {:spend => spend} %>
+        </div>
+      </td>
+    </tr>
+  <% } %>
+  <tr>   
+    <th></th>      
+    <th><%=@group.currency_symbol%><%=@group.spends.pluck(:amount).sum + (0.05*@group.processed_via_huddl).round%></th>
+    <th></th>
+    <th></th>       
+    <th></th>
+  </tr>    
+</table>
+
+
+
+<h2>Team budgets</h2>    
+
+<table class="table"> 
+   <tr>
+     <th style="width: 33%">Team</th>
+     <th>Spent</th>
+     <th>Budget</th>    
+   </tr>
+   <% @group.teams.order('name asc').each { |team| %>
+     <tr <% if team.budget and team.spent > team.budget %>class="danger"<% end %>>
+       <td><a href="/h/<%=@group.slug%>/teams/<%=team.id%>"><%=team.name%></a></td>
+       <td><%=@group.currency_symbol%><%=team.spent%></td>
+       <td>
+         <a href="/h/<%=@group.slug%>/teams/<%=team.id%>/edit">
+           <% if team.budget %>
+             <%=@group.currency_symbol%><%=team.budget%>
+           <% else %>
+             n/a
+           <% end %>
+         </a>
+       </td>
+     </tr>
+   <% } %>
+ </table>

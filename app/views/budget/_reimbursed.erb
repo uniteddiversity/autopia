@@ -1,0 +1,13 @@
+<% if @membership.admin? %>
+  <% if spend.reimbursed %>
+    <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
+  <% end %>  
+  <% form_tag "/spends/#{spend.id}/reimbursed", :style => ('display:none' if spend.reimbursed) do %>
+    <%= check_box_tag :reimbursed, :value => true, :checked => spend.reimbursed, :onclick => '$(this.form).submit()' %>
+  <% end %>       
+
+<% else %>
+  <% if spend.reimbursed %>
+    <i class="fa fa-check"></i>
+  <% end %>          
+<% end %>
