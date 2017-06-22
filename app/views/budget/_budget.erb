@@ -93,9 +93,20 @@
    	<th><%=@group.currency_symbol%><%= @group.teams.map(&:spent).sum + (0.05*@group.processed_via_huddl).round%></th>   	
  </tr>
 </table>
+
+<h2>Actual incomings</h2> 
+
+<table class="table"> 
+  <tr>
+    <th style="width: 33%"></th>
+    <th>
+     <%=@group.currency_symbol%><%= @group.memberships.pluck(:paid).compact.sum %>
+      (<%=@group.currency_symbol%><%= @group.processed_via_huddl %> processed via <%=ENV['SITE_TITLE']%>)    
+    </th>
+  </tr> 
+</table>
  
- 
-<h2>Actual spending</h2>
+<h2>Actual outgoings</h2>
       
 <div style="margin: 10px 0">
   <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List expense</a>
@@ -148,9 +159,20 @@
       </td>
     </tr>
   <% } %>
+  
+  <% if @group.processed_via_huddl > 0 %>
+    <tr>   
+      <td>Huddl transaction fees</td>      
+      <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>   
+  <% end %>  
+    
   <tr>   
     <th></th>      
-    <th><%=@group.currency_symbol%><%=@group.spends.pluck(:amount).sum%></th>
+    <th><%=@group.currency_symbol%><%=@group.spends.pluck(:amount).sum + (0.05*@group.processed_via_huddl).round%></th>
     <th></th>
     <th></th>       
     <th></th>
