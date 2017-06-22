@@ -6,7 +6,7 @@ class Spend
   field :amount, :type => Integer
   field :reimbursed, :type => Boolean
   
-  validates_presence_of :item, :amount
+  validates_presence_of :item, :amount, :team
 
   belongs_to :team, index: true
   belongs_to :group, index: true
