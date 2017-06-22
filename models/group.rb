@@ -39,6 +39,7 @@ class Group
   before_validation do
     self.balance = 0 if self.balance.nil?
     self.processed_via_huddl = 0 if self.processed_via_huddl.nil?
+    self.enable_teams = true if self.enable_budget
   end
   
   after_create do    
