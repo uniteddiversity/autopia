@@ -218,7 +218,10 @@
       <% end %>
       <% if @group.enable_budget %>
         <th></th>
-        <th><%=@group.currency_symbol%><%= @group.memberships.pluck(:paid).compact.sum %></th>
+        <th>
+          <%=@group.currency_symbol%><%= @group.memberships.pluck(:paid).compact.sum %>
+          (<%=@group.currency_symbol%><%= @group.processed_via_huddl %> processed via <%=ENV['SITE_TITLE']%>)
+        </th>
       <% end %>
       <% if @group.enable_bookings %>
         <th></th>     
