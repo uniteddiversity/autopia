@@ -59,7 +59,7 @@ class Group
       group = self
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body %Q{#{group.account.name} (#{group.account.email}) created a new group: <a href="//#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a>}
+        body %Q{#{group.account.name} (#{group.account.email}) created a new group: <a href="#{ENV['SCHEME']}//#{ENV['DOMAIN']}/h/#{group.slug}">#{group.name}</a>}
       end
       mail.html_part = html_part
       
