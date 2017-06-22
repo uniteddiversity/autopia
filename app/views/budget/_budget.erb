@@ -80,10 +80,17 @@
        <td><%=@group.currency_symbol%><%=team.spent%></td>       
      </tr>
    <% } %>
+  <% if @group.processed_via_huddl > 0 %>
+    <tr>   
+      <td>5% transaction fees on <%=@group.currency_symbol%><%=@group.processed_via_huddl%> processed via <%=ENV['SITE_TITLE']%></td>      
+      <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>      
+      <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>
+    </tr>   
+  <% end %>   
    <tr>
    	<th></th>
-   	<th><%=@group.currency_symbol%><%= @group.teams.map(&:budget).compact.sum%></th>
-   	<th><%=@group.currency_symbol%><%= @group.teams.map(&:spent).sum%></th>   	
+   	<th><%=@group.currency_symbol%><%= @group.teams.map(&:budget).compact.sum + (0.05*@group.processed_via_huddl).round%></th>
+   	<th><%=@group.currency_symbol%><%= @group.teams.map(&:spent).sum + (0.05*@group.processed_via_huddl).round%></th>   	
  </tr>
 </table>
  
@@ -105,16 +112,6 @@
     <th>Paid by</th>
     <th>Reimbused?</th>
   </tr> 
-
-  <% if @group.processed_via_huddl > 0 %>
-    <tr>   
-      <td>5% transaction fees on <%=@group.currency_symbol%><%=@group.processed_via_huddl%> processed via <%=ENV['SITE_TITLE']%></td>      
-      <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>      
-      <td></td>   
-      <td></td>      
-      <td></td>      
-    </tr>   
-  <% end %>
 
   <% @group.spends.order('reimbursed asc, team_id asc, amount desc').each { |spend| %>
     <tr>
@@ -153,7 +150,7 @@
   <% } %>
   <tr>   
     <th></th>      
-    <th><%=@group.currency_symbol%><%=@group.spends.pluck(:amount).sum + (0.05*@group.processed_via_huddl).round%></th>
+    <th><%=@group.currency_symbol%><%=@group.spends.pluck(:amount).sum%></th>
     <th></th>
     <th></th>       
     <th></th>
