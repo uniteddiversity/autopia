@@ -143,4 +143,9 @@
        </td>
      </tr>
    <% } %>
+   <tr>
+   	<th></th>
+   	<th><%=@group.currency_symbol%><%= @group.teams.map(&:spent).sum%></th>
+   	<th><%=@group.currency_symbol%><%= @group.teams.map(&:budget).compact.sum%></th>
+   </tr>
  </table>
