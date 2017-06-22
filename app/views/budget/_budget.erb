@@ -18,25 +18,29 @@
       <td><%=@group.currency_symbol%><%=tier.cost*tier.tierships.count%></td>      
     </tr>
   <% } %>
-  <tr>
-    <td colspan="2">
-      <em>Accommodation</em>
-    </td>
-  </tr>    
-  <% @group.accoms.select { |accom| accom.accomships.count > 0 }.each { |accom| %>
+  <% accoms = @group.accoms.select { |accom| accom.accomships.count > 0 }; if accoms.count > 0 %>
+	  <tr>
+	    <td colspan="2">
+	      <em>Accommodation</em>
+	    </td>
+	  </tr>    
+  <% end %>
+  <% accoms.each { |accom| %>
     <tr>
       <td>
         <%= accom.name %>
       </td>
       <td><%=@group.currency_symbol%><%=accom.cost%></td>      
     </tr>
-  <% } %>   
-  <tr>
-    <td colspan="2">
-      <em>Transport</em>
-    </td>
-  </tr>   
-  <% @group.transports.each { |transport| %>
+  <% } %> 
+  <% transports = @group.transports; if transports.count > 0 %>
+	  <tr>
+	    <td colspan="2">
+	      <em>Transport</em>
+	    </td>
+	  </tr>   
+  <% end %>
+  <% transports.each { |transport| %>
     <tr>
       <td>
         <%= transport.name %> x <%=transport.transportships.count%>                
