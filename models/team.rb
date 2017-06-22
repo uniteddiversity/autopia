@@ -14,6 +14,8 @@ class Team
   has_many :comments, :dependent => :destroy
   has_many :comment_likes, :dependent => :destroy
   
+  has_many :spends, :dependent => :nullify
+  
   attr_accessor :prevent_notifications
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do

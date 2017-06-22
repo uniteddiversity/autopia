@@ -1,7 +1,7 @@
 
 <table class="table">
   <tr>
-    <td colspan="4">
+    <td colspan="5">
       <h2>Incomings</h2>
     </td>
   </tr>    
@@ -10,9 +10,10 @@
     <th>Amount</th>
     <th></th>
     <th></th>
+    <th></th>
   </tr>
   <tr>
-    <td colspan="4">
+    <td colspan="5">
       <em>Tiers</em>
     </td>
   </tr>
@@ -24,10 +25,11 @@
       <td><%=@group.currency_symbol%><%=tier.cost*tier.tierships.count%></td>      
       <td></td>
       <td></td>
+      <td></td>
     </tr>
   <% } %>
   <tr>
-    <td colspan="4">
+    <td colspan="5">
       <em>Accommodation</em>
     </td>
   </tr>    
@@ -39,10 +41,11 @@
       <td><%=@group.currency_symbol%><%=accom.cost%></td>      
       <td></td>
       <td></td>
+      <td></td>
     </tr>
   <% } %>   
   <tr>
-    <td colspan="4">
+    <td colspan="5">
       <em>Transport</em>
     </td>
   </tr>   
@@ -54,11 +57,13 @@
       <td><%=@group.currency_symbol%><%=transport.cost*transport.transportships.count%></td>      
       <td></td>
       <td></td>
+      <td></td>
     </tr>
   <% } %>    
   <tr>   
     <th></th>      
     <th><%=@group.currency_symbol%><%=@group.incomings%></th>    
+    <th></th>
     <th></th>
     <th></th>
   </tr>    
@@ -80,7 +85,7 @@
   <tr>
     <th>Item</th>
     <th>Amount</th>
-    <th>Category</th>
+    <th>Team</th>
     <th>Paid by</th>
     <th>Reimbused?</th>
   </tr> 
@@ -95,7 +100,7 @@
     </tr>   
   <% end %>
 
-  <% @group.spends.order('reimbursed asc, amount desc').each { |spend| %>
+  <% @group.spends.order('reimbursed asc, team_id asc, amount desc').each { |spend| %>
     <tr>
       <td>
         <% if @membership.admin? %>
@@ -107,7 +112,11 @@
         <% end %>                
       </td>
       <td><%=@group.currency_symbol%><%=spend.amount%></td>
-      <td><%=spend.category%></td>   
+      <td>
+        <% if spend.team %>
+          <a href="/h/<%=@group.slug%>/teams/<%=spend.team_id%>"><%=spend.team.name%></a>
+        <% end %>
+      </td>   
       <td><%=spend.account.name%></td>
       <td>
         <% if @membership.admin? %>   

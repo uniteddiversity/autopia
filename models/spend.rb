@@ -4,11 +4,11 @@ class Spend
   
   field :item, :type => String
   field :amount, :type => Integer
-  field :category, :type => String
   field :reimbursed, :type => Boolean
   
   validates_presence_of :item, :amount
 
+  belongs_to :team, index: true
   belongs_to :group, index: true
   belongs_to :account, index: true
   belongs_to :membership, index: true 
@@ -26,7 +26,7 @@ class Spend
     {
       :item => :text,
       :amount => :number,
-      :category => :text,
+      :team_id => :lookup,
       :reimbursed => :check_box,
       :group_id => :lookup,      
       :account_id => :lookup,
