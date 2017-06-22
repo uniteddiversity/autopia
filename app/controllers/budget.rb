@@ -4,6 +4,7 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
+    @spend = Spend.new
     if request.xhr?
       partial :'budget/budget'
     else
@@ -11,21 +12,46 @@ Huddl::App.controller do
     end
   end
 
-  post '/spends/create' do
-    @group = Group.find(params[:group_id]) || not_found
+  post '/h/:slug/spends/new' do
+    @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    Spend.create(item: params[:item], amount: params[:amount], account: current_account, group: @group)
-    200
-  end
-    
-  get '/spends/:id/destroy' do
-    @spend = Spend.find(params[:id]) || not_found
-    @group = @spend.group
+    @spend = @group.spends.new(params[:spend])
+    @spend.account = current_account
+    if @spend.save
+      redirect back
+    else
+      erb :'budget/build'
+    end
+  end    
+  
+  get '/h/:slug/spends/:id/edit' do
+    @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    @spend.destroy
-    200
+    @spend = @group.spends.find(params[:id]) || not_found
+    erb :'budget/build'     
+  end  
+  
+  post '/h/:slug/spends/:id/edit' do
+    @group = Group.find_by(slug: params[:slug])  || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @spend = @group.spends.find(params[:id]) || not_found
+    if @spend.update_attributes(params[:spend])
+      redirect "/h/#{@group.slug}/budget"
+    else
+      erb :'budget/build'
+    end
+  end   
+
+  get '/h/:slug/spends/:id/destroy' do
+    @group = Group.find_by(slug: params[:slug])  || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @spend = @group.spends.find(params[:id]) || not_found
+    @spend.destroy   
+    redirect "/h/#{@group.slug}/budget"
   end     
     
   post '/spends/:id/reimbursed' do

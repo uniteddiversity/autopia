@@ -1,0 +1,9 @@
+<% form_for @spend, @spend.new_record? ? "/h/#{@group.slug}/spends/new" : "/h/#{@group.slug}/spends/#{@spend.id}/edit", :class => 'form-horizontal' do |f| %>
+  <%= f.text_block :item %>
+	<%= f.number_block :amount %>  
+  <%= f.text_block :category %>  
+  <% if @spend.persisted? %>
+  	<%= f.check_box_block :reimbursed %>  
+  <% end %>
+  <%= f.submit_block destroy_url: "/h/#{@group.slug}/spends/#{@spend.id}/destroy" %>
+<% end %>

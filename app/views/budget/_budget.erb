@@ -66,17 +66,13 @@
   <tr>
     <td colspan="4">
       <h2>Outgoings</h2>
-
-      <% form_tag "/spends/create?group_id=#{@group.id}", :class => 'form-inline', :style => 'margin-top: 10px' do %>
-        <%= text_field_tag :item, :required => true, :class => 'form-control', :style => 'width: 10em', :placeholder => 'Item' %>          
-
-        <div class="input-group">
-          <span class="input-group-addon"><%=@group.currency_symbol%></span>
-          <%= number_field_tag :amount, :required => true, :class => 'form-control', :style => 'width: 8em', :placeholder => 'Amount' %>
+      
+      <div style="margin: 10px 0">
+        <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List expense</a>
+        <div style="display: none">
+          <%= partial :'budget/build' %>  
         </div>
-
-        <%= submit_tag 'Submit expense', :class => 'btn btn-primary' %>
-      <% end %>  
+      </div>      
 
     </td>
   </tr>
@@ -84,6 +80,7 @@
   <tr>
     <th>Item</th>
     <th>Amount</th>
+    <th>Category</th>
     <th>Paid by</th>
     <th>Reimbused?</th>
   </tr> 
@@ -92,6 +89,7 @@
     <tr>   
       <td>5% transaction fees on <%=@group.currency_symbol%><%=@group.processed_via_huddl%> processed via <%=ENV['SITE_TITLE']%></td>      
       <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>      
+      <td></td>   
       <td></td>      
       <td></td>      
     </tr>   
@@ -101,14 +99,15 @@
     <tr>
       <td>
         <% if @membership.admin? %>
-          <a data-confirm="Delete this spend?" class="pagelet-trigger" href="/spends/<%=spend.id%>/destroy">
+          <a href="/h/<%=@group.slug%>/spends/<%=spend.id%>/edit">
             <%=spend.item%>
           </a>
         <% else %>
           <%=spend.item%>
-        <% end %>                 
+        <% end %>                
       </td>
       <td><%=@group.currency_symbol%><%=spend.amount%></td>
+      <td><%=spend.category%></td>   
       <td><%=spend.account.name%></td>
       <td>
         <% if @membership.admin? %>   

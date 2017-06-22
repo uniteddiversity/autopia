@@ -4,7 +4,10 @@ class Spend
   
   field :item, :type => String
   field :amount, :type => Integer
+  field :category, :type => String
   field :reimbursed, :type => Boolean
+  
+  validates_presence_of :item, :amount
 
   belongs_to :group, index: true
   belongs_to :account, index: true
@@ -23,6 +26,7 @@ class Spend
     {
       :item => :text,
       :amount => :number,
+      :category => :text,
       :reimbursed => :check_box,
       :group_id => :lookup,      
       :account_id => :lookup,
