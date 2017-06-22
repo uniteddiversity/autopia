@@ -1,0 +1,40 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Team</th>
+      <th>Members</th> 
+    </tr>
+  </thead>
+  <% @group.teams.order('name asc').each { |team| %>
+    <tr>
+      <td>
+        <a href="/h/<%=@group.slug%>/teams/<%=team.id%>">
+          <%=team.name%>
+        </a>     
+        <br />
+        <%= team.intro %>
+      </td>     
+      <td>
+        <% y = [] %>
+        <% team.teamships.each { |teamship| account = teamship.account; %>
+          <% if params[:view] == 'names' %>
+            <% y << capture do %>   
+              <%= account.name %>
+            <% end %>
+          <% else %>
+            <% y << capture do %><img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /><% end %>
+          <% end %>
+        <% } %>
+        <% if params[:view] == 'names' %>
+          <%= y.map(&:strip).join(', ') %>
+        <% else %>
+          <%= y.map(&:strip).join('') %>
+        <% end %>       
+      </td>
+    </tr>
+  <% } %>
+</table>
+
+<% if params[:view] != 'names' %>
+  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/h/<%=@group.slug%>/teams?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+<% end %>
