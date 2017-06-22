@@ -5,7 +5,11 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
     @spend = Spend.new
-    erb :'budget/budget'
+    if request.xhr?
+      partial :'budget/budget'
+    else
+      erb :'budget/budget'
+    end
   end
 
   post '/h/:slug/spends/new' do
@@ -49,15 +53,7 @@ Huddl::App.controller do
     @spend.destroy   
     redirect "/h/#{@group.slug}/budget"
   end     
-  
-  get '/spends/:id/reimbursed' do
-    @spend = Spend.find(params[:id]) || not_found
-    @group = @spend.group
-    @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
-    partial :'budget/reimbursed', :locals => {:spend => @spend}
-  end
-    
+      
   post '/spends/:id/reimbursed' do
     @spend = Spend.find(params[:id]) || not_found
     @group = @spend.group
@@ -66,5 +62,14 @@ Huddl::App.controller do
     @spend.update_attribute(:reimbursed, params[:reimbursed])
     200  
   end      
-    
+        
+  post '/teams/:id/budget' do
+    @team = Team.find(params[:id]) || not_found
+    @group = @team.group
+    @membership = @group.memberships.find_by(account: current_account)
+    membership_required! 
+    @team.update_attribute(:budget, params[:budget])
+    200  
+  end
+  
 end
