@@ -89,7 +89,7 @@
   <% end %>   
    <tr>
    	<th></th>
-   	<th><%=@group.currency_symbol%><%= @group.teams.map(&:budget).compact.sum + (0.05*@group.processed_via_huddl).round%></th>
+   	<th><%=@group.currency_symbol%><%= @group.teams.map(&:budget).compact.sum + (0.05*@group.incomings).round%></th>
    	<th><%=@group.currency_symbol%><%= @group.teams.map(&:spent).sum + (0.05*@group.processed_via_huddl).round%></th>   	
  </tr>
 </table>
