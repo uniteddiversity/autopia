@@ -33,7 +33,7 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    @rota = @group.rotas.find(params[:id])    
+    @rota = @group.rotas.find(params[:id]) || not_found
     if request.xhr?
       partial :'rotas/rota', :locals => {:rota => @rota}
     else
@@ -45,7 +45,7 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    @rota = @group.rotas.find(params[:id])
+    @rota = @group.rotas.find(params[:id]) || not_found
     erb :'rotas/build'
   end
   
@@ -53,7 +53,7 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    @rota = @group.rotas.find(params[:id])
+    @rota = @group.rotas.find(params[:id]) || not_found
     if @rota.update_attributes(params[:rota])
       redirect "/h/#{@group.slug}/rotas/#{@rota.id}"
     else
@@ -66,7 +66,7 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
-    @rota = @group.rotas.find(params[:id])
+    @rota = @group.rotas.find(params[:id]) || not_found
     @rota.destroy
     redirect "/h/#{@group.slug}/rotas"      
   end   
