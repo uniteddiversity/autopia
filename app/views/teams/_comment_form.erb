@@ -43,19 +43,19 @@
                     $('#comment-title-container').show().find('input').focus();
                     $('textarea[id=comment_body]').attr('placeholder', 'Description')">
           <i class="fa fa-bar-chart"></i>
-      <% if comment.new_record? %>
+          <% if comment.new_record? %>
             Create a poll
-      <% else %>
+          <% else %>
             Convert to poll
-      <% end %>
+          <% end %>
         </a>
-      <% if comment.title %>
+        <% if comment.title %>
           <script>
             $(function () {
               $('#create-a-poll').click()
             })
           </script>
-      <% end %>	
+        <% end %>	
 
         <span id="divider">&middot;</span>
 
@@ -65,7 +65,7 @@
           <i class="fa fa-paperclip"></i>
           Attach a file
         </a>
-      <% if comment.file %>
+        <% if comment.file %>
           <script>
             $(function () {
               $('#attach-a-file').hide();
@@ -73,7 +73,7 @@
               $('#comment-file-container').show()
             })
           </script>
-      <% end %>						
+        <% end %>						
 
       </div>
 

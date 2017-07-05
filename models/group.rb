@@ -84,7 +84,7 @@ class Group
       response = mg_client.delete("routes/#{mailgun_route_id}")
       update_attribute(:mailgun_route_id, nil)          
     end
-    rescue
+  rescue
   end
   
   attr_accessor :_replace_route

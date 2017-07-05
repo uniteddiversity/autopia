@@ -87,7 +87,7 @@ Huddl::App.controller do
     end        
   end
   
- get '/wishlists/:wishlist_id/wishlist_items/:id/edit' do
+  get '/wishlists/:wishlist_id/wishlist_items/:id/edit' do
     @wishlist = Wishlist.find(params[:wishlist_id])
     @group = @wishlist.group
     @membership = @group.memberships.find_by(account: current_account)
@@ -96,7 +96,7 @@ Huddl::App.controller do
     erb :'wishlists/build_wishlist_item'
   end
         
- post '/wishlists/:wishlist_id/wishlist_items/:id/edit' do
+  post '/wishlists/:wishlist_id/wishlist_items/:id/edit' do
     @wishlist = Wishlist.find(params[:wishlist_id])
     @group = @wishlist.group
     @membership = @group.memberships.find_by(account: current_account)
@@ -110,7 +110,7 @@ Huddl::App.controller do
     end
   end  
         
- get '/wishlists/:wishlist_id/wishlist_items/:id/destroy' do
+  get '/wishlists/:wishlist_id/wishlist_items/:id/destroy' do
     @wishlist = Wishlist.find(params[:wishlist_id])
     @group = @wishlist.group
     @membership = @group.memberships.find_by(account: current_account)
@@ -120,7 +120,7 @@ Huddl::App.controller do
     redirect "/h/#{@group.slug}/wishlists/#{@wishlist.id}"
   end   
   
- post '/wishlists/:wishlist_id/wishlist_items/:id/provided' do
+  post '/wishlists/:wishlist_id/wishlist_items/:id/provided' do
     @wishlist = Wishlist.find(params[:wishlist_id])
     @group = @wishlist.group
     @membership = @group.memberships.find_by(account: current_account)
