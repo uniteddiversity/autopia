@@ -13,7 +13,7 @@
     <th>Provided by</th>
   </tr> 
 
-  <% @wishlist.wishlist_items(true).order('team_id asc, amount desc').each { |wishlist_item| %>
+  <% @wishlist.wishlist_items(true).sort_by { |wishlist_item| wishlist_item.team.try(:name) || '' }.each { |wishlist_item| %>
     <tr>
       <td>
         <% if @membership.admin? %>
