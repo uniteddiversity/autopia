@@ -105,7 +105,7 @@ Huddl::App.controller do
     if @wishlist_item.update_attributes(params[:wishlist_item])
       redirect "/h/#{@group.slug}/wishlists/#{@wishlist.id}"
     else
-      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the wishlist_item from being saved." 
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the wishlist item from being saved." 
       erb :'wishlists/build_wishlist_item'
     end
   end  

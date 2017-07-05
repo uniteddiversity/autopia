@@ -9,6 +9,8 @@ class WishlistItem
   belongs_to :account, index: true, optional: true, class_name: "Account", inverse_of: :wishlist_items_listed
   belongs_to :provided_by, index: true, optional: true, class_name: "Account", inverse_of: :wishlist_items_provided  
   belongs_to :membership, index: true, optional: true
+  
+  validates_presence_of :name, :wishlist, :group, :account, :membership
       
   before_validation do
     self.group = self.wishlist.group if self.wishlist
@@ -24,6 +26,7 @@ class WishlistItem
         
   def self.admin_fields
     {
+      :name => :text,
       :account_id => :lookup,
       :provided_by_id => :lookup,
       :wishlist_id => :lookup,
