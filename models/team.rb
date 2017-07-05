@@ -5,9 +5,11 @@ class Team
   field :name, :type => String
   field :intro, :type => String
   field :budget, :type => Integer
-  
+    
   belongs_to :group, index: true
   belongs_to :account, index: true
+  
+  validates_presence_of :name, :group
   
   has_many :teamships, :dependent => :destroy
   has_many :posts, :dependent => :destroy

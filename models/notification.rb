@@ -10,13 +10,17 @@ class Notification
   validates_presence_of :type
   
   after_create do
-    pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
-    pusher_client.trigger("notifications.#{group.slug}", 'updated', {})
+    if ENV['PUSHER_APP_ID']
+      pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
+      pusher_client.trigger("notifications.#{group.slug}", 'updated', {})
+    end
   end
   
   after_destroy do
-    pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
-    pusher_client.trigger("notifications.#{group.slug}", 'updated', {})    
+    if ENV['PUSHER_APP_ID']
+      pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
+      pusher_client.trigger("notifications.#{group.slug}", 'updated', {})    
+    end
   end
   
   before_validation do
@@ -24,11 +28,11 @@ class Notification
   end
   
   def self.types
-    %w{created_group applied joined_group joined_team created_spend created_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment left_group created_payment}  
+    %w{created_group applied joined_group joined_team created_spend created_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment left_group created_payment created_wishlist created_wishlist_item}  
   end
   
   def self.mailable_types
-    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend commented}
+    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend commented created_wishlist}
   end
   
   after_create :send_email  
@@ -159,6 +163,12 @@ class Notification
     when :created_payment
       payment = notifiable
       "<strong>#{payment.account.name}</strong> made a payment of #{Group.currency_symbol(payment.currency)}#{payment.amount}"
+    when :created_wishlist
+      wishlist = notifiable
+      "<strong>#{wishlist.account.name}</strong> created the wishlist <strong>#{wishlist.name}</strong>"
+    when :created_wishlist_item
+      wishlist_item = notifiable
+      "<strong>#{wishlist_item.account.name}</strong> listed the item <strong>#{wishlist_item.name}</strong> under <strong>#{wishlist_item.wishlist.name}</strong>"      
     end
   end
   
@@ -220,6 +230,10 @@ class Notification
       ['View members', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/members"]
     when :created_payment
       ['View budget', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
+    when :created_wishlist
+      ['View wishlist', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/wishlists/#{notifiable.id}"]
+    when :created_wishlist_item
+      ['View wishlist', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/wishlists/#{notifiable.wishlist_id}"]
     end
   end
     
@@ -280,7 +294,11 @@ class Notification
     when :left_group
       'fa fa-sign-out'
     when :created_payment
-      'fa-money'      
+      'fa-money'  
+    when :created_wishlist
+      'fa-magic'
+    when :created_wishlist_item
+      'fa-magic'
     end    
   end
 

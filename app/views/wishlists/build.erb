@@ -1,0 +1,9 @@
+<%= partial :group_header %>
+
+<h2><%= @wishlist.new_record? ? 'Create a wishlist' : 'Edit wishlist' %></h2>
+
+<% form_for @wishlist ||= Wishlist.new, @wishlist.new_record? ? "/h/#{@group.slug}/wishlists/new" : "/h/#{@group.slug}/wishlists/#{@wishlist.id}/edit", :class => 'form-horizontal' do |f| %>
+  <%= f.text_block :name %>
+  <%= f.wysiwyg_block :description %>
+  <%= f.submit_block destroy_url: ("/h/#{@group.slug}/wishlists/#{@wishlist.id}/destroy" if @membership.admin?) %>
+<% end %>  

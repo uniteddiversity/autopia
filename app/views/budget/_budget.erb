@@ -1,188 +1,188 @@
 <div class="row">
-<div class="col-sm-6">
+  <div class="col-sm-6">
 
-<h2>Projected incomings</h2>
+    <h2>Projected incomings</h2>
 
-<table class="table"> 
-  <tr>
-    <th style="width: 50%">Item</th>
-    <th>Amount</th>
-  </tr>
-  <tr>
-    <td colspan="2">
-      <em>Tiers</em>
-    </td>
-  </tr>
-  <% @group.tiers.each { |tier| %>
-    <tr>
-      <td>
-        <%= tier.name %> x <%=tier.tierships.count%>                
-      </td>
-      <td><%=@group.currency_symbol%><%=tier.cost*tier.tierships.count%></td>      
-    </tr>
-  <% } %>
-  <% accoms = @group.accoms.select { |accom| accom.accomships.count > 0 }; if accoms.count > 0 %>
-	  <tr>
-	    <td colspan="2">
-	      <em>Accommodation</em>
-	    </td>
-	  </tr>    
-  <% end %>
-  <% accoms.each { |accom| %>
-    <tr>
-      <td>
-        <%= accom.name %>
-      </td>
-      <td><%=@group.currency_symbol%><%=accom.cost%></td>      
-    </tr>
-  <% } %> 
-  <% transports = @group.transports; if transports.count > 0 %>
-	  <tr>
-	    <td colspan="2">
-	      <em>Transport</em>
-	    </td>
-	  </tr>   
-  <% end %>
-  <% transports.each { |transport| %>
-    <tr>
-      <td>
-        <%= transport.name %> x <%=transport.transportships.count%>                
-      </td>
-      <td><%=@group.currency_symbol%><%=transport.cost*transport.transportships.count%></td>      
-    </tr>
-  <% } %>    
-  <tr>   
-    <th></th>      
-    <th><%=@group.currency_symbol%><%=@group.incomings%></th>    
-  </tr>    
-</table>
+    <table class="table"> 
+      <tr>
+        <th style="width: 50%">Item</th>
+        <th>Amount</th>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <em>Tiers</em>
+        </td>
+      </tr>
+      <% @group.tiers.each { |tier| %>
+        <tr>
+          <td>
+            <%= tier.name %> x <%=tier.tierships.count%>                
+          </td>
+          <td><%=@group.currency_symbol%><%=tier.cost*tier.tierships.count%></td>      
+        </tr>
+      <% } %>
+      <% accoms = @group.accoms.select { |accom| accom.accomships.count > 0 }; if accoms.count > 0 %>
+        <tr>
+          <td colspan="2">
+            <em>Accommodation</em>
+          </td>
+        </tr>    
+      <% end %>
+      <% accoms.each { |accom| %>
+        <tr>
+          <td>
+            <%= accom.name %>
+          </td>
+          <td><%=@group.currency_symbol%><%=accom.cost%></td>      
+        </tr>
+      <% } %> 
+      <% transports = @group.transports; if transports.count > 0 %>
+        <tr>
+          <td colspan="2">
+            <em>Transport</em>
+          </td>
+        </tr>   
+      <% end %>
+      <% transports.each { |transport| %>
+        <tr>
+          <td>
+            <%= transport.name %> x <%=transport.transportships.count%>                
+          </td>
+          <td><%=@group.currency_symbol%><%=transport.cost*transport.transportships.count%></td>      
+        </tr>
+      <% } %>    
+      <tr>   
+        <th></th>      
+        <th><%=@group.currency_symbol%><%=@group.incomings%></th>    
+      </tr>    
+    </table>
 
-<h2>Actual incomings</h2> 
+    <h2>Actual incomings</h2> 
 
-<table class="table"> 
-  <tr>
-    <th style="width: 50%"></th>
-    <th>
-     <%=@group.currency_symbol%><%= @group.memberships.pluck(:paid).compact.sum %>
-      (<%=@group.currency_symbol%><%= @group.processed_via_huddl %> processed via <%=ENV['SITE_TITLE']%>)    
-    </th>
-  </tr> 
-</table>
+    <table class="table"> 
+      <tr>
+        <th style="width: 50%"></th>
+        <th>
+          <%=@group.currency_symbol%><%= @group.memberships.pluck(:paid).compact.sum %>
+          (<%=@group.currency_symbol%><%= @group.processed_via_huddl %> processed via <%=ENV['SITE_TITLE']%>)    
+        </th>
+      </tr> 
+    </table>
 
-</div>
-<div class="col-sm-6">
-
-<h2>Projected outgoings</h2>    
-
-<table class="table"> 
-   <tr>
-     <th style="width: 50%">Team</th>     
-     <th>Budget</th>    
-	   <th>Spent</th>     
-   </tr>
-   <% @group.teams.order('name asc').each { |team| %>
-     <tr <% if team.budget and team.spent > team.budget %>class="danger"<% end %>>
-       <td><a href="/h/<%=@group.slug%>/teams/<%=team.id%>"><%=team.name%></a></td>
-       <td>
-          <% if team.budget %>
-            <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "#{@group.currency_symbol}#{team.budget}" if team.budget %></a>
-          <% end %>
-          <% form_tag "/teams/#{team.id}/budget", :style => ('display:none' if team.budget) do %>
-            <div class="input-group">
-              <span class="input-group-addon"><%=@group.currency_symbol%></span>
-              <%= number_field_tag :budget, :class => 'form-control', :style => 'width: 6em', :value => team.budget, :onblur => '$(this.form).submit()' %>
-            </div>              
-          <% end %>     
-       </td>
-       <td><%=@group.currency_symbol%><%=team.spent%></td>       
-     </tr>
-   <% } %>
-  <% if @group.processed_via_huddl > 0 %>
-    <tr>   
-      <td>Huddl transaction fees</td>      
-      <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.incomings)}"%></td>      
-      <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>
-    </tr>   
-  <% end %>   
-   <tr>
-   	<th></th>
-   	<th><%=@group.currency_symbol%><%= @group.teams.map(&:budget).compact.sum + (0.05*@group.incomings).round%></th>
-   	<th><%=@group.currency_symbol%><%= @group.teams.map(&:spent).sum + (0.05*@group.processed_via_huddl).round%></th>   	
- </tr>
-</table>
- 
-<h2>Actual outgoings</h2>
-      
-<div style="margin: 10px 0">
-  <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List expense</a>
-  <div style="display: none">
-    <%= partial :'budget/build' %>  
   </div>
-</div>      
+  <div class="col-sm-6">
 
-<table class="table"> 
-  <tr>
-    <th style="width: 50%">Item</th>
-    <th>Amount</th>
-    <th>Team</th>
-    <th>Paid by</th>
-    <th>Reimbused?</th>
-  </tr> 
+    <h2>Projected outgoings</h2>    
 
-  <% @group.spends.order('reimbursed asc, team_id asc, amount desc').each { |spend| %>
-    <tr>
-      <td>
-        <% if @membership.admin? %>
-          <a href="/h/<%=@group.slug%>/spends/<%=spend.id%>/edit">
-            <%=spend.item%>
-          </a>
-        <% else %>
-          <%=spend.item%>
-        <% end %>                
-      </td>
-      <td><%=@group.currency_symbol%><%=spend.amount%></td>
-      <td>
-        <% if spend.team %>
-          <a href="/h/<%=@group.slug%>/teams/<%=spend.team_id%>"><%=spend.team.name%></a>
-        <% end %>
-      </td>   
-      <td><%=spend.account.name%></td>
-      <td>
-        <% if @membership.admin? %>
-          <% if spend.reimbursed %>
-            <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
-          <% end %>  
-          <% form_tag "/spends/#{spend.id}/reimbursed", :style => ('display:none' if spend.reimbursed) do %>
-            <%= check_box_tag :reimbursed, :value => true, :checked => spend.reimbursed, :onclick => '$(this.form).submit()' %>
-          <% end %>       
-        
-        <% else %>
-          <% if spend.reimbursed %>
-            <i class="fa fa-check"></i>
-          <% end %>          
-        <% end %>
-      </td>
-    </tr>
-  <% } %>
-  
-  <% if @group.processed_via_huddl > 0 %>
-    <tr>   
-      <td>Huddl transaction fees</td>      
-      <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>   
-  <% end %>  
-    
-  <tr>   
-    <th></th>      
-    <th><%=@group.currency_symbol%><%=@group.spends.pluck(:amount).sum + (0.05*@group.processed_via_huddl).round%></th>
-    <th></th>
-    <th></th>       
-    <th></th>
-  </tr>    
-</table>
+    <table class="table"> 
+      <tr>
+        <th style="width: 50%">Team</th>     
+        <th>Budget</th>    
+        <th>Spent</th>     
+      </tr>
+      <% @group.teams.order('name asc').each { |team| %>
+        <tr <% if team.budget and team.spent > team.budget %>class="danger"<% end %>>
+          <td><a href="/h/<%=@group.slug%>/teams/<%=team.id%>"><%=team.name%></a></td>
+          <td>
+            <% if team.budget %>
+              <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "#{@group.currency_symbol}#{team.budget}" if team.budget %></a>
+            <% end %>
+            <% form_tag "/teams/#{team.id}/budget", :style => ('display:none' if team.budget) do %>
+              <div class="input-group">
+                <span class="input-group-addon"><%=@group.currency_symbol%></span>
+                <%= number_field_tag :budget, :class => 'form-control', :style => 'width: 6em', :value => team.budget, :onblur => '$(this.form).submit()' %>
+              </div>              
+            <% end %>     
+          </td>
+          <td><%=@group.currency_symbol%><%=team.spent%></td>       
+        </tr>
+      <% } %>
+      <% if @group.processed_via_huddl > 0 %>
+        <tr>   
+          <td>Huddl transaction fees</td>      
+          <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.incomings)}"%></td>      
+          <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>
+        </tr>   
+      <% end %>   
+      <tr>
+        <th></th>
+        <th><%=@group.currency_symbol%><%= @group.teams.map(&:budget).compact.sum + (0.05*@group.incomings).round%></th>
+        <th><%=@group.currency_symbol%><%= @group.teams.map(&:spent).sum + (0.05*@group.processed_via_huddl).round%></th>   	
+      </tr>
+    </table>
 
-</div>
+    <h2>Actual outgoings</h2>
+
+    <div style="margin: 10px 0">
+      <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List expense</a>
+      <div style="display: none">
+        <%= partial :'budget/build' %>  
+      </div>
+    </div>      
+
+    <table class="table"> 
+      <tr>
+        <th style="width: 50%">Item</th>
+        <th>Amount</th>
+        <th>Team</th>
+        <th>Paid by</th>
+        <th>Reimbused?</th>
+      </tr> 
+
+      <% @group.spends.order('reimbursed asc, team_id asc, amount desc').each { |spend| %>
+        <tr>
+          <td>
+            <% if @membership.admin? %>
+              <a href="/h/<%=@group.slug%>/spends/<%=spend.id%>/edit">
+                <%=spend.item%>
+              </a>
+            <% else %>
+              <%=spend.item%>
+            <% end %>                
+          </td>
+          <td><%=@group.currency_symbol%><%=spend.amount%></td>
+          <td>
+            <% if spend.team %>
+              <a href="/h/<%=@group.slug%>/teams/<%=spend.team_id%>"><%=spend.team.name%></a>
+            <% end %>
+          </td>   
+          <td><%=spend.account.name%></td>
+          <td>
+            <% if @membership.admin? %>
+              <% if spend.reimbursed %>
+                <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
+              <% end %>  
+              <% form_tag "/spends/#{spend.id}/reimbursed", :style => ('display:none' if spend.reimbursed) do %>
+                <%= check_box_tag :reimbursed, :value => true, :checked => spend.reimbursed, :onclick => '$(this.form).submit()' %>
+              <% end %>       
+
+            <% else %>
+              <% if spend.reimbursed %>
+                <i class="fa fa-check"></i>
+              <% end %>          
+            <% end %>
+          </td>
+        </tr>
+      <% } %>
+
+      <% if @group.processed_via_huddl > 0 %>
+        <tr>   
+          <td>Huddl transaction fees</td>      
+          <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>   
+      <% end %>  
+
+      <tr>   
+        <th></th>      
+        <th><%=@group.currency_symbol%><%=@group.spends.pluck(:amount).sum + (0.05*@group.processed_via_huddl).round%></th>
+        <th></th>
+        <th></th>       
+        <th></th>
+      </tr>    
+    </table>
+
+  </div>
 </div>
