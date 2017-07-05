@@ -1,10 +1,8 @@
 <%= partial :group_header %>
 
-<% if @membership.admin? %>
-  <div style="margin: 10px 0">
-    <a class="btn btn-primary" href="/h/<%=@group.slug%>/wishlists/new"><i class="fa fa-plus-circle"></i> Create a wishlist</a>
-  </div>
-<% end %>
+<div style="margin: 10px 0">
+  <a class="btn btn-primary" href="/h/<%=@group.slug%>/wishlists/new"><i class="fa fa-plus-circle"></i> Create a wishlist</a>
+</div>
 
 <% @group.wishlists.each { |wishlist| %>
   <h2>

@@ -4,11 +4,9 @@
   <%=@wishlist.name%>
 </h2>
 
-<% if @membership.admin? %>
-  <a style="border-bottom: 1px dotted; text-decoration: none" href="/h/<%=@group.slug%>/wishlists/<%=@wishlist.id%>/edit">
-    Edit wishlist
-  </a>
-<% end %>
+<a style="border-bottom: 1px dotted; text-decoration: none" href="/h/<%=@group.slug%>/wishlists/<%=@wishlist.id%>/edit">
+  Edit wishlist
+</a>
 
 <% if @wishlist.description %>
   <div style="margin: 15px 0">

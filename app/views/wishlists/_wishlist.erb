@@ -16,13 +16,9 @@
   <% @wishlist.wishlist_items(true).sort_by { |wishlist_item| wishlist_item.team.try(:name) || '' }.each { |wishlist_item| %>
     <tr>
       <td>
-        <% if @membership.admin? %>
-          <a href="/wishlists/<%=@wishlist.id%>/wishlist_items/<%=wishlist_item.id%>/edit">
-            <%=wishlist_item.name%>
-          </a>
-        <% else %>
+        <a href="/wishlists/<%=@wishlist.id%>/wishlist_items/<%=wishlist_item.id%>/edit">
           <%=wishlist_item.name%>
-        <% end %>                
+        </a>
       </td>   
       <td>
         <% if wishlist_item.team %>

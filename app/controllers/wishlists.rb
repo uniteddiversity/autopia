@@ -3,7 +3,7 @@ Huddl::App.controller do
   get '/h/:slug/wishlists/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
-    group_admins_only!
+    membership_required!
     @wishlist = @group.wishlists.build        
     erb :'wishlists/build'
   end
@@ -11,7 +11,7 @@ Huddl::App.controller do
   post '/h/:slug/wishlists/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    membership_required!
     @wishlist = @group.wishlists.build(params[:wishlist])      
     @wishlist.account = current_account    
     if @wishlist.save
@@ -45,7 +45,7 @@ Huddl::App.controller do
   get '/h/:slug/wishlists/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    membership_required!
     @wishlist = @group.wishlists.find(params[:id]) || not_found
     erb :'wishlists/build'
   end
@@ -53,7 +53,7 @@ Huddl::App.controller do
   post '/h/:slug/wishlists/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    membership_required!
     @wishlist = @group.wishlists.find(params[:id]) || not_found
     if @wishlist.update_attributes(params[:wishlist])
       redirect "/h/#{@group.slug}/wishlists/#{@wishlist.id}"
@@ -66,7 +66,7 @@ Huddl::App.controller do
   get '/h/:slug/wishlists/:id/destroy' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!    
+    membership_required!    
     @wishlist = @group.wishlists.find(params[:id]) || not_found
     @wishlist.destroy
     redirect "/h/#{@group.slug}/wishlists"      
@@ -91,7 +91,7 @@ Huddl::App.controller do
     @wishlist = Wishlist.find(params[:wishlist_id])
     @group = @wishlist.group
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    membership_required!
     @wishlist_item = @wishlist.wishlist_items.find(params[:id]) || not_found
     erb :'wishlists/build_wishlist_item'
   end
@@ -100,7 +100,7 @@ Huddl::App.controller do
     @wishlist = Wishlist.find(params[:wishlist_id])
     @group = @wishlist.group
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    membership_required!
     @wishlist_item = @wishlist.wishlist_items.find(params[:id]) || not_found
     if @wishlist_item.update_attributes(params[:wishlist_item])
       redirect "/h/#{@group.slug}/wishlists/#{@wishlist.id}"
@@ -114,7 +114,7 @@ Huddl::App.controller do
     @wishlist = Wishlist.find(params[:wishlist_id])
     @group = @wishlist.group
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only! 
+    membership_required! 
     @wishlist_item = @wishlist.wishlist_items.find(params[:id]) || not_found
     @wishlist_item.destroy
     redirect "/h/#{@group.slug}/wishlists/#{@wishlist.id}"
