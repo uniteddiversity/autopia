@@ -19,8 +19,10 @@
         <a href="/wishlists/<%=@wishlist.id%>/wishlist_items/<%=wishlist_item.id%>/edit">
           <%=wishlist_item.name%>
         </a>
-        <br />
-        <%= wishlist_item.description %>        
+        <% if wishlist_item.description %>
+          <br />
+          <%= wishlist_item.description %>        
+        <% end %>
       </td>   
       <td>
         <% if wishlist_item.team %>
