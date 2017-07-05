@@ -7,7 +7,8 @@
 
 <table class="table"> 
   <tr>
-    <th style="width: 50%">Item</th>
+    <th>Item</th>
+    <th>Team</th>
     <th>Requested by</th>
     <th>Provided by</th>
   </tr> 
@@ -23,6 +24,11 @@
           <%=wishlist_item.name%>
         <% end %>                
       </td>   
+      <td>
+        <% if wishlist_item.team %>
+          <a href="/h/<%=@group.slug%>/teams/<%=wishlist_item.team_id%>"><%=wishlist_item.team.name%></a>
+        <% end %>
+      </td>      
       <td><%=wishlist_item.account.name%></td>
       <td>
         <% if wishlist_item.provided_by %>
