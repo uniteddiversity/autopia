@@ -31,7 +31,7 @@
           <a href="javascript:;" onclick="$(this).hide().next().show()"><%= wishlist_item.provided_by.name %></a>
         <% end %>  
         <% form_tag "/wishlists/#{@wishlist.id}/wishlist_items/#{wishlist_item.id}/provided", :style => ('display:none' if wishlist_item.provided_by) do %>
-          <%= select_tag :provided_by_id, :class => 'form-control', :options => [''] + @group.members.map { |account| [account.name, account.id] }, :selected => wishlist_item.provided_by.try(:id), :onchange => '$(this.form).submit()' %>
+          <%= select_tag :provided_by_id, :class => 'form-control', :options => [''] + @group.members.order('name asc').map { |account| [account.name, account.id] }, :selected => wishlist_item.provided_by.try(:id), :onchange => '$(this.form).submit()' %>
         <% end %>  
       </td>
     </tr>
