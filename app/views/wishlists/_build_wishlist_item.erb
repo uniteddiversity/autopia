@@ -1,5 +1,6 @@
 <% form_for @wishlist_item, @wishlist_item.new_record? ? "/wishlists/#{@wishlist.id}/wishlist_items/new" : "/wishlists/#{@wishlist.id}/wishlist_items/#{@wishlist_item.id}/edit", :class => 'form-horizontal no-trigger' do |f| %>
   <%= f.text_block :name %>
+  <%= f.text_area_block :description %> 
   <%= f.select_block :team_id, :options => @group.teams.order('name asc').map { |team| [team.name, team.id] } %>  
   <%= f.submit_block destroy_url: "/wishlists/#{@wishlist.id}/wishlist_items/#{@wishlist_item.id}/destroy" %>
 <% end %>

@@ -3,6 +3,7 @@ class WishlistItem
   include Mongoid::Timestamps
   
   field :name, :type => String
+  field :description, :type => String
      
   belongs_to :wishlist, index: true
   belongs_to :group, index: true
@@ -28,6 +29,7 @@ class WishlistItem
   def self.admin_fields
     {
       :name => :text,
+      :description => :text_area,
       :account_id => :lookup,
       :provided_by_id => :lookup,
       :wishlist_id => :lookup,
