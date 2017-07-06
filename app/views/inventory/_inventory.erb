@@ -10,7 +10,7 @@
     <th>Item</th>
     <th>Team</th>
     <th>Listed by</th>
-    <th>Responsible</th>
+    <th>Responsible person</th>
   </tr> 
 
   <% @group.inventory_items(true).sort_by { |inventory_item| inventory_item.team.try(:name) || '' }.each { |inventory_item| %>
