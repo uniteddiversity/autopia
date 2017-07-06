@@ -1,0 +1,6 @@
+<% form_for @inventory_item, @inventory_item.new_record? ? "/h/#{@group.slug}/inventory_items/new" : "/h/#{@group.slug}/inventory_items/#{@inventory_item.id}/edit", :class => 'form-horizontal no-trigger' do |f| %>
+  <%= f.text_block :name %>
+  <%= f.text_area_block :description %> 
+  <%= f.select_block :team_id, :options => @group.teams.order('name asc').map { |team| [team.name, team.id] } %>  
+  <%= f.submit_block destroy_url: "/h/#{@group.slug}/inventory_items/#{@inventory_item.id}/destroy" %>
+<% end %>

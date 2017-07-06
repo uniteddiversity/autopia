@@ -34,11 +34,7 @@
       (["Bookings (#{@group.bookings.count})", "/h/#{@group.slug}/bookings"] if @group.enable_bookings),
       (["Accommodation (#{@group.accoms.count})", "/h/#{@group.slug}/accoms"] if @group.enable_accommodation),
       (["Transport (#{@group.transports.count})", "/h/#{@group.slug}/transports"] if @group.enable_transport),        
-      (["Wishlists",
-          (
-            @group.wishlists(true).order('name asc').map { |wishlist| [wishlist.name, "/h/#{@group.slug}/wishlists/#{wishlist.id}"] } + [[],['Create a wishlist', "/h/#{@group.slug}/wishlists/new"]]
-          )              
-          ] if @group.enable_wishlists),      
+      (["Inventory", "/h/#{@group.slug}/inventory"] if @group.enable_inventory),       
       (["Budget", "/h/#{@group.slug}/budget"] if @group.enable_budget),    
       ].compact %>
   </div>

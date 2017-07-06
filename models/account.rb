@@ -75,10 +75,9 @@ class Account
   # Qualities
   has_many :qualities, :dependent => :nullify
   has_many :cultivations, :dependent => :destroy
-  # Wishlists
-  has_many :wishlists, :dependent => :nullify
-  has_many :wishlist_items_listed, :class_name => 'WishlistItem', :inverse_of => :account, :dependent => :nullify
-  has_many :wishlist_items_provided, :class_name => 'WishlistItem', :inverse_of => :provided_by, :dependent => :nullify
+  # Inventory
+  has_many :inventory_items_listed, :class_name => 'InventoryItem', :inverse_of => :account, :dependent => :nullify
+  has_many :inventory_items_provided, :class_name => 'InventoryItem', :inverse_of => :responsible, :dependent => :nullify
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   

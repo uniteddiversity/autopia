@@ -18,7 +18,7 @@ class Team
   has_many :comment_likes, :dependent => :destroy
   
   has_many :spends, :dependent => :nullify
-  has_many :wishlist_items, :dependent => :nullify
+  has_many :inventory_items, :dependent => :nullify
   
   attr_accessor :prevent_notifications
   has_many :notifications, as: :notifiable, dependent: :destroy

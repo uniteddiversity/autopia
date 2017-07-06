@@ -99,8 +99,8 @@ class Membership
   has_many :bookings, :dependent => :destroy
   # Qualities
   has_many :cultivations, :dependent => :destroy
-  # Wishlists
-  has_many :wishlist_items, :dependent => :nullify
+  # Inventory
+  has_many :inventory_items, :dependent => :nullify
   
   def update_requested_contribution    
     c = 0
