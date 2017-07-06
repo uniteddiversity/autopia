@@ -291,7 +291,7 @@ class Notification
     when :created_payment
       'fa-money'  
     when :created_inventory_item
-      'fa-magic'
+      'fa-wrench'
     end    
   end
 
