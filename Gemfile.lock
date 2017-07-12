@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: 06d595567d3edd2352ef87656343d473f092f6cb
+  revision: eb6e687165dbf0f43c4c63c439970b1b1fea7f05
   specs:
     activate-tools (0.0.1)
       padrino
@@ -83,13 +83,13 @@ GEM
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     httpclient (2.8.3)
-    i18n (0.8.1)
+    i18n (0.8.6)
     incoming (0.1.8)
       mail (~> 2.4)
       rack
     ipaddress (0.8.3)
     jwt (1.5.6)
-    mail (2.6.5)
+    mail (2.6.6)
       mime-types (>= 1.16, < 4)
     mailgun-ruby (1.1.6)
       rest-client (~> 2.0)

@@ -2,15 +2,6 @@
 
 $(function () {
 
-  $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-    var t = '_t=' + Date.now()
-    console.log(options.data)
-    if (options.data)
-      options.data += '&' + t
-    else
-      options.data = t
-  });
-
   function addPlaceholders() {
     $('form.add-placeholders label[for]').each(function () {
       var input = $(this).next().children().first()
