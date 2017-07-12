@@ -59,7 +59,7 @@
     
 <% if @group.enable_teams %>
   <% y << capture do %>
-    <a href="?no_teams=true">No teams</a> <%= @group.memberships.where(:account_id.nin => @group.teamships.pluck(:account_id)).count %>
+    <a href="?no_teams=true">No teams</a> <%= @group.memberships.where(:account_id.nin => @group.teamships.where(:team_id.nin => @group.teams.where(name: 'General')).pluck(:account_id)).count %>
   <% end %>
 <% end %>    
 
