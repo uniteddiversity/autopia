@@ -56,6 +56,12 @@
     <a href="?no_shifts=true">People without shifts</a> <%= @group.memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)).count %>
   <% end %>
 <% end %>
+    
+<% if @group.enable_teams %>
+  <% y << capture do %>
+    <a href="?no_teams=true">No teams</a> <%= @group.memberships.where(:account_id.nin => @group.teamships.pluck(:account_id)).count %>
+  <% end %>
+<% end %>    
 
 <% if @group.enable_tiers %>
   <% y << capture do %>
