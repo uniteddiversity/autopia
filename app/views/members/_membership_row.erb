@@ -14,7 +14,7 @@
   <%= membership.created_at %>          
   <% if membership.mapplication; mapplication = membership.mapplication %>
     <br />
-    <%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %> proposers + supporters
+    <span title="Accepted at <%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %> proposers + supporters" class="badge"><%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %></span>
 
     <% if mapplication.answers %>
       <div>
