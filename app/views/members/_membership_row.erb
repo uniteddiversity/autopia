@@ -14,7 +14,7 @@
   <%= membership.created_at %>          
   <% if membership.mapplication; mapplication = membership.mapplication %>
     <br />
-    <%=pluralize(mapplication.verdicts.supporters.count,'supporter') %>
+    <%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %> proposers + supporters
 
     <% if mapplication.answers %>
       <div>
