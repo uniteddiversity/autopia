@@ -33,7 +33,7 @@ Huddl::App.helpers do
   
   def group_admins_only!(group=nil)
     group = @group if !group
-    unless current_account and group and ( ((membership = group.memberships.find_by(account: current_account)) and membership.admin?) or current_account.admin?)
+    unless current_account and group and ((membership = group.memberships.find_by(account: current_account)) and membership.admin?)
       flash[:notice] = 'You must be an admin of that group to access that page'
       session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(current_account ? '/' : '/accounts/sign_in')
