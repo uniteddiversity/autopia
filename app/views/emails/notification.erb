@@ -17,7 +17,7 @@
         <div style="padding: 20px;">
 
           <h1 style="margin-top: 0">
-            <a style="text-decoration: none" href="//<%=ENV['DOMAIN']%>/h/<%=group.slug%>"><%=group.name%></a></h1>
+            <a style="text-decoration: none" href="<%=ENV['BASE_URI']%>/h/<%=group.slug%>"><%=group.name%></a></h1>
 
           <p><%=notification.sentence%>. <% unless notification.type == 'commented'%><a href="<%=notification.link[1]%>"><%=notification.link[0]%></a><% end %></p>
           <%=notification.more%>
@@ -26,9 +26,9 @@
           <% end %>
 
           <% if notification.type == 'commented' %>
-            <p style="font-size: 12px;"><a style="color: #aaa !important" href="//<%=ENV['DOMAIN']%>/posts/<%=notification.notifiable.post_id%>/unsubscribe">Unwatch this post</a></p>
+            <p style="font-size: 12px;"><a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=notification.notifiable.post_id%>/unsubscribe">Unwatch this post</a></p>
           <% else %>
-            <p style="font-size: 12px;"><a style="color: #aaa !important" href="//<%=ENV['DOMAIN']%>/accounts/edit">Edit your profile to stop these emails</a></p>
+            <p style="font-size: 12px;"><a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">Edit your profile to stop these emails</a></p>
           <% end %>    
 
 

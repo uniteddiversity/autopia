@@ -33,7 +33,7 @@ module Huddl
     end
        
     before do
-      redirect "#{ENV['SCHEME']}://#{ENV['DOMAIN']}#{request.path}" if ENV['DOMAIN'] and request.env['HTTP_HOST'] != ENV['DOMAIN']
+      redirect "#{ENV['BASE_URI']}#{request.path}" if ENV['BASE_URI'] and "#{request.scheme}://#{request.env['HTTP_HOST']}" != ENV['BASE_URI']
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : 'London'
       fix_params!
       if params[:sign_in_token] and account = Account.find_by(sign_in_token: params[:sign_in_token])
@@ -62,7 +62,7 @@ module Huddl
       if current_account
         erb :home_signed_in
       else
-        if ENV['DOMAIN'] == 'huddl.tech'  
+        if ENV['BASE_URI'] == 'https://huddl.tech'  
           erb :home_not_signed_in
         else
           redirect '/accounts/sign_in'

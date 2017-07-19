@@ -15,19 +15,19 @@
       ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],        
       (["Teams",
           (
-            @group.teams(true).order('name asc').map { |team| [team.name, "/h/#{@group.slug}/teams/#{team.id}"] } + [[],['Overview', "/h/#{@group.slug}/teams"], ['Create a team', "/h/#{@group.slug}/teams/new"]]
+            @group.teams(true).order('name asc').map { |team| [team.name, "/h/#{@group.slug}/teams/#{team.id}"] } + [[],['Overview', "/h/#{@group.slug}/teams"], (@membership.admin? ? ['Create a team', "/h/#{@group.slug}/teams/new"] : nil)].compact
           )              
           ] if @group.enable_teams),      
       (["Qualities (#{@group.qualities.count})", "/h/#{@group.slug}/qualities"] if @group.enable_qualities),
       (["Calendar", "/h/#{@group.slug}/calendar"] if @group.teamup_calendar_url),
       (["Timetables",
           (
-            @group.timetables(true).map { |timetable| [timetable.name, "/h/#{@group.slug}/timetables/#{timetable.id}"] } + [[],['Create a timetable', "/h/#{@group.slug}/timetables/new"]]
+            @group.timetables(true).map { |timetable| [timetable.name, "/h/#{@group.slug}/timetables/#{timetable.id}"] } + (@membership.admin? ? [[],['Create a timetable', "/h/#{@group.slug}/timetables/new"]] : [])
           )
           ] if @group.enable_timetables),
       (["Rotas",
           (
-            @group.rotas(true).map { |rota| [rota.name, "/h/#{@group.slug}/rotas/#{rota.id}"] } + [[],['Create a rota', "/h/#{@group.slug}/rotas/new"]]
+            @group.rotas(true).map { |rota| [rota.name, "/h/#{@group.slug}/rotas/#{rota.id}"] } + (@membership.admin? ? [[],['Create a rota', "/h/#{@group.slug}/rotas/new"]] : [])
           )              
           ] if @group.enable_rotas),
       (["Tiers (#{@group.tiers.count})", "/h/#{@group.slug}/tiers"] if @group.enable_tiers),

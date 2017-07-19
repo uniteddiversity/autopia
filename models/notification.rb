@@ -172,63 +172,63 @@ class Notification
   def link
     case type.to_sym
     when :created_group
-      ['View group', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}"]
+      ['View group', "#{ENV['BASE_URI']}/h/#{group.slug}"]
     when :applied
-      ['View applications', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
+      ['View applications', "#{ENV['BASE_URI']}/h/#{group.slug}/applications"]
     when :joined_group
-      ['View members', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/members"]      
+      ['View members', "#{ENV['BASE_URI']}/h/#{group.slug}/members"]      
     when :joined_team
-      ['View team', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}"]
+      ['View team', "#{ENV['BASE_URI']}/h/#{group.slug}/teams/#{notifiable.team_id}"]
     when :created_spend
-      ['View budget', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
+      ['View budget', "#{ENV['BASE_URI']}/h/#{group.slug}/budget"]
     when :created_activity
-      ['View timetable', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]
+      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]
     when :signed_up_to_a_shift
-      ['View rotas', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/rotas/#{notifiable.rota_id}"]
+      ['View rotas', "#{ENV['BASE_URI']}/h/#{group.slug}/rotas/#{notifiable.rota_id}"]
     when :joined_tier
-      ['View tiers', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
+      ['View tiers', "#{ENV['BASE_URI']}/h/#{group.slug}/tiers"]    
     when :joined_transport
-      ['View transport', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/transports"] 
+      ['View transport', "#{ENV['BASE_URI']}/h/#{group.slug}/transports"] 
     when :joined_accom
-      ['View accommodation', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
+      ['View accommodation', "#{ENV['BASE_URI']}/h/#{group.slug}/accoms"]      
     when :interested_in_activity
-      ['View timetable', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.activity.timetable_id}"]  
+      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/timetables/#{notifiable.activity.timetable_id}"]  
     when :gave_verdict
-      ['View applications', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/applications"]
+      ['View applications', "#{ENV['BASE_URI']}/h/#{group.slug}/applications"]
     when :created_transport
-      ['View transport', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/transports"] 
+      ['View transport', "#{ENV['BASE_URI']}/h/#{group.slug}/transports"] 
     when :created_tier
-      ['View tiers', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/tiers"]    
+      ['View tiers', "#{ENV['BASE_URI']}/h/#{group.slug}/tiers"]    
     when :created_team
-      ['View team', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.id}"]
+      ['View team', "#{ENV['BASE_URI']}/h/#{group.slug}/teams/#{notifiable.id}"]
     when :created_accom
-      ['View accommodation', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/accoms"]      
+      ['View accommodation', "#{ENV['BASE_URI']}/h/#{group.slug}/accoms"]      
     when :created_rota
-      ['View rotas', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/rotas/#{notifiable.id}"]
+      ['View rotas', "#{ENV['BASE_URI']}/h/#{group.slug}/rotas/#{notifiable.id}"]
     when :scheduled_activity
-      ['View timetable', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]  
+      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]  
     when :unscheduled_activity
-      ['View timetable', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]  
+      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]  
     when :made_admin
-      ['View members', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/members"]      
+      ['View members', "#{ENV['BASE_URI']}/h/#{group.slug}/members"]      
     when :unadmined
-      ['View members', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/members"]      
+      ['View members', "#{ENV['BASE_URI']}/h/#{group.slug}/members"]      
     when :booked
-      ['View bookings', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/bookings"]  
+      ['View bookings', "#{ENV['BASE_URI']}/h/#{group.slug}/bookings"]  
     when :created_timetable
-      ['View timetables', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/timetables/#{notifiable.id}"]      
+      ['View timetables', "#{ENV['BASE_URI']}/h/#{group.slug}/timetables/#{notifiable.id}"]      
     when :cultivating_quality
-      ['View qualities', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/qualities"]
+      ['View qualities', "#{ENV['BASE_URI']}/h/#{group.slug}/qualities"]
     when :commented
-      ['View post', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]
+      ['View post', "#{ENV['BASE_URI']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]
     when :liked_a_comment
-      ['View post', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]      
+      ['View post', "#{ENV['BASE_URI']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]      
     when :left_group
-      ['View members', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/members"]
+      ['View members', "#{ENV['BASE_URI']}/h/#{group.slug}/members"]
     when :created_payment
-      ['View budget', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/budget"]
+      ['View budget', "#{ENV['BASE_URI']}/h/#{group.slug}/budget"]
     when :created_inventory_item
-      ['View inventory', "#{ENV['SCHEME']}://#{ENV['DOMAIN']}/h/#{group.slug}/inventory"]
+      ['View inventory', "#{ENV['BASE_URI']}/h/#{group.slug}/inventory"]
     end
   end
     
