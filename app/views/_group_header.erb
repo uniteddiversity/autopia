@@ -15,7 +15,7 @@
       ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],        
       (["Teams",
           (
-            @group.teams(true).order('name asc').map { |team| [team.name, "/h/#{@group.slug}/teams/#{team.id}"] } + [[],['Overview', "/h/#{@group.slug}/teams"], (@membership.admin? ? ['Create a team', "/h/#{@group.slug}/teams/new"] : nil)].compact
+            @group.teams(true).order('name asc').map { |team| [team.name, "/h/#{@group.slug}/teams/#{team.id}"] } + [[],['Overview', "/h/#{@group.slug}/teams"], ['Create a team', "/h/#{@group.slug}/teams/new"]]
           )              
           ] if @group.enable_teams),      
       (["Qualities (#{@group.qualities.count})", "/h/#{@group.slug}/qualities"] if @group.enable_qualities),
