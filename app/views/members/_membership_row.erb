@@ -11,18 +11,18 @@
   <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : '' %>
 </td>        
 <td>
-  <%= membership.created_at %>          
+  <% if mapplication.answers %>
+    <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
+          $('#modal').modal('show')
+        });">
+         <%= membership.created_at %>          
+    </a>
+  <% else %>  
+    <%= membership.created_at %>          
+  <% end %>
   <% if membership.mapplication; mapplication = membership.mapplication %>
     <br />
     <span title="Accepted at <%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %> proposers + supporters" class="badge"><%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %></span>
-
-    <% if mapplication.answers %>
-      <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
-            $('#modal').modal('show')
-          });">
-        <i class="fa fa-file-text-o" style="font-size: 20px"></i>
-      </a>
-    <% end %>
   <% end %>          
 </td>
 <% if @group.democratic_threshold %>
