@@ -2,21 +2,16 @@
   <%= partial :account, :object => (account = mapplication.account) %>
 </td>
 <td>
-  <%=mapplication.created_at%>
-</td>           
-<td>
-
   <% if mapplication.answers %>
-    <div>
-      <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
-            $('#modal').modal('show')
-          });">
-        <i class="fa fa-file-text-o" style="font-size: 20px"></i>
-      </a>
-    </div>
+    <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
+          $('#modal').modal('show')
+        });">
+         <%=mapplication.created_at%>
+    </a>
+  <% else %>  
+    <%=mapplication.created_at%>
   <% end %>
-
-</td>    
+</td>           
 <td>
   <%= partial :'mapplications/verdicts', :locals => {:mapplication => mapplication} %>
 </td>          
