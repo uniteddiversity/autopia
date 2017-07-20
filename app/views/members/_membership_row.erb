@@ -11,7 +11,7 @@
   <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : '' %>
 </td>        
 <td>
-  <% if mapplication.answers %>
+  <% mapplication = membership.mapplication; if mapplication and mapplication.answers %>
     <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
           $('#modal').modal('show')
         });">
@@ -20,7 +20,7 @@
   <% else %>  
     <%= membership.created_at %>          
   <% end %>
-  <% if membership.mapplication; mapplication = membership.mapplication %>
+  <% if mapplication %>  
     <br />
     <span title="Accepted at <%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %> proposers + supporters" class="badge"><%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %></span>
   <% end %>          
