@@ -88,7 +88,6 @@ module Huddl
       halt unless current_account and current_account.admin?
       @group = Group.find_by(slug: params[:slug]) || not_found
       @membership = @group.memberships.find_by(account: current_account)
-      group_admins_only!
       erb :diff      
     end
     
