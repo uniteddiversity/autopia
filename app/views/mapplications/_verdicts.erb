@@ -4,8 +4,13 @@
     <%=pluralize(mapplication.verdicts.send(noun.pluralize).count,noun)%>          
     <% if verdict = current_account.verdicts.send(noun.pluralize).find_by(mapplication: mapplication) %>
       &middot; <a class="pagelet-trigger" href="/verdicts/<%=verdict.id%>/destroy"><%= "Un#{verb}" %></a>
-    <% elsif !current_account.verdicts.find_by(mapplication: mapplication) %>
-      &middot; <a class="pagelet-trigger" href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
+    <% elsif !current_account.verdicts.find_by(mapplication: mapplication) %>                        
+      &middot; 
+      <% if noun == 'proposer' and @group.proposing_delay and (Time.now - mapplication.created_at) < @group.proposing_delay.hours %>
+      <small>Proposers accepted in <%= distance_of_time_in_words((mapplication.created_at + @group.proposing_delay*60*60), Time.now)%></small>
+      <% else %>
+        <a class="pagelet-trigger" href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
+      <% end %>
     <% end %>
 
     <div>

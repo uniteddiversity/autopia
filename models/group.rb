@@ -21,9 +21,10 @@ class Group
   field :fixed_threshold, :type => Integer
   field :ask_for_date_of_birth, :type => Boolean
   field :ask_for_gender, :type => Boolean
-  field :ask_for_poc, :type => Boolean
+  field :ask_for_poc, :type => Boolean  
   field :featured, :type => Boolean
   field :member_limit, :type => Integer
+  field :proposing_delay, :type => Integer
   field :booking_limit, :type => Integer
   field :scheduling_by_all, :type => Boolean
   field :processed_via_huddl, :type => Integer
@@ -198,6 +199,7 @@ class Group
       :intro_for_members => :wysiwyg,
       :fixed_threshold => :number,
       :member_limit => :number,
+      :proposing_delay => :number,
       :booking_limit => :number,
       :processed_via_huddl => :number,
       :balance => :number,
@@ -253,7 +255,8 @@ class Group
   def self.new_hints
     {
       :currency => 'This cannot be changed, choose wisely',
-      :fixed_threshold => 'Automatically accept applications with this number of proposers + supporters (with at least one proposer, and no blockers)'
+      :fixed_threshold => 'Automatically accept applications with this number of proposers + supporters (with at least one proposer, and no blockers)',
+      :proposing_delay => 'Accept proposers on applications only once the application is this many hours old'
     }
   end
   

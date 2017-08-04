@@ -16,6 +16,10 @@ class Verdict
   before_validation do
     self.group = self.mapplication.group if self.mapplication
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
+    
+    if type == 'proposer' and group and group.proposing_delay and (Time.now - mapplication.created_at) < group.proposing_delay.hours
+      errors.add(:type, 'is restricted by group.proposing_delay')
+    end
   end
   
   has_many :notifications, as: :notifiable, dependent: :destroy
