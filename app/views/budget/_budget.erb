@@ -129,7 +129,7 @@
         <th>Reimbused?</th>
       </tr> 
 
-      <% @group.spends.sort_by { |spend| [spend.reimbursed || false,  spend.team.try(:name) || '', -spend.amount] }.each { |spend| %>
+      <% @group.spends.sort_by { |spend| [spend.reimbursed ? 1 : 0, spend.team.try(:name) || '', -spend.amount] }.each { |spend| %>
         <tr>
           <td>
             <% if @membership.admin? %>
