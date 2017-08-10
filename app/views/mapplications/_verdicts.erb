@@ -9,7 +9,7 @@
       <% if noun == 'proposer' and @group.proposing_delay and (Time.now - mapplication.created_at) < @group.proposing_delay.hours %>
       <small>Proposers accepted in <%= distance_of_time_in_words((mapplication.created_at + @group.proposing_delay*60*60), Time.now)%></small>
       <% else %>
-        <a class="pagelet-trigger" href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
+        <a class="pagelet-trigger" <% if @group.send("require_reason_#{noun}") %> data-require-reason="true" <% end %>  href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
       <% end %>
     <% end %>
 

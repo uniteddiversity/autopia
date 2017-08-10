@@ -108,7 +108,7 @@ $(function () {
 
   $(document).on('click', "a[href^='/verdicts/create']", function (e) {
     $(this).removeClass('no-trigger')
-    var reason = prompt('Explain your decision (optional)');
+    var reason = prompt('Explain your decision ('+ ($(this).attr('data-require-reason') ? 'REQUIRED' : 'optional') + ')');
     if (reason == null) {
       $(this).addClass('no-trigger')
       return false
