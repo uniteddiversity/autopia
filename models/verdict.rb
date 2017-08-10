@@ -20,6 +20,16 @@ class Verdict
     if type == 'proposer' and group and group.proposing_delay and (Time.now - mapplication.created_at) < group.proposing_delay.hours
       errors.add(:type, 'is restricted by group.proposing_delay')
     end
+    
+    if type == 'proposer' and group and group.require_reason_proposer and !reason
+      errors.add(:type, 'requires a reason')      
+    end
+    if type == 'supporter' and group and group.require_reason_supporter and !reason
+      errors.add(:type, 'requires a reason')      
+    end
+    if type == 'blocker' and group and group.require_reason_blocker and !reason
+      errors.add(:type, 'requires a reason')      
+    end
   end
   
   has_many :notifications, as: :notifiable, dependent: :destroy

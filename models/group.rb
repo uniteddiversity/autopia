@@ -25,6 +25,9 @@ class Group
   field :featured, :type => Boolean
   field :member_limit, :type => Integer
   field :proposing_delay, :type => Integer
+  field :require_reason_proposer, :type => Boolean
+  field :require_reason_supporter, :type => Boolean
+  field :require_reason_blocker, :type => Boolean
   field :booking_limit, :type => Integer
   field :scheduling_by_all, :type => Boolean
   field :processed_via_huddl, :type => Integer
@@ -200,6 +203,9 @@ class Group
       :fixed_threshold => :number,
       :member_limit => :number,
       :proposing_delay => :number,
+      :require_reason_proposer => :check_box,
+      :require_reason_supporter => :check_box,
+      :require_reason_blocker => :check_box,
       :booking_limit => :number,
       :processed_via_huddl => :number,
       :balance => :number,
@@ -267,7 +273,10 @@ class Group
       :ask_for_poc => 'Ask whether applicants identify as a person of colour',
       :fixed_threshold => 'Magic number',
       :democratic_threshold => 'Allow all group members to suggest the magic number, and use the median',
-      :teamup_calendar_url => 'Teamup calendar URL'
+      :teamup_calendar_url => 'Teamup calendar URL',
+      :require_reason_proposer => 'Proposers must provide a reason',
+      :require_reason_supporter => 'Supporters must provide a reason',
+      :require_reason_blocker => 'Blockers must provide a reason'
     }[attr.to_sym] || super  
   end   
   
