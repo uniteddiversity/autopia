@@ -153,7 +153,7 @@ class Group
   has_many :inventory_items, :dependent => :destroy
   
   def application_questions_a
-    q = (application_questions || '').split("\n").map(&:strip) 
+    q = (application_questions || '').split("\n").compact.map(&:strip) 
     q.empty? ? [] : q
   end  
   
