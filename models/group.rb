@@ -30,7 +30,7 @@ class Group
   field :require_reason_blocker, :type => Boolean
   field :booking_limit, :type => Integer
   field :scheduling_by_all, :type => Boolean
-  field :processed_via_huddl, :type => Integer
+  field :processed_via_stripe, :type => Integer
   field :balance, :type => Float
   field :paypal_email, :type => String
   field :currency, :type => String
@@ -42,7 +42,7 @@ class Group
     
   before_validation do
     self.balance = 0 if self.balance.nil?
-    self.processed_via_huddl = 0 if self.processed_via_huddl.nil?
+    self.processed_via_stripe = 0 if self.processed_via_stripe.nil?
     self.enable_teams = true if self.enable_budget
   end
   
@@ -207,7 +207,7 @@ class Group
       :require_reason_supporter => :check_box,
       :require_reason_blocker => :check_box,
       :booking_limit => :number,
-      :processed_via_huddl => :number,
+      :processed_via_stripe => :number,
       :balance => :number,
       :democratic_threshold => :check_box,
       :application_preamble => :wysiwyg,

@@ -1,4 +1,4 @@
-Huddl::App.controller do
+Cocreately::App.controller do
   
   post '/h/:slug/qualities/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found

@@ -1,4 +1,4 @@
-module Huddl
+module Cocreately
   class App < Padrino::Application
     register Padrino::Rendering
     register Padrino::Helpers
@@ -62,7 +62,7 @@ module Huddl
       if current_account
         erb :home_signed_in
       else
-        if ENV['BASE_URI'] == 'https://huddl.tech'  
+        if ENV['BASE_URI'] == 'https://cocreate.ly'  
           erb :home_not_signed_in
         else
           redirect '/accounts/sign_in'

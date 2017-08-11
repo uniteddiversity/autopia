@@ -1,4 +1,4 @@
-Huddl::App.controller do
+Cocreately::App.controller do
 
 	get '/h/:slug/calendar' do
     @group = Group.find_by(slug: params[:slug]) || not_found      

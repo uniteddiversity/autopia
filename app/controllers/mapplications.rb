@@ -1,4 +1,4 @@
-Huddl::App.controller do
+Cocreately::App.controller do
 	
   get '/mapplications/:id' do
     @mapplication = Mapplication.find(params[:id]) || not_found

@@ -1,4 +1,4 @@
-Huddl::App.controller do
+Cocreately::App.controller do
   
   get '/h/:slug/balance' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
@@ -21,7 +21,7 @@ Huddl::App.controller do
     )
     @membership.payments.create! :amount => params[:amount].to_i, :currency => @group.currency
     @membership.update_attribute(:paid, @membership.paid + params[:amount].to_i)
-    @group.update_attribute(:processed_via_huddl, @group.processed_via_huddl + params[:amount].to_i)
+    @group.update_attribute(:processed_via_stripe, @group.processed_via_stripe + params[:amount].to_i)
     @group.update_attribute(:balance, @group.balance + params[:amount].to_i*0.95)
     200
   end 

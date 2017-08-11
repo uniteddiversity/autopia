@@ -64,7 +64,7 @@
         <th style="width: 50%"></th>
         <th>
           <%=@group.currency_symbol%><%= @group.memberships.pluck(:paid).compact.sum %>
-          (<%=@group.currency_symbol%><%= @group.processed_via_huddl %> processed via <%=ENV['SITE_TITLE']%>)    
+          (<%=@group.currency_symbol%><%= @group.processed_via_stripe %> processed via <%=ENV['SITE_TITLE']%>)    
         </th>
       </tr> 
     </table>
@@ -97,17 +97,17 @@
           <td><%=@group.currency_symbol%><%=team.spent%></td>       
         </tr>
       <% } %>
-      <% if @group.processed_via_huddl > 0 %>
+      <% if @group.processed_via_stripe > 0 %>
         <tr>   
-          <td>Huddl transaction fees</td>      
+          <td>cocreate.ly transaction fees</td>      
           <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.incomings)}"%></td>      
-          <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>
+          <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_stripe)}"%></td>
         </tr>   
       <% end %>   
       <tr>
         <th></th>
         <th><%=@group.currency_symbol%><%= @group.teams.map(&:budget).compact.sum + (0.05*@group.incomings).round%></th>
-        <th><%=@group.currency_symbol%><%= @group.teams.map(&:spent).sum + (0.05*@group.processed_via_huddl).round%></th>   	
+        <th><%=@group.currency_symbol%><%= @group.teams.map(&:spent).sum + (0.05*@group.processed_via_stripe).round%></th>   	
       </tr>
     </table>
 
@@ -165,10 +165,10 @@
         </tr>
       <% } %>
 
-      <% if @group.processed_via_huddl > 0 %>
+      <% if @group.processed_via_stripe > 0 %>
         <tr>   
-          <td>Huddl transaction fees</td>      
-          <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_huddl)}"%></td>
+          <td>cocreate.ly transaction fees</td>      
+          <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_stripe)}"%></td>
           <td></td>
           <td></td>
           <td></td>
@@ -177,7 +177,7 @@
 
       <tr>   
         <th></th>      
-        <th><%=@group.currency_symbol%><%=@group.spends.pluck(:amount).sum + (0.05*@group.processed_via_huddl).round%></th>
+        <th><%=@group.currency_symbol%><%=@group.spends.pluck(:amount).sum + (0.05*@group.processed_via_stripe).round%></th>
         <th></th>
         <th></th>       
         <th></th>

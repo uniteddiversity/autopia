@@ -1,4 +1,4 @@
-Huddl::App.controller do
+Cocreately::App.controller do
     
   get '/auth/failure' do
     flash.now[:error] = "<strong>Hmm.</strong> There was a problem signing you in."

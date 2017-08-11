@@ -1,4 +1,4 @@
-# huddl
+# cocreate.ly
 
 A tool for co-created gatherings
 

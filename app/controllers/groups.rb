@@ -1,4 +1,4 @@
-Huddl::App.controller do
+Cocreately::App.controller do
     
   get '/h/new' do
     sign_in_required!
