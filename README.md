@@ -1,4 +1,4 @@
-# cocreate.ly
+# Cocreately
 
 A tool for co-created gatherings
 

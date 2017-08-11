@@ -62,7 +62,7 @@ module Cocreately
       if current_account
         erb :home_signed_in
       else
-        if ENV['BASE_URI'] == 'https://cocreate.ly'  
+        if ENV['BASE_URI'] == 'https://huddl.tech'  
           erb :home_not_signed_in
         else
           redirect '/accounts/sign_in'
