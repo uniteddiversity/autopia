@@ -30,7 +30,7 @@ class Membership
       notifications.create! :group => group, :type => 'joined_group'
     end    
     if general = group.teams.find_by(name: 'General')
-      general.teamships.create! account: account
+      general.teamships.create! account: account, prevent_notifications: true
     end    
   end
   
