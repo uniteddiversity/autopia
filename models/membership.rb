@@ -102,7 +102,7 @@ class Membership
   # Inventory
   has_many :inventory_items, :dependent => :nullify
   
-  def update_requested_contribution    
+  def calculate_requested_contribution    
     c = 0
     if tiership and !tiership.flagged_for_destroy?
       c += tiership.tier.cost
@@ -114,8 +114,12 @@ class Membership
       if !transportship.flagged_for_destroy?
         c += transportship.transport.cost
       end
-    }
-    update_attribute(:requested_contribution, c)
+    }    
+    c    
+  end
+  
+  def update_requested_contribution    
+    update_attribute(:requested_contribution, calculate_requested_contribution)
   end
         
   def self.admin_fields
