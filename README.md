@@ -1,4 +1,4 @@
-# Cocreately
+# Huddl
 
 A tool for co-created gatherings
 

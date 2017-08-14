@@ -1,4 +1,4 @@
-Cocreately::App.controller do
+Huddl::App.controller do
   
   get '/h/:slug/balance' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      

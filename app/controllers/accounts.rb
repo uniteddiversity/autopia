@@ -1,4 +1,4 @@
-Cocreately::App.controller do
+Huddl::App.controller do
   
   get '/accounts/sign_up' do
     redirect '/accounts/new' if Provider.registered.empty?
