@@ -87,12 +87,14 @@
           </tr>
         <% end %>           
 
-        <tr>
-          <td>Last active</td>
-          <td>
-            <%=time_ago_in_words @account.last_active%> ago
-          </td>  
-        </tr> 
+        <% if @account.last_active %>
+          <tr>
+            <td>Last active</td>
+            <td>
+              <%=time_ago_in_words @account.last_active%> ago
+            </td>  
+          </tr> 
+        <% end %>
 
       </table>     
 
