@@ -45,7 +45,7 @@
     <%= yield_content :cover_bottom_right %>
   </div>  
   <div class="cover-bottom-left-wrap">
-    <img title="<%=@account.name%>" src="<%=@account.picture ? @account.picture.thumb('400x400').url : '/images/silhouette.png'%>" style="border: 3px solid white; width: 200px;" />
+    <img title="<%=@account.name%>" src="<%=@account.picture ? @account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" style="border: 3px solid white; width: 200px;" />
     <h1><a style="color: white" href="/accounts/<%=@account.id%>"><%=@account.name%></a></h1>
     <div class="cover-bottom-left">
       <%= yield_content :cover_bottom_left %>
