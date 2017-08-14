@@ -109,8 +109,9 @@ Huddl::App.controller do
     @comment = Comment.find(params[:id]) || not_found
     @team = @comment.team
     @group = @comment.group
-    @membership = @group.memberships.find_by(account: current_account)
+    @membership = @group.memberships.find_by(account: current_account)    
     halt unless @comment.account.id == current_account.id or @membership.admin?
+    @show_buttons = true
     erb :'teams/comment_build', :layout => 'layouts/teams' 
   end
   

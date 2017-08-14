@@ -81,5 +81,5 @@
 
   <% end %>
 
-  <%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy", :div_class => 'col-sm-12', :container_class => 'hidden' %>
+  <%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy", :div_class => 'col-sm-12', :container_class => ('hidden' unless @show_buttons) %>
 <% end %> 
