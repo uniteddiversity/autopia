@@ -8,11 +8,15 @@
           <h1>
             <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
           </h1> 
-          <% if @group and @membership and@membership.admin? %>        
-            <p style="color: white;"> 
-              <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/edit">Edit group</a>
-              &middot;
-              <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/balance">Balance: <%=@group.currency_symbol%><%="#{'%.2f' % @group.balance}"%></a>
+          <% if @group and @membership %>        
+            <p style="color: white;">              
+              <a data-confirm="Are you sure you want to leave the group?" style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/leave">Leave group</a>
+              <% if @membership.admin? %>
+                &middot;
+                <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/edit">Edit group</a>
+                &middot;
+                <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/balance">Balance: <%=@group.currency_symbol%><%="#{'%.2f' % @group.balance}"%></a>
+              <% end %>
             </p>
           <% end %> 
           <% if @group and @membership %>

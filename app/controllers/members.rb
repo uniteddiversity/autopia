@@ -23,6 +23,15 @@ Huddl::App.controller do
     erb :'members/members'
   end   
   
+  get '/h/:slug/leave' do  
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    membership_required!    
+    flash[:notice] = "You left #{@group.name}"
+    @membership.destroy
+    redirect '/'
+  end
+  
   post '/h/:slug/add_member' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
