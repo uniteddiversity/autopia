@@ -66,6 +66,15 @@ Huddl::App.controller do
       erb :build        
     end
   end
+  
+  get '/h/:slug/destroy' do        
+    @group = Group.find_by(slug: params[:slug]) || not_found      
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @group.destroy
+    flash[:notice] = 'The group was deleted'
+    redirect '/'
+  end    
     
   post '/groups/:slug/upload_picture/:account_id' do
     @group = Group.find_by(slug: params[:slug]) || not_found      

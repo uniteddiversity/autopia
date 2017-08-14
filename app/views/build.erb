@@ -96,7 +96,7 @@
   </div>
 
   <% if @group.persisted? %>
-    <%= f.submit_block %>  
+    <%= f.submit_block destroy_url: "/h/#{@group.slug}/destroy" %>  
   <% end %>
 
 <% end %>
