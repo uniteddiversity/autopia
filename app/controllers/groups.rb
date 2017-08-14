@@ -75,14 +75,5 @@ Huddl::App.controller do
     flash[:notice] = 'The group was deleted'
     redirect '/'
   end    
-    
-  post '/groups/:slug/upload_picture/:account_id' do
-    @group = Group.find_by(slug: params[:slug]) || not_found      
-    @membership = @group.memberships.find_by(account: current_account)
-    membership_required!      
-    halt unless (@group.memberships.find_by(account_id: params[:account_id]) or @group.mapplications.find_by(account_id: params[:account_id]))
-    Account.find(params[:account_id]).update_attribute(:picture, params[:upload])
-    redirect back
-  end
-    
+        
 end

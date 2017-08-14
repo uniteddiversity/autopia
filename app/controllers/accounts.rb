@@ -48,7 +48,7 @@ Huddl::App.controller do
       erb :'accounts/build'
     end
   end
-      
+        
   get '/accounts/edit' do
     sign_in_required!
     @account = current_account
@@ -66,6 +66,12 @@ Huddl::App.controller do
       erb :'accounts/build'
     end
   end
+  
+  get '/accounts/:id' do
+    sign_in_required!
+    @account = Account.find(params[:id])
+    erb :'accounts/account'
+  end  
   
   get '/accounts/use_picture/:provider' do
     sign_in_required!

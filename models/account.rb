@@ -8,12 +8,14 @@ class Account
   field :email, :type => String
   field :gender, :type => String
   field :date_of_birth, :type => Date
+  field :facebook_profile_url, :type => String
   field :poc, :type => Boolean
   field :dietary_requirements, :type => String
   field :admin, :type => Boolean
   field :time_zone, :type => String
   field :crypted_password, :type => String
   field :picture_uid, :type => String
+  field :cover_image_uid, :type => String
   field :sign_ins, :type => Integer
   field :sign_in_token, :type => String
   field :last_active, :type => Time
@@ -21,6 +23,9 @@ class Account
   before_validation do
     self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
     self.name = self.name.strip if self.name
+    
+    errors.add(:facebook_profile_url, 'must contain facebook.com') if self.facebook_profile_url and !self.facebook_profile_url.include?('facebook.com')    
+    self.facebook_profile_url = "https://#{self.facebook_profile_url}" if self.facebook_profile_url and !(self.facebook_profile_url =~ /\Ahttps?:\/\//)       
   end
   
   def network
@@ -100,6 +105,17 @@ class Account
     end  
   end  
   
+  dragonfly_accessor :cover_image 
+  before_validation do
+    if self.cover_image
+      begin
+        self.cover_image.format
+      rescue        
+        errors.add(:cover_image, 'must be an image')
+      end
+    end
+  end   
+  
   has_many :provider_links, :dependent => :destroy
   accepts_nested_attributes_for :provider_links  
           
@@ -120,9 +136,11 @@ class Account
       :email => :text,
       :gender => :select,
       :date_of_birth => :date,
+      :facebook_profile_url => :text,
       :poc => :check_box,
       :dietary_requirements => :text,
       :picture => :image,
+      :cover_image => :image,
       :admin => :check_box,
       :time_zone => :select,
       :password => :password,
@@ -182,6 +200,7 @@ class Account
   
   def self.human_attribute_name(attr, options={})  
     {
+      :facebook_profile_url => 'Facebook profile URL',
       :poc => 'I identify as a person of colour'
     }[attr.to_sym] || super  
   end   

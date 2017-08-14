@@ -1,0 +1,117 @@
+<style>
+  @media(max-width: 767px) {
+    .cover { padding-left: 10px; padding-top: 10px; padding-bottom: 10px }
+    .cover-top-right { margin-bottom: 15px } 
+    .cover-bottom-left-wrap {
+      margin-bottom: 10px
+    }
+    .cover-bottom-left-wrap img {
+      margin-bottom: 10px
+    }
+    .cover-bottom-left-wrap h1 {
+      margin: 0; margin-bottom: 10px
+    }
+  }
+  @media(min-width: 768px) {
+    .cover-sidebar { margin-top: 25px }
+    .cover {
+      position: relative; height: 200px;
+    }
+    .cover-top-right {
+      position: absolute; right: 10px; top: 10px
+    }
+    .cover-bottom-right {
+      position: absolute; right: 10px; bottom: 10px
+    }
+    .cover-bottom-left-wrap {
+      position: absolute; left: 10px; bottom: 10px
+    }
+    .cover-bottom-left-wrap img {
+      position: relative; bottom: -35px; vertical-align: bottom
+    }
+    .cover-bottom-left-wrap h1 {
+      display: inline-block; margin: 0; margin-left: 10px
+    }
+    .cover-bottom-left { 
+      height: 1px; display: inline-block; position: relative; top: -10px; margin-left: 10px
+    }
+  }
+</style>
+
+<div class="cover" style="background-size: cover; background-position: center; background-color: #aaa; background-image: url('<%=@account.cover_image.try(:url) || '/images/soap-film.jpg' %>')">
+  <div class="cover-top-right">    
+  </div>
+  <div class="cover-bottom-right">
+    <%= yield_content :cover_bottom_right %>
+  </div>  
+  <div class="cover-bottom-left-wrap">
+    <img title="<%=@account.name%>" src="<%=@account.picture ? @account.picture.thumb('400x400').url : '/images/silhouette.png'%>" style="border: 3px solid white; width: 200px;" />
+    <h1><a style="color: white" href="/accounts/<%=@account.id%>"><%=@account.name%></a></h1>
+    <div class="cover-bottom-left">
+      <%= yield_content :cover_bottom_left %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-sm-4" style="margin-top: 25px"> 
+
+    <div class="table-hr-container">
+      <table class="table table-hr" >
+
+        <% if @account.facebook_profile_url %>
+          <tr>
+            <td>Facebook</td>
+            <td>
+              <a target="_blank" href="<%=@account.facebook_profile_url%>"><%=@account.facebook_profile_url.split('/')[3..-1].join('/')%></a>
+            </td>  
+          </tr>
+        <% end %>    
+
+        <% if @account.date_of_birth %>
+          <tr>
+            <td>Age</td>
+            <td>
+              <%=@account.age%>
+            </td>  
+          </tr>
+        <% end %> 
+          
+        <% if @account.gender %>
+          <tr>
+            <td>Gender</td>
+            <td>
+              <%=@account.gender%>
+            </td>  
+          </tr>
+        <% end %>           
+          
+          <tr>
+            <td>Last active</td>
+            <td>
+              <%=time_ago_in_words @account.last_active%> ago
+            </td>  
+          </tr> 
+
+      </table>     
+
+    </div>    
+
+  </div>
+  <div class="col-sm-8">
+
+    <h2>Groups</h2>
+    <div class="row">
+      <style>.group h1 { font-size: 26px }</style>
+      <% @account.memberships.each { |membership| group = membership.group %>
+        <div class="col-sm-4" style="margin-bottom: 20px">
+          <%= partial :group, :object => group  %>
+        </div>
+      <% } %>
+    </div>
+
+  </div>
+</div>
+
+

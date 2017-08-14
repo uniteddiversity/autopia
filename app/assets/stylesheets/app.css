@@ -71,3 +71,6 @@ a.fc-event.no-bookings { opacity: 0.2 }
 .list-group-item.active > .badge, .nav-pills > .active > a > .badge { color: #CE2828 }
 
 table a:not(.btn), .table a:not(.btn) { text-decoration: none }
+
+.table-hr td:first-child { width: 1px; white-space: nowrap; font-weight: bold; padding-right: 20px; }
+.table-hr td { border: 0 !important; border-bottom: 2px solid #eee !important; }

@@ -1,12 +1,6 @@
-<% if account.picture %>
-  <a href="<%=account.picture.url%>">   
-    <img title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('400x400').url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
-  </a>
-<% else %>
-  <a href="javascript:;" data-upload-url="/groups/<%=@group.slug%>/upload_picture/<%=account.id%>">   
-    <img title="Upload a picture for <%=account.name%>" src="/images/silhouette.png" style="width: 100px; display: block"/>
-  </a>
-<% end %>
+<a href="/accounts/<%=account.id%>">   
+  <img title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('400x400').url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
+</a>
 
 <strong><%= account.name %></strong>
 <% if @membership.admin? %>
