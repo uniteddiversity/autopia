@@ -14,7 +14,7 @@
     account.gender_symbol,
     account.age ? %Q{<span data-toggle="tooltip" title="#{account.age} years old">#{account.age}</span>} : nil,
     account.poc ? '<span data-toggle="tooltip" style="font-weight: bold" title="Identifies as a person of colour">P</span>' : nil,
-    account.facebook_profile_url ? %Q{<a style="color: #5870AB" href="#{account.facebook_profile_url}" target="_blank"><i class="fa fa-facebook-o"></i></a>} : nil,
+    account.facebook_profile_url ? %Q{<a style="color: #5870AB" href="#{account.facebook_profile_url}" target="_blank"><i class="fa fa-facebook-official"></i></a>} : nil,
     (membership.shifts.map { |shift| %Q{<a href="/h/#{@group.slug}/rotas/#{shift.rota_id}"><i data-toggle="tooltip" title="#{shift.rota.name} shift, #{shift.rslot.name}" class="fa fa-hand-paper-o"></i></a>} }.join(' ') if defined?(membership) and membership and membership.shifts.count > 0)
     ].compact.join(' &middot; ') %>
 </div>
