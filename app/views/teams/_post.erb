@@ -5,7 +5,7 @@
 
   <div class="media" style="padding: 10px 10px 0 10px;">
     <span class="pull-left">
-      <img class="media-object" style="width: 32px" src="<%=comment.account.picture ? comment.account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+      <%= partial :'teams/square', :locals => {:account => comment.account} %>
     </span>
     <span class="pull-right">
       <% if subscription = comment.post.subscriptions.find_by(account: current_account) %>
@@ -75,7 +75,7 @@
 
     <div class="media" style="padding: 10px 10px 0 10px; margin: 0">
       <span class="pull-left">
-        <img class="media-object" style="width: 32px" src="<%=current_account.picture ? current_account.picture.thumb('32x32#').url : '/images/silhouette.png' %>">
+        <%= partial :'teams/square', :locals => {:account => current_account} %>
       </span>
       <div class="media-body">
         <%= partial :'teams/comment_form', :locals => {:comment => post.comments.build, :reply => true} %>
