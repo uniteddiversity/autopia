@@ -4,7 +4,7 @@
     <h3 style="color: white; margin-top: 0; margin-bottom: 0; position: relative" data-toggle="tooltip">
       <a href="/h/<%=@group.slug%>/activities/<%=activity.id%>"><%=activity.name%></a>
     </h3>
-    <p class="description" style="display: none">
+    <p style="display: none">
       <%=activity.description.gsub("\n","<br />")%>
     </p>
     <span style="color: white">by <a href="/accounts/<%=activity.account_id%>"><%=activity.account.name%></a></span>

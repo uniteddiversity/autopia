@@ -10,7 +10,7 @@
 
     <%= partial :'timetables/activity', :object => @activity %>
 
-    <p class="lead description">
+    <p>
       <%=@activity.description.gsub("\n","<br />")%>
     </p>
 
