@@ -164,7 +164,8 @@ class Account
     {
       :gender => 'Optional. Please only provide this information if you feel comfortable doing so',
       :date_of_birth => 'Optional. Please only provide this information if you feel comfortable doing so',
-      :poc => 'Optional. Please only provide this information if you feel comfortable doing so'      
+      :poc => 'Optional. Please only provide this information if you feel comfortable doing so',
+      :facebook_profile_url => 'Optional. Please only provide this information if you feel comfortable doing so'
     }
   end
   
