@@ -135,7 +135,7 @@
 <% if params[:view] == 'wall' %>
 
   <div style="margin-top: 15px">
-    <% (Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %><a href="/accounts/<%=account.id%>"><img style="width: 149px; margin-bottom: 5px; margin-right: 5px;" data-toggle="tooltip" title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" /></a><% } %>      
+    <% (Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %><%= partial :'accounts/square', :locals => {:account => account, :style => 'width: 149px; margin-bottom: 5px; margin-right: 5px;'} %><% } %>      
   </div>
 
 <% elsif params[:view] == 'emails' %>
