@@ -78,4 +78,5 @@ table a:not(.btn), .table a:not(.btn) { text-decoration: none }
   .activity a, .activity span { font-size: 12px; color: white }
   .activity, .activity-accept { height: 120px }
   td .activity, td .activity-accept { width: 240px }
-  .activity h3 a { font-size: 18px; line-height: 20px }
+  .activity h3 { line-height: 20px }
+  .activity h3 a { font-size: 18px; }
