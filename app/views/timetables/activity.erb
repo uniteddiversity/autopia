@@ -4,8 +4,28 @@
   <a href="/h/<%=@group.slug%>/timetables/<%=@timetable.id%>"><%=@timetable.name%></a>
 </h2>
 
-<%= partial :'timetables/activity', :object => @activity %>
+<div class="row">
 
-<p class="description">
-  <%=@activity.description.gsub("\n","<br />")%>
-</p>
+  <div class="col-sm-8">
+
+    <%= partial :'timetables/activity', :object => @activity %>
+
+    <p class="description">
+      <%=@activity.description.gsub("\n","<br />")%>
+    </p>
+
+  </div>
+  <div class="col-sm-4">
+
+    <h3 style="margin-top: 0">Host</h3>
+    <%= partial :'accounts/square', :locals => {:account => @activity.account, :width => '75px'} %>
+    
+    <h3>Interested in this activity</h3>
+    <% y = [] %>
+    <% @activity.attendances.each { |attendance| account = attendance.account; %>
+      <% y << capture do %><%= partial :'accounts/square', :locals => {:account => account, :width => '75px'} %><% end %>
+    <% } %>
+    <%= y.map(&:strip).join('') %>
+
+  </div>
+</div>
