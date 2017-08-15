@@ -153,7 +153,7 @@ class Notification
       "<strong>#{cultivation.account.name}</strong> is cultivating <strong>#{cultivation.quality.name}</strong>"                  
     when :commented
       comment = notifiable
-      "<strong>#{comment.account.name}</strong> posted in <strong>#{comment.team.name}</strong>"                  
+      "<strong>#{comment.account.name}</strong> posted in <strong>#{comment.commentable.name}</strong>"                  
     when :liked_a_comment
       comment_like = notifiable
       "<strong>#{comment_like.account.name}</strong> liked <strong>#{comment_like.comment.account.name}'s</strong> comment in <strong>#{comment_like.team.name}</strong>"
@@ -220,9 +220,9 @@ class Notification
     when :cultivating_quality
       ['View qualities', "#{ENV['BASE_URI']}/h/#{group.slug}/qualities"]
     when :commented
-      ['View post', "#{ENV['BASE_URI']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]
+      ['View post', "#{ENV['BASE_URI']}/h/#{group.slug}/teams/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
     when :liked_a_comment
-      ['View post', "#{ENV['BASE_URI']}/h/#{group.slug}/teams/#{notifiable.team_id}#post-#{notifiable.post_id}"]      
+      ['View post', "#{ENV['BASE_URI']}/h/#{group.slug}/teams/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]      
     when :left_group
       ['View members', "#{ENV['BASE_URI']}/h/#{group.slug}/members"]
     when :created_payment

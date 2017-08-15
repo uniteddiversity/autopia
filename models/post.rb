@@ -5,20 +5,25 @@ class Post
   belongs_to :account, index: true
   belongs_to :group, index: true
   belongs_to :membership, index: true
-  belongs_to :team, index: true
+  
+  belongs_to :commentable, polymorphic: true, index: true
 
   has_many :subscriptions, :dependent => :destroy
   has_many :comments, :dependent => :destroy
   has_many :comment_likes, :dependent => :destroy 
   
   after_create do
-    team.members.each { |account| subscriptions.create account: account }    
+    commentable.members.each { |account| subscriptions.create account: account }    
   end
 
   before_validation do
-    self.group = self.team.group if self.team
+    self.group = self.commentable.group if self.commentable
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end    
+  
+  def self.commentable_types
+    %w{Team Activity}
+  end  
   
   def self.admin_fields
     {
@@ -26,7 +31,8 @@ class Post
       :account_id => :lookup,
       :group_id => :lookup,
       :membership_id => :lookup,
-      :team_id => :lookup,
+      :commentable_id => :text,
+      :commentable_type => :select,
       :subscriptions => :collection,
       :comments => :collection
     }

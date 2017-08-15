@@ -107,7 +107,7 @@ Huddl::App.controller do
   
   get '/comments/:id/edit' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.team
+    @team = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
     halt unless @comment.account.id == current_account.id or @membership.admin?
@@ -117,7 +117,7 @@ Huddl::App.controller do
   
   post '/comments/:id/edit' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.team
+    @team = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
     halt unless @comment.account.id == current_account.id or @membership.admin?
@@ -131,7 +131,7 @@ Huddl::App.controller do
   
   get '/comments/:id/destroy' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.team
+    @team = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
     halt unless @comment.account.id == current_account.id or @membership.admin?
@@ -141,7 +141,7 @@ Huddl::App.controller do
   
   get '/comments/:id/likes' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.team
+    @team = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
@@ -150,7 +150,7 @@ Huddl::App.controller do
   
   get '/comments/:id/like' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.team
+    @team = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
@@ -160,7 +160,7 @@ Huddl::App.controller do
   
   get '/comments/:id/unlike' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.team
+    @team = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
@@ -187,7 +187,7 @@ Huddl::App.controller do
   
   get '/posts/:id' do
     @post = Post.find(params[:id]) || not_found
-    @team = @post.team
+    @team = @post.commentable
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
@@ -196,7 +196,7 @@ Huddl::App.controller do
   
   get '/posts/:id/unsubscribe' do
     @post = Post.find(params[:id]) || not_found
-    @team = @post.team
+    @team = @post.commentable
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!    
@@ -207,7 +207,7 @@ Huddl::App.controller do
   
   get '/posts/:id/replies' do
     @post = Post.find(params[:id]) || not_found
-    @team = @post.team
+    @team = @post.commentable
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
@@ -216,7 +216,7 @@ Huddl::App.controller do
     
   get '/comments/:id/options' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.team
+    @team = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!

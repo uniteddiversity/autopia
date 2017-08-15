@@ -12,10 +12,11 @@ class Team
   validates_presence_of :name, :group
   
   has_many :teamships, :dependent => :destroy
-  has_many :posts, :dependent => :destroy
-  has_many :subscriptions, :dependent => :destroy
-  has_many :comments, :dependent => :destroy
-  has_many :comment_likes, :dependent => :destroy
+  
+  has_many :posts, :as => :commentable, :dependent => :destroy
+  has_many :subscriptions, :as => :commentable, :dependent => :destroy
+  has_many :comments, :as => :commentable, :dependent => :destroy
+  has_many :comment_likes, :as => :commentable, :dependent => :destroy
   
   has_many :spends, :dependent => :nullify
   has_many :inventory_items, :dependent => :nullify
