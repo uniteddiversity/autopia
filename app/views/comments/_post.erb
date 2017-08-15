@@ -77,8 +77,8 @@
       <span class="pull-left">
         <%= partial :'accounts/square', :locals => {:account => current_account, :width => '32px', :klass => 'media-object'} %>
       </span>
-      <div class="media-body">
-        <%= partial :'comments/comment_form', :locals => {:comment => post.comments.build, :reply => true} %>
+      <div class="media-body">        
+        <%= partial :'comments/comment_form', :locals => {:comment => post.comments.build(commentable_type: post.commentable_type, commentable_id: post.commentable_id), :reply => true} %>
       </div>
     </div> 
   </div>

@@ -16,7 +16,9 @@
   })
 </script>
 
-<% form_for comment, comment.new_record ? "/h/#{@group.slug}/teams/#{@team.id}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal add-placeholders" do |f| %>
+<% form_for comment, comment.new_record ? "/h/#{@group.slug}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal add-placeholders" do |f| %>
+  <%= f.hidden_field :commentable_id %>
+  <%= f.hidden_field :commentable_type %>
   <%= f.hidden_field :post_id, :value => comment.post_id %>
   <% if defined?(reply) %>
     <%= f.text_area_block :body, :placeholder => 'Write a comment...', :label_class => 'hidden', :div_class => 'col-sm-12' %>

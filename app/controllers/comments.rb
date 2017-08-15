@@ -11,29 +11,29 @@ Huddl::App.controller do
 		200
   end      
   
-  post '/h/:slug/teams/:id/comment' do
+  post '/h/:slug/comment' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    @team = @group.teams.find(params[:id])    
-    @comment = @team.comments.build(params[:comment])
+    @commentable = params[:comment][:commentable_type].constantize.find(params[:comment][:commentable_id])    
+    @comment = @commentable.comments.build(params[:comment])
     @comment.account = current_account
     if !@comment.post
-      @post = @team.posts.create!(account: current_account)
+      @post = @commentable.posts.create!(account: current_account)
       @comment.post = @post
     end
     if @comment.save
-      request.xhr? ? 200 : redirect("/h/#{@group.slug}/teams/#{@team.id}#post-#{@comment.post_id}")
+      request.xhr? ? 200 : redirect("/h/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}#post-#{@comment.post_id}")
     else
       @post.destroy if @post
       flash[:error] = 'There was an error saving the comment'
-      erb :'teams/team', :layout => 'layouts/teams' 
+      erb :'comments/comment_build'
     end
   end  
   
   get '/comments/:id/edit' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.commentable
+    @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
     halt unless @comment.account.id == current_account.id or @membership.admin?
@@ -43,12 +43,12 @@ Huddl::App.controller do
   
   post '/comments/:id/edit' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.commentable
+    @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
     halt unless @comment.account.id == current_account.id or @membership.admin?
     if @comment.update_attributes(params[:comment])
-      redirect "/h/#{@group.slug}/teams/#{@team.id}#post-#{@comment.post_id}"
+      redirect "/h/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}#post-#{@comment.post_id}"
     else
       flash[:error] = 'There was an error saving the comment'
       erb :'comments/comment_build'
@@ -57,17 +57,17 @@ Huddl::App.controller do
   
   get '/comments/:id/destroy' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.commentable
+    @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
     halt unless @comment.account.id == current_account.id or @membership.admin?
     @comment.destroy
-    redirect "/h/#{@group.slug}/teams/#{@team.id}"
+    redirect "/h/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}"
   end  
   
   get '/comments/:id/likes' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.commentable
+    @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
@@ -76,7 +76,7 @@ Huddl::App.controller do
   
   get '/comments/:id/like' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.commentable
+    @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
@@ -86,7 +86,7 @@ Huddl::App.controller do
   
   get '/comments/:id/unlike' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.commentable
+    @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
@@ -96,7 +96,7 @@ Huddl::App.controller do
   
   get '/posts/:id' do
     @post = Post.find(params[:id]) || not_found
-    @team = @post.commentable
+    @commentable = @post.commentable
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
@@ -105,18 +105,18 @@ Huddl::App.controller do
   
   get '/posts/:id/unsubscribe' do
     @post = Post.find(params[:id]) || not_found
-    @team = @post.commentable
+    @commentable = @post.commentable
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!    
     @post.subscriptions.find_by(account: current_account).try(:destroy)
     flash[:notice] = "You unsubscribed from the post"
-    redirect "/h/#{@group.slug}/teams/#{@team.id}#post-#{@post.id}"        
+    redirect "/h/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}#post-#{@post.id}"        
   end    
   
   get '/posts/:id/replies' do
     @post = Post.find(params[:id]) || not_found
-    @team = @post.commentable
+    @commentable = @post.commentable
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
@@ -125,7 +125,7 @@ Huddl::App.controller do
     
   get '/comments/:id/options' do
     @comment = Comment.find(params[:id]) || not_found
-    @team = @comment.commentable
+    @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
