@@ -5,7 +5,7 @@
 
   <div class="media" style="padding: 10px 10px 0 10px;">
     <span class="pull-left">
-      <%= partial :'accounts/square', :locals => {:account => comment.account, :width => '32px', :class => 'media-object'} %>
+      <%= partial :'accounts/square', :locals => {:account => comment.account, :width => '32px', :klass => 'media-object'} %>
     </span>
     <span class="pull-right">
       <% if subscription = comment.post.subscriptions.find_by(account: current_account) %>
@@ -75,7 +75,7 @@
 
     <div class="media" style="padding: 10px 10px 0 10px; margin: 0">
       <span class="pull-left">
-        <%= partial :'accounts/square', :locals => {:account => current_account, :width => '32px', :class => 'media-object'} %>
+        <%= partial :'accounts/square', :locals => {:account => current_account, :width => '32px', :klass => 'media-object'} %>
       </span>
       <div class="media-body">
         <%= partial :'teams/comment_form', :locals => {:comment => post.comments.build, :reply => true} %>
