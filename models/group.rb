@@ -22,6 +22,7 @@ class Group
   field :ask_for_date_of_birth, :type => Boolean
   field :ask_for_gender, :type => Boolean
   field :ask_for_poc, :type => Boolean  
+  field :ask_for_facebook_profile_url, :type => Boolean
   field :featured, :type => Boolean
   field :member_limit, :type => Integer
   field :proposing_delay, :type => Integer
@@ -218,6 +219,7 @@ class Group
       :ask_for_date_of_birth => :check_box,
       :ask_for_gender => :check_box,
       :ask_for_poc => :check_box,
+      :ask_for_facebook_profile_url => :check_box,
       :featured => :check_box,
       :paypal_email => :text,
       :currency => :select,
@@ -271,6 +273,7 @@ class Group
       :paypal_email => 'PayPal email',
       :scheduling_by_all => 'Allow all members to schedule activities',
       :ask_for_poc => 'Ask whether applicants identify as a person of colour',
+      :ask_for_facebook_profile_url => 'Ask for Facebook profile URL',
       :fixed_threshold => 'Magic number',
       :democratic_threshold => 'Allow all group members to suggest the magic number, and use the median',
       :teamup_calendar_url => 'Teamup calendar URL',
