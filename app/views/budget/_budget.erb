@@ -146,7 +146,7 @@
               <a href="/h/<%=@group.slug%>/teams/<%=spend.team_id%>"><%=spend.team.name%></a>
             <% end %>
           </td>   
-          <td><%=spend.account.name%></td>
+          <td><a href="/accounts/<%=spend.account_id%>"><%=spend.account.name%></a></td>
           <td>
             <% if @membership.admin? %>
               <% if spend.reimbursed %>

@@ -18,7 +18,7 @@
 
       <div>
 
-        <strong><%=comment.account.name%></strong>
+        <strong><a href="/accounts/<%=comment.account_id%>"><%=comment.account.name%></a></strong>
         <small class="subtle">
           <%= timeago(comment.created_at) %>
 
