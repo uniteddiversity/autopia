@@ -144,6 +144,15 @@ Huddl::App.controller do
       erb :'timetables/timetables'
     end
   end  
+  
+  get '/activities/:id' do
+    @activity = Activity.find(params[:id])
+    @group = @activity.group
+    @membership = @group.memberships.find_by(account: current_account)
+    @timetable = @activity.timetable
+    membership_required!      
+    erb :'timetables/activity'
+  end   
         
   get '/activities/:id/edit' do
     @activity = Activity.find(params[:id])

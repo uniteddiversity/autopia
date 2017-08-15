@@ -1,0 +1,11 @@
+<%= partial :group_header %>
+
+<h2>
+  <a href="/h/<%=@group.slug%>/timetables/<%=@timetable.id%>"><%=@timetable.name%></a>
+</h2>
+
+<%= partial :'timetables/activity', :object => @activity %>
+
+<p class="description">
+  <%=@activity.description.gsub("\n","<br />")%>
+</p>
