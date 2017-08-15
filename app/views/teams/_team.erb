@@ -12,7 +12,7 @@
 
 <div class="media" style="margin-top: 0">
   <span class="pull-left">
-    <%= partial :'teams/square', :locals => {:account => current_account} %>
+    <%= partial :'accounts/square', :locals => {:account => current_account, :width => '32px', :class => 'media-object'} %>
   </span>
   <div class="media-body">
     <%= partial :'teams/comment_form', :locals => {:comment => @comment} %>
