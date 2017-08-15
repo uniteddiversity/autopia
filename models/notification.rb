@@ -182,7 +182,7 @@ class Notification
     when :created_spend
       ['View budget', "#{ENV['BASE_URI']}/h/#{group.slug}/budget"]
     when :created_activity
-      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]
+      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/activities/#{notifiable.id}"]
     when :signed_up_to_a_shift
       ['View rotas', "#{ENV['BASE_URI']}/h/#{group.slug}/rotas/#{notifiable.rota_id}"]
     when :joined_tier
@@ -192,7 +192,7 @@ class Notification
     when :joined_accom
       ['View accommodation', "#{ENV['BASE_URI']}/h/#{group.slug}/accoms"]      
     when :interested_in_activity
-      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/timetables/#{notifiable.activity.timetable_id}"]  
+      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/activities/#{notifiable.activity_id}"]  
     when :gave_verdict
       ['View applications', "#{ENV['BASE_URI']}/h/#{group.slug}/applications"]
     when :created_transport
@@ -206,9 +206,9 @@ class Notification
     when :created_rota
       ['View rotas', "#{ENV['BASE_URI']}/h/#{group.slug}/rotas/#{notifiable.id}"]
     when :scheduled_activity
-      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]  
+      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/activities/#{notifiable.id}"]  
     when :unscheduled_activity
-      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/timetables/#{notifiable.timetable_id}"]  
+      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/activities/#{notifiable.id}"]  
     when :made_admin
       ['View members', "#{ENV['BASE_URI']}/h/#{group.slug}/members"]      
     when :unadmined
