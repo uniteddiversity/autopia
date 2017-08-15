@@ -10,7 +10,7 @@
       <% if option.votes.count > 0 %>
         <div style="margin-top: 5px">
           <% option.votes.each { |vote| account = vote.account %>
-            <img style="width: 32px;" data-toggle="tooltip" title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" />
+            <%= partial :'accounts/square', :locals => {:account => account, :width => '32px'} %>
           <% } %>
         </div>
       <% end %>

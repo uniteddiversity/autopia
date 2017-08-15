@@ -5,7 +5,7 @@
         <% if params[:view] == 'names' %>
           <%= account.name %>
         <% else %>      
-          <img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" />
+          <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
         <% end %>
       </a>
     <% else %>
@@ -18,7 +18,7 @@
       <% if params[:view] == 'names' %>
         <%= account.name %>
       <% else %>
-        <img data-toggle="tooltip" title="<%=account.name%>" style="width: 50px;" src="<%=account.picture ? account.picture.thumb('400x400#').url : '/images/silhouette.png'%>" />
+        <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
       <% end %>
     <% else %>
       n/a

@@ -1,5 +1,5 @@
 <a href="/accounts/<%=account.id%>">   
-  <img title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('400x400').url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
+  <%= partial :'accounts/square', :locals => {:account => account, :width => '100px'} %>
 </a>
 
 <strong><%= account.name %></strong>
