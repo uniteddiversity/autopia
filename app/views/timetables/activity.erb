@@ -10,16 +10,20 @@
 
     <%= partial :'timetables/activity', :object => @activity %>
 
-    <p class="description">
+    <p class="lead description">
       <%=@activity.description.gsub("\n","<br />")%>
     </p>
+
+    <div data-pagelet-url="/h/<%=@group.slug%>/commentable?commentable_type=Activity&commentable_id=<%=@activity.id%>">
+      <%= partial :'comments/commentable', :locals => {:commentable => @activity} %>
+    </div>   
 
   </div>
   <div class="col-sm-4">
 
     <h3 style="margin-top: 0">Host</h3>
     <%= partial :'accounts/square', :locals => {:account => @activity.account, :width => '75px'} %>
-    
+
     <h3>Interested in this activity</h3>
     <% y = [] %>
     <% @activity.attendances.each { |attendance| account = attendance.account; %>

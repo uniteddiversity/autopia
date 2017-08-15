@@ -220,9 +220,9 @@ class Notification
     when :cultivating_quality
       ['View qualities', "#{ENV['BASE_URI']}/h/#{group.slug}/qualities"]
     when :commented
-      ['View post', "#{ENV['BASE_URI']}/h/#{group.slug}/teams/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
+      ['View post', "#{ENV['BASE_URI']}/h/#{group.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
     when :liked_a_comment
-      ['View post', "#{ENV['BASE_URI']}/h/#{group.slug}/teams/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]      
+      ['View post', "#{ENV['BASE_URI']}/h/#{group.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
     when :left_group
       ['View members', "#{ENV['BASE_URI']}/h/#{group.slug}/members"]
     when :created_payment

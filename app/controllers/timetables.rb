@@ -145,11 +145,11 @@ Huddl::App.controller do
     end
   end  
   
-  get '/activities/:id' do
-    @activity = Activity.find(params[:id])
-    @group = @activity.group
+  get '/h/:slug/activities/:id' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    @timetable = @activity.timetable
+    @activity = @group.activities.find(params[:id])
+    @timetable = @activity.timetable    
     membership_required!      
     erb :'timetables/activity'
   end   

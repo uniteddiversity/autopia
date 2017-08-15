@@ -12,6 +12,11 @@ class Activity
   belongs_to :tslot, index: true, optional: true  
   belongs_to :scheduled_by, class_name: "Account", inverse_of: :activities_scheduled, index: true, optional: true
   
+  has_many :posts, :as => :commentable, :dependent => :destroy
+  has_many :subscriptions, :as => :commentable, :dependent => :destroy
+  has_many :comments, :as => :commentable, :dependent => :destroy
+  has_many :comment_likes, :as => :commentable, :dependent => :destroy  
+    
   before_validation do    
     self.timetable = self.space.timetable if self.space
     self.group = self.timetable.group if self.timetable
@@ -28,6 +33,12 @@ class Activity
   validates_uniqueness_of :space, :scope => :tslot, :allow_nil => true
   
   has_many :attendances, :dependent => :destroy
+  def attendees
+    Account.where(:id.in => attendances.pluck(:account_id))
+  end
+  def members
+    attendees
+  end  
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do

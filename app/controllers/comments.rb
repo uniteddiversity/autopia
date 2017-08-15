@@ -1,5 +1,5 @@
 Huddl::App.controller do
-  
+    
   post '/h/:slug/inbound/:id' do    
 		mail, html, plain_text = EmailReceiver.receive(request)				    			
 		account = Account.find_by(email: mail.from.first)
@@ -9,7 +9,15 @@ Huddl::App.controller do
 		@post = @group.posts.find(params[:id])
 		@post.comments.create! account: account, body: plain_text		
 		200
-  end      
+  end    
+
+  get '/h/:slug/commentable' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    membership_required!
+    @commentable = params[:commentable_type].constantize.find(params[:commentable_id])      
+    partial :'comments/commentable', :locals => {:commentable => @commentable}
+  end
   
   post '/h/:slug/comment' do
     @group = Group.find_by(slug: params[:slug]) || not_found
