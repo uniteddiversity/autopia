@@ -156,7 +156,7 @@ class Notification
       "<strong>#{comment.account.name}</strong> posted in <strong>#{comment.commentable.name}</strong>"                  
     when :liked_a_comment
       comment_like = notifiable
-      "<strong>#{comment_like.account.name}</strong> liked <strong>#{comment_like.comment.account.name}'s</strong> comment in <strong>#{comment_like.team.name}</strong>"
+      "<strong>#{comment_like.account.name}</strong> liked <strong>#{comment_like.comment.account.name}'s</strong> comment in <strong>#{comment_like.commentable.name}</strong>"
     when :left_group
       account = notifiable
       "<strong>#{account.name}</strong> is no longer a member of #{self.group.name}"

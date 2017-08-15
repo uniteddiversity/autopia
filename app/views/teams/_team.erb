@@ -15,14 +15,14 @@
     <%= partial :'accounts/square', :locals => {:account => current_account, :width => '32px', :klass => 'media-object'} %>
   </span>
   <div class="media-body">
-    <%= partial :'teams/comment_form', :locals => {:comment => @comment} %>
+    <%= partial :'comments/comment_form', :locals => {:comment => @comment} %>
   </div>
 </div> 
 
 <% (@posts = @team.posts.order('updated_at desc').paginate(:page => params[:page], :per_page => 10)).each { |post| %>
   <% if post.comments.count > 0 %>
     <div data-pagelet-url="/posts/<%=post.id%>">
-      <%= partial :'teams/post', :object => post %>
+      <%= partial :'comments/post', :object => post %>
     </div>
   <% end %>
 <% } %>

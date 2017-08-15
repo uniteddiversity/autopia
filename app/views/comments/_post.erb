@@ -41,7 +41,7 @@
 
           <% if comment.title %>
             <div data-pagelet-url="/comments/<%=comment.id%>/options">
-              <%= partial :'teams/options', :locals => {:comment => comment} %>
+              <%= partial :'comments/options', :locals => {:comment => comment} %>
             </div>
           <% end %>
 
@@ -62,7 +62,7 @@
 
   <div style="background: #FDF8FD; padding: 5px 10px; font-size: 12px; border-top: 1px solid #DDCECE">
     <div data-pagelet-url="/comments/<%=comment.id%>/likes" style="display: inline">
-      <%= partial :'teams/comment_likes', :locals => {:comment => comment} %>
+      <%= partial :'comments/comment_likes', :locals => {:comment => comment} %>
     </div>
     <%= partial :'teams/read_receipts', :locals => {:comment => comment} %>
     <hr style="border-color: #DDCECE; margin: 0; margin-top: 5px" />
@@ -70,7 +70,7 @@
 
   <div style="background: #FDF8FD">
     <div data-pagelet-url="/posts/<%=post.id%>/replies" data-pusher-channel="post.<%=post.id%>">
-      <%= partial :'teams/replies', :locals => {:post => post} %>
+      <%= partial :'comments/replies', :locals => {:post => post} %>
     </div>
 
     <div class="media" style="padding: 10px 10px 0 10px; margin: 0">
@@ -78,7 +78,7 @@
         <%= partial :'accounts/square', :locals => {:account => current_account, :width => '32px', :klass => 'media-object'} %>
       </span>
       <div class="media-body">
-        <%= partial :'teams/comment_form', :locals => {:comment => post.comments.build, :reply => true} %>
+        <%= partial :'comments/comment_form', :locals => {:comment => post.comments.build, :reply => true} %>
       </div>
     </div> 
   </div>

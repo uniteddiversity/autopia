@@ -1,4 +1,4 @@
 
 <% post.comments.order('created_at asc').skip(1).each { |comment| %>
-  <%= partial :'teams/comment', :locals => {:comment => comment}  %>
+  <%= partial :'comments/comment', :locals => {:comment => comment}  %>
 <% } %>
