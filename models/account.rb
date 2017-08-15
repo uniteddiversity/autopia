@@ -32,6 +32,10 @@ class Account
     Account.where(:id.in => Membership.where(:group_id.in => memberships.pluck(:group_id)).pluck(:account_id))
   end
   
+  def network_notifications
+    Notification.where(:group_id.in => memberships.pluck(:group_id))    
+  end  
+  
   has_many :groups, :dependent => :nullify  
     
   has_many :mapplications, :class_name => "Mapplication", :inverse_of => :account, :dependent => :destroy
@@ -85,7 +89,7 @@ class Account
   has_many :inventory_items_provided, :class_name => 'InventoryItem', :inverse_of => :responsible, :dependent => :nullify
   
   has_many :notifications, as: :notifiable, dependent: :destroy
-  
+    
   # Dragonfly
   dragonfly_accessor :picture 
   before_validation do

@@ -60,6 +60,7 @@ module Huddl
            
     get '/' do
       if current_account
+        @notifications = current_account.network_notifications.order('created_at desc').page(params[:page])
         erb :home_signed_in
       else
         if ENV['BASE_URI'] == 'https://huddl.tech'  

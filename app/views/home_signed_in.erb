@@ -1,34 +1,48 @@
 
 <a class="btn btn-primary" href="/h/new"><i class="fa fa-plus"></i> Create a group</a>
 
-<% if current_account.memberships.count > 0 %>
+<div class="row">
+  <div class="col-sm-8">
 
-  <h1>Your groups</h1>
+    <style>.group h1 { font-size: 26px }</style>
 
-  <div class="row">
+    <% if current_account.memberships.count > 0 %>
 
-    <% current_account.memberships.sort_by { |membership| membership.group.notifications.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.reverse.each { |membership| group = membership.group %>
-      <div class="col-sm-4" style="margin-bottom: 20px">
-        <%= partial :group, :object => group  %>
+      <h1>Your groups</h1>
+
+      <div class="row">
+
+        <% current_account.memberships.sort_by { |membership| membership.group.notifications.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.reverse.each { |membership| group = membership.group %>
+          <div class="col-sm-4" style="margin-bottom: 20px">
+            <%= partial :group, :object => group  %>
+          </div>
+        <% } %>
+
+      </div>  
+
+    <% end %>
+
+    <% if (featured_groups = Group.where(:featured => true).where(:id.nin => current_account.memberships.pluck(:group_id))).count > 0 %>
+
+      <h1>Featured groups</h1>
+
+      <div class="row">
+
+        <% featured_groups.each { |group| %>
+          <div class="col-sm-4" style="margin-bottom: 20px">
+            <%= partial :group, :object => group  %>
+          </div>
+        <% } %>
+
       </div>
-    <% } %>
+
+    <% end %>    
+
+    <h2>Online now</h2>
+    <% current_account.network.where(:last_active.gt => 5.minutes.ago).each { |account| %><%= partial :'accounts/square', :locals => {:account => account, :title => "#{account.name}#{if account.last_active; "<br />#{time_ago_in_words account.last_active} ago"; end}", :style => 'width: 75px; margin-bottom: 5px; margin-right: 5px;'} %><% } %>
 
   </div>  
-
-<% end %>
-
-<% if (featured_groups = Group.where(:featured => true).where(:id.nin => current_account.memberships.pluck(:group_id))).count > 0 %>
-
-  <h1>Featured groups</h1>
-
-  <div class="row">
-
-    <% featured_groups.each { |group| %>
-      <div class="col-sm-4" style="margin-bottom: 20px">
-        <%= partial :group, :object => group  %>
-      </div>
-    <% } %>
-
+  <div class="col-sm-4">
+    <%= partial :newsfeed, :locals => {:notifications => @notifications} %>
   </div>
-
-<% end %>
+</div>
