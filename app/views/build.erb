@@ -65,10 +65,11 @@
         <p><a href="/h/<%=@group.slug%>/apply" target="_blank"><i class="fa fa-file-text-o"></i> Preview application form</a></p>
       <% end %>
       <%= f.wysiwyg_block :application_preamble %>
-      <%= f.text_area_block :application_questions %>
+      <%= f.text_area_block :application_questions %>        
       <%= f.check_box_block :ask_for_date_of_birth %>  
       <%= f.check_box_block :ask_for_gender %>  
       <%= f.check_box_block :ask_for_poc %>  
+      <%= f.check_box_block :ask_for_facebook_profile_url %>          
       <%= f.check_box_block :anonymise_supporters %>
       <%= f.check_box_block :anonymise_blockers %>     
       <%= f.check_box_block :require_reason_proposer %>
