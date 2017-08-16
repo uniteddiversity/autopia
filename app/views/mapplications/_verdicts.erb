@@ -1,4 +1,4 @@
-<% [ ['proposer','propose'], ['supporter','support'], ['blocker','block'] ].each { |noun, verb| %>
+<% [ ['proposer','propose'], ['supporter','support'] ].each { |noun, verb| %>
 
   <div style="margin-bottom: 10px">
     <%=pluralize(mapplication.verdicts.send(noun.pluralize).count,noun)%>    
