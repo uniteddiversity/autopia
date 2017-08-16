@@ -16,12 +16,12 @@
   <%= partial :'mapplications/verdicts', :locals => {:mapplication => mapplication} %>
 </td>          
 
-<% if @membership.admin? %>
-  <td>
-    <% if mapplication.status == 'on_ice' %>
-      Iced by <%=mapplication.processed_by.name%>
-      &middot; 
-    <% end %>          
+<td>
+  <% if mapplication.status == 'on_ice' %>
+    Iced by <%=mapplication.processed_by.name%>
+  <% end %>  
+  <% if @membership.admin? %>      
+    &middot; 
     <% if mapplication.acceptable? %>
       <a class="btn btn-success" href="/mapplications/<%=mapplication.id%>/process?status=accepted">Accept</a>
     <% end %>
@@ -30,5 +30,5 @@
     <% else %>
       <a class="btn btn-default" href="/mapplications/<%=mapplication.id%>/process?status=on_ice">Put on ice</a>
     <% end %>
-  </td>
-<% end %>
+  <% end %>
+</td>

@@ -18,9 +18,7 @@
         <th>Name</th>
         <th>Applied on</th>     
         <th>Proposers and supporters</th>     
-        <% if @membership.admin? %>
-          <th></th>
-        <% end %>
+        <th></th>
       </tr>
     </thead>  
     <% @mapplications.order('created_at desc').each { |mapplication| %>
