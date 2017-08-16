@@ -81,6 +81,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @membership.update_attribute(:unsubscribed, nil)
+    flash[:notice] = "You'll now receive email notifications of key events in #{@group.name}"
     redirect "/h/#{@group.slug}"
   end      
   
@@ -89,6 +90,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @membership.update_attribute(:unsubscribed, true)
+    flash[:notice] = "OK! You won't receive emails about key events in #{@group.name}"
     redirect "/h/#{@group.slug}"
   end      
         
