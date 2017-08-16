@@ -117,6 +117,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     halt unless @teamship.account.id == current_account.id or @membership.admin?    
     @teamship.update_attribute(:unsubscribed, true)
+    @team.subscriptions.where(account: current_account).destroy_all
     flash[:notice] = "OK! You won't receive emails about #{@team.name}"
     redirect "/h/#{@group.slug}/teams/#{@team.id}"
   end
