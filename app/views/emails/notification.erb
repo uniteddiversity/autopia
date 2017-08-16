@@ -25,12 +25,12 @@
             <p style="font-size: 13px">To continue the conversation, <a href="<%=notification.link[1]%>">view the post</a> or reply to this email.</p>
           <% end %>
 
-          <% if notification.type == 'commented' %>
+          <% if notification.type == 'commented'; comment = notifiable %>
             <p style="font-size: 12px;">
-              <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=notification.notifiable.post_id%>/unsubscribe">Unwatch this post</a>
-              <% if notification.notifiable.is_a?(Team) %>
+              <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">Unwatch this post</a>
+              <% if comment.commentable.is_a?(Team) %>
                 or
-                <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/h/<%=group.slug%>/teams/<%=notification.notifiable.id%>/unsubscribe">turn off notifications for this team</a>
+                <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/h/<%=group.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">turn off notifications for this team</a>
               <% end %>
             </p>
           <% else %>
