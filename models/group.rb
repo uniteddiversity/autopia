@@ -16,7 +16,6 @@ class Group
   field :application_preamble, :type => String
   field :application_questions, :type => String
   field :anonymise_supporters, :type => Boolean
-  field :anonymise_blockers, :type => Boolean
   field :democratic_threshold, :type => Boolean
   field :fixed_threshold, :type => Integer
   field :ask_for_date_of_birth, :type => Boolean
@@ -28,7 +27,6 @@ class Group
   field :proposing_delay, :type => Integer
   field :require_reason_proposer, :type => Boolean
   field :require_reason_supporter, :type => Boolean
-  field :require_reason_blocker, :type => Boolean
   field :booking_limit, :type => Integer
   field :scheduling_by_all, :type => Boolean
   field :processed_via_stripe, :type => Integer
@@ -206,7 +204,6 @@ class Group
       :proposing_delay => :number,
       :require_reason_proposer => :check_box,
       :require_reason_supporter => :check_box,
-      :require_reason_blocker => :check_box,
       :booking_limit => :number,
       :processed_via_stripe => :number,
       :balance => :number,
@@ -214,7 +211,6 @@ class Group
       :application_preamble => :wysiwyg,
       :application_questions => :text_area,
       :anonymise_supporters => :check_box,
-      :anonymise_blockers => :check_box,
       :scheduling_by_all => :check_box,
       :ask_for_date_of_birth => :check_box,
       :ask_for_gender => :check_box,
@@ -263,7 +259,7 @@ class Group
   def self.new_hints
     {
       :currency => 'This cannot be changed, choose wisely',
-      :fixed_threshold => 'Automatically accept applications with this number of proposers + supporters (with at least one proposer, and no blockers)',
+      :fixed_threshold => 'Automatically accept applications with this number of proposers + supporters (with at least one proposer)',
       :proposing_delay => 'Accept proposers on applications only once the application is this many hours old'
     }
   end
@@ -278,8 +274,7 @@ class Group
       :democratic_threshold => 'Allow all group members to suggest the magic number, and use the median',
       :teamup_calendar_url => 'Teamup calendar URL',
       :require_reason_proposer => 'Proposers must provide a reason',
-      :require_reason_supporter => 'Supporters must provide a reason',
-      :require_reason_blocker => 'Blockers must provide a reason'
+      :require_reason_supporter => 'Supporters must provide a reason'
     }[attr.to_sym] || super  
   end   
   

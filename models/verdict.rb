@@ -27,14 +27,11 @@ class Verdict
     if type == 'supporter' and group and group.require_reason_supporter and !reason
       errors.add(:type, 'requires a reason')      
     end
-    if type == 'blocker' and group and group.require_reason_blocker and !reason
-      errors.add(:type, 'requires a reason')      
-    end
   end
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    if type == 'proposer' or (type == 'supporter' and !mapplication.group.anonymise_supporters) or (type == 'blocker' and !mapplication.group.anonymise_blockers)
+    if type == 'proposer' or (type == 'supporter' and !mapplication.group.anonymise_supporters)
       notifications.create! :group => mapplication.group, :type => 'gave_verdict'
     end
   end   
@@ -61,7 +58,7 @@ class Verdict
   end
   
   def self.types
-    %w{proposer supporter blocker}
+    %w{proposer supporter}
   end
   
   def self.proposers
@@ -71,9 +68,5 @@ class Verdict
   def self.supporters
     where(type: 'supporter')
   end
-  
-  def self.blockers
-    where(type: 'blocker')
-  end
-    
+      
 end
