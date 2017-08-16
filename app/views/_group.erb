@@ -11,9 +11,9 @@
           <% if @group and @membership %>        
             <p style="color: white;">         
             <% if @membership.unsubscribed %>
-              <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/subscribe">Turn email notifications on</a> &middot;
+              <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/subscribe">Turn on email notifications of key events</a> &middot;
             <% else %>
-              <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/unsubscribe">Turn email notifications off</a> &middot;
+              <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/unsubscribe">Turn off email notifications of key events</a> &middot;
             <% end %>              
               <a data-confirm="Are you sure you want to leave the group?" style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/leave">Leave group</a>
               <% if @membership.admin? %>

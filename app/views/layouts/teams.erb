@@ -25,9 +25,9 @@
         <div style="margin-top: 10px">
           <% if teamship = @team.teamships.find_by(account: current_account) %>
             <% if teamship.unsubscribed %>
-              <a href="/teamships/<%=teamship.id%>/subscribe?team_id=<%=@team.id%>">Turn email notifications on</a> &middot;
+              <a href="/teamships/<%=teamship.id%>/subscribe?team_id=<%=@team.id%>">Turn on email notifications</a> &middot;
             <% else %>
-              <a href="/teamships/<%=teamship.id%>/unsubscribe?team_id=<%=@team.id%>">Turn email notifications off</a> &middot;
+              <a href="/teamships/<%=teamship.id%>/unsubscribe?team_id=<%=@team.id%>">Turn off email notifications</a> &middot;
             <% end %>
             <a href="/teamships/<%=teamship.id%>/destroy?team_id=<%=@team.id%>">Leave team</a> &middot;            
           <% end %>
