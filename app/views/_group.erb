@@ -9,7 +9,12 @@
             <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
           </h1> 
           <% if @group and @membership %>        
-            <p style="color: white;">              
+            <p style="color: white;">         
+            <% if @membership.unsubscribed %>
+              <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/subscribe">Turn email notifications on</a> &middot;
+            <% else %>
+              <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/unsubscribe">Turn email notifications off</a> &middot;
+            <% end %>              
               <a data-confirm="Are you sure you want to leave the group?" style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/leave">Leave group</a>
               <% if @membership.admin? %>
                 &middot;

@@ -28,28 +28,6 @@
   </div>
 <% end %>
 
-<% if @account.persisted? %>
-
-  <h2>Email notifications</h2>
-
-  <style>
-    @media(min-width: 768px) {
-      .group-name { text-align: right }
-    }
-  </style>
-  <% @account.memberships.each { |membership| group = membership.group %>
-    <div class="row">
-      <div class="col-sm-3 group-name">
-        <%=group.name%>
-      </div>    
-      <div class="col-sm-6" data-pagelet-url="/receive_emails/<%=membership.id%>">
-        <%= partial :'accounts/receive_emails', :locals => {:membership => membership} %>
-      </div>
-    </div>
-  <% } %>
-
-<% end %>
-
 <script>
   $(function () {
     $('.use-picture').popover({trigger: 'hover', html: true});

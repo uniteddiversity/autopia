@@ -7,7 +7,7 @@ class Membership
   field :desired_threshold, :type => Integer
   field :booking_limit, :type => Integer
   field :requested_contribution, :type => Integer
-  field :receive_emails, :type => Boolean
+  field :unsubscribed, :type => Boolean
   
   belongs_to :group, index: true
   belongs_to :account, class_name: "Account", inverse_of: :memberships, index: true
@@ -18,7 +18,6 @@ class Membership
   validates_uniqueness_of :account, :scope => :group
   
   before_validation do
-    self.receive_emails = true if self.receive_emails.nil?
     self.desired_threshold = 1 if (self.desired_threshold and self.desired_threshold < 1)
     self.paid = 0 if self.paid.nil?
     self.requested_contribution = 0 if self.requested_contribution.nil?
@@ -132,7 +131,7 @@ class Membership
       :desired_threshold => :number,
       :booking_limit => :number,
       :requested_contribution => :number,
-      :receive_emails => :check_box
+      :unsubscribed => :check_box
     }
   end
       

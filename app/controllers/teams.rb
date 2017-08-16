@@ -97,7 +97,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     halt unless @teamship.account.id == current_account.id or @membership.admin?
     @teamship.update_attribute(:unsubscribed, nil)
-    flash[:notice] = "You'll now receive email notifications of new comments in #{@team.name}"
+    flash[:notice] = "You'll now receive email notifications of new posts in #{@team.name}"
     redirect "/h/#{@group.slug}/teams/#{@team.id}"
   end
   

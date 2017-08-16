@@ -174,7 +174,7 @@ class Group
   end
   
   def emails
-    Account.where(:id.in => memberships.where(:receive_emails => true).pluck(:account_id)).pluck(:email)
+    Account.where(:id.in => memberships.where(:unsubscribed.ne => true).pluck(:account_id)).pluck(:email)
   end  
   
   def incomings

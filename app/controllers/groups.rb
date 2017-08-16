@@ -74,6 +74,22 @@ Huddl::App.controller do
     @group.destroy
     flash[:notice] = 'The group was deleted'
     redirect '/'
-  end    
+  end   
+  
+  get '/h/:slug/subscribe' do        
+    @group = Group.find_by(slug: params[:slug]) || not_found      
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @membership.update_attribute(:unsubscribed, nil)
+    redirect "/h/#{@group.slug}"
+  end      
+  
+  get '/h/:slug/unsubscribe' do        
+    @group = Group.find_by(slug: params[:slug]) || not_found      
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @membership.update_attribute(:unsubscribed, true)
+    redirect "/h/#{@group.slug}"
+  end      
         
 end

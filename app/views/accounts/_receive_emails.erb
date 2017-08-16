@@ -1,3 +1,0 @@
-<% form_tag "/receive_emails/#{membership.id}" do %>
-  <%= check_box_tag :receive_emails, :value => true, :checked => membership.receive_emails, :onclick => '$(this.form).submit()' %>
-<% end %>

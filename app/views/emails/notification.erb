@@ -30,11 +30,11 @@
               <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">Unwatch this post</a>
               <% if comment.commentable.is_a?(Team) %>
                 or
-                <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/h/<%=group.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">turn off notifications for this team</a>
+                <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/h/<%=group.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">turn off email notifications for this team</a>
               <% end %>
             </p>
           <% else %>
-            <p style="font-size: 12px;"><a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">Edit your profile to stop these emails</a></p>
+            <p style="font-size: 12px;"><a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/h/<%=group.slug%>/unsubscribe">Unsubscribe from <%=group.name%> emails</a></p>
           <% end %>    
 
 
