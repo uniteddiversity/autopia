@@ -26,7 +26,13 @@
           <% end %>
 
           <% if notification.type == 'commented' %>
-            <p style="font-size: 12px;"><a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=notification.notifiable.post_id%>/unsubscribe">Unwatch this post</a></p>
+            <p style="font-size: 12px;">
+              <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=notification.notifiable.post_id%>/unsubscribe">Unwatch this post</a>
+              <% if notification.notifiable.is_a?(Team) %>
+                or
+                <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/h/<%=group.slug%>/teams/<%=notification.notifiable.id%>/unsubscribe">turn off notifications for this team</a>
+              <% end %>
+            </p>
           <% else %>
             <p style="font-size: 12px;"><a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">Edit your profile to stop these emails</a></p>
           <% end %>    

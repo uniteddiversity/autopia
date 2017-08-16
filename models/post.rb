@@ -11,9 +11,9 @@ class Post
   has_many :subscriptions, :dependent => :destroy
   has_many :comments, :dependent => :destroy
   has_many :comment_likes, :dependent => :destroy 
-  
+    
   after_create do
-    commentable.members.each { |account| subscriptions.create account: account }    
+    commentable.subscribers.each { |account| subscriptions.create account: account }    
   end
 
   before_validation do

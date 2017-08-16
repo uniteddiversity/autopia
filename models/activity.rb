@@ -36,7 +36,7 @@ class Activity
   def attendees
     Account.where(:id.in => attendances.pluck(:account_id))
   end
-  def members
+  def subscribers
     Account.where(:id.in => attendances.pluck(:account_id) + [account.id])
   end  
   

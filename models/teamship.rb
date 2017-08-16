@@ -7,6 +7,8 @@ class Teamship
   belongs_to :group, index: true
   belongs_to :membership, index: true
   
+  field :unsubscribed, :type => Boolean
+  
   validates_uniqueness_of :account, :scope => :team
   
   after_create do
@@ -31,7 +33,8 @@ class Teamship
       :account_id => :lookup,
       :team_id => :lookup,
       :group_id => :lookup,
-      :membership_id => :lookup
+      :membership_id => :lookup,
+      :unsubscribed => :check_box
     }
   end
     

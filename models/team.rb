@@ -32,11 +32,10 @@ class Team
   def members
     Account.where(:id.in => teamships.pluck(:account_id))
   end
-  
-  def emails
-    Account.where(:id.in => teamships.pluck(:account_id)).pluck(:email)
-  end  
-  
+  def subscribers
+    Account.where(:id.in => teamships.where(:unsubscribed.ne => true).pluck(:account_id))
+  end
+    
   def spent
     spends.pluck(:amount).sum
   end

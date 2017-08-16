@@ -89,5 +89,36 @@ Huddl::App.controller do
     @teamship.destroy
     redirect back
   end  
+  
+  get '/teamships/:id/subscribe' do
+    @teamship = Teamship.find(params[:id]) || not_found
+    @team = @teamship.team
+    @group = @teamship.team.group
+    @membership = @group.memberships.find_by(account: current_account)
+    halt unless @teamship.account.id == current_account.id or @membership.admin?
+    @teamship.update_attribute(:unsubscribed, nil)
+    flash[:notice] = "You'll now receive email notifications of new comments in #{@team.name}"
+    redirect "/h/#{@group.slug}/teams/#{@team.id}"
+  end
+  
+  get '/h/:slug/teams/:id/unsubscribe' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    membership_required!
+    @team = @group.teams.find(params[:id])
+    @teamship = @team.teamships.find_by(account: current_account)
+    redirect (@teamship ? "/teamships/#{@teamship.id}/unsubscribe" : "/h/#{@group.slug}/teams/#{@team.id}")
+  end
+
+  get '/teamships/:id/unsubscribe' do
+    @teamship = Teamship.find(params[:id]) || not_found
+    @team = @teamship.team
+    @group = @teamship.team.group
+    @membership = @group.memberships.find_by(account: current_account)
+    halt unless @teamship.account.id == current_account.id or @membership.admin?    
+    @teamship.update_attribute(:unsubscribed, true)
+    flash[:notice] = "OK! You won't receive emails about #{@team.name}"
+    redirect "/h/#{@group.slug}/teams/#{@team.id}"
+  end
      
 end
