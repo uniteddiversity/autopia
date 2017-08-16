@@ -19,6 +19,7 @@ class Account
   field :sign_ins, :type => Integer
   field :sign_in_token, :type => String
   field :last_active, :type => Time
+  field :unsubscribed, :type => Boolean
   
   before_validation do
     self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
@@ -146,6 +147,7 @@ class Account
       :picture => :image,
       :cover_image => :image,
       :admin => :check_box,
+      :unsubscribed => :check_box,
       :time_zone => :select,
       :password => :password,
       :provider_links => :collection,
@@ -169,7 +171,8 @@ class Account
       :gender => 'Optional. Please only provide this information if you feel comfortable doing so',
       :date_of_birth => 'Optional. Please only provide this information if you feel comfortable doing so',
       :poc => 'Optional. Please only provide this information if you feel comfortable doing so',
-      :facebook_profile_url => 'Optional. Please only provide this information if you feel comfortable doing so'
+      :facebook_profile_url => 'Optional. Please only provide this information if you feel comfortable doing so',
+      :unsubscribed => "Don't send me any email notifications of any kind"
     }
   end
   

@@ -43,7 +43,7 @@ class Post
   end
   
   def emails
-    subscribers.pluck(:email)
+    subscribers.where(:unsubscribed.ne => true).pluck(:email)
   end
     
 end
