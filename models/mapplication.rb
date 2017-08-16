@@ -24,8 +24,8 @@ class Mapplication
     where(status: 'pending')
   end
   
-  def self.rejected
-    where(status: 'rejected')
+  def self.on_ice
+    where(status: 'on_ice')
   end  
   
   def answers=(x)
@@ -37,7 +37,7 @@ class Mapplication
   end
   
   def acceptable?
-    (!group.member_limit or (group.memberships.count < group.member_limit)) and verdicts.proposers.count > 0
+    status != 'on_ice' and (!group.member_limit or (group.memberships.count < group.member_limit)) and verdicts.proposers.count > 0
   end
   
   def meets_threshold
@@ -68,7 +68,7 @@ class Mapplication
   end
     
   def self.statuses
-    ['pending', 'accepted', 'rejected']
+    ['pending', 'accepted', 'on_ice']
   end    
 
 end

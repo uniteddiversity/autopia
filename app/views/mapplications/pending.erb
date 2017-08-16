@@ -25,6 +25,6 @@
 
 <%= partial :'mapplications/mapplications' %>
 
-<% if @group.mapplications.rejected.count > 0 %>
-  <a href="/h/<%=@group.slug%>/applications/rejected">View <%=pluralize(@group.mapplications.rejected.count, 'rejected application')%></a>
+<% if @group.mapplications.on_ice.count > 0 %>
+  <a href="/h/<%=@group.slug%>/applications/on_ice">View <%=pluralize(@group.mapplications.on_ice.count, 'application')%> on ice</a>
 <% end %>

@@ -84,12 +84,12 @@ Huddl::App.controller do
     200
   end         
     
-  get '/h/:slug/applications/rejected' do     
+  get '/h/:slug/applications/on_ice' do     
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
-    @mapplications = @group.mapplications.rejected
-    erb :'mapplications/rejected'
+    @mapplications = @group.mapplications.on_ice
+    erb :'mapplications/on_ice'
   end     
   
   get '/verdicts/create' do

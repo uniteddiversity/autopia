@@ -4,8 +4,8 @@
 <td>
   <% if mapplication.answers %>
     <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
-          $('#modal').modal('show')
-        });">
+            $('#modal').modal('show')
+          });">
          <%=mapplication.created_at%>
     </a>
   <% else %>  
@@ -18,17 +18,17 @@
 
 <% if @membership.admin? %>
   <td>
-    <% if mapplication.status == 'rejected' %>
-      Rejected by <%=mapplication.processed_by.name%>
-      <% if mapplication.acceptable? %>
-        &middot; 
-      <% end %>
+    <% if mapplication.status == 'on_ice' %>
+      Iced by <%=mapplication.processed_by.name%>
+      &middot; 
     <% end %>          
     <% if mapplication.acceptable? %>
       <a class="btn btn-success" href="/mapplications/<%=mapplication.id%>/process?status=accepted">Accept</a>
     <% end %>
-    <% unless mapplication.status == 'rejected' %>
-      <a class="btn btn-danger" href="/mapplications/<%=mapplication.id%>/process?status=rejected">Reject</a>
+    <% if mapplication.status == 'on_ice' %>
+      <a class="btn btn-default" href="/mapplications/<%=mapplication.id%>/process?status=pending">Un-ice</a>
+    <% else %>
+      <a class="btn btn-default" href="/mapplications/<%=mapplication.id%>/process?status=on_ice">Put on ice</a>
     <% end %>
   </td>
 <% end %>
