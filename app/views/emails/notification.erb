@@ -25,7 +25,7 @@
             <p style="font-size: 13px">To continue the conversation, <a href="<%=notification.link[1]%>">view the post</a> or reply to this email.</p>
           <% end %>
 
-          <% if notification.type == 'commented'; comment = notifiable %>
+          <% if notification.type == 'commented'; comment = notification.notifiable %>
             <p style="font-size: 12px;">
               <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">Unwatch this post</a>
               <% if comment.commentable.is_a?(Team) %>
