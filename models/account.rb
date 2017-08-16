@@ -209,7 +209,7 @@ class Account
     {
       :facebook_profile_url => 'Facebook profile URL',
       :poc => 'I identify as a person of colour',
-      :unsubscribed => "Don't send me any email notifications of any kind"
+      :unsubscribed => "Stop sending me emails"
     }[attr.to_sym] || super  
   end   
   
