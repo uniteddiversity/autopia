@@ -171,8 +171,7 @@ class Account
       :gender => 'Optional. Please only provide this information if you feel comfortable doing so',
       :date_of_birth => 'Optional. Please only provide this information if you feel comfortable doing so',
       :poc => 'Optional. Please only provide this information if you feel comfortable doing so',
-      :facebook_profile_url => 'Optional. Please only provide this information if you feel comfortable doing so',
-      :unsubscribed => "Don't send me any email notifications of any kind"
+      :facebook_profile_url => 'Optional. Please only provide this information if you feel comfortable doing so'      
     }
   end
   
@@ -209,7 +208,8 @@ class Account
   def self.human_attribute_name(attr, options={})  
     {
       :facebook_profile_url => 'Facebook profile URL',
-      :poc => 'I identify as a person of colour'
+      :poc => 'I identify as a person of colour',
+      :unsubscribed => "Don't send me any email notifications of any kind"
     }[attr.to_sym] || super  
   end   
   
