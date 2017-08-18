@@ -1,6 +1,12 @@
+<% (missing_tier = (@group.enable_tiers? and @group.tiers.count > 0 and !@membership.tiership)); (missing_accom = (@group.enable_accommodation? and @group.accoms.count > 0 and !@membership.accomship)); if missing_tier or missing_accom %>
+  <div class="alert alert-info" style="margin-top: 10px">
+    <p>Please select <%= if missing_tier and missing_accom; 'a tier and accommodation option'; elsif missing_tier; 'a tier'; elsif missing_accom; 'an accommodation option'; end %></p>
+  </div>
+<% end %>
+
 <table class="table">
 
-  <% if @group.tiers.count > 0 %>         
+  <% if @group.enable_tiers? and @group.tiers.count > 0 %>         
     <tr>
       <th>
         Your tier
@@ -52,13 +58,18 @@
 </table>
 
 <% if (@membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution))) %>
-
-  You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 
-  (You've paid <%=@group.currency_symbol%><%=@membership.paid or 0%> of a requested contribution of <%=@group.currency_symbol%><%=@membership.requested_contribution%>.)          
-  <div style="margin-top: 10px">
-    <%= partial :pay, :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%></h3>
+    </div>
+    <div class="panel-body">
+      You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 
+      (You've paid <%=@group.currency_symbol%><%=@membership.paid or 0%> of a requested contribution of <%=@group.currency_symbol%><%=@membership.requested_contribution%>.)          
+      <div style="margin-top: 10px">
+        <%= partial :pay, :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
+      </div>
+    </div>
   </div>
-
 <% end %>
 
 
