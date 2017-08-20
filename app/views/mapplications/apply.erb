@@ -49,7 +49,7 @@
           <%= f.text_block :email %>
           <%= f.image_block :picture %>  
           <% if @group.ask_for_date_of_birth %>
-            <%= f.date_block :date_of_birth, :start_year => 1900, :end_year => Time.now.year %>
+            <%= f.date_block %>
           <% end %>
           <% if @group.ask_for_gender %>
             <%= f.select_block :gender %>

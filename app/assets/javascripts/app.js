@@ -26,15 +26,22 @@ $(function () {
   function timeago() {
     $("abbr.timeago").timeago()
   }
+  
+  function datepickers() {
+    $(".datepicker").flatpickr();
+    $(".datetimepicker").flatpickr({enableTime: true, time_24hr: true});
+  }
 
   $(document).ajaxComplete(function () {
     addPlaceholders()
     tooltip()
     timeago()
+    datepickers()
   });
   addPlaceholders()
   tooltip()
   timeago()
+  datepickers()
 
   $('form').submit(function () {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
