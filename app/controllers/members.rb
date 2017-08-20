@@ -8,7 +8,7 @@ Huddl::App.controller do
     @memberships = @memberships.where(:account_id.in => Account.where(gender: params[:gender]).pluck(:id)) if params[:gender]
     @memberships = @memberships.where(:account_id.in => Account.where(poc: true).pluck(:id)) if params[:poc]      
     @memberships = @memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-params[:p].to_i.years)).where(:date_of_birth.gt => (Date.today-(params[:p].to_i+10).years)).pluck(:id)) if params[:p]      
-    @memberships = @memberships.where(:account_id.in => Account.where(name: /#{Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
+    @memberships = @memberships.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
     @memberships = @memberships.where('this.paid == this.requested_contribution') if params[:paid]
     @memberships = @memberships.where('this.paid < this.requested_contribution') if params[:more_to_pay]
     @memberships = @memberships.where('this.paid > this.requested_contribution') if params[:overpaid]
@@ -42,7 +42,7 @@ Huddl::App.controller do
       redirect back        
     end
             
-    if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:email])}$/i))
+    if !(@account = Account.find_by(email: /^#{::Regexp.escape(params[:email])}$/i))
       @account = Account.new(name: params[:name], email: params[:email], password: Account.generate_password(8))
       if !@account.save
         flash[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."

@@ -37,7 +37,7 @@ Huddl::App.controller do
       @account = current_account
     else           
       redirect back unless params[:account] and params[:account][:email]
-      if !(@account = Account.find_by(email: /^#{Regexp.escape(params[:account][:email])}$/i))
+      if !(@account = Account.find_by(email: /^#{::Regexp.escape(params[:account][:email])}$/i))
         @account = Account.new(params[:account])
         @account.password = Account.generate_password(8) # not used
         if !@account.save
@@ -64,7 +64,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!    
     @mapplications = @group.mapplications.pending
-    @mapplications = @mapplications.where(:account_id.in => Account.where(name: /#{Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
+    @mapplications = @mapplications.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
     erb :'mapplications/pending'
   end   
     
