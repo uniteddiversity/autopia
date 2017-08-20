@@ -1,4 +1,4 @@
-<div class="activity" data-attendances-count="<%=activity.attendances.count%>" data-activity-id="<%=activity.id%>" style="z-index: 99; margin-bottom: 10px; background: linear-gradient( rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) ), url('<%=activity.image.try(:url)%>'); background-size: cover; background-position: center center; position: relative;">  
+<div class="activity" data-attendances-count="<%=activity.attendances.count%>" data-activity-id="<%=activity.id%>" style="z-index: 99; margin-bottom: 10px; background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=activity.image.try(:url)%>'); background-size: cover; background-position: center center; position: relative;">  
   <div style="position: absolute; bottom: 10px; left: 10px; color: white">
     <h3 style="color: white; margin-top: 0; margin-bottom: 0; position: relative" data-toggle="tooltip">
       <a href="/h/<%=@group.slug%>/activities/<%=activity.id%>"><%=activity.name%></a>
