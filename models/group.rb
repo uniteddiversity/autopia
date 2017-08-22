@@ -30,6 +30,7 @@ class Group
   field :booking_limit, :type => Integer
   field :scheduling_by_all, :type => Boolean
   field :processed_via_stripe, :type => Integer
+  field :disable_stripe, :type => Integer
   field :balance, :type => Float
   field :paypal_email, :type => String
   field :currency, :type => String
@@ -206,6 +207,7 @@ class Group
       :require_reason_supporter => :check_box,
       :booking_limit => :number,
       :processed_via_stripe => :number,
+      :disable_stripe => :check_box,
       :balance => :number,
       :democratic_threshold => :check_box,
       :application_preamble => :wysiwyg,
@@ -233,7 +235,7 @@ class Group
   end
   
   def self.currencies
-    %w{GBP EUR USD}
+    %w{GBP EUR USD SEK}
   end
   
   def self.currency_symbol(code)
@@ -241,6 +243,7 @@ class Group
     when 'GBP'; '£'
     when 'EUR'; '€'
     when 'USD'; '$'
+    when 'SEK'; 'kr'
     end    
   end
   

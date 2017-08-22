@@ -57,7 +57,7 @@
 
 </table>
 
-<% if (@membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution))) %>
+<% if !@group.disable_stripe and (@membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution))) %>
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h3 class="panel-title">You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%></h3>

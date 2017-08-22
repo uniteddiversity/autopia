@@ -28,8 +28,8 @@ $(function () {
   }
   
   function datepickers() {
-    $(".datepicker").flatpickr();
-    $(".datetimepicker").flatpickr({enableTime: true, time_24hr: true});
+    $(".datepicker").flatpickr({altInput: true, altFormat: 'J F Y'});
+    $(".datetimepicker").flatpickr({altInput: true, altFormat: 'J F Y, H:i', enableTime: true, time_24hr: true});
   }
 
   $(document).ajaxComplete(function () {
