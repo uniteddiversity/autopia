@@ -44,6 +44,7 @@ class Group
     self.balance = 0 if self.balance.nil?
     self.processed_via_stripe = 0 if self.processed_via_stripe.nil?
     self.enable_teams = true if self.enable_budget
+    self.disable_stripe = true if self.currency == 'SEK'
   end
   
   after_create do    
