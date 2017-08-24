@@ -30,7 +30,7 @@ class Group
   field :booking_limit, :type => Integer
   field :scheduling_by_all, :type => Boolean
   field :processed_via_stripe, :type => Integer
-  field :disable_stripe, :type => Integer
+  field :disable_stripe, :type => Boolean
   field :balance, :type => Float
   field :paypal_email, :type => String
   field :currency, :type => String
