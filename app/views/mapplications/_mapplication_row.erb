@@ -26,7 +26,7 @@
       <a class="btn btn-success" href="/mapplications/<%=mapplication.id%>/process?status=accepted">Accept</a>
     <% end %>
     <% if mapplication.status == 'on_ice' %>
-      <a class="btn btn-default" href="/mapplications/<%=mapplication.id%>/process?status=pending">Un-ice</a>
+      <a class="btn btn-default" href="/mapplications/<%=mapplication.id%>/process?status=pending">Defrost</a>
     <% else %>
       <a class="btn btn-default" href="/mapplications/<%=mapplication.id%>/process?status=on_ice">Put on ice</a>
     <% end %>
