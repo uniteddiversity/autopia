@@ -38,7 +38,11 @@ $(function () {
       }
     }).on("mouseenter", function () {
       var _this = this;
-      $(this).popover("show");
+      setTimeout(function () {
+        if ($(_this).filter(':hover').length) {
+          $(_this).popover("show");
+        }
+      }, 200);
       $(".popover").on("mouseleave", function () {
         $(_this).popover('hide');
       });
@@ -48,7 +52,7 @@ $(function () {
         if (!$(".popover:hover").length) {
           $(_this).popover("hide");
         }
-      }, 300);
+      }, 200);
     });
   }
 
