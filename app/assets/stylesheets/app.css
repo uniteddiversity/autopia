@@ -32,6 +32,18 @@ a, a:hover, a:focus, a:active { color: #CE2828 }
 
 .btn { text-transform: none }
 
+.btn-ice {
+  background-color: #24AAD4;
+  border-color: #2093B7;
+  color: #ffffff;
+}
+
+.btn-ice:hover, .btn-ice:focus, .btn-ice:active {
+  background-color: #24AAD4;
+  border-color: #2093B7;
+  color: #ffffff;
+}
+
 .btn-primary {
   background-color: #CE2828;
   border-color: #AA1C1C;

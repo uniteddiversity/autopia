@@ -28,7 +28,7 @@ class Notification
   end
   
   def self.types
-    %w{created_group applied joined_group joined_team created_spend created_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment left_group created_payment created_inventory_item}  
+    %w{created_group applied joined_group joined_team created_spend created_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment left_group created_payment created_inventory_item mapplication_removed}  
   end
   
   def self.mailable_types
@@ -166,6 +166,9 @@ class Notification
     when :created_inventory_item
       inventory_item = notifiable
       "<strong>#{inventory_item.account.name}</strong> listed the item <strong>#{inventory_item.name}</strong>"
+    when :mapplication_removed
+      account = notifiable
+      "<strong>#{account.name}</strong>'s application was deleted"
     end
   end
   
@@ -229,6 +232,8 @@ class Notification
       ['View budget', "#{ENV['BASE_URI']}/h/#{group.slug}/budget"]
     when :created_inventory_item
       ['View inventory', "#{ENV['BASE_URI']}/h/#{group.slug}/inventory"]
+    when :mapplication_removed
+      ['View applications', "#{ENV['BASE_URI']}/h/#{group.slug}/applications"]
     end
   end
     
@@ -292,6 +297,8 @@ class Notification
       'fa-money'  
     when :created_inventory_item
       'fa-wrench'
+    when :mapplication_removed
+      'fa-file-text-o'
     end    
   end
 

@@ -119,6 +119,15 @@ Huddl::App.controller do
       @mapplication.accept    
     end
     redirect back
-  end   	
+  end   
+
+  get '/mapplications/:id/destroy' do
+    @mapplication = Mapplication.find(params[:id]) || not_found
+    @group = @mapplication.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    @mapplication.destroy
+    redirect back
+  end  
 
 end

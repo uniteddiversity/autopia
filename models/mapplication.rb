@@ -18,7 +18,11 @@ class Mapplication
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     notifications.create! :group => group, :type => 'applied'
-  end    
+  end 
+  
+  after_destroy do
+    account.notifications.create! :group => group, :type => 'mapplication_removed'
+  end  
       
   def self.pending
     where(status: 'pending')
