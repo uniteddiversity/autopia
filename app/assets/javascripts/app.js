@@ -18,7 +18,7 @@ $(function () {
         if ($(this).attr('title').length > 0)
           return $(this).attr('title')
         else
-          return $(this).next().html()
+          return $(this).next('span').html()
       }
     })
   }
