@@ -24,10 +24,8 @@
       </div>
 
       <div style="background: #FDF8FD; font-size: 12px;">
-        <div data-pagelet-url="/comments/<%=comment.id%>/likes" style="display: inline">
-          <%= partial :'comments/comment_likes', :locals => {:comment => comment} %>
-        </div>
-        <%= partial :'comments/read_receipts', :locals => {:comment => comment} %>
+        <div data-pagelet-url="/comments/<%=comment.id%>/likes" style="display: inline"></div>
+        <div data-pagelet-url="/comments/<%=comment.id%>/read_receipts" style="display: inline"></div>
       </div>					
 
     </div>

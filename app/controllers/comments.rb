@@ -82,6 +82,15 @@ Huddl::App.controller do
     partial :'comments/comment_likes', :locals => {:comment => @comment}
   end  
   
+  get '/comments/:id/read_receipts' do
+    @comment = Comment.find(params[:id]) || not_found
+    @commentable = @comment.commentable
+    @group = @comment.group
+    @membership = @group.memberships.find_by(account: current_account)    
+    membership_required!
+    partial :'comments/read_receipts', :locals => {:comment => @comment}
+  end   
+  
   get '/comments/:id/like' do
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
