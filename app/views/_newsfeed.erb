@@ -1,7 +1,12 @@
 
 <ul class="fa-ul" id="notifications">
   <% notifications.each_with_index { |notification,i| %>
-    <li>
+    <% if defined?(include_group_name) %>
+      <li style="opacity: 0.45">    
+        <%= notification.group.name %>
+      </li>
+    <% end %>
+    <li>      
       <i class="fa fa-li <%=notification.icon%>"></i>
       <a href="<%= notification.link[1] %>"><%= defined?(minifeed) ? HTML_Truncator.truncate(notification.sentence, 50, :length_in_chars => true) : notification.sentence %></a>
       <span style="font-size: 11px"><%= timeago(notification.created_at) %></span>      
