@@ -43,13 +43,13 @@ $(function () {
           $(_this).popover("show");
         }
       }, 200);
-      $(".popover").on("mouseleave", function () {
+      $(_this).data('bs.popover')['$tip'].on("mouseleave", function () {
         $(_this).popover('hide');
       });
     }).on("mouseleave", function () {
-      var _this = this;
+      var _this = this;      
       setTimeout(function () {
-        if (!$(".popover:hover").length) {
+        if (!$(_this).data('bs.popover')['$tip'].filter(':hover').length) {
           $(_this).popover("hide");
         }
       }, 200);
