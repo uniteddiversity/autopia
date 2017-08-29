@@ -275,7 +275,7 @@ class Group
       :ask_for_poc => 'Ask whether applicants identify as a person of colour',
       :ask_for_facebook_profile_url => 'Ask for Facebook profile URL',
       :fixed_threshold => 'Magic number',
-      :democratic_threshold => 'Allow all group members to suggest the magic number, and use the median',
+      :democratic_threshold => 'Allow all group members to suggest a magic number, and use the median',
       :teamup_calendar_url => 'Teamup calendar URL',
       :require_reason_proposer => 'Proposers must provide a reason',
       :require_reason_supporter => 'Supporters must provide a reason'
