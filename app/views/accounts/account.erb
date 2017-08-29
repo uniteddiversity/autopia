@@ -64,7 +64,7 @@
           <tr>
             <td>Facebook</td>
             <td>
-              <a target="_blank" href="<%=@account.facebook_profile_url%>"><%=@account.facebook_profile_url.split('/')[3..-1].join('/')%></a>
+              <a target="_blank" href="<%=@account.facebook_profile_url%>"><%=@account.facebook_profile_url.split('/')[3..-1].join('/').split('?').first%></a>
             </td>  
           </tr>
         <% end %>    
