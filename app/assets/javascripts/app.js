@@ -27,6 +27,8 @@ $(function () {
     $('[data-toggle="popover"]').popover({
       html: true,
       viewport: false,
+      trigger: 'hover',
+      placement: 'top',
       title: function () {
         return $(this).next().html()
       },
