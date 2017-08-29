@@ -14,3 +14,7 @@
     </div>
   <% end %>
 <% } %>
+
+<div style="text-align: center">
+  <%= will_paginate @posts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+</div>
