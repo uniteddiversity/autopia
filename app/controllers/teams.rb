@@ -15,6 +15,7 @@ Huddl::App.controller do
     @team = @group.teams.build(params[:team])
     @team.account = current_account
     if @team.save
+      @team.teamships.create(account: current_account)
       redirect "/h/#{@group.slug}/teams/#{@team.id}"
     else
       erb :'teams/build', :layout => 'layouts/teams' 
