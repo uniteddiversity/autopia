@@ -23,10 +23,23 @@ $(function () {
     })
   }
 
+  function popover() {
+    $('[data-toggle="popover"]').popover({
+      html: true,
+      viewport: false,
+      title: function () {
+        return $(this).next().html()
+      },
+      content: function () {
+        return $(this).next().next().html()
+      }
+    })
+  }
+
   function timeago() {
     $("abbr.timeago").timeago()
   }
-  
+
   function datepickers() {
     $(".datepicker").flatpickr({altInput: true, altFormat: 'J F Y'});
     $(".datetimepicker").flatpickr({altInput: true, altFormat: 'J F Y, H:i', enableTime: true, time_24hr: true});
@@ -35,11 +48,13 @@ $(function () {
   $(document).ajaxComplete(function () {
     addPlaceholders()
     tooltip()
+    popover()
     timeago()
     datepickers()
   });
   addPlaceholders()
   tooltip()
+  popover()
   timeago()
   datepickers()
 
@@ -115,7 +130,7 @@ $(function () {
 
   $(document).on('click', "a[href^='/verdicts/create']", function (e) {
     $(this).removeClass('no-trigger')
-    var reason = prompt('Explain your decision ('+ ($(this).attr('data-require-reason') ? 'REQUIRED' : 'optional') + ')');
+    var reason = prompt('Explain your decision (' + ($(this).attr('data-require-reason') ? 'REQUIRED' : 'optional') + ')');
     if (reason == null) {
       $(this).addClass('no-trigger')
       return false
