@@ -26,19 +26,24 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     redirect "/h/#{@group.slug}/apply" unless @membership
-    @notifications = @group.notifications.order('created_at desc').page(params[:page])
-    if request.xhr?
-      partial :newsfeed, :locals => {:notifications => @notifications}   
-    else
-      erb :group
-    end
+    @hide_minifeed = true
+    erb :group
   end  
   
-  get '/h/:slug/minifeed' do
+  get '/h/:slug/newsfeed' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
-    partial :newsfeed, :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :minifeed => true}
+    @notifications = @group.notifications.order('created_at desc').page(params[:page])
+    partial :newsfeed, :locals => {:notifications => @notifications}   
+  end
+  
+  get '/h/:slug/minifeed' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)        
+    membership_required!
+    @notifications = @group.notifications.order('created_at desc').limit(3)
+    partial :newsfeed, :locals => {:notifications => @notifications, :minifeed => true}
   end
   
   get '/h/:slug/todos' do
