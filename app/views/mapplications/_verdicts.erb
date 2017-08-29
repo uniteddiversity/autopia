@@ -16,7 +16,11 @@
         <% if @group.send("anonymise_#{noun.pluralize}") %>
           <i data-toggle="tooltip" title="<%=verdict.reason%>"  class="fa fa-user-circle" style="font-size: 20px; <% if verdict.reason %> color: #CE2828 <% end %>"></i>
         <% else %> 
-          <%= partial :'accounts/square', :locals => {:account => account, :content => (if verdict.reason; verdict.reason; end), :style => "width: 50px; #{if verdict.reason; 'border-bottom: 2px solid #CE2828'; end}"}%>
+          <% if verdict.reason %>
+            <%= partial :'accounts/square', :locals => {:account => account, :content => verdict.reason, :style => "width: 50px; border-bottom: 2px solid #CE2828"}%>
+          <% else %>
+            <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'}%>
+          <% end %>
         <% end %>
       <% } %>
 
