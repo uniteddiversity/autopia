@@ -7,9 +7,15 @@
       <%=activity.description.gsub("\n","<br />")%>
     </p>
     <span style="color: white">by <a href="/accounts/<%=activity.account_id%>"><%=activity.account.name%></a></span>
-    <div data-pagelet-url="/activities/<%=activity.id%>/attendees"><% if request.xhr? %><%= partial :'timetables/attendees', :locals => {:activity => activity} %><% end %></div>
+    <div>
+      <div style="display: inline-block" data-pagelet-url="/activities/<%=activity.id%>/attendees"><% if request.xhr? %><%= partial :'timetables/attendees', :locals => {:activity => activity} %><% end %></div>
+    </div>
   </div>  
   <div style="position: absolute; right: 10px; bottom: 10px; color: white">
+    <% if activity.comments.count > 0 %>
+      <a data-toggle="tooltip" title="<%=pluralize(activity.comments.count, 'comment')%>" href="/h/<%=@group.slug%>/activities/<%=activity.id%>"><i class="fa fa-comment"></i> <%=activity.comments.count%></a>
+      &middot; 
+    <% end %>    
     <% if activity.space_id and (@membership.admin? or @group.scheduling_by_all) %>  
       <a class="pagelet-trigger" data-confirm="Are you sure you want to unschedule this activity?" title="Unschedule" href="/activities/<%=activity.id%>/unschedule"><i class="fa fa-calendar-minus-o"></i></a>
       &middot;

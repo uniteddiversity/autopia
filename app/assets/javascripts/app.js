@@ -45,18 +45,32 @@ $(function () {
     $(".datetimepicker").flatpickr({altInput: true, altFormat: 'J F Y, H:i', enableTime: true, time_24hr: true});
   }
 
+  function resizeCommentTextareas() {
+    $('textarea[id=comment_body]').click(function () {
+      $(this.form).find('.btn-primary').parent().parent().removeClass('hidden')
+    }).keydown(function () {
+      var el = this;
+      setTimeout(function () {
+        el.style.cssText = 'height:4em; padding:0';
+        el.style.cssText = 'height:' + el.scrollHeight + 'px';
+      }, 0);
+    })
+  }
+
   $(document).ajaxComplete(function () {
     addPlaceholders()
     tooltip()
     popover()
     timeago()
     datepickers()
+    resizeCommentTextareas()
   });
   addPlaceholders()
   tooltip()
   popover()
   timeago()
   datepickers()
+  resizeCommentTextareas()
 
   $('form').submit(function () {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');

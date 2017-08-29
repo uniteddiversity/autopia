@@ -100,3 +100,5 @@ td .activity, td .activity-accept { width: 240px }
 }
 
 .alert-info a { color: white; font-weight: bold }
+
+textarea[id=comment_body] { height: 4em; overflow:hidden; box-sizing: content-box }
