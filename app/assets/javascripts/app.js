@@ -27,15 +27,29 @@ $(function () {
     $('[data-toggle="popover"]').popover({
       html: true,
       viewport: false,
-      trigger: 'hover',
+      trigger: 'manual',
       placement: 'top',
+      animation: false,
       title: function () {
-        return $(this).next().html()
+        return $(this).next('span').html()
       },
       content: function () {
-        return $(this).next().next().html()
+        return $(this).next('span').next('span').html()
       }
-    })
+    }).on("mouseenter", function () {
+      var _this = this;
+      $(this).popover("show");
+      $(".popover").on("mouseleave", function () {
+        $(_this).popover('hide');
+      });
+    }).on("mouseleave", function () {
+      var _this = this;
+      setTimeout(function () {
+        if (!$(".popover:hover").length) {
+          $(_this).popover("hide");
+        }
+      }, 300);
+    });
   }
 
   function timeago() {
