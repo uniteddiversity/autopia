@@ -15,21 +15,25 @@
         <%= team.intro %>
       </td>     
       <td>
-        <% y = [] %>
-        <% team.teamships.each { |teamship| account = teamship.account; %>
-          <% if params[:view] == 'names' %>
-            <% y << capture do %>   
-              <%= account.name %>
+        <% if team.teamships.count > 0 %>
+          <% y = [] %>
+          <% team.teamships.each { |teamship| account = teamship.account; %>
+            <% if params[:view] == 'names' %>
+              <% y << capture do %>   
+                <%= account.name %>
+              <% end %>
+            <% else %>
+              <% y << capture do %><%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %><% end %>
             <% end %>
+          <% } %>
+          <% if params[:view] == 'names' %>
+            <%= y.map(&:strip).join(', ') %>
           <% else %>
-            <% y << capture do %><%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %><% end %>
-          <% end %>
-        <% } %>
-        <% if params[:view] == 'names' %>
-          <%= y.map(&:strip).join(', ') %>
+            <%= y.map(&:strip).join('') %>
+          <% end %>     
         <% else %>
-          <%= y.map(&:strip).join('') %>
-        <% end %>       
+          n/a
+        <% end %>
       </td>
     </tr>
   <% } %>
