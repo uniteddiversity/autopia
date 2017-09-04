@@ -27,7 +27,9 @@
     <h3>Interested</h3>
     <% y = [] %>
     <% @activity.attendances.each { |attendance| account = attendance.account; %>
-      <% y << capture do %><%= partial :'accounts/square', :locals => {:account => account, :width => '75px'} %><% end %>
+      <% y << capture do %>
+        <%= partial :'accounts/square', :locals => {:account => account, :width => '75px'} %>
+      <% end %>
     <% } %>
     <%= y.map(&:strip).join('') %>
 

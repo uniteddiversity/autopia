@@ -40,7 +40,9 @@
 
     <div style="margin-bottom: 10px">
       <h2>Online now</h2>
-      <% current_account.network.where(:last_active.gt => 5.minutes.ago).each { |account| %><%= partial :'accounts/square', :locals => {:account => account, :content => (if account.last_active; "#{time_ago_in_words account.last_active} ago"; end), :width => '75px'} %><% } %>
+      <% current_account.network.where(:last_active.gt => 5.minutes.ago).each { |account| %>
+        <%= partial :'accounts/square', :locals => {:account => account, :content => (if account.last_active; "#{time_ago_in_words account.last_active} ago"; end), :width => '75px'} %>
+      <% } %>
     </div>
       
   </div>  

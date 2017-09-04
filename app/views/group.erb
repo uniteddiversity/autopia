@@ -13,7 +13,9 @@
       <%= partial :todos %>
     </div>
     <h2>Online now</h2>
-    <% @group.members.where(:last_active.gt => 5.minutes.ago).each { |account| %><%= partial :'accounts/square', :locals => {:account => account, :content => (if account.last_active; "#{time_ago_in_words account.last_active} ago"; end), :width => '75px'} %><% } %>
+    <% @group.members.where(:last_active.gt => 5.minutes.ago).each { |account| %>
+      <%= partial :'accounts/square', :locals => {:account => account, :content => (if account.last_active; "#{time_ago_in_words account.last_active} ago"; end), :width => '75px'} %>
+    <% } %>
   </div>  
   <div class="col-sm-6">
     <div data-pagelet-url="/h/<%=@group.slug%>/newsfeed" data-pusher-channel="notifications.<%=@group.slug%>" style="margin-top: 10px"></div>

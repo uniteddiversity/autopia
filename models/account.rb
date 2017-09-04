@@ -124,7 +124,7 @@ class Account
   has_many :provider_links, :dependent => :destroy
   accepts_nested_attributes_for :provider_links  
           
-  attr_accessor :password
+  attr_accessor :password  
 
   validates_presence_of :name
   validates_presence_of     :email

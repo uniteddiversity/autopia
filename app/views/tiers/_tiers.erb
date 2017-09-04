@@ -38,7 +38,9 @@
               <%= account.name %>
             <% end %>
           <% else %>
-            <% y << capture do %><%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %><% end %>
+            <% y << capture do %>
+              <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+            <% end %>
           <% end %>
         <% } %>
         <% if params[:view] == 'names' %>
