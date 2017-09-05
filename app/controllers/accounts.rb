@@ -69,7 +69,7 @@ Huddl::App.controller do
   
   get '/accounts/:id' do
     sign_in_required!
-    @account = Account.find(params[:id])
+    @account = Account.find(params[:id]) || not_found
     erb :'accounts/account'
   end  
   
