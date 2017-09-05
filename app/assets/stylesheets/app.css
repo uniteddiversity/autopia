@@ -103,5 +103,4 @@ td .activity, td .activity-accept { width: 240px }
 
 textarea[id=comment_body] { height: 4em; overflow:hidden; box-sizing: content-box }
 
-.image-wall { display: flex; flex-wrap: wrap }
 .image-wall img { margin-right: 4px; margin-bottom: 4px }
