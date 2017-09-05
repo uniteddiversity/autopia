@@ -27,9 +27,11 @@
 
       <div style="margin-bottom: 15px">
         <h2 style="margin-top: 0">Co-creators</h2>
-        <% (Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %>
-          <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-        <% } %>      
+        <div class="image-wall">
+          <% (Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %>
+            <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+          <% } %>      
+        </div>
       </div>
 
     </div>    

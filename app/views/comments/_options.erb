@@ -9,9 +9,11 @@
       <% end %>
       <% if option.votes.count > 0 %>
         <div style="margin-top: 5px">
-          <% option.votes.each { |vote| account = vote.account %>
-            <%= partial :'accounts/square', :locals => {:account => account, :width => '32px'} %>
-          <% } %>
+          <div class="image-wall">
+            <% option.votes.each { |vote| account = vote.account %>
+              <%= partial :'accounts/square', :locals => {:account => account, :width => '32px'} %>
+            <% } %>
+          </div>
         </div>
       <% end %>
     </div>

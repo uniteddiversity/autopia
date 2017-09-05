@@ -11,7 +11,7 @@
       <a class="pagelet-trigger" <% if @group.send("require_reason_#{noun}") %> data-require-reason="true" <% end %>  href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
     <% end %>
 
-    <div>
+    <div class="image-wall">
       <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
         <% if @group.send("anonymise_#{noun.pluralize}") %>
           <i data-toggle="tooltip" title="<%=verdict.reason%>"  class="fa fa-user-circle" style="font-size: 20px; <% if verdict.reason %> color: #CE2828 <% end %>"></i>
@@ -23,7 +23,6 @@
           <% end %>
         <% end %>
       <% } %>
-
     </div>
 
   </div>        

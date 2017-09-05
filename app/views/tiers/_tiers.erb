@@ -46,7 +46,9 @@
         <% if params[:view] == 'names' %>
           <%= y.map(&:strip).join(', ') %>
         <% else %>
-          <%= y.map(&:strip).join('') %>
+          <div class="image-wall">
+            <%= y.map(&:strip).join('') %>
+          </div>
         <% end %>       
       </td>
     </tr>
