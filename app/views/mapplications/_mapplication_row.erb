@@ -18,7 +18,7 @@
 
 <td>
   <% if mapplication.status == 'paused' %>
-    Iced by <%=mapplication.processed_by.name%>
+    Paused by <%=mapplication.processed_by.name%>
     <% if @membership.admin? %> &middot; <% end %>
   <% end %>  
   <% if @membership.admin? %>          
