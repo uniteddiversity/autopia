@@ -3,15 +3,13 @@
 
 <div class="row">
   <div class="col-sm-6">
-    <% if @group.intro_for_members %>  
-      <div style="margin-top: 20px">
-        <%= @group.intro_for_members %>
-        <hr />
-      </div>
-    <% end %>  
-    <div data-pagelet-url="/h/<%=@group.slug%>/todos">
+    <div data-pagelet-url="/h/<%=@group.slug%>/todos" style="margin-top: 20px">
       <%= partial :todos %>
-    </div>
+    </div>    
+    <% if @group.intro_for_members %>  
+      <hr />
+      <%= @group.intro_for_members %>        
+    <% end %>  
     <h2>Online now</h2>
     <div class="image-wall">
       <% @group.members.where(:last_active.gt => 5.minutes.ago).each { |account| %>
