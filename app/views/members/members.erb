@@ -1,6 +1,11 @@
 
 <%= partial :group_header %>
 
+
+<style>
+  a.selected { font-weight: bold; text-decoration: underline }
+</style>
+
 <% x = [] %>
 <%  x << capture do %>
   <a href="?"><i data-toggle="tooltip" title="Members" class="fa fa-group"></i></a> <%= @group.memberships.count %>
@@ -18,7 +23,7 @@
   <% if youngest and oldest %>
     <% (youngest.age.to_s[0].to_i).upto(oldest.age.to_s[0].to_i) do |p| p = "#{p}0".to_i; %>
       <% x << capture do %>
-        <a href="?p=<%=p%>" data-toggle="tooltip" title="People in their <%=p%>s"><%=p%>s</a>
+        <a <% if params[:p] and params[:p] == p.to_s %>class="selected"<% end %> href="?p=<%=p%>" data-toggle="tooltip" title="People in their <%=p%>s"><%=p%>s</a>
         <%= @group.memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-p.years)).where(:date_of_birth.gt => (Date.today-(p+10).years)).pluck(:id)).count %>
       <% end %>
     <% end %>    
@@ -27,7 +32,7 @@
 
 <% if @group.ask_for_poc %>
   <% x << capture do %>
-    <a href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= @group.memberships.where(:account_id.in => Account.where(:poc => true).pluck(:id)).count %>
+    <a <% if params[:poc] %>class="selected"<% end %> href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= @group.memberships.where(:account_id.in => Account.where(:poc => true).pluck(:id)).count %>
   <% end %>
 <% end %>
 
@@ -35,49 +40,49 @@
 
 <% if @group.enable_budget %>
   <% y << capture do %>
-    <a href="?paid=true">Paid in full</a> <%= @group.memberships.where('this.paid == this.requested_contribution').count %>
+    <a <% if params[:paid] %>class="selected"<% end %> href="?paid=true">Paid in full</a> <%= @group.memberships.where('this.paid == this.requested_contribution').count %>
   <% end %>
   <% y << capture do %>
-    <a href="?more_to_pay=true">More to pay</a> <%= @group.memberships.where('this.paid < this.requested_contribution').count %>
+    <a <% if params[:more_to_pay] %>class="selected"<% end %> href="?more_to_pay=true">More to pay</a> <%= @group.memberships.where('this.paid < this.requested_contribution').count %>
   <% end %>
   <% y << capture do %>
-    <a href="?paid_nothing=true">Paid nothing</a> <%= @group.memberships.where(:paid => 0).count %>
+    <a <% if params[:paid_nothing] %>class="selected"<% end %> href="?paid_nothing=true">Paid nothing</a> <%= @group.memberships.where(:paid => 0).count %>
   <% end %>  
   <% y << capture do %>
-    <a href="?overpaid=true">Overpaid</a> <%= @group.memberships.where('this.paid > this.requested_contribution').count %>
+    <a <% if params[:overpaid] %>class="selected"<% end %> href="?overpaid=true">Overpaid</a> <%= @group.memberships.where('this.paid > this.requested_contribution').count %>
   <% end %>   
 <% end %>
 
 <% if @group.enable_rotas %>
   <% y << capture do %>
-    <a href="?shifts=true">People with shifts</a> <%= @group.memberships.where(:account_id.in => @group.shifts.pluck(:account_id)).count %>
+    <a <% if params[:shifts] %>class="selected"<% end %> href="?shifts=true">People with shifts</a> <%= @group.memberships.where(:account_id.in => @group.shifts.pluck(:account_id)).count %>
   <% end %>
   <% y << capture do %>
-    <a href="?no_shifts=true">People without shifts</a> <%= @group.memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)).count %>
+    <a <% if params[:no_shifts] %>class="selected"<% end %>  href="?no_shifts=true">People without shifts</a> <%= @group.memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)).count %>
   <% end %>
 <% end %>
 
 <% if @group.enable_teams %>
   <% y << capture do %>
-    <a href="?no_teams=true">No teams</a> <%= @group.memberships.where(:account_id.nin => @group.teamships.where(:team_id.nin => @group.teams.where(name: 'General').pluck(:id)).pluck(:account_id)).count %>
+    <a <% if params[:no_teams] %>class="selected"<% end %> href="?no_teams=true">No teams</a> <%= @group.memberships.where(:account_id.nin => @group.teamships.where(:team_id.nin => @group.teams.where(name: 'General').pluck(:id)).pluck(:account_id)).count %>
   <% end %>
 <% end %>    
 
 <% if @group.enable_tiers %>
   <% y << capture do %>
-    <a href="?no_tier=true">No tier</a> <%= @group.memberships.where(:account_id.nin => @group.tierships.pluck(:account_id)).count %>
+    <a <% if params[:no_tier] %>class="selected"<% end %> href="?no_tier=true">No tier</a> <%= @group.memberships.where(:account_id.nin => @group.tierships.pluck(:account_id)).count %>
   <% end %>
 <% end %>
 
 <% if @group.enable_accommodation %>
   <% y << capture do %>
-    <a href="?no_accom=true">No accommodation</a> <%= @group.memberships.where(:account_id.nin => @group.accomships.pluck(:account_id)).count %>
+    <a <% if params[:no_accom] %>class="selected"<% end %> href="?no_accom=true">No accommodation</a> <%= @group.memberships.where(:account_id.nin => @group.accomships.pluck(:account_id)).count %>
   <% end %>  
 <% end %>
 
 <% if @group.democratic_threshold %>
   <% y << capture do %>
-    <a href="?threshold=true">Suggesting magic number</a> <%= @group.memberships.where(:desired_threshold.ne => nil).count %>
+    <a <% if params[:threshold] %>class="selected"<% end %> href="?threshold=true">Suggesting magic number</a> <%= @group.memberships.where(:desired_threshold.ne => nil).count %>
   <% end %>
 <% end %>
 
