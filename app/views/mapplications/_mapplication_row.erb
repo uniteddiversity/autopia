@@ -2,15 +2,15 @@
   <%= partial :'accounts/account', :object => (account = mapplication.account) %>
 </td>
 <td>
-  <% if mapplication.answers %>
-    <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
-            $('#modal').modal('show')
-          });">
-         <%=mapplication.created_at%>
-    </a>
-  <% else %>  
-    <%=mapplication.created_at%>
-  <% end %>
+  <a href="javascript:;" onclick="$('#modal .modal-content').load('/h/<%=@group.slug%>/mapplications/<%=mapplication.id%>', function () {
+        $('#modal').modal('show')
+      });">
+       <%=mapplication.created_at%>
+       <% if mapplication.comments.count > 0 %>
+      &middot; 
+      <i class="fa fa-comment"></i> <%=mapplication.comments.count%>      
+    <% end %>        
+  </a>
 </td>           
 <td>
   <%= partial :'mapplications/verdicts', :locals => {:mapplication => mapplication} %>

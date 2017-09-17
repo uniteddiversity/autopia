@@ -12,7 +12,7 @@
 </td>        
 <td>
   <% mapplication = membership.mapplication; if mapplication and mapplication.answers %>
-    <a href="javascript:;" onclick="$('#modal .modal-content').load('/mapplications/<%=mapplication.id%>', function () {
+    <a href="javascript:;" onclick="$('#modal .modal-content').load('/h/<%=@group.slug%>/mapplications/<%=mapplication.id%>', function () {
           $('#modal').modal('show')
         });">
          <%= membership.created_at %>          

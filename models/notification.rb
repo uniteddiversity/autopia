@@ -153,7 +153,11 @@ class Notification
       "<strong>#{cultivation.account.name}</strong> is cultivating <strong>#{cultivation.quality.name}</strong>"                  
     when :commented
       comment = notifiable
-      "<strong>#{comment.account.name}</strong> posted in <strong>#{comment.commentable.name}</strong>"                  
+      if comment.commentable.is_a?(Mapplication)
+        "<strong>#{comment.account.name}</strong> commented on <strong>#{comment.commentable.account.name}</strong>'s application"                  
+      else
+        "<strong>#{comment.account.name}</strong> posted in <strong>#{comment.commentable.name}</strong>"                  
+      end      
     when :liked_a_comment
       comment_like = notifiable
       "<strong>#{comment_like.account.name}</strong> liked <strong>#{comment_like.comment.account.name}'s</strong> comment in <strong>#{comment_like.commentable.name}</strong>"

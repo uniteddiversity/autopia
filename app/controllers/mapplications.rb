@@ -1,13 +1,17 @@
 Huddl::App.controller do
-	
-  get '/mapplications/:id' do
-    @mapplication = Mapplication.find(params[:id]) || not_found
-    @group = @mapplication.group
-    @membership = @group.memberships.find_by(account: current_account)      
-    membership_required!
-    partial :'mapplications/mapplication', :object => @mapplication
+  
+  get '/h/:slug/mapplications/:id' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    membership_required!      
+    @mapplication = @group.mapplications.find(params[:id]) || not_found
+    if request.xhr?
+      partial :'mapplications/mapplication_modal', :locals => {:mapplication => @mapplication}
+    else
+      erb :'mapplications/mapplication'
+    end
   end
-    
+	    
   get '/mapplication_row/:id' do
     @mapplication = Mapplication.find(params[:id]) || not_found
     @group = @mapplication.group

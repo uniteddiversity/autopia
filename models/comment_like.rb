@@ -25,7 +25,7 @@ class CommentLike
   end    
   
   def self.commentable_types
-    %w{Team Activity}
+    %w{Team Activity Mapplication}
   end   
 
   def self.admin_fields

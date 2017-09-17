@@ -12,6 +12,15 @@ class Mapplication
   has_many :verdicts, :dependent => :destroy
   # has_one :membership, :dependent => :destroy
   
+  has_many :posts, :as => :commentable, :dependent => :destroy
+  has_many :subscriptions, :as => :commentable, :dependent => :destroy
+  has_many :comments, :as => :commentable, :dependent => :destroy
+  has_many :comment_likes, :as => :commentable, :dependent => :destroy   
+  
+  def subscribers
+    Account.where(:id.in => verdicts.pluck(:account_id))
+  end  
+  
   validates_presence_of :status
   validates_uniqueness_of :account, :scope => :group  
   
