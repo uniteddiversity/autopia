@@ -63,7 +63,10 @@ class Membership
    
   after_destroy do
     account.notifications.create! :group => group, :type => 'left_group'
-    mapplication.try(:destroy)
+    if mapplication
+      mapplication.prevent_notifications = true
+      mapplication.destroy
+    end
   end
   
   has_many :verdicts, :dependent => :destroy

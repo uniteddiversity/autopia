@@ -24,13 +24,16 @@ class Mapplication
   validates_presence_of :status
   validates_uniqueness_of :account, :scope => :group  
   
+  attr_accessor :prevent_notifications
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     notifications.create! :group => group, :type => 'applied'
   end 
-  
+    
   after_destroy do
-    account.notifications.create! :group => group, :type => 'mapplication_removed'
+    unless prevent_notifications
+      account.notifications.create! :group => group, :type => 'mapplication_removed'
+    end
   end  
       
   def self.pending
