@@ -117,6 +117,7 @@ class Group
   has_many :notifications, :dependent => :destroy
   has_many :verdicts, :dependent => :destroy
   has_many :payments, :dependent => :nullify
+  has_many :withdrawals, :dependent => :nullify
   
   # Timetable
   has_many :timetables, :dependent => :destroy
