@@ -1,7 +1,7 @@
 <%= partial :group_header %>
 
 <h2>
-  Application by <a href="/accounts/<%=@mapplication.account_id%>"><%=@mapplication.account.name%></a>
+  <a href="/accounts/<%=@mapplication.account_id%>"><%=@mapplication.account.name%></a>'s application
 </h2>
 
 <%= partial :'mapplications/mapplication', :locals => {:mapplication => @mapplication} %>  
