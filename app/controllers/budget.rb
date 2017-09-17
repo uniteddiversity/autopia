@@ -17,7 +17,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
     @spend = @group.spends.new(params[:spend])
-    @spend.account = current_account
+    @spend.account = current_account unless @membership.admin?
     if @spend.save
       redirect back
     else

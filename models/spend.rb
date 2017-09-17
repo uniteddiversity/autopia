@@ -34,4 +34,11 @@ class Spend
     }
   end
   
+  def self.human_attribute_name(attr, options={})  
+    {
+      :amount => 'Cost',
+      :account_id => 'Paid by',
+    }[attr.to_sym] || super  
+  end    
+  
 end
