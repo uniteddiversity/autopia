@@ -252,6 +252,9 @@ class Group
     Group.currency_symbol(currency)
   end
     
+  def admins
+    Account.where(:id.in => memberships.where(:admin => true).pluck(:account_id))
+  end
   
   def self.new_tips
     {      
