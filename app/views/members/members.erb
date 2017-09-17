@@ -104,7 +104,7 @@
       <% views = {:table => 'table', :wall => 'th-large', :dietary_requirements => 'cutlery'}      
       views.merge!({:emails => 'envelope'}) if @membership.admin?
       views.each { |view, icon| %>
-        <a href="?<%= q['view'] = [view]; Hash[q.map { |k,v| [k, v.first] }].to_query %>" <% if params[:view] == view.to_s %>class="active"<% end %> ><i title="<%=view.to_s.humanize.capitalize%> view" class="fa fa-<%=icon%>"></i></a>    
+        <a href="?<%= q['view'] = [view]; Hash[q.map { |k,v| [k, v.first] }].to_query %>" <% if params[:view] == view.to_s or (!params[:view] and view == :table) %>class="active"<% end %> ><i title="<%=view.to_s.humanize.capitalize%> view" class="fa fa-<%=icon%>"></i></a>    
       <% } %>
     </div>
 
