@@ -1,6 +1,6 @@
 <% mapplication.answers.each { |q,a| if a %>
-    <p><strong><%=q%></strong></p>
-    <p><%=a.gsub("\n","<br />")%></p>                    
+    <p class="lead"><strong><%=q%></strong></p>
+    <p class="lead"><%=a.gsub("\n","<br />")%></p>                    
   <% end } if mapplication.answers  %>              
 
 <div data-pagelet-url="/h/<%=@group.slug%>/commentable?commentable_type=Mapplication&commentable_id=<%=mapplication.id%>">
