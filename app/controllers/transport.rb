@@ -5,6 +5,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!
     @transport = Transport.new
+    @transport.cost = 0 unless @membership.admin?
     if request.xhr?
       partial :'transports/transports'
     else
