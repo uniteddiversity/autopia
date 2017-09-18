@@ -22,7 +22,13 @@
 
     <ul>
       <%
-      @graph.get_connections('me', 'groups').sort_by { |group| group['name'] }.each { |group|
+      g = []
+      groups = @graph.get_connections('me', 'groups')
+      while groups
+        g += groups
+        groups = groups.next_page
+      end      
+      g.sort_by { |group| group['name'] }.each { |group|
       %>
         <li><a href="?group_id=<%=group['id']%>"><%= group['name'] %></a></li>
       <% } %>
