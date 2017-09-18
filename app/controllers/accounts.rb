@@ -33,7 +33,7 @@ Huddl::App.controller do
   end 
   
   post '/accounts/new' do
-    @account = Account.new(params[:account])
+    @account = Account.new(mass_assigning(params[:account], Account))
     if session['omniauth.auth']
       @provider = Provider.object(session['omniauth.auth']['provider'])
       @account.provider_links.build(provider: @provider.display_name, provider_uid: session['omniauth.auth']['uid'], omniauth_hash: session['omniauth.auth'])
@@ -57,8 +57,8 @@ Huddl::App.controller do
   
   post '/accounts/edit' do
     sign_in_required!
-    @account = current_account
-    if @account.update_attributes(params[:account])      
+    @account = current_account        
+    if @account.update_attributes(mass_assigning(params[:account], Account))
       flash[:notice] = "<strong>Awesome!</strong> Your account was updated successfully."
       redirect (params[:h] ? "/h/#{params[:h]}" : '/accounts/edit')
     else

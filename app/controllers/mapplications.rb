@@ -42,7 +42,7 @@ Huddl::App.controller do
     else           
       redirect back unless params[:account] and params[:account][:email]
       if !(@account = Account.find_by(email: /^#{::Regexp.escape(params[:account][:email])}$/i))
-        @account = Account.new(params[:account])
+        @account = Account.new(mass_assigning(params[:account], Account))
         @account.password = Account.generate_password(8) # not used
         if !@account.save
           flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."

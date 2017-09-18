@@ -21,6 +21,10 @@ class Account
   field :last_active, :type => Time
   field :unsubscribed, :type => Boolean
   
+  def self.protected_attributes
+    %w{admin}
+  end
+      
   before_validation do
     self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
     self.name = self.name.strip if self.name
