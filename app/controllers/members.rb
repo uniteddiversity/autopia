@@ -142,6 +142,13 @@ Huddl::App.controller do
     partial :'members/membership_row', :locals => {:membership => membership}
   end    
   
+  get '/h/:slug/diff' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only! 
+    erb :'members/diff'
+  end  
+  
   post '/h/:slug/update_facebook_names' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)

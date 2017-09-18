@@ -85,14 +85,7 @@ module Huddl
       flash[:notice] = 'Thanks!'
       redirect back
     end
-    
-    get '/h/:slug/diff' do
-      halt unless current_account and current_account.admin?
-      @group = Group.find_by(slug: params[:slug]) || not_found
-      @membership = @group.memberships.find_by(account: current_account)
-      erb :diff      
-    end
-    
+        
     get '/notifications/:id' do
       halt unless current_account and current_account.admin?
       @notification = Notification.find(params[:id]) || not_found

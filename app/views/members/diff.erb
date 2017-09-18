@@ -49,19 +49,30 @@
       <div class="col-sm-4">      
         <h2>On Facebook group and Huddl <small><%= fb_and_huddl.count %></small></h2>
         <% if fb_and_huddl.count > 0 %>
-          <%= partial :facebook_names, :locals => {:accounts => fb_and_huddl.sort.map { |name| Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(facebook_name: name) || Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(name: name) }.compact } %>
+          <%= partial :'members/facebook_names', :locals => {:accounts => fb_and_huddl.sort.map { |name| Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(facebook_name: name) || Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(name: name) }.compact } %>
         <% end %>
       </div>
       <div class="col-sm-4">
         <h2>On Facebook group, not on Huddl <small><%= fb_not_huddl.count %></small></h2>
-        <% if fb_not_huddl.count > 0 %>
-          <%= fb_not_huddl.join(' <br /> ') %>
+        <% if fb_not_huddl.count > 0 %>        
+          <table class="table" style="width: auto">
+            <tr>
+              <th>Facebook name</th>
+            </tr>
+            <% fb_not_huddl.each { |facebook_name|  %>
+              <tr>
+                <td>
+                  <%= facebook_name %>
+                </td>
+              </tr>
+            <% } %>             
+          </table>        
         <% end %>
       </div>
       <div class="col-sm-4">
         <h2>On Huddl, not on Facebook group <small><%= huddl_not_fb.count %></small></h2> 
         <% if huddl_not_fb.count > 0 %>
-          <%= partial :facebook_names, :locals => {:accounts => huddl_not_fb.sort.map { |name| Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(facebook_name: name) || Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(name: name) }.compact } %>
+          <%= partial :'members/facebook_names', :locals => {:accounts => huddl_not_fb.sort.map { |name| Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(facebook_name: name) || Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(name: name) }.compact } %>
         <% end %>
       </div>
     </div>
