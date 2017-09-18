@@ -53,13 +53,13 @@
 
     <div class="row">
       <div class="col-sm-4">      
-        <h2>On Facebook group and Huddl <small><%= fb_and_huddl.count %></small></h2>
+        <h3>On Facebook group and Huddl <small><%= fb_and_huddl.count %></small></h3>
         <% if fb_and_huddl.count > 0 %>
           <%= partial :'members/facebook_names', :locals => {:accounts => fb_and_huddl.sort.map { |name| Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(facebook_name: name) || Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(name: name) }.compact } %>
         <% end %>
       </div>
       <div class="col-sm-4">
-        <h2>On Facebook group, not on Huddl <small><%= fb_not_huddl.count %></small></h2>
+        <h3>On Facebook group, not on Huddl <small><%= fb_not_huddl.count %></small></h3>
         <% if fb_not_huddl.count > 0 %>        
           <table class="table" style="width: auto">
             <tr>
@@ -76,7 +76,7 @@
         <% end %>
       </div>
       <div class="col-sm-4">
-        <h2>On Huddl, not on Facebook group <small><%= huddl_not_fb.count %></small></h2> 
+        <h3>On Huddl, not on Facebook group <small><%= huddl_not_fb.count %></small></h3> 
         <% if huddl_not_fb.count > 0 %>
           <%= partial :'members/facebook_names', :locals => {:accounts => huddl_not_fb.sort.map { |name| Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(facebook_name: name) || Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(name: name) }.compact } %>
         <% end %>
