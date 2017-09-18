@@ -1,33 +1,71 @@
-<% form_tag '', :method => :get do %>
-  <%= text_area_tag :names, :class => 'form-control' %>
-  <%= submit_tag 'Submit', :class => 'btn btn-primary', :style => 'margin-top: 5px' %>
-<% end %>
 
-<% if params[:names] %>
+<%= partial :group_header %>
+
+<% if !current_account.provider_links.first %>
+
+  <h2>Compare Facebook group</h2>
+
+  <a href="/auth/facebook" class="btn btn-primary">Connect to Facebook</a>
+
+<% else %>
 
   <%
-  f = params[:names].split(", ").map(&:strip)
-  h = @group.memberships.map(&:account).map { |a| a.facebook_name || a.name }
+  access_token = current_account.provider_links.first.omniauth_hash['credentials']['token']
+  @graph = Koala::Facebook::API.new(access_token)
 %>
 
-  <h2>On Facebook group and Huddl<small><%= (x = (f & h)).count %></small></h2>
-  <%= x.join(' <br /> ') %>
-  <h2>On Facebook group, not on Huddl<small><%= (x = (f - h)).count %></small></h2>
-  <%= x.join(' <br /> ') %>
-  <h2>On Huddl, not on Facebook group <small><%= (x = (h - f)).count %></small></h2> 
-  <table class="table" style="width: auto">
-    <% x.sort.each { |name| account = Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(facebook_name: name) || Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(name: name) %>
-      <tr>
-        <td>
-          <%= account.name %>
-        </td>
-        <td>
-          <div data-pagelet-url="/update_facebook_name/<%=account.id%>">
-            <%= partial :'members/update_facebook_name', :locals => {:account => account} %>
-          </div>
-        </td>
-      </tr>
-    <% } %>
-  </table>
-<% end %>
+  <% if !params[:group_id] %>
 
+    <h2>Compare Facebook group</h2>
+
+    <p>Select a group to compare:</p>
+
+    <ul>
+      <%
+      @graph.get_connections('me', 'groups').sort_by { |group| group['name'] }.each { |group|
+      %>
+        <li><a href="?group_id=<%=group['id']%>"><%= group['name'] %></a></li>
+      <% } %>
+    </ul>
+
+  <% else %>
+
+    <%
+    facebook_names = []
+    members = @graph.get_connections(params[:group_id], 'members')
+    while members
+      facebook_names += members.map { |member| member['name'] } 
+      members = members.next_page
+      end
+    huddl_names = @group.memberships.map(&:account).map { |account| account.facebook_name || account.name }
+    fb_and_huddl = facebook_names & huddl_names
+    fb_not_huddl = facebook_names - huddl_names
+    huddl_not_fb = huddl_names - facebook_names
+  %>
+
+    <h2>Comparing <%=@graph.get_object(params[:group_id])['name']%></h2>
+
+    <div class="row">
+      <div class="col-sm-4">      
+        <h2>On Facebook group and Huddl <small><%= fb_and_huddl.count %></small></h2>
+        <% if fb_and_huddl.count > 0 %>
+          <%= partial :facebook_names, :locals => {:accounts => fb_and_huddl.sort.map { |name| Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(facebook_name: name) || Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(name: name) }.compact } %>
+        <% end %>
+      </div>
+      <div class="col-sm-4">
+        <h2>On Facebook group, not on Huddl <small><%= fb_not_huddl.count %></small></h2>
+        <% if fb_not_huddl.count > 0 %>
+          <%= fb_not_huddl.join(' <br /> ') %>
+        <% end %>
+      </div>
+      <div class="col-sm-4">
+        <h2>On Huddl, not on Facebook group <small><%= huddl_not_fb.count %></small></h2> 
+        <% if huddl_not_fb.count > 0 %>
+          <%= partial :facebook_names, :locals => {:accounts => huddl_not_fb.sort.map { |name| Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(facebook_name: name) || Account.where(:id.in => @group.memberships.pluck(:account_id)).find_by(name: name) }.compact } %>
+        <% end %>
+      </div>
+    </div>
+
+  <% end %>
+
+<% end %>
