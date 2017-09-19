@@ -30,7 +30,7 @@
         <a href="/accounts/<%=account.id%>"><%=account.name%></a>
       </th>
       <td>
-        <%= @group.cultivations.where(:account_id => account.id).map { |cultivation| cultivation.quality.name }.join(', ') %>     
+        <%= @group.cultivations.where(:account_id => account.id).map { |cultivation| %Q{<a target="_blank" href="#{cultivation.quality.link}">#{cultivation.quality.name}</a>} }.join(', ') %>     
       </td>
     </tr>
   <% } %>
