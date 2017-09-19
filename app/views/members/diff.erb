@@ -14,27 +14,24 @@
   @graph = Koala::Facebook::API.new(access_token)
 %>
 
-  <% if !params[:group_id] %>
+  <h2>Compare Facebook group</h2>
 
-    <h2>Compare Facebook group</h2>
+  <p>Select a group to compare:</p>
 
-    <p>Select a group to compare:</p>
+  <%
+  g = []
+  groups = @graph.get_connections('me', 'groups')
+  while groups
+    g += groups
+    groups = groups.next_page
+    end      
+%>   
 
-    <ul>
-      <%
-      g = []
-      groups = @graph.get_connections('me', 'groups')
-      while groups
-        g += groups
-        groups = groups.next_page
-      end      
-      g.sort_by { |group| group['name'] }.each { |group|
-      %>
-        <li><a href="?group_id=<%=group['id']%>"><%= group['name'] %></a></li>
-      <% } %>
-    </ul>
+  <% form_tag '', :method => :get, :class => 'form-inline' do %>
+    <%= select_tag :group_id, :class => 'form-control', :selected => params[:group_id], :onchange => 'this.form.submit()', :options => [''] + g.sort_by { |group| group['name'] }.map { |group| [group['name'], group['id']] }  %>    
+  <% end %>
 
-  <% else %>
+  <% if params[:group_id] %>
 
     <%
     facebook_names = []
@@ -48,8 +45,6 @@
     fb_not_huddl = facebook_names - huddl_names
     huddl_not_fb = huddl_names - facebook_names
   %>
-
-    <h2>Comparing <%=@graph.get_object(params[:group_id])['name']%></h2>
 
     <div class="row">
       <div class="col-sm-4">      
