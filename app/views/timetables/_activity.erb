@@ -14,7 +14,7 @@
       <a data-toggle="tooltip" title="<%=pluralize(activity.comments.count, 'comment')%>" href="/h/<%=@group.slug%>/activities/<%=activity.id%>"><i class="fa fa-comment"></i> <%=activity.comments.count%></a>
       &middot; 
     <% end %>    
-    <% if activity.space_id and (@membership.admin? or @group.scheduling_by_all) %>  
+    <% if activity.space_id and (@membership.admin? or activity.timetable.scheduling_by_all) %>  
       <a class="pagelet-trigger" data-confirm="Are you sure you want to unschedule this activity?" title="Unschedule" href="/activities/<%=activity.id%>/unschedule"><i class="fa fa-calendar-minus-o"></i></a>
       &middot;
     <% end %>      

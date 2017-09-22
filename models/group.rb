@@ -29,7 +29,6 @@ class Group
   field :require_reason_proposer, :type => Boolean
   field :require_reason_supporter, :type => Boolean
   field :booking_limit, :type => Integer
-  field :scheduling_by_all, :type => Boolean
   field :processed_via_stripe, :type => Integer
   field :disable_stripe, :type => Boolean
   field :balance, :type => Float
@@ -219,7 +218,6 @@ class Group
       :intro_for_non_members => :wysiwyg,
       :application_questions => :text_area,
       :anonymise_supporters => :check_box,
-      :scheduling_by_all => :check_box,
       :ask_for_date_of_birth => :check_box,
       :ask_for_gender => :check_box,
       :ask_for_poc => :check_box,
@@ -263,8 +261,7 @@ class Group
   
   def self.new_tips
     {      
-      :application_questions => 'One per line',
-      :scheduling_by_all => 'By default, only admins can schedule activities',
+      :application_questions => 'One per line'
     }
   end
   
@@ -281,7 +278,6 @@ class Group
       :intro_for_non_members => 'Intro for non-members',
       :enable_applications => 'People must apply to join',
       :paypal_email => 'PayPal email',
-      :scheduling_by_all => 'Allow all members to schedule activities',
       :ask_for_poc => 'Ask whether applicants identify as a person of colour',
       :ask_for_facebook_profile_url => 'Ask for Facebook profile URL',
       :fixed_threshold => 'Magic number',

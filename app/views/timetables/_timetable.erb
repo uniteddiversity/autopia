@@ -10,7 +10,7 @@
 
 <% else %>
 
-  <% if @membership.admin? or @group.scheduling_by_all %>
+  <% if @membership.admin? or timetable.scheduling_by_all %>
 
     <script>
       $(function () {

@@ -5,6 +5,7 @@ class Timetable
   field :name, :type => String
   field :description, :type => String
   field :hide_schedule, :type => Boolean
+  field :scheduling_by_all, :type => Boolean
  
   belongs_to :group, index: true
   belongs_to :account, index: true
@@ -17,12 +18,29 @@ class Timetable
   after_create do
     notifications.create! :group => group, :type => 'created_timetable'
   end        
+  
+  def self.new_tips
+    {      
+      :scheduling_by_all => 'By default, only admins can schedule activities',
+    }
+  end  
+  
+  def self.human_attribute_name(attr, options={})  
+    {
+      :scheduling_by_all => 'Allow all members to schedule activities',
+    }[attr.to_sym] || super  
+  end   
+  
+  def self.edit_tips
+    self.new_tips
+  end    
    
   def self.admin_fields
     {
       :name => :text,
       :description => :wysiwyg,
       :hide_schedule => :check_box,
+      :scheduling_by_all => :check_box,
       :group_id => :lookup,
       :account_id => :lookup,
       :spaces => :collection,

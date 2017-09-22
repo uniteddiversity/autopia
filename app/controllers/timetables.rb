@@ -189,13 +189,13 @@ Huddl::App.controller do
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
-    halt unless @membership.admin? or @group.scheduling_by_all
+    halt unless @membership.admin? or @activity.timetable.scheduling_by_all
     @activity.tslot_id = params[:tslot_id]
     @activity.space_id = params[:space_id]
     @activity.scheduled_by = current_account
     @activity.save!  
     @activity.notifications.where(:type.in => ['scheduled_activity', 'unscheduled_activity']).destroy_all
-    if @group.scheduling_by_all
+    if @activity.timetable.scheduling_by_all
       @activity.notifications.create! :group => @group, :type => 'scheduled_activity'   
     end
     200      
@@ -206,13 +206,13 @@ Huddl::App.controller do
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!    
-    halt unless @membership.admin? or @group.scheduling_by_all
+    halt unless @membership.admin? or @activity.timetable.scheduling_by_all
     @activity.tslot_id = nil
     @activity.space_id = nil
     @activity.scheduled_by = current_account
     @activity.save!
     @activity.notifications.where(:type.in => ['scheduled_activity', 'unscheduled_activity']).destroy_all
-    if @group.scheduling_by_all
+    if @activity.timetable.scheduling_by_all
       @activity.notifications.create! :group => @group, :type => 'unscheduled_activity'
     end
     200

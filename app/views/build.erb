@@ -19,7 +19,7 @@
       $('#tab4').find('a.next').parent().remove()
 <% end %>
 
-    var pairs = [['#group_enable_timetables', '#group_scheduling_by_all'], ['#group_enable_bookings', '#group_booking_limit']]
+    var pairs = [['#group_enable_bookings', '#group_booking_limit']]
     $.each(pairs, function (i, pair) {
       var a = pair[0]
       var b = pair[1]
@@ -111,7 +111,6 @@
         <%= f.check_box_block "enable_#{x}".to_sym %>
       <% } %>
       <%= f.number_block :booking_limit %>
-      <%= f.check_box_block :scheduling_by_all %>      
       <%= f.url_block :teamup_calendar_url %>
       <% if @group.new_record? %>
         <%= f.submit_block %>  
