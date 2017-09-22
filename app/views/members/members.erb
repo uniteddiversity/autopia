@@ -112,26 +112,36 @@
 
 
 
-  <% if @membership.admin? and (!@group.member_limit or @group.memberships.count < @group.member_limit) %>
-    &middot;
+  <% if @membership.admin? %>
 
-    <script>
-      $(function () {
-        var accounts = <%=(current_account.network.where(:id.nin => @group.members.pluck(:id))).map { |account| {:name => account.name, :email => account.email} }.to_json%>
-        $('#add-member input[name=name]').typeahead({
-          source: accounts,
-          afterSelect: function (selected) {
-            $('#add-member input[name=email]').val(selected.email)
-          }
-        });
-      })
-    </script>
-    <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().css('display', 'inline').find('input[name=name]').focus()"><i class="fa fa-plus-circle"></i> Add member</a>
-    <% form_tag "/h/#{@group.slug}/add_member", :style => 'display:none', :id => 'add-member', :class => 'form-inline' do %>
-      <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name', :autocomplete => 'off' %>
-      <%= email_field_tag :email, :class => 'form-control', :placeholder => 'Email' %>
-      <%= submit_tag 'Add member', :class => 'btn btn-primary' %>
-    <% end %>
+    <% if !@group.member_limit or @group.memberships.count < @group.member_limit %>
+      &middot;
+
+      <script>
+        $(function () {
+          var accounts = <%=(current_account.network.where(:id.nin => @group.members.pluck(:id))).map { |account| {:name => account.name, :email => account.email} }.to_json%>
+          $('#add-member input[name=name]').typeahead({
+            source: accounts,
+            afterSelect: function (selected) {
+              $('#add-member input[name=email]').val(selected.email)
+            }
+          });
+        })
+      </script>
+      <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().css('display', 'inline').find('input[name=name]').focus()"><i class="fa fa-plus-circle"></i> Add member</a>
+      <% form_tag "/h/#{@group.slug}/add_member", :style => 'display:none', :id => 'add-member', :class => 'form-inline' do %>
+        <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name', :autocomplete => 'off' %>
+        <%= email_field_tag :email, :class => 'form-control', :placeholder => 'Email' %>
+        <%= submit_tag 'Add member', :class => 'btn btn-primary' %>
+      <% end %>
+
+    <% end %> 
+
+    &middot;
+    <a style="font-size: 13px;" href="/h/<%=@group.slug%>/compare">Compare Facebook group</a>
+
+
+
   <% end %>  
 
 </div>
