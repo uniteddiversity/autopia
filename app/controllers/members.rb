@@ -25,8 +25,7 @@ Huddl::App.controller do
   
   get '/h/:slug/join' do      
     @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    redirect "/h/#{@group.slug}" if @membership
+    @membership = @group.memberships.find_by(account: current_account)    
     redirect "/h/#{@group.slug}/apply" if @group.enable_applications
     @title = "#{@group.name} · #{ENV['SITE_TITLE']}"
     @og_desc = "#{@group.name} is being co-created on #{ENV['SITE_TITLE']}"

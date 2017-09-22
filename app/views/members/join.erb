@@ -1,6 +1,19 @@
 
 <%= partial :group_header %>
 
+<% if @membership %>
+  <script>
+    $(function () {
+      $('form[action$=join] .btn-primary').prop('disabled', true)
+    });
+  </script>
+  <div class="panel">
+    <div class="panel-body">
+      <strong>Preview of joining form (you are already a member of <%=@group.name%>)</strong>
+    </div>
+  </div>
+<% end %>
+
 <div class="row" style="margin-top: 15px">
   <div class="col-sm-4 col-sm-push-8">
     <%= partial :'members/cocreators' %>
@@ -12,11 +25,11 @@
     <% end %>
 
     <% if @group.member_limit and @group.memberships.count >= @group.member_limit %>
-    
+
       <p><em><%=@group.name%> is now full with all <%=@group.member_limit%> places taken</em></p>
 
     <% else %>
-      
+
       <% form_for @account, "/h/#{@group.slug}/join", :class => 'form-horizontal', :style => 'margin-top: 20px' do |f| %>
 
         <script>
