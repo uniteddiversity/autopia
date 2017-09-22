@@ -1,7 +1,7 @@
 
 <%= partial :group_header %>
 
-<% if params[:applied] or (current_account and @mapplicaton = @group.mapplications.find_by(account: current_account)) %>
+<% if params[:applied] or (current_account and @group.mapplications.find_by(:status.ne => 'pending', :account => current_account)) %>
 
   <h2>Thanks for applying</h2>
 
