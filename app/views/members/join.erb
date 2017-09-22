@@ -37,7 +37,7 @@
             $('.form-group > div.col-sm-6').removeClass('col-sm-6').addClass('col-sm-8')
           })
         </script>
-        <% if !current_account %>
+        <% if !current_account or @membership %>
           <%= f.text_block :name %>
           <%= f.text_block :email %>
           <%= f.image_block :picture %>  

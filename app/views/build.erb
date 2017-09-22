@@ -45,7 +45,7 @@
       $('#application-options').show()
     else
       $('#application-options').hide()
-    
+
     $('#group_democratic_threshold').click(function () {
       if ($(this).is(':checked'))
         $('#group_fixed_threshold').prop('disabled', true)
@@ -90,10 +90,7 @@
       <%= f.check_box_block :ask_for_facebook_profile_url %>          
       <%= f.number_block :member_limit %>
       <%= f.check_box_block :enable_applications %>          
-      <div id="application-options" style="display: none">
-      <% if @group.persisted? %>
-        <div class="row"><div class="col-sm-6 col-sm-offset-3"><p><a href="/h/<%=@group.slug%>/apply" target="_blank"><i class="fa fa-file-text-o"></i> Preview application form</a></p></div></div>
-      <% end %>        
+      <div id="application-options" style="display: none">  
         <%= f.text_area_block :application_questions %>                
         <%= f.check_box_block :anonymise_supporters %>
         <%= f.check_box_block :require_reason_proposer %>

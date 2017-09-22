@@ -25,7 +25,7 @@
           <% end %> 
           <% if @group and @membership %>
             <p style="color: white;">
-              Non-members can <%=  @group.enable_applications ? 'apply' : 'join' %> at <a href="<%="#{ENV['BASE_URI']}/h/#{group.slug}"%>" style="color: white; text-decoration: none; border-bottom: 1px dotted white"><%="#{ENV['BASE_URI']}/h/#{group.slug}"%></a>
+              Non-members can <%=  @group.enable_applications ? 'apply' : 'join' %> at <a href="<%="#{ENV['BASE_URI']}/h/#{group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%>" style="color: white; text-decoration: none; border-bottom: 1px dotted white"><%="#{ENV['BASE_URI']}/h/#{group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%></a>
             </p>                 
           <% end %>
         </div>
