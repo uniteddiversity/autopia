@@ -45,6 +45,7 @@ class Group
     self.processed_via_stripe = 0 if self.processed_via_stripe.nil?
     self.enable_teams = true if self.enable_budget
     self.disable_stripe = true if self.currency == 'SEK'
+    self.member_limit = self.memberships.count if self.member_limit and self.member_limit < self.memberships.count
   end
   
   after_create do    

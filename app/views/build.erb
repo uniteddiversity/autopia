@@ -88,6 +88,7 @@
       <%= f.check_box_block :ask_for_gender %>  
       <%= f.check_box_block :ask_for_poc %>  
       <%= f.check_box_block :ask_for_facebook_profile_url %>          
+      <%= f.number_block :member_limit %>
       <%= f.check_box_block :enable_applications %>          
       <div id="application-options" style="display: none">
       <% if @group.persisted? %>
@@ -98,8 +99,7 @@
         <%= f.check_box_block :require_reason_proposer %>
         <%= f.check_box_block :require_reason_supporter %>
         <%= f.number_block :fixed_threshold %>
-        <%= f.check_box_block :democratic_threshold %>  
-        <%= f.number_block :member_limit %>      
+        <%= f.check_box_block :democratic_threshold %>          
         <%= f.number_block :proposing_delay %>    
       </div>
     </div>

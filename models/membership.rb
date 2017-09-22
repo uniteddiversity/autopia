@@ -18,9 +18,10 @@ class Membership
   validates_uniqueness_of :account, :scope => :group
   
   before_validation do
+    errors.add(:group, 'is full') if self.new_record? and group.member_limit and group.memberships(true).count >= group.member_limit    
     self.desired_threshold = 1 if (self.desired_threshold and self.desired_threshold < 1)
     self.paid = 0 if self.paid.nil?
-    self.requested_contribution = 0 if self.requested_contribution.nil?
+    self.requested_contribution = 0 if self.requested_contribution.nil?    
   end
   
   has_many :notifications, as: :notifiable, dependent: :destroy

@@ -112,7 +112,7 @@
 
 
 
-  <% if @membership.admin? %>
+  <% if @membership.admin? and (!@group.member_limit or @group.memberships.count < @group.member_limit) %>
     &middot;
 
     <script>
