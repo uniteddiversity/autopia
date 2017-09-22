@@ -53,7 +53,7 @@ class Mapplication
   end
   
   def acceptable?
-    status != 'paused' and (!group.member_limit or (group.memberships.count < group.member_limit)) and verdicts.proposers.count > 0
+    status == 'pending' and (!group.member_limit or (group.memberships.count < group.member_limit)) and verdicts.proposers.count > 0
   end
   
   def meets_threshold
