@@ -12,7 +12,7 @@
     <%= ul_nav 'nav nav-pills', [
       ["Home", "/h/#{@group.slug}"],
       ["Members (#{@group.memberships.count})", "/h/#{@group.slug}/members"],
-      ["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"],        
+      (["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"] if @group.enable_applications or @group.mapplications.where(:status.ne => 'accepted').count > 0),        
       (["Teams",
           (
             @group.teams(true).order('name asc').map { |team| [team.name, "/h/#{@group.slug}/teams/#{team.id}"] } + [[],['Overview', "/h/#{@group.slug}/teams"], ['Create a team', "/h/#{@group.slug}/teams/new"]]

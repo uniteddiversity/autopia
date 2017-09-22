@@ -13,7 +13,8 @@ class Group
   field :slug, :type => String
   field :image_uid, :type => String
   field :intro_for_members, :type => String
-  field :application_preamble, :type => String
+  field :enable_applications, :type => Boolean  
+  field :intro_for_non_members, :type => String
   field :application_questions, :type => String
   field :anonymise_supporters, :type => Boolean
   field :democratic_threshold, :type => Boolean
@@ -214,7 +215,8 @@ class Group
       :disable_stripe => :check_box,
       :balance => :number,
       :democratic_threshold => :check_box,
-      :application_preamble => :wysiwyg,
+      :enable_applications => :check_box,      
+      :intro_for_non_members => :wysiwyg,
       :application_questions => :text_area,
       :anonymise_supporters => :check_box,
       :scheduling_by_all => :check_box,
@@ -276,6 +278,8 @@ class Group
   
   def self.human_attribute_name(attr, options={})  
     {
+      :intro_for_non_members => 'Intro for non-members',
+      :enable_applications => 'People must apply to join',
       :paypal_email => 'PayPal email',
       :scheduling_by_all => 'Allow all members to schedule activities',
       :ask_for_poc => 'Ask whether applicants identify as a person of colour',

@@ -35,6 +35,28 @@
         $(b).parent().parent().hide()
     });
 
+    $('#group_enable_applications').click(function () {
+      if ($(this).is(':checked'))
+        $('#application-options').show()
+      else
+        $('#application-options').hide()
+    })
+    if ($('#group_enable_applications').is(':checked'))
+      $('#application-options').show()
+    else
+      $('#application-options').hide()
+    
+    $('#group_democratic_threshold').click(function () {
+      if ($(this).is(':checked'))
+        $('#group_fixed_threshold').prop('disabled', true)
+      else
+        $('#group_fixed_threshold').prop('disabled', false)
+    })
+    if ($('#group_democratic_threshold').is(':checked'))
+      $('#group_fixed_threshold').prop('disabled', true)
+    else
+      $('#group_fixed_threshold').prop('disabled', false)
+
   })
 </script>
 
@@ -46,7 +68,7 @@
   </style>  
   <ul id="group-build-nav" class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#tab1" role="tab" data-toggle="tab">Basics</a></li>
-    <li role="presentation"><a href="#tab2" role="tab" data-toggle="tab">Applying and accepting</a></li>
+    <li role="presentation"><a href="#tab2" role="tab" data-toggle="tab">Joining</a></li>
     <li role="presentation"><a href="#tab3" role="tab" data-toggle="tab">Intro for members</a></li>
     <li role="presentation"><a href="#tab4" role="tab" data-toggle="tab">Features</a></li>
   </ul>
@@ -61,22 +83,25 @@
       <% end %>      
     </div>
     <div role="tabpanel" class="tab-pane" id="tab2">
-      <% if @group.persisted? %>
-        <p><a href="/h/<%=@group.slug%>/apply" target="_blank"><i class="fa fa-file-text-o"></i> Preview application form</a></p>
-      <% end %>
-      <%= f.wysiwyg_block :application_preamble %>
-      <%= f.text_area_block :application_questions %>        
+      <%= f.wysiwyg_block :intro_for_non_members %>      
       <%= f.check_box_block :ask_for_date_of_birth %>  
       <%= f.check_box_block :ask_for_gender %>  
       <%= f.check_box_block :ask_for_poc %>  
       <%= f.check_box_block :ask_for_facebook_profile_url %>          
-      <%= f.check_box_block :anonymise_supporters %>
-      <%= f.check_box_block :require_reason_proposer %>
-      <%= f.check_box_block :require_reason_supporter %>
-      <%= f.number_block :fixed_threshold %>
-      <%= f.check_box_block :democratic_threshold %>  
-      <%= f.number_block :member_limit %>      
-      <%= f.number_block :proposing_delay %>      
+      <%= f.check_box_block :enable_applications %>          
+      <div id="application-options" style="display: none">
+      <% if @group.persisted? %>
+        <div class="row"><div class="col-sm-6 col-sm-offset-3"><p><a href="/h/<%=@group.slug%>/apply" target="_blank"><i class="fa fa-file-text-o"></i> Preview application form</a></p></div></div>
+      <% end %>        
+        <%= f.text_area_block :application_questions %>                
+        <%= f.check_box_block :anonymise_supporters %>
+        <%= f.check_box_block :require_reason_proposer %>
+        <%= f.check_box_block :require_reason_supporter %>
+        <%= f.number_block :fixed_threshold %>
+        <%= f.check_box_block :democratic_threshold %>  
+        <%= f.number_block :member_limit %>      
+        <%= f.number_block :proposing_delay %>    
+      </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="tab3">
       <%= f.wysiwyg_block :intro_for_members %>       

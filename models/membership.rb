@@ -24,10 +24,8 @@ class Membership
   end
   
   has_many :notifications, as: :notifiable, dependent: :destroy
-  after_create do        
-    if mapplication or added_by
-      notifications.create! :group => group, :type => 'joined_group'
-    end    
+  after_create do            
+    notifications.create! :group => group, :type => 'joined_group'
     if general = group.teams.find_by(name: 'General')
       general.teamships.create! account: account, prevent_notifications: true
     end    

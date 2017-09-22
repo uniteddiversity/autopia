@@ -25,7 +25,13 @@ Huddl::App.controller do
   get '/h/:slug' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    redirect "/h/#{@group.slug}/apply" unless @membership
+    if !@membership
+      if @group.enable_applications
+        redirect "/h/#{@group.slug}/apply"
+      else
+        redirect "/h/#{@group.slug}/join"
+      end
+    end
     @hide_minifeed = true
     erb :group
   end  

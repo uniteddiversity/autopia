@@ -22,7 +22,7 @@ Huddl::App.controller do
     else
       partial :'mapplications/mapplication_row', :locals => {:mapplication => @mapplication}
     end
-  end    	
+  end    
 	
   get '/h/:slug/apply' do      
     @group = Group.find_by(slug: params[:slug]) || not_found

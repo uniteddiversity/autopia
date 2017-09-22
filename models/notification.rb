@@ -87,7 +87,9 @@ class Notification
         end
       elsif membership.added_by
         "<strong>#{membership.account.name}</strong> was added by #{membership.added_by.name}"
-      end      
+      else
+        "<strong>#{membership.account.name}</strong> joined the group"
+      end
     when :joined_team
       teamship = notifiable
       "<strong>#{teamship.account.name}</strong> joined the <strong>#{teamship.team.name}</strong> team"

@@ -24,21 +24,12 @@
 
   <div class="row" style="margin-top: 15px">
     <div class="col-sm-4 col-sm-push-8">
-
-      <div style="margin-bottom: 15px">
-        <h2 style="margin-top: 0">Co-creators</h2>
-        <div class="image-wall">
-          <% (Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %>
-            <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-          <% } %>      
-        </div>
-      </div>
-
+      <%= partial :'members/cocreators' %>
     </div>    
     <div class="col-sm-8 col-sm-pull-4">
 
-      <% if @group.application_preamble %>
-        <%=@group.application_preamble%>
+      <% if @group.intro_for_non_members %>
+        <%=@group.intro_for_non_members%>
       <% end %>
 
       <% form_for @account, "/h/#{@group.slug}/apply", :class => 'form-horizontal', :style => 'margin-top: 20px' do |f| %>

@@ -23,6 +23,46 @@ Huddl::App.controller do
     erb :'members/members'
   end   
   
+  get '/h/:slug/join' do      
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)
+    redirect "/h/#{@group.slug}" if @membership
+    redirect "/h/#{@group.slug}/apply" if @group.enable_applications
+    @title = "#{@group.name} · #{ENV['SITE_TITLE']}"
+    @og_desc = "#{@group.name} is being co-created on #{ENV['SITE_TITLE']}"
+    @og_image = @group.image ? @group.image.url : ENV['SITE_IMAGE']
+    @account = Account.new
+    erb :'members/join'
+  end  	  
+  
+  post '/h/:slug/join' do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    halt if @group.enable_applications
+    
+    if current_account
+      @account = current_account
+    else           
+      redirect back unless params[:account] and params[:account][:email]
+      if !(@account = Account.find_by(email: /^#{::Regexp.escape(params[:account][:email])}$/i))
+        @account = Account.new(mass_assigning(params[:account], Account))
+        @account.password = Account.generate_password(8) # not used
+        if !@account.save
+          flash[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
+          redirect back
+        end
+      end
+    end    
+    
+    if @group.memberships.find_by(account: @account)
+      flash[:notice] = "You're already part of that group"
+      redirect back
+    else
+      @group.memberships.create! account: @account
+      session[:account_id] = @account.id.to_s
+      redirect "/h/#{@group.slug}"
+    end    
+  end  
+  
   get '/h/:slug/leave' do  
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
