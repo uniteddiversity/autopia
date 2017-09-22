@@ -44,6 +44,7 @@ Huddl::App.controller do
     @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
+    membership_required!
     halt unless @comment.account.id == current_account.id or @membership.admin?
     @show_buttons = true
     erb :'comments/comment_build'
@@ -54,6 +55,7 @@ Huddl::App.controller do
     @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
+    membership_required!
     halt unless @comment.account.id == current_account.id or @membership.admin?
     if @comment.update_attributes(params[:comment])
       redirect "/h/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}#post-#{@comment.post_id}"
@@ -68,6 +70,7 @@ Huddl::App.controller do
     @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
+    membership_required!
     halt unless @comment.account.id == current_account.id or @membership.admin?
     @comment.destroy
     redirect "/h/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}"
