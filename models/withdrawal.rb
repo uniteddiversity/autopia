@@ -5,7 +5,7 @@ class Withdrawal
   belongs_to :group, index: true
   
 	field :group_name, :type => String
-  field :amount, :type => Integer
+  field :amount, :type => Float
   field :currency, :type => String
     
   validates_presence_of :group_name, :amount, :currency
