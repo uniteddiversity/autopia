@@ -28,6 +28,6 @@ class Tiership
   end
   
   after_save do membership.update_requested_contribution end
-  after_destroy do membership.update_requested_contribution end
+  after_destroy do membership.try(:update_requested_contribution) end
       
 end

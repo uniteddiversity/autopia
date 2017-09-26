@@ -28,7 +28,7 @@ class Accomship
   end
   
   after_save do accom.accomships.each { |accomship| accomship.membership.update_requested_contribution } end
-  after_destroy do accom.accomships.each { |accomship| accomship.membership.update_requested_contribution } end
+  after_destroy do accom.accomships.each { |accomship| accomship.membership.try(:update_requested_contribution) } end
   
   before_validation do
     errors.add(:accom, 'is full') if accom and accom.capacity and accom.accomships.count == accom.capacity
