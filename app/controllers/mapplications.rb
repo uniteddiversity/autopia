@@ -117,11 +117,14 @@ Huddl::App.controller do
     @group = @mapplication.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    @mapplication.status = params[:status]
-    @mapplication.processed_by = current_account
-    @mapplication.save!
-    if @mapplication.acceptable? and params[:status] == 'accepted'
-      @mapplication.accept    
+    @mapplication.update_attribute(:processed_by, current_account)
+    case params[:status]
+    when 'accepted'      
+      @mapplication.accept if @mapplication.acceptable?
+    when 'pending'
+      @mapplication.update_attribute(:status, 'pending')
+    when 'paused'
+      @mapplication.update_attribute(:status, 'paused')
     end
     redirect back
   end   

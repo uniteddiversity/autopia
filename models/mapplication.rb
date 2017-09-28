@@ -65,7 +65,7 @@ class Mapplication
     account = mapplication.account
     group = mapplication.group    
     update_attribute(:status, 'accepted')
-    group.memberships.create! account: account, mapplication: mapplication                            
+    group.memberships.create! account: account, mapplication: mapplication
   end
         
   def self.admin_fields
