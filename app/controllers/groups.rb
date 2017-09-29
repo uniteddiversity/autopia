@@ -90,7 +90,7 @@ Huddl::App.controller do
   get '/h/:slug/subscribe' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    membership_required!
     @membership.update_attribute(:unsubscribed, nil)
     flash[:notice] = "You'll now receive email notifications of key events in #{@group.name}"
     redirect "/h/#{@group.slug}"
@@ -99,7 +99,7 @@ Huddl::App.controller do
   get '/h/:slug/unsubscribe' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    membership_required!
     @membership.update_attribute(:unsubscribed, true)
     flash[:notice] = "OK! You won't receive emails about key events in #{@group.name}"
     redirect "/h/#{@group.slug}"
