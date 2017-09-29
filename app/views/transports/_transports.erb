@@ -2,6 +2,8 @@
   <thead>
     <tr>
       <th>Transport</th>
+      <th>Outward depart time</th>
+      <th>Return depart time</th>
       <th>Cost</th>
       <th>Places taken</th>
       <th></th>
@@ -20,6 +22,12 @@
         <% end %>            
         <br />
         <%= transport.description %>        
+      </td>
+      <td>
+        <%= transport.outward_leaves_at %>
+      </td>
+      <td>
+        <%= transport.return_leaves_at %>
       </td>
       <td>
         <%=@group.currency_symbol%><%=transport.cost%>
@@ -62,4 +70,3 @@
 <% if params[:view] != 'names' %>
   <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/h/<%=@group.slug%>/transports?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
 <% end %>
-
