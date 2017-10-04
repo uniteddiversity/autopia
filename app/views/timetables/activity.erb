@@ -34,6 +34,12 @@
     <div class="image-wall">
       <%= y.map(&:strip).join('') %>
     </div>
+    
+    <% if @activity.attendances.find_by(account: current_account) %>
+      <a class="btn btn-primary" href="/activities/<%=@activity.id%>/unattend">No longer interested</a>    
+    <% else %>
+      <a class="btn btn-primary" href="/activities/<%=@activity.id%>/attend">Interested</a>
+    <% end %>   
 
   </div>
 </div>

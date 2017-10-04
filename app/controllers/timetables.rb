@@ -222,7 +222,7 @@ Huddl::App.controller do
     @activity = Activity.find(params[:id])
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!        
+    membership_required!     
     partial :'timetables/attendees', :locals => {:activity => @activity}
   end
     
@@ -232,7 +232,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
     @activity.attendances.create account: current_account
-    200
+    request.xhr? ? 200 : redirect(back)
   end     
     
   get '/activities/:id/unattend' do
@@ -241,7 +241,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
     @activity.attendances.find_by(account: current_account).try(:destroy)
-    200
+    request.xhr? ? 200 : redirect(back)
   end       
     
 end
