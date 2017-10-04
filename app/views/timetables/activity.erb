@@ -11,7 +11,7 @@
     <%= partial :'timetables/activity', :object => @activity %>
 
     <p style="font-size: 16px; font-weight: 300">
-      <%=@activity.description.gsub("\n","<br />")%>
+      <%=Rinku.auto_link(@activity.description.gsub("\n","<br />"))%>
     </p>
 
     <div data-pagelet-url="/h/<%=@group.slug%>/commentable?commentable_type=Activity&commentable_id=<%=@activity.id%>">
