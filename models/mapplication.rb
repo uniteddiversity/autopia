@@ -78,6 +78,10 @@ class Mapplication
       :answers => :text_area
     }
   end
+  
+  def name
+    "#{account.name}'s application"
+  end
     
   def summary
     "#{self.account.name} - #{self.group.name}"
