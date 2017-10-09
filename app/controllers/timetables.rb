@@ -155,7 +155,7 @@ Huddl::App.controller do
   end   
         
   get '/activities/:id/edit' do
-    @activity = Activity.find(params[:id])
+    @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
@@ -163,7 +163,7 @@ Huddl::App.controller do
   end 
         
   post '/activities/:id/edit' do
-    @activity = Activity.find(params[:id])
+    @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
@@ -176,7 +176,7 @@ Huddl::App.controller do
   end   
 
   get '/activities/:id/destroy' do
-    @activity = Activity.find(params[:id])
+    @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
@@ -185,7 +185,7 @@ Huddl::App.controller do
   end 
     
   post '/activities/:id/schedule' do
-    @activity = Activity.find(params[:id])
+    @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
@@ -202,7 +202,7 @@ Huddl::App.controller do
   end
     
   get '/activities/:id/unschedule' do
-    @activity = Activity.find(params[:id])
+    @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!    
@@ -219,7 +219,7 @@ Huddl::App.controller do
   end  
     
   get '/activities/:id/attendees' do
-    @activity = Activity.find(params[:id])
+    @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!     
@@ -227,7 +227,7 @@ Huddl::App.controller do
   end
     
   get '/activities/:id/attend' do
-    @activity = Activity.find(params[:id])
+    @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
@@ -236,7 +236,7 @@ Huddl::App.controller do
   end     
     
   get '/activities/:id/unattend' do
-    @activity = Activity.find(params[:id])
+    @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
     membership_required!      
