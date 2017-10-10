@@ -78,6 +78,7 @@ module Huddl
 	      mail = Mail.new
 	      mail.to = ENV['ADMIN_EMAIL']
 	      mail.from = ENV['BOT_EMAIL']
+        mail.reply_to = current_account.email
 	      mail.subject = "Suggestion from #{current_account.name} (#{current_account.email})"
 	      mail.body = params[:suggestion]
 	      mail.deliver
