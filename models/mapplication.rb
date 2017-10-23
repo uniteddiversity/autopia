@@ -57,7 +57,7 @@ class Mapplication
   end
   
   def meets_threshold
-    group.threshold and (verdicts.proposers.count + verdicts.supporters.count) >= group.threshold
+    group.threshold and (verdicts.proposers.count + (group.enable_supporters ? verdicts.supporters.count : 0)) >= group.threshold
   end
   
   def accept

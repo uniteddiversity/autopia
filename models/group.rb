@@ -16,6 +16,7 @@ class Group
   field :enable_applications, :type => Boolean  
   field :intro_for_non_members, :type => String
   field :application_questions, :type => String
+  field :enable_supporters, :type => Boolean
   field :anonymise_supporters, :type => Boolean
   field :democratic_threshold, :type => Boolean
   field :fixed_threshold, :type => Integer
@@ -198,6 +199,10 @@ class Group
   def anonymise_proposers
     false
   end
+  
+  def enable_proposers
+    true
+  end
         
   def self.admin_fields
     h = {
@@ -218,6 +223,7 @@ class Group
       :enable_applications => :check_box,      
       :intro_for_non_members => :wysiwyg,
       :application_questions => :text_area,
+      :enable_supporters => :check_box,
       :anonymise_supporters => :check_box,
       :ask_for_date_of_birth => :check_box,
       :ask_for_gender => :check_box,

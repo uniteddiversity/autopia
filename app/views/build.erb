@@ -46,6 +46,17 @@
     else
       $('#application-options').hide()
 
+    $('#group_enable_supporters').click(function () {
+      if ($(this).is(':checked'))
+        $('#supporters-options').show()
+      else
+        $('#supporters-options').hide()
+    })
+    if ($('#group_enable_supporters').is(':checked'))
+      $('#supporters-options').show()
+    else
+      $('#supporters-options').hide()
+
     $('#group_democratic_threshold').click(function () {
       if ($(this).is(':checked'))
         $('#group_fixed_threshold').prop('disabled', true)
@@ -92,9 +103,12 @@
       <%= f.check_box_block :enable_applications %>          
       <div id="application-options" style="display: none">  
         <%= f.text_area_block :application_questions %>                
-        <%= f.check_box_block :anonymise_supporters %>
         <%= f.check_box_block :require_reason_proposer %>
-        <%= f.check_box_block :require_reason_supporter %>
+        <%= f.check_box_block :enable_supporters %>
+        <div id="supporters-options" style="display: none">          
+          <%= f.check_box_block :require_reason_supporter %>
+          <%= f.check_box_block :anonymise_supporters %>                  
+        </div>
         <%= f.number_block :fixed_threshold %>
         <%= f.check_box_block :democratic_threshold %>          
         <%= f.number_block :proposing_delay %>    
