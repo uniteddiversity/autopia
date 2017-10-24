@@ -17,7 +17,7 @@ Huddl::App.controller do
   get '/h/:slug/tiers' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     if request.xhr?
       partial :'tiers/tiers'
     else
@@ -58,7 +58,7 @@ Huddl::App.controller do
   get '/tierships/create' do
     @tier = Tier.find(params[:tier_id]) || not_found
     @group = @tier.group      
-    membership_required!      
+    confirmed_membership_required!      
     Tiership.create(account: current_account, tier_id: params[:tier_id], group: @group)
     200
   end    

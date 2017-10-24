@@ -3,7 +3,7 @@ Huddl::App.controller do
 	get '/h/:slug/members' do        
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     @memberships = @group.memberships
     @memberships = @memberships.where(:account_id.in => Account.where(gender: params[:gender]).pluck(:id)) if params[:gender]
     @memberships = @memberships.where(:account_id.in => Account.where(poc: true).pluck(:id)) if params[:poc]      
@@ -65,7 +65,7 @@ Huddl::App.controller do
   get '/h/:slug/leave' do  
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!    
+    confirmed_membership_required!    
     flash[:notice] = "You left #{@group.name}"
     @membership.destroy
     redirect '/'
@@ -177,7 +177,7 @@ Huddl::App.controller do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     partial :'members/membership_row', :locals => {:membership => membership}
   end    
   

@@ -5,7 +5,7 @@ Huddl::App.controller do
 		account = Account.find_by(email: mail.from.first)
 		@group = Group.find_by(slug: params[:slug]) || not_found  
 		@membership = @group.memberships.find_by(account: account)
-		membership_required!(@group, account)
+		confirmed_membership_required!(@group, account)
 		@post = @group.posts.find(params[:id])
 		@post.comments.create! account: account, body: plain_text		
 		200
@@ -14,7 +14,7 @@ Huddl::App.controller do
   get '/h/:slug/commentable' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     @commentable = params[:commentable_type].constantize.find(params[:commentable_id])      
     partial :'comments/commentable', :locals => {:commentable => @commentable}
   end
@@ -22,7 +22,7 @@ Huddl::App.controller do
   post '/h/:slug/comment' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     @commentable = params[:comment][:commentable_type].constantize.find(params[:comment][:commentable_id])    
     @comment = @commentable.comments.build(params[:comment])
     @comment.account = current_account
@@ -44,7 +44,7 @@ Huddl::App.controller do
     @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
-    membership_required!
+    confirmed_membership_required!
     halt unless @comment.account.id == current_account.id or @membership.admin?
     @show_buttons = true
     erb :'comments/comment_build'
@@ -55,7 +55,7 @@ Huddl::App.controller do
     @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     halt unless @comment.account.id == current_account.id or @membership.admin?
     if @comment.update_attributes(params[:comment])
       redirect "/h/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}#post-#{@comment.post_id}"
@@ -70,7 +70,7 @@ Huddl::App.controller do
     @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     halt unless @comment.account.id == current_account.id or @membership.admin?
     @comment.destroy
     redirect "/h/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}"
@@ -81,7 +81,7 @@ Huddl::App.controller do
     @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
-    membership_required!
+    confirmed_membership_required!
     partial :'comments/comment_likes', :locals => {:comment => @comment}
   end  
   
@@ -90,7 +90,7 @@ Huddl::App.controller do
     @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
-    membership_required!
+    confirmed_membership_required!
     partial :'comments/read_receipts', :locals => {:comment => @comment}
   end   
   
@@ -99,7 +99,7 @@ Huddl::App.controller do
     @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
-    membership_required!
+    confirmed_membership_required!
     @comment.comment_likes.create account: current_account
     200
   end
@@ -109,7 +109,7 @@ Huddl::App.controller do
     @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
-    membership_required!
+    confirmed_membership_required!
     @comment.comment_likes.find_by(account: current_account).try(:destroy)
     200
   end    
@@ -119,7 +119,7 @@ Huddl::App.controller do
     @commentable = @post.commentable
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
-    membership_required!
+    confirmed_membership_required!
     partial :'comments/post', :locals => {:post => @post}
   end
   
@@ -128,7 +128,7 @@ Huddl::App.controller do
     @commentable = @post.commentable
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
-    membership_required!    
+    confirmed_membership_required!    
     @post.subscriptions.find_by(account: current_account).try(:destroy)
     flash[:notice] = "You unsubscribed from the post"
     redirect "/h/#{@group.slug}/#{@post.commentable_type.underscore.pluralize}/#{@post.commentable_id}#post-#{@post.id}"        
@@ -139,7 +139,7 @@ Huddl::App.controller do
     @commentable = @post.commentable
     @group = @post.group
     @membership = @group.memberships.find_by(account: current_account)    
-    membership_required!
+    confirmed_membership_required!
     partial :'comments/replies', :locals => {:post => @post}
   end  
     
@@ -148,14 +148,14 @@ Huddl::App.controller do
     @commentable = @comment.commentable
     @group = @comment.group
     @membership = @group.memberships.find_by(account: current_account)    
-    membership_required!
+    confirmed_membership_required!
     partial :'comments/options', :locals => {:comment => @comment}
   end
   
   post '/options/create' do
     @comment = Comment.find(params[:comment_id]) || not_found
     @group = @comment.group      
-    membership_required!      
+    confirmed_membership_required!      
     @comment.options.create!(account: current_account, text: params[:text])
     200   
   end  
@@ -163,7 +163,7 @@ Huddl::App.controller do
   post '/options/:id/vote' do
     @option = Option.find(params[:id]) || not_found
     @group = @option.comment.group      
-    membership_required!      
+    confirmed_membership_required!      
     if params[:vote]
       @option.votes.create!(account: current_account)
     else
@@ -175,7 +175,7 @@ Huddl::App.controller do
   get '/options/:id/destroy' do
     @option = Option.find(params[:id]) || not_found
     @group = @option.comment.group      
-    membership_required!      
+    confirmed_membership_required!      
     @option.destroy
     redirect back
   end    
@@ -183,7 +183,7 @@ Huddl::App.controller do
   get '/subscriptions/create' do
     @post = Post.find(params[:post_id]) || not_found
     @group = @post.group      
-    membership_required!      
+    confirmed_membership_required!      
     @post.subscriptions.create!(account: current_account)
     200   
   end      
@@ -191,7 +191,7 @@ Huddl::App.controller do
   get '/subscriptions/:id/destroy' do
     @subscription = Subscription.find(params[:id]) || not_found
     @group = @subscription.group      
-    membership_required!      
+    confirmed_membership_required!      
     @subscription.destroy
     200        
   end

@@ -25,14 +25,14 @@ Huddl::App.controller do
   get '/h/:slug/rotas' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     erb :'rotas/rotas'     
   end     
   
   get '/h/:slug/rotas/:id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     @rota = @group.rotas.find(params[:id]) || not_found
     if request.xhr?
       partial :'rotas/rota', :locals => {:rota => @rota}
@@ -135,14 +135,14 @@ Huddl::App.controller do
     @role = Role.find(params[:role_id]) || not_found 
     @group = @rota.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!      
+    confirmed_membership_required!      
     partial :'rotas/rota_rslot_role', :locals => {:rota => @rota, :rslot => @rslot, :role => @role}
   end
          
   get '/shifts/create' do
     @rota = Rota.find(params[:rota_id]) || not_found 
     @group = @rota.group
-    membership_required!
+    confirmed_membership_required!
     Shift.create(account: (params[:na] ? nil : current_account), rota_id: params[:rota_id], rslot_id: params[:rslot_id], role_id: params[:role_id])
     200
   end      

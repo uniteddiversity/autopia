@@ -3,7 +3,7 @@ Huddl::App.controller do
   get '/h/:slug/transports' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     @transport = Transport.new
     @transport.cost = 0 unless @membership.admin?
     if request.xhr?
@@ -16,7 +16,7 @@ Huddl::App.controller do
   post '/h/:slug/transports/new' do
     @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     @transport = @group.transports.new(params[:transport])
     @transport.cost = 0 unless @membership.admin?
     @transport.account = current_account
@@ -59,7 +59,7 @@ Huddl::App.controller do
   get '/transportships/create' do
     @transport = Transport.find(params[:transport_id]) || not_found
     @group = @transport.group      
-    membership_required!      
+    confirmed_membership_required!      
     Transportship.create(account: current_account, transport_id: params[:transport_id], group: @group)
     200
   end    

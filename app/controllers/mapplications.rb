@@ -3,7 +3,7 @@ Huddl::App.controller do
   get '/h/:slug/mapplications/:id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!      
+    confirmed_membership_required!      
     @mapplication = @group.mapplications.find(params[:id]) || not_found
     if request.xhr?
       partial :'mapplications/mapplication_modal', :locals => {:mapplication => @mapplication}
@@ -16,7 +16,7 @@ Huddl::App.controller do
     @mapplication = Mapplication.find(params[:id]) || not_found
     @group = @mapplication.group
     @membership = @group.memberships.find_by(account: current_account)      
-    membership_required!
+    confirmed_membership_required!
     if @mapplication.status == 'accepted'
       200
     else
@@ -67,7 +67,7 @@ Huddl::App.controller do
   get '/h/:slug/applications' do     
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!    
+    confirmed_membership_required!    
     @mapplications = @group.mapplications.pending
     @mapplications = @mapplications.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
     erb :'mapplications/pending'
@@ -76,14 +76,14 @@ Huddl::App.controller do
   get '/h/:slug/threshold' do     
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!      
+    confirmed_membership_required!      
     partial :'mapplications/threshold'
   end     
     
   post '/h/:slug/threshold' do     
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!      
+    confirmed_membership_required!      
     @membership.desired_threshold = params[:desired_threshold]
     @membership.save!
     200
@@ -92,7 +92,7 @@ Huddl::App.controller do
   get '/h/:slug/applications/paused' do     
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     @mapplications = @group.mapplications.paused
     erb :'mapplications/paused'
   end     
@@ -100,7 +100,7 @@ Huddl::App.controller do
   get '/verdicts/create' do
     @mapplication = Mapplication.find(params[:mapplication_id]) || not_found
     @group = @mapplication.group      
-    membership_required!
+    confirmed_membership_required!
     Verdict.create(account: current_account, mapplication_id: params[:mapplication_id], type: params[:type], reason: params[:reason])
     200
   end       

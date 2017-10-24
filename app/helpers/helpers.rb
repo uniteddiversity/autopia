@@ -36,8 +36,22 @@ Huddl::App.helpers do
       flash[:notice] = 'You must be a member of that group to access that page'
       session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(account ? '/' : '/accounts/sign_in')
+    end            
+  end        
+    
+  def confirmed_membership_required!(group=nil, account=current_account)
+    group = @group if !group
+    unless account and group and (((membership = group.memberships.find_by(account: account)) and membership.confirmed?) or account.admin?)
+      session[:return_to] = request.url
+      if membership
+        flash[:notice] = 'You must make a payment before accessing that page'
+        request.xhr? ? halt(403) : redirect("/h/#{@group.slug}")
+      else
+        flash[:notice] = 'You must be a member of the group to access that page'
+        request.xhr? ? halt(403) : redirect(account ? '/' : '/accounts/sign_in')
+      end            
     end        
-  end  
+  end   
   
   def group_admins_only!(group=nil)
     group = @group if !group

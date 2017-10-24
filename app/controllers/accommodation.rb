@@ -17,7 +17,7 @@ Huddl::App.controller do
   get '/h/:slug/accoms' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     if request.xhr?
       partial :'accoms/accoms'
     else
@@ -58,7 +58,7 @@ Huddl::App.controller do
   get '/accomships/create' do
     @accom = Accom.find(params[:accom_id]) || not_found
     @group = @accom.group      
-    membership_required!      
+    confirmed_membership_required!      
     Accomship.create(account: current_account, accom_id: params[:accom_id], group: @group)
     200
   end    

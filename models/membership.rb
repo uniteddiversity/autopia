@@ -136,5 +136,9 @@ class Membership
       :unsubscribed => :check_box
     }
   end
+  
+  def confirmed?    
+    group.disable_stripe or group.tiers.count == 0 or payments.count > 0
+  end
       
 end

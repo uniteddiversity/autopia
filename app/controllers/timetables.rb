@@ -25,7 +25,7 @@ Huddl::App.controller do
   get '/h/:slug/timetables' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     erb :'timetables/timetables'      
   end
   
@@ -33,7 +33,7 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     @timetable = @group.timetables.find(params[:id])
-    membership_required!
+    confirmed_membership_required!
     if request.xhr?
       partial :'timetables/timetable', :locals => {:timetable => @timetable}
     else
@@ -133,7 +133,7 @@ Huddl::App.controller do
     @timetable = Timetable.find(params[:timetable_id]) || not_found
     @group = @timetable.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!      
+    confirmed_membership_required!      
     @activity = Activity.new(params[:activity])
     @activity.timetable = @timetable
     @activity.account = current_account
@@ -150,7 +150,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     @activity = @group.activities.find(params[:id])
     @timetable = @activity.timetable    
-    membership_required!      
+    confirmed_membership_required!      
     erb :'timetables/activity'
   end   
         
@@ -158,7 +158,7 @@ Huddl::App.controller do
     @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!      
+    confirmed_membership_required!      
     erb :'timetables/activity_build'
   end 
         
@@ -166,7 +166,7 @@ Huddl::App.controller do
     @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!      
+    confirmed_membership_required!      
     if @activity.update_attributes(params[:activity])
       redirect "/h/#{@group.slug}/timetables/#{@activity.timetable_id}"
     else
@@ -188,7 +188,7 @@ Huddl::App.controller do
     @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!      
+    confirmed_membership_required!      
     halt unless @membership.admin? or @activity.timetable.scheduling_by_all
     @activity.tslot_id = params[:tslot_id]
     @activity.space_id = params[:space_id]
@@ -205,7 +205,7 @@ Huddl::App.controller do
     @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!    
+    confirmed_membership_required!    
     halt unless @membership.admin? or @activity.timetable.scheduling_by_all
     @activity.tslot_id = nil
     @activity.space_id = nil
@@ -222,7 +222,7 @@ Huddl::App.controller do
     @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!     
+    confirmed_membership_required!     
     partial :'timetables/attendees', :locals => {:activity => @activity}
   end
     
@@ -230,7 +230,7 @@ Huddl::App.controller do
     @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!      
+    confirmed_membership_required!      
     @activity.attendances.create account: current_account
     request.xhr? ? 200 : redirect(back)
   end     
@@ -239,7 +239,7 @@ Huddl::App.controller do
     @activity = Activity.find(params[:id]) || not_found
     @group = @activity.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!      
+    confirmed_membership_required!      
     @activity.attendances.find_by(account: current_account).try(:destroy)
     request.xhr? ? 200 : redirect(back)
   end       

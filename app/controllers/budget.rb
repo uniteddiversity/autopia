@@ -3,7 +3,7 @@ Huddl::App.controller do
   get '/h/:slug/budget' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     @spend = Spend.new
     if request.xhr?
       partial :'budget/budget'
@@ -15,7 +15,7 @@ Huddl::App.controller do
   post '/h/:slug/spends/new' do
     @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required!
+    confirmed_membership_required!
     @spend = @group.spends.new(params[:spend])
     @spend.account = current_account unless @membership.admin?
     if @spend.save
@@ -67,7 +67,7 @@ Huddl::App.controller do
     @team = Team.find(params[:id]) || not_found
     @group = @team.group
     @membership = @group.memberships.find_by(account: current_account)
-    membership_required! 
+    confirmed_membership_required! 
     @team.update_attribute(:budget, params[:budget])
     200  
   end
