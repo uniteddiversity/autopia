@@ -6,6 +6,8 @@ class Transport
   field :description, :type => String
   field :capacity, :type => Integer
   field :cost, :type => Integer
+  field :outward_leaves_at, :type => DateTime
+  field :return_leaves_at, :type => DateTime
   
   belongs_to :group, index: true
   belongs_to :account, index: true
