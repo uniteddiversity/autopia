@@ -1,4 +1,4 @@
-
+  
 <% if @group.persisted? %>
   <%= partial :group_header %>
 <% end %>
@@ -7,7 +7,7 @@
 
 <script>
   $(function () {
-
+      
 <% if @group.new_record? %>
       $('.tab-pane').each(function () {
         var tabPane = this
@@ -35,7 +35,7 @@
         $(b).parent().parent().hide()
     });
 
-    $('#group_enable_applications').click(function () {
+    $('#group_enable_applications').click(function () { 
       if ($(this).is(':checked'))
         $('#application-options').show()
       else
@@ -78,10 +78,10 @@
     #group-build-nav li { font-size: 12px }
   </style>  
   <ul id="group-build-nav" class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#tab1" role="tab" data-toggle="tab">Basics</a></li>
-    <li role="presentation"><a href="#tab2" role="tab" data-toggle="tab">Joining</a></li>
-    <li role="presentation"><a href="#tab3" role="tab" data-toggle="tab">Intro for members</a></li>
-    <li role="presentation"><a href="#tab4" role="tab" data-toggle="tab">Features</a></li>
+    <li role="presentation" class="nav-item"><a class="nav-link active" href="#tab1" role="tab" data-toggle="tab">Basics</a></li>
+    <li role="presentation" class="nav-item"><a class="nav-link" href="#tab2" role="tab" data-toggle="tab">Joining</a></li>
+    <li role="presentation" class="nav-item"><a class="nav-link" href="#tab3" role="tab" data-toggle="tab">Intro for members</a></li>
+    <li role="presentation" class="nav-item"><a class="nav-link" href="#tab4" role="tab" data-toggle="tab">Features</a></li>
   </ul>
 
   <div class="tab-content" style="margin-top: 20px">

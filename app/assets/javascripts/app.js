@@ -1,7 +1,7 @@
 /*global $*/
 
 $(function () {
-
+      
   function addPlaceholders() {
     $('form.add-placeholders label[for]').each(function () {
       var input = $(this).next().children().first()

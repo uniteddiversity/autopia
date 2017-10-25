@@ -1,51 +1,34 @@
-<nav class="navbar navbar-default navbar-inverse" role="navigation">
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-top-collapse">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a class="navbar-brand" href="/" style="color: #CE2828">        
-      <span style="font-size: 28px;" class="hw"><%= ENV['SITE_TITLE'] %></span>        
-    </a>
-  </div>
-  <div class="collapse navbar-collapse navbar-top-collapse"> 
+<nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-lg" role="navigation">
+  <a class="navbar-brand hw" href="/"><%= ENV['SITE_TITLE'] %></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbar-collapse"> 
 
-    <% if current_account %>  
-      <ul class="nav navbar-nav navbar-left">                  
-        <li class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;">Groups <b class="caret"></b></a>
-          <ul class="dropdown-menu">                       
-            <% current_account.memberships.sort_by { |membership| membership.group.name }.each { |membership| %>
-              <li><a href="/h/<%=membership.group.slug%>"><%=membership.group.name%></a></li> 
-            <%  } %>
-            <li role="separator" class="divider"></li>
-            <li><a href="/h/new">Create a group</a></li>              
-          </ul>
-        </li> 
-      </ul>    
-    <% end %>
-
-    <ul class="nav navbar-nav navbar-right">
-      <% if current_account %>              
-        <li class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;"><%=current_account.name%> <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="/accounts/<%=current_account.id%>">View profile</a></li>
-            <li><a href="/accounts/edit">Edit profile</a></li>
-            <li><a href="/accounts/sign_out">Sign out</a></li>
-          </ul>
-        </li>               
-      <% else %>
-        <li>
-          <a href="/accounts/sign_up">Sign up</a>
-        </li>                        
-        <li>
-          <a href="/accounts/sign_in">Sign in</a>
-        </li>                
+    <% if current_account %>
+        <%=
+        ul_nav [
+          ['Groups',         
+            current_account.memberships.sort_by { |membership| membership.group.name }.map { |membership| [membership.group.name, "/h/#{membership.group.slug}"] } + [[], ['Create a group', '/h/new']]
+            ],        
+          ]
+      %>    
       <% end %>
-    </ul>
 
-  </div>
-</nav> 
+      <%=
+      ul_nav [
+        ([current_account.name, [
+              ['View profile', "/accounts/#{current_account.id}"],
+              ['Edit profile', '/accounts/edit'],
+              ['Sign out', '/accounts/sign_out'],
+            ]
+            ] if current_account),
+        (['Sign up', '/sign_up'] if !current_account),
+        (['Sign in', '/sign_in'] if !current_account)
+        ], ul_class: 'navbar-nav ml-auto'
+    %>
+
+    </div>
+  </nav>        
+
+

@@ -16,10 +16,10 @@
     </script>     
 
     <% {            
-      'jquery/3.1.1' => 'jquery.min.js',
+      'jquery/3.2.0' => 'jquery.min.js',
       'jqueryui/1.12.1' => 'jquery-ui.min.js',
-      'bootswatch/3.3.2' => 'lumen/bootstrap.min.css',      
-      'twitter-bootstrap/3.3.2' => 'js/bootstrap.min.js',
+      'popper.js/1.11.0' => 'umd/popper.min.js',
+      'twitter-bootstrap/4.0.0-beta' => 'css/bootstrap.min.css js/bootstrap.min.js',
       'font-awesome/4.7.0' => 'css/font-awesome.min.css',
       'codemirror/5.0.0' => 'codemirror.min.css theme/monokai.min.css codemirror.min.js mode/xml/xml.min.js',      
       'summernote/0.6.1' => 'summernote.min.css summernote.min.js',      
@@ -48,7 +48,7 @@
     <% [
       '//cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/d5d71f28b00a16766d2661aef6a75f80f1f604da/bootstrap3-typeahead.min.js',
       "/javascripts/app.js?#{Time.now.to_i}",
-      '//cdn.rawgit.com/wordsandwriting/activate-tools/7afd3a27229f66e48c5876df8570b7ee92c70fa5/js/pagelets.js'
+      '//cdn.rawgit.com/wordsandwriting/activate-tools/c625d78354fdce044753346cdfbd2e90b8084d83/js/pagelets.js'
       ].each { |f| %>
       <script src="<%=f%>"></script>
     <% } %>  

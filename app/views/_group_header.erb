@@ -9,7 +9,7 @@
     #group-header, #group-header li { font-size: 12px }
   </style>
   <div id="group-header">
-    <%= ul_nav 'nav nav-pills', [
+    <%= ul_nav [
       ["Home", "/h/#{@group.slug}"],
       ["Members (#{@group.memberships.count})", "/h/#{@group.slug}/members"],
       (["Applications (#{@group.mapplications.pending.count})", "/h/#{@group.slug}/applications"] if @group.enable_applications or @group.mapplications.where(:status.ne => 'accepted').count > 0),        
@@ -36,7 +36,7 @@
       (["Transport (#{@group.transports.count})", "/h/#{@group.slug}/transports"] if @group.enable_transport),        
       (["Inventory", "/h/#{@group.slug}/inventory"] if @group.enable_inventory),       
       (["Budget", "/h/#{@group.slug}/budget"] if @group.enable_budget),    
-      ].compact %>
+      ].compact, ul_class: 'nav nav-pills' %>
   </div>
 
 <% end %>
