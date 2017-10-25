@@ -1,8 +1,8 @@
 <% form_for @transport, @transport.new_record? ? "/h/#{@group.slug}/transports/new" : "/h/#{@group.slug}/transports/#{@transport.id}/edit", :class => 'form-horizontal' do |f| %>
   <%= f.text_block :name %>
   <%= f.text_area_block :description %>
-  <%= f.datetime_block :outward_leaves_at %>
-  <%= f.datetime_block :return_leaves_at %>
+  <%= f.datetime_block :outbound_departure_time %>
+  <%= f.datetime_block :return_departure_time %>
   <%= f.number_block :cost, :disabled => !@membership.admin? %>
   <%= f.number_block :capacity %>
   <%= f.submit_block destroy_url: "/h/#{@group.slug}/transports/#{@transport.id}/destroy" %>

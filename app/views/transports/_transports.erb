@@ -2,8 +2,8 @@
   <thead>
     <tr>
       <th>Transport</th>
-      <th>Outward depart time</th>
-      <th>Return depart time</th>
+      <th>Outbound departure time</th>
+      <th>Return departure time</th>
       <th>Cost</th>
       <th>Places taken</th>
       <th></th>
@@ -24,10 +24,10 @@
         <%= transport.description %>        
       </td>
       <td>
-        <%= transport.outward_leaves_at %>
+        <%= transport.outbound_departure_time %>
       </td>
       <td>
-        <%= transport.return_leaves_at %>
+        <%= transport.return_departure_time %>
       </td>
       <td>
         <%=@group.currency_symbol%><%=transport.cost%>

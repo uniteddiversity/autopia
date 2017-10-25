@@ -6,8 +6,8 @@ class Transport
   field :description, :type => String
   field :capacity, :type => Integer
   field :cost, :type => Integer
-  field :outward_leaves_at, :type => DateTime
-  field :return_leaves_at, :type => DateTime
+  field :outbound_departure_time, :type => Time
+  field :return_departure_time, :type => Time
   
   belongs_to :group, index: true
   belongs_to :account, index: true
@@ -27,7 +27,9 @@ class Transport
   def self.admin_fields
     {
       :name => :text,
-      :description => :text_area,      
+      :description => :text_area, 
+      :outbound_departure_time => :datetime,
+      :return_departure_time => :datetime,
       :capacity => :number,
       :cost => :number,
       :group_id => :lookup,
