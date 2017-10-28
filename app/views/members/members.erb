@@ -89,7 +89,7 @@
 <div style="margin-top: 10px; font-size: 20px"><%= x.map(&:strip).join(' &middot; ') %></div>
 <div style="margin-bottom: 10px; font-size: 13px;"><%= y.map(&:strip).join(' &middot; ') %></div>
 
-<div>
+<div class="mb-3">
 
   <% form_tag '', :style => 'display:inline', :method => 'get' do %>
     <%= text_field_tag :q, :class => 'form-control', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>

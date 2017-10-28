@@ -5,23 +5,27 @@
   <%= partial :'mapplications/threshold' %>
 </div>
 
-<% form_tag '', :style => 'display:inline', :method => 'get' do %>
-  <%= text_field_tag :q, :class => 'form-control', :style => 'width: auto; display: inline-block', :placeholder => 'Search applicants', :value => params[:q] %>
-  &middot;
+<div class="mb-3">
 
-  <style>
-    .views a { opacity: 0.5 }
-    .views a.active { opacity: 1 }      
-  </style>
-  <div class="views" style="display: inline">
-    <a href="?" <% if !params[:view] %>class="active"<% end %>  ><i title="Table view" class="fa fa-table"></i></a>    
-    <a href="?view=wall" <% if params[:view] == 'wall' %>class="active"<% end %>><i title="Wall view" class="fa fa-th-large"></i></a>
-    <% if @membership.admin? %>
-      <a href="?view=emails" <% if params[:view] == 'emails' %>class="active"<% end %>><i title="Emails" class="fa fa-envelope"></i></a>
-      <% end %>
-  </div>
+  <% form_tag '', :style => 'display:inline', :method => 'get' do %>
+    <%= text_field_tag :q, :class => 'form-control', :style => 'width: auto; display: inline-block', :placeholder => 'Search applicants', :value => params[:q] %>
+    &middot;
 
-<% end %>
+    <style>
+      .views a { opacity: 0.5 }
+      .views a.active { opacity: 1 }      
+    </style>
+    <div class="views" style="display: inline">
+      <a href="?" <% if !params[:view] %>class="active"<% end %>  ><i title="Table view" class="fa fa-table"></i></a>    
+      <a href="?view=wall" <% if params[:view] == 'wall' %>class="active"<% end %>><i title="Wall view" class="fa fa-th-large"></i></a>
+      <% if @membership.admin? %>
+        <a href="?view=emails" <% if params[:view] == 'emails' %>class="active"<% end %>><i title="Emails" class="fa fa-envelope"></i></a>
+        <% end %>
+    </div>
+
+  <% end %>
+
+</div>
 
 <%= partial :'mapplications/mapplications' %>
 
