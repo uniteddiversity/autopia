@@ -1,22 +1,22 @@
 
-<% form_for comment, comment.new_record ? "/h/#{@group.slug}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form form-horizontal add-placeholders" do |f| %>
+<% form_for comment, comment.new_record ? "/h/#{@group.slug}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form add-placeholders" do |f| %>
   <%= f.hidden_field :commentable_id %>
   <%= f.hidden_field :commentable_type %>
   <%= f.hidden_field :post_id, :value => comment.post_id %>
   <% if defined?(reply) %>
-    <%= f.text_area_block :body, :placeholder => 'Write a comment...', :label_class => 'hidden', :div_class => 'col-sm-12' %>
+    <%= f.text_area_block :body, :placeholder => 'Write a comment...', :label_class => 'd-none' %>
   <% else %>
 
     <% if comment.first_in_post? %>
       <div id="comment-title-container" style="display: none">
-        <%= f.text_block :title, :label_class => 'hidden', :div_class => 'col-sm-12' %>
+        <%= f.text_block :title, :label_class => 'd-none' %>
       </div>	 	
     <% end %>
 
-    <%= f.text_area_block :body, :placeholder => "Write a comment...", :label_class => 'hidden', :div_class => 'col-sm-12' %>
+    <%= f.text_area_block :body, :placeholder => "Write a comment...", :label_class => 'd-none' %>
 
     <div id="comment-file-container" style="display: none">
-      <%= f.file_block :file, :label_class => 'hidden', :div_class => 'col-sm-12' %>
+      <%= f.file_block :file, :label_class => 'd-none' %>
     </div>
 
     <% if comment.first_in_post? %>
@@ -66,5 +66,5 @@
 
   <% end %>
 
-  <%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy", :div_class => 'col-sm-12', :container_class => ('hidden' unless @show_buttons) %>
+  <%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy", :container_class => ('d-none' unless @show_buttons) %>
 <% end %> 
