@@ -1,4 +1,4 @@
-<% form_for @tier ||= Tier.new, @tier.new_record? ? "/h/#{@group.slug}/tiers/new" : "/h/#{@group.slug}/tiers/#{@tier.id}/edit", :class => 'form-horizontal' do |f| %>
+<% form_for @tier ||= Tier.new, @tier.new_record? ? "/h/#{@group.slug}/tiers/new" : "/h/#{@group.slug}/tiers/#{@tier.id}/edit" do |f| %>
   <%= f.text_block :name %>
   <%= f.text_area_block :description %>
   <%= f.number_block :cost %>

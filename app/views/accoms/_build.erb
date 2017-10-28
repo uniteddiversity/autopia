@@ -1,4 +1,4 @@
-<% form_for @accom ||= Accom.new, @accom.new_record? ? "/h/#{@group.slug}/accoms/new" : "/h/#{@group.slug}/accoms/#{@accom.id}/edit", :class => 'form-horizontal' do |f| %>
+<% form_for @accom ||= Accom.new, @accom.new_record? ? "/h/#{@group.slug}/accoms/new" : "/h/#{@group.slug}/accoms/#{@accom.id}/edit" do |f| %>
   <%= f.text_block :name %>
   <%= f.text_area_block :description %>
   <%= f.number_block :capacity %>

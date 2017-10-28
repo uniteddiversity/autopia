@@ -1,7 +1,7 @@
 
 <h1><%= @account.persisted? ? 'Edit profile' : 'Sign up' %></h1>
 
-<% form_for @account, @account.new_record? ? '/accounts/new' : '/accounts/edit', :class => 'form-horizontal', :multipart => true do |f| %>
+<% form_for @account, @account.new_record? ? '/accounts/new' : '/accounts/edit', :multipart => true do |f| %>
   <%= hidden_field_tag :h, :value => params[:h] %>
   <%= f.text_block :name %>
   <%= f.text_block :email %>

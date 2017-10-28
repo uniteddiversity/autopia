@@ -2,7 +2,7 @@
 
 <h2><%= @timetable.new_record? ? 'Create a timetable' : 'Edit timetable' %></h2>
 
-<% form_for @timetable ||= Timetable.new, @timetable.new_record? ? "/h/#{@group.slug}/timetables/new" : "/h/#{@group.slug}/timetables/#{@timetable.id}/edit", :class => 'form-horizontal' do |f| %>
+<% form_for @timetable ||= Timetable.new, @timetable.new_record? ? "/h/#{@group.slug}/timetables/new" : "/h/#{@group.slug}/timetables/#{@timetable.id}/edit" do |f| %>
   <%= f.text_block :name %>
   <%= f.wysiwyg_block :description %>    
   <%= f.check_box_block :scheduling_by_all %>

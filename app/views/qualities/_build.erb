@@ -1,4 +1,4 @@
-<% form_for @quality ||= Quality.new, @quality.new_record? ? "/h/#{@group.slug}/qualities/new" : "/h/#{@group.slug}/qualities/#{@quality.id}/edit", :class => 'form-horizontal' do |f| %>
+<% form_for @quality ||= Quality.new, @quality.new_record? ? "/h/#{@group.slug}/qualities/new" : "/h/#{@group.slug}/qualities/#{@quality.id}/edit" do |f| %>
   <%= f.text_block :name %>
   <%= f.url_block :link %>
   <%= f.image_block :image %>
