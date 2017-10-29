@@ -49,16 +49,16 @@
             <a class="col-sm-4" style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(provider_link.omniauth_hash) %>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
             <% if current_account %>
               <div class="col-sm-3">
-                <a class="use-picture btn btn-default" href="/accounts/use_picture/<%=provider.omniauth_name%>" data-content="<img src='<%=provider.image.call(provider_link.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
+                <a class="use-picture btn btn-secondary" href="/accounts/use_picture/<%=provider.omniauth_name%>" data-content="<img src='<%=provider.image.call(provider_link.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
               </div>
               <div class="col-sm-3">
-                <a class="btn btn-default" href="/accounts/disconnect/<%=provider.omniauth_name%>">Disconnect</a>
+                <a class="btn btn-secondary" href="/accounts/disconnect/<%=provider.omniauth_name%>">Disconnect</a>
               </div>
             <% end %>                
           <% else %>
             <span class="col-sm-4" style="margin-top: 5px">Not connected</span>
             <div class="col-sm-3">
-              <a class="btn btn-default" href="/auth/<%=provider.omniauth_name%>">Connect</a>
+              <a class="btn btn-secondary" href="/auth/<%=provider.omniauth_name%>">Connect</a>
             </div>
           <% end %>
         </div>

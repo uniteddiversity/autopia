@@ -15,18 +15,18 @@
         $('form[action$=apply] .btn-primary').prop('disabled', true)
       });
     </script>
-    <div class="panel">
-      <div class="panel-body">
+    <div class="card mt-3">
+      <div class="card-body">
         <strong>Preview of application form (you are already a member of <%=@group.name%>)</strong>
       </div>
     </div>
   <% end %>
 
   <div class="row" style="margin-top: 15px">
-    <div class="col-sm-4 col-sm-push-8">
+    <div class="col-sm-4 order-sm-1">
       <%= partial :'members/cocreators' %>
     </div>    
-    <div class="col-sm-8 col-sm-pull-4">
+    <div class="col-sm-8 order-sm-0">
 
       <% if @group.intro_for_non_members %>
         <%=@group.intro_for_non_members%>
@@ -68,8 +68,8 @@
 
         <%= f.submit_block button_text: 'Apply' %>            
 
-        <div class="row">
-          <div class="col-sm-8 col-sm-offset-3" style="font-style: italic; margin-top: -5px">
+        <div class="row mt-2">
+          <div class="col" style="font-style: italic">
             <%= partial :'mapplications/threshold_info' %>
           </div>
         </div>

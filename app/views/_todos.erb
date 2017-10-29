@@ -1,6 +1,6 @@
 <% (missing_tier = (@group.enable_tiers? and @group.tiers.count > 0 and !@membership.tiership)); (missing_accom = (@group.enable_accommodation? and @group.accoms.count > 0 and !@membership.accomship)); if missing_tier or missing_accom %>
-  <div class="alert alert-info" style="margin-top: 10px">
-    <p>Please select <%= if missing_tier and missing_accom; 'a tier and accommodation option'; elsif missing_tier; 'a tier'; elsif missing_accom; 'an accommodation option'; end %></p>
+  <div class="alert alert-primary" style="margin-top: 10px">
+    Please select <%= if missing_tier and missing_accom; 'a tier and accommodation option'; elsif missing_tier; 'a tier'; elsif missing_accom; 'an accommodation option'; end %>
   </div>
 <% end %>
 
@@ -92,11 +92,8 @@
 </table>
 
 <% if !@group.disable_stripe and (@membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution))) %>
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <h3 class="panel-title">You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%></h3>
-    </div>
-    <div class="panel-body">
+  <div class="card text-white bg-danger mb-3">
+    <div class="card-body">
       You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 
       (You've paid <%=@group.currency_symbol%><%=@membership.paid or 0%> of a requested contribution of <%=@group.currency_symbol%><%=@membership.requested_contribution%>.)          
       <div style="margin-top: 10px">

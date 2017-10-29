@@ -4,30 +4,7 @@
     <tr>
       <td style="vertical-align: bottom">
         <div style="padding: 0 10px">
-          <h1>
-            <a style="color: white" href="/h/<%=group.slug%>"><%=group.name%></a>
-          </h1> 
-          <% if @group and @membership %>        
-            <p style="color: white;">         
-            <% if @membership.unsubscribed %>
-              <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/subscribe">Turn on email notifications of key events</a> &middot;
-            <% else %>
-              <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/unsubscribe">Turn off email notifications of key events</a> &middot;
-            <% end %>              
-              <a data-confirm="Are you sure you want to leave the group?" style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/leave">Leave group</a>
-              <% if @membership.admin? %>
-                &middot;
-                <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/edit">Edit group</a>
-                &middot;
-                <a style="color: white; text-decoration: none; border-bottom: 1px dotted white" href="/h/<%=group.slug%>/balance">Balance: <%=@group.currency_symbol%><%="#{'%.2f' % @group.balance}"%></a>
-              <% end %>
-            </p>
-          <% end %> 
-          <% if @group and @membership %>
-            <p style="color: white;">
-              Non-members can <%=  @group.enable_applications ? 'apply' : 'join' %> at <a href="<%="#{ENV['BASE_URI']}/h/#{group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%>" style="color: white; text-decoration: none; border-bottom: 1px dotted white"><%="#{ENV['BASE_URI']}/h/#{group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%></a>
-            </p>                 
-          <% end %>
+          <%= partial :'group_header_actions', :locals => {:group => group} %>
         </div>
       </td>
       <% if @group and @membership and !@hide_minifeed %>  

@@ -69,9 +69,10 @@
   <body>
 
     <%= partial :alert %>
-
-    <div class="container-fluid">
+        
+    <div class="container-fluid">      
       <%= partial :nav %>
+      
       <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
 
       <hr style="margin: 10px 0" />

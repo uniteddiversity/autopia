@@ -1,7 +1,7 @@
 <% comment.read_receipts.create account: current_account %>
 
 <div class="media" style="padding: 10px 10px 0 10px; margin: 0">
-  <span class="pull-left">
+  <span class="mr-2">
     <%= partial :'accounts/square', :locals => {:account => comment.account, :width => '32px', :klass => 'media-object'} %>
   </span>
   <div class="media-body">

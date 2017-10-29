@@ -1,7 +1,7 @@
 
 <div style="margin-bottom: 10px">
   <%= partial :group, :object => @group  %>
-</div>
+  </div>
 
 <% if @membership %>
 
@@ -37,6 +37,6 @@
       (["Inventory", "/h/#{@group.slug}/inventory"] if @group.enable_inventory),       
       (["Budget", "/h/#{@group.slug}/budget"] if @group.enable_budget),    
       ].compact, ul_class: 'nav nav-pills' %>
-  </div>
+    </div>
 
 <% end %>

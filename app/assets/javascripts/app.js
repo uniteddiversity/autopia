@@ -67,7 +67,7 @@ $(function () {
 
   function resizeCommentTextareas() {
     $('textarea[id=comment_body]').click(function () {
-      $(this.form).find('.btn-primary').parent().parent().removeClass('hidden')
+      $(this.form).find('.btn-primary').parent().parent().removeClass('d-none')
     }).keydown(function () {
       var el = this;
       setTimeout(function () {
