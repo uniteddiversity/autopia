@@ -6,8 +6,11 @@ $theme-colors: (
 );
 $font-size-base: 0.9rem;
 $font-family-sans-serif: 'Raleway', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$figure-caption-color: #212529;
 
 @import "bootstrap/bootstrap";
+
+
 
 @media print {
   a[href]:after {
