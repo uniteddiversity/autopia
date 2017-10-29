@@ -1,14 +1,14 @@
 
-<div style="margin-bottom: 10px">
+<div class="mb-2">
   <%= partial :group, :object => @group  %>
-  </div>
+</div>
 
 <% if @membership %>
 
   <style>
     #group-header, #group-header li { font-size: 12px }
   </style>
-  <div id="group-header">
+  <div id="group-header" class="mb-2">
     <%= ul_nav [
       ["Home", "/h/#{@group.slug}"],
       ["Members (#{@group.memberships.count})", "/h/#{@group.slug}/members"],

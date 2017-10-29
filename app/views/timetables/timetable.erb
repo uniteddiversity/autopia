@@ -21,7 +21,7 @@
   <div style="display: none" class="activity-form">
     <%= partial :'timetables/activity_form', :locals => {:timetable => @timetable}%>  
   </div>
-  <div>
+  <div class="mt-2">
 
     <div data-pagelet-url="/h/<%=@group.slug%>/timetables/<%=@timetable.id%>">
       <%= partial :'timetables/timetable', :locals => {:timetable => @timetable} %>

@@ -11,7 +11,7 @@
 <% if @group.new_record? %>
       $('.tab-pane').each(function () {
         var tabPane = this
-        $('<div class="form-group"><div class="col-sm-6 col-sm-offset-3"><a href="javascript:;" class="next btn btn-primary">Next</a></div></div>').appendTo(tabPane)
+        $('<a href="javascript:;" class="next btn btn-primary">Next</a>').appendTo(tabPane)
         $(this).find('a.next').click(function () {
           $('#group-build-nav a[href="#' + $(tabPane).next().attr('id') + '"]').tab('show')
         })
