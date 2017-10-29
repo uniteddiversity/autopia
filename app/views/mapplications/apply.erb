@@ -59,8 +59,8 @@
 
         <% @group.application_questions_a.each_with_index { |q,i| %>
           <div class="form-group">
-            <label class="control-label col-sm-3"><%=q%></label>
-            <div class="col-sm-6">  
+            <label><%=q%></label>
+            <div>  
               <%= text_area_tag "answers[#{i}]", :class => 'form-control' %>
             </div>
           </div>  
