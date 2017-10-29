@@ -30,35 +30,25 @@
     $('.use-picture').popover({trigger: 'hover', html: true});
   });
 </script>
-<style>
-  @media(min-width: 768px) {
-    .provider-display-name { text-align: right }
-  }
-</style>   
-<% Provider.registered.each { |provider| %>
-  <% if @account.persisted? or (session['omniauth.auth'] and session['omniauth.auth']['provider'] == provider.omniauth_name) %>
-    <div class="row" style="margin-bottom: 10px">
-      <div class="col-sm-3 provider-display-name"><i class="fa fa-<%=provider.icon%>"></i></div>
-      <div class="col-sm-8">      
-        <div class="row">
+
+<table class="table mt-3">
+  <% Provider.registered.each { |provider| %>
+    <% if @account.persisted? or (session['omniauth.auth'] and session['omniauth.auth']['provider'] == provider.omniauth_name) %>
+      <tr>
+        <td><i class="fa fa-<%=provider.icon%>"></i></td>
+        <td>
           <% if provider_link = @account.provider_links.select { |provider_link| provider_link.provider == provider.display_name }[0] %>
-            <a class="col-sm-4" style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(provider_link.omniauth_hash) %>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
+            <a style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(provider_link.omniauth_hash) %>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
             <% if current_account %>
-              <div class="col-sm-3">
-                <a class="use-picture btn btn-secondary" href="/accounts/use_picture/<%=provider.omniauth_name%>" data-content="<img src='<%=provider.image.call(provider_link.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
-              </div>
-              <div class="col-sm-3">
-                <a class="btn btn-secondary" href="/accounts/disconnect/<%=provider.omniauth_name%>">Disconnect</a>
-              </div>
+              <a class="use-picture btn btn-secondary" href="/accounts/use_picture/<%=provider.omniauth_name%>" data-content="<img src='<%=provider.image.call(provider_link.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
+              <a class="btn btn-secondary" href="/accounts/disconnect/<%=provider.omniauth_name%>">Disconnect</a>
             <% end %>                
           <% else %>
-            <span class="col-sm-4" style="margin-top: 5px">Not connected</span>
-            <div class="col-sm-3">
-              <a class="btn btn-secondary" href="/auth/<%=provider.omniauth_name%>">Connect</a>
-            </div>
+            <span style="margin-top: 5px">Not connected</span>
+            <a class="btn btn-secondary" href="/auth/<%=provider.omniauth_name%>">Connect</a>
           <% end %>
-        </div>
-      </div>
-    </div>
-  <% end %>
-<% } %>   
+        </td>
+      </tr>
+    <% end %>
+  <% } %>   
+</table>
