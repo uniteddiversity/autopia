@@ -294,7 +294,7 @@ class Group
       :teamup_calendar_url => 'Teamup calendar URL',
       :require_reason_proposer => 'Proposers must provide a reason',
       :require_reason_supporter => 'Supporters must provide a reason',
-      :demand_payment => 'Members must make a payment to access the group'
+      :demand_payment => 'Members must make a payment to access group content'
     }[attr.to_sym] || super  
   end   
   

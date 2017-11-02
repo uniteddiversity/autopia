@@ -92,7 +92,6 @@
       <% if @group.new_record? %>
         <%= f.select_block :currency %>
       <% end %>   
-      <%= f.check_box_block :demand_payment %>  
     </div>
     <div role="tabpanel" class="tab-pane" id="tab2">
       <%= f.wysiwyg_block :intro_for_non_members %>      
@@ -122,8 +121,7 @@
       <% (Group.enablable - %w{bookings}).each { |x| %>
         <%= f.check_box_block "enable_#{x}".to_sym %>
       <% } %>
-      <%= f.number_block :booking_limit %>
-      <%= f.url_block :teamup_calendar_url %>
+      <%= f.check_box_block :demand_payment %>  
       <% if @group.new_record? %>
         <%= f.submit_block %>  
       <% end %>        

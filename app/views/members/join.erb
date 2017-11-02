@@ -15,10 +15,10 @@
 <% end %>
 
 <div class="row" style="margin-top: 15px">
-  <div class="col-sm-4 col-sm-push-8">
+  <div class="col-sm-4 order-sm-1">
     <%= partial :'members/cocreators' %>
   </div>    
-  <div class="col-sm-8 col-sm-pull-4">
+  <div class="col-sm-8 order-sm-0">
 
     <% if @group.intro_for_non_members %>
       <%=@group.intro_for_non_members%>
