@@ -138,7 +138,7 @@ class Membership
   end
   
   def confirmed?    
-    group.disable_stripe or group.tiers.count == 0 or paid > 0 or admin?
+	!group.demand_payment or group.disable_stripe or paid > 0 or admin?
   end
       
 end

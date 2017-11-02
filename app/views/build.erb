@@ -91,7 +91,8 @@
       <%= f.image_block :image %>  
       <% if @group.new_record? %>
         <%= f.select_block :currency %>
-      <% end %>      
+      <% end %>   
+      <%= f.check_box_block :demand_payment %>  
     </div>
     <div role="tabpanel" class="tab-pane" id="tab2">
       <%= f.wysiwyg_block :intro_for_non_members %>      

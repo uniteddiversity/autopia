@@ -37,6 +37,7 @@ class Group
   field :currency, :type => String
   field :teamup_calendar_url, :type => String
   field :mailgun_route_id, :type => String
+  field :demand_payment, :type => Boolean
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
   }
@@ -230,6 +231,7 @@ class Group
       :ask_for_poc => :check_box,
       :ask_for_facebook_profile_url => :check_box,
       :featured => :check_box,
+      :demand_payment => :check_box,
       :paypal_email => :text,
       :currency => :select,
       :teamup_calendar_url => :url,
@@ -291,7 +293,8 @@ class Group
       :democratic_threshold => 'Allow all group members to suggest a magic number, and use the median',
       :teamup_calendar_url => 'Teamup calendar URL',
       :require_reason_proposer => 'Proposers must provide a reason',
-      :require_reason_supporter => 'Supporters must provide a reason'
+      :require_reason_supporter => 'Supporters must provide a reason',
+      :demand_payment => 'Members must make a payment to access the group'
     }[attr.to_sym] || super  
   end   
   
