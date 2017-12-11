@@ -40,6 +40,7 @@ td .activity, td .activity-accept { width: 16rem }
 .activity h3 a { font-size: 1.2rem }
 
 textarea[id=comment_body] { height: 4em; overflow:hidden; }
+textarea[id=verdict_reason] { height: 6em; }
 
 .image-wall {
   content: "";

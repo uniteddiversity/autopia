@@ -1,7 +1,7 @@
 /*global $*/
 
 $(function () {
-      
+
   function addPlaceholders() {
     $('form.add-placeholders label[for]').each(function () {
       var input = $(this).next().children().first()
@@ -159,17 +159,6 @@ $(function () {
     if (!confirm(message)) {
       $(this).addClass('no-trigger')
       return false
-    }
-  });
-
-  $(document).on('click', "a[href^='/verdicts/create']", function (e) {
-    $(this).removeClass('no-trigger')
-    var reason = prompt('Explain your decision (' + ($(this).attr('data-require-reason') ? 'REQUIRED' : 'optional') + ')');
-    if (reason == null) {
-      $(this).addClass('no-trigger')
-      return false
-    } else {
-      $(this).attr('href', $(this).attr('href') + '&reason=' + ((reason == 'undefined' || reason == 'null') ? '' : reason))
     }
   });
 

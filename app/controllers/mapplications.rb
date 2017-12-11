@@ -95,13 +95,15 @@ Huddl::App.controller do
     confirmed_membership_required!
     @mapplications = @group.mapplications.paused
     erb :'mapplications/paused'
-  end     
-  
-  get '/verdicts/create' do
-    @mapplication = Mapplication.find(params[:mapplication_id]) || not_found
+  end    
+    
+  post '/mapplications/:id/verdicts/create' do
+    @mapplication = Mapplication.find(params[:id]) || not_found
     @group = @mapplication.group      
     confirmed_membership_required!
-    Verdict.create(account: current_account, mapplication_id: params[:mapplication_id], type: params[:type], reason: params[:reason])
+    verdict = @mapplication.verdicts.build(params[:verdict])
+    verdict.account = current_account
+    verdict.save    
     200
   end       
     

@@ -10,7 +10,12 @@
         &middot; <a class="pagelet-trigger" href="/verdicts/<%=verdict.id%>/destroy"><%= "Un#{verb}" %></a>
       <% elsif !current_account.verdicts.find_by(mapplication: mapplication) %>                        
         &middot; 
-        <a class="pagelet-trigger" <% if @group.send("require_reason_#{noun}") %> data-require-reason="true" <% end %>  href="/verdicts/create?mapplication_id=<%=mapplication.id%>&type=<%=noun%>"><%=verb.capitalize%></a>
+        <a href="javascript:;" onclick="$(this).hide().next().show().find('textarea').focus()"><%=verb.capitalize%></a>
+        <% form_for mapplication.verdicts.build(type: noun), "/mapplications/#{mapplication.id}/verdicts/create", :style => 'display:none', :class => 'mt-2' do |f| %>
+          <%= f.hidden_field :type %> 
+          <%= f.text_area_block :reason, container_class: 'mb-2', label_class: 'd-none', placeholder: "Explain your decision", required: @group.send("require_reason_#{noun}")%>
+          <%= f.submit_block button_text: 'Submit' %>
+        <% end %>
       <% end %>
 
       <div class="image-wall">
