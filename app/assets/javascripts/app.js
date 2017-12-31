@@ -41,7 +41,7 @@ $(function () {
       setTimeout(function () {
         if ($(_this).filter(':hover').length) {
           $(_this).popover("show");
-          $(_this).data('bs.popover')['$tip'].on("mouseleave", function () {
+          $($(_this).data('bs.popover')['tip']).on("mouseleave", function () {
             $(_this).popover('hide');
           });
         }
@@ -49,7 +49,7 @@ $(function () {
     }).on("mouseleave", function () {
       var _this = this;
       setTimeout(function () {
-        if (!$(_this).data('bs.popover')['$tip'].filter(':hover').length) {
+        if (!$($(_this).data('bs.popover')['tip']).filter(':hover').length) {
           $(_this).popover("hide");
         }
       }, 200);
