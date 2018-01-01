@@ -174,7 +174,7 @@
           <%= partial :'accounts/account', :object => account, :locals => {:membership => membership} %>
           <div>
             <% membership.teamships.each { |teamship| %>
-              <a href="/h/<%=@group.slug%>/teams"><span class="label label-primary"><%=teamship.team.name%></span></a>
+              <a href="/h/<%=@group.slug%>/teams"><span class="badge badge-primary"><%=teamship.team.name%></span></a>
             <% } %>        
           </div>
         </td>

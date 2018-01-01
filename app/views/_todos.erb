@@ -13,7 +13,7 @@
       </th>
       <td>
         <% if tiership = @membership.tiership %>
-          <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (<%=@group.currency_symbol%><%= tiership.tier.cost %>)</span>
+          <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="badge badge-primary"><%= tiership.tier.name %> (<%=@group.currency_symbol%><%= tiership.tier.cost %>)</span>
         <% end %>  
         <% form_tag "/memberships/#{@membership.id}/tier", :style => ('display:none' if tiership) do %>
           <%= select_tag :tier_id, :class => 'form-control', :options => [''] + @group.tiers.map { |tier| [tier.name, tier.id] }, :selected => tiership.try(:tier_id), :onchange => '$(this.form).submit()' %>
@@ -29,7 +29,7 @@
       </th>
       <td>
         <% if accomship = @membership.accomship %>
-          <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (<%=@group.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
+          <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="badge badge-primary"><%= accomship.accom.name %> (<%=@group.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
         <% end %>  
         <% form_tag "/memberships/#{@membership.id}/accom", :style => ('display:none' if accomship) do %>
           <%= select_tag :accom_id, :class => 'form-control', :options => [''] + @group.accoms.select { |accom| !accom.full? }.map { |accom| [accom.name, accom.id] }, :selected => accomship.try(:accom_id), :onchange => '$(this.form).submit()' %>
@@ -46,7 +46,7 @@
       <td>
         <% if @membership.transportships.count > 0 %>
           <% @membership.transportships.each { |transportship| %>
-            <a href="/h/<%=@group.slug%>/transports" class="label label-primary"><%= transportship.transport.name %> (<%=@group.currency_symbol%><%= transportship.transport.cost %>)</a> 
+            <a href="/h/<%=@group.slug%>/transports" class="badge badge-primary"><%= transportship.transport.name %> (<%=@group.currency_symbol%><%= transportship.transport.cost %>)</a> 
           <% } %>     
         <% else %>
           <a href="/h/<%=@group.slug%>/transports">Join transport</a>
@@ -63,7 +63,7 @@
       <td>
         <% if @membership.teamships.count > 0 %>
           <% @membership.teamships.each { |teamship| %>
-            <a href="/h/<%=@group.slug%>/teams/<%=teamship.team_id%>"><span class="label label-primary"><%=teamship.team.name%></span></a>
+            <a href="/h/<%=@group.slug%>/teams/<%=teamship.team_id%>"><span class="badge badge-primary"><%=teamship.team.name%></span></a>
           <% } %>      
         <% else %>
           <a href="/h/<%=@group.slug%>/teams">Join teams</a>
@@ -80,7 +80,7 @@
       <td>                
         <% if @membership.shifts.count > 0 %>
           <% @membership.shifts.each { |shift| %>
-            <a href="/h/<%=@group.slug%>/rotas/<%=shift.rota_id%>"><span class="label label-primary"><%=shift.rota.name%>, <%=shift.rslot.name%></span></a>
+            <a href="/h/<%=@group.slug%>/rotas/<%=shift.rota_id%>"><span class="badge badge-primary"><%=shift.rota.name%>, <%=shift.rslot.name%></span></a>
           <% } %>      
         <% else %>
           <a href="/h/<%=@group.slug%>/rotas">Sign up to shifts</a>
