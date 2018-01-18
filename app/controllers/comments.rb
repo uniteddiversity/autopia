@@ -1,5 +1,5 @@
 Huddl::App.controller do
-    
+
   post '/h/:slug/inbound/:id' do    
 		mail, html, plain_text = EmailReceiver.receive(request)				    			
 		account = Account.find_by(email: mail.from.first)

@@ -36,7 +36,6 @@ class Group
   field :paypal_email, :type => String
   field :currency, :type => String
   field :teamup_calendar_url, :type => String
-  field :mailgun_route_id, :type => String
   field :demand_payment, :type => Boolean
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
@@ -78,39 +77,7 @@ class Group
     end
   end
   handle_asynchronously :send_email
-    
-  def create_route
-    if ENV['MAILGUN_API_KEY']
-      mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
-      response = mg_client.post('routes', {:description => slug, :expression => "match_recipient('^#{slug}\\+(.*)@#{ENV['MAILGUN_DOMAIN']}$')", :action => "forward('#{ENV['BASE_URI']}/h/#{slug}/inbound/\\1')"})
-      update_attribute(:mailgun_route_id, JSON.parse(response.body)['route']['id'])    
-    end
-  end  
-  
-  after_destroy :delete_route
-  def delete_route
-    if ENV['MAILGUN_API_KEY']
-      mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
-      response = mg_client.delete("routes/#{mailgun_route_id}")
-      update_attribute(:mailgun_route_id, nil)          
-    end
-  rescue
-  end
-  
-  attr_accessor :_replace_route
-  before_validation do
-    @_replace_route = slug_changed?
-    true
-  end
-  after_save :replace_route
-  def replace_route
-    if persisted? and @_replace_route
-      @_replace_route = nil
-      delete_route
-      create_route      
-    end
-  end  
-  
+      
   belongs_to :account, index: true
   
   validates_presence_of :name, :slug
