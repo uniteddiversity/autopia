@@ -45,7 +45,7 @@ class Group
     self.balance = 0 if self.balance.nil?
     self.processed_via_stripe = 0 if self.processed_via_stripe.nil?
     self.enable_teams = true if self.enable_budget
-    self.disable_stripe = true if self.currency == 'SEK'
+    # self.disable_stripe = true if self.currency == 'SEK'
     self.member_limit = self.memberships.count if self.member_limit and self.member_limit < self.memberships.count
   end
   
@@ -215,7 +215,7 @@ class Group
   end
   
   def self.currencies
-    %w{GBP EUR USD SEK}
+    %w{GBP EUR USD SEK DKK}
   end
   
   def self.currency_symbol(code)
@@ -223,7 +223,8 @@ class Group
     when 'GBP'; '£'
     when 'EUR'; '€'
     when 'USD'; '$'
-    when 'SEK'; 'kr'
+    when 'SEK'; 'SEK'
+    when 'DKK'; 'DKK'
     end    
   end
   
