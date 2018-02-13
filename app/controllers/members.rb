@@ -93,7 +93,7 @@ Huddl::App.controller do
       flash[:notice] = "That person is already a member of the group"
       redirect back
     else
-      @group.memberships.create! account: @account, added_by: current_account
+      @group.memberships.create! account: @account, prevent_notifications: params[:prevent_notifications], added_by: current_account
       redirect back
     end       
         

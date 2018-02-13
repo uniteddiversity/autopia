@@ -132,6 +132,7 @@
       <% form_tag "/h/#{@group.slug}/add_member", :style => 'display:none', :id => 'add-member', :class => 'form-inline' do %>
         <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name', :autocomplete => 'off' %>
         <%= email_field_tag :email, :class => 'form-control', :placeholder => 'Email' %>
+        <label class="d-inline">Suppress notification <%= check_box_tag :prevent_notifications %></label>
         <%= submit_tag 'Add member', :class => 'btn btn-primary' %>
       <% end %>
 

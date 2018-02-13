@@ -24,9 +24,12 @@ class Membership
     self.requested_contribution = 0 if self.requested_contribution.nil?    
   end
   
-  has_many :notifications, as: :notifiable, dependent: :destroy
-  after_create do            
-    notifications.create! :group => group, :type => 'joined_group'
+  attr_accessor :prevent_notifications
+  has_many :notifications, as: :notifiable, dependent: :destroy  
+  after_create do
+    unless prevent_notifications
+      notifications.create! :group => group, :type => 'joined_group'
+    end
     if general = group.teams.find_by(name: 'General')
       general.teamships.create! account: account, prevent_notifications: true
     end    
