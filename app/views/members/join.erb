@@ -47,9 +47,6 @@
           <% if @group.ask_for_gender %>
             <%= f.select_block :gender %>
           <% end %>
-          <% if @group.ask_for_poc %>
-            <%= f.check_box_block :poc %>      
-          <% end %>
           <% if @group.ask_for_facebook_profile_url %>
             <%= f.url_block :facebook_profile_url %>
           <% end %>

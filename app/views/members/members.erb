@@ -30,12 +30,6 @@
   <% end %>
 <% end %>
 
-<% if @group.ask_for_poc %>
-  <% x << capture do %>
-    <a <% if params[:poc] %>class="selected"<% end %> href="?poc=true" style="font-weight: bold" data-toggle="tooltip" title="People of colour">P</a> <%= @group.memberships.where(:account_id.in => Account.where(:poc => true).pluck(:id)).count %>
-  <% end %>
-<% end %>
-
 <% y = [] %>
 
 <% if @group.enable_budget %>

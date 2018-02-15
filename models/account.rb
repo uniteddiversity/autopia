@@ -9,7 +9,6 @@ class Account
   field :gender, :type => String
   field :date_of_birth, :type => Date
   field :facebook_profile_url, :type => String
-  field :poc, :type => Boolean
   field :dietary_requirements, :type => String
   field :admin, :type => Boolean
   field :time_zone, :type => String
@@ -146,7 +145,6 @@ class Account
       :gender => :select,
       :date_of_birth => :date,
       :facebook_profile_url => :text,
-      :poc => :check_box,
       :dietary_requirements => :text,
       :picture => :image,
       :cover_image => :image,
@@ -174,7 +172,6 @@ class Account
     {
       :gender => 'Optional. Please only provide this information if you feel comfortable doing so',
       :date_of_birth => 'Optional. Please only provide this information if you feel comfortable doing so',
-      :poc => 'Optional. Please only provide this information if you feel comfortable doing so',
       :facebook_profile_url => 'Optional. Please only provide this information if you feel comfortable doing so'      
     }
   end
@@ -212,7 +209,6 @@ class Account
   def self.human_attribute_name(attr, options={})  
     {
       :facebook_profile_url => 'Facebook profile URL',
-      :poc => 'I identify as a person of colour',
       :unsubscribed => "Stop sending me emails"
     }[attr.to_sym] || super  
   end   
