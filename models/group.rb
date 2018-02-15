@@ -236,12 +236,14 @@ class Group
   
   def self.new_tips
     {      
+      :slug => 'Lowercase letters, numbers and dashes only (no spaces)',
       :application_questions => 'One per line'
     }
   end
   
   def self.new_hints
     {
+      :slug => %Q{Group URL: #{ENV['BASE_URI']}/h/<span class="slug-replace"></span>},
       :currency => 'This cannot be changed, choose wisely',
       :fixed_threshold => 'Automatically accept applications with this number of proposers + supporters (with at least one proposer)',
       :proposing_delay => 'Accept proposers on applications only once the application is this many hours old'

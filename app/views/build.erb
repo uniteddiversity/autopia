@@ -1,4 +1,4 @@
-  
+
 <% if @group.persisted? %>
   <%= partial :group_header %>
 <% end %>
@@ -7,7 +7,11 @@
 
 <script>
   $(function () {
-      
+
+    $('#group_slug, #group_name').keyup(function () {
+      $('.slug-replace').text($('#group_slug').val());
+    }).keyup();
+
 <% if @group.new_record? %>
       $('.tab-pane').each(function () {
         var tabPane = this
@@ -17,6 +21,7 @@
         })
       })
       $('#tab4').find('a.next').remove()
+      $('#group_name').focus().attr('autocomplete', 'off')
 <% end %>
 
     var pairs = [['#group_enable_bookings', '#group_booking_limit']]
@@ -34,8 +39,7 @@
       else
         $(b).parent().parent().hide()
     });
-
-    $('#group_enable_applications').click(function () { 
+    $('#group_enable_applications').click(function () {
       if ($(this).is(':checked'))
         $('#application-options').show()
       else
