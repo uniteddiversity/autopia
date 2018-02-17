@@ -69,19 +69,13 @@
   <body>
 
     <%= partial :alert %>
-        
+
     <div class="container-fluid">      
       <%= partial :nav %>
-      
+
       <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
 
       <hr style="margin: 10px 0" />
-
-      <% if current_account %>
-        <% form_tag '/suggest', :style => 'margin-bottom: 10px' do %>
-          <%= text_field_tag :suggestion, :class => 'form-control', :placeholder => 'Suggest a feature/improvement for this page or report a bug' %>
-        <% end %>
-      <% end %>
 
       <div style="text-align: center; font-size: 13px"> 
         <% unless ENV['BASE_URI'] == 'https://huddl.tech' %><p>Powered by Huddl</p><% end %>
@@ -92,6 +86,18 @@
 
     </div>
 
+    <% if current_account %>
+      <style>
+        #suggest { z-index: 9999; position: fixed; bottom: 0; right: 0; width: 300px; }
+      </style>
+      <div id="suggest" class="p-2 bg-white border border-bottom-0 border-right-0 border-primary">
+        <a style="display: block" class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('textarea').focus()">Suggest a feature/improvement</a>
+        <% form_tag '/suggest', :style => 'display: none' do %>
+          <%= text_area_tag :suggestion, :class => 'form-control mb-2', :placeholder => 'Suggest a feature/improvement for this page or report a bug' %>
+          <%= submit_tag 'Submit', :class => 'd-block btn btn-primary' %>
+        <% end %>
+      </div>
+    <% end %>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="modal">
       <div class="modal-dialog" role="document">
