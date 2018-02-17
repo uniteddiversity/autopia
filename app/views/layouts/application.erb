@@ -88,9 +88,9 @@
 
     <% if current_account %>
       <style>
-        #suggest { z-index: 9999; position: fixed; bottom: 0; right: 0; width: 300px; }
+        #suggest { z-index: 9999; position: fixed; bottom: 0; right: 0; width: 300px; box-shadow: 0 0 4px #999 }
       </style>
-      <div id="suggest" class="p-2 bg-white border border-bottom-0 border-right-0 border-primary">
+      <div id="suggest" class="p-2 bg-white">
         <a style="display: block" class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('textarea').focus()">Suggest a feature/improvement</a>
         <% form_tag '/suggest', :style => 'display: none' do %>
           <%= text_area_tag :suggestion, :class => 'form-control mb-2', :placeholder => 'Suggest a feature/improvement for this page or report a bug' %>
