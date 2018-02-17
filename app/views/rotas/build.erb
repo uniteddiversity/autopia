@@ -2,8 +2,12 @@
 
 <h2><%= @rota.new_record? ? 'Create a rota' : 'Edit rota' %></h2>
 
-<% form_for @rota ||= Rota.new, @rota.new_record? ? "/h/#{@group.slug}/rotas/new" : "/h/#{@group.slug}/rotas/#{@rota.id}/edit" do |f| %>
-  <%= f.text_block :name %>
-  <%= f.wysiwyg_block :description %>
-  <%= f.submit_block destroy_url: ("/h/#{@group.slug}/rotas/#{@rota.id}/destroy" if @membership.admin?) %>
-<% end %>  
+<div class="container">
+
+  <% form_for @rota ||= Rota.new, @rota.new_record? ? "/h/#{@group.slug}/rotas/new" : "/h/#{@group.slug}/rotas/#{@rota.id}/edit" do |f| %>
+    <%= f.text_block :name %>
+    <%= f.wysiwyg_block :description %>
+    <%= f.submit_block destroy_url: ("/h/#{@group.slug}/rotas/#{@rota.id}/destroy" if @membership.admin?) %>
+  <% end %>  
+
+</div>
