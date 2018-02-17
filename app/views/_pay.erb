@@ -5,7 +5,7 @@
       <%= number_field_tag :amount, :value => (amount if defined?(amount)), :style => 'display: inline; width: 4.5em;', :required => 'required', :class => 'form-control', :min => 5, :id => 'amount' %>
     </div>
   </div>  
-  <button type="submit" class="btn btn-light ml-1">Pay via Stripe</button> 
+  <button type="submit" class="btn btn-light ml-1">Pay</button> 
 <% end %>
 
 <div id="card-error" style="display: none">
@@ -14,38 +14,38 @@
 
 <script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
-    var handler = StripeCheckout.configure({
-      key: '<%=ENV['STRIPE_PK']%>',
-      image: '<%=ENV['SITE_LOGO']%>',
-      email: '<%=current_account.email%>',
-      locale: 'auto',
-      allowRememberMe: false,
-      token: function (token) {
-        $('#pay-form').css('opacity', 0.25)
-        $.post('/h/<%=@group.slug%>/pay', jQuery.extend(token, {amount: $('#amount').val()}), function () {
-          window.location.reload()
-        }).fail(function () {
-          $('#pay-form').hide()
-          $('#card-error').show()
-        }).always(function () {
-          $('#pay-form').css('opacity', 1)
-        })
+  var handler = StripeCheckout.configure({
+    key: '<%=ENV['STRIPE_PK']%>',
+    image: '<%=ENV['SITE_LOGO']%>',
+    email: '<%=current_account.email%>',
+    locale: 'auto',
+    allowRememberMe: false,
+    token: function (token) {
+      $('#pay-form').css('opacity', 0.25)
+      $.post('/h/<%=@group.slug%>/pay', jQuery.extend(token, {amount: $('#amount').val()}), function () {
+        window.location.reload()
+      }).fail(function () {
+        $('#pay-form').hide()
+        $('#card-error').show()
+      }).always(function () {
+        $('#pay-form').css('opacity', 1)
+      })
+    }
+  });
+
+  $('#pay-form').submit(function () {
+    handler.open({
+      name: '<%=ENV['SITE_TITLE']%>',
+      description: 'Payment for <%=@group.name%>',
+      currency: '<%=@group.currency%>',
+      amount: $('#amount').val() * 100,
+      closed: function () {
+        $('#pay-form .btn').removeAttr('disabled').text('Pay')
       }
     });
-
-    $('#pay-form').submit(function () {
-      handler.open({
-        name: '<%=ENV['SITE_TITLE']%>',
-        description: 'Payment for <%=@group.name%>',
-        currency: '<%=@group.currency%>',
-        amount: $('#amount').val() * 100,
-        closed: function () {
-          $('#pay-form .btn').removeAttr('disabled').text('Pay')
-        }
-      });
-      return false
-    });
-    window.addEventListener('popstate', function () {
-      handler.close();
-    });
+    return false
+  });
+  window.addEventListener('popstate', function () {
+    handler.close();
+  });
 </script> 
