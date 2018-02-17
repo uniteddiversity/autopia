@@ -5,8 +5,17 @@
       <%= number_field_tag :amount, :value => (amount if defined?(amount)), :style => 'display: inline; width: 4.5em;', :required => 'required', :class => 'form-control', :min => 5, :id => 'amount' %>
     </div>
   </div>  
-  <button type="submit" class="btn btn-light ml-1">Pay</button> 
+  <button type="submit" class="btn btn-light ml-1">Pay via Stripe</button> 
 <% end %>
+
+<div class="mt-3">
+  <a class="donate-with-crypto"
+     href="https://commerce.coinbase.com/checkout/56cd73b4-d21e-4ca1-8164-94eb87a0ec3c">
+    <span>Pay with Crypto</span>
+  </a>
+  <script src="https://commerce.coinbase.com/v1/checkout.js">
+  </script>
+</div>
 
 <div id="card-error" style="display: none">
   <p>There was an error processing the transaction. You have not been charged.</p>
@@ -14,38 +23,38 @@
 
 <script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
-  var handler = StripeCheckout.configure({
-    key: '<%=ENV['STRIPE_PK']%>',
-    image: '<%=ENV['SITE_LOGO']%>',
-    email: '<%=current_account.email%>',
-    locale: 'auto',
-    allowRememberMe: false,
-    token: function (token) {
-      $('#pay-form').css('opacity', 0.25)
-      $.post('/h/<%=@group.slug%>/pay', jQuery.extend(token, {amount: $('#amount').val()}), function () {
-        window.location.reload()
-      }).fail(function () {
-        $('#pay-form').hide()
-        $('#card-error').show()
-      }).always(function () {
-        $('#pay-form').css('opacity', 1)
-      })
-    }
-  });
-
-  $('#pay-form').submit(function () {
-    handler.open({
-      name: '<%=ENV['SITE_TITLE']%>',
-      description: 'Payment for <%=@group.name%>',
-      currency: '<%=@group.currency%>',
-      amount: $('#amount').val() * 100,
-      closed: function () {
-        $('#pay-form .btn').removeAttr('disabled').text('Pay')
+    var handler = StripeCheckout.configure({
+      key: '<%=ENV['STRIPE_PK']%>',
+      image: '<%=ENV['SITE_LOGO']%>',
+      email: '<%=current_account.email%>',
+      locale: 'auto',
+      allowRememberMe: false,
+      token: function (token) {
+        $('#pay-form').css('opacity', 0.25)
+        $.post('/h/<%=@group.slug%>/pay', jQuery.extend(token, {amount: $('#amount').val()}), function () {
+          window.location.reload()
+        }).fail(function () {
+          $('#pay-form').hide()
+          $('#card-error').show()
+        }).always(function () {
+          $('#pay-form').css('opacity', 1)
+        })
       }
     });
-    return false
-  });
-  window.addEventListener('popstate', function () {
-    handler.close();
-  });
+
+    $('#pay-form').submit(function () {
+      handler.open({
+        name: '<%=ENV['SITE_TITLE']%>',
+        description: 'Payment for <%=@group.name%>',
+        currency: '<%=@group.currency%>',
+        amount: $('#amount').val() * 100,
+        closed: function () {
+          $('#pay-form .btn').removeAttr('disabled').text('Pay')
+        }
+      });
+      return false
+    });
+    window.addEventListener('popstate', function () {
+      handler.close();
+    });
 </script> 
