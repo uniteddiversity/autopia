@@ -36,7 +36,7 @@
   $('#pay-form').submit(function () {
     handler.open({
       name: '<%=ENV['SITE_TITLE']%>',
-      description: 'Payment for <%=@group.name%>',
+      description: '<%=js_escape_html("Payment for #{@group.name}")%>',
       currency: '<%=@group.currency%>',
       amount: $('#amount').val() * 100,
       closed: function () {

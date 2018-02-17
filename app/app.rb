@@ -98,6 +98,10 @@ module Huddl
       erb :'emails/notification', :locals => {:notification => @notification, :group => @notification.group}, :layout => false
     end
     
+    get '/coinbase' do
+      erb :coinbase
+    end
+    
     get '/:slug' do
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)
         erb :page
