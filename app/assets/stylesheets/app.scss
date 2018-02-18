@@ -10,7 +10,7 @@ $figure-caption-color: #212529;
 
 @import "bootstrap/bootstrap";
 
-
+.dropdown-menu { overflow-y: auto; max-height: 50vh }
 
 @media print {
   a[href]:after {
