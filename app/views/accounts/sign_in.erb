@@ -21,6 +21,14 @@
       <a href="/accounts/sign_up" class="btn btn-primary">
         Not yet registered? Sign up here
       </a>
+      <% if !Provider.registered.empty? %>
+        <p style="margin: 1em 0">
+          <%  Provider.registered.each { |provider| %>                   
+            <a class="btn btn-primary" href="/auth/<%=provider.omniauth_name%>"><i class="fa fa-<%=provider.icon%>"></i> Sign in with <%=provider.display_name%></a>
+          <% } %>
+        </p> 
+      <% end %>      
+
     <% end %>
 
     <div id="forgot" style="display: none">
@@ -31,14 +39,6 @@
         <button class="btn btn-primary" type="submit">Reset password</button>
       <% end %>
     </div>
-
-    <% if !Provider.registered.empty? %>
-      <p style="margin: 1em 0">
-        <%  Provider.registered.each { |provider| %>                   
-          <a class="btn btn-primary" href="/auth/<%=provider.omniauth_name%>"><i class="fa fa-<%=provider.icon%>"></i> Sign in with <%=provider.display_name%></a>
-        <% } %>
-      </p> 
-    <% end %>      
 
   </div>
 </div>
