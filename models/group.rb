@@ -3,7 +3,6 @@ class Group
   include Mongoid::Timestamps
   extend Dragonfly::Model
   
-  dragonfly_accessor :image
   dragonfly_accessor :cover_image
   
   def self.enablable
@@ -12,7 +11,6 @@ class Group
   
   field :name, :type => String
   field :slug, :type => String
-  field :image_uid, :type => String
   field :cover_image_uid, :type => String
   field :intro_for_members, :type => String
   field :enable_applications, :type => Boolean  
@@ -177,7 +175,6 @@ class Group
     h = {
       :name => :text,
       :slug => :slug,      
-      :image => :image,
       :cover_image => :image,
       :intro_for_members => :wysiwyg,
       :fixed_threshold => :number,
