@@ -8,7 +8,7 @@ Huddl::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    erb :balance
+    erb :'groups/balance'
   end    
 	
   post '/h/:slug/pay' do
@@ -49,7 +49,7 @@ Huddl::App.controller do
       redirect "/h/#{@group.slug}"
     else
       flash.now[:error] = 'Some errors prevented the payout'
-      erb :build        
+      erb :'groups/build'        
     end
   end	  
   

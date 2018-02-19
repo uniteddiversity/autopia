@@ -7,7 +7,7 @@ Huddl::App.controller do
       @group.send("enable_#{x}=", true)
     }
     @group.enable_bookings = false
-    erb :build
+    erb :'groups/build'
   end  
     
   post '/h/new' do
@@ -18,7 +18,7 @@ Huddl::App.controller do
       redirect "/h/#{@group.slug}"
     else
       flash.now[:error] = 'Some errors prevented the group from being created'
-      erb :build
+      erb :'groups/build'
     end
   end
   
@@ -33,7 +33,7 @@ Huddl::App.controller do
       end
     end
     @hide_minifeed = true
-    erb :group
+    erb :'groups/group'
   end  
   
   get '/h/:slug/newsfeed' do
@@ -41,7 +41,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
     @notifications = @group.notifications.order('created_at desc').page(params[:page])
-    partial :newsfeed, :locals => {:notifications => @notifications}   
+    erb :'groups/newsfeed', :locals => {:notifications => @notifications}   
   end
   
   get '/h/:slug/minifeed' do
@@ -49,21 +49,21 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)        
     confirmed_membership_required!
     @notifications = @group.notifications.order('created_at desc').limit(3)
-    partial :newsfeed, :locals => {:notifications => @notifications, :minifeed => true}
+    erb :'groups/newsfeed', :locals => {:notifications => @notifications, :minifeed => true}
   end
   
   get '/h/:slug/todos' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    partial :todos
+    erb :'groups/todos'
   end   
       
   get '/h/:slug/edit' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    erb :build
+    erb :'groups/build'
   end  
     
   post '/h/:slug/edit' do
@@ -74,7 +74,7 @@ Huddl::App.controller do
       redirect "/h/#{@group.slug}"
     else
       flash.now[:error] = 'Some errors prevented the group from being created'
-      erb :build        
+      erb :'groups/build'        
     end
   end
   

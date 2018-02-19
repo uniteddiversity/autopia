@@ -28,7 +28,7 @@ Huddl::App.controller do
     redirect "/h/#{@group.slug}/apply" if @group.enable_applications
     @title = "#{@group.name} · #{ENV['SITE_TITLE']}"
     @og_desc = "#{@group.name} is being co-created on #{ENV['SITE_TITLE']}"
-    @og_image = @group.image ? @group.image.url : ENV['SITE_IMAGE']
+    @og_image = @group.cover_image ? @group.cover_image.url : ENV['SITE_IMAGE']
     @account = Account.new
     erb :'members/join'
   end  	  

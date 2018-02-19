@@ -4,6 +4,7 @@ class Group
   extend Dragonfly::Model
   
   dragonfly_accessor :image
+  dragonfly_accessor :cover_image
   
   def self.enablable
     %w{teams qualities timetables rotas tiers accommodation transport bookings inventory budget}
@@ -12,6 +13,7 @@ class Group
   field :name, :type => String
   field :slug, :type => String
   field :image_uid, :type => String
+  field :cover_image_uid, :type => String
   field :intro_for_members, :type => String
   field :enable_applications, :type => Boolean  
   field :intro_for_non_members, :type => String
@@ -176,6 +178,7 @@ class Group
       :name => :text,
       :slug => :slug,      
       :image => :image,
+      :cover_image => :image,
       :intro_for_members => :wysiwyg,
       :fixed_threshold => :number,
       :member_limit => :number,

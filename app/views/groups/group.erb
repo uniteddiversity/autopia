@@ -1,10 +1,10 @@
 
-<%= partial :group_header %>
+<%= partial :'groups/header' %>
 
 <div class="row">
   <div class="col-sm-6">
     <div data-pagelet-url="/h/<%=@group.slug%>/todos" style="margin-top: 20px">
-      <%= partial :todos %>
+      <%= erb :'groups/todos' %>
     </div>    
     <% if @group.intro_for_members %>  
       <hr />

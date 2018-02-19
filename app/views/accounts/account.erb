@@ -109,7 +109,7 @@
         <style>.group h1 { font-size: 26px }</style>
         <% @account.memberships.each { |membership| group = membership.group %>
           <div class="col-sm-4" style="margin-bottom: 20px">
-            <%= partial :group, :object => group  %>
+            <%= partial :'groups/group', :object => group  %>
           </div>
         <% } %>
       </div>
