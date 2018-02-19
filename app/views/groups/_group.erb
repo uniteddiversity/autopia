@@ -16,7 +16,7 @@
               #notifications li span { opacity: 0.6 }
             </style>
             <div data-pagelet-url="/h/<%=@group.slug%>/minifeed" data-pusher-channel="notifications.<%=@group.slug%>">
-              <%= erb :'groups/newsfeed', :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :minifeed => true} %>
+              <%= partial :'groups/newsfeed', :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :minifeed => true} %>
             </div>
           </div>
         </td>

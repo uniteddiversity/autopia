@@ -49,6 +49,6 @@
 
   </div>  
   <div class="col-sm-4">
-    <%= erb :'groups/newsfeed', :locals => {:notifications => @notifications, :include_group_name => true} %>
+    <%= partial :'groups/newsfeed', :locals => {:notifications => @notifications, :include_group_name => true} %>
   </div>
 </div>

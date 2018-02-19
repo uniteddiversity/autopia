@@ -41,7 +41,7 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
     @notifications = @group.notifications.order('created_at desc').page(params[:page])
-    erb :'groups/newsfeed', :locals => {:notifications => @notifications}   
+    partial :'groups/newsfeed', :locals => {:notifications => @notifications}   
   end
   
   get '/h/:slug/minifeed' do
@@ -49,14 +49,14 @@ Huddl::App.controller do
     @membership = @group.memberships.find_by(account: current_account)        
     confirmed_membership_required!
     @notifications = @group.notifications.order('created_at desc').limit(3)
-    erb :'groups/newsfeed', :locals => {:notifications => @notifications, :minifeed => true}
+    partial :'groups/newsfeed', :locals => {:notifications => @notifications, :minifeed => true}
   end
   
   get '/h/:slug/todos' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    erb :'groups/todos'
+    partial :'groups/todos'
   end   
       
   get '/h/:slug/edit' do        
