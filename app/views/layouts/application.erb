@@ -21,8 +21,6 @@
       'popper.js/1.11.0' => 'umd/popper.min.js',
       'twitter-bootstrap/4.0.0-beta' => 'js/bootstrap.min.js',
       'font-awesome/4.7.0' => 'css/font-awesome.min.css',
-      'codemirror/5.0.0' => 'codemirror.min.css theme/monokai.min.css codemirror.min.js mode/xml/xml.min.js',      
-      'summernote/0.6.1' => 'summernote.min.css summernote.min.js',      
       'jquery-timeago/1.4.3' => 'jquery.timeago.min.js',
       'moment.js/2.17.1' => 'moment.min.js locale/en-gb.js',     
       'fullcalendar/3.2.0' => 'fullcalendar.min.js fullcalendar.min.css',
@@ -48,7 +46,8 @@
     <% [
       '//cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/d5d71f28b00a16766d2661aef6a75f80f1f604da/bootstrap3-typeahead.min.js',
       "/javascripts/app.js?#{Time.now.to_i}",
-      '//cdn.rawgit.com/wordsandwriting/activate-tools/c625d78354fdce044753346cdfbd2e90b8084d83/js/pagelets.js'
+      '//cdn.rawgit.com/wordsandwriting/activate-tools/c625d78354fdce044753346cdfbd2e90b8084d83/js/pagelets.js',
+      "//cdn.rawgit.com/wordsandwriting/activate-tools/7a73525b76c8234a4803e3196b4403ec6fd6ded7/js/textboxio/textboxio.js",
       ].each { |f| %>
       <script src="<%=f%>"></script>
     <% } %>  
