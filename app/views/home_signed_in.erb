@@ -20,23 +20,7 @@
 
       </div>  
 
-    <% end %>
-
-    <% if (featured_groups = Group.where(:featured => true).where(:id.nin => current_account.memberships.pluck(:group_id))).count > 0 %>
-
-      <h2>Featured groups</h2>
-
-      <div class="row">
-
-        <% featured_groups.each { |group| %>
-          <div class="col-sm-4" style="margin-bottom: 20px">
-            <%= partial :'groups/group', :object => group  %>
-          </div>
-        <% } %>
-
-      </div>
-
-    <% end %>    
+    <% end %>   
 
     <div style="margin-bottom: 10px">
       <h2>Online now</h2>
