@@ -38,8 +38,7 @@ class Notification
   after_create :send_email  
   def send_email
     if ENV['SMTP_ADDRESS']
-      notification = self
-      comment = self.notifiable
+      notification = self      
       group = self.group
       bcc = group.emails
       
@@ -66,6 +65,7 @@ class Notification
   def send_comment
     if ENV['SMTP_ADDRESS']
       notification = self
+      comment = self.notifiable
       group = self.group
       bcc = notifiable.post.emails
       
