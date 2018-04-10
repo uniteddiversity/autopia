@@ -1,5 +1,5 @@
 
-<% form_for comment, comment.new_record ? "/h/#{@group.slug}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form add-placeholders mb-3" do |f| %>
+<% form_for comment, comment.new_record ? "/h/#{@group.slug}/comment" : "/comments/#{comment.id}/edit", :class => "comment-form add-placeholders mb-3", :multipart => true do |f| %>
   <%= f.hidden_field :commentable_id %>
   <%= f.hidden_field :commentable_type %>
   <%= f.hidden_field :post_id, :value => comment.post_id %>
