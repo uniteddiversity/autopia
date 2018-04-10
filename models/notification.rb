@@ -67,12 +67,12 @@ class Notification
       notification = self
       comment = self.notifiable
       group = self.group
-      bcc = notifiable.post.emails
+      bcc = comment.post.emails
       
       if type == 'commented' and bcc.length > 0
         mail = Mail.new
         mail.bcc = bcc
-        mail.from = "#{ENV['SITE_TITLE']} <#{group.slug}+#{notifiable.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
+        mail.from = "#{ENV['SITE_TITLE']} <#{group.slug}+#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
         mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
             
         content = ERB.new(File.read(Padrino.root('app/views/emails/comment.erb'))).result(binding)
