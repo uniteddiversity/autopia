@@ -6,11 +6,31 @@
 <p><%=notification.sentence%></p>
 
 <p><%=comment.body.gsub("\n","<br />")%></p>
+<% if comment.file %>
+  <p>
+    <% if %w{png jpg gif jpeg}.any? { |x| comment.file.name.downcase.ends_with? ".#{x}" } %>
+      <img style="max-width: 100%;" src="<%=comment.file.url%>">
+    <% else %>
+      <a href="<%=comment.file.url%>"><%=comment.file.name%></a>
+    <% end %>
+  </p>
+<% end %>
 
 <% close_divs = ''; comment.post.comments.order_by(:created_at.desc)[1..-1].each { |comment| %>          
   <p>On <%=comment.created_at%>, <%=comment.account.name%> wrote:</p>
   <%= '<div style="border-left: 1px solid #ccc; margin-left: 1em; padding-left: 1em">' %>
+
   <p><%=comment.body.gsub("\n","<br />")%></p>
+  <% if comment.file %>
+    <p>
+      <% if %w{png jpg gif jpeg}.any? { |x| comment.file.name.downcase.ends_with? ".#{x}" } %>
+        <img style="max-width: 100%;" src="<%=comment.file.url%>">
+      <% else %>
+        <a href="<%=comment.file.url%>"><%=comment.file.name%></a>
+      <% end %>
+    </p>
+  <% end %>  
+
   <% close_divs << '</div>' %>
 <% } %>
 <%= close_divs %> 
