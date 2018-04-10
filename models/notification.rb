@@ -178,7 +178,11 @@ class Notification
       if comment.commentable.is_a?(Mapplication)
         "<strong>#{comment.account.name}</strong> commented on <strong>#{comment.commentable.account.name}</strong>'s application"                  
       else
-        "<strong>#{comment.account.name}</strong> posted in <strong>#{comment.commentable.name}</strong>"                  
+        if comment.post.comments.count == 1
+          "<strong>#{comment.account.name}</strong> posted in <strong>#{comment.commentable.name}</strong>"                  
+        else
+          "<strong>#{comment.account.name}</strong> replied to a thread in <strong>#{comment.commentable.name}</strong>"                  
+        end
       end      
     when :liked_a_comment
       comment_like = notifiable
