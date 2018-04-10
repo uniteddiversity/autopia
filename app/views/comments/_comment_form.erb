@@ -66,5 +66,5 @@
 
   <% end %>
 
-  <%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy", :container_class => @show_buttons ? 'form-group' : 'd-none') %>
+  <%= f.submit_block button_text: 'Post', destroy_url: "/comments/#{comment.id}/destroy", :container_class => (@show_buttons ? 'form-group' : 'd-none') %>
 <% end %> 
