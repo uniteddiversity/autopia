@@ -1,46 +1,8 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">    
-    <style>
-      p, ul, ol, input, select, .form-control, body, blockquote { font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px }
-      h1, h2, h3, h4, h5, h6, .h { font-family: 'Raleway', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
-      a, a:hover, a:focus { color: #CE2828 !important; }
-      blockquote { border-left: 8px solid #FDF8FD; padding-left: 1em }
-    </style>    
-  </head>
-  <body>
 
-    <div style="background: #FDF8FD; padding: 20px;">
+<h1 style="margin-top: 0">
+  <a style="text-decoration: none" href="<%=ENV['BASE_URI']%>/h/<%=group.slug%>"><%=group.name%></a>
+</h1>
 
-      <div style="max-width: 600px; margin: 0 auto; background: white;">
-        <div style="padding: 20px;">
+<p><%=notification.sentence%>. <a href="<%=notification.link[1]%>"><%=notification.link[0]%></a></p>
 
-          <h1 style="margin-top: 0">
-            <a style="text-decoration: none" href="<%=ENV['BASE_URI']%>/h/<%=group.slug%>"><%=group.name%></a></h1>
-
-          <p><%=notification.sentence%>. <% unless notification.type == 'commented'%><a href="<%=notification.link[1]%>"><%=notification.link[0]%></a><% end %></p>
-          <%=notification.more%>
-          <% if notification.type == 'commented' %>
-            <p style="font-size: 13px">To continue the conversation, <a href="<%=notification.link[1]%>">view the post</a> or reply to this email.</p>
-          <% end %>
-
-          <% if notification.type == 'commented'; comment = notification.notifiable %>
-            <p style="font-size: 12px;">
-              <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">Unwatch this post</a>
-              <% if comment.commentable.is_a?(Team) %>
-                or
-                <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/h/<%=group.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">turn off email notifications for this team</a>
-              <% end %>
-            </p>
-          <% else %>
-            <p style="font-size: 12px;"><a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/h/<%=group.slug%>/unsubscribe">Turn off email notifications of key events in <%=group.name%></a></p>
-          <% end %>
-
-
-        </div>
-      </div>
-    </div>
-
-  </body>
-</html>
+<p style="font-size: 12px;"><a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/h/<%=group.slug%>/unsubscribe">Turn off email notifications of key events in <%=group.name%></a></p>

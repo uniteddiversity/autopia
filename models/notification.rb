@@ -32,25 +32,27 @@ class Notification
   end
   
   def self.mailable_types
-    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend commented}
+    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend}
   end
   
   after_create :send_email  
   def send_email
     if ENV['SMTP_ADDRESS']
       notification = self
+      comment = self.notifiable
       group = self.group
-      bcc = (type == 'commented' ? notifiable.post.emails : group.emails)
+      bcc = group.emails
       
       if Notification.mailable_types.include?(type) and bcc.length > 0
         mail = Mail.new
         mail.bcc = bcc
-        mail.from = (type == 'commented' ? "#{ENV['SITE_TITLE']} <#{group.slug}+#{notifiable.post_id}@#{ENV['MAILGUN_DOMAIN']}>" : ENV['NOTIFICATION_EMAIL'])
+        mail.from = ENV['NOTIFICATION_EMAIL']
         mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
             
+        content = ERB.new(File.read(Padrino.root('app/views/emails/notification.erb'))).result(binding)
         html_part = Mail::Part.new do
           content_type 'text/html; charset=UTF-8'
-          body ERB.new(File.read(Padrino.root('app/views/emails/notification.erb'))).result(binding)
+          body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
         end
         mail.html_part = html_part
       
@@ -60,14 +62,31 @@ class Notification
   end
   handle_asynchronously :send_email 
   
-  def more
-    case type.to_sym
-    when :commented
-      comment = notifiable
-      "<blockquote>#{comment.body.gsub("\n","<br />")}</blockquote>"
-    end
-  end  
-  
+  after_create :send_commment
+  def send_comment
+    if ENV['SMTP_ADDRESS']
+      notification = self
+      group = self.group
+      bcc = notifiable.post.emails
+      
+      if type == 'commented' and bcc.length > 0
+        mail = Mail.new
+        mail.bcc = bcc
+        mail.from = "#{ENV['SITE_TITLE']} <#{group.slug}+#{notifiable.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
+        mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
+            
+        content = ERB.new(File.read(Padrino.root('app/views/emails/comment.erb'))).result(binding)
+        html_part = Mail::Part.new do
+          content_type 'text/html; charset=UTF-8'
+          body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
+        end
+        mail.html_part = html_part
+      
+        mail.deliver
+      end
+    end    
+  end
+    
   def sentence    
     case type.to_sym
     when :created_group
