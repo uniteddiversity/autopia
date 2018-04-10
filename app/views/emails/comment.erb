@@ -8,7 +8,7 @@
 <p><%=comment.body.gsub("\n","<br />")%></p>
 
 <% close_divs = ''; comment.post.comments.order_by(:created_at.desc)[1..-1].each { |comment| %>          
-  <p>On <%=comment.created_at%>, <%=comment.account.name%> &lt;<a href="mailto:<%=comment.account.email%>"><%=comment.account.email%></a>&gt; wrote:</p>
+  <p>On <%=comment.created_at%>, <%=comment.account.name%> wrote:</p>
   <%= '<div style="border-left: 1px solid #ccc; margin-left: 1em; padding-left: 1em">' %>
   <p><%=comment.body.gsub("\n","<br />")%></p>
   <% close_divs << '</div>' %>
