@@ -139,7 +139,7 @@ $(function () {
     if (textarea.form)
       $(textarea.form).submit(function () {
         if ($(editor.content.get()).text().trim() == '')
-          editor.content.set(' ')
+          $(textarea).val(' ')
       })
   });
 
