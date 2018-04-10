@@ -1,7 +1,7 @@
 <%= partial :'groups/header' %>
 
-<div class="row">
-  <div class="col-sm-4">
+<div class="row justify-content-center">
+  <div class="col-sm-6">
     <%= partial :'comments/comment_form', :locals => {:comment => @comment} %>      
 
     <% if @comment.options.count > 0 %>

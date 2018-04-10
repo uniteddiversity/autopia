@@ -22,8 +22,8 @@ Huddl::App.controller do
   post '/h/:slug/comment' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    confirmed_membership_required!
-    @commentable = params[:comment][:commentable_type].constantize.find(params[:comment][:commentable_id])    
+    confirmed_membership_required!    
+    @commentable = params[:comment][:commentable_type].constantize.find(params[:comment][:commentable_id])        
     @comment = @commentable.comments.build(params[:comment])
     @comment.account = current_account
     if !@comment.post
