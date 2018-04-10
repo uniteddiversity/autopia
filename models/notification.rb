@@ -37,12 +37,12 @@ class Notification
   
   after_create :send_email  
   def send_email
-    if ENV['SMTP_ADDRESS']
+    if ENV['SMTP_ADDRESS'] and Notification.mailable_types.include?(type)
       notification = self      
       group = self.group
       bcc = group.emails
       
-      if Notification.mailable_types.include?(type) and bcc.length > 0
+      if bcc.length > 0
         mail = Mail.new
         mail.bcc = bcc
         mail.from = ENV['NOTIFICATION_EMAIL']
@@ -63,13 +63,13 @@ class Notification
   
   after_create :send_comment
   def send_comment
-    if ENV['SMTP_ADDRESS']
+    if ENV['SMTP_ADDRESS'] and type == 'commented'
       notification = self
       comment = self.notifiable
       group = self.group
       bcc = comment.post.emails
       
-      if type == 'commented' and bcc.length > 0
+      if bcc.length > 0
         mail = Mail.new
         mail.bcc = bcc
         mail.from = "#{ENV['SITE_TITLE']} <#{group.slug}+#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
