@@ -61,7 +61,7 @@ class Notification
   end
   handle_asynchronously :send_email 
   
-  after_create :send_commment
+  after_create :send_comment
   def send_comment
     if ENV['SMTP_ADDRESS']
       notification = self
@@ -86,6 +86,7 @@ class Notification
       end
     end    
   end
+  handle_asynchronously :send_comment
     
   def sentence    
     case type.to_sym
