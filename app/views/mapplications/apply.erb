@@ -58,7 +58,7 @@
           <div class="form-group">
             <label><%=q%></label>
             <div>  
-              <%= text_area_tag "answers[#{i}]", :class => 'form-control' %>
+              <%= text_area_tag "answers[#{i}]", :class => 'form-control', :value => (params[:answers][i.to_s] if params[:answers]) %>
             </div>
           </div>  
         <% } %>
