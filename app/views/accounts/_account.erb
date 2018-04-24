@@ -3,10 +3,8 @@
 </a>
 
 <strong><%= account.name %></strong>
-<% if @membership.admin? %>
-  <div style="font-size: 12px">
-    <%=account.email%>
-  <% end %>
+<div style="font-size: 12px">
+  <%=account.email%>
 </div>
 <div>
   <%= [

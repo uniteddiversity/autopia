@@ -85,7 +85,16 @@
               <%=@account.gender%>
             </td>  
           </tr>
-        <% end %>           
+        <% end %>        
+
+        <% if current_account.network.find(@account) %>
+          <tr>
+            <td>Email</td>
+            <td>
+              <%=@account.email%>
+            </td>  
+          </tr> 
+        <% end %>          
 
         <% if @account.last_active %>
           <tr>
