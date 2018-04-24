@@ -154,7 +154,8 @@ class Account
       :password => :password,
       :provider_links => :collection,
       :sign_ins => :number,
-      :memberships => :collection
+      :memberships => :collection,
+      :mapplications => :collection
     }
   end
   
