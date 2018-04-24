@@ -160,6 +160,7 @@ class Account
   
   def self.new_hints
     {
+      :email => 'Shown to people in your groups',
       :password => 'Leave blank to keep existing password'
     }
   end   
