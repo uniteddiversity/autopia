@@ -58,7 +58,16 @@
   <div class="col-sm-4 cover-sidebar"> 
 
     <div class="table-hr-container">
-      <table class="table table-hr" >
+      <table class="table table-hr">
+
+        <% if current_account.network.find(@account.id) %>
+          <tr>
+            <td>Email</td>
+            <td>
+              <%=@account.email%>
+            </td>  
+          </tr> 
+        <% end %>        
 
         <% if @account.facebook_profile_url %>
           <tr>
@@ -86,15 +95,6 @@
             </td>  
           </tr>
         <% end %>        
-
-        <% if current_account.network.find(@account.id) %>
-          <tr>
-            <td>Email</td>
-            <td>
-              <%=@account.email%>
-            </td>  
-          </tr> 
-        <% end %>          
 
         <% if @account.last_active %>
           <tr>
