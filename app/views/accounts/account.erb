@@ -60,7 +60,7 @@
     <div class="table-hr-container">
       <table class="table table-hr">
 
-        <% if current_account.network.find(@account.id) %>
+        <% if current_account.network.include?(@account) %>
           <tr>
             <td>Email</td>
             <td>
