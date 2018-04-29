@@ -1,0 +1,30 @@
+<script>
+  $(function () {
+    $('#stats').dataTable({paging: false, searching: false, order: [[6, "desc"]]});
+  });
+</script>
+
+<table id="stats" class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Created by</th>
+      <th>Members</th>
+      <th>Pending applications</th>
+      <th>Payments</th>
+      <th>Comments</th>
+      <th>Comments in past week</th>
+    </tr>
+  </thead>
+  <% Group.order('name asc').each { |group|  %>
+    <tr>
+      <td><%=group.name%></td>
+      <td><%= partial :'accounts/account', :object => group.account %></td>
+      <td><%=group.memberships.count%></td>
+      <td><%=group.mapplications.pending.count%></td>
+      <td><%=group.payments.count%></td>
+      <td><%=group.comments.count%></td>
+      <td><%=group.comments.where(:created_at.gte => 7.days.ago).count%></td>
+    </tr>
+  <% } %>
+</table>

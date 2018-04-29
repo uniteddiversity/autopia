@@ -24,7 +24,8 @@
       'jquery-timeago/1.4.3' => 'jquery.timeago.min.js',
       'moment.js/2.17.1' => 'moment.min.js locale/en-gb.js',     
       'fullcalendar/3.2.0' => 'fullcalendar.min.js fullcalendar.min.css',
-      'flatpickr/3.0.7' => 'flatpickr.min.js flatpickr.min.css'
+      'flatpickr/3.0.7' => 'flatpickr.min.js flatpickr.min.css',
+      'datatables/1.10.16' => 'js/jquery.dataTables.min.js js/dataTables.bootstrap4.min.js css/dataTables.bootstrap4.min.css',
       }.each { |k,v| %>    
       <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>
@@ -80,7 +81,7 @@
         <% unless ENV['BASE_URI'] == 'https://huddl.tech' %><p>Powered by Huddl</p><% end %>
         <i class="fa fa-envelope"></i> <a href="mailto:team@huddl.tech">team@huddl.tech</a>
         <i class="fa fa-facebook-official"></i> <a href="https://www.facebook.com/groups/huddl/">/groups/huddl</a>
-        <i class="fa fa-github"></i> <a href="https://github.com/wordsandwriting/huddl">wordsandwriting/huddl</a>
+        <i class="fa fa-github"></i> <a href="https://github.com/stephenreid321/huddl">huddl</a>
       </div>
 
     </div>

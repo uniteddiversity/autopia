@@ -93,7 +93,7 @@ module Huddl
     end
         
     get '/notifications/:id' do
-      halt unless current_account and current_account.admin?
+      admins_only!
       @notification = Notification.find(params[:id]) || not_found
       erb :'emails/notification', :locals => {:notification => @notification, :group => @notification.group}, :layout => false
     end
@@ -101,6 +101,11 @@ module Huddl
     get '/coinbase' do
       erb :coinbase
     end
+    
+    get '/stats' do
+      admins_only!
+      erb :stats
+    end 
     
     get '/:slug' do
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)
