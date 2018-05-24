@@ -1,6 +1,6 @@
 Huddl::App.controller do
   
-	get '/h/:slug/members' do        
+	get '/h/:slug/members', :provides => [:html, :csv] do        
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
@@ -19,7 +19,15 @@ Huddl::App.controller do
     @memberships = @memberships.where(:account_id.nin => @group.accomships.pluck(:account_id)) if params[:no_accom]     
     @memberships = @memberships.where(:desired_threshold.ne => nil) if params[:threshold]
     @memberships = @memberships.order('created_at desc')
-    erb :'members/members'
+    case content_type
+    when :html        
+      erb :'members/members'
+    when :csv
+        CSV.generate do |csv|
+          csv << %w{name email joined}
+          @memberships.each { |membership| csv << [membership.account.name, membership.account.email, membership.created_at.to_s(:db)] }        
+        end        
+    end
   end   
   
   get '/h/:slug/join' do      

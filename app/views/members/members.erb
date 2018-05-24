@@ -85,26 +85,11 @@
 
 <div class="mb-3">
 
-  <% form_tag '', :style => 'display:inline', :method => 'get' do %>
+  <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
     <%= text_field_tag :q, :class => 'form-control', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>
-    &middot;
-
-    <style>
-      .views a { opacity: 0.5 }
-      .views a.active { opacity: 1 }      
-    </style>
-    <div class="views" style="display: inline">
-      <% q = CGI.parse(request.query_string) %> 
-      <% views = {:table => 'table', :wall => 'th-large', :dietary_requirements => 'cutlery'}      
-      views.merge!({:emails => 'envelope'}) if @membership.admin?
-      views.each { |view, icon| %>
-        <a href="?<%= q['view'] = [view]; Hash[q.map { |k,v| [k, v.first] }].to_query %>" <% if params[:view] == view.to_s or (!params[:view] and view == :table) %>class="active"<% end %> ><i title="<%=view.to_s.humanize.capitalize%> view" class="fa fa-<%=icon%>"></i></a>    
-      <% } %>
-    </div>
-
+    View
+    <%= select_tag :view, :class => 'form-control', :options => %w{table wall dietary_requirements emails}.map { |view| [view.to_s.humanize.capitalize,view] }, :selected => params[:view], :onchange => 'this.form.submit()' %>        
   <% end %>
-
-
 
   <% if @membership.admin? %>
 
@@ -135,9 +120,10 @@
     &middot;
     <a style="font-size: 13px;" href="/h/<%=@group.slug%>/compare">Compare Facebook group</a>
 
+  <% end %> 
 
-
-  <% end %>  
+  &middot;
+  <a style="font-size: 13px;" href="<%=request.path%>.csv?<%=request.query_string%>">Download results as CSV</a>        
 
 </div>
 
