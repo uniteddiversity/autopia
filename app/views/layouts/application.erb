@@ -88,7 +88,9 @@
 
     <% if current_account %>
       <style>
-        #suggest { z-index: 9999; position: fixed; bottom: 0; right: 0; width: 300px; box-shadow: 0 0 4px #999 }
+        @media(min-width: 768px) {
+          #suggest { z-index: 9999; position: fixed; bottom: 0; right: 0; width: 300px; box-shadow: 0 0 4px #999 }
+        }
       </style>
       <div id="suggest" class="p-2 bg-white">
         <a style="display: block" class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('textarea').focus()">Suggest a feature/improvement</a>
