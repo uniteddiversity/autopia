@@ -78,9 +78,6 @@
 <% form_for @group, @group.new_record? ? '/h/new' : "/h/#{@group.slug}/edit", :multipart => true do |f| %>
 
 
-  <style>
-    #group-build-nav li { font-size: 12px }
-  </style>  
   <ul id="group-build-nav" class="nav nav-tabs" role="tablist">
     <li role="presentation" class="nav-item"><a class="nav-link active" href="#tab1" role="tab" data-toggle="tab">Basics</a></li>
     <li role="presentation" class="nav-item"><a class="nav-link" href="#tab2" role="tab" data-toggle="tab">Joining</a></li>
