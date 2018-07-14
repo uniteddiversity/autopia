@@ -1,6 +1,6 @@
 Huddl::App.controller do
   
-  get '/h/:slug/time' do    
+  get '/h/:slug/timetracker' do    
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
     confirmed_membership_required!
@@ -8,7 +8,7 @@ Huddl::App.controller do
     @to = params[:to] ? Date.parse(params[:to]) : Date.today
     @work_periods = @group.work_periods.where(:start_time.gte => @from, :start_time.lt => @to+1)
     @accounts = Account.where(:id.in => @work_periods.pluck(:account_id)).order('name asc')
-    erb :'work_periods/time'
+    erb :'work_periods/timetracker'
   end
   
   post '/h/:slug/work_periods/start' do
