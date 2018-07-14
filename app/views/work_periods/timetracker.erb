@@ -22,7 +22,7 @@
         <%= f.text_block :description, label_class: 'd-none', required: true, placeholder: 'What did you work on?' %>        
         <div>
           <button class="btn btn-danger mr-1">End now</button>
-          or <a class="text-muted" href="javascript:;" onclick="$(this).parent().hide().next().show().find('input').click()">end before now</a>
+          or <a class="text-muted" href="javascript:;" onclick="$(this).parent().hide().next().show().find('input').focus()">end before now</a>
         </div>        
         <div style="display: none">
           <%= f.datetime_block :end_time, label_class: 'd-none' %>
@@ -33,7 +33,7 @@
       <% form_for WorkPeriod.new, "/h/#{@group.slug}/work_periods/start" do |f| %>     
         <div>
           <button class="btn btn-success mr-1">Start now</button>
-          or <a class="text-muted" href="javascript:;" onclick="$(this).parent().hide().next().show().find('input').click()">start before now</a>
+          or <a class="text-muted" href="javascript:;" onclick="$(this).parent().hide().next().show().find('input').focus()">start before now</a>
         </div>        
         <div style="display: none">
           <%= f.datetime_block :start_time, label_class: 'd-none' %>
