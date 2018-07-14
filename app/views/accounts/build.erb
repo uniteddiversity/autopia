@@ -37,7 +37,7 @@
     <% Provider.registered.each { |provider| %>
       <% if @account.persisted? or (session['omniauth.auth'] and session['omniauth.auth']['provider'] == provider.omniauth_name) %>
         <tr>
-          <td><i class="fa fa-<%=provider.icon%>"></i></td>
+          <td><%=provider.display_name%></td>
           <td>
             <% if provider_link = @account.provider_links.select { |provider_link| provider_link.provider == provider.display_name }[0] %>
               <a style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(provider_link.omniauth_hash) %>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
