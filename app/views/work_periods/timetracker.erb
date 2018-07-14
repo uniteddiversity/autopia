@@ -4,7 +4,7 @@
   <h5 class="card-header">
     <% if @membership.current_work_period %>
       <% d = @membership.current_work_period.duration; h = (d/3600).round(1) %>
-      Started work on <%=@membership.current_work_period.created_at%> <small><%=h%> hours</small>
+      Started work on <%=@membership.current_work_period.start_time%> <small><%=h%> hours</small>
     <% else %>
       Welcome, <%=current_account.firstname%>!
     <% end %>
@@ -18,19 +18,27 @@
     <% end %>
 
     <% if @membership.working? %>
-      <% form_for @membership.current_work_period, "/h/#{@group.slug}/work_periods/end", :class => 'form-inline' do |f| %>           
-        <%= f.text_block :description, div_class: 'mr-1', label_class: 'd-none', required: true, placeholder: 'What did you work on?' %>
-        <button class="btn btn-danger mr-1">End now</button>
-        or end at time
-        <%= f.datetime_block :end_time, div_class: 'mx-1', label_class: 'd-none' %>
-        <button class="btn btn-danger">End</button>
+      <% form_for @membership.current_work_period, "/h/#{@group.slug}/work_periods/end" do |f| %>           
+        <%= f.text_block :description, label_class: 'd-none', required: true, placeholder: 'What did you work on?' %>        
+        <div>
+          <button class="btn btn-danger mr-1">End now</button>
+          or <a class="text-muted" href="javascript:;" onclick="$(this).parent().hide().next().show().find('input').click()">end before now</a>
+        </div>        
+        <div style="display: none">
+          <%= f.datetime_block :end_time, label_class: 'd-none' %>
+          <button class="btn btn-danger">End</button>
+        </div>
       <% end %>
     <% else %>      
-      <% form_for WorkPeriod.new, "/h/#{@group.slug}/work_periods/start", :class => 'form-inline' do |f| %>
-        <button class="btn btn-success mr-1">Start now</button>
-        or start at time
-        <%= f.datetime_block :start_time, div_class: 'mx-1', label_class: 'd-none' %>
-        <button class="btn btn-success">Start</button>
+      <% form_for WorkPeriod.new, "/h/#{@group.slug}/work_periods/start" do |f| %>     
+        <div>
+          <button class="btn btn-success mr-1">Start now</button>
+          or <a class="text-muted" href="javascript:;" onclick="$(this).parent().hide().next().show().find('input').click()">start before now</a>
+        </div>        
+        <div style="display: none">
+          <%= f.datetime_block :start_time, label_class: 'd-none' %>
+          <button class="btn btn-success">Start</button>
+        </div>
       <% end %>
     <% end %>
 
@@ -39,8 +47,8 @@
 
 <% form_tag '', :method => 'get', :class => 'form-inline my-3' do%>
   Show work periods from  
-  <%=text_field_tag :from, :class => 'form-control datepicker mx-1', :value => @from.to_s(:db) %>
-  <%=text_field_tag :to, :class => 'form-control datepicker mr-1', :value => @to.to_s(:db) %>
+  <%=text_field_tag :from, :class => 'form-control datepicker mx-sm-1 my-1 mb-sm-0', :value => @from.to_s(:db) %>
+  <%=text_field_tag :to, :class => 'form-control datepicker mr-sm-1 mb-1 mb-sm-0', :value => @to.to_s(:db) %>
   <%=submit_tag 'Submit', :class => 'btn btn-primary'%>
 <% end %>      
 
