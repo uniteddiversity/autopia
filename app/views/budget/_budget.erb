@@ -101,7 +101,7 @@
       <% } %>
       <% if @group.processed_via_stripe > 0 %>
         <tr>   
-          <td>Huddl transaction fees</td>      
+          <td>Transaction fees</td>      
           <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.incomings)}"%></td>      
           <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_stripe)}"%></td>
         </tr>   
@@ -169,7 +169,7 @@
 
       <% if @group.processed_via_stripe > 0 %>
         <tr>   
-          <td>Huddl transaction fees</td>      
+          <td>Transaction fees</td>      
           <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_stripe)}"%></td>
           <td></td>
           <td></td>

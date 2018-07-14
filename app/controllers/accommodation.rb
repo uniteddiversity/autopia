@@ -1,4 +1,4 @@
-Huddl::App.controller do
+Autopoetica::App.controller do
     
   post '/h/:slug/accoms/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found

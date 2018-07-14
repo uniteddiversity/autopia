@@ -1,4 +1,4 @@
-Huddl::App.controller do
+Autopoetica::App.controller do
   
 	get '/h/:slug/members', :provides => [:html, :csv] do        
     @group = Group.find_by(slug: params[:slug]) || not_found
@@ -187,22 +187,5 @@ Huddl::App.controller do
     confirmed_membership_required!
     partial :'members/membership_row', :locals => {:membership => membership}
   end    
-  
-  get '/h/:slug/compare' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only! 
-    erb :'members/compare'
-  end  
-  
-  post '/h/:slug/update_facebook_names' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only! 
-    params[:facebook_names].each { |k,v|
-      @group.memberships.find_by(account_id: k).account.update_attribute(:facebook_name, v)
-    }
-    redirect back
-  end
-  
+   
 end

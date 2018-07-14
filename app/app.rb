@@ -1,4 +1,4 @@
-module Huddl
+module Autopoetica
   class App < Padrino::Application
     register Padrino::Rendering
     register Padrino::Helpers
@@ -69,11 +69,7 @@ module Huddl
         @notifications = current_account.network_notifications.order('created_at desc').page(params[:page])
         erb :home_signed_in
       else
-        if ENV['BASE_URI'] == 'https://huddl.tech'  
-          erb :home_not_signed_in
-        else
-          redirect '/accounts/sign_in'
-        end
+        erb :home_not_signed_in
       end
     end
     

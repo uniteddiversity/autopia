@@ -1,4 +1,4 @@
-Huddl::App.helpers do
+Autopoetica::App.helpers do
   
   def mass_assigning(params, model)
     params ||= {}

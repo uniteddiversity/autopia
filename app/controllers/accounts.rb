@@ -1,4 +1,4 @@
-Huddl::App.controller do
+Autopoetica::App.controller do
   
   get '/accounts/sign_up' do
     redirect '/accounts/new' if Provider.registered.empty?
