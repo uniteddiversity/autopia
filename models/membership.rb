@@ -105,6 +105,16 @@ class Membership
   has_many :cultivations, :dependent => :destroy
   # Inventory
   has_many :inventory_items, :dependent => :nullify
+  # Timetracker
+  has_many :work_periods, :dependent => :destroy
+  
+  def current_work_period
+    work_periods.find_by(:end_time => nil)
+  end
+  
+  def working?
+    current_work_period
+  end  
   
   def calculate_requested_contribution    
     c = 0

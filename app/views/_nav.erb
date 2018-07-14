@@ -75,6 +75,7 @@
               (["Transport (#{group.transports.count})", "/h/#{group.slug}/transports"] if group.enable_transport),        
               (["Inventory", "/h/#{group.slug}/inventory"] if group.enable_inventory),       
               (["Budget", "/h/#{group.slug}/budget"] if group.enable_budget),    
+              (["Timetracker", "/h/#{group.slug}/time"] if group.enable_timetracker),    
               ].compact,
             ul_class: "sidenav-second-level collapse #{'show' if @group == group}",
             li_class: '',

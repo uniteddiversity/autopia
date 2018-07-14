@@ -1,0 +1,107 @@
+
+<div class="card">
+
+  <h5 class="card-header">
+    <% if @membership.current_work_period %>
+      <% d = @membership.current_work_period.duration; h = (d/3600).round(1) %>
+      Started work on <%=@membership.current_work_period.created_at%> <small><%=h%> hours</small>
+    <% else %>
+      Welcome, <%=current_account.firstname%>!
+    <% end %>
+  </h5>   
+
+
+  <div class="card-body">
+
+    <% if @membership.current_work_period %>
+      <h5 class="card-title">Finished?</h5>
+    <% end %>
+
+    <% if @membership.working? %>
+      <% form_for @membership.current_work_period, "/h/#{@group.slug}/work_periods/end", :class => 'form-inline' do |f| %>           
+        <%= f.text_block :description, div_class: 'mr-1', label_class: 'd-none', placeholder: 'What did you work on?' %>
+        <button class="btn btn-danger mr-1">End now</button>
+        or end at time
+        <%= f.datetime_block :end_time, div_class: 'mx-1', label_class: 'd-none' %>
+        <button class="btn btn-danger">End</button>
+      <% end %>
+    <% else %>      
+      <% form_for WorkPeriod.new, "/h/#{@group.slug}/work_periods/start", :class => 'form-inline' do |f| %>
+        <button class="btn btn-success mr-1">Start now</button>
+        or start at time
+        <%= f.datetime_block :start_time, div_class: 'mx-1', label_class: 'd-none' %>
+        <button class="btn btn-success">Start</button>
+      <% end %>
+    <% end %>
+
+  </div>
+</div>    
+
+<% form_tag '', :method => 'get', :class => 'form-inline my-3' do%>
+  Show work periods from  
+  <%=text_field_tag :from, :class => 'form-control datepicker mx-1', :value => @from.to_s(:db) %>
+  <%=text_field_tag :to, :class => 'form-control datepicker mr-1', :value => @to.to_s(:db) %>
+  <%=submit_tag 'Submit', :class => 'btn btn-primary'%>
+<% end %>      
+
+<table class="table table-bordered mt-3">
+  <thead>
+    <tr>
+      <th></th>
+      <% @accounts.each { |account| %>
+        <th><%=account.firstname%></th>
+      <% } %>
+    </tr>
+  </thead>  
+  <% (@from..@to).to_a.reverse.each { |day| %>
+    <tr>
+      <th style="max-width: 1rem">
+        <%= day.to_s(:no_year) %>
+      </th>    
+      <% @accounts.each { |account| %>
+        <td>
+          <% account.work_periods.where(:start_time.gte => day, :start_time.lt => day+1).order('start_time asc').each { |work_period| %>
+            <% d = work_period.duration; h = (d/3600).round(1) %>
+            <a data-confirm="Are you sure you want to delete this work period?" href="/h/<%=@group.slug%>/work_periods/<%=work_period.id%>/destroy">
+              <span data-toggle="tooltip" class="badge <%= work_period.end_time ? (work_period.description ? 'badge-primary' : 'badge-secondary') : 'badge-success'%>" title="<%= work_period.end_time ? pluralize(h,'hour') : "#{pluralize(h,'hour')} and counting"%><% if work_period.description %>: <%=work_period.description%><% end%> ">
+                <%=h%>
+              </span></a>
+            <% if work_period.description and work_period.description =~ /\bmeetings*\b/i %>
+              <i title="Meeting" class="fa fa-group"></i>
+            <% end %>
+            <% if work_period.description and work_period.description =~ /\bcalls*\b/i %>
+              <i title="Call" class="fa fa-phone"></i>
+            <% end %>              
+          <% } %>              
+        </td>
+      <% } %>          
+    </tr>
+  <% } %>
+  <tfoot>
+    <tr>
+      <th></th>
+      <% @accounts.each { |account| %>
+        <th><%=account.firstname%></th>
+      <% } %>
+    </tr>
+    <tr>
+      <th>
+      </th>    
+      <% hours_this_period = []; @accounts.each { |account| %>              
+        <td>
+          <% s = account.work_periods.where(:start_time.gte => @from, :start_time.lt => @to+1).map(&:duration).sum; hours_this_period << s %>
+          <% if s > 0; h = (s/3600).round(1) %>
+            <span class="badge badge-primary" data-toggle="tooltip"  title="<%=pluralize(h,'hour')%>"><%=h%></span>
+          <% end %>
+        </td>
+      <% } %>
+    </tr>        
+  </tfoot>         
+</table>
+
+<% ss = hours_this_period.sum; if ss > 0; h = (ss/3600).round(1) %>
+  <p class="lead text-center">
+    Total this period:
+    <span class="badge badge-primary" data-toggle="tooltip"  title="<%=pluralize(h,'hour')%>"><%=h%></span>
+  </p>
+<% end %>
