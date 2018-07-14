@@ -26,6 +26,7 @@
       'fullcalendar/3.2.0' => 'fullcalendar.min.js fullcalendar.min.css',
       'flatpickr/3.0.7' => 'flatpickr.min.js flatpickr.min.css',
       'datatables/1.10.16' => 'js/jquery.dataTables.min.js js/dataTables.bootstrap4.min.js css/dataTables.bootstrap4.min.css',
+      'jquery.perfect-scrollbar/1.4.0' => 'perfect-scrollbar.min.js perfect-scrollbar.min.css'
       }.each { |k,v| %>    
       <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
         <% case f.split('.').last.to_sym; when :js %>
@@ -46,7 +47,8 @@
 
     <% [
       '//cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/067bd296184a4dda8c669923417124065b4ebced/bootstrap3-typeahead.min.js',
-      "/javascripts/app.js?#{Time.now.to_i}",
+      "/javascripts/sb-admin.js?#{Time.now.to_i}",
+      "/javascripts/app.js?#{Time.now.to_i}",      
       '//cdn.rawgit.com/wordsandwriting/activate-tools/7bef07297b78b0f68e40ae465d68be68ea49e27b/js/pagelets.js',
       "//cdn.rawgit.com/wordsandwriting/activate-tools/7a73525b76c8234a4803e3196b4403ec6fd6ded7/js/textboxio/textboxio.js",
       ].each { |f| %>
@@ -66,47 +68,39 @@
     <%= eval(f('head')) %>
 
   </head>
-  <body>
+
+  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 
     <%= partial :alert %>
 
-    <div class="container-fluid">      
-      <%= partial :nav %>
+    <%= partial :nav %> 
 
-      <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
-
-      <hr style="margin: 10px 0" />
-
-      <div style="text-align: center; font-size: 13px"> 
-        <% unless ENV['BASE_URI'] == 'https://huddl.tech' %><p>Powered by Huddl</p><% end %>
-        <i class="fa fa-envelope"></i> <a href="mailto:team@huddl.tech">team@huddl.tech</a>
-        <i class="fa fa-facebook-official"></i> <a href="https://www.facebook.com/groups/huddl/">/groups/huddl</a>
-        <i class="fa fa-github"></i> <a href="https://github.com/stephenreid321/huddl">huddl</a>
+    <div class="content-wrapper">
+      <div class="container-fluid">
+        <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
       </div>
+      <!-- /.container-fluid-->
+      <!-- /.content-wrapper-->
 
-    </div>
+      <footer class="sticky-footer">
+        <div class="container">
+          <div class="text-center">
+            <%= partial :footer %>            
+          </div>
+        </div>
+      </footer>
+      <!-- Scroll to Top Button-->
+      <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+      </a>
 
-    <% if current_account %>
-      <style>
-        @media(min-width: 768px) {
-          #suggest { z-index: 9999; position: fixed; bottom: 0; right: 0; width: 300px; box-shadow: 0 0 4px #999 }
-        }
-      </style>
-      <div id="suggest" class="p-2 bg-white">
-        <a style="display: block" class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('textarea').focus()">Suggest a feature/improvement</a>
-        <% form_tag '/suggest', :style => 'display: none' do %>
-          <%= text_area_tag :suggestion, :class => 'form-control mb-2', :placeholder => 'Suggest a feature/improvement for this page or report a bug' %>
-          <%= submit_tag 'Submit', :class => 'd-block btn btn-primary' %>
-        <% end %>
-      </div>
-    <% end %>
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->    
+      <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->    
 
   </body>
+
 </html>

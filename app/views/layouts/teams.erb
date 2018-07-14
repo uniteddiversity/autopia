@@ -1,18 +1,15 @@
 <% content_for :content do %>
 
   <%= partial :'groups/header' %>
-
-  <div class="row" style="margin-top: 10px">
-    <div class="col-sm-7 order-sm-1">
+        
+  <div class="row" style="margin-top: 10px">	
+    <div class="col-sm-9 order-sm-0">
       <% if @team and @team.persisted? %>
-        <h2 style="margin-top: 0" class="d-sm-none"># <%=@team.name%></h2>
+        <h2 style="margin-top: 0"># <%=@team.name%></h2>
       <% end %>
-      <%= yield %>
-    </div>		
-    <div class="col-sm-2 order-sm-0">
-      <%= partial :'teams/team_list' %>
+      <%= yield %>            
     </div>
-    <div class="col-sm-3 order-sm-2">
+    <div class="col-sm-3 order-sm-1">
       <% if @team and @team.persisted? %>
         <h2 style="margin-top: 0">Team members</h2>
 

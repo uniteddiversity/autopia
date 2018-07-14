@@ -1,0 +1,22 @@
+
+<p>         
+  <% if @membership.unsubscribed %>
+    <a href="/h/<%=@group.slug%>/subscribe">Turn on email notifications of key events</a> &middot;
+  <% else %>
+    <a href="/h/<%=@group.slug%>/unsubscribe">Turn off email notifications of key events</a> &middot;
+  <% end %>              
+  <a data-confirm="Are you sure you want to leave the group?" href="/h/<%=@group.slug%>/leave">Leave group</a>
+  <% if @membership.admin? %>
+    &middot;
+    <a href="/h/<%=@group.slug%>/edit">Edit group</a>
+    &middot;
+    <a href="/h/<%=@group.slug%>/balance">Balance: <%=@group.currency_symbol%><%="#{'%.2f' % @group.balance}"%></a>
+  <% end %>
+</p>
+<p>
+  Non-members can <%=  @group.enable_applications ? 'apply' : 'join' %> at <a href="<%="#{ENV['BASE_URI']}/h/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%>"><%="#{ENV['BASE_URI']}/h/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%></a>
+</p>                 
+
+<div data-pagelet-url="/h/<%=@group.slug%>/minifeed" data-pusher-channel="notifications.<%=@group.slug%>">
+  <%= partial :'groups/newsfeed', :locals => {:notifications => @group.notifications.order('created_at desc').limit(3), :minifeed => true} %>
+</div>

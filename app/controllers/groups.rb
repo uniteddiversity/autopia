@@ -32,7 +32,6 @@ Huddl::App.controller do
         redirect "/h/#{@group.slug}/join"
       end
     end
-    @hide_minifeed = true
     erb :'groups/group'
   end  
   
