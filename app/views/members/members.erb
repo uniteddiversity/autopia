@@ -86,15 +86,18 @@
 <div class="mb-3">
 
   <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
-    <%= text_field_tag :q, :class => 'form-control', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>
+    <%= text_field_tag :q, :class => 'form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>
     View as
-    <%= select_tag :view, :class => 'form-control', :options => %w{table wall dietary_requirements emails}.map { |view| [view.to_s.humanize.capitalize,view] }, :selected => params[:view], :onchange => 'this.form.submit()' %>        
+    <%= select_tag :view, :class => 'form-control mr-1', :options => %w{table wall dietary_requirements emails}.map { |view| [view.to_s.humanize.capitalize,view] }, :selected => params[:view], :onchange => 'this.form.submit()' %>        
   <% end %>
 
   <% if @membership.admin? %>
+    
+
+  <a class="btn btn-outline-primary" href="<%=request.path%>.csv?<%=request.query_string%>">Download results as CSV</a>            
 
     <% if !@group.member_limit or @group.memberships.count < @group.member_limit %>
-      &middot;
+      
 
       <script>
         $(function () {
@@ -107,20 +110,24 @@
           });
         })
       </script>
-      <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().css('display', 'inline').find('input[name=name]').focus()"><i class="fa fa-plus-circle"></i> Add member</a>
-      <% form_tag "/h/#{@group.slug}/add_member", :style => 'display:none', :id => 'add-member', :class => 'form-inline' do %>
-        <%= text_field_tag :name, :class => 'form-control', :placeholder => 'Name', :autocomplete => 'off' %>
-        <%= email_field_tag :email, :class => 'form-control', :placeholder => 'Email' %>
-        <label class="d-inline">Suppress notification <%= check_box_tag :prevent_notifications %></label>
-        <%= submit_tag 'Add member', :class => 'btn btn-primary' %>
-      <% end %>
+      
+      
+      <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('input[name=name]').focus()">
+        <i class="fa fa-plus-circle"></i> Add member
+      </a>
+      
+      <div style="display:none" id="add-member" class="my-3">
+        <% form_tag "/h/#{@group.slug}/add_member", :class => 'form-inline' do %>
+          <%= text_field_tag :name, :class => 'form-control mr-1', :placeholder => 'Name', :autocomplete => 'off' %>
+          <%= email_field_tag :email, :class => 'form-control mr-1', :placeholder => 'Email' %>
+          <label class="d-inline mr-1">Suppress notification <%= check_box_tag :prevent_notifications %></label>
+          <%= submit_tag 'Add member', :class => 'btn btn-primary' %>
+        <% end %>
+      </div>
 
     <% end %> 
 
   <% end %> 
-
-  &middot;
-  <a style="font-size: 13px;" href="<%=request.path%>.csv?<%=request.query_string%>">Download results as CSV</a>        
 
 </div>
 
