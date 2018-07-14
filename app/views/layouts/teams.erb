@@ -28,13 +28,13 @@
         <div style="margin-top: 10px">
           <% if teamship = @team.teamships.find_by(account: current_account) %>
             <% if teamship.unsubscribed %>
-              <a href="/teamships/<%=teamship.id%>/subscribe?team_id=<%=@team.id%>">Turn on email notifications</a> &middot;
+              <a class="btn btn-outline-primary mb-1" href="/teamships/<%=teamship.id%>/subscribe?team_id=<%=@team.id%>">Turn on email notifications</a>
             <% else %>
-              <a href="/teamships/<%=teamship.id%>/unsubscribe?team_id=<%=@team.id%>">Turn off email notifications</a> &middot;
+              <a class="btn btn-outline-primary mb-1" href="/teamships/<%=teamship.id%>/unsubscribe?team_id=<%=@team.id%>">Turn off email notifications</a>
             <% end %>
-            <a href="/teamships/<%=teamship.id%>/destroy?team_id=<%=@team.id%>">Leave team</a> &middot;            
+            <a class="btn btn-outline-primary mb-1" href="/teamships/<%=teamship.id%>/destroy?team_id=<%=@team.id%>">Leave team</a>
           <% end %>
-          <a href="/h/<%=@group.slug%>/teams/<%=@team.id%>/edit">Edit team</a>
+          <a class="btn btn-outline-primary mb-1" href="/h/<%=@group.slug%>/teams/<%=@team.id%>/edit">Edit team</a>
         </div>
 
       <% end %>
