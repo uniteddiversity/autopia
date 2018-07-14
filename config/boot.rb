@@ -9,8 +9,6 @@ require 'open-uri'
 require 'active_support/time'
 Bundler.require(:default, RACK_ENV)
 
-require 'newrelic_rpm' if Padrino.env == :production
-
 Padrino.load!
 
 Mongoid.load!("#{PADRINO_ROOT}/config/mongoid.yml")

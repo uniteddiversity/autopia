@@ -1,4 +1,4 @@
-# Huddl
+# Autopoetica
 
 A tool for co-created gatherings
 

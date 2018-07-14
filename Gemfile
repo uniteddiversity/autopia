@@ -36,10 +36,6 @@ gem 'html_truncator'
 gem 'rinku'
 gem 'stripe'
 
-group :production do
-	gem 'newrelic_rpm'
-end
-
 gem 'pusher'
 gem 'incoming'
 gem 'premailer'
