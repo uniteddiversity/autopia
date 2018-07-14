@@ -1,14 +1,14 @@
 
-<div style="position: relative; background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=group.cover_image.try(:url)%>'); background-size: cover; background-position: center center;" class="group">
+<a href="/h/<%=group.slug%>" style="position: relative; display: block; color: white; text-decoration: none; background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=group.cover_image.try(:url)%>'); background-size: cover; background-position: center center;" class="group">
   <table style="width: 100%; position: relative; height: 200px">
     <tr>
       <td style="vertical-align: bottom">
         <div style="padding: 0 10px">                    
           <h1>
-            <a style="color: white; text-decoration: none;" href="/h/<%=group.slug%>"><%=group.name%></a>
+            <%=group.name%>
           </h1> 
         </div>
       </td>
     </tr>
   </table>
-</div>
+</a>
