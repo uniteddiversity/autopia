@@ -97,11 +97,7 @@ module Huddl
       @notification = Notification.find(params[:id]) || not_found
       erb :'emails/notification', :locals => {:notification => @notification, :group => @notification.group}, :layout => false
     end
-    
-    get '/coinbase' do
-      erb :coinbase
-    end
-    
+        
     get '/stats' do
       admins_only!
       erb :stats

@@ -1,9 +1,5 @@
 Huddl::App.controller do
-  
-  get '/coinbase' do
-    raise 'coinbase'
-  end
-  
+    
   get '/h/:slug/balance' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
