@@ -36,6 +36,7 @@ class Group
   field :currency, :type => String
   field :teamup_calendar_url, :type => String
   field :demand_payment, :type => Boolean
+  field :archived, :type => Boolean
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
   }
@@ -197,6 +198,7 @@ class Group
       :ask_for_facebook_profile_url => :check_box,
       :featured => :check_box,
       :demand_payment => :check_box,
+      :archived => :check_box,
       :paypal_email => :text,
       :currency => :select,
       :teamup_calendar_url => :url,

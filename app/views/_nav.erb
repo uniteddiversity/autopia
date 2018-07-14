@@ -4,7 +4,14 @@
   }
 </style>
 <script>
-  const ps = new PerfectScrollbar($('.navbar-sidenav')[0]);
+  $(function () {    
+    const ps = new PerfectScrollbar($('.navbar-sidenav')[0]);
+    
+    $('.navbar-sidenav span.badge').each(function () {
+      $(this).parent().addClass('d-flex').addClass('justify-content-between')
+      $(this).removeClass('d-none')
+    });
+  })
 </script>
 
 <!-- Navigation-->
@@ -30,8 +37,8 @@
         </a>
       </li>      
 
-      <% if current_account %>
-        <% current_account.memberships.sort_by { |membership| membership.group.name }.each { |membership| group = membership.group %>          
+      <% if current_account %>            
+        <% current_account.memberships.select { |membership| !membership.group.archived }.sort_by { |membership| membership.group.name }.each { |membership| group = membership.group %>          
           <li class="nav-item" data-toggle="tooltip" data-placement="right" title="<%=group.name%>">
             <a class="nav-link nav-link-collapse collapsed <%='active' if group == @group %>" data-toggle="collapse" href="#collapse-group-<%=group.slug%>">
               <i class="fa fa-fw fa-group"></i>
@@ -45,9 +52,8 @@
               (["Teams",
                   (
                     group.teams(true).order('name asc').map { |team| [%Q{
-                <i class="fa fa-fw fa-hashtag"></i>
-                #{team.name}
-                #{if (unread = team.comments.where(:id.nin => current_account.read_receipts.pluck(:comment_id)).count) > 0; %Q{<span class="badge badge-light" title="#{pluralize(unread, 'unread comment')}">#{unread}</span>}; end}
+                #&nbsp;#{team.name}
+                #{if (unread = team.comments.where(:id.nin => current_account.read_receipts.pluck(:comment_id)).count) > 0; %Q{<span class="d-none badge badge-light" title="#{pluralize(unread, 'unread comment')}">#{unread}</span>}; end}
                         }, "/h/#{group.slug}/teams/#{team.id}"] } + [['Overview', "/h/#{group.slug}/teams"], ['Create a team', "/h/#{group.slug}/teams/new"]]
                   )              
                   ] if group.enable_teams),      

@@ -127,6 +127,7 @@
           <%= f.check_box_block "enable_#{x}".to_sym %>
         <% } %>
         <%= f.check_box_block :demand_payment %>  
+        <%= f.check_box_block :archived %>  
         <% if @group.new_record? %>
           <%= f.submit_block %>  
         <% end %>        
