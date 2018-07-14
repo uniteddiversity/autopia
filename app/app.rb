@@ -19,7 +19,7 @@ module Huddl
       #      Provider.registered.each { |provider|
       #        provider provider.omniauth_name, ENV["#{provider.display_name.upcase}_KEY"], ENV["#{provider.display_name.upcase}_SECRET"]
       #      }
-      provider :facebook, ENV["FACEBOOK_KEY"], ENV["FACEBOOK_SECRET"], scope: 'email,user_managed_groups'
+      provider :facebook, ENV["FACEBOOK_KEY"], ENV["FACEBOOK_SECRET"] #, scope: 'email,user_managed_groups'
     end 
     OmniAuth.config.on_failure = Proc.new { |env|
       OmniAuth::FailureEndpoint.new(env).redirect_to_failure
