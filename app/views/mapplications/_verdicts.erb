@@ -21,10 +21,10 @@
       <div class="image-wall">
         <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
           <% if @group.send("anonymise_#{noun.pluralize}") %>
-            <i data-toggle="tooltip" title="<%=verdict.reason%>"  class="fa fa-user-circle" style="font-size: 20px; <% if verdict.reason %> color: #CE2828 <% end %>"></i>
+            <i data-toggle="tooltip" title="<%=verdict.reason%>"  class="fa fa-user-circle" style="font-size: 20px; <% if verdict.reason %> color: #007bff <% end %>"></i>
           <% else %> 
             <% if verdict.reason %>
-              <%= partial :'accounts/square', :locals => {:account => account, :content => Rinku.auto_link(verdict.reason.gsub("\n","<br />")), :style => "width: 50px; border-bottom: 2px solid #CE2828"}%>
+              <%= partial :'accounts/square', :locals => {:account => account, :content => Rinku.auto_link(verdict.reason.gsub("\n","<br />")), :style => "width: 50px; border-bottom: 2px solid #007bff"}%>
             <% else %>
               <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'}%>
             <% end %>
