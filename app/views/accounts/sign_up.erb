@@ -1,17 +1,16 @@
-<div class="row justify-content-center">
-  <div class="col-sm-10">
 
-    <a href="/accounts/new">Sign up with an email address</a>
+<div class="text-center">
 
-    <% if !Provider.registered.empty? %>
-      <p class="my-3 text-center">
-        or   
-      </p>
+  <a href="/accounts/new">Sign up with an email address</a>
 
-      <%  Provider.registered.each { |provider| %>             
-        <a class="btn btn-primary" href="/auth/<%=provider.omniauth_name%>"><i class="fa fa-<%=provider.icon%>"></i> Sign up via <%=provider.display_name%></a>
-      <% } %>
-    <% end %>
+  <% if !Provider.registered.empty? %>
+    <p class="my-3 text-center">
+      or   
+    </p>
 
-  </div>
+    <%  Provider.registered.each { |provider| %>             
+      <a class="btn btn-primary" href="/auth/<%=provider.omniauth_name%>"><i class="fa fa-<%=provider.icon%>"></i> Sign up via <%=provider.display_name%></a>
+    <% } %>
+  <% end %>
+
 </div>
