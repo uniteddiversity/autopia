@@ -1,7 +1,9 @@
 <% form_tag '', :class => 'form-inline no-trigger', :id => 'pay-form' do %>
   <div class="form-group">
     <div class="input-group">
-      <div class="input-group-addon"><%=@group.currency_symbol%></div>
+      <div class="input-group-prepend">
+        <span class="input-group-text"><%=@group.currency_symbol%></span>
+      </div>  
       <%= number_field_tag :amount, :value => (amount if defined?(amount)), :style => 'display: inline; width: 4.5em;', :required => 'required', :class => 'form-control', :min => 5, :id => 'amount' %>
     </div>
   </div>  

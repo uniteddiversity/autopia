@@ -78,7 +78,9 @@
       <% end %>
       <% form_tag "/memberships/#{membership.id}/paid", :style => ('display:none' if membership.paid) do %>
         <div class="input-group">
-          <span class="input-group-addon"><%=@group.currency_symbol%></span>
+          <div class="input-group-prepend">
+            <span class="input-group-text"><%=@group.currency_symbol%></span>
+          </div>  
           <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid, :onblur => '$(this.form).submit()' %>
         </div>              
       <% end %>

@@ -87,9 +87,11 @@
             <% if team.budget %>
               <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "#{@group.currency_symbol}#{team.budget}" if team.budget %></a>
             <% end %>
-            <% form_tag "/teams/#{team.id}/budget", :style => ('display:none' if team.budget) do %>
-              <div class="input-group">
-                <span class="input-group-addon"><%=@group.currency_symbol%></span>
+            <% form_tag "/teams/#{team.id}/budget", :style => ('display:none' if team.budget) do %>                            
+              <div class="input-group">                
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><%=@group.currency_symbol%></span>
+                </div>                
                 <%= number_field_tag :budget, :class => 'form-control', :style => 'width: 6em', :value => team.budget, :onblur => '$(this.form).submit()' %>
               </div>              
             <% end %>     
