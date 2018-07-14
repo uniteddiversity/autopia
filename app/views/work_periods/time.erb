@@ -19,7 +19,7 @@
 
     <% if @membership.working? %>
       <% form_for @membership.current_work_period, "/h/#{@group.slug}/work_periods/end", :class => 'form-inline' do |f| %>           
-        <%= f.text_block :description, div_class: 'mr-1', label_class: 'd-none', placeholder: 'What did you work on?' %>
+        <%= f.text_block :description, div_class: 'mr-1', label_class: 'd-none', required: true, placeholder: 'What did you work on?' %>
         <button class="btn btn-danger mr-1">End now</button>
         or end at time
         <%= f.datetime_block :end_time, div_class: 'mx-1', label_class: 'd-none' %>

@@ -11,11 +11,12 @@ class WorkPeriod
   field :end_time, :type => Time
   field :description, :type => String
   
-  validates_presence_of :start_time, :description
+  validates_presence_of :start_time
   
   before_validation do
     errors.add(:end_time, 'must be after the start time') if start_time && end_time && end_time < start_time
     errors.add(:end_time, 'must not be in the future') if end_time && end_time > Time.now
+    errors.add(:description, 'must be present if end time is set') if end_time && !description
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end    
     
