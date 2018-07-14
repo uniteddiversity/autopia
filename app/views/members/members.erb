@@ -87,7 +87,7 @@
 
   <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
     <%= text_field_tag :q, :class => 'form-control', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>
-    View
+    View as
     <%= select_tag :view, :class => 'form-control', :options => %w{table wall dietary_requirements emails}.map { |view| [view.to_s.humanize.capitalize,view] }, :selected => params[:view], :onchange => 'this.form.submit()' %>        
   <% end %>
 
