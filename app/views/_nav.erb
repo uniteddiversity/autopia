@@ -5,12 +5,15 @@
 </style>
 <script>
   $(function () {    
+    $('.sidenav-third-level a.active').closest('ul').addClass('show')
+    
     const ps = new PerfectScrollbar($('.navbar-sidenav')[0]);
     
     $('.navbar-sidenav span.badge').each(function () {
       $(this).parent().addClass('d-flex').addClass('justify-content-between').addClass('align-items-center')
       $(this).removeClass('d-none')
     });
+    
   })
 </script>
 
@@ -85,7 +88,7 @@
             subnav_data_toggle: 'collapse',
             subnav_a_class: 'nav-link-collapse',
             subnav_caret: '',
-            subnav_ul_class: 'sidenav-third-level collapse show',
+            subnav_ul_class: 'sidenav-third-level collapse',
             subnav_li2_class: '',
             subnav_a2_class: '',
             generate_subnav_href_and_ul: true
