@@ -1,7 +1,5 @@
 # Autopo
 
-A tool for co-created gatherings
-
 ## Running locally
 
 ```
