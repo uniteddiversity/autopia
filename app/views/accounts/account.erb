@@ -1,79 +1,70 @@
 
-<div class="row">
 
-  <div class="col-sm-4"> 
+<%= partial :'accounts/square', :locals => {:account => @account, :style => 'width: 200px; background: white; border: 3px solid white'} %>
+<h1><a class="text-dark" href="/accounts/<%=@account.id%>"><%=@account.name%></a></h1>    
 
-    <%= partial :'accounts/square', :locals => {:account => @account, :style => 'width: 100%; background: white; border: 3px solid white'} %>
-    <h1><a class="text-dark" href="/accounts/<%=@account.id%>"><%=@account.name%></a></h1>    
+<div class="table-hr-container">
+  <table class="table table-hr">
 
-    <div class="table-hr-container">
-      <table class="table table-hr">
+    <% if current_account.network.include?(@account) %>
+      <tr>
+        <td>Email</td>
+        <td>
+          <%=@account.email%>
+        </td>  
+      </tr> 
+    <% end %>        
 
-        <% if current_account.network.include?(@account) %>
-          <tr>
-            <td>Email</td>
-            <td>
-              <%=@account.email%>
-            </td>  
-          </tr> 
-        <% end %>        
+    <% if @account.facebook_profile_url %>
+      <tr>
+        <td>Facebook</td>
+        <td>
+          <a target="_blank" href="<%=@account.facebook_profile_url%>"><%=@account.facebook_profile_url.split('/')[3..-1].join('/').split('?').first%></a>
+        </td>  
+      </tr>
+    <% end %>    
 
-        <% if @account.facebook_profile_url %>
-          <tr>
-            <td>Facebook</td>
-            <td>
-              <a target="_blank" href="<%=@account.facebook_profile_url%>"><%=@account.facebook_profile_url.split('/')[3..-1].join('/').split('?').first%></a>
-            </td>  
-          </tr>
-        <% end %>    
+    <% if @account.date_of_birth %>
+      <tr>
+        <td>Age</td>
+        <td>
+          <%=@account.age%>
+        </td>  
+      </tr>
+    <% end %> 
 
-        <% if @account.date_of_birth %>
-          <tr>
-            <td>Age</td>
-            <td>
-              <%=@account.age%>
-            </td>  
-          </tr>
-        <% end %> 
+    <% if @account.gender %>
+      <tr>
+        <td>Gender</td>
+        <td>
+          <%=@account.gender%>
+        </td>  
+      </tr>
+    <% end %>        
 
-        <% if @account.gender %>
-          <tr>
-            <td>Gender</td>
-            <td>
-              <%=@account.gender%>
-            </td>  
-          </tr>
-        <% end %>        
-
-        <% if @account.last_active %>
-          <tr>
-            <td>Last active</td>
-            <td>
-              <%=time_ago_in_words @account.last_active%> ago
-            </td>  
-          </tr> 
-        <% end %>
-
-      </table>     
-
-    </div>    
-
-  </div>
-  <div class="col-sm-8">
-
-    <% if @account.memberships.count > 0 %>
-      <h2>Groups</h2>
-      <div class="row">
-        <style>.group h1 { font-size: 26px }</style>
-        <% @account.memberships.each { |membership| group = membership.group %>
-          <div class="col-sm-4" style="margin-bottom: 20px">
-            <%= partial :'groups/group', :object => group  %>
-          </div>
-        <% } %>
-      </div>
+    <% if @account.last_active %>
+      <tr>
+        <td>Last active</td>
+        <td>
+          <%=time_ago_in_words @account.last_active%> ago
+        </td>  
+      </tr> 
     <% end %>
 
-  </div>
-</div>
+  </table>     
 
+</div>    
+
+
+<% if @account.memberships.count > 0 %>
+  <h2>Groups</h2>
+  <div class="row">
+    <style>.group h1 { font-size: 26px }</style>
+    <% @account.memberships.each { |membership| group = membership.group %>
+      <div class="col-sm-4" style="margin-bottom: 20px">
+        <%= partial :'groups/group', :object => group  %>
+      </div>
+    <% } %>
+  </div>
+<% end %>
 
