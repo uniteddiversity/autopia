@@ -11,7 +11,7 @@
     <tr>
       <td>
         <% if @membership.admin? %>
-          <a href="/h/<%=@group.slug%>/tiers/<%=tier.id%>/edit">
+          <a href="/a/<%=@group.slug%>/tiers/<%=tier.id%>/edit">
             <%=tier.name%>
           </a>
         <% else %>
@@ -56,5 +56,5 @@
 </table>
 
 <% if params[:view] != 'names' %>
-  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/h/<%=@group.slug%>/tiers?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@group.slug%>/tiers?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
 <% end %>

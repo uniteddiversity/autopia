@@ -24,7 +24,7 @@
     allowRememberMe: false,
     token: function (token) {
       $('#pay-form').css('opacity', 0.25)
-      $.post('/h/<%=@group.slug%>/pay', jQuery.extend(token, {amount: $('#amount').val()}), function () {
+      $.post('/a/<%=@group.slug%>/pay', jQuery.extend(token, {amount: $('#amount').val()}), function () {
         window.location.reload()
       }).fail(function () {
         $('#pay-form').hide()

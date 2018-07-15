@@ -1,6 +1,6 @@
 Autopo::App.controller do
   
-	get '/h/:slug/members', :provides => [:html, :csv] do        
+	get '/a/:slug/members', :provides => [:html, :csv] do        
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
@@ -30,10 +30,10 @@ Autopo::App.controller do
     end
   end   
   
-  get '/h/:slug/join' do      
+  get '/a/:slug/join' do      
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
-    redirect "/h/#{@group.slug}/apply" if @group.enable_applications
+    redirect "/a/#{@group.slug}/apply" if @group.enable_applications
     @title = "#{@group.name} · Autopo"
     @og_desc = "#{@group.name} is being co-created on Autopo"
     @og_image = @group.cover_image ? @group.cover_image.url : "#{ENV['BASE_URI']}/images/autopo-link.png"
@@ -41,7 +41,7 @@ Autopo::App.controller do
     erb :'members/join'
   end  	  
   
-  post '/h/:slug/join' do
+  post '/a/:slug/join' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     halt if @group.enable_applications
     
@@ -65,11 +65,11 @@ Autopo::App.controller do
     else
       @group.memberships.create! account: @account
       session[:account_id] = @account.id.to_s
-      redirect "/h/#{@group.slug}"
+      redirect "/a/#{@group.slug}"
     end    
   end  
   
-  get '/h/:slug/leave' do  
+  get '/a/:slug/leave' do  
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!    
@@ -78,7 +78,7 @@ Autopo::App.controller do
     redirect '/'
   end
   
-  post '/h/:slug/add_member' do
+  post '/a/:slug/add_member' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only! 

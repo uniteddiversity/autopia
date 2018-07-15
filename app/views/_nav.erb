@@ -34,7 +34,7 @@
       </li>
 
       <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Create a group">
-        <a class="nav-link <%='active' if request.path == '/h/new'%>" href="/h/new">
+        <a class="nav-link <%='active' if request.path == '/a/new'%>" href="/a/new">
           <i class="fa fa-fw fa-plus"></i>
           <span class="nav-link-text">Create a group</span>
         </a>
@@ -49,36 +49,36 @@
             </a>
 
             <%= ul_nav [
-              ["Home", "/h/#{group.slug}"],
-              ["Members (#{group.memberships.count})", "/h/#{group.slug}/members"],
-              (["Applications (#{group.mapplications.pending.count})", "/h/#{group.slug}/applications"] if group.enable_applications or group.mapplications.where(:status.ne => 'accepted').count > 0),        
+              ["Home", "/a/#{group.slug}"],
+              ["Members (#{group.memberships.count})", "/a/#{group.slug}/members"],
+              (["Applications (#{group.mapplications.pending.count})", "/a/#{group.slug}/applications"] if group.enable_applications or group.mapplications.where(:status.ne => 'accepted').count > 0),        
               (["Teams",
                   (
                     group.teams(true).order('name asc').map { |team| [%Q{
                 #&nbsp;#{team.name}
                 #{if (unread = team.comments.where(:id.nin => current_account.read_receipts.pluck(:comment_id)).count) > 0; %Q{<span class="d-none badge badge-light" title="#{pluralize(unread, 'unread comment')}">#{unread}</span>}; end}
-                        }, "/h/#{group.slug}/teams/#{team.id}"] } + [['Overview', "/h/#{group.slug}/teams"], ['Create a team', "/h/#{group.slug}/teams/new"]]
+                        }, "/a/#{group.slug}/teams/#{team.id}"] } + [['Overview', "/a/#{group.slug}/teams"], ['Create a team', "/a/#{group.slug}/teams/new"]]
                   )              
                   ] if group.enable_teams),      
-              (["Qualities (#{group.qualities.count})", "/h/#{group.slug}/qualities"] if group.enable_qualities),
-              (["Calendar", "/h/#{group.slug}/calendar"] if group.teamup_calendar_url),
+              (["Qualities (#{group.qualities.count})", "/a/#{group.slug}/qualities"] if group.enable_qualities),
+              (["Calendar", "/a/#{group.slug}/calendar"] if group.teamup_calendar_url),
               (["Timetables",
                   (
-                    group.timetables(true).map { |timetable| [timetable.name, "/h/#{group.slug}/timetables/#{timetable.id}"] } + (membership.admin? ? [['Create a timetable', "/h/#{group.slug}/timetables/new"]] : [])
+                    group.timetables(true).map { |timetable| [timetable.name, "/a/#{group.slug}/timetables/#{timetable.id}"] } + (membership.admin? ? [['Create a timetable', "/a/#{group.slug}/timetables/new"]] : [])
                   )
                   ] if group.enable_timetables),
               (["Rotas",
                   (
-                    group.rotas(true).map { |rota| [rota.name, "/h/#{group.slug}/rotas/#{rota.id}"] } + (membership.admin? ? [['Create a rota', "/h/#{group.slug}/rotas/new"]] : [])
+                    group.rotas(true).map { |rota| [rota.name, "/a/#{group.slug}/rotas/#{rota.id}"] } + (membership.admin? ? [['Create a rota', "/a/#{group.slug}/rotas/new"]] : [])
                   )              
                   ] if group.enable_rotas),
-              (["Tiers (#{group.tiers.count})", "/h/#{group.slug}/tiers"] if group.enable_tiers),
-              (["Bookings (#{group.bookings.count})", "/h/#{group.slug}/bookings"] if group.enable_bookings),
-              (["Accommodation (#{group.accoms.count})", "/h/#{group.slug}/accoms"] if group.enable_accommodation),
-              (["Transport (#{group.transports.count})", "/h/#{group.slug}/transports"] if group.enable_transport),        
-              (["Inventory", "/h/#{group.slug}/inventory"] if group.enable_inventory),       
-              (["Budget", "/h/#{group.slug}/budget"] if group.enable_budget),    
-              (["Timetracker", "/h/#{group.slug}/timetracker"] if group.enable_timetracker),    
+              (["Tiers (#{group.tiers.count})", "/a/#{group.slug}/tiers"] if group.enable_tiers),
+              (["Bookings (#{group.bookings.count})", "/a/#{group.slug}/bookings"] if group.enable_bookings),
+              (["Accommodation (#{group.accoms.count})", "/a/#{group.slug}/accoms"] if group.enable_accommodation),
+              (["Transport (#{group.transports.count})", "/a/#{group.slug}/transports"] if group.enable_transport),        
+              (["Inventory", "/a/#{group.slug}/inventory"] if group.enable_inventory),       
+              (["Budget", "/a/#{group.slug}/budget"] if group.enable_budget),    
+              (["Timetracker", "/a/#{group.slug}/timetracker"] if group.enable_timetracker),    
               ].compact,
             ul_class: "sidenav-second-level collapse #{'show' if @group == group}",
             li_class: '',

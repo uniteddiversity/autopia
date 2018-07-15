@@ -12,7 +12,7 @@
 <script>
   $(function () {
     $('#calendar').fullCalendar({
-      events: '/h/<%=@group.slug%>/bookings',
+      events: '/a/<%=@group.slug%>/bookings',
       buttonText: {
         today: 'Today'
       },
@@ -20,7 +20,7 @@
         console.log(day)
         $('.popover').remove()
         el = $(this);
-        $.get('/h/<%=@group.slug%>/bookings?date=' + day._start._i, function (response) {
+        $.get('/a/<%=@group.slug%>/bookings?date=' + day._start._i, function (response) {
           el.popover({
             content: response,
             trigger: 'manual',

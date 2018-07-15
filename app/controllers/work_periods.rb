@@ -1,6 +1,6 @@
 Autopo::App.controller do
   
-  get '/h/:slug/timetracker' do    
+  get '/a/:slug/timetracker' do    
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
     confirmed_membership_required!
@@ -11,7 +11,7 @@ Autopo::App.controller do
     erb :'work_periods/timetracker'
   end
   
-  post '/h/:slug/work_periods/start' do
+  post '/a/:slug/work_periods/start' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
     confirmed_membership_required!
@@ -19,7 +19,7 @@ Autopo::App.controller do
     redirect back
   end
   
-  post '/h/:slug/work_periods/end' do
+  post '/a/:slug/work_periods/end' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
     confirmed_membership_required!
@@ -30,7 +30,7 @@ Autopo::App.controller do
     redirect back
   end
   
-  get '/h/:slug/work_periods/:id/destroy' do
+  get '/a/:slug/work_periods/:id/destroy' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)        
     confirmed_membership_required!

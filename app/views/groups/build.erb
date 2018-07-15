@@ -75,7 +75,7 @@
   })
 </script>
 
-<% form_for @group, @group.new_record? ? '/h/new' : "/h/#{@group.slug}/edit", :multipart => true do |f| %>
+<% form_for @group, @group.new_record? ? '/a/new' : "/a/#{@group.slug}/edit", :multipart => true do |f| %>
 
 
   <ul id="group-build-nav" class="nav nav-tabs" role="tablist">
@@ -132,7 +132,7 @@
     </div>
 
     <% if @group.persisted? %>
-      <%= f.submit_block destroy_url: "/h/#{@group.slug}/destroy" %>  
+      <%= f.submit_block destroy_url: "/a/#{@group.slug}/destroy" %>  
     <% end %>
 
   <% end %>

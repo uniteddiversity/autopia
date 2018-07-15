@@ -117,7 +117,7 @@
       </a>
       
       <div style="display:none" id="add-member" class="my-3">
-        <% form_tag "/h/#{@group.slug}/add_member", :class => 'form-inline' do %>
+        <% form_tag "/a/#{@group.slug}/add_member", :class => 'form-inline' do %>
           <%= text_field_tag :name, :class => 'form-control mr-1', :placeholder => 'Name', :autocomplete => 'off' %>
           <%= email_field_tag :email, :class => 'form-control mr-1', :placeholder => 'Email' %>
           <label class="d-inline mr-1">Suppress notification <%= check_box_tag :prevent_notifications %></label>
@@ -159,7 +159,7 @@
           <%= partial :'accounts/account', :object => account, :locals => {:membership => membership} %>
           <div>
             <% membership.teamships.each { |teamship| %>
-              <a href="/h/<%=@group.slug%>/teams"><span class="badge badge-primary"><%=teamship.team.name%></span></a>
+              <a href="/a/<%=@group.slug%>/teams"><span class="badge badge-primary"><%=teamship.team.name%></span></a>
             <% } %>        
           </div>
         </td>

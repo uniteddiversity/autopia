@@ -60,7 +60,7 @@ Autopo::App.controller do
     @account = current_account        
     if @account.update_attributes(mass_assigning(params[:account], Account))
       flash[:notice] = "<strong>Awesome!</strong> Your account was updated successfully."
-      redirect (params[:h] ? "/h/#{params[:h]}" : '/accounts/edit')
+      redirect (params[:h] ? "/a/#{params[:h]}" : '/accounts/edit')
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
       erb :'accounts/build'

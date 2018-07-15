@@ -1,6 +1,6 @@
 Autopo::App.controller do
   
-  get '/h/:slug/mapplications/:id' do
+  get '/a/:slug/mapplications/:id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!      
@@ -24,10 +24,10 @@ Autopo::App.controller do
     end
   end    
 	
-  get '/h/:slug/apply' do      
+  get '/a/:slug/apply' do      
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    redirect "/h/#{@group.slug}/join" unless @group.enable_applications
+    redirect "/a/#{@group.slug}/join" unless @group.enable_applications
     @title = "#{@group.name} · Autopo"
     @og_desc = "#{@group.name} is being co-created on Autopo"
     @og_image = @group.cover_image ? @group.cover_image.url : "#{ENV['BASE_URI']}/images/autopo-link.png"
@@ -35,7 +35,7 @@ Autopo::App.controller do
     erb :'mapplications/apply'
   end    
     
-  post '/h/:slug/apply' do
+  post '/a/:slug/apply' do
     @group = Group.find_by(slug: params[:slug]) || not_found
 
     if current_account
@@ -60,11 +60,11 @@ Autopo::App.controller do
       redirect back
     else
       @mapplication = @group.mapplications.create! :account => @account, :status => 'pending', :answers => (params[:answers].map { |i,x| [@group.application_questions_a[i.to_i],x] } if params[:answers])
-      redirect "/h/#{@group.slug}/apply?applied=true"
+      redirect "/a/#{@group.slug}/apply?applied=true"
     end    
   end
            
-  get '/h/:slug/applications' do     
+  get '/a/:slug/applications' do     
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!    
@@ -73,14 +73,14 @@ Autopo::App.controller do
     erb :'mapplications/pending'
   end   
     
-  get '/h/:slug/threshold' do     
+  get '/a/:slug/threshold' do     
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!      
     partial :'mapplications/threshold'
   end     
     
-  post '/h/:slug/threshold' do     
+  post '/a/:slug/threshold' do     
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!      
@@ -89,7 +89,7 @@ Autopo::App.controller do
     200
   end         
     
-  get '/h/:slug/applications/paused' do     
+  get '/a/:slug/applications/paused' do     
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!

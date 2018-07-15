@@ -2,7 +2,7 @@
   <%= partial :'accounts/account', :object => (account = mapplication.account) %>
 </td>
 <td>
-  <a href="javascript:;" onclick="$('#modal .modal-content').load('/h/<%=@group.slug%>/mapplications/<%=mapplication.id%>', function () {
+  <a href="javascript:;" onclick="$('#modal .modal-content').load('/a/<%=@group.slug%>/mapplications/<%=mapplication.id%>', function () {
         $('#modal').modal('show')
       });">
        <%=mapplication.created_at%>

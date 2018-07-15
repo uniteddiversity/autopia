@@ -1,9 +1,9 @@
-<% form_for @transport, @transport.new_record? ? "/h/#{@group.slug}/transports/new" : "/h/#{@group.slug}/transports/#{@transport.id}/edit" do |f| %>
+<% form_for @transport, @transport.new_record? ? "/a/#{@group.slug}/transports/new" : "/a/#{@group.slug}/transports/#{@transport.id}/edit" do |f| %>
   <%= f.text_block :name %>
   <%= f.text_area_block :description %>
   <%= f.datetime_block :outbound_departure_time %>
   <%= f.datetime_block :return_departure_time %>
   <%= f.number_block :cost, :disabled => !@membership.admin? %>
   <%= f.number_block :capacity %>
-  <%= f.submit_block destroy_url: "/h/#{@group.slug}/transports/#{@transport.id}/destroy" %>
+  <%= f.submit_block destroy_url: "/a/#{@group.slug}/transports/#{@transport.id}/destroy" %>
 <% end %>

@@ -1,20 +1,20 @@
 Autopo::App.controller do
     
-  post '/h/:slug/tiers/new' do
+  post '/a/:slug/tiers/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
     @tier = @group.tiers.build(params[:tier])
     @tier.account = current_account
     if @tier.save
-      redirect "/h/#{@group.slug}/tiers"
+      redirect "/a/#{@group.slug}/tiers"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the tier from being saved."
       erb :'tiers/build'    
     end
   end  
  
-  get '/h/:slug/tiers' do
+  get '/a/:slug/tiers' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
@@ -25,7 +25,7 @@ Autopo::App.controller do
     end
   end
   
-  get '/h/:slug/tiers/:id/edit' do
+  get '/a/:slug/tiers/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
@@ -33,26 +33,26 @@ Autopo::App.controller do
     erb :'tiers/build'
   end
   
-  post '/h/:slug/tiers/:id/edit' do
+  post '/a/:slug/tiers/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
     @tier = @group.tiers.find(params[:id])
     if @tier.update_attributes(params[:tier])
-      redirect "/h/#{@group.slug}/tiers"
+      redirect "/a/#{@group.slug}/tiers"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the tier from being saved." 
       erb :'tiers/build'
     end
   end  
   
-  get '/h/:slug/tiers/:id/destroy' do
+  get '/a/:slug/tiers/:id/destroy' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
     @tier = @group.tiers.find(params[:id])
     @tier.destroy
-    redirect "/h/#{@group.slug}/tiers"      
+    redirect "/a/#{@group.slug}/tiers"      
   end     
         
   get '/tierships/create' do

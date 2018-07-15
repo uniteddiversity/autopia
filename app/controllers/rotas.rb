@@ -1,6 +1,6 @@
 Autopo::App.controller do
   
-  get '/h/:slug/rotas/new' do
+  get '/a/:slug/rotas/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
     group_admins_only!
@@ -8,28 +8,28 @@ Autopo::App.controller do
     erb :'rotas/build'
   end
   
-  post '/h/:slug/rotas/new' do
+  post '/a/:slug/rotas/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @rota = @group.rotas.build(params[:rota])      
     @rota.account = current_account    
     if @rota.save
-      redirect "/h/#{@group.slug}/rotas/#{@rota.id}"
+      redirect "/a/#{@group.slug}/rotas/#{@rota.id}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the rota from being saved."
       erb :'rotas/build'    
     end
   end
 
-  get '/h/:slug/rotas' do
+  get '/a/:slug/rotas' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     erb :'rotas/rotas'     
   end     
   
-  get '/h/:slug/rotas/:id' do
+  get '/a/:slug/rotas/:id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
@@ -41,7 +41,7 @@ Autopo::App.controller do
     end
   end
   
-  get '/h/:slug/rotas/:id/edit' do
+  get '/a/:slug/rotas/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
@@ -49,26 +49,26 @@ Autopo::App.controller do
     erb :'rotas/build'
   end
   
-  post '/h/:slug/rotas/:id/edit' do
+  post '/a/:slug/rotas/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @rota = @group.rotas.find(params[:id]) || not_found
     if @rota.update_attributes(params[:rota])
-      redirect "/h/#{@group.slug}/rotas/#{@rota.id}"
+      redirect "/a/#{@group.slug}/rotas/#{@rota.id}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the rota from being saved." 
       erb :'rotas/build'
     end
   end  
         
-  get '/h/:slug/rotas/:id/destroy' do
+  get '/a/:slug/rotas/:id/destroy' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
     @rota = @group.rotas.find(params[:id]) || not_found
     @rota.destroy
-    redirect "/h/#{@group.slug}/rotas"      
+    redirect "/a/#{@group.slug}/rotas"      
   end   
   
   post '/roles/order' do

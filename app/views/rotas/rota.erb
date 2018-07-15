@@ -5,7 +5,7 @@
 </h2>
 
 <% if @membership.admin? %>
-  <a style="border-bottom: 1px dotted; text-decoration: none" href="/h/<%=@group.slug%>/rotas/<%=@rota.id%>/edit">
+  <a style="border-bottom: 1px dotted; text-decoration: none" href="/a/<%=@group.slug%>/rotas/<%=@rota.id%>/edit">
     Edit rota
   </a>
 <% end %>
@@ -16,7 +16,7 @@
   </div>
 <% end %>
 
-<div data-pagelet-url="/h/<%=@group.slug%>/rotas/<%=@rota.id%>">
+<div data-pagelet-url="/a/<%=@group.slug%>/rotas/<%=@rota.id%>">
   <%= partial :'rotas/rota', :locals => {:rota => @rota} %>
 </div>
 

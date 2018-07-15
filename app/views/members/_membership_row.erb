@@ -3,7 +3,7 @@
   <%= partial :'accounts/account', :object => account, :locals => {:membership => membership} %>
   <div>
     <% membership.teamships.each { |teamship| unless teamship.team.name == 'General' %>
-        <a href="/h/<%=@group.slug%>/teams/<%=teamship.team_id%>"><span class="badge badge-primary"><%=teamship.team.name%></span></a>
+        <a href="/a/<%=@group.slug%>/teams/<%=teamship.team_id%>"><span class="badge badge-primary"><%=teamship.team.name%></span></a>
       <% end } %>        
   </div>
 </td>
@@ -12,7 +12,7 @@
 </td>        
 <td>
   <% mapplication = membership.mapplication; if mapplication and mapplication.answers %>
-    <a href="javascript:;" onclick="$('#modal .modal-content').load('/h/<%=@group.slug%>/mapplications/<%=mapplication.id%>', function () {
+    <a href="javascript:;" onclick="$('#modal .modal-content').load('/a/<%=@group.slug%>/mapplications/<%=mapplication.id%>', function () {
           $('#modal').modal('show')
         });">
          <%= membership.created_at %>          

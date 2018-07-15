@@ -205,65 +205,65 @@ class Notification
   def link
     case type.to_sym
     when :created_group
-      ['View group', "#{ENV['BASE_URI']}/h/#{group.slug}"]
+      ['View group', "#{ENV['BASE_URI']}/a/#{group.slug}"]
     when :applied
-      ['View applications', "#{ENV['BASE_URI']}/h/#{group.slug}/applications"]
+      ['View applications', "#{ENV['BASE_URI']}/a/#{group.slug}/applications"]
     when :joined_group
-      ['View members', "#{ENV['BASE_URI']}/h/#{group.slug}/members"]      
+      ['View members', "#{ENV['BASE_URI']}/a/#{group.slug}/members"]      
     when :joined_team
-      ['View team', "#{ENV['BASE_URI']}/h/#{group.slug}/teams/#{notifiable.team_id}"]
+      ['View team', "#{ENV['BASE_URI']}/a/#{group.slug}/teams/#{notifiable.team_id}"]
     when :created_spend
-      ['View budget', "#{ENV['BASE_URI']}/h/#{group.slug}/budget"]
+      ['View budget', "#{ENV['BASE_URI']}/a/#{group.slug}/budget"]
     when :created_activity
-      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/activities/#{notifiable.id}"]
+      ['View timetable', "#{ENV['BASE_URI']}/a/#{group.slug}/activities/#{notifiable.id}"]
     when :signed_up_to_a_shift
-      ['View rotas', "#{ENV['BASE_URI']}/h/#{group.slug}/rotas/#{notifiable.rota_id}"]
+      ['View rotas', "#{ENV['BASE_URI']}/a/#{group.slug}/rotas/#{notifiable.rota_id}"]
     when :joined_tier
-      ['View tiers', "#{ENV['BASE_URI']}/h/#{group.slug}/tiers"]    
+      ['View tiers', "#{ENV['BASE_URI']}/a/#{group.slug}/tiers"]    
     when :joined_transport
-      ['View transport', "#{ENV['BASE_URI']}/h/#{group.slug}/transports"] 
+      ['View transport', "#{ENV['BASE_URI']}/a/#{group.slug}/transports"] 
     when :joined_accom
-      ['View accommodation', "#{ENV['BASE_URI']}/h/#{group.slug}/accoms"]      
+      ['View accommodation', "#{ENV['BASE_URI']}/a/#{group.slug}/accoms"]      
     when :interested_in_activity
-      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/activities/#{notifiable.activity_id}"]  
+      ['View timetable', "#{ENV['BASE_URI']}/a/#{group.slug}/activities/#{notifiable.activity_id}"]  
     when :gave_verdict
-      ['View applications', "#{ENV['BASE_URI']}/h/#{group.slug}/applications"]
+      ['View applications', "#{ENV['BASE_URI']}/a/#{group.slug}/applications"]
     when :created_transport
-      ['View transport', "#{ENV['BASE_URI']}/h/#{group.slug}/transports"] 
+      ['View transport', "#{ENV['BASE_URI']}/a/#{group.slug}/transports"] 
     when :created_tier
-      ['View tiers', "#{ENV['BASE_URI']}/h/#{group.slug}/tiers"]    
+      ['View tiers', "#{ENV['BASE_URI']}/a/#{group.slug}/tiers"]    
     when :created_team
-      ['View team', "#{ENV['BASE_URI']}/h/#{group.slug}/teams/#{notifiable.id}"]
+      ['View team', "#{ENV['BASE_URI']}/a/#{group.slug}/teams/#{notifiable.id}"]
     when :created_accom
-      ['View accommodation', "#{ENV['BASE_URI']}/h/#{group.slug}/accoms"]      
+      ['View accommodation', "#{ENV['BASE_URI']}/a/#{group.slug}/accoms"]      
     when :created_rota
-      ['View rotas', "#{ENV['BASE_URI']}/h/#{group.slug}/rotas/#{notifiable.id}"]
+      ['View rotas', "#{ENV['BASE_URI']}/a/#{group.slug}/rotas/#{notifiable.id}"]
     when :scheduled_activity
-      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/activities/#{notifiable.id}"]  
+      ['View timetable', "#{ENV['BASE_URI']}/a/#{group.slug}/activities/#{notifiable.id}"]  
     when :unscheduled_activity
-      ['View timetable', "#{ENV['BASE_URI']}/h/#{group.slug}/activities/#{notifiable.id}"]  
+      ['View timetable', "#{ENV['BASE_URI']}/a/#{group.slug}/activities/#{notifiable.id}"]  
     when :made_admin
-      ['View members', "#{ENV['BASE_URI']}/h/#{group.slug}/members"]      
+      ['View members', "#{ENV['BASE_URI']}/a/#{group.slug}/members"]      
     when :unadmined
-      ['View members', "#{ENV['BASE_URI']}/h/#{group.slug}/members"]      
+      ['View members', "#{ENV['BASE_URI']}/a/#{group.slug}/members"]      
     when :booked
-      ['View bookings', "#{ENV['BASE_URI']}/h/#{group.slug}/bookings"]  
+      ['View bookings', "#{ENV['BASE_URI']}/a/#{group.slug}/bookings"]  
     when :created_timetable
-      ['View timetables', "#{ENV['BASE_URI']}/h/#{group.slug}/timetables/#{notifiable.id}"]      
+      ['View timetables', "#{ENV['BASE_URI']}/a/#{group.slug}/timetables/#{notifiable.id}"]      
     when :cultivating_quality
-      ['View qualities', "#{ENV['BASE_URI']}/h/#{group.slug}/qualities"]
+      ['View qualities', "#{ENV['BASE_URI']}/a/#{group.slug}/qualities"]
     when :commented
-      ['View post', "#{ENV['BASE_URI']}/h/#{group.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
+      ['View post', "#{ENV['BASE_URI']}/a/#{group.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
     when :liked_a_comment
-      ['View post', "#{ENV['BASE_URI']}/h/#{group.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
+      ['View post', "#{ENV['BASE_URI']}/a/#{group.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
     when :left_group
-      ['View members', "#{ENV['BASE_URI']}/h/#{group.slug}/members"]
+      ['View members', "#{ENV['BASE_URI']}/a/#{group.slug}/members"]
     when :created_payment
-      ['View budget', "#{ENV['BASE_URI']}/h/#{group.slug}/budget"]
+      ['View budget', "#{ENV['BASE_URI']}/a/#{group.slug}/budget"]
     when :created_inventory_item
-      ['View inventory', "#{ENV['BASE_URI']}/h/#{group.slug}/inventory"]
+      ['View inventory', "#{ENV['BASE_URI']}/a/#{group.slug}/inventory"]
     when :mapplication_removed
-      ['View applications', "#{ENV['BASE_URI']}/h/#{group.slug}/applications"]
+      ['View applications', "#{ENV['BASE_URI']}/a/#{group.slug}/applications"]
     end
   end
     

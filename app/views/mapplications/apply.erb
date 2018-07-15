@@ -32,7 +32,7 @@
         <%=@group.intro_for_non_members%>
       <% end %>
 
-      <% form_for @account, "/h/#{@group.slug}/apply", :style => 'margin-top: 20px' do |f| %>
+      <% form_for @account, "/a/#{@group.slug}/apply", :style => 'margin-top: 20px' do |f| %>
 
         <script>
           $(function () {

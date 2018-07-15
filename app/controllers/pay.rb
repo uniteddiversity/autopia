@@ -1,13 +1,13 @@
 Autopo::App.controller do
     
-  get '/h/:slug/balance' do        
+  get '/a/:slug/balance' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     erb :'groups/balance'
   end    
 	
-  post '/h/:slug/pay' do
+  post '/a/:slug/pay' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!
@@ -26,7 +26,7 @@ Autopo::App.controller do
     200
   end 
   
-  post '/h/:slug/payout' do
+  post '/a/:slug/payout' do
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
@@ -42,7 +42,7 @@ Autopo::App.controller do
       end
 
 			flash[:notice] = 'The payout was requested. Payouts can take 3-5 working days to process.'    	
-      redirect "/h/#{@group.slug}"
+      redirect "/a/#{@group.slug}"
     else
       flash.now[:error] = 'Some errors prevented the payout'
       erb :'groups/build'        

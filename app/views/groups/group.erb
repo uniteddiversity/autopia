@@ -3,23 +3,23 @@
 
 <p>         
   <% if @membership.admin? %>    
-    <a class="btn btn-outline-primary mb-1" href="/h/<%=@group.slug%>/edit">Edit group</a>
-    <a class="btn btn-outline-primary mb-1" href="/h/<%=@group.slug%>/balance">Balance: <%=@group.currency_symbol%><%="#{'%.2f' % @group.balance}"%></a>
+    <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/edit">Edit group</a>
+    <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/balance">Balance: <%=@group.currency_symbol%><%="#{'%.2f' % @group.balance}"%></a>
   <% end %>  
   <% if @membership.unsubscribed %>
-    <a class="btn btn-outline-primary mb-1" href="/h/<%=@group.slug%>/subscribe">Turn on email notifications of key events</a>
+    <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/subscribe">Turn on email notifications of key events</a>
   <% else %>
-    <a class="btn btn-outline-primary mb-1" href="/h/<%=@group.slug%>/unsubscribe">Turn off email notifications of key events</a>
+    <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/unsubscribe">Turn off email notifications of key events</a>
   <% end %>              
-  <a class="btn btn-outline-primary mb-1" data-confirm="Are you sure you want to leave the group?" href="/h/<%=@group.slug%>/leave">Leave group</a>
+  <a class="btn btn-outline-primary mb-1" data-confirm="Are you sure you want to leave the group?" href="/a/<%=@group.slug%>/leave">Leave group</a>
 </p>
 <p class="lead">
-  Non-members can <%=  @group.enable_applications ? 'apply' : 'join' %> at <a href="<%="#{ENV['BASE_URI']}/h/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%>"><%="#{ENV['BASE_URI']}/h/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%></a>
+  Non-members can <%=  @group.enable_applications ? 'apply' : 'join' %> at <a href="<%="#{ENV['BASE_URI']}/a/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%>"><%="#{ENV['BASE_URI']}/a/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%></a>
 </p>                 
 
 <div class="row">
   <div class="col-sm-6">
-    <div data-pagelet-url="/h/<%=@group.slug%>/todos" style="margin-top: 20px">
+    <div data-pagelet-url="/a/<%=@group.slug%>/todos" style="margin-top: 20px">
       <%= partial :'groups/todos' %>
     </div>    
     <% if @group.intro_for_members %>  
@@ -34,6 +34,6 @@
     </div>
   </div>  
   <div class="col-sm-6">
-    <div data-pagelet-url="/h/<%=@group.slug%>/newsfeed" data-pusher-channel="notifications.<%=@group.slug%>" style="margin-top: 10px"></div>
+    <div data-pagelet-url="/a/<%=@group.slug%>/newsfeed" data-pusher-channel="notifications.<%=@group.slug%>" style="margin-top: 10px"></div>
   </div>
 </div>

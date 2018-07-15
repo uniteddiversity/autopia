@@ -1,6 +1,6 @@
 Autopo::App.controller do
   
-  get '/h/:slug/timetables/new' do
+  get '/a/:slug/timetables/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
@@ -8,28 +8,28 @@ Autopo::App.controller do
     erb :'timetables/build'
   end
   
-  post '/h/:slug/timetables/new' do
+  post '/a/:slug/timetables/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @timetable = @group.timetables.build(params[:timetable])
     @timetable.account = current_account
     if @timetable.save
-      redirect "/h/#{@group.slug}/timetables/#{@timetable.id}"
+      redirect "/a/#{@group.slug}/timetables/#{@timetable.id}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the timetable from being saved."
       erb :'timetables/build'    
     end
   end  
 
-  get '/h/:slug/timetables' do
+  get '/a/:slug/timetables' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     erb :'timetables/timetables'      
   end
   
-  get '/h/:slug/timetables/:id' do
+  get '/a/:slug/timetables/:id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     @timetable = @group.timetables.find(params[:id])
@@ -41,7 +41,7 @@ Autopo::App.controller do
     end
   end  
   
-  get '/h/:slug/timetables/:id/edit' do
+  get '/a/:slug/timetables/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
@@ -49,26 +49,26 @@ Autopo::App.controller do
     erb :'timetables/build'
   end
   
-  post '/h/:slug/timetables/:id/edit' do
+  post '/a/:slug/timetables/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
     @timetable = @group.timetables.find(params[:id])
     if @timetable.update_attributes(params[:timetable])
-      redirect "/h/#{@group.slug}/timetables/#{@timetable.id}"
+      redirect "/a/#{@group.slug}/timetables/#{@timetable.id}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the timetable from being saved." 
       erb :'timetables/build'
     end
   end  
         
-  get '/h/:slug/timetables/:id/destroy' do
+  get '/a/:slug/timetables/:id/destroy' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
     @timetable = @group.timetables.find(params[:id])
     @timetable.destroy
-    redirect "/h/#{@group.slug}/timetables"      
+    redirect "/a/#{@group.slug}/timetables"      
   end    
   
   post '/spaces/order' do
@@ -145,7 +145,7 @@ Autopo::App.controller do
     end
   end  
   
-  get '/h/:slug/activities/:id' do
+  get '/a/:slug/activities/:id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     @activity = @group.activities.find(params[:id])
@@ -168,7 +168,7 @@ Autopo::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!      
     if @activity.update_attributes(params[:activity])
-      redirect "/h/#{@group.slug}/timetables/#{@activity.timetable_id}"
+      redirect "/a/#{@group.slug}/timetables/#{@activity.timetable_id}"
     else
       flash[:error] = 'There was an error saving the activity'
       erb :'timetables/activity_build'
@@ -181,7 +181,7 @@ Autopo::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @activity.destroy
-    redirect "/h/#{@group.slug}/timetables/#{@activity.timetable_id}"
+    redirect "/a/#{@group.slug}/timetables/#{@activity.timetable_id}"
   end 
     
   post '/activities/:id/schedule' do

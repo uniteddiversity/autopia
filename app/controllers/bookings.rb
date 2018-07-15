@@ -1,6 +1,6 @@
 Autopo::App.controller do
   
-  get '/h/:slug/bookings', :provides => [:html, :json] do
+  get '/a/:slug/bookings', :provides => [:html, :json] do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
@@ -16,7 +16,7 @@ Autopo::App.controller do
     end
   end  
   
-  get '/h/:slug/book' do
+  get '/a/:slug/book' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
@@ -33,7 +33,7 @@ Autopo::App.controller do
     redirect back
   end
   
-  get '/h/:slug/create_booking_lift' do
+  get '/a/:slug/create_booking_lift' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!

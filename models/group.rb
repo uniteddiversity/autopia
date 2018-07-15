@@ -69,7 +69,7 @@ class Group
       group = self
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body %Q{#{group.account.name} (#{group.account.email}) created a new group: <a href="#{ENV['BASE_URI']}/h/#{group.slug}">#{group.name}</a>}
+        body %Q{#{group.account.name} (#{group.account.email}) created a new group: <a href="#{ENV['BASE_URI']}/a/#{group.slug}">#{group.name}</a>}
       end
       mail.html_part = html_part
       
@@ -247,7 +247,7 @@ class Group
   
   def self.new_hints
     {
-      :slug => %Q{Group URL: #{ENV['BASE_URI']}/h/<span class="slug-replace"></span>},
+      :slug => %Q{Group URL: #{ENV['BASE_URI']}/a/<span class="slug-replace"></span>},
       :currency => 'This cannot be changed, choose wisely',
       :fixed_threshold => 'Automatically accept applications with this number of proposers + supporters (with at least one proposer)',
       :proposing_delay => 'Accept proposers on applications only once the application is this many hours old'

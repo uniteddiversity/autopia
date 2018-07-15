@@ -1,6 +1,6 @@
 Autopo::App.controller do
 
-  get '/h/:slug/transports' do
+  get '/a/:slug/transports' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
@@ -13,7 +13,7 @@ Autopo::App.controller do
     end
   end
   
-  post '/h/:slug/transports/new' do
+  post '/a/:slug/transports/new' do
     @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
@@ -27,7 +27,7 @@ Autopo::App.controller do
     end
   end    
   
-  get '/h/:slug/transports/:id/edit' do
+  get '/a/:slug/transports/:id/edit' do
     @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
@@ -35,25 +35,25 @@ Autopo::App.controller do
     erb :'transports/build'     
   end  
   
-  post '/h/:slug/transports/:id/edit' do
+  post '/a/:slug/transports/:id/edit' do
     @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @transport = @group.transports.find(params[:id]) || not_found
     if @transport.update_attributes(params[:transport])
-      redirect "/h/#{@group.slug}/transports"
+      redirect "/a/#{@group.slug}/transports"
     else
       erb :'transports/build'
     end
   end   
 
-  get '/h/:slug/transports/:id/destroy' do
+  get '/a/:slug/transports/:id/destroy' do
     @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     @transport = @group.transports.find(params[:id]) || not_found
     @transport.destroy   
-    redirect "/h/#{@group.slug}/transports"
+    redirect "/a/#{@group.slug}/transports"
   end  
     
   get '/transportships/create' do

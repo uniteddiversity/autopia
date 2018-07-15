@@ -1,4 +1,4 @@
-<% form_for @spend, @spend.new_record? ? "/h/#{@group.slug}/spends/new" : "/h/#{@group.slug}/spends/#{@spend.id}/edit", :class => 'no-trigger' do |f| %>
+<% form_for @spend, @spend.new_record? ? "/a/#{@group.slug}/spends/new" : "/a/#{@group.slug}/spends/#{@spend.id}/edit", :class => 'no-trigger' do |f| %>
   <%= f.text_block :item %>
   <%= f.number_block :amount %>  
   <%= f.select_block :team_id, :options => @group.teams.order('name asc').map { |team| [team.name, team.id] } %>  
@@ -8,5 +8,5 @@
   <% if @spend.persisted? %>
     <%= f.check_box_block :reimbursed %>  
   <% end %>
-  <%= f.submit_block destroy_url: "/h/#{@group.slug}/spends/#{@spend.id}/destroy" %>
+  <%= f.submit_block destroy_url: "/a/#{@group.slug}/spends/#{@spend.id}/destroy" %>
 <% end %>

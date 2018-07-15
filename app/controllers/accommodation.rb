@@ -1,20 +1,20 @@
 Autopo::App.controller do
     
-  post '/h/:slug/accoms/new' do
+  post '/a/:slug/accoms/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
     @accom = @group.accoms.build(params[:accom])
     @accom.account = current_account
     if @accom.save
-      redirect "/h/#{@group.slug}/accoms"
+      redirect "/a/#{@group.slug}/accoms"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the accommodation from being saved."
       erb :'accoms/build'    
     end
   end  
   
-  get '/h/:slug/accoms' do
+  get '/a/:slug/accoms' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
@@ -25,7 +25,7 @@ Autopo::App.controller do
     end
   end
     
-  get '/h/:slug/accoms/:id/edit' do
+  get '/a/:slug/accoms/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
@@ -33,26 +33,26 @@ Autopo::App.controller do
     erb :'accoms/build'
   end
   
-  post '/h/:slug/accoms/:id/edit' do
+  post '/a/:slug/accoms/:id/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
     @accom = @group.accoms.find(params[:id])
     if @accom.update_attributes(params[:accom])
-      redirect "/h/#{@group.slug}/accoms"
+      redirect "/a/#{@group.slug}/accoms"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the accommodation from being saved." 
       erb :'accoms/build'
     end
   end  
   
-  get '/h/:slug/accoms/:id/destroy' do
+  get '/a/:slug/accoms/:id/destroy' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
     @accom = @group.accoms.find(params[:id])
     @accom.destroy
-    redirect "/h/#{@group.slug}/accoms"      
+    redirect "/a/#{@group.slug}/accoms"      
   end 
     
   get '/accomships/create' do

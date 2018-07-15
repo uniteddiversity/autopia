@@ -1,7 +1,7 @@
 
 <%= partial :'groups/header' %>
 
-<div data-pagelet-url="/h/<%=@group.slug%>/threshold">
+<div data-pagelet-url="/a/<%=@group.slug%>/threshold">
   <%= partial :'mapplications/threshold' %>
 </div>
 
@@ -18,5 +18,5 @@
 <%= partial :'mapplications/mapplications' %>
 
 <% if @group.mapplications.paused.count > 0 %>
-  <a href="/h/<%=@group.slug%>/applications/paused">View <%=pluralize(@group.mapplications.paused.count, 'paused application')%></a>
+  <a href="/a/<%=@group.slug%>/applications/paused">View <%=pluralize(@group.mapplications.paused.count, 'paused application')%></a>
 <% end %>

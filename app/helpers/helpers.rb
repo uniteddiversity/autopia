@@ -46,7 +46,7 @@ Autopo::App.helpers do
       session[:return_to] = request.url
       if membership
         flash[:notice] = 'You must make a payment before accessing that page'
-        request.xhr? ? halt(403) : redirect("/h/#{@group.slug}")
+        request.xhr? ? halt(403) : redirect("/a/#{@group.slug}")
       else
         flash[:notice] = 'You must be a member of the group to access that page'
         request.xhr? ? halt(403) : redirect(account ? '/' : '/accounts/sign_in')

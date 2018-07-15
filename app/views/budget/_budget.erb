@@ -82,7 +82,7 @@
       </tr>
       <% @group.teams.order('name asc').each { |team| %>
         <tr <% if team.budget and team.spent > team.budget %>class="danger"<% end %>>
-          <td><a href="/h/<%=@group.slug%>/teams/<%=team.id%>"><%=team.name%></a></td>
+          <td><a href="/a/<%=@group.slug%>/teams/<%=team.id%>"><%=team.name%></a></td>
           <td>
             <% if team.budget %>
               <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "#{@group.currency_symbol}#{team.budget}" if team.budget %></a>
@@ -135,7 +135,7 @@
         <tr>
           <td>
             <% if @membership.admin? %>
-              <a href="/h/<%=@group.slug%>/spends/<%=spend.id%>/edit">
+              <a href="/a/<%=@group.slug%>/spends/<%=spend.id%>/edit">
                 <%=spend.item%>
               </a>
             <% else %>
@@ -145,7 +145,7 @@
           <td><%=@group.currency_symbol%><%=spend.amount%></td>
           <td>
             <% if spend.team %>
-              <a href="/h/<%=@group.slug%>/teams/<%=spend.team_id%>"><%=spend.team.name%></a>
+              <a href="/a/<%=@group.slug%>/teams/<%=spend.team_id%>"><%=spend.team.name%></a>
             <% end %>
           </td>   
           <td><a href="/accounts/<%=spend.account_id%>"><%=spend.account.name%></a></td>

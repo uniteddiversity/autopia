@@ -1,6 +1,6 @@
 Autopo::App.controller do
 
-  post '/h/:slug/inbound/:id' do    
+  post '/a/:slug/inbound/:id' do    
 		mail, html, plain_text = EmailReceiver.receive(request)				    			
 		account = Account.find_by(email: mail.from.first)
 		@group = Group.find_by(slug: params[:slug]) || not_found  
@@ -11,7 +11,7 @@ Autopo::App.controller do
 		200
   end    
 
-  get '/h/:slug/commentable' do
+  get '/a/:slug/commentable' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
@@ -19,7 +19,7 @@ Autopo::App.controller do
     partial :'comments/commentable', :locals => {:commentable => @commentable}
   end
   
-  post '/h/:slug/comment' do
+  post '/a/:slug/comment' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!    
@@ -31,7 +31,7 @@ Autopo::App.controller do
       @comment.post = @post
     end
     if @comment.save
-      request.xhr? ? 200 : redirect("/h/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}#post-#{@comment.post_id}")
+      request.xhr? ? 200 : redirect("/a/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}#post-#{@comment.post_id}")
     else
       @post.destroy if @post
       flash[:error] = 'There was an error saving the comment'
@@ -58,7 +58,7 @@ Autopo::App.controller do
     confirmed_membership_required!
     halt unless @comment.account.id == current_account.id or @membership.admin?
     if @comment.update_attributes(params[:comment])
-      redirect "/h/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}#post-#{@comment.post_id}"
+      redirect "/a/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}#post-#{@comment.post_id}"
     else
       flash[:error] = 'There was an error saving the comment'
       erb :'comments/comment_build'
@@ -73,7 +73,7 @@ Autopo::App.controller do
     confirmed_membership_required!
     halt unless @comment.account.id == current_account.id or @membership.admin?
     @comment.destroy
-    redirect "/h/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}"
+    redirect "/a/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}"
   end  
   
   get '/comments/:id/likes' do
@@ -131,7 +131,7 @@ Autopo::App.controller do
     confirmed_membership_required!    
     @post.subscriptions.find_by(account: current_account).try(:destroy)
     flash[:notice] = "You unsubscribed from the post"
-    redirect "/h/#{@group.slug}/#{@post.commentable_type.underscore.pluralize}/#{@post.commentable_id}#post-#{@post.id}"        
+    redirect "/a/#{@group.slug}/#{@post.commentable_type.underscore.pluralize}/#{@post.commentable_id}#post-#{@post.id}"        
   end    
   
   get '/posts/:id/replies' do

@@ -5,7 +5,7 @@
 </h2>
 
 <% if @membership.admin? %>
-  <a style="border-bottom: 1px dotted; text-decoration: none" href="/h/<%=@group.slug%>/timetables/<%=@timetable.id%>/edit">
+  <a style="border-bottom: 1px dotted; text-decoration: none" href="/a/<%=@group.slug%>/timetables/<%=@timetable.id%>/edit">
     Edit timetable
   </a>
 <% end %>
@@ -23,7 +23,7 @@
   </div>
   <div class="mt-2">
 
-    <div data-pagelet-url="/h/<%=@group.slug%>/timetables/<%=@timetable.id%>">
+    <div data-pagelet-url="/a/<%=@group.slug%>/timetables/<%=@timetable.id%>">
       <%= partial :'timetables/timetable', :locals => {:timetable => @timetable} %>
     </div>
 

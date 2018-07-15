@@ -1,7 +1,7 @@
 <%= partial :'groups/header' %>
 
 <h2>
-  <a href="/h/<%=@group.slug%>/timetables/<%=@timetable.id%>"><%=@timetable.name%></a>
+  <a href="/a/<%=@group.slug%>/timetables/<%=@timetable.id%>"><%=@timetable.name%></a>
 </h2>
 
 <div class="row">
@@ -14,7 +14,7 @@
       <%=Rinku.auto_link(@activity.description.gsub("\n","<br />"))%>
     </p>
 
-    <div data-pagelet-url="/h/<%=@group.slug%>/commentable?commentable_type=Activity&commentable_id=<%=@activity.id%>">
+    <div data-pagelet-url="/a/<%=@group.slug%>/commentable?commentable_type=Activity&commentable_id=<%=@activity.id%>">
       <%= partial :'comments/commentable', :locals => {:commentable => @activity} %>
     </div>   
 

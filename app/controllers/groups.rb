@@ -1,6 +1,6 @@
 Autopo::App.controller do
     
-  get '/h/new' do
+  get '/a/new' do
     sign_in_required!
     @group = Group.new
     Group.enablable.each { |x|
@@ -10,32 +10,32 @@ Autopo::App.controller do
     erb :'groups/build'
   end  
     
-  post '/h/new' do
+  post '/a/new' do
     sign_in_required!
     @group = Group.new(params[:group])
     @group.account = current_account
     if @group.save
-      redirect "/h/#{@group.slug}"
+      redirect "/a/#{@group.slug}"
     else
       flash.now[:error] = 'Some errors prevented the group from being created'
       erb :'groups/build'
     end
   end
   
-  get '/h/:slug' do
+  get '/a/:slug' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     if !@membership
       if @group.enable_applications
-        redirect "/h/#{@group.slug}/apply"
+        redirect "/a/#{@group.slug}/apply"
       else
-        redirect "/h/#{@group.slug}/join"
+        redirect "/a/#{@group.slug}/join"
       end
     end
     erb :'groups/group'
   end  
   
-  get '/h/:slug/newsfeed' do
+  get '/a/:slug/newsfeed' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
     confirmed_membership_required!
@@ -43,7 +43,7 @@ Autopo::App.controller do
     partial :'groups/newsfeed', :locals => {:notifications => @notifications}   
   end
   
-  get '/h/:slug/minifeed' do
+  get '/a/:slug/minifeed' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)        
     confirmed_membership_required!
@@ -51,33 +51,33 @@ Autopo::App.controller do
     partial :'groups/newsfeed', :locals => {:notifications => @notifications, :minifeed => true}
   end
   
-  get '/h/:slug/todos' do
+  get '/a/:slug/todos' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     partial :'groups/todos'
   end   
       
-  get '/h/:slug/edit' do        
+  get '/a/:slug/edit' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     erb :'groups/build'
   end  
     
-  post '/h/:slug/edit' do
+  post '/a/:slug/edit' do
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
     if @group.update_attributes(params[:group])
-      redirect "/h/#{@group.slug}"
+      redirect "/a/#{@group.slug}"
     else
       flash.now[:error] = 'Some errors prevented the group from being created'
       erb :'groups/build'        
     end
   end
   
-  get '/h/:slug/destroy' do        
+  get '/a/:slug/destroy' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
@@ -86,22 +86,22 @@ Autopo::App.controller do
     redirect '/'
   end   
   
-  get '/h/:slug/subscribe' do        
+  get '/a/:slug/subscribe' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @membership.update_attribute(:unsubscribed, nil)
     flash[:notice] = "You'll now receive email notifications of key events in #{@group.name}"
-    redirect "/h/#{@group.slug}"
+    redirect "/a/#{@group.slug}"
   end      
   
-  get '/h/:slug/unsubscribe' do        
+  get '/a/:slug/unsubscribe' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @membership.update_attribute(:unsubscribed, true)
     flash[:notice] = "OK! You won't receive emails about key events in #{@group.name}"
-    redirect "/h/#{@group.slug}"
+    redirect "/a/#{@group.slug}"
   end      
         
 end

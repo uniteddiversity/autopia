@@ -18,7 +18,7 @@
     <% end %>
 
     <% if @membership.working? %>
-      <% form_for @membership.current_work_period, "/h/#{@group.slug}/work_periods/end" do |f| %>           
+      <% form_for @membership.current_work_period, "/a/#{@group.slug}/work_periods/end" do |f| %>           
         <%= f.text_block :description, label_class: 'd-none', required: true, placeholder: 'What did you work on?' %>        
         <div>
           <button class="btn btn-danger mr-1">End now</button>
@@ -30,7 +30,7 @@
         </div>
       <% end %>
     <% else %>      
-      <% form_for WorkPeriod.new, "/h/#{@group.slug}/work_periods/start" do |f| %>     
+      <% form_for WorkPeriod.new, "/a/#{@group.slug}/work_periods/start" do |f| %>     
         <div>
           <button class="btn btn-success mr-1">Start now</button>
           or <a class="text-muted" href="javascript:;" onclick="$(this).parent().hide().next().show().find('input').focus()">start before now</a>
@@ -70,7 +70,7 @@
         <td>
           <% account.work_periods.where(:group => @group).where(:start_time.gte => day, :start_time.lt => day+1).order('start_time asc').each { |work_period| %>
             <% d = work_period.duration; h = (d/3600).round(1) %>
-            <a data-confirm="Are you sure you want to delete this work period?" href="/h/<%=@group.slug%>/work_periods/<%=work_period.id%>/destroy">
+            <a data-confirm="Are you sure you want to delete this work period?" href="/a/<%=@group.slug%>/work_periods/<%=work_period.id%>/destroy">
               <span data-toggle="tooltip" class="badge <%= work_period.end_time ? (work_period.description ? 'badge-primary' : 'badge-secondary') : 'badge-success'%>" title="<%= work_period.end_time ? pluralize(h,'hour') : "#{pluralize(h,'hour')} and counting"%><% if work_period.description %>: <%=work_period.description%><% end%> ">
                 <%=h%>
               </span></a>
