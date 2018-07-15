@@ -54,7 +54,7 @@ class Membership
       
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body "Hi #{account.firstname},<br /><br />You're now a member of #{group.name} on #{ENV['SITE_TITLE']}. #{action}<br /><br />Best,<br />#{ENV['SIGNATURE']}" 
+        body "Hi #{account.firstname},<br /><br />You're now a member of #{group.name} on Autopo. #{action}<br /><br />Best,<br />The Autopo Team" 
       end
       mail.html_part = html_part
       

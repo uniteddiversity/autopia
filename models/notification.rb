@@ -72,7 +72,7 @@ class Notification
       if bcc.length > 0
         mail = Mail.new
         mail.bcc = bcc
-        mail.from = "#{ENV['SITE_TITLE']} <#{group.slug}+#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
+        mail.from = "Autopo <#{group.slug}+#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
         mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
             
         content = ERB.new(File.read(Padrino.root('app/views/emails/comment.erb'))).result(binding)

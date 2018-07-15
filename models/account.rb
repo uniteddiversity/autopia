@@ -255,8 +255,8 @@ class Account
       mail = Mail.new
       mail.to = self.email
       mail.from = ENV['NOTIFICATION_EMAIL']
-      mail.subject = "New password for #{ENV['SITE_TITLE']}"
-      mail.body = "Hi #{self.firstname},\n\nSomeone (hopefully you) requested a new password on #{ENV['SITE_TITLE']}.\n\nYour new password is: #{self.password}\n\nYou can sign in at #{ENV['BASE_URI']}/accounts/sign_in."
+      mail.subject = "New password for Autopo"
+      mail.body = "Hi #{self.firstname},\n\nSomeone (hopefully you) requested a new password on Autopo.\n\nYour new password is: #{self.password}\n\nYou can sign in at #{ENV['BASE_URI']}/accounts/sign_in."
       mail.deliver       
     else
       return false

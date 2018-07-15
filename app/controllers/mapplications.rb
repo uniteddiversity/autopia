@@ -28,9 +28,9 @@ Autopo::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     redirect "/h/#{@group.slug}/join" unless @group.enable_applications
-    @title = "#{@group.name} · #{ENV['SITE_TITLE']}"
-    @og_desc = "#{@group.name} is being co-created on #{ENV['SITE_TITLE']}"
-    @og_image = @group.cover_image ? @group.cover_image.url : ENV['SITE_IMAGE']
+    @title = "#{@group.name} · Autopo"
+    @og_desc = "#{@group.name} is being co-created on Autopo"
+    @og_image = @group.cover_image ? @group.cover_image.url : "#{ENV['BASE_URI']}/images/autopo-link.png"
     @account = Account.new
     erb :'mapplications/apply'
   end    
