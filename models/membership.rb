@@ -50,7 +50,7 @@ class Membership
         action = %Q{<a href="#{ENV['BASE_URI']}/accounts/edit?sign_in_token=#{account.sign_in_token}&h=#{group.slug}">Click here to finish setting up your account and get involved with the co-creation!</a>}
       else
         action = %Q{<a href="#{ENV['BASE_URI']}/h/#{group.slug}?sign_in_token=#{account.sign_in_token}">Sign in to get involved with the co-creation!</a>}
-      end      
+      end       
       
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
