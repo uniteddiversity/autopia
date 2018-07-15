@@ -1,4 +1,4 @@
-Autopoetica::App.controller do
+Autopo::App.controller do
     
   post '/h/:slug/tiers/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found

@@ -1,4 +1,4 @@
-# Autopoetica
+# Autopo
 
 A tool for co-created gatherings
 

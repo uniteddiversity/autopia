@@ -68,7 +68,7 @@
       </th>    
       <% @accounts.each { |account| %>
         <td>
-          <% account.work_periods.where(:start_time.gte => day, :start_time.lt => day+1).order('start_time asc').each { |work_period| %>
+          <% account.work_periods.where(:group => @group).where(:start_time.gte => day, :start_time.lt => day+1).order('start_time asc').each { |work_period| %>
             <% d = work_period.duration; h = (d/3600).round(1) %>
             <a data-confirm="Are you sure you want to delete this work period?" href="/h/<%=@group.slug%>/work_periods/<%=work_period.id%>/destroy">
               <span data-toggle="tooltip" class="badge <%= work_period.end_time ? (work_period.description ? 'badge-primary' : 'badge-secondary') : 'badge-success'%>" title="<%= work_period.end_time ? pluralize(h,'hour') : "#{pluralize(h,'hour')} and counting"%><% if work_period.description %>: <%=work_period.description%><% end%> ">

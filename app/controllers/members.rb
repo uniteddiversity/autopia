@@ -1,4 +1,4 @@
-Autopoetica::App.controller do
+Autopo::App.controller do
   
 	get '/h/:slug/members', :provides => [:html, :csv] do        
     @group = Group.find_by(slug: params[:slug]) || not_found

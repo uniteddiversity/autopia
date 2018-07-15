@@ -1,4 +1,4 @@
-Autopoetica::App.controller do
+Autopo::App.controller do
   
   get '/accounts/sign_up' do
     redirect '/accounts/new' if Provider.registered.empty?

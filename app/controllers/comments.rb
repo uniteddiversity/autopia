@@ -1,4 +1,4 @@
-Autopoetica::App.controller do
+Autopo::App.controller do
 
   post '/h/:slug/inbound/:id' do    
 		mail, html, plain_text = EmailReceiver.receive(request)				    			

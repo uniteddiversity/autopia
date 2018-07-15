@@ -1,4 +1,4 @@
-Autopoetica::App.controller do
+Autopo::App.controller do
     
   get '/h/new' do
     sign_in_required!

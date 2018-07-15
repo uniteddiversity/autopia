@@ -1,4 +1,4 @@
-module Autopoetica
+module Autopo
   class App < Padrino::Application
     register Padrino::Rendering
     register Padrino::Helpers
