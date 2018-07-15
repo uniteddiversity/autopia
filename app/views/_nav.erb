@@ -41,7 +41,7 @@
       </li>      
 
       <% if current_account %>            
-        <% (current_account.memberships + (@group ? [@group.memberships.find_by(account: current_account)] : [])).select { |membership| !membership.group.archived }.sort_by { |membership| membership.group.name }.each { |membership| group = membership.group %>          
+        <% current_account.memberships.select { |membership| membership.group == @group or !membership.group.archived }.sort_by { |membership| membership.group.name }.each { |membership| group = membership.group %>          
           <li class="nav-item" data-toggle="tooltip" data-placement="right" title="<%=group.name%>">
             <a class="nav-link nav-link-collapse collapsed <%='active' if group == @group %>" data-toggle="collapse" href="#collapse-group-<%=group.slug%>">
               <i class="fa fa-fw fa-group"></i>
