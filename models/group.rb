@@ -6,7 +6,7 @@ class Group
   dragonfly_accessor :cover_image
   
   def self.enablable
-    %w{teams qualities timetables rotas tiers accommodation transport bookings inventory budget timetracker}
+    %w{teams qualities timetables rotas tiers accommodation transport bookings inventory budget}
   end  
   
   field :name, :type => String
@@ -128,8 +128,6 @@ class Group
   has_many :cultivations, :dependent => :destroy
   # Inventory
   has_many :inventory_items, :dependent => :destroy
-  # Timetracker
-  has_many :work_periods, :dependent => :destroy
   
   def application_questions_a
     q = (application_questions || '').split("\n").map(&:strip).reject { |l| l.blank? }
@@ -278,12 +276,12 @@ class Group
   end    
     
   def threshold
-    democratic_threshold ? (median_threshold if democratic_threshold) : fixed_threshold
+    democratic_threshold ? median_threshold : fixed_threshold
   end
   
   before_validation do
     if democratic_threshold
-      self.fixed_threshold = false
+      self.fixed_threshold = nil
     end
     true
   end

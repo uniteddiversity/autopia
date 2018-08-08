@@ -77,8 +77,7 @@
               (["Accommodation (#{group.accoms.count})", "/a/#{group.slug}/accoms"] if group.enable_accommodation),
               (["Transport (#{group.transports.count})", "/a/#{group.slug}/transports"] if group.enable_transport),        
               (["Inventory", "/a/#{group.slug}/inventory"] if group.enable_inventory),       
-              (["Budget", "/a/#{group.slug}/budget"] if group.enable_budget),    
-              (["Timetracker", "/a/#{group.slug}/timetracker"] if group.enable_timetracker),    
+              (["Budget", "/a/#{group.slug}/budget"] if group.enable_budget)
               ].compact,
             ul_class: "sidenav-second-level collapse #{'show' if @group == group}",
             li_class: '',
