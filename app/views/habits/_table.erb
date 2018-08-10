@@ -76,10 +76,6 @@
   $(function () {
     $("table.habits tbody").sortable({
       update: function (event, ui) {
-        $(this).children().each(function (index) {
-          $(this).find('td').last().html(index + 1)
-        });
-        console.log($(event.target).sortable("toArray"))
         $.post('/habits/order', {habit_ids: $(event.target).sortable("toArray")})
       }
     });
