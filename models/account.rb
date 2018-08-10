@@ -91,6 +91,10 @@ class Account
   # Inventory
   has_many :inventory_items_listed, :class_name => 'InventoryItem', :inverse_of => :account, :dependent => :nullify
   has_many :inventory_items_provided, :class_name => 'InventoryItem', :inverse_of => :responsible, :dependent => :nullify
+  # Habits
+  has_many :habits, :dependent => :destroy
+  has_many :habit_completions, :dependent => :destroy
+  has_many :habitships, :dependent => :destroy
   
   has_many :notifications, as: :notifiable, dependent: :destroy
     

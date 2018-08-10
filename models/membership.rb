@@ -105,7 +105,9 @@ class Membership
   has_many :cultivations, :dependent => :destroy
   # Inventory
   has_many :inventory_items, :dependent => :nullify
-    
+  # Habits
+  has_many :habitships, :dependent => :destroy
+  
   def calculate_requested_contribution    
     c = 0
     if tiership and !tiership.flagged_for_destroy?

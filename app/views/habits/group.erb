@@ -1,0 +1,15 @@
+
+<% @dates.each { |date| %>
+
+  <h3 class="mt-3"><%=date%></h3>  
+
+  <table class="table">
+    <%  @habit_completions.where(:date => date).order('date asc, created_at asc').each { |habit_completion| %>
+      <tr>
+        <td style="width: 1px"><%= partial :'accounts/square', :locals => {:account => habit_completion.account, :width => '50px'} %></td>
+        <td><%= habit_completion.habit.name %></td>
+      </tr>
+    <% } %> 
+  </table>
+<% } %>
+

@@ -4,16 +4,16 @@
   }
 </style>
 <script>
-  $(function () {    
+  $(function () {
     $('.sidenav-third-level a.active').closest('ul').addClass('show')
-    
+
     const ps = new PerfectScrollbar($('.navbar-sidenav')[0]);
-    
+
     $('.navbar-sidenav span.badge').each(function () {
       $(this).parent().addClass('d-flex').addClass('justify-content-between').addClass('align-items-center')
       $(this).removeClass('d-none')
     });
-    
+
   })
 </script>
 
@@ -51,6 +51,7 @@
             <%= ul_nav [
               ["Home", "/a/#{group.slug}"],
               ["Members (#{group.memberships.count})", "/a/#{group.slug}/members"],
+              ["Habits", "/a/#{group.slug}/habits"],
               (["Applications (#{group.mapplications.pending.count})", "/a/#{group.slug}/applications"] if group.enable_applications or group.mapplications.where(:status.ne => 'accepted').count > 0),        
               (["Teams",
                   (
@@ -110,6 +111,7 @@
       ([current_account.name, [
             ['View profile', "/accounts/#{current_account.id}"],
             ['Edit profile', '/accounts/edit'],
+            ['Habits', "/habits"],
             ['Sign out', '/accounts/sign_out'],
           ]
           ] if current_account),
