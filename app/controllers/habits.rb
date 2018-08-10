@@ -42,7 +42,7 @@ Autopo::App.controller do
     200
   end   
   
-  post '/habits/:id/destroy' do
+  get '/habits/:id/destroy' do
     @habit = current_account.habits.find(params[:id]) || not_found
     @habit.destroy
     200    

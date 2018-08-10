@@ -1,5 +1,5 @@
 
-<a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> Add habit</a>
+<a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><i class="fa fa-plus-circle"></i> Add habit</a>
 <div style="display: none">
   <% form_for @habit, '/habits/new', :class => 'form-horizontal' do  |f| %>
     <%= f.text_block :name %>
