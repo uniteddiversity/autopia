@@ -71,7 +71,6 @@ Autopo::App.controller do
     sign_in_required!
     @account = Account.find(params[:id]) || not_found
     @habits = @account.habits.where(public: true)
-    @habit_completions = @account.habit_completions.where(:habit_id.in => @habits.pluck(:id))
     @dates = ((Date.today-4)..Date.today).to_a.reverse
     erb :'accounts/account'
   end  

@@ -3,7 +3,6 @@ Autopo::App.controller do
   get '/habits' do
     @habit = Habit.new
     @habits = current_account.habits
-    @habit_completions = current_account.habit_completions
     @dates = ((Date.today-4)..Date.today).to_a.reverse
     @habit_share = true
     if request.xhr?
