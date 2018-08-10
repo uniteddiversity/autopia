@@ -1,6 +1,6 @@
 
 
-<% @public_habits = Habit.where(:account_id.in => @group.members.pluck(:id)).where(public: true) %>
+<% @public_habits = Habit.where(:account_id.in => @group.members.pluck(:id)).where(public: true).order('o asc') %>
 
 <% @dates.each { |date| %>
   <h3 class="mt-3"><%=date.to_s(:no_year)%></h3>  
