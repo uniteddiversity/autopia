@@ -1,5 +1,5 @@
 <% @dates.each { |date| %>
-  <h3 class="mt-3"><%=date%></h3>  
+  <h3 class="mt-3"><%=date.to_s(:no_year)%></h3>  
   <ul class="fa-ul">
     <%  @habit_completions.where(:date => date).order('date asc').each { |habit_completion| %>
       <li><i class="fa fa-li fa-check"></i> <%= habit_completion.habit.name %></li>  

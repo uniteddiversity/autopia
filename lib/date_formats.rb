@@ -10,5 +10,5 @@ Time::DATE_FORMATS.merge!(
 
 Date::DATE_FORMATS.merge!(
   :default => lambda { |date| date.strftime("%a #{date.day.ordinalize} %b %Y") },
-  :no_year => lambda { |date| date.strftime("%a %-d %B") }
+  :no_year => lambda { |date| date.strftime("%a #{date.day.ordinalize} %b") }
 )

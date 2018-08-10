@@ -7,7 +7,7 @@
     <tr>
       <th></th>
       <% @dates.each { |date| %>
-        <th><%= date %></th>
+        <th><%= date.to_s(:no_year) %></th>
       <% } %>      
       <% if @habit_share %>
         <th>          
