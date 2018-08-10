@@ -16,7 +16,6 @@ Autopo::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    @habit_completions = HabitCompletion.where(:habit_id.in => Habit.where(:account_id.in => @group.members.pluck(:id)).where(public: true).pluck(:id))
     @dates = ((Date.today-4)..Date.today).to_a.reverse    
     erb :'habits/group'
   end
