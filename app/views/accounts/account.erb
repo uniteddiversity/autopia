@@ -59,10 +59,11 @@
   </div>
 </div>
 
-<hr />
-
-<h2>Habits</h2>
-<%= partial :'habits/table' %>
+<% if @habits.count > 0 %>
+  <hr />
+  <h2>Habits</h2>
+  <%= partial :'habits/table' %>
+<% end %>
 
 <hr />
 
