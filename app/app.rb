@@ -48,7 +48,7 @@ module Autopo
       end      
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
       @title = "Autopo"
-      @og_desc = 'Autopoto helps make decentralised co-operation transparent & democratic'
+      @og_desc = 'Autopo helps make decentralised co-operation transparent & democratic'
       @og_image = "#{ENV['BASE_URI']}/images/autopo-link.png"
       if current_account
         current_account.update_attribute(:last_active, Time.now)
