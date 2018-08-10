@@ -1,6 +1,7 @@
 Autopo::App.controller do
 
   get '/habits' do
+    sign_in_required!
     @habit = Habit.new
     @habits = current_account.habits
     @dates = ((Date.today-4)..Date.today).to_a.reverse
@@ -21,6 +22,7 @@ Autopo::App.controller do
   end
   
   post '/habits/new' do
+    sign_in_required!
     @habit = current_account.habits.build(params[:habit])
     if @habit.save
       redirect '/habits'
@@ -31,6 +33,7 @@ Autopo::App.controller do
   end  
     
   post '/habits/:id/public' do
+    sign_in_required!
     @habit = current_account.habits.find(params[:id]) || not_found
     if @habit.public?
       @habit.update_attribute(:public, nil)
@@ -41,12 +44,14 @@ Autopo::App.controller do
   end   
   
   get '/habits/:id/destroy' do
+    sign_in_required!
     @habit = current_account.habits.find(params[:id]) || not_found
     @habit.destroy
     200    
   end  
   
   post '/habits/:id/completed' do
+    sign_in_required!
     @habit = current_account.habits.find(params[:id]) || not_found
     if habit_completion = @habit.habit_completions.find_by(date: params[:date])
       habit_completion.destroy
@@ -57,6 +62,7 @@ Autopo::App.controller do
   end    
     
   post '/habits/order' do
+    sign_in_required!
     params[:habit_ids].each_with_index { |habit_id,i|
       current_account.habits.find(habit_id).update_attribute(:o, i)
     }
