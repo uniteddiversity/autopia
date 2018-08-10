@@ -51,7 +51,7 @@
             <%= ul_nav [
               ["Home", "/a/#{group.slug}"],
               ["Members (#{group.memberships.count})", "/a/#{group.slug}/members"],
-              ["Habits", "/a/#{group.slug}/habits"],
+              (["Habits", "/a/#{group.slug}/habits"] if group.habitships.count > 0)
               (["Applications (#{group.mapplications.pending.count})", "/a/#{group.slug}/applications"] if group.enable_applications or group.mapplications.where(:status.ne => 'accepted').count > 0),        
               (["Teams",
                   (
