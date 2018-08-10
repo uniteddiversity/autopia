@@ -17,7 +17,7 @@ Autopo::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    @habit_completions = HabitCompletion.where(:account_id.in => @group.habitships.pluck(:account_id))
+    @habit_completions = HabitCompletion.where(:habit_id.in => Habit.where(:account_id.in => @group.members.pluck(:id)).where(public: true).pluck(:id))
     @dates = ((Date.today-4)..Date.today).to_a.reverse    
     erb :'habits/group'
   end
@@ -57,19 +57,7 @@ Autopo::App.controller do
     end
     request.xhr? ? 200 : redirect(back)
   end    
-  
-  post '/habits/:id/share' do
-    @habit = current_account.habits.find(params[:id]) || not_found    
-    @habit.habitships.create(group_id: params[:group_id])
-    200
-  end     
-  
-  get '/habits/:id/unshare' do
-    @habit = current_account.habits.find(params[:id]) || not_found    
-    @habit.habitships.find_by(group_id: params[:group_id]).destroy
-    200
-  end     
-  
+    
   post '/habits/order' do
     params[:habit_ids].each_with_index { |habit_id,i|
       current_account.habits.find(habit_id).update_attribute(:o, i)

@@ -128,8 +128,6 @@ class Group
   has_many :cultivations, :dependent => :destroy
   # Inventory
   has_many :inventory_items, :dependent => :destroy
-  # Habits
-  has_many :habitships, :dependent => :destroy
   
   def application_questions_a
     q = (application_questions || '').split("\n").map(&:strip).reject { |l| l.blank? }

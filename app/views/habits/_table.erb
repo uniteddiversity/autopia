@@ -13,10 +13,6 @@
         <th>          
           <abbr data-toggle="tooltip" title="Visible on profile">Public</abbr>
         </th>
-        <th>
-          <abbr data-toggle="tooltip" title="Visible in groups">Share</abbr>
-        </th>
-        <th>Shared with</th>      
       <% end %>
     </tr>
   </thead>
@@ -53,18 +49,7 @@
             <% form_tag "/habits/#{habit.id}/public", :style => ('display:none' if habit.public?) do %>
               <%= check_box_tag :pubic, :value => true, :checked => habit.public?, :onclick => '$(this.form).submit()' %>
             <% end %>          
-          </td>           
-          <td>
-            <a href="javascript:;" onclick="$(this).hide().next().show()" class="btn btn-secondary"><i class="fa fa-share-alt"></i></a>
-            <% form_tag "/habits/#{habit.id}/share", :class => 'form-inline', :style => 'display: none' do %>
-              <%= select_tag :group_id, :class => 'mx-1 form-control', :options => [''] + current_account.groups.map { |group| [group.name, group.id] }, :onchange => '$(this.form).submit()' %>
-            <% end %>          
-          </td>
-          <td>
-            <% habit.habitships.each { |habitship| %>       
-              <a data-confirm="Are you sure you wish to unshare this habit?" href="/habits/<%=habit.id%>/unshare?group_id=<%=habitship.group_id%>" class="pagelet-trigger badge badge-primary"><%= habitship.group.name %></a>
-            <% } %>
-          </td>      
+          </td>               
         <% end %>
 
       </tr>
