@@ -1,8 +1,6 @@
 
 <% @dates.each { |date| %>
-
   <h3 class="mt-3"><%=date%></h3>  
-
   <table class="table">
     <%  @habit_completions.where(:date => date).order('date asc, created_at asc').each { |habit_completion| %>
       <tr>

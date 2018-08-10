@@ -42,6 +42,12 @@ Autopo::App.controller do
     200
   end   
   
+  post '/habits/:id/destroy' do
+    @habit = current_account.habits.find(params[:id]) || not_found
+    @habit.destroy
+    200    
+  end  
+  
   post '/habits/:id/completed' do
     @habit = current_account.habits.find(params[:id]) || not_found
     if habit_completion = @habit.habit_completions.find_by(date: params[:date])
@@ -62,6 +68,13 @@ Autopo::App.controller do
     @habit = current_account.habits.find(params[:id]) || not_found    
     @habit.habitships.find_by(group_id: params[:group_id]).destroy
     200
-  end      
+  end     
+  
+  post '/habits/order' do
+    params[:habit_ids].each_with_index { |habit_id,i|
+      current_account.habits.find(habit_id).update_attribute(:o, i)
+    }
+    200
+  end  
   
 end

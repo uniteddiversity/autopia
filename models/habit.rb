@@ -4,7 +4,8 @@ class Habit
 
   field :name, :type => String
   field :public, :type => Boolean
-
+  field :o, :type => Integer
+  
   belongs_to :account
   
   has_many :habit_completions, :dependent => :destroy  
@@ -15,6 +16,7 @@ class Habit
   def self.admin_fields
     {
       :name => :text,
+      :o => :number,
       :public => :check_box,
       :account_id => :lookup
     }

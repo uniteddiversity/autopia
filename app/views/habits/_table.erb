@@ -1,4 +1,8 @@
-<table class="table mt-3">
+<style>
+  td.habit-name:hover > a { display: inline !important }
+</style>
+
+<table class="table mt-3 habits">
   <thead>
     <tr>
       <th></th>
@@ -12,51 +16,68 @@
       <% end %>
     </tr>
   </thead>
-  <% @habits.each { |habit| %>
-    <tr>
-      <td>
-        <%= habit.name %>
-      </td>
-      <%  @dates.each { |date| %>
-        <td>
-          <% if habit.account_id == current_account.id %>
-            <% if completed = habit.habit_completions.find_by(date: date) %>
+  <tbody>
+    <% @habits.order('o asc').each { |habit| %>
+      <tr id="<%=habit.id%>">
+        <td class="habit-name">
+          <%= habit.name %>
+          <a class="text-dark" style="display: none" href="/habits/<%=habit.id%>/destroy"><i class="fa fa-trash"></i></a>
+        </td>
+        <%  @dates.each { |date| %>
+          <td>
+            <% if habit.account_id == current_account.id %>
+              <% if completed = habit.habit_completions.find_by(date: date) %>
+                <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
+              <% end %>  
+              <% form_tag "/habits/#{habit.id}/completed", :style => ('display:none' if completed) do %>
+                <%= hidden_field_tag :date, :value => date %>
+                <%= check_box_tag :completed, :value => true, :checked => completed, :onclick => '$(this.form).submit()' %>
+              <% end %>   
+            <% else %>
+              <% if completed = habit.habit_completions.find_by(date: date) %>
+                <i style="cursor: pointer" class="fa fa-check" ></i>
+              <% end %>              
+            <% end %>
+          </td>
+        <% } %>
+
+        <% if @habit_share %>
+          <td>
+            <% if habit.public? %>
               <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
             <% end %>  
-            <% form_tag "/habits/#{habit.id}/completed", :style => ('display:none' if completed) do %>
-              <%= hidden_field_tag :date, :value => date %>
-              <%= check_box_tag :completed, :value => true, :checked => completed, :onclick => '$(this.form).submit()' %>
-            <% end %>   
-          <% else %>
-            <% if completed = habit.habit_completions.find_by(date: date) %>
-              <i style="cursor: pointer" class="fa fa-check" ></i>
-            <% end %>              
-          <% end %>
-        </td>
-      <% } %>
+            <% form_tag "/habits/#{habit.id}/public", :style => ('display:none' if habit.public?) do %>
+              <%= check_box_tag :pubic, :value => true, :checked => habit.public?, :onclick => '$(this.form).submit()' %>
+            <% end %>          
+          </td>           
+          <td>
+            <a href="javascript:;" onclick="$(this).hide().next().show()" class="btn btn-primary"><i class="fa fa-share-alt"></i></a>
+            <% form_tag "/habits/#{habit.id}/share", :class => 'form-inline', :style => 'display: none' do %>
+              <%= select_tag :group_id, :class => 'mx-1 form-control', :options => [''] + current_account.groups.map { |group| [group.name, group.id] }, :onchange => '$(this.form).submit()' %>
+            <% end %>          
+          </td>
+          <td>
+            <% habit.habitships.each { |habitship| %>       
+              <a data-confirm="Are you sure you wish to unshare this habit?" href="/habits/<%=habit.id%>/unshare?group_id=<%=habitship.group_id%>" class="pagelet-trigger badge badge-primary"><%= habitship.group.name %></a>
+            <% } %>
+          </td>      
+        <% end %>
 
-      <% if @habit_share %>
-        <td>
-          <% if habit.public? %>
-            <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
-          <% end %>  
-          <% form_tag "/habits/#{habit.id}/public", :style => ('display:none' if habit.public?) do %>
-            <%= check_box_tag :pubic, :value => true, :checked => habit.public?, :onclick => '$(this.form).submit()' %>
-          <% end %>          
-        </td>           
-        <td>
-          <a href="javascript:;" onclick="$(this).hide().next().show()" class="btn btn-primary"><i class="fa fa-share-alt"></i></a>
-          <% form_tag "/habits/#{habit.id}/share", :class => 'form-inline', :style => 'display: none' do %>
-            <%= select_tag :group_id, :class => 'mx-1 form-control', :options => [''] + current_account.groups.map { |group| [group.name, group.id] }, :onchange => '$(this.form).submit()' %>
-          <% end %>          
-        </td>
-        <td>
-          <% habit.habitships.each { |habitship| %>       
-            <a data-confirm="Are you sure you wish to unshare this habit?" href="/habits/<%=habit.id%>/unshare?group_id=<%=habitship.group_id%>" class="pagelet-trigger badge badge-primary"><%= habitship.group.name %></a>
-          <% } %>
-        </td>      
-      <% end %>
-
-    </tr>
-  <% } %>
+      </tr>
+    <% } %>
+  </tbody>
 </table>
+
+<script>
+  $(function () {
+    $("table.habits tbody").sortable({
+      update: function (event, ui) {
+        $(this).children().each(function (index) {
+          $(this).find('td').last().html(index + 1)
+        });
+        console.log($(event.target).sortable("toArray"))
+        $.post('/habits/order', {habit_ids: $(event.target).sortable("toArray")})
+      }
+    });
+  })
+</script>
