@@ -5,7 +5,7 @@ Autopo::App.controller do
     @habit = Habit.new
     @habits = current_account.habits
     @dates = ((Date.today-4)..Date.today).to_a.reverse
-    @habit_share = true    
+    @interactive = true    
     if request.xhr?
       partial :'habits/habits'
     else
