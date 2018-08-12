@@ -73,6 +73,10 @@ module Autopo
       end
     end
     
+    get '/suggest' do
+      erb :suggest
+    end
+    
     post '/suggest' do
       sign_in_required!
     	if ENV['SMTP_ADDRESS']
@@ -85,7 +89,7 @@ module Autopo
 	      mail.deliver
       end
       flash[:notice] = 'Thanks!'
-      redirect back
+      redirect '/'
     end
         
     get '/notifications/:id' do
