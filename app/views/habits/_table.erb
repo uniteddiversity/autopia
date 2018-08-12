@@ -6,7 +6,7 @@
       <% @dates.each { |date| %>
         <th><%= date.to_s(:no_year) %></th>
       <% } %>      
-      <% if @habit_share %>
+      <% if @interactive %>
         <th>          
           <abbr data-toggle="tooltip" title="Visible on profile and in your groups">Public</abbr>
         </th>
@@ -17,7 +17,7 @@
     <% @habits.order('o asc').each { |habit| %>
       <tr id="<%=habit.id%>">
         <td class="habit-name">
-          <% if @habit_share %>
+          <% if @interactive %>
             <a href="/habits/<%=habit.id%>/edit"><%= habit.name %></a>
           <% else %>
             <%= habit.name %>
@@ -25,7 +25,7 @@
         </td>
         <%  @dates.each { |date| %>
           <td>
-            <% if @habit_share %>
+            <% if @interactive %>
               <% if completed = habit.habit_completions.find_by(date: date) %>
                 <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
               <% end %>  
@@ -41,7 +41,7 @@
           </td>
         <% } %>
 
-        <% if @habit_share %>
+        <% if @interactive %>
           <td>
             <% if habit.public? %>
               <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
@@ -57,7 +57,7 @@
   </tbody>
 </table>
 
-<% if @habit_share %>
+<% if @interactive %>
   <script>
     $(function () {
       $("table.habits tbody").sortable({
