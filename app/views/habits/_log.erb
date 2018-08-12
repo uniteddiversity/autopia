@@ -11,10 +11,15 @@
         <tr>
           <td style="width: 1px"><%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %></td>
           <td>
-            <ul class="fa-ul">
-              <% HabitCompletion.where(:habit_id.in => account.habits.where(public: true).pluck(:id)).where(date: date).each { |habit_completion| %>
-                <li><i class="fa fa-li fa-check"></i> <%= habit_completion.habit.name %></li>
-                <% } %>           
+            <ul class="fa-ul">              
+              <% account.habits.where(public: true).order('o asc').each { |habit| %>
+                <% if habit.habit_completions.find_by(:date => date) %>
+                  <li>
+                    <i class="fa fa-li fa-check"></i>
+                    <%= habit.name %>
+                  </li>  
+                <% end %>
+              <% } %>            
             </ul>
           </td>
         </tr>
