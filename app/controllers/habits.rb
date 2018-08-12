@@ -5,8 +5,7 @@ Autopo::App.controller do
     @habit = Habit.new
     @habits = current_account.habits
     @dates = ((Date.today-4)..Date.today).to_a.reverse
-    @habit_share = true
-    @accounts = current_account.network
+    @habit_share = true    
     if request.xhr?
       partial :'habits/habits'
     else
@@ -21,6 +20,12 @@ Autopo::App.controller do
     @dates = ((Date.today-4)..Date.today).to_a.reverse    
     @accounts = @group.members    
     erb :'habits/group'
+  end
+  
+  get '/habits/network' do
+    @dates = ((Date.today-4)..Date.today).to_a.reverse
+    @accounts = current_account.network
+    partial :'habits/log'
   end
   
   post '/habits/new' do
