@@ -30,7 +30,11 @@
         <% @habits.order('o asc').each { |habit| %>
           <% if habit.habit_completions.find_by(:date => date) %>
             <li>
-              <i class="fa fa-li fa-check"></i>
+              <% if habit.public? %>
+                <i class="fa fa-li fa-check"></i>
+              <% else %>
+                <i class="fa fa-li fa-lock"></i>
+              <% end %>
               <%= habit.name %>
             </li>  
           <% end %>
