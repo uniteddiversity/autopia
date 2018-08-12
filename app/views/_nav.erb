@@ -108,13 +108,10 @@
     </ul>
 
     <%=       ul_nav [
-      ([current_account.name, [
-            ['View profile', "/accounts/#{current_account.id}"],
-            ['Edit profile', '/accounts/edit'],
-            ['Habits', "/habits"],
-            ['Sign out', '/accounts/sign_out'],
-          ]
-          ] if current_account),
+      (["#{current_account.name}", "/accounts/#{current_account.id}"] if current_account),
+      (['Edit profile', '/accounts/edit'] if current_account),
+      (['Habits', "/habits"] if current_account),
+      (['Sign out', '/accounts/sign_out'] if current_account),
       (['Sign up', '/accounts/sign_up'] if !current_account),
       (['Sign in', '/accounts/sign_in'] if !current_account)
       ].compact, ul_class: 'navbar-nav ml-auto'
