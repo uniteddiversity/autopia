@@ -57,12 +57,14 @@
   </tbody>
 </table>
 
-<script>
-  $(function () {
-    $("table.habits tbody").sortable({
-      update: function (event, ui) {
-        $.post('/habits/order', {habit_ids: $(event.target).sortable("toArray")})
-      }
-    });
-  })
-</script>
+<% if @habit_share %>
+  <script>
+    $(function () {
+      $("table.habits tbody").sortable({
+        update: function (event, ui) {
+          $.post('/habits/order', {habit_ids: $(event.target).sortable("toArray")})
+        }
+      });
+    })
+  </script>
+<% end %>
