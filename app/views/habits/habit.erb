@@ -7,10 +7,10 @@
 <% end %>
 
 <ul class="fa-ul my-3">
-  <% @habit.habit_completions.order('date asc').each { |habit_completion| %>
+  <% @habit.habit_completions.order('date desc').each { |habit_completion| %>
     <li>
       <i class="fa fa-li fa-check"></i>
-      <%= habit_completion.date %>
+      <%= habit_completion.date %> <% unless habit_completion.date == Date.today%>(<%= time_ago_in_words habit_completion.date %> ago)<% end %>
     </li>
   <% } %>
 </ul>

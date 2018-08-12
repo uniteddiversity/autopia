@@ -2,7 +2,7 @@ class HabitCompletion
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :date, :type => String
+  field :date, :type => Date
 
   belongs_to :account
   belongs_to :habit
