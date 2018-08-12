@@ -31,6 +31,30 @@ Autopo::App.controller do
       erb :'habits/habits'
     end
   end  
+  
+  get '/habits/:id/edit' do
+    sign_in_required!
+    @habit = current_account.habits.find(params[:id]) || not_found
+    erb :'habits/habit'
+  end
+      
+  post '/habits/:id/edit' do
+    sign_in_required!
+    @habit = current_account.habits.find(params[:id]) || not_found
+    if @habit.update_attributes(params[:habit])
+      redirect '/habits'
+    else
+      flash[:error] = 'There was an error saving the habit.'
+      erb :'habits/habit'
+    end
+  end 
+  
+  get '/habits/:id/destroy' do
+    sign_in_required!
+    @habit = current_account.habits.find(params[:id]) || not_found
+    @habit.destroy
+    redirect '/habits'
+  end    
     
   post '/habits/:id/public' do
     sign_in_required!
@@ -42,14 +66,7 @@ Autopo::App.controller do
     end
     200
   end   
-  
-  get '/habits/:id/destroy' do
-    sign_in_required!
-    @habit = current_account.habits.find(params[:id]) || not_found
-    @habit.destroy
-    200    
-  end  
-  
+    
   post '/habits/:id/completed' do
     sign_in_required!
     @habit = current_account.habits.find(params[:id]) || not_found

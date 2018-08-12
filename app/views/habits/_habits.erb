@@ -14,8 +14,11 @@
   <ul class="fa-ul">
     <% @habits.order('o asc').each { |habit| %>
       <% if habit.habit_completions.find_by(:date => date) %>
-        <li><i class="fa fa-li fa-check"></i> <%= habit.name %></li>  
-        <% end %>
-      <% } %>
+        <li>
+          <i class="fa fa-li fa-check"></i>
+          <%= habit.name %>
+        </li>  
+      <% end %>
+    <% } %>
   </ul>
 <% } %>

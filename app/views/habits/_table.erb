@@ -17,8 +17,11 @@
     <% @habits.order('o asc').each { |habit| %>
       <tr id="<%=habit.id%>">
         <td class="habit-name">
-          <%= habit.name %>
-          <a data-confirm="Are you sure you want to delete this habit?" class="text-dark pagelet-trigger" style="display: none" href="/habits/<%=habit.id%>/destroy"><i class="fa fa-trash"></i></a>          
+          <% if @habit_share %>
+            <a href="/habits/<%=habit.id%>/edit"><%= habit.name %></a>
+          <% else %>
+            <%= habit.name %>
+          <% end %>
         </td>
         <%  @dates.each { |date| %>
           <td>
