@@ -6,6 +6,7 @@ Autopo::App.controller do
     @habits = current_account.habits
     @dates = ((Date.today-4)..Date.today).to_a.reverse
     @habit_share = true
+    @accounts = current_account.network
     if request.xhr?
       partial :'habits/habits'
     else
@@ -18,6 +19,7 @@ Autopo::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @dates = ((Date.today-4)..Date.today).to_a.reverse    
+    @accounts = @group.members    
     erb :'habits/group'
   end
   
