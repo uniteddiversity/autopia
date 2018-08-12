@@ -25,7 +25,7 @@
         </td>
         <%  @dates.each { |date| %>
           <td>
-            <% if habit.account_id == current_account.id %>
+            <% if @habit_share %>
               <% if completed = habit.habit_completions.find_by(date: date) %>
                 <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
               <% end %>  

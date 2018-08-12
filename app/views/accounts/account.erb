@@ -8,7 +8,7 @@
     <div class="table-hr-container">
       <table class="table table-hr">
 
-        <% if current_account.network.include?(@account) %>
+        <% if current_account and current_account.network.include?(@account) %>
           <tr>
             <td>Email</td>
             <td>

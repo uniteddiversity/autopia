@@ -67,8 +67,7 @@ Autopo::App.controller do
     end
   end
   
-  get '/accounts/:id' do
-    sign_in_required!
+  get '/accounts/:id' do    
     @account = Account.find(params[:id]) || not_found
     @habits = @account.habits.where(public: true)
     @dates = ((Date.today-4)..Date.today).to_a.reverse
