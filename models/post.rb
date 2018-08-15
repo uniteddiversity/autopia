@@ -3,8 +3,6 @@ class Post
   include Mongoid::Timestamps
   
   belongs_to :account, index: true
-  belongs_to :group, index: true
-  belongs_to :membership, index: true
   
   belongs_to :commentable, polymorphic: true, index: true
 
@@ -15,22 +13,15 @@ class Post
   after_create do
     commentable.subscribers.each { |account| subscriptions.create account: account }    
   end
-
-  before_validation do
-    self.group = self.commentable.group if self.commentable
-    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
-  end    
   
   def self.commentable_types
-    %w{Team Activity Mapplication}
+    %w{Team Activity Mapplication Habit}
   end  
   
   def self.admin_fields
     {
       :id => {:type => :text, :edit => false},
       :account_id => :lookup,
-      :group_id => :lookup,
-      :membership_id => :lookup,
       :commentable_id => :text,
       :commentable_type => :select,
       :subscriptions => :collection,

@@ -16,12 +16,8 @@
   <tbody>
     <% @habits.order('o asc').each { |habit| %>
       <tr id="<%=habit.id%>">
-        <td class="habit-name" style="cursor: move">
-          <% if @interactive %>
-            <a href="/habits/<%=habit.id%>/edit"><%= habit.name %></a>
-          <% else %>
-            <%= habit.name %>
-          <% end %>
+        <td class="habit-name" <% if @interactive %>style="cursor: move"<% end %>>
+          <a href="/habits/<%=habit.id%>"><%= habit.name %></a>
         </td>
         <%  @dates.each { |date| %>
           <td>
@@ -36,7 +32,9 @@
                   <% end %>
                   "                  
                   style="cursor: pointer" 
-                  onclick="if(confirm('Really uncomplete this habit?')) { $(this).hide().next().hide().next().show().find('input').click() }"></i>                  
+                  onclick="if (confirm('Really uncomplete this habit?')) {
+                        $(this).hide().next().hide().next().show().find('input').click()
+                      }"></i>                  
                 <span>
                   <% if completed.comment %>
                     <%=completed.comment%>
@@ -51,9 +49,14 @@
             <% else %>
               <% if completed = habit.habit_completions.find_by(date: date) %>
                 <% if completed.comment %>
-                  <i data-toggle="tooltip" title="<%=completed.comment%>" class="fa fa-li fa-comment"></i>
+                  <i class="fa fa-comment"></i>
+                  <span>
+                    <% if completed.comment %>
+                      <%=completed.comment%>
+                    <% end %>            
+                  </span>                  
                 <% else %>
-                  <i class="fa fa-li fa-check"></i>
+                  <i class="fa fa-check"></i>
                 <% end %>
               <% end %>              
             <% end %>

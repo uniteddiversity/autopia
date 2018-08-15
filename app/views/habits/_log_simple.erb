@@ -1,0 +1,12 @@
+<ul class="fa-ul my-3">
+  <% habit_completions.each { |habit_completion|  %>
+    <li>
+      <% if habit_completion.comment %>
+        <i data-toggle="tooltip" title="<%=habit_completion.comment%>" class="fa fa-li fa-comment"></i>
+      <% else %>
+        <i class="fa fa-li fa-check"></i>
+      <% end %>
+      <%= habit_completion.date %> <% unless habit_completion.date == Date.today%>(<%= time_ago_in_words habit_completion.date %> ago)<% end %>
+    </li>
+  <% } %>
+</ul>

@@ -1,20 +1,17 @@
-<a href="/habits"><i class="fa fa-arrow-left"></i> Return to habits</a>
+<div class="row justify-content-between">
+  <div class="col">
+    <h1><%= @habit.name %></h1>
+    <p class="lead mb-0">A habit of <a href="/accounts/<%=@habit.account_id%>"><%=@habit.account.name%></a></p>    
+  </div>
+  <div class="col-auto">
+    <% if @habit.account_id == current_account.id %>
+      <a class="btn btn-primary" href="/habits/<%=@habit.id%>/edit"><i class="fa fa-pencil"></i> Edit habit</a>
+    <% end %>    
+  </div>
+</div>
 
-<% form_for @habit, "/habits/#{@habit.id}/edit", :class => 'my-3 form-horizontal' do  |f| %>
-  <%= f.text_block :name %>
-  <%= f.check_box_block :public %>
-  <%= f.submit_block destroy_url: "/habits/#{@habit.id}/destroy" %>
-<% end %>
+<%= partial :'habits/log_simple', :locals => {:habit_completions => @habit.habit_completions.order('date desc')} %>
 
-<ul class="fa-ul my-3">
-  <% @habit.habit_completions.order('date desc').each { |habit_completion|  %>
-    <li>
-      <% if habit_completion.comment %>
-        <i data-toggle="tooltip" title="<%=habit_completion.comment%>" class="fa fa-li fa-comment"></i>
-      <% else %>
-        <i class="fa fa-li fa-check"></i>
-      <% end %>
-      <%= habit_completion.date %> <% unless habit_completion.date == Date.today%>(<%= time_ago_in_words habit_completion.date %> ago)<% end %>
-    </li>
-  <% } %>
-</ul>
+<div data-pagelet-url="/commentable?commentable_type=Habit&commentable_id=<%=@habit.id%>">
+  <%= partial :'comments/commentable', :locals => {:commentable => @habit} %>
+</div>

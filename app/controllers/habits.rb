@@ -39,10 +39,17 @@ Autopo::App.controller do
     end
   end  
   
+  get '/habits/:id' do
+    sign_in_required!
+    @habit = Habit.find(params[:id]) || not_found
+    halt unless (current_account and @habit.account.id == current_account.id) or @habit.public?
+    erb :'habits/habit'
+  end  
+  
   get '/habits/:id/edit' do
     sign_in_required!
     @habit = current_account.habits.find(params[:id]) || not_found
-    erb :'habits/habit'
+    erb :'habits/build'
   end
       
   post '/habits/:id/edit' do
@@ -52,7 +59,7 @@ Autopo::App.controller do
       redirect '/habits'
     else
       flash[:error] = 'There was an error saving the habit.'
-      erb :'habits/habit'
+      erb :'habits/build'
     end
   end 
   

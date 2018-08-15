@@ -14,7 +14,7 @@
       <%=Rinku.auto_link(@activity.description.gsub("\n","<br />"))%>
     </p>
 
-    <div data-pagelet-url="/a/<%=@group.slug%>/commentable?commentable_type=Activity&commentable_id=<%=@activity.id%>">
+    <div data-pagelet-url="/commentable?commentable_type=Activity&commentable_id=<%=@activity.id%>">
       <%= partial :'comments/commentable', :locals => {:commentable => @activity} %>
     </div>   
 
