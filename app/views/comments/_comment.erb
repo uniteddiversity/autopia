@@ -12,7 +12,7 @@
       <small class="subtle">
         <%= timeago(comment.created_at) %>
 
-        <% if comment.account.id == current_account.id or @membership.admin? %>
+        <% if comment.account.id == current_account.id %>
           &middot;
           <a href="/comments/<%=comment.id%>/edit"><i class="fa fa-pencil"></i></a>
         <% end %>
