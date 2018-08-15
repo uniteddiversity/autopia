@@ -20,7 +20,7 @@
                     <% else %>
                       <i class="fa fa-li fa-check"></i>
                     <% end %>
-                    <%= habit.name %>
+                    <a href="/habits/<%=habit.id%>"><%= habit.name %></a>
                   </li>  
                 <% end %>
               <% } %>            

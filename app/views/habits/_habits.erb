@@ -39,7 +39,7 @@
               <% else %>
                 <i class="fa fa-li fa-lock"></i>
               <% end %>
-              <%= habit.name %>
+              <a href="/habits/<%=habit.id%>"><%= habit.name %></a>
             </li>  
           <% end %>
         <% } %>
