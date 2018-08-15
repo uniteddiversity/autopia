@@ -1,7 +1,14 @@
 <div class="row justify-content-between">
   <div class="col">
-    <h1><%= @habit.name %></h1>
-    <p class="lead mb-0">A habit of <a href="/accounts/<%=@habit.account_id%>"><%=@habit.account.name%></a></p>    
+    <h1>
+      <%= @habit.name %>
+      <% if !@habit.public? %>
+        <i data-toggle="tooltip" title="Visible only to you" class="fa fa-lock"></i>
+      <% end %>
+    </h1>
+    <% if @habit.public? %>
+      <p class="lead mb-0">A habit of <a href="/accounts/<%=@habit.account_id%>"><%=@habit.account.name%></a></p>    
+    <% end %>
   </div>
   <div class="col-auto">
     <% if @habit.account_id == current_account.id %>
