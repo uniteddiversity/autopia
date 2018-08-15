@@ -34,9 +34,9 @@
                   <% else %>
                     fa-check
                   <% end %>
-                  "
+                  "                  
                   style="cursor: pointer" 
-                  onclick="$(this).hide().next().hide().next().show().find('input').click()"></i>                  
+                  onclick="if(confirm('Really uncomplete this habit?')) { $(this).hide().next().hide().next().show().find('input').click() }"></i>                  
                 <span>
                   <% if completed.comment %>
                     <%=completed.comment%>
