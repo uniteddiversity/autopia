@@ -29,7 +29,17 @@
 <% } %>
 <%= close_divs %> 
 
-<p style="font-size: 13px">To continue the conversation, view the post or reply to this email.</p>
+<p style="font-size: 13px">To continue the conversation,
+  <a href="
+  <% if commentable.respond_to?(group); group = commentable.group %>
+    <%="#{ENV['BASE_URI']}/a/#{group.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"%>
+  <% else %>
+    <%="#{ENV['BASE_URI']}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"%>
+  <% end %>
+     ">
+    view the post</a>
+
+  or reply to this email.</p>
 
 <p style="font-size: 12px;">
   <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">Unwatch this post</a>

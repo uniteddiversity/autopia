@@ -67,7 +67,7 @@ class Comment
         mail = Mail.new
         mail.bcc = bcc
         mail.from = "Autopo <#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
-        mail.subject = "[#{post_id}] #{comment.account} wrote a comment"
+        mail.subject = "[#{post_id}] Comment by #{comment.account.name}"
             
         content = ERB.new(File.read(Padrino.root('app/views/emails/comment.erb'))).result(binding)
         html_part = Mail::Part.new do
