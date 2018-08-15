@@ -47,7 +47,19 @@ class Comment
     
   before_validation do
     self.commentable = self.post.commentable if self.post
-  end    
+  end   
+  
+  def description
+    if comment.commentable.is_a?(Mapplication)
+      "<strong>#{comment.account.name}</strong> commented on <strong>#{comment.commentable.account.name}</strong>'s application"                  
+    else
+      if comment.post.comments.count == 1
+        "<strong>#{comment.account.name}</strong> posted in <strong>#{comment.commentable.name}</strong>"                  
+      else
+        "<strong>#{comment.account.name}</strong> replied to a thread in <strong>#{comment.commentable.name}</strong>"                  
+      end
+    end      
+  end
   
   def first_in_post?
     !post or post.new_record? or post.comments.order('created_at asc').first.id == self.id
@@ -67,7 +79,7 @@ class Comment
         mail = Mail.new
         mail.bcc = bcc
         mail.from = "Autopo <#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
-        mail.subject = "[#{post_id}] Comment by #{comment.account.name}"
+        mail.subject = comment.description
             
         content = ERB.new(File.read(Padrino.root('app/views/emails/comment.erb'))).result(binding)
         html_part = Mail::Part.new do
