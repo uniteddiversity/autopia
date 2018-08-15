@@ -31,10 +31,10 @@
 
 <p style="font-size: 13px">To continue the conversation,
   <a href="
-  <% if commentable.respond_to?(group); group = commentable.group %>
-    <%="#{ENV['BASE_URI']}/a/#{group.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"%>
+  <% if comment.commentable.respond_to?(group); group = comment.commentable.group %>
+    <%="#{ENV['BASE_URI']}/a/#{group.slug}/#{comment.commentable_type.underscore.pluralize}/#{comment.commentable_id}#post-#{comment.post_id}"%>
   <% else %>
-    <%="#{ENV['BASE_URI']}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"%>
+    <%="#{ENV['BASE_URI']}/#{comment.commentable_type.underscore.pluralize}/#{comment.commentable_id}#post-#{comment.post_id}"%>
   <% end %>
      ">
     view the post</a>
