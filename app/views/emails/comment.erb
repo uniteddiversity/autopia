@@ -31,7 +31,7 @@
 
 <p style="font-size: 13px">To continue the conversation,
   <a href="
-  <% if comment.commentable.respond_to?(group); group = comment.commentable.group %>
+  <% if comment.commentable.respond_to?(:group); group = comment.commentable.group %>
     <%="#{ENV['BASE_URI']}/a/#{group.slug}/#{comment.commentable_type.underscore.pluralize}/#{comment.commentable_id}#post-#{comment.post_id}"%>
   <% else %>
     <%="#{ENV['BASE_URI']}/#{comment.commentable_type.underscore.pluralize}/#{comment.commentable_id}#post-#{comment.post_id}"%>
