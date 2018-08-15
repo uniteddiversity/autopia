@@ -79,7 +79,7 @@ class Comment
         mail = Mail.new
         mail.bcc = bcc
         mail.from = "Autopo <#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
-        mail.subject = comment.description
+        mail.subject = "#{Nokogiri::HTML(comment.description).text}"
             
         content = ERB.new(File.read(Padrino.root('app/views/emails/comment.erb'))).result(binding)
         html_part = Mail::Part.new do
