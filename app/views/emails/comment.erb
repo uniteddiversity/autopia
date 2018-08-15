@@ -1,6 +1,4 @@
 
-<p><%=notification.sentence%></p>
-
 <p><%=comment.body.gsub("\n","<br />")%></p>
 <% if comment.file %>
   <p>
@@ -31,7 +29,7 @@
 <% } %>
 <%= close_divs %> 
 
-<p style="font-size: 13px">To continue the conversation, <a href="<%=notification.link[1]%>">view the post</a> or reply to this email.</p>
+<p style="font-size: 13px">To continue the conversation, view the post or reply to this email.</p>
 
 <p style="font-size: 12px;">
   <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">Unwatch this post</a>
