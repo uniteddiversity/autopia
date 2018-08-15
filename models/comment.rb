@@ -57,6 +57,31 @@ class Comment
     post.update_attribute(:updated_at, Time.now)
   end
   
+  after_create :send_comment
+  def send_comment
+    if ENV['SMTP_ADDRESS']
+      comment = self
+      bcc = comment.post.emails
+      
+      if bcc.length > 0
+        mail = Mail.new
+        mail.bcc = bcc
+        mail.from = "Autopo <#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
+        mail.subject = "[#{post_id}] #{comment.account} wrote a comment"
+            
+        content = ERB.new(File.read(Padrino.root('app/views/emails/comment.erb'))).result(binding)
+        html_part = Mail::Part.new do
+          content_type 'text/html; charset=UTF-8'
+          body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
+        end
+        mail.html_part = html_part
+      
+        mail.deliver
+      end
+    end    
+  end
+  handle_asynchronously :send_comment  
+  
   def self.commentable_types
     %w{Team Activity Mapplication Habit}
   end

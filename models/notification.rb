@@ -34,7 +34,7 @@ class Notification
   def self.mailable_types
     %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend}
   end
-  
+    
   after_create :send_email  
   def send_email
     if ENV['SMTP_ADDRESS'] and Notification.mailable_types.include?(type)
@@ -60,34 +60,7 @@ class Notification
     end    
   end
   handle_asynchronously :send_email 
-  
-  after_create :send_comment
-  def send_comment
-    if ENV['SMTP_ADDRESS'] and type == 'commented'
-      notification = self
-      comment = self.notifiable
-      group = self.group
-      bcc = comment.post.emails
       
-      if bcc.length > 0
-        mail = Mail.new
-        mail.bcc = bcc
-        mail.from = "Autopo <#{group.slug}+#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
-        mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
-            
-        content = ERB.new(File.read(Padrino.root('app/views/emails/comment.erb'))).result(binding)
-        html_part = Mail::Part.new do
-          content_type 'text/html; charset=UTF-8'
-          body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
-        end
-        mail.html_part = html_part
-      
-        mail.deliver
-      end
-    end    
-  end
-  handle_asynchronously :send_comment
-    
   def sentence    
     case type.to_sym
     when :created_group
