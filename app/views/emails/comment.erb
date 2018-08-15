@@ -1,4 +1,10 @@
 
+<% if comment.commentable.respond_to?(:group); group = comment.commentable.group %>
+  <h1 style="margin-top: 0">
+    <a style="text-decoration: none" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>"><%=group.name%></a>
+  </h1>
+<% end %>
+
 <p><%=comment.body.gsub("\n","<br />")%></p>
 <% if comment.file %>
   <p>
