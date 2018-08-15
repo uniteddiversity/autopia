@@ -13,9 +13,13 @@
           <td>
             <ul class="fa-ul">              
               <% account.habits.where(public: true).order('o asc').each { |habit| %>
-                <% if habit.habit_completions.find_by(:date => date) %>
+                <% if completed = habit.habit_completions.find_by(:date => date) %>
                   <li>
-                    <i class="fa fa-li fa-check"></i>
+                    <% if completed.comment %>
+                      <i data-toggle="tooltip" title="<%=completed.comment%>" class="fa fa-li fa-comment"></i>
+                    <% else %>
+                      <i class="fa fa-li fa-check"></i>
+                    <% end %>
                     <%= habit.name %>
                   </li>  
                 <% end %>

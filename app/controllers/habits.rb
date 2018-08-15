@@ -80,7 +80,7 @@ Autopo::App.controller do
     if habit_completion = @habit.habit_completions.find_by(date: params[:date])
       habit_completion.destroy
     else
-      @habit.habit_completions.create(date: params[:date])
+      @habit.habit_completions.create(date: params[:date], comment: params[:comment])
     end
     request.xhr? ? 200 : redirect(back)
   end    

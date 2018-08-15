@@ -16,7 +16,7 @@
   <tbody>
     <% @habits.order('o asc').each { |habit| %>
       <tr id="<%=habit.id%>">
-        <td class="habit-name">
+        <td class="habit-name" style="cursor: move">
           <% if @interactive %>
             <a href="/habits/<%=habit.id%>/edit"><%= habit.name %></a>
           <% else %>
@@ -26,16 +26,34 @@
         <%  @dates.each { |date| %>
           <td>
             <% if @interactive %>
-              <% if completed = habit.habit_completions.find_by(date: date) %>
-                <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
-              <% end %>  
-              <% form_tag "/habits/#{habit.id}/completed", :style => ('display:none' if completed) do %>
-                <%= hidden_field_tag :date, :value => date %>
-                <%= check_box_tag :completed, :value => true, :checked => completed, :onclick => '$(this.form).submit()' %>
-              <% end %>   
-            <% else %>
-              <% if completed = habit.habit_completions.find_by(date: date) %>
-                <i class="fa fa-check" ></i>
+              <% if completed = habit.habit_completions.find_by(date: date) %>            
+                <i
+                <% if completed.comment %>
+                    data-toggle="tooltip"
+                    title="<%=completed.comment%>"
+                  <% end %>
+                  class="fa
+                  <% if completed.comment %>
+                    fa-comment
+                  <% else %>
+                    fa-check
+                  <% end %>
+                  "
+                  style="cursor: pointer" 
+                  onclick="$(this).hide().next().show().find('input').click()"></i>
+                <% end %>  
+                <% form_tag "/habits/#{habit.id}/completed", :style => ('display:none' if completed) do %>
+                  <%= hidden_field_tag :date, :value => date %>
+                  <%= hidden_field_tag :comment %>
+                  <%= check_box_tag :completed, :value => true, :checked => completed, :onclick => "if ($(this).is(':checked')) { var comment = prompt('Add a comment'); $(this.form).find('input[name=comment]').val(comment); } $(this.form).submit()" %>
+                <% end %>   
+              <% else %>
+                <% if completed = habit.habit_completions.find_by(date: date) %>
+                  <% if completed.comment %>
+                  <i data-toggle="tooltip" title="<%=completed.comment%>" class="fa fa-li fa-comment"></i>
+                <% else %>
+                  <i class="fa fa-li fa-check"></i>
+                <% end %>
               <% end %>              
             <% end %>
           </td>

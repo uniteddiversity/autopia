@@ -3,6 +3,7 @@ class HabitCompletion
   include Mongoid::Timestamps
 
   field :date, :type => Date
+  field :comment, :type => String
 
   belongs_to :account
   belongs_to :habit
@@ -17,6 +18,7 @@ class HabitCompletion
   def self.admin_fields
     {
       :date => :date,
+      :comment => :text,
       :account_id => :lookup,
       :habit_id => :lookup
     }
