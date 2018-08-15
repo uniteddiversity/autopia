@@ -50,13 +50,13 @@ class Comment
   end   
   
   def description
-    if comment.commentable.is_a?(Mapplication)
-      "<strong>#{comment.account.name}</strong> commented on <strong>#{comment.commentable.account.name}</strong>'s application"                  
+    if commentable.is_a?(Mapplication)
+      "<strong>#{account.name}</strong> commented on <strong>#{commentable.account.name}</strong>'s application"                  
     else
-      if comment.post.comments.count == 1
-        "<strong>#{comment.account.name}</strong> posted in <strong>#{comment.commentable.name}</strong>"                  
+      if post.comments.count == 1
+        "<strong>#{account.name}</strong> posted in <strong>#{commentable.name}</strong>"                  
       else
-        "<strong>#{comment.account.name}</strong> replied to a thread in <strong>#{comment.commentable.name}</strong>"                  
+        "<strong>#{account.name}</strong> replied to a thread in <strong>#{commentable.name}</strong>"                  
       end
     end      
   end
