@@ -10,7 +10,7 @@
 
 <div class="row mt-3" id="habits">
   <% @habits.order('o asc').each { |habit| %>  
-    <div data-pagelet-url="/habits/<%=habit.id%>/block?date=<%=@date.to_s(:db)%>" class="habit col-6 col-sm-3 mb-3" id="<%=habit.id%>"></div>
+    <div data-pagelet-url="/habits/<%=habit.id%>/block?date=<%=@date.to_s(:db)%>" class="habit col-6 col-sm-3 mb-4" id="<%=habit.id%>"></div>
   <% } %>
 </div>
 
