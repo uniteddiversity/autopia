@@ -17,6 +17,7 @@
 <script>
   $(function () {
     $("div#habits").sortable({
+      helper : 'clone',
       update: function (event, ui) {
         $.post('/habits/order', {habit_ids: $(event.target).sortable("toArray")})
       }
