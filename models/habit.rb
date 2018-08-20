@@ -40,6 +40,16 @@ class Habit
     }
   end
   
+  def self.new_tips
+    {
+      :public => 'Visible on profile and in your groups'
+    }
+  end
+  
+  def self.edit_tips
+    self.new_tips
+  end
+  
   def subscribers
     [account]
   end

@@ -17,16 +17,16 @@
         <%  @dates.each { |date| %>
           <td>
             <% if completed = habit.habit_completions.find_by(date: date) %>
+              <i class="fa fa-check"></i>
+
               <% if completed.comment %>
-                <i class="fa fa-comment"></i>
                 <span>
                   <% if completed.comment %>
                     <%=completed.comment%>
                   <% end %>            
                 </span>                  
-              <% else %>
-                <i class="fa fa-check"></i>
-              <% end %>
+              <% end %>                
+
             <% end %>              
           </td>
         <% } %>
