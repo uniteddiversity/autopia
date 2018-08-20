@@ -4,13 +4,9 @@ Autopo::App.controller do
     sign_in_required!
     @habit = Habit.new
     @habits = current_account.habits
-    @dates = ((Date.today-4)..Date.today).to_a.reverse
-    @interactive = true    
-    if request.xhr?
-      partial :'habits/habits'
-    else
-      erb :'habits/habits'
-    end
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @dates = ((Date.today-4)..Date.today).to_a.reverse 
+    erb :'habits/habits'
   end
   
   get '/a/:slug/habits' do
@@ -46,6 +42,15 @@ Autopo::App.controller do
     erb :'habits/habit'
   end  
   
+  get '/habits/:id/block' do
+    sign_in_required!
+    @habit = Habit.find(params[:id]) || not_found
+    @date = params[:date] || Date.today
+    @completed = @habit.habit_completions.find_by(date: @date)
+    halt unless (current_account and @habit.account.id == current_account.id) or @habit.public?
+    partial :'habits/block', :locals => {:habit => @habit, :completed => @completed}
+  end
+  
   get '/habits/:id/edit' do
     sign_in_required!
     @habit = current_account.habits.find(params[:id]) || not_found
@@ -69,18 +74,7 @@ Autopo::App.controller do
     @habit.destroy
     redirect '/habits'
   end    
-    
-  post '/habits/:id/public' do
-    sign_in_required!
-    @habit = current_account.habits.find(params[:id]) || not_found
-    if @habit.public?
-      @habit.update_attribute(:public, nil)
-    else
-      @habit.update_attribute(:public, true)
-    end
-    200
-  end   
-    
+         
   post '/habits/:id/completed' do
     sign_in_required!
     @habit = current_account.habits.find(params[:id]) || not_found
