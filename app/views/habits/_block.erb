@@ -1,3 +1,9 @@
+<style>
+  @media(max-width: 768px) { 
+    h3.block-title { font-size: 5vw }
+  }
+</style>
+
 <div <% if completed %>style="opacity: 0.3"<% end %>>      
   <div 
     onclick="
@@ -14,7 +20,7 @@
     style="cursor: pointer; height: 160px; <% if !habit.image %>border: 2px solid #343a40;<% end %> <% if habit.image %>background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=habit.image.url%>'); background-size: cover; background-position: center center;<% end %>">
     <div class="row">
       <div class="col">
-        <h3>
+        <h3 class="block-title">
           <a class="<% if habit.image %>text-white<% else %>text-dark<% end%> " href="/habits/<%=habit.id%>/edit" onclick="event.stopPropagation();">
             <%= habit.name %>
             <% if completed %>
