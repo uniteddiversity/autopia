@@ -17,7 +17,7 @@
     <% end %>
     "        
     class="p-2 d-block" 
-    style="cursor: pointer; height: 160px; <% if !habit.image %>border: 2px solid #343a40;<% end %> <% if habit.image %>background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=habit.image.url%>'); background-size: cover; background-position: center center;<% end %>">
+    style="overflow: hidden; cursor: pointer; height: 160px; <% if !habit.image %>border: 2px solid #343a40;<% end %> <% if habit.image %>background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=habit.image.url%>'); background-size: cover; background-position: center center;<% end %>">
     <div class="row">
       <div class="col">
         <h3 class="block-title">
