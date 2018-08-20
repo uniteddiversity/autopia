@@ -31,9 +31,9 @@
       </div>
       <div class="col-auto">            
         <% if habit.public %>                         
-          <i class="fa fa-globe text-white"></i>
+          <i class="fa fa-globe  <% if habit.image_uid %>text-white<% end%> "></i>
         <% else %>
-          <i class="fa fa-lock text-white"></i>
+          <i class="fa fa-lock <% if habit.image_uid %>text-white<% end%> "></i>
         <% end %>
       </div>
     </div>
