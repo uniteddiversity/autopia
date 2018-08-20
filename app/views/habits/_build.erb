@@ -1,6 +1,7 @@
 <% form_for @habit, @habit.new_record? ? '/habits/new' : "/habits/#{@habit.id}/edit", :class => 'my-3 form-horizontal' do  |f| %>
   <%= f.text_block :name %>
   <%= f.image_block :image %>
+  <%= f.url_block :image_url %>
   <%= f.check_box_block :public %>
   <%= f.submit_block destroy_url: "/habits/#{@habit.id}/destroy" %>
 <% end %>
