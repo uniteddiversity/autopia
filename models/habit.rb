@@ -1,10 +1,12 @@
 class Habit
   include Mongoid::Document
   include Mongoid::Timestamps
-
+  extend Dragonfly::Model
+    
   field :name, :type => String
   field :public, :type => Boolean
   field :o, :type => Integer
+  field :image_uid, :type => String
   
   belongs_to :account
   
@@ -16,6 +18,18 @@ class Habit
   has_many :comment_likes, :as => :commentable, :dependent => :destroy  
   
   validates_presence_of :name
+  
+  dragonfly_accessor :image 
+  before_validation do
+    if self.image
+      begin
+        self.image.format
+      rescue        
+        errors.add(:image, 'must be an image')
+      end
+    end
+  end      
+    
         
   def self.admin_fields
     {

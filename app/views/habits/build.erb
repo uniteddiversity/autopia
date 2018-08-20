@@ -1,9 +1,5 @@
 <a href="/habits"><i class="fa fa-arrow-left"></i> Return to habits</a>
 
-<% form_for @habit, "/habits/#{@habit.id}/edit", :class => 'my-3 form-horizontal' do  |f| %>
-  <%= f.text_block :name %>
-  <%= f.check_box_block :public %>
-  <%= f.submit_block destroy_url: "/habits/#{@habit.id}/destroy" %>
-<% end %>
+<%= partial :'habits/build' %>
 
 <%= partial :'habits/log_simple', :locals => {:habit_completions => @habit.habit_completions.order('date desc')} %>

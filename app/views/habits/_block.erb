@@ -2,19 +2,26 @@
   <div 
     onclick="
     <% if completed %>
-              if (confirm('Really uncomplete this habit?')) {
-                $(this).next().find('input').click()
-              }
+          if (confirm('Really uncomplete this habit?')) {
+            $(this).next().find('input').click()
+          }
     <% else %>
-              console.log($(this).find('input'))
-              $(this).next().find('input').click()
+          console.log($(this).find('input'))
+          $(this).next().find('input').click()
     <% end %>
     "        
-    class="text-white p-2 d-block" style="cursor: pointer; height: 160px; background: rgba(0,0,0,0.5)">
-
+    class="text-white p-2 d-block" 
+    style="cursor: pointer; height: 160px; background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=habit.image.try(:url)%>'); background-size: cover">
     <div class="row">
       <div class="col">
-        <h3><a class="text-white" href="/habits/<%=habit.id%>/edit" onclick="event.stopPropagation();"><%= habit.name %></a></h3>
+        <h3>
+          <a class="text-white" href="/habits/<%=habit.id%>/edit" onclick="event.stopPropagation();">
+            <%= habit.name %>
+            <% if completed %>
+              <i class="fa fa-check"></i>
+            <% end %>
+          </a>
+        </h3>
       </div>
       <div class="col-auto">            
         <% if habit.public %>                         
