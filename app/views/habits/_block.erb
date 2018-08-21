@@ -52,15 +52,18 @@
       </tr>
       <tr>
         <td style="vertical-align: bottom; text-align: right" class="<% if habit.image %>text-white<% else %>text-dark<% end%>">
-          <% if habit.habit_completions.count > 0; latest_habit_completion = habit.habit_completions.order('date desc').first %>
-            <span title="Last completed">  
-              <i class="fa fa-clock-o"></i> 
-              <% if latest_habit_completion.date == Date.today %>
-                Today
-              <% else %>
-                <%= time_ago_in_words latest_habit_completion.date %> ago
-              <% end %>
-            <% end %>
+          <% if habit.habit_completions.count == 0
+            last_completed = 'Never'
+            else; latest_habit_completion = habit.habit_completions.order('date desc').first
+            if latest_habit_completion.date == Date.today
+              last_completed = 'Today'
+              else
+              last_completed = "#{time_ago_in_words latest_habit_completion.date} ago"
+            end
+            end
+        %>          
+          <span title="Last completed <%=last_completed.downcase%>">  
+            <i class="fa fa-clock-o"></i> <%=last_completed%>
           </span>
         </td>
       </tr>
