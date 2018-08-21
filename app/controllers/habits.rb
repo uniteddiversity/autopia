@@ -45,9 +45,8 @@ Autopo::App.controller do
   get '/habits/:id/block' do
     @habit = Habit.find(params[:id]) || not_found
     halt unless (current_account and @habit.account.id == current_account.id) or @habit.public?
-    @date = params[:date] || Date.today
-    @completed = @habit.habit_completions.find_by(date: @date)    
-    partial :'habits/block', :locals => {:habit => @habit, :completed => @completed}
+    @date = params[:date] || Date.today    
+    partial :'habits/block', :locals => {:habit => @habit, :date => @date}
   end
   
   get '/habits/:id/edit' do

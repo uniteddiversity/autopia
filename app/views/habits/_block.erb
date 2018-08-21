@@ -1,3 +1,5 @@
+<% completed = habit.habit_completions.find_by(date: date) %>
+
 <div <% if completed %>style="opacity: 0.25"<% end %>>      
   <div 
 
@@ -72,7 +74,7 @@
   </div>    
   <% if current_account and current_account.id == habit.account_id %>
     <% form_tag "/habits/#{habit.id}/completed", :style => 'display: none' do %>
-      <%= hidden_field_tag :date, :value => @date %>
+      <%= hidden_field_tag :date, :value => date %>
       <%= hidden_field_tag :comment %>
       <%= check_box_tag :completed, :value => true, :checked => completed, :onclick => "if ($(this).is(':checked')) { var comment = prompt('Add a comment'); $(this.form).find('input[name=comment]').val(comment); } $(this.form).submit()" %>
     <% end %>      
