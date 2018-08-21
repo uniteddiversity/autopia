@@ -70,7 +70,7 @@ Autopo::App.controller do
   get '/accounts/:id' do    
     @account = Account.find(params[:id]) || not_found
     @habits = @account.habits.where(public: true)
-    @dates = ((Date.today-4)..Date.today).to_a.reverse
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
     erb :'accounts/account'
   end  
   

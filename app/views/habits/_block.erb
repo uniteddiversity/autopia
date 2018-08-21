@@ -6,44 +6,68 @@
 
 <div <% if completed %>style="opacity: 0.25"<% end %>>      
   <div 
-    onclick="
-    <% if completed %>
-          if (confirm('Really uncomplete this habit?')) {
-            $(this).next().find('input').click()
-          }
-    <% else %>
-          console.log($(this).find('input'))
-          $(this).next().find('input').click()
+
+    <% if current_account and current_account.id == habit.account_id %>
+      onclick="
+      <% if completed %>
+              if (confirm('Really uncomplete this habit?')) {
+                $(this).next().find('input').click()
+              }
+      <% else %>
+              console.log($(this).find('input'))
+              $(this).next().find('input').click()
+      <% end %>
+      "        
     <% end %>
-    "        
+
     class="p-2 d-block" 
-    style="overflow: hidden; cursor: pointer; height: 160px; <% if !habit.image %>border: 2px solid #343a40;<% end %> <% if habit.image %>background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=habit.image.url%>'); background-size: cover; background-position: center center;<% end %>">
-    <div class="row">
-      <div class="col">
-        <h3 class="block-title">
-          <a class="<% if habit.image %>text-white<% else %>text-dark<% end%> " href="/habits/<%=habit.id%>/edit" onclick="event.stopPropagation();">
-            <%= habit.name %>
-            <% if completed %>
-              <i class="fa fa-check"></i>
+    style="cursor: pointer; overflow: hidden; <% if !habit.image %>border: 2px solid #343a40;<% end %> <% if habit.image %>background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=habit.image.url%>'); background-size: cover; background-position: center center;<% end %>">
+
+    <table style="width: 100%; height: 160px;">
+      <tr>
+        <td style="vertical-align: top">
+          <div class="row">
+            <div class="col">
+              <h3 class="block-title">
+                <a class="<% if habit.image %>text-white<% else %>text-dark<% end%>" href="/habits/<%=habit.id%>" onclick="event.stopPropagation();">
+                  <%= habit.name %>
+                  <% if completed %>
+                    <i class="fa fa-check"></i>
+                  <% end %>
+                </a>
+              </h3>
+            </div>
+            <div class="col-auto">            
+              <% if habit.public %>                         
+                <i class="fa fa-globe  <% if habit.image %>text-white<% else %>text-dark<% end%>"></i>
+              <% else %>
+                <i class="fa fa-lock <% if habit.image %>text-white<% else %>text-dark<% end%> "></i>
+              <% end %>
+            </div>
+          </div>
+          <% if completed and completed.comment %>
+            <p class="lead <% if habit.image %>text-white<% else %>text-dark<% end%>"><%= completed.comment %></p>
+          <% end %>        
+        </td>  
+      </tr>
+      <tr>
+        <td style="vertical-align: bottom" class="<% if habit.image %>text-white<% else %>text-dark<% end%>">
+          <% if habit.habit_completions.count > 0; latest_habit_completion = habit.habit_completions.order('date desc').first %>
+            <% if latest_habit_completion.date == Date.today %>
+              Completed today
+            <% else %>
+              Last completed <%= time_ago_in_words latest_habit_completion.date %> ago
             <% end %>
-          </a>
-        </h3>
-      </div>
-      <div class="col-auto">            
-        <% if habit.public %>                         
-          <i class="fa fa-globe  <% if habit.image_uid %>text-white<% end%> "></i>
-        <% else %>
-          <i class="fa fa-lock <% if habit.image_uid %>text-white<% end%> "></i>
-        <% end %>
-      </div>
-    </div>
-    <% if completed and completed.comment %>
-      <p class="text-white"><%= completed.comment %></p>
-    <% end %>
-  </div>          
-  <% form_tag "/habits/#{habit.id}/completed", :style => 'display: none' do %>
-    <%= hidden_field_tag :date, :value => @date %>
-    <%= hidden_field_tag :comment %>
-    <%= check_box_tag :completed, :value => true, :checked => completed, :onclick => "if ($(this).is(':checked')) { var comment = prompt('Add a comment'); $(this.form).find('input[name=comment]').val(comment); } $(this.form).submit()" %>
-  <% end %>      
+          <% end %>
+        </td>
+      </tr>
+    </table>
+  </div>    
+  <% if current_account and current_account.id == habit.account_id %>
+    <% form_tag "/habits/#{habit.id}/completed", :style => 'display: none' do %>
+      <%= hidden_field_tag :date, :value => @date %>
+      <%= hidden_field_tag :comment %>
+      <%= check_box_tag :completed, :value => true, :checked => completed, :onclick => "if ($(this).is(':checked')) { var comment = prompt('Add a comment'); $(this.form).find('input[name=comment]').val(comment); } $(this.form).submit()" %>
+    <% end %>      
+  <% end %>
 </div>
