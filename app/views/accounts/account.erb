@@ -2,9 +2,11 @@
 
   <div class="col-auto">
     <%= partial :'accounts/square', :locals => {:account => @account, :style => 'width: 200px; background: white; border: 3px solid white'} %>
-    <h1><a class="text-dark" href="/accounts/<%=@account.id%>"><%=@account.name%></a></h1>    
   </div>
   <div class="col">
+
+    <h1><a class="text-dark" href="/accounts/<%=@account.id%>"><%=@account.name%></a></h1>    
+
     <div class="table-hr-container">
       <table class="table table-hr">
 
@@ -59,16 +61,13 @@
   </div>
 </div>
 
-<% if @habits.count > 0 %>
-  <hr />
-  <h2>Habits</h2>
+<% if @habits.count > 0 %>  
+  <h2 class="mt-5 mb-3">Habits</h2>
   <%= partial :'habits/blocks' %>
 <% end %>
 
-<hr />
-
 <% if @account.memberships.count > 0 %>
-  <h2>Groups</h2>
+  <h2 class="mt-5 mb-3">Groups</h2>
   <div class="row">
     <% @account.memberships.each { |membership| group = membership.group %>
       <div class="col-6 col-sm-3 mb-4">

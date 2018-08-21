@@ -29,14 +29,14 @@
         <td style="vertical-align: top">
           <div class="row">
             <div class="col">
-              <h3 class="block-title">
-                <a class="<% if habit.image %>text-white<% else %>text-dark<% end%>" href="/habits/<%=habit.id%>" onclick="event.stopPropagation();">
+              <h4 class="block-title">
+                <a class="<% if habit.image %>text-white<% else %>text-dark<% end%>" target="_parent" href="/habits/<%=habit.id%>" onclick="event.stopPropagation();">
                   <%= habit.name %>
                   <% if completed %>
                     <i class="fa fa-check"></i>
                   <% end %>
                 </a>
-              </h3>
+              </h4>
             </div>
             <div class="col-auto">    
               <% if current_account and current_account.id == habit.account_id %>              
