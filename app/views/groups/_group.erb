@@ -1,6 +1,8 @@
 
-<a class="d-block p-2 <%if group.cover_image%>text-white<% else%>text-dark<% end %>" href="/a/<%=group.slug%>" style="height: 160px; <% if !group.cover_image %>border: 2px solid #343a40;<% end %> <% if group.cover_image %>background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=group.cover_image.url%>'); background-size: cover; background-position: center center;<% end %>" class="group">             
-  <h3>
-    <%=group.name%>
-  </h3> 
+<a class="d-block p-2 <%if group.cover_image%>text-white<% else%>text-dark<% end %>" href="/a/<%=group.slug%>" style="<% if !group.cover_image %>border: 2px solid #343a40;<% end %> <% if group.cover_image %>background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=group.cover_image.url%>'); background-size: cover; background-position: center center;<% end %>" class="group">             
+  <div style="height: 160px;">
+    <h3>
+      <%=group.name%>
+    </h3> 
+  </div>
 </a>
