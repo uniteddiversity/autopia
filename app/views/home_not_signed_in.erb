@@ -116,7 +116,7 @@
 <div class="row">
 
   <% Group.where(:featured => true).each { |group| %>
-    <div class="col-sm-4" style="margin-bottom: 20px">
+    <div class="col-6 col-sm-3 mb-4">
       <%= partial :'groups/group', :object => group  %>
     </div>
   <% } %>

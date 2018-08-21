@@ -14,7 +14,7 @@
   <% } %>
 </div>
 
-<% if !@account or @account.id == current_account.id %>
+<% if !@account %>
   <script>
     $(function () {
       $("div#habits").sortable({

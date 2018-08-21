@@ -70,9 +70,8 @@
 <% if @account.memberships.count > 0 %>
   <h2>Groups</h2>
   <div class="row">
-    <style>.group h1 { font-size: 26px }</style>
     <% @account.memberships.each { |membership| group = membership.group %>
-      <div class="col-sm-4" style="margin-bottom: 20px">
+      <div class="col-6 col-sm-3 mb-4">
         <%= partial :'groups/group', :object => group  %>
       </div>
     <% } %>

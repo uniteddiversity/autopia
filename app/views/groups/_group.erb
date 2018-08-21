@@ -1,14 +1,6 @@
 
-<a href="/a/<%=group.slug%>" style="position: relative; display: block; color: white; text-decoration: none; background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=group.cover_image.try(:url)%>'); background-size: cover; background-position: center center;" class="group">
-  <table style="width: 100%; position: relative; height: 200px">
-    <tr>
-      <td style="vertical-align: bottom">
-        <div style="padding: 0 10px">                    
-          <h1>
-            <%=group.name%>
-          </h1> 
-        </div>
-      </td>
-    </tr>
-  </table>
+<a class="d-block text-white p-2" href="/a/<%=group.slug%>" style="height: 160px; background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=group.cover_image.try(:url)%>'); background-size: cover; background-position: center center;" class="group">             
+  <h3>
+    <%=group.name%>
+  </h3> 
 </a>
