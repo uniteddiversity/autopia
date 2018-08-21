@@ -36,18 +36,16 @@ Autopo::App.controller do
   end  
   
   get '/habits/:id' do
-    sign_in_required!
     @habit = Habit.find(params[:id]) || not_found
     halt unless (current_account and @habit.account.id == current_account.id) or @habit.public?
     erb :'habits/habit'
   end  
   
   get '/habits/:id/block' do
-    sign_in_required!
     @habit = Habit.find(params[:id]) || not_found
-    @date = params[:date] || Date.today
-    @completed = @habit.habit_completions.find_by(date: @date)
     halt unless (current_account and @habit.account.id == current_account.id) or @habit.public?
+    @date = params[:date] || Date.today
+    @completed = @habit.habit_completions.find_by(date: @date)    
     partial :'habits/block', :locals => {:habit => @habit, :completed => @completed}
   end
   
