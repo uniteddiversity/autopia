@@ -74,6 +74,14 @@ Autopo::App.controller do
     erb :'accounts/account'
   end  
   
+  get '/accounts/:id/habits' do    
+    @account = Account.find(params[:id]) || not_found
+    @habits = @account.habits.where(public: true)
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @hide_nav = true
+    erb :'accounts/habits', :layout => :minimal
+  end    
+  
   get '/accounts/use_picture/:provider' do
     sign_in_required!
     @provider = Provider.object(params[:provider])

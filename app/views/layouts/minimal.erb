@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+  <%= partial :'layouts/head' %>
+
+  <body class="px-3">
+
+    <%= partial :alert %>
+
+    <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
+
+  </body>
+
+</html>

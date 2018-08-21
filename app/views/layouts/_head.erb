@@ -1,0 +1,67 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
+  <script>
+<% if Padrino.env == :development %>
+      Pusher.logToConsole = true;
+<% end %>
+    pusher = new Pusher('<%=ENV['PUSHER_KEY']%>', {
+      cluster: '<%=ENV['PUSHER_CLUSTER']%>',
+      encrypted: true
+    });
+  </script>     
+
+  <% {            
+    'jquery/3.2.0' => 'jquery.min.js',
+    'jqueryui/1.12.1' => 'jquery-ui.min.js',      
+    'popper.js/1.11.0' => 'umd/popper.min.js',
+    'twitter-bootstrap/4.0.0-beta' => 'js/bootstrap.min.js',
+    'font-awesome/4.7.0' => 'css/font-awesome.min.css',
+    'jquery-timeago/1.4.3' => 'jquery.timeago.min.js',
+    'moment.js/2.17.1' => 'moment.min.js locale/en-gb.js',     
+    'fullcalendar/3.2.0' => 'fullcalendar.min.js fullcalendar.min.css',
+    'flatpickr/3.0.7' => 'flatpickr.min.js flatpickr.min.css',
+    'datatables/1.10.16' => 'js/jquery.dataTables.min.js js/dataTables.bootstrap4.min.js css/dataTables.bootstrap4.min.css',
+    'jquery.perfect-scrollbar/1.4.0' => 'perfect-scrollbar.min.js perfect-scrollbar.min.css'
+    }.each { |k,v| %>    
+    <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
+      <% case f.split('.').last.to_sym; when :js %>
+        <script src="<%=u%>"></script>      
+      <% when :css %>
+        <link rel="stylesheet" href="<%=u%>" />
+      <% end %>
+    <% } %>
+  <% } %>
+
+  <% [
+    '/fonts/geldoticalowercasethick/stylesheet.css',
+    '/stylesheets/share.css',
+    "/stylesheets/app.css?#{Time.now.to_i}"
+    ].each { |f| %> 
+    <link rel="stylesheet" href="<%=f%>" />    
+  <% } %>
+
+  <% [
+    '//cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/067bd296184a4dda8c669923417124065b4ebced/bootstrap3-typeahead.min.js',
+    "/javascripts/sb-admin.js?#{Time.now.to_i}",
+    "/javascripts/app.js?#{Time.now.to_i}",      
+    '//cdn.rawgit.com/wordsandwriting/activate-tools/7bef07297b78b0f68e40ae465d68be68ea49e27b/js/pagelets.js',
+    "//cdn.rawgit.com/wordsandwriting/activate-tools/7a73525b76c8234a4803e3196b4403ec6fd6ded7/js/textboxio/textboxio.js"
+    ].each { |f| %>
+    <script src="<%=f%>"></script>
+  <% } %>  
+
+  <%= favicon_tag 'autopo-square.png' %>
+  <title><%=@title%></title>
+  <meta name="description" content="<%=@og_desc%>">
+  <meta property="og:title" content="<%=@title%>" />
+  <meta property="og:image" content="<%=@og_image%>" />
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%=@title%>">
+  <meta name="twitter:description" content="<%=@og_desc%>">
+  <meta name="twitter:image" content="<%=@og_image%>">    
+
+  <%= eval(f('head')) %>
+</head>
