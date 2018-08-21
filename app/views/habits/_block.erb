@@ -36,11 +36,13 @@
                 </a>
               </h3>
             </div>
-            <div class="col-auto">            
-              <% if habit.public %>                         
-                <i class="fa fa-globe  <% if habit.image %>text-white<% else %>text-dark<% end%>"></i>
-              <% else %>
-                <i class="fa fa-lock <% if habit.image %>text-white<% else %>text-dark<% end%> "></i>
+            <div class="col-auto">    
+              <% if current_account and current_account.id == habit.account_id %>              
+                <% if habit.public %>                         
+                  <i class="fa fa-globe  <% if habit.image %>text-white<% else %>text-dark<% end%>"></i>
+                <% else %>
+                  <i class="fa fa-lock <% if habit.image %>text-white<% else %>text-dark<% end%> "></i>
+                <% end %>
               <% end %>
             </div>
           </div>
