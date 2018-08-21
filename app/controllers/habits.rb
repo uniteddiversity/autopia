@@ -36,7 +36,8 @@ Autopo::App.controller do
   end  
   
   get '/habits/:id' do
-    @habit = Habit.find(params[:id]) || not_found
+    sign_in_required!
+    @habit = Habit.find(params[:id]) || not_found   
     halt unless (current_account and @habit.account.id == current_account.id) or @habit.public?
     erb :'habits/habit'
   end  
