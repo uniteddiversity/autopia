@@ -1,5 +1,3 @@
 <a href="/habits"><i class="fa fa-arrow-left"></i> Return to habits</a>
 
 <%= partial :'habits/build' %>
-
-<%= partial :'habits/log_simple', :locals => {:habit_completions => @habit.habit_completions.order('date desc')} %>

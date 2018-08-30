@@ -1,8 +1,0 @@
-<ul class="fa-ul my-3">
-  <% habit_completions.each { |habit_completion|  %>
-    <li>
-      <i class="fa fa-li fa-check"></i>
-      <%= habit_completion.date %><% if habit_completion.comment %>: <%= habit_completion.comment %><% end %> <% unless habit_completion.date == Date.today%>(<%= time_ago_in_words habit_completion.date %> ago)<% end %>
-    </li>
-  <% } %>
-</ul>

@@ -1,4 +1,19 @@
 
+<script>
+  $(function () {
+    $('.habits-list').each(function () {
+      if ($(this).find('li').length > 3) {
+        $(this).find('li:gt(2)').hide()
+        var showMore = $('<li><i class="fa fa-li fa-plus"></i><a href="javascript:;">Show more</a></li>')
+        showMore.insertAfter($(this).find('li:eq(2)'))
+        showMore.find('a').click(function () {
+          $(this).closest('li').hide().closest('ul').find('li:gt(3)').show()
+        })
+      }
+    })
+  })
+</script>
+
 <% habits = Habit.where(:account_id.in => @accounts.pluck(:id)).where(public: true).order('o asc') %>
 
 <% @dates.each { |date| %>
@@ -11,7 +26,7 @@
         <tr>
           <td style="width: 1px"><%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %></td>
           <td>
-            <ul class="fa-ul">              
+            <ul class="fa-ul habits-list">              
               <% account.habits.where(public: true).order('o asc').each { |habit| %>
                 <% if completed = habit.habit_completions.find_by(:date => date) %>
                   <li>
