@@ -6,12 +6,11 @@
     <% if current_account and current_account.id == habit.account_id %>
       onclick="
       <% if completed %>
-              if (confirm('Really uncomplete this habit?')) {
-                $(this).next().find('input').click()
-              }
+            if (confirm('Really uncomplete this habit?')) {
+              $(this).next().find('input').click()              
+            }
       <% else %>
-              console.log($(this).find('input'))
-              $(this).next().find('input').click()
+            $(this).next().find('input').click()            
       <% end %>
       "        
     <% end %>

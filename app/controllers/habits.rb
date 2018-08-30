@@ -24,6 +24,11 @@ Autopo::App.controller do
     partial :'habits/log'
   end
   
+  get '/habits/me' do
+    @dates = ((Date.today-4)..Date.today).to_a.reverse
+    partial :'habits/me'
+  end  
+  
   post '/habits/new' do
     sign_in_required!
     @habit = current_account.habits.build(params[:habit])
