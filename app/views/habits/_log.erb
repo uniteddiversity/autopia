@@ -4,9 +4,9 @@
     $('.habits-list').each(function () {
       if ($(this).find('li').length > 3) {
         $(this).find('li:gt(2)').hide()
-        var showMore = $('<li><i class="fa fa-li fa-plus"></i><a href="javascript:;">Show more</a></li>')
+        var showMore = $('<li><i class="fa fa-li fa-angle-double-down"></i><span style="cursor: pointer; border-bottom: 1px dotted">Show more</span></li>')
         showMore.insertAfter($(this).find('li:eq(2)'))
-        showMore.find('a').click(function () {
+        showMore.find('span').click(function () {
           $(this).closest('li').hide().closest('ul').find('li:gt(3)').show()
         })
       }
