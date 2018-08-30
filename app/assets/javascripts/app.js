@@ -1,6 +1,6 @@
 /*global $*/
 
-var LOADING = $('<i class="my-3 fa fa-spin fa-circle-o-notch"></i>')
+var LOADING = '<i class="my-3 fa fa-spin fa-circle-o-notch"></i>'
 
 $(function () {
 
