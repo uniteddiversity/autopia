@@ -70,13 +70,8 @@ $(function () {
   function resizeCommentTextareas() {
     $('textarea[id=comment_body]').click(function () {
       $(this.form).find('.btn-primary').parent().parent().removeClass('d-none')
-    }).keydown(function () {
-      var el = this;
-      setTimeout(function () {
-        el.style.cssText = 'height:4em; padding:0';
-        el.style.cssText = 'height:' + el.scrollHeight + 'px';
-      }, 0);
     })
+    autosize($('textarea[id=comment_body]'));
   }
 
   $(document).ajaxComplete(function () {

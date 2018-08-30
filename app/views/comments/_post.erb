@@ -58,13 +58,13 @@
     </div>
   </div> 
 
-  <div style="background: #eee; padding: 5px 10px; font-size: 12px; border-top: 1px solid #ddd">
+  <div style="background: #E8EBEE; padding: 5px 10px; font-size: 12px; border-top: 1px solid #ddd">
     <div data-pagelet-url="/comments/<%=comment.id%>/likes" style="display: inline"></div>
     <div data-pagelet-url="/comments/<%=comment.id%>/read_receipts" style="display: inline"></div>
     <hr style="border-color: #ddd; margin: 0; margin-top: 5px" />
   </div>
 
-  <div style="background: #eee">
+  <div style="background: #E8EBEE">
     <div data-pagelet-url="/posts/<%=post.id%>/replies" data-pusher-channel="post.<%=post.id%>">
       <%= partial :'comments/replies', :locals => {:post => post} %>
     </div>
