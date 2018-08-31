@@ -7,7 +7,7 @@
 <div id="welcome" style="padding: 5%; text-align: center; background-image: url(/images/bl.jpeg); background-size: cover; background-position: center">
 
   <div style="background: rgba(0,0,0,0.6); padding: 2% 5%">
-   <p class="lead" style="font-size: 36px">
+    <p class="lead" style="font-size: 36px">
       Autopo is a tool for organising co-created gatherings
     </p>
 
@@ -111,16 +111,18 @@
 </div>
 
 <hr style="margin: 50px 0" />
-<h1 class="section-title" style="text-align: center;">Groups using Autopo</h1>
+<h1 class="section-title" style="text-align: center;">People using Autopo</h1>
 
 <div class="row">
-
-  <% Group.where(:featured => true).each { |group| %>
-    <div class="col-6 col-sm-3 mb-4">
-      <%= partial :'groups/group', :object => group  %>
-    </div>
-  <% } %>
-
+  <div class="col-sm-8 offset-sm-2 mb-4">
+    <% Account.where(:picture_uid.ne => nil).each { |account| %>
+      <div class="image-wall">
+        <% Account.where(:picture_uid.ne => nil).shuffle.each { |account| %>
+          <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+        <% } %>      
+      </div>
+    <% } %>
+  </div>
 </div>
 
 <hr style="margin: 50px 0" />
