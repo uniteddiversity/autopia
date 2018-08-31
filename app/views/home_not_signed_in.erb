@@ -115,13 +115,11 @@
 
 <div class="row">
   <div class="text-center mx-sm-5">
-    <% Account.where(:picture_uid.ne => nil).each { |account| %>
-      <% random(Account.where(:picture_uid.ne => nil),16).shuffle.each { |account| %>
-          <div class="d-inline-block m-1">
-            <%= partial :'accounts/square', :locals => {:account => account, :width => '100px'} %>
-          </div>
-        <% } %>      
-    <% } %>
+    <% random(Account.where(:picture_uid.ne => nil),16).shuffle.each { |account| %>
+      <div class="d-inline-block m-1">
+        <%= partial :'accounts/square', :locals => {:account => account, :width => '100px'} %>
+      </div>
+    <% } %>      
   </div>
 </div>
 
