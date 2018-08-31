@@ -117,7 +117,7 @@
   <div class="col-sm-8 offset-sm-2 mb-4">
     <% Account.where(:picture_uid.ne => nil).each { |account| %>
       <div class="image-wall">
-        <% Account.where(:picture_uid.ne => nil).shuffle.each { |account| %>
+        <% random(Account.where(:picture_uid.ne => nil),20).shuffle.each { |account| %>
           <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
         <% } %>      
       </div>

@@ -12,6 +12,11 @@ Autopo::App.helpers do
   def current_account
     @current_account ||= Account.find(session[:account_id]) if session[:account_id]
   end
+  
+  def random(relation, n)
+    count = relation.count
+    (0..count-1).sort_by{rand}.slice(0, n).collect! do |i| relation.skip(i).first end    
+  end    
    
   def sign_in_required!
     unless current_account

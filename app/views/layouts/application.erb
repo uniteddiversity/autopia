@@ -9,7 +9,7 @@
     <%= partial :nav %> 
 
     <div class="content-wrapper">
-      <div class="container-fluid" id="main">
+      <div class="container-fluid pb-3" id="main">
         <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
       </div>
       <!-- /.container-fluid-->
