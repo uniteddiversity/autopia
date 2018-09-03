@@ -14,5 +14,32 @@ class HabitCompletionLike
       :habit_completion_id => :lookup
     }
   end
+  
+  after_create :send_like
+  def send_like
+    if ENV['SMTP_ADDRESS']
+      habit_completion_like = self
+      habit_completion = habit_completion_like.habit_completion
+      habit = habit_completion.habit
+      bcc = habit_completion.account.email
+      
+      if bcc.length > 0
+        mail = Mail.new
+        mail.bcc = bcc
+        mail.from = ENV['NOTIFICATION_EMAIL']
+        mail.subject = "#{account.name} liked your completion of #{habit.name}"
+            
+        content = ERB.new(File.read(Padrino.root('app/views/emails/habit_completion_like.erb'))).result(binding)
+        html_part = Mail::Part.new do
+          content_type 'text/html; charset=UTF-8'
+          body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
+        end
+        mail.html_part = html_part
+      
+        mail.deliver
+      end
+    end    
+  end
+  handle_asynchronously :send_like
     
 end
