@@ -32,6 +32,7 @@
                   <li>
                     <i class="fa fa-li fa-check"></i>
                     <a href="/habits/<%=habit.id%>"><%= habit.name %></a><% if completed.comment %>: <%= completed.comment %><% end %>
+                    <div class="habit-completion-likes" data-pagelet-url="/habit_completions/<%=completed.id%>/likes" style="font-size: 12px; display: inline"></div>                    
                   </li>  
                 <% end %>
               <% } %>            

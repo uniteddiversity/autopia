@@ -35,6 +35,7 @@ img { image-orientation: from-image; }
 
 .subtle { color: #999 !important }
 .subtle.active, .subtle:hover { color: theme-color('primary') !important }
+.habit-completion-likes a:hover { color: theme-color('dark') !important }
 
 .table-hr td:first-child { width: 1px; white-space: nowrap; font-weight: bold; padding-right: 1rem; }
 .table-hr td { border: 0 !important; border-bottom: 0.1rem solid #eee !important; }
@@ -54,3 +55,4 @@ textarea[id=verdict_reason] { height: 6em; }
   clear: both;
 }
 .image-wall img { margin-right: 0.2rem; margin-bottom: 0.2rem; float: left }
+

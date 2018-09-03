@@ -7,6 +7,8 @@ class HabitCompletion
 
   belongs_to :account
   belongs_to :habit
+  
+  has_many :habit_completion_likes, :dependent => :destroy
     
   validates_presence_of :date, :account, :habit
   validates_uniqueness_of :habit, :scope => [:account, :date]

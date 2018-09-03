@@ -94,6 +94,7 @@ class Account
   # Habits
   has_many :habits, :dependent => :destroy
   has_many :habit_completions, :dependent => :destroy
+  has_many :habit_completion_likes, :dependent => :destroy
   
   has_many :notifications, as: :notifiable, dependent: :destroy
     

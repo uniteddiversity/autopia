@@ -96,5 +96,22 @@ Autopo::App.controller do
     }
     200
   end  
+    
+  get '/habit_completions/:id/likes' do
+    @habit_completion = HabitCompletion.find(params[:id]) || not_found
+    partial :'habits/habit_completion_likes', :locals => {:habit_completion => @habit_completion}
+  end    
+  
+  get '/habit_completions/:id/like' do
+    @habit_completion = HabitCompletion.find(params[:id]) || not_found
+    @habit_completion.habit_completion_likes.create account: current_account
+    200
+  end
+  
+  get '/habit_completions/:id/unlike' do
+    @habit_completion = HabitCompletion.find(params[:id]) || not_found
+    @habit_completion.habit_completion_likes.find_by(account: current_account).try(:destroy)
+    200
+  end      
   
 end
