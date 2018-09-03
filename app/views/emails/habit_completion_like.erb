@@ -1,1 +1,2 @@
-<p><%=habit_completion_like.account.name%> liked your completion of <%=habit.name%> on <%=habit_completion.date%>. <a href="<%=ENV['BASE_URI']%>/habits">View habits</a></p>
+<p>
+  <a href="<%=ENV['BASE_URI']%>/accounts/<%=habit_completion_like.account_id%>"><%=habit_completion_like.account.name%></a> liked your completion of <a href="<%=ENV['BASE_URI']%>/habits/<%=habit.id%>"><%=habit.name%></a> on <%=habit_completion.date%>. <a href="<%=ENV['BASE_URI']%>/habits">View habits</a></p>
