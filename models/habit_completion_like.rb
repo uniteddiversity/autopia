@@ -25,7 +25,7 @@ class HabitCompletionLike
       mail = Mail.new
       mail.to = habit_completion.account.email
       mail.from = ENV['NOTIFICATION_EMAIL']
-      mail.subject = "#{account.name} liked your completion of #{habit.name}"
+      mail.subject = "#{habit_completion_like.account.name} liked your completion of #{habit.name}"
             
       content = ERB.new(File.read(Padrino.root('app/views/emails/habit_completion_like.erb'))).result(binding)
       html_part = Mail::Part.new do
