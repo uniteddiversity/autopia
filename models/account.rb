@@ -14,7 +14,6 @@ class Account
   field :time_zone, :type => String
   field :crypted_password, :type => String
   field :picture_uid, :type => String
-  field :cover_image_uid, :type => String
   field :sign_ins, :type => Integer
   field :sign_in_token, :type => String
   field :last_active, :type => Time
@@ -116,18 +115,7 @@ class Account
       picture.rotate(self.rotate_picture_by)
     end  
   end  
-  
-  dragonfly_accessor :cover_image 
-  before_validation do
-    if self.cover_image
-      begin
-        self.cover_image.format
-      rescue        
-        errors.add(:cover_image, 'must be an image')
-      end
-    end
-  end   
-  
+    
   has_many :provider_links, :dependent => :destroy
   accepts_nested_attributes_for :provider_links  
           
@@ -151,7 +139,6 @@ class Account
       :facebook_profile_url => :text,
       :dietary_requirements => :text,
       :picture => :image,
-      :cover_image => :image,
       :admin => :check_box,
       :unsubscribed => :check_box,
       :time_zone => :select,
