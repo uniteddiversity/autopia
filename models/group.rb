@@ -150,6 +150,10 @@ class Group
     Account.where(:unsubscribed.ne => true).where(:id.in => memberships.where(:unsubscribed.ne => true).pluck(:account_id)).pluck(:email)
   end  
   
+  def vouchers
+    enable_supporters ? 'proposers + supporters' : 'proposers'
+  end
+  
   def incomings
     i = 0
     tiers.each { |tier|
