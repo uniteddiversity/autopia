@@ -151,7 +151,7 @@ class Group
   end  
   
   def vouchers
-    enable_supporters ? 'proposers + supporters' : 'proposers'
+    enable_supporters ? 'proposers + supporters (with at least one proposer)' : 'proposers'
   end
   
   def incomings
