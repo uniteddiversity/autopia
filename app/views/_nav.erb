@@ -51,7 +51,7 @@
             <%= ul_nav [
               ["Home", "/a/#{group.slug}"],
               (["Settings", "/a/#{group.slug}/edit"] if membership.admin),
-              (["Balance: #{group.currency_symbol}#{'%.2f' % group.balance}", "/a/#{group.slug}/balance"]  if membership.admin),                   
+              ([%Q{Balance <span class="d-none badge #{'badge-primary' if group.balance > 0}">#{group.currency_symbol}#{'%.2f' % group.balance}}, "/a/#{group.slug}/balance"]  if membership.admin),                   
               ["Members (#{group.memberships.count})", "/a/#{group.slug}/members"],
               (["Applications (#{group.mapplications.pending.count})", "/a/#{group.slug}/applications"] if group.enable_applications or group.mapplications.where(:status.ne => 'accepted').count > 0),        
               (["Habits", "/a/#{group.slug}/habits"] if group.enable_habits),              
