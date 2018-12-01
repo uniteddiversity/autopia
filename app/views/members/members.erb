@@ -74,6 +74,15 @@
   <% end %>  
 <% end %>
 
+<% if @group.facebook_group_url %>
+  <% y << capture do %>
+    <a <% if params[:member_of_facebook_group] %>class="selected"<% end %> href="?member_of_facebook_group=true">Member of Facebook group</a> <%= @group.memberships.where(:member_of_facebook_group => true).count %>
+  <% end %>
+  <% y << capture do %>
+    <a <% if params[:not_member_of_facebook_group] %>class="selected"<% end %>  href="?not_member_of_facebook_group=true">Not member of Facebook group</a> <%= @group.memberships.where(:member_of_facebook_group.ne => true).count %>
+  <% end %>
+<% end %>    
+
 <% if @group.democratic_threshold %>
   <% y << capture do %>
     <a <% if params[:threshold] %>class="selected"<% end %> href="?threshold=true">Suggesting magic number</a> <%= @group.memberships.where(:desired_threshold.ne => nil).count %>
@@ -196,7 +205,7 @@
           <th>Paid</th>     
         <% end %>
         <% if @group.facebook_group_url %>
-          <th>Added to Facebook group</th>    
+          <th>Member of Facebook group</th>    
         <% end %>
         <% if @group.enable_bookings %>
           <th>Booking limit</th>     

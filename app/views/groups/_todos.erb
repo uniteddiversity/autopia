@@ -1,5 +1,5 @@
 
-<% if @group.facebook_group_url and !@membership.added_to_facebook_group %>
+<% if @group.facebook_group_url and !@membership.member_of_facebook_group %>
   <div class="alert alert-primary" style="margin-top: 10px">
     Please join (or ask someone to add you to) <a target="_blank" href="<%=@group.facebook_group_url%>">the Facebook group</a>
   </div>

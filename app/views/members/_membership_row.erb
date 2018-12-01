@@ -92,14 +92,14 @@
 <% if @group.facebook_group_url %>
   <td>
     <% if @membership.admin %>
-      <% if membership.added_to_facebook_group %>
+      <% if membership.member_of_facebook_group %>
         <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
       <% end %>  
-      <% form_tag "/memberships/#{membership.id}/added_to_facebook_group", :style => ('display:none' if membership.added_to_facebook_group) do %>
-        <%= check_box_tag :added_to_facebook_group, :value => true, :checked => membership.added_to_facebook_group, :onclick => '$(this.form).submit()' %>
+      <% form_tag "/memberships/#{membership.id}/member_of_facebook_group", :style => ('display:none' if membership.member_of_facebook_group) do %>
+        <%= check_box_tag :member_of_facebook_group, :value => true, :checked => membership.member_of_facebook_group, :onclick => '$(this.form).submit()' %>
       <% end %>
     <% else %>
-      <% if membership.added_to_facebook_group %>
+      <% if membership.member_of_facebook_group %>
         <i class="fa fa-check"></i>
       <% end %>          
     <% end %>

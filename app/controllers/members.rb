@@ -17,6 +17,8 @@ Autopo::App.controller do
     @memberships = @memberships.where(:account_id.nin => @group.teamships.where(:team_id.nin => @group.teams.where(name: 'General').pluck(:id)).pluck(:account_id)) if params[:no_teams]
     @memberships = @memberships.where(:account_id.nin => @group.tierships.pluck(:account_id)) if params[:no_tier]     
     @memberships = @memberships.where(:account_id.nin => @group.accomships.pluck(:account_id)) if params[:no_accom]     
+    @memberships = @memberships.where(:member_of_facebook_group => true) if params[:member_of_facebook_group]
+    @memberships = @memberships.where(:member_of_facebook_group.ne => true) if params[:not_member_of_facebook_group]
     @memberships = @memberships.where(:desired_threshold.ne => nil) if params[:threshold]
     @memberships = @memberships.order('created_at desc')
     case content_type
@@ -180,12 +182,12 @@ Autopo::App.controller do
     200
   end   
   
-  post '/memberships/:id/added_to_facebook_group' do
+  post '/memberships/:id/member_of_facebook_group' do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
-    membership.update_attribute(:added_to_facebook_group, params[:added_to_facebook_group])
+    membership.update_attribute(:member_of_facebook_group, params[:member_of_facebook_group])
     200  
   end   
   
