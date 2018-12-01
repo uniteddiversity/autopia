@@ -2,10 +2,6 @@
 <%= partial :'groups/header' %>
 
 <p>         
-  <% if @membership.admin? %>    
-    <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/edit">Edit group</a>
-    <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/balance">Balance: <%=@group.currency_symbol%><%="#{'%.2f' % @group.balance}"%></a>
-  <% end %>  
   <% if @membership.unsubscribed %>
     <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/subscribe">Turn on email notifications of key events</a>
   <% else %>
