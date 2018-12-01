@@ -180,6 +180,15 @@ Autopo::App.controller do
     200
   end   
   
+  post '/memberships/:id/added_to_facebook_group' do
+    membership = Membership.find(params[:id]) || not_found
+    @group = membership.group
+    @membership = @group.memberships.find_by(account: current_account)
+    group_admins_only!
+    membership.update_attribute(:added_to_facebook_group, params[:added_to_facebook_group])
+    200  
+  end   
+  
   get '/membership_row/:id' do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group

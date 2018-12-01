@@ -9,6 +9,7 @@
   <% end %>              
   <a class="btn btn-outline-primary mb-1" data-confirm="Are you sure you want to leave the group?" href="/a/<%=@group.slug%>/leave">Leave group</a>
 </p>
+
 <p class="lead">
   Non-members can <%=  @group.enable_applications ? 'apply' : 'join' %> at <a href="<%="#{ENV['BASE_URI']}/a/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%>"><%="#{ENV['BASE_URI']}/a/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%></a>
 </p>                 

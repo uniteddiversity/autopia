@@ -89,6 +89,22 @@
     <% end %>
   </td> 
 <% end %>
+<% if @group.facebook_group_url %>
+  <td>
+    <% if @membership.admin %>
+      <% if membership.added_to_facebook_group %>
+        <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
+      <% end %>  
+      <% form_tag "/memberships/#{membership.id}/added_to_facebook_group", :style => ('display:none' if membership.added_to_facebook_group) do %>
+        <%= check_box_tag :added_to_facebook_group, :value => true, :checked => membership.added_to_facebook_group, :onclick => '$(this.form).submit()' %>
+      <% end %>
+    <% else %>
+      <% if membership.added_to_facebook_group %>
+        <i class="fa fa-check"></i>
+      <% end %>          
+    <% end %>
+  </td>
+<% end %>
 <% if @group.enable_bookings %>
   <td>
     <% if @membership.admin? %>

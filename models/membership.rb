@@ -8,6 +8,7 @@ class Membership
   field :booking_limit, :type => Integer
   field :requested_contribution, :type => Integer
   field :unsubscribed, :type => Boolean
+  field :added_to_facebook_group, :type => Boolean
   
   belongs_to :group, index: true
   belongs_to :account, class_name: "Account", inverse_of: :memberships, index: true
@@ -136,7 +137,8 @@ class Membership
       :desired_threshold => :number,
       :booking_limit => :number,
       :requested_contribution => :number,
-      :unsubscribed => :check_box
+      :unsubscribed => :check_box,
+      :added_to_facebook_group => :check_box
     }
   end
   

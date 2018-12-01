@@ -35,6 +35,7 @@ class Group
   field :paypal_email, :type => String
   field :currency, :type => String
   field :teamup_calendar_url, :type => String
+  field :facebook_group_url, :type => String
   field :demand_payment, :type => Boolean
   field :archived, :type => Boolean
   enablable.each { |x|
@@ -206,6 +207,7 @@ class Group
       :paypal_email => :text,
       :currency => :select,
       :teamup_calendar_url => :url,
+      :facebook_group_url => :url,
       :account_id => :lookup,
       :memberships => :collection,
       :mapplications => :collection,
@@ -265,6 +267,7 @@ class Group
       :fixed_threshold => 'Magic number',
       :democratic_threshold => 'Allow all group members to suggest a magic number, and use the median',
       :teamup_calendar_url => 'Teamup calendar URL',
+      :facebook_group_url => 'Facebook group URL',
       :require_reason_proposer => 'Proposers must provide a reason',
       :require_reason_supporter => 'Supporters must provide a reason',
       :demand_payment => 'Members must make a payment to access group content'

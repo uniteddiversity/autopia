@@ -92,12 +92,12 @@
   <% end %>
 
   <% if @membership.admin? %>
-    
 
-  <a class="btn btn-outline-primary" href="<%=request.path%>.csv?<%=request.query_string%>">Download results as CSV</a>            
+
+    <a class="btn btn-outline-primary" href="<%=request.path%>.csv?<%=request.query_string%>">Download results as CSV</a>            
 
     <% if !@group.member_limit or @group.memberships.count < @group.member_limit %>
-      
+
 
       <script>
         $(function () {
@@ -110,12 +110,12 @@
           });
         })
       </script>
-      
-      
+
+
       <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('input[name=name]').focus()">
         <i class="fa fa-plus-circle"></i> Add member
       </a>
-      
+
       <div style="display:none" id="add-member" class="my-3">
         <% form_tag "/a/#{@group.slug}/add_member", :class => 'form-inline' do %>
           <%= text_field_tag :name, :class => 'form-control mr-1', :placeholder => 'Name', :autocomplete => 'off' %>
@@ -194,6 +194,9 @@
         <% if @group.enable_budget %>
           <th>Requested contribution</th>
           <th>Paid</th>     
+        <% end %>
+        <% if @group.facebook_group_url %>
+          <th>Added to Facebook group</th>    
         <% end %>
         <% if @group.enable_bookings %>
           <th>Booking limit</th>     
