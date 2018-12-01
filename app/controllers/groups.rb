@@ -102,6 +102,22 @@ Autopo::App.controller do
     @membership.update_attribute(:unsubscribed, true)
     flash[:notice] = "OK! You won't receive emails about key events in #{@group.name}"
     redirect "/a/#{@group.slug}"
+  end  
+  
+  get '/a/:slug/show_in_sidebar' do        
+    @group = Group.find_by(slug: params[:slug]) || not_found      
+    @membership = @group.memberships.find_by(account: current_account)
+    confirmed_membership_required!
+    @membership.update_attribute(:hide_from_sidebar, nil)
+    redirect "/a/#{@group.slug}"
   end      
+  
+  get '/a/:slug/hide_from_sidebar' do        
+    @group = Group.find_by(slug: params[:slug]) || not_found      
+    @membership = @group.memberships.find_by(account: current_account)
+    confirmed_membership_required!
+    @membership.update_attribute(:hide_from_sidebar, true)
+    redirect "/a/#{@group.slug}"
+  end     
         
 end

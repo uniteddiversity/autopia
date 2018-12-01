@@ -9,7 +9,8 @@ class Membership
   field :requested_contribution, :type => Integer
   field :unsubscribed, :type => Boolean
   field :member_of_facebook_group, :type => Boolean
-  
+  field :hide_from_sidebar, :type => Boolean
+    
   belongs_to :group, index: true
   belongs_to :account, class_name: "Account", inverse_of: :memberships, index: true
   belongs_to :added_by, class_name: "Account", inverse_of: :memberships_added, index: true, optional: true
@@ -138,6 +139,7 @@ class Membership
       :booking_limit => :number,
       :requested_contribution => :number,
       :unsubscribed => :check_box,
+      :hide_from_sidebar => :check_box,
       :member_of_facebook_group => :check_box
     }
   end
