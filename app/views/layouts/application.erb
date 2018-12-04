@@ -4,13 +4,24 @@
 
   <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id))
+          return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2&appId=1498399346894704&autoLogAppEvents=1';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>    
+
     <%= partial :alert %>
 
-    <%= partial :nav %> 
+<%= partial :nav %> 
 
     <div class="content-wrapper">
       <div class="container-fluid pb-3" id="main">
-        <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
+<%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
       </div>
       <!-- /.container-fluid-->
       <!-- /.content-wrapper-->
@@ -18,7 +29,7 @@
       <footer class="sticky-footer">
         <div class="container">
           <div class="text-center">
-            <%= partial :footer %>            
+<%= partial :footer %>            
           </div>
         </div>
       </footer>

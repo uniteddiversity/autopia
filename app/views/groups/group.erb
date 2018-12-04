@@ -17,7 +17,7 @@
 
 <p class="lead">
   Non-members can <%=  @group.enable_applications ? 'apply' : 'join' %> at <a href="<%="#{ENV['BASE_URI']}/a/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%>"><%="#{ENV['BASE_URI']}/a/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%></a>
-</p>                 
+</p>
 
 <div class="row">
   <div class="col-sm-6">
@@ -34,6 +34,11 @@
         <%= partial :'accounts/square', :locals => {:account => account, :content => (if account.last_active; "#{time_ago_in_words account.last_active} ago"; end), :width => '75px'} %>
       <% } %>
     </div>
+
+    <% if @group.facebook_group_url %>
+      <div class="fb-group mt-3" data-href="<%=@group.facebook_group_url%>" data-width="300" data-show-social-context="true" data-show-metadata="false"></div>
+    <% end %>
+
   </div>  
   <div class="col-sm-6">
     <div data-pagelet-url="/a/<%=@group.slug%>/newsfeed" data-pusher-channel="notifications.<%=@group.slug%>" style="margin-top: 10px"></div>
