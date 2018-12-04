@@ -59,7 +59,7 @@
                   (
                     group.teams(true).order('name asc').map { |team| [%Q{
                 #&nbsp;#{team.name}
-                #{if (unread = team.comments.where(:id.nin => current_account.read_receipts.pluck(:comment_id)).count) > 0; %Q{<span class="d-none badge badge-light" title="#{pluralize(unread, 'unread comment')}">#{unread}</span>}; end}
+                #{if (unread = team.comments.where(:id.nin => current_account.read_receipts.pluck(:comment_id)).count) > 0; %Q{<span class="d-none badge badge-primary" title="#{pluralize(unread, 'unread comment')}">#{unread}</span>}; end}
                         }, "/a/#{group.slug}/teams/#{team.id}"] } + [['Overview', "/a/#{group.slug}/teams"], ['Create a team', "/a/#{group.slug}/teams/new"]]
                   )              
                   ] if group.enable_teams),      
