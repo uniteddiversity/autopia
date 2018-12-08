@@ -67,6 +67,12 @@ Autopo::App.controller do
     end
   end
   
+  get '/accounts/not_on_facebook' do
+    sign_in_required!
+    current_account.update_attribute(:not_on_facebook, true)
+    redirect back
+  end         
+  
   get '/accounts/:id' do    
     @account = Account.find(params[:id]) || not_found
     @habits = @account.habits.where(public: true)
@@ -80,7 +86,7 @@ Autopo::App.controller do
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @hide_nav = true
     erb :'accounts/habits', :layout => :minimal
-  end    
+  end  
   
   get '/accounts/use_picture/:provider' do
     sign_in_required!
@@ -108,5 +114,5 @@ Autopo::App.controller do
       erb :'accounts/build'
     end
   end   
-       
+  
 end

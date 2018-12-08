@@ -181,7 +181,7 @@ Autopo::App.controller do
     membership.update_attribute(:booking_limit, params[:booking_limit])
     200
   end   
-  
+    
   post '/memberships/:id/member_of_facebook_group' do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group

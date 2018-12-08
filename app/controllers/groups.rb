@@ -119,5 +119,13 @@ Autopo::App.controller do
     @membership.update_attribute(:hide_from_sidebar, true)
     redirect "/a/#{@group.slug}"
   end     
+  
+  get '/a/:slug/joined_facebook_group' do
+    @group = Group.find_by(slug: params[:slug]) || not_found      
+    @membership = @group.memberships.find_by(account: current_account)
+    confirmed_membership_required!
+    @membership.update_attribute(:member_of_facebook_group, true)
+    redirect "/a/#{@group.slug}"
+  end   
         
 end

@@ -18,6 +18,7 @@ class Account
   field :sign_in_token, :type => String
   field :last_active, :type => Time
   field :unsubscribed, :type => Boolean
+  field :not_on_facebook, :type => Boolean
   
   def self.protected_attributes
     %w{admin}
@@ -141,6 +142,7 @@ class Account
       :picture => :image,
       :admin => :check_box,
       :unsubscribed => :check_box,
+      :not_on_facebook => :check_box,
       :time_zone => :select,
       :password => :password,
       :provider_links => :collection,
@@ -202,6 +204,7 @@ class Account
   def self.human_attribute_name(attr, options={})  
     {
       :facebook_profile_url => 'Facebook profile URL',
+      :not_on_facebook => "I don't use Facebook",
       :unsubscribed => "Stop sending me emails"
     }[attr.to_sym] || super  
   end   
