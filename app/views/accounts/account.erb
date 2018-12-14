@@ -5,7 +5,19 @@
   </div>
   <div class="col">
 
-    <h1><a class="text-dark" href="/accounts/<%=@account.id%>"><%=@account.name%></a></h1>    
+    <h1>
+      <a class="text-dark" href="/accounts/<%=@account.id%>"><%=@account.name%></a>    
+    </h1>   
+
+    <% if current_account  %>
+      <% unless current_account == @account %>
+        <% if current_account.vibes_as_viber.find_by vibee: @account %>
+          <a class="btn btn-primary" href="/unvibe/<%=@account.id%>"><i class="fa fa-hand-peace-o"></i> You dig <%=@account.firstname%>'s vibe</a>
+        <% else %>
+          <a class="btn btn-outline-primary" href="/vibe/<%=@account.id%>"><i class="fa fa-hand-peace-o"></i> Vibe</a>
+        <% end %>
+      <% end %>
+    <% end %>
 
     <div class="table-hr-container">
       <table class="table table-hr">

@@ -97,6 +97,9 @@ class Account
   has_many :habits, :dependent => :destroy
   has_many :habit_completions, :dependent => :destroy
   has_many :habit_completion_likes, :dependent => :destroy
+  # Vibes
+  has_many :vibes_as_viber, :class_name => "Vibe", :inverse_of => :viber, :dependent => :destroy
+  has_many :vibes_as_vibee, :class_name => "Vibe", :inverse_of => :vibee, :dependent => :destroy
   
   has_many :notifications, as: :notifiable, dependent: :destroy
     
