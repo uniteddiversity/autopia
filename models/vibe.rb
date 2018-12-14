@@ -26,7 +26,7 @@ class Vibe
             mail = Mail.new
             mail.to = vibee.email
             mail.from = ENV['NOTIFICATION_EMAIL']
-            mail.subject = "You and #{viber.name} are vibing!"
+            mail.subject = "You and #{viber.name} have vibes!"
             
             content = ERB.new(File.read(Padrino.root('app/views/emails/vibing.erb'))).result(binding)
             html_part = Mail::Part.new do
