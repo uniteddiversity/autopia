@@ -8,13 +8,16 @@
   </div>
 </td>
 <td>
+  <%= partial :vibe, :locals => {:account => account, :btn_class => 'btn-sm'} %>
+</td>
+<td>
   <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : '' %>
 </td>        
 <td>
   <% mapplication = membership.mapplication; if mapplication and mapplication.answers %>
     <a href="javascript:;" onclick="$('#modal .modal-content').load('/a/<%=@group.slug%>/mapplications/<%=mapplication.id%>', function () {
-          $('#modal').modal('show')
-        });">
+            $('#modal').modal('show')
+          });">
          <%= membership.created_at %>          
     </a>
   <% else %>  

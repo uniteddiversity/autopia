@@ -9,13 +9,9 @@
       <a class="text-dark" href="/accounts/<%=@account.id%>"><%=@account.name%></a>    
     </h1>   
 
-    <% if current_account  %>
-      <% unless current_account == @account %>    
-        <div data-pagelet-url="/vibes/<%=@account.id%>">
-          <%= partial :vibe, :locals => {:account => @account} %>
-        </div>
-      <% end %>
-    <% end %>
+    <div data-pagelet-url="/vibes/<%=@account.id%>">
+      <%= partial :vibe, :locals => {:account => @account} %>
+    </div>
 
     <div class="table-hr-container">
       <table class="table table-hr">
