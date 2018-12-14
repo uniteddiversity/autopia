@@ -1,10 +1,10 @@
 <% form_tag '', :class => 'form-inline no-trigger', :id => 'pay-form' do %>
-  <div class="form-group">
+  <div class="form-group mb-0">
     <div class="input-group">
       <div class="input-group-prepend">
         <span class="input-group-text"><%=@group.currency_symbol%></span>
       </div>  
-      <%= number_field_tag :amount, :value => (amount if defined?(amount)), :style => 'display: inline; width: 4.5em;', :required => 'required', :class => 'form-control', :min => 5, :id => 'amount' %>
+      <%= number_field_tag :amount, :value => (amount if defined?(amount)), :style => 'display: inline; width: 5em;', :required => 'required', :class => 'form-control', :min => 5, :id => 'amount' %>
     </div>
   </div>  
   <button type="submit" class="btn btn-light ml-1">Pay</button> 

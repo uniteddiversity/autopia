@@ -1,9 +1,13 @@
 class Space
   include Mongoid::Document
   include Mongoid::Timestamps
+  extend Dragonfly::Model
  
   field :name, :type => String
   field :o, :type => Integer
+  field :image_uid, :type => String
+  
+  dragonfly_accessor :image  
   
   has_many :activities, :dependent => :nullify
   
@@ -23,6 +27,7 @@ class Space
   def self.admin_fields
     {
       :name => :text,
+      :image => :image,
       :o => :number,
       :timetable_id => :lookup,
       :group_id => :lookup
