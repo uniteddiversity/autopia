@@ -20,23 +20,24 @@ class Vibe
   def check_if_vibing
     if Vibe.vibing(viber,vibee)
       if ENV['SMTP_ADDRESS']
-        vibe = self
-
-        unless vibe.vibee.unsubscribed?
-          mail = Mail.new
-          mail.to = vibe.vibee.email
-          mail.from = ENV['NOTIFICATION_EMAIL']
-          mail.subject = "You and #{vibe.viber.name} are vibing!"
+        [[viber,vibee],[vibee,viber]].each { |viber,vibee|
+        
+          unless vibee.unsubscribed?
+            mail = Mail.new
+            mail.to = vibee.email
+            mail.from = ENV['NOTIFICATION_EMAIL']
+            mail.subject = "You and #{viber} are vibing!"
             
-          content = ERB.new(File.read(Padrino.root('app/views/emails/vibing.erb'))).result(binding)
-          html_part = Mail::Part.new do
-            content_type 'text/html; charset=UTF-8'
-            body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
-          end
-          mail.html_part = html_part
+            content = ERB.new(File.read(Padrino.root('app/views/emails/vibing.erb'))).result(binding)
+            html_part = Mail::Part.new do
+              content_type 'text/html; charset=UTF-8'
+              body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
+            end
+            mail.html_part = html_part
       
-          mail.deliver
-        end
+            mail.deliver
+          end
+        }
       end          
     end
   end
