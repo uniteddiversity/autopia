@@ -30,6 +30,8 @@ class Account
     
     errors.add(:facebook_profile_url, 'must contain facebook.com') if self.facebook_profile_url and !self.facebook_profile_url.include?('facebook.com')    
     self.facebook_profile_url = "https://#{self.facebook_profile_url}" if self.facebook_profile_url and !(self.facebook_profile_url =~ /\Ahttps?:\/\//)       
+    
+    errors.add(:date_of_birth, 'is invalid') if self.age && self.age <= 0
   end
   
   def network
