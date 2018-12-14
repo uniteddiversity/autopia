@@ -1,0 +1,19 @@
+<% if current_account.vibes_as_viber.find_by vibee: @account %>
+  <% form_tag "/unvibe/#{@account.id}" do %>
+    <button class="btn btn-primary">
+      <i class="fa fa-hand-peace-o"></i>
+      <% if Vibe.vibing(current_account, @account) %>
+        You and <%=@account.firstname%> have vibes!
+      <% else %>
+        You dig <%=@account.firstname%>'s vibe
+      <% end %>
+    </a>
+  <% end %>
+<% else %>
+  <% form_tag "/vibe/#{@account.id}" do %>
+    <button class="btn btn-outline-primary" href="/vibe/<%=@account.id%>">
+      <i class="fa fa-hand-peace-o"></i>
+      Vibe
+    </button>
+  <% end %>
+<% end %>

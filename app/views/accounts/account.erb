@@ -10,19 +10,10 @@
     </h1>   
 
     <% if current_account  %>
-      <% unless current_account == @account %>
-        <% if current_account.vibes_as_viber.find_by vibee: @account %>
-          <a class="btn btn-primary" href="/unvibe/<%=@account.id%>">
-            <i class="fa fa-hand-peace-o"></i>
-            <% if Vibe.vibing(current_account, @account) %>
-              You and <%=@account.firstname%> have vibes!
-            <% else %>
-              You dig <%=@account.firstname%>'s vibe
-            <% end %>
-          </a>
-        <% else %>
-          <a class="btn btn-outline-primary" href="/vibe/<%=@account.id%>"><i class="fa fa-hand-peace-o"></i> Vibe</a>
-        <% end %>
+      <% unless current_account == @account %>    
+        <div data-pagelet-url="/vibes/<%=@account.id%>">
+          <%= partial :vibe, :locals => {:account => @account} %>
+        </div>
       <% end %>
     <% end %>
 
