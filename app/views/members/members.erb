@@ -145,17 +145,17 @@
   <style>
     .vibe { background: white; }
   </style>
-  <div style="margin-top: 15px" class="row">
-    <% (Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %>
-      <div class="col-sm-2 mb-2">
-        <div style="position: relative">
+  <div style="margin-top: 15px" class="row no-gutters">
+    <% 10.times do (Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %>
+      <div class="col-sm-2 mb-2">        
+        <div style="position: relative" class="mr-sm-2">
           <%= partial :'accounts/square', :locals => {:account => account, :width => '100%'} %>
           <div data-pagelet-url="/vibes/<%=account.id%>?btn_class=btn-sm" class="my-1" style="position: absolute; bottom: 0; right: 5px">
             <%= partial :vibe, :locals => {:account => account, :btn_class => 'btn-sm'} %>
           </div>         
         </div>
       </div>
-    <% } %>      
+    <% } end %>      
   </div>
 
 <% when 'emails' %>
