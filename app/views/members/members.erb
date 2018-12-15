@@ -150,13 +150,13 @@
       <div class="col-sm-2 mb-2">        
         <div style="position: relative" class="mr-sm-2">
           <%= partial :'accounts/square', :locals => {:account => account, :width => '100%'} %>
-          <div class="my-1 mr-1" style="position: absolute; bottom: 0; right: 0;">
+          <div class="my-1 mr-1" style="position: absolute; bottom: 0; right: 0;">            
+            <% if account.facebook_profile_url %>
+              <%= %Q{<a class="btn btn-outline-primary btn-sm" href="#{account.facebook_profile_url}" target="_blank"><i class="fa fa-facebook-official"></i></a>} %>
+            <% end %>            
             <div data-pagelet-url="/vibes/<%=account.id%>?btn_class=btn-sm" style="display: inline-block">
               <%= partial :vibe, :locals => {:account => account, :btn_class => 'btn-sm'} %>
             </div>    
-            <% if account.facebook_profile_url %>
-              <%= %Q{<a class="btn btn-outline-primary btn-sm" href="#{account.facebook_profile_url}" target="_blank"><i class="fa fa-facebook-official"></i></a>} %>
-            <% end %>
           </div>
         </div>
       </div>
