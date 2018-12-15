@@ -13,7 +13,7 @@
       <% end %>
     <% else %>
       <% form_tag "/vibe/#{account.id}" do %>
-        <button class="btn btn-outline-primary <%= btn_class if defined?(btn_class) %>" href="/vibe/<%=account.id%>">
+        <button class="vibe btn btn-outline-primary <%= btn_class if defined?(btn_class) %>" href="/vibe/<%=account.id%>">
           <i class="fa fa-hand-peace-o"></i>
           Vibe
         </button>
