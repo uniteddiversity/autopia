@@ -146,7 +146,7 @@
     .vibe { background: white; }
   </style>
   <div style="margin-top: 15px" class="row no-gutters">
-    <% 10.times do (Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %>
+    <% (Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %>
       <div class="col-sm-2 mb-2">        
         <div style="position: relative" class="mr-sm-2">
           <%= partial :'accounts/square', :locals => {:account => account, :width => '100%'} %>
@@ -155,7 +155,7 @@
           </div>         
         </div>
       </div>
-    <% } end %>      
+    <% } %>      
   </div>
 
 <% when 'emails' %>
