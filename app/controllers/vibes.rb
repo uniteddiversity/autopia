@@ -16,7 +16,7 @@ Autopo::App.controller do
   post '/unvibe/:id' do
     sign_in_required!
     @account = Account.find(params[:id]) || not_found
-    current_account.vibes_as_viber.find_by(vibee: @account).destroy
+    current_account.vibes_as_viber.find_by(vibee: @account).try(:destroy)
     200
   end  
   
