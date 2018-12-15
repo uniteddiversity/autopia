@@ -147,8 +147,8 @@
   </style>
   <div style="margin-top: 15px" class="row no-gutters">
     <% (Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid.ne => nil).shuffle + Account.where(:id.in => @memberships.pluck(:account_id)).where(:picture_uid => nil).shuffle).each { |account| %>
-      <div class="col-sm-2 mb-2">        
-        <div style="position: relative" class="mr-sm-2">
+      <div class="col-6 col-sm-4 col-md-2 mb-2">        
+        <div style="position: relative" class="mr-2">
           <%= partial :'accounts/square', :locals => {:account => account, :width => '100%'} %>         
           <div class="my-1 ml-1" style="position: absolute; bottom: 0; left: 0;">            
             <% if account.facebook_profile_url %>
