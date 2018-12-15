@@ -3,7 +3,7 @@ Autopo::App.controller do
   get '/vibes/:id' do
     sign_in_required!
     @account = Account.find(params[:id]) || not_found
-    partial :vibe, :locals => {:account => @account}
+    partial :vibe, :locals => {:account => @account, :btn_class => params[:btn_class]}
   end
   
   post '/vibe/:id' do
