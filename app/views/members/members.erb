@@ -97,7 +97,7 @@
   <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
     <%= text_field_tag :q, :class => 'form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>
     View as
-    <%= select_tag :view, :class => 'form-control mr-1', :options => %w{vibes details dietary_requirements emails}.map { |view| [view.to_s.humanize.capitalize,view] }, :selected => params[:view], :onchange => 'this.form.submit()' %>        
+    <%= select_tag :view, :class => 'form-control mr-1', :options => %w{details vibes dietary_requirements emails}.map { |view| [view.to_s.humanize.capitalize,view] }, :selected => params[:view], :onchange => 'this.form.submit()' %>        
   <% end %>
 
   <% if @membership.admin? %>
@@ -140,7 +140,7 @@
 
 </div>
 
-<% case (params[:view] || 'vibes'); when 'vibes' %>
+<% case (params[:view] || 'details'); when 'vibes' %>
 
   <style>
     .btn-outline-primary { background: white; }
