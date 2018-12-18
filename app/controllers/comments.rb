@@ -30,7 +30,7 @@ Autopo::App.controller do
       erb :'comments/comment_build'
     end
   end  
-  
+    
   get '/comments/:id/edit' do
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable

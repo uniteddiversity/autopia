@@ -1,7 +1,7 @@
 
 <% if comment.first_in_post.subject %>
   <h1 style="margin-top: 0">
-    <a style="text-decoration: none" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>"><%=comment.first_in_post.subject%></a>
+    <%=comment.first_in_post.subject%>
   </h1>
 <% else %>
   <p><%=comment.description%></p>   
