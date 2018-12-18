@@ -1,83 +1,81 @@
 <% comment = post.comments.order('created_at asc').first %>
 <% comment.read_receipts.create account: current_account %>
 
-<div style="border: 1px solid #ddd; margin: 20px 0" id="post-<%=post.id%>">
+<div class="card mb-5" id="post-<%=post.id%>">
+  <% if comment.subject %>
+    <div class="card-header text-white bg-primary">
+      <h4 class="mb-0"><%=comment.subject%></h4>
+    </div>
+  <% end %>
+  <div class="card-body p-0">
 
-  <div class="media" style="padding: 10px 10px 0 10px;">
-    <span class="mr-2">
-      <%= partial :'accounts/square', :locals => {:account => comment.account, :width => '32px', :klass => 'media-object'} %>
-    </span>
-    <div class="media-body">
-
-      <span class="float-right">
-        <% if subscription = comment.post.subscriptions.find_by(account: current_account) %>
-          <a title="Email notifications on; click to turn off" class="pagelet-trigger" href="/subscriptions/<%=subscription.id%>/destroy"><i class="fa fa-eye"></i></a>
-        <% else %>
-          <a style="opacity: 0.3" title="Email notifications off; click to turn on" class="pagelet-trigger" href="/subscriptions/create?post_id=<%=comment.post_id%>"><i class="fa fa-eye-slash"></i></a>
-        <% end %>
+    <div class="media" style="padding: 10px 10px 0 10px;">
+      <span class="mr-2">
+        <%= partial :'accounts/square', :locals => {:account => comment.account, :width => '32px', :klass => 'media-object'} %>
       </span>
+      <div class="media-body">
 
-      <strong><a href="/accounts/<%=comment.account_id%>"><%=comment.account.name%></a></strong>
-      <small class="subtle">
-        <%= timeago(comment.created_at) %>
+        <span class="float-right">
+          <% if subscription = comment.post.subscriptions.find_by(account: current_account) %>
+            <a title="Email notifications on; click to turn off" class="pagelet-trigger" href="/subscriptions/<%=subscription.id%>/destroy"><i class="fa fa-eye"></i></a>
+          <% else %>
+            <a style="opacity: 0.3" title="Email notifications off; click to turn on" class="pagelet-trigger" href="/subscriptions/create?post_id=<%=comment.post_id%>"><i class="fa fa-eye-slash"></i></a>
+          <% end %>
+        </span>
 
-        <% if comment.account.id == current_account.id %>
-          &middot;
-          <a href="/comments/<%=comment.id%>/edit"><i class="fa fa-pencil"></i></a>
-        <% end %>
+        <strong><a href="/accounts/<%=comment.account_id%>"><%=comment.account.name%></a></strong>
+        <small class="subtle">
+          <%= timeago(comment.created_at) %>
 
-      </small>
+          <% if comment.account.id == current_account.id %>
+            &middot;
+            <a href="/comments/<%=comment.id%>/edit"><i class="fa fa-pencil"></i></a>
+          <% end %>
 
-      <div style="margin-bottom: 10px">
+        </small>
 
-        <% if comment.title %>
-          <div style="margin: 10px 0">
-            <strong><%=comment.title%></strong>
-          </div>
-        <% end %>
+        <div style="margin-bottom: 10px">
 
-        <%= Rinku.auto_link(comment.body.gsub("\n","<br />")) %>
+          <%= Rinku.auto_link(comment.body.gsub("\n","<br />")) %>
 
-        <% if comment.title %>
           <div data-pagelet-url="/comments/<%=comment.id%>/options">
             <%= partial :'comments/options', :locals => {:comment => comment} %>
           </div>
-        <% end %>
 
-        <% if comment.file %>
-          <div style="margin-top: 10px">
-            <% if %w{png jpg gif jpeg}.any? { |x| comment.file.name.downcase.ends_with? ".#{x}" } %>
-              <img style="max-width: 100%;" src="<%=comment.file.url%>">
-            <% else %>
-              <i class="fa fa-paperclip"></i> <a href="<%=comment.file.url%>"><%=comment.file.name%></a>
-            <% end %>
-          </div>
-        <% end %>
+          <% if comment.file %>
+            <div style="margin-top: 10px">
+              <% if %w{png jpg gif jpeg}.any? { |x| comment.file.name.downcase.ends_with? ".#{x}" } %>
+                <img style="max-width: 100%;" src="<%=comment.file.url%>">
+              <% else %>
+                <i class="fa fa-paperclip"></i> <a href="<%=comment.file.url%>"><%=comment.file.name%></a>
+              <% end %>
+            </div>
+          <% end %>
 
-      </div>
-    </div>
-  </div> 
-
-  <div style="background: #e9ecef; padding: 5px 10px; font-size: 12px; border-top: 1px solid #ddd">
-    <div data-pagelet-url="/comments/<%=comment.id%>/likes" style="display: inline"></div>
-    <div data-pagelet-url="/comments/<%=comment.id%>/read_receipts" style="display: inline"></div>
-    <hr style="border-color: #ddd; margin: 0; margin-top: 5px" />
-  </div>
-
-  <div style="background: #e9ecef">
-    <div data-pagelet-url="/posts/<%=post.id%>/replies" data-pusher-channel="post.<%=post.id%>">
-      <%= partial :'comments/replies', :locals => {:post => post} %>
-    </div>
-
-    <div class="media" style="padding: 10px 10px 0 10px; margin: 0">
-      <span class="mr-2">
-        <%= partial :'accounts/square', :locals => {:account => current_account, :width => '32px', :klass => 'media-object'} %>
-      </span>
-      <div class="media-body">        
-        <%= partial :'comments/comment_form', :locals => {:comment => post.comments.build(commentable_type: post.commentable_type, commentable_id: post.commentable_id), :reply => true} %>
+        </div>
       </div>
     </div> 
+
+    <div style="background: #e9ecef; padding: 5px 10px; font-size: 12px; border-top: 1px solid #ddd">
+      <div data-pagelet-url="/comments/<%=comment.id%>/likes" style="display: inline"></div>
+      <div data-pagelet-url="/comments/<%=comment.id%>/read_receipts" style="display: inline"></div>
+      <hr style="border-color: #ddd; margin: 0; margin-top: 5px" />
+    </div>
+
+    <div style="background: #e9ecef">
+      <div data-pagelet-url="/posts/<%=post.id%>/replies" data-pusher-channel="post.<%=post.id%>">
+        <%= partial :'comments/replies', :locals => {:post => post} %>
+      </div>
+
+      <div class="media" style="padding: 10px 10px 0 10px; margin: 0">
+        <span class="mr-2">
+          <%= partial :'accounts/square', :locals => {:account => current_account, :width => '32px', :klass => 'media-object'} %>
+        </span>
+        <div class="media-body">        
+          <%= partial :'comments/comment_form', :locals => {:comment => post.comments.build(commentable_type: post.commentable_type, commentable_id: post.commentable_id), :reply => true} %>
+        </div>
+      </div> 
+    </div>
+
   </div>
-
-
 </div>

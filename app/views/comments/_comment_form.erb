@@ -8,8 +8,8 @@
   <% else %>
 
     <% if comment.first_in_post? %>
-      <div id="comment-title-container" style="display: none">
-        <%= f.text_block :title, :label_class => 'd-none' %>
+      <div id="comment-subject-container">
+        <%= f.text_block :subject, :label_class => 'd-none' %>
       </div>	 	
     <% end %>
 
@@ -21,28 +21,7 @@
 
     <% if comment.first_in_post? %>
 
-      <div style="margin-bottom: 5px; margin-top: -10px;">
-
-        <a id="create-a-poll" style="text-decoration: none" href="javascript:;" onclick="$(this).hide();
-                    $('#divider').hide();
-                    $('#comment-title-container').show().find('input').focus();
-                    $('textarea[id=comment_body]').attr('placeholder', 'Description')">
-          <i class="fa fa-bar-chart"></i>
-          <% if comment.new_record? %>
-            Create a poll
-          <% else %>
-            Convert to poll
-          <% end %>
-        </a>
-        <% if comment.title %>
-          <script>
-            $(function () {
-              $('#create-a-poll').click()
-            })
-          </script>
-        <% end %>	
-
-        <span id="divider">&middot;</span>
+      <div style="margin-bottom: 5px; margin-top: -10px;">       
 
         <a id="attach-a-file" style="text-decoration: none" href="javascript:;" onclick="$(this).hide();
                     $('#divider').hide();

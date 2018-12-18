@@ -8,8 +8,8 @@ class Comment
   
   belongs_to :commentable, polymorphic: true, index: true
 
+  field :subject, :type => String  
   field :body, :type => String 
-  field :title, :type => String
   field :file_uid, :type => String
   
   dragonfly_accessor :file  
@@ -30,7 +30,7 @@ class Comment
       notifications.create! :group => commentable.group, :type => 'commented'
     end
   end  
-  
+    
   after_create do
     if ENV['PUSHER_APP_ID']
       pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
@@ -69,6 +69,28 @@ class Comment
     post.update_attribute(:updated_at, Time.now)
   end
   
+  def email_subject
+    s = ''
+    if commentable.respond_to?(:group)
+      s << '['
+      s << commentable.group.name
+      if commentable.respond_to?(:team)
+        s << '/'
+        s << commentable.team.name
+      end
+      s << '] '
+    end
+    if subject
+      if first_in_post?
+        s << subject
+      else
+        s << "Re: #{subject}"
+      end
+    else
+      s << Nokogiri::HTML(description).text
+    end
+  end
+  
   after_create :send_comment
   def send_comment
     if ENV['SMTP_ADDRESS']
@@ -79,7 +101,7 @@ class Comment
         mail = Mail.new
         mail.bcc = bcc
         mail.from = "Autopo <#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
-        mail.subject = "#{if comment.commentable.respond_to?(:group); "[#{comment.commentable.group.name}] "; end}#{Nokogiri::HTML(comment.description).text}"
+        mail.subject = comment.email_subject
             
         content = ERB.new(File.read(Padrino.root('app/views/emails/comment.erb'))).result(binding)
         html_part = Mail::Part.new do
@@ -100,8 +122,8 @@ class Comment
 
   def self.admin_fields
     {
+      :subject => :text,
       :body => :text_area,
-      :title => :text,
       :file => :file,
       :account_id => :lookup,
       :commentable_id => :text,

@@ -18,8 +18,18 @@
       <% end %>
     </div>
   <% } %>
-  <% form_tag '/options/create' do %>
+  <a id="poll-for-<%=comment.id%>" href="javascript:;" onclick="$(this).hide();
+      $(this).next().show().find('input').focus()"><i class="fa fa-bar-chart"></i> Add a poll</a> 
+  <% form_tag '/options/create', :style => 'display: none' do %>
     <%= hidden_field_tag :comment_id, :value => comment.id %>
     <%= text_field_tag :text, :class => 'form-control', :placeholder => 'Add an option...' %>
   <% end %>
 </div>
+
+<% if comment.options.count > 0 %>
+  <script>
+    $(function () {
+      $('#poll-for-<%=comment.id%>').click()
+    })
+  </script>
+<% end %> 
