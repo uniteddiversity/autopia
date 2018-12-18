@@ -1,11 +1,11 @@
 
-<% if comment.commentable.respond_to?(:group); group = comment.commentable.group %>
+<% if comment.first_in_post.subject %>
   <h1 style="margin-top: 0">
-    <a style="text-decoration: none" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>"><%=group.name%></a>
+    <a style="text-decoration: none" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>"><%=comment.first_in_post.subject%></a>
   </h1>
+<% else %>
+  <p><%=comment.description%></p>   
 <% end %>
-
-<p><%=comment.description%></p>   
 
 <p><%=comment.body.gsub("\n","<br />")%></p>
 <% if comment.file %>
