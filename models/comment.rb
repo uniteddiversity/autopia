@@ -65,6 +65,10 @@ class Comment
     !post or post.new_record? or post.comments.order('created_at asc').first.id == self.id
   end
   
+  def first_in_post
+    post.comments.order('created_at asc').first
+  end
+  
   after_create do
     post.update_attribute(:updated_at, Time.now)
   end
@@ -80,11 +84,11 @@ class Comment
       end
       s << '] '
     end
-    if subject
+    if first_in_post.subject
       if first_in_post?
         s << subject
       else
-        s << "Re: #{subject}"
+        s << "Re: #{first_in_post.subject}"
       end
     else
       s << Nokogiri::HTML(description).text
