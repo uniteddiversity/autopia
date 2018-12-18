@@ -9,7 +9,7 @@
 
     <% if comment.first_in_post? %>
       <div id="comment-subject-container">
-        <%= f.text_block :subject, :label_class => 'd-none' %>
+        <%= f.text_block :subject, :label_class => 'd-none', :required => true %>
       </div>	 	
     <% end %>
 
