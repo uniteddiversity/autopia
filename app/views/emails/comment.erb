@@ -4,9 +4,9 @@
   <h1 style="margin-top: 0">
     <%=comment.first_in_post.subject%>
   </h1>
-<% else %>
-  <p><%=comment.description%></p>   
 <% end %>
+
+<p><%=comment.description%></p>   
 
 <p><%=comment.body.gsub("\n","<br />")%></p>
 <% if comment.file %>
