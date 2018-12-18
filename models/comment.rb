@@ -74,9 +74,9 @@ class Comment
     if commentable.respond_to?(:group)
       s << '['
       s << commentable.group.name
-      if commentable.respond_to?(:team)
+      if commentable.is_a?(Team)
         s << '/'
-        s << commentable.team.name
+        s << commentable.name
       end
       s << '] '
     end
