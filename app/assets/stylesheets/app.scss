@@ -33,7 +33,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6, { font-weight: bold }
 img { image-orientation: from-image; }
 .note-group-select-from-files { display: none }
 
-.subtle { color: #999 !important }
+.subtle { color: theme-color('secondary') !important }
 .subtle.active, .subtle:hover { color: theme-color('primary') !important }
 .habit-completion-likes a:hover { color: theme-color('dark') !important }
 
