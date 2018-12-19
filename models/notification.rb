@@ -152,14 +152,14 @@ class Notification
         "<strong>#{comment.account.name}</strong> commented on <strong>#{comment.commentable.account.name}</strong>'s application"                  
       else
         if comment.post.comments.count == 1
-          "<strong>#{comment.account.name}</strong> posted in <strong>#{comment.commentable.name}</strong>"                  
+          "<strong>#{comment.account.name}</strong> started a thread <strong>#{comment.commentable.name}#{if comment.subject; "/#{comment.subject}"; end}</strong>"                  
         else
-          "<strong>#{comment.account.name}</strong> replied to a thread in <strong>#{comment.commentable.name}</strong>"                  
+          "<strong>#{comment.account.name}</strong> replied to <strong>#{comment.commentable.name}#{if comment.subject; "/#{comment.subject}"; end}</strong>"                  
         end
       end      
     when :liked_a_comment
       comment_like = notifiable
-      "<strong>#{comment_like.account.name}</strong> liked <strong>#{comment_like.comment.account.name}'s</strong> comment in <strong>#{comment_like.commentable.name}</strong>"
+      "<strong>#{comment_like.account.name}</strong> liked <strong>#{comment_like.comment.account.name}'s</strong> comment in <strong>#{comment_like.commentable.name}#{if comment_like.comment.subject; "/#{comment_like.comment.subject}"; end}</strong>"
     when :left_group
       account = notifiable
       "<strong>#{account.name}</strong> is no longer a member of #{self.group.name}"
