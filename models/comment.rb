@@ -79,8 +79,15 @@ class Comment
       s << '['
       s << commentable.group.name
       if commentable.is_a?(Team)
+        team = commentable
         s << '/'
-        s << commentable.name
+        s << team.name
+      elsif commentable.is_a?(Activity)
+        activity = commentable
+        s << '/'
+        s << activity.timetable.name
+        s << '/'
+        s << activity.name
       end
       s << '] '
     end
