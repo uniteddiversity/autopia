@@ -23,7 +23,6 @@ class Group
   field :ask_for_date_of_birth, :type => Boolean
   field :ask_for_gender, :type => Boolean
   field :ask_for_facebook_profile_url, :type => Boolean
-  field :featured, :type => Boolean
   field :member_limit, :type => Integer
   field :proposing_delay, :type => Integer
   field :require_reason_proposer, :type => Boolean
@@ -200,7 +199,6 @@ class Group
       :ask_for_date_of_birth => :check_box,
       :ask_for_gender => :check_box,
       :ask_for_facebook_profile_url => :check_box,
-      :featured => :check_box,
       :demand_payment => :check_box,      
       :paypal_email => :text,
       :currency => :select,

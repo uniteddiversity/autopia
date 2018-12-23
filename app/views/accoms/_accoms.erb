@@ -27,6 +27,11 @@
       </td>
       <td>
         <%=accom.accomships.count%>/<%=accom.capacity%>
+        <% if accom.full? %>
+          <span class="badge badge-danger">Full</span>
+        <% else %>
+          <span class="badge badge-success">Spaces</span>
+        <% end %>
       </td>      
       <td>
         <% if accomship = @group.accomships.find_by(accom: accom, account: current_account) %>
