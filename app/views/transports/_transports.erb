@@ -2,6 +2,7 @@
   <thead>
     <tr>
       <th>Transport</th>
+      <th>Listed by</th>
       <th>Outbound departure time</th>
       <th>Return departure time</th>
       <th>Cost</th>
@@ -22,6 +23,9 @@
         <% end %>            
         <br />
         <%= transport.description %>        
+      </td>
+      <td>
+        <%= partial :'accounts/square', :locals => {:account => transport.account, :width => '50px'} %>
       </td>
       <td>
         <%= transport.outbound_departure_time %>
