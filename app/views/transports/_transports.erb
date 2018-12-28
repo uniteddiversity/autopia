@@ -38,6 +38,11 @@
       </td>
       <td>
         <%=transport.transportships.count%>/<%= transport.capacity %>
+        <% if transport.full? %>
+          <span class="badge badge-danger">Full</span>
+        <% else %>
+          <span class="badge badge-success">Spaces</span>
+        <% end %>        
       </td>
       <td>
         <% if transportship = @group.transportships.find_by(transport: transport, account: current_account) %>
