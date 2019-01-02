@@ -3,7 +3,6 @@ Autopo::App.controller do
   get '/habits' do
     sign_in_required!
     @habit = Habit.new
-    @habits = current_account.habits
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
     @dates = ((Date.today-4)..Date.today).to_a.reverse 
     erb :'habits/habits'
