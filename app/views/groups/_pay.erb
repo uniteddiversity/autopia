@@ -7,7 +7,7 @@
       <%= number_field_tag :amount, :value => (amount if defined?(amount)), :style => 'width: 5em;', :required => 'required', :class => 'form-control', :min => 5, :id => 'amount' %>
     </div>
   </div>  
-  <button type="submit" class="btn btn-light ml-1">Pay</button> 
+  <button type="submit" class="btn btn-default ml-1" style="height: 2.125rem">Pay</button> 
 <% end %>
 
 <div id="card-error" style="display: none">
