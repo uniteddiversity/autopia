@@ -1,11 +1,3 @@
-<% if !defined?(content) %><a style="text-decoration: none" href="/accounts/<%=account.id%>"><% end %>
-  <img <% if defined?(klass) %> class="<%=klass%>" <% end %> <% if !defined?(content) %>data-toggle="tooltip" title="<%=account.name%>"<% else %>data-toggle="popover"<% end %> <% if defined?(style) %> style="<%= style%>" <% else %> style="width: <%=width%>;" <% end %> src="<%=account.picture_thumb_or_gravatar_url %>" />
-  <% if defined?(content) %>
-    <span style="display: none">
-      <a href="/accounts/<%=account.id%>"><%=account.name%></a>
-    </span>
-    <span style="display: none">
-      <%=content%>
-    </span>
-  <% end %>
-  <% if !defined?(content) %></a><% end %>
+<a style="text-decoration: none" href="/accounts/<%=account.id%>">
+  <img <% if defined?(klass) %> class="<%=klass%>" <% end %> data-toggle="tooltip" title="<%=account.name%><% if defined?(content) %>: <%=CGI::escapeHTML content%><% end %>" <% if defined?(style) %> style="<%= style%>" <% else %> style="width: <%=width%>;" <% end %> src="<%=account.picture_thumb_or_gravatar_url %>" />
+</a>

@@ -25,39 +25,6 @@ $(function () {
     })
   }
 
-  function popover() {
-    $('[data-toggle="popover"]').popover({
-      html: true,
-      viewport: false,
-      trigger: 'manual',
-      placement: 'top',
-      animation: false,
-      title: function () {
-        return $(this).next('span').html()
-      },
-      content: function () {
-        return $(this).next('span').next('span').html()
-      }
-    }).on("mouseenter", function () {
-      var _this = this;
-      setTimeout(function () {
-        if ($(_this).filter(':hover').length) {
-          $(_this).popover("show");
-          $($(_this).data('bs.popover')['tip']).on("mouseleave", function () {
-            $(_this).popover('hide');
-          });
-        }
-      }, 200);
-    }).on("mouseleave", function () {
-      var _this = this;
-      setTimeout(function () {
-        if (!$($(_this).data('bs.popover')['tip']).filter(':hover').length) {
-          $(_this).popover("hide");
-        }
-      }, 200);
-    });
-  }
-
   function timeago() {
     $("abbr.timeago").timeago()
   }
@@ -77,14 +44,12 @@ $(function () {
   $(document).ajaxComplete(function () {
     addPlaceholders()
     tooltip()
-    popover()
     timeago()
     datepickers()
     resizeCommentTextareas()
   });
   addPlaceholders()
   tooltip()
-  popover()
   timeago()
   datepickers()
   resizeCommentTextareas()
