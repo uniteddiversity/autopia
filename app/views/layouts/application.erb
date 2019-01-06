@@ -26,7 +26,7 @@
           <!-- BEGIN mobile sidebar expand / collapse button -->
           <div class="navbar-header">
             <a href="/" class="navbar-brand">
-              <%= @group ? %Q{ <span class="hw">A</span> / #{@group.name}} : '<span class="hw">Autopo</span>' %>
+              <%= @group ? %Q{ <span class="hw">A</span><span class="hw ml-2 mr-1">/</span><span style="position: relative; top: -0.15rem">#{@group.name}</a>} : '<span class="hw">Autopo</span>' %>
             </a>
             <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
               <span class="icon-bar"></span>
