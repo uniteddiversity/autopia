@@ -5,7 +5,7 @@ GIT
     will_paginate (3.1.6)
 
 GIT
-  remote: git://github.com/wordsandwriting/activate-admin.git
+  remote: git://github.com/stephenreid321/activate-admin.git
   revision: b43e6caaf7a9ffb80bdbe2a7a51c9d7fafbb421f
   specs:
     activate-admin (0.0.1)
@@ -14,10 +14,10 @@ GIT
       will_paginate
 
 GIT
-  remote: git://github.com/wordsandwriting/activate-tools.git
-  revision: 405990f28d9b3e8af0dffb923048cb3a078a2c75
+  remote: git://github.com/stephenreid321/activate-tools.git
+  revision: 7d3174039774402f2b85fbf2c49ececee292958d
   specs:
-    activate-tools (0.0.1)
+    activate-tools (0.0.2)
       padrino
 
 GEM
