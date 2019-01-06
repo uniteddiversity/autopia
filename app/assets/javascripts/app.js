@@ -14,8 +14,7 @@ $(function () {
 
   function tooltip() {
     $('[data-toggle="tooltip"]').tooltip({
-      html: true,
-      viewport: false,
+      html: true,      
       title: function () {
         if ($(this).attr('title').length > 0)
           return $(this).attr('title')
