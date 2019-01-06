@@ -36,26 +36,19 @@
           <!-- END mobile sidebar expand / collapse button -->
 
           <!-- BEGIN header navigation right -->
-          <div class="navbar-xs-justified">
+          <div class="navbar-xs-justified d-none d-md-block">
             <ul class="nav navbar-nav navbar-right">
 
               <% if current_account %>
                 <li class="dropdown">
                   <a href="javascript:;" data-toggle="dropdown">
                     <span class="navbar-user-img online pull-left">
-                      <img src="<%=current_account.picture_thumb_or_gravatar_url %>" alt="" />
+                      <img src="<%=current_account.picture_thumb_or_gravatar_url %>" />
                     </span>
                     <span class="hidden-xs "><%=current_account.name%> <b class="caret"></b></span>
                   </a>
 
-                  <%= ul_nav [
-                    (["View profile", "/accounts/#{current_account.id}"]),
-                    (['Edit profile', '/accounts/edit']),
-                    (['Habits', "/habits"]),
-                    (['Make a suggestion', "/suggest"]),
-                    (['Sign out', '/accounts/sign_out']),
-                    ].compact, ul_class: 'dropdown-menu', li_class: '', a_class: ''
-                %>
+                  <%= partial :'nav_profile', locals: {ul_class: 'dropdown-menu'} %>
 
                 </li>
               <% else %>
@@ -125,6 +118,6 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->    
-    
+
   </body>
 </html>

@@ -11,13 +11,13 @@
 }
 
 .hw {
-	font-family: 'mellony_dry_brushregular';
+  font-family: 'mellony_dry_brushregular';
 }
 
 .navbar-brand .hw {
-	font-size: 1.6rem;
-	line-height: 1rem;
-	position: relative;
+  font-size: 1.6rem;
+  line-height: 1rem;
+  position: relative;
 }
 
 img { image-orientation: from-image; }
@@ -48,3 +48,9 @@ textarea[id=verdict_reason] { height: 6em; }
 
 .input-group-prepend { height: 2.125rem }
 .badge { border-radius: 0.25rem }
+
+@media (max-width: 767px) {
+  #page-container {
+    padding-top: 2.75rem;
+  }
+}
