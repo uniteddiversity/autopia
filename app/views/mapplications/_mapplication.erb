@@ -3,6 +3,8 @@
     <p style="font-size: 16px; font-weight: 300"><%=a.gsub("\n","<br />")%></p>                    
   <% end } if mapplication.answers  %>              
 
+<h3>Discussion (visible only to members)</h3>    
+
 <div data-pagelet-url="/commentable?commentable_type=Mapplication&commentable_id=<%=mapplication.id%>" style="margin-top: 20px">
   <%= partial :'comments/commentable', :locals => {:commentable => mapplication} %>
 </div> 
