@@ -5,7 +5,7 @@
   <!--<![endif]-->
   <%= partial :'layouts/head' %>
   <body>
-    
+
     <div id="fb-root"></div>
     <script>(function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -16,7 +16,7 @@
         js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2&appId=1498399346894704&autoLogAppEvents=1';
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));</script>   
-    
+
     <!-- BEGIN #page-container -->
     <div id="page-container" class="page-header-fixed page-sidebar-fixed fade">
       <!-- BEGIN #header -->
@@ -34,29 +34,45 @@
             </button>
           </div>
           <!-- END mobile sidebar expand / collapse button -->
+
           <!-- BEGIN header navigation right -->
           <div class="navbar-xs-justified">
             <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown">
-                <a href="javascript:;" data-toggle="dropdown">
-                  <span class="navbar-user-img online pull-left">
-                    <img src="<%=current_account.picture_thumb_or_gravatar_url %>" alt="" />
-                  </span>
-                  <span class="hidden-xs "><%=current_account.name%> <b class="caret"></b></span>
-                </a>
 
-                <%= ul_nav [
-                  (["View profile", "/accounts/#{current_account.id}"] if current_account),
-                  (['Edit profile', '/accounts/edit'] if current_account),
-                  (['Habits', "/habits"] if current_account),
-                  (['Make a suggestion', "/suggest"] if current_account),
-                  (['Sign out', '/accounts/sign_out'] if current_account),
-                  (['Sign up', '/accounts/sign_up'] if !current_account),
-                  (['Sign in', '/accounts/sign_in'] if !current_account)
-                  ].compact, ul_class: 'dropdown-menu', li_class: '', a_class: ''
-              %>
+              <% if current_account %>
+                <li class="dropdown">
+                  <a href="javascript:;" data-toggle="dropdown">
+                    <span class="navbar-user-img online pull-left">
+                      <img src="<%=current_account.picture_thumb_or_gravatar_url %>" alt="" />
+                    </span>
+                    <span class="hidden-xs "><%=current_account.name%> <b class="caret"></b></span>
+                  </a>
 
-              </li>
+                  <%= ul_nav [
+                    (["View profile", "/accounts/#{current_account.id}"]),
+                    (['Edit profile', '/accounts/edit']),
+                    (['Habits', "/habits"]),
+                    (['Make a suggestion', "/suggest"]),
+                    (['Sign out', '/accounts/sign_out']),
+                    ].compact, ul_class: 'dropdown-menu', li_class: '', a_class: ''
+                %>
+
+                </li>
+              <% else %>
+
+                <li>
+                  <a href="/accounts/sign_up">
+                    Sign up
+                  </a>
+                </li>                
+
+                <li>
+                  <a href="/accounts/sign_in">
+                    Sign in
+                  </a>
+                </li>                                
+
+              <% end %>
             </ul>
           </div>
           <!-- END header navigation right -->
@@ -91,9 +107,9 @@
 
       <!-- BEGIN #content -->
       <div id="content" class="content">
-                
+
         <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
-        
+
       </div>
       <!-- END #content -->
 
