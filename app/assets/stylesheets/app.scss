@@ -1,15 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i');
 @import url('/fonts/mellony/stylesheet.css');
 
-$font-family-sans-serif: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
-$font-size-base: 0.85rem;
+@import "../infinite_admin/scss/style";
 
-@import "bootstrap/bootstrap";
-@import "sb-admin/sb-admin";
-
-h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6, { font-weight: bold }
-
-.dropdown-menu { overflow-y: auto; max-height: 50vh }
+#content { background: white }
 
 @media print {
   a[href]:after {
@@ -25,17 +18,14 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6, { font-weight: bold }
 	font-size: 1.7rem;
 	line-height: 1rem;
 	position: relative;
-	top: 0.2rem;
 }
-
-#mainNav a.active { color: $gray-300 !important  }
 
 img { image-orientation: from-image; }
 .note-group-select-from-files { display: none }
 
-.subtle { color: theme-color('secondary') !important }
-.subtle.active, .subtle:hover { color: theme-color('primary') !important }
-.habit-completion-likes a:hover { color: theme-color('dark') !important }
+.subtle { color: $color_grey !important }
+.subtle.active, .subtle:hover { color: $color_primary !important }
+.habit-completion-likes a:hover { color: $color_grey_hover !important }
 
 .table-hr td:first-child { width: 1px; white-space: nowrap; font-weight: bold; padding-right: 1rem; }
 .table-hr td { border: 0 !important; border-bottom: 0.1rem solid #eee !important; }
@@ -56,3 +46,5 @@ textarea[id=verdict_reason] { height: 6em; }
 }
 .image-wall img { margin-right: 0.2rem; margin-bottom: 0.2rem; float: left }
 
+.input-group-prepend { height: 2.125rem }
+.badge { border-radius: 0.25rem }

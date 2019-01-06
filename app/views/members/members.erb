@@ -184,7 +184,7 @@
           <%= partial :'accounts/account', :object => account, :locals => {:membership => membership} %>
           <div>
             <% membership.teamships.each { |teamship| %>
-              <a href="/a/<%=@group.slug%>/teams"><span class="badge badge-primary"><%=teamship.team.name%></span></a>
+              <a href="/a/<%=@group.slug%>/teams"><span class="label label-primary"><%=teamship.team.name%></span></a>
             <% } %>        
           </div>
         </td>
@@ -260,6 +260,9 @@
           (<%=@group.currency_symbol%><%= @group.processed_via_stripe %> processed via Autopo)
         </th>
       <% end %>
+      <% if @group.facebook_group_url %>
+        <th></th>
+      <% end %>        
       <% if @group.enable_bookings %>
         <th></th>     
       <% end %>

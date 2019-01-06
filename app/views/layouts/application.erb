@@ -1,9 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if !IE]><!-->
 <html lang="en">
+  <!--<![endif]-->
   <%= partial :'layouts/head' %>
-
-  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
-
+  <body>
+    
     <div id="fb-root"></div>
     <script>(function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -13,39 +15,92 @@
         js.id = id;
         js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2&appId=1498399346894704&autoLogAppEvents=1';
         fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));</script>    
-
-    <%= partial :alert %>
-
-<%= partial :nav %> 
-
-    <div class="content-wrapper">
-      <div class="container-fluid pb-3" id="main">
-<%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
-      </div>
-      <!-- /.container-fluid-->
-      <!-- /.content-wrapper-->
-
-      <footer class="sticky-footer">
-        <div class="container">
-          <div class="text-center">
-<%= partial :footer %>            
+      }(document, 'script', 'facebook-jssdk'));</script>   
+    
+    <!-- BEGIN #page-container -->
+    <div id="page-container" class="page-header-fixed page-sidebar-fixed fade">
+      <!-- BEGIN #header -->
+      <div id="header" class="header navbar navbar-inverse navbar-fixed-top">
+        <!-- BEGIN container-fluid -->
+        <div class="container-fluid">
+          <!-- BEGIN mobile sidebar expand / collapse button -->
+          <div class="navbar-header">
+            <a href="/" class="navbar-brand">
+              <%= @group ? %Q{ <span class="hw">A <span class="d-none d-sm-inline">/</span></span> <span class="d-none d-sm-inline">#{@group.name}</span>} : '<span class="hw">Autopo</span>' %>
+            </a>
+            <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
           </div>
+          <!-- END mobile sidebar expand / collapse button -->
+          <!-- BEGIN header navigation right -->
+          <div class="navbar-xs-justified">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="javascript:;" data-toggle="dropdown">
+                  <span class="navbar-user-img online pull-left">
+                    <img src="<%=current_account.picture_thumb_or_gravatar_url %>" alt="" />
+                  </span>
+                  <span class="hidden-xs "><%=current_account.name%> <b class="caret"></b></span>
+                </a>
+
+                <%= ul_nav [
+                  (["View profile", "/accounts/#{current_account.id}"] if current_account),
+                  (['Edit profile', '/accounts/edit'] if current_account),
+                  (['Habits', "/habits"] if current_account),
+                  (['Make a suggestion', "/suggest"] if current_account),
+                  (['Sign out', '/accounts/sign_out'] if current_account),
+                  (['Sign up', '/accounts/sign_up'] if !current_account),
+                  (['Sign in', '/accounts/sign_in'] if !current_account)
+                  ].compact, ul_class: 'dropdown-menu', li_class: '', a_class: ''
+              %>
+
+              </li>
+            </ul>
+          </div>
+          <!-- END header navigation right -->
         </div>
-      </footer>
-      <!-- Scroll to Top Button-->
-      <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fa fa-angle-up"></i>
-      </a>
+        <!-- END container-fluid -->
+        <!-- BEGIN header-search-bar -->
+        <div class="header-search-bar">
+          <form action="#" method="POST" name="search_bar_form">
+            <div class="form-group">
+              <div class="left-icon"><i class="ti-search"></i></div>
+              <input type="text" class="form-control" id="header-search" placeholder="Search infinite admin..." />
+              <a href="javascript:;" data-dismiss="search-bar" class="right-icon"><i class="ti-close"></i></a>
+            </div>
+          </form>
+        </div>
+        <!-- END header-search-bar -->
+      </div>
+      <!-- END #header -->
+
+      <!-- BEGIN #sidebar -->
+      <div id="sidebar" class="sidebar sidebar-inverse">
+        <!-- BEGIN scrollbar -->
+        <div data-scrollbar="true" data-height="100%">
+          <%= partial :nav %>
+        </div>
+        <!-- END scrollbar -->
+        <!-- BEGIN sidebar-minify-btn -->
+        <a href="#" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="ti-arrow-left"></i></a>
+        <!-- END sidebar-minify-btn -->
+      </div>
+      <!-- END #sidebar -->
+
+      <!-- BEGIN #content -->
+      <div id="content" class="content">
+                
+        <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
+        
+      </div>
+      <!-- END #content -->
+
+      <!-- BEGIN btn-scroll-top -->
+      <a href="#" data-click="scroll-top" class="btn-scroll-top fade"><i class="ti-arrow-up"></i></a>
+      <!-- END btn-scroll-top -->
     </div>
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->    
-
+    <!-- END #page-container -->
   </body>
-
 </html>

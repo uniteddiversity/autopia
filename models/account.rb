@@ -121,6 +121,10 @@ class Account
       picture.rotate(self.rotate_picture_by)
     end  
   end  
+  
+  def picture_thumb_or_gravatar_url
+    picture ? picture.thumb('400x400#').url : "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.downcase)}?s=400&d=#{URI::encode("#{ENV['BASE_URI']}/images/silhouette.png")}"
+  end  
     
   has_many :provider_links, :dependent => :destroy
   accepts_nested_attributes_for :provider_links  

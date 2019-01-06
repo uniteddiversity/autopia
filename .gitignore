@@ -11,8 +11,6 @@ nbproject
 dragonfly.log
 app/assets/stylesheets/app.css
 app/assets/stylesheets/app.css.map
-app/assets/stylesheets/sb-admin/sb-admin.css
-app/assets/stylesheets/sb-admin/sb-admin.css.map
 
 *.gem
 *.rbc

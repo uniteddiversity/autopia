@@ -2,9 +2,9 @@
   <h2 style="margin-top: 0">
     Co-creators
     <% if @group.member_limit %>
-      <span class="badge badge-primary"><%=@group.memberships.count%>/<%= @group.member_limit %></span>
+      <span class="label label-primary"><%=@group.memberships.count%>/<%= @group.member_limit %></span>
     <% else %>
-      <span class="badge badge-primary"><%=@group.memberships.count%></span>
+      <span class="label label-primary"><%=@group.memberships.count%></span>
     <% end %>
   </h2>
   <div class="image-wall">
