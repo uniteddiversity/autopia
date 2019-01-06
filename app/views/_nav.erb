@@ -3,7 +3,7 @@
 <script>
   $(function () {
 
-  $('ul.sub-menu ul.sub-menu li.active').closest('li.has-sub').find('> a').click()
+    $('ul.sub-menu ul.sub-menu li.active').closest('li.has-sub').find('> a').click()
 
   })
 </script>
@@ -24,10 +24,11 @@
     </a>
   </li>      
 
-  <li class="nav-divider"></li>
-  <li class="nav-header">Groups</li>    
+  <% if current_account %>        
 
-  <% if current_account %>            
+    <li class="nav-divider"></li>
+    <li class="nav-header">Groups</li>    
+
     <% current_account.memberships.select { |membership| membership.group == @group or !membership.hide_from_sidebar }.sort_by { |membership| membership.group.name }.each { |membership| group = membership.group %>          
 
 
@@ -37,7 +38,7 @@
           <i class="fa fa-users"></i> 
           <span><%=group.name%></span>
         </a>    
-             
+
         <%= ul_nav [
           ["Home", "/a/#{group.slug}"],
           (["Settings", "/a/#{group.slug}/edit"] if membership.admin),
