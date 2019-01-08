@@ -14,7 +14,7 @@
       <div class="row">
 
         <% current_account.memberships.sort_by { |membership| membership.group.notifications.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.reverse.each { |membership| group = membership.group %>
-          <div class="col-6 col-sm-4 mb-4">
+          <div class="col-6 col-sm-4 mb-3">
             <%= partial :'groups/group', :object => group  %>
           </div>
         <% } %>

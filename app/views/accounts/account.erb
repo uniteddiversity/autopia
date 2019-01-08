@@ -76,7 +76,7 @@
   <h2 class="mt-5 mb-3">Groups</h2>
   <div class="row">
     <% @account.memberships.each { |membership| group = membership.group %>
-      <div class="col-6 col-sm-3 mb-4">
+      <div class="col-6 col-sm-3 mb-3">
         <%= partial :'groups/group', :object => group  %>
       </div>
     <% } %>
