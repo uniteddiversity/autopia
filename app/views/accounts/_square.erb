@@ -1,7 +1,7 @@
 <% if !defined?(content) %>
   <a style="text-decoration: none" href="/accounts/<%=account.id%>">
   <% end %>
-  <img <% if defined?(klass) %> class="<%=klass%>" <% end %> data-toggle="tooltip" title="<%=account.name%><% if defined?(content) %>: <%=CGI::escapeHTML content%><% end %>" <% if defined?(style) %> style="<%= style%>" <% else %> style="width: <%=width%>;" <% end %> src="<%=account.picture_thumb_or_gravatar_url %>" />
+  <img <% if defined?(klass) %> class="<%=klass%>" <% end %> data-toggle="tooltip" title="<%=account.name%><% if defined?(content) %>: <%=CGI::escapeHTML(content) if content%><% end %>" <% if defined?(style) %> style="<%= style%>" <% else %> style="width: <%=width%>;" <% end %> src="<%=account.picture_thumb_or_gravatar_url %>" />
   <% if !defined?(content) %>
   </a>
 <% end %>
