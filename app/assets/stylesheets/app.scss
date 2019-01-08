@@ -38,12 +38,8 @@ td .activity, td .activity-accept { width: 16rem }
 textarea[id=comment_body] { height: 4em; overflow:hidden; }
 textarea[id=verdict_reason] { height: 6em; }
 
-.image-wall {
-  content: "";
-  display: table;
-  clear: both;
-}
-.image-wall img { margin-right: 0.2rem; margin-bottom: 0.2rem; float: left }
+.image-wall {  }
+.image-wall img { margin-bottom: 0.2rem; }
 
 .input-group-prepend { height: 2.125rem }
 .badge { border-radius: 0.25rem }

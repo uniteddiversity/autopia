@@ -805,7 +805,7 @@ var App = function () {
 		initComponent: function() {
 			handleSlimScroll();
 			handlePanelAction();
-			handelTooltipPopoverActivation();
+			// handelTooltipPopoverActivation();
 			handleScrollToTopButton();
 			handleDropdownClose();
 			handleAppNotification();
