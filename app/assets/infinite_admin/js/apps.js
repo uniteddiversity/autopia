@@ -791,7 +791,7 @@ var App = function () {
       this.initPage();
     },
     initPage: function () {
-      handlePageLoadFadeIn();
+//      handlePageLoadFadeIn();
     },
     initSidebar: function () {
       handleSidebarMinifyFloatMenu();
