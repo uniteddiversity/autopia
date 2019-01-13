@@ -1,10 +1,12 @@
 <% mapplication.answers.each { |q,a| if a %>
-    <p style="font-size: 16px;"><strong><%=q%></strong></p>
-    <p style="font-size: 16px; font-weight: 300"><%=a.gsub("\n","<br />")%></p>                    
+    <div class="mb-5">
+      <p style="font-size: 16px;"><strong><%=q%></strong></p>
+      <p style="font-size: 16px; font-weight: 300"><%=a.gsub("\n","<br />")%></p>                    
+    </div>
   <% end } if mapplication.answers  %>              
 
-<h4>Discussion (visible only to members)</h4>    
+<h4 class="mb-3">Discussion (visible only to members)</h4>    
 
-<div data-pagelet-url="/commentable?commentable_type=Mapplication&commentable_id=<%=mapplication.id%>" style="margin-top: 20px">
+<div data-pagelet-url="/commentable?commentable_type=Mapplication&commentable_id=<%=mapplication.id%>">
   <%= partial :'comments/commentable', :locals => {:commentable => mapplication} %>
 </div> 
