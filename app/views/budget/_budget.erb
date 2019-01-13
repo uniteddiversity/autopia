@@ -102,8 +102,8 @@
       <% if @group.processed_via_stripe > 0 %>
         <tr>   
           <td>Transaction fees</td>      
-          <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.incomings)}"%></td>      
-          <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_stripe)}"%></td>
+          <td><%=number_to_currency 0.05*@group.incomings, unit: @group.currency_symbol, precision: 0%></td>
+          <td><%=number_to_currency 0.05*@group.processed_via_stripe, unit: @group.currency_symbol, precision: 0%></td>
         </tr>   
       <% end %>   
       <tr>
@@ -170,7 +170,8 @@
       <% if @group.processed_via_stripe > 0 %>
         <tr>   
           <td>Transaction fees</td>      
-          <td><%=@group.currency_symbol%><%="#{'%.2f' % (0.05*@group.processed_via_stripe)}"%></td>
+          <td>
+          <td><%=number_to_currency 0.05*@group.processed_via_stripe, unit: @group.currency_symbol, precision: 0%></td>
           <td></td>
           <td></td>
           <td></td>

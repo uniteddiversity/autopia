@@ -57,7 +57,7 @@
         <%= ul_nav [
           ["Home", "/a/#{group.slug}"],
           (["Settings", "/a/#{group.slug}/edit"] if membership.admin),
-          ([%Q{Balance <span class="float-right label #{'label-primary' if group.balance > 0}">#{group.currency_symbol}#{'%.2f' % group.balance}</span>}, "/a/#{group.slug}/balance"]  if membership.admin),                   
+          ([%Q{Balance <span class="float-right label #{'label-primary' if group.balance > 0}">#{number_to_currency group.balance, unit: group.currency_symbol, precision: 0}</span>}, "/a/#{group.slug}/balance"]  if membership.admin),                   
           [%Q{Members <span class="float-right label label-primary">#{group.member_limit ? %Q{#{group.memberships.count}/#{group.member_limit}} : group.memberships.count}</span>}, "/a/#{group.slug}/members"],
           ([%Q{Applications #{if group.mapplications.pending.count > 0; %Q{<span class="float-right label label-primary">#{group.mapplications.pending.count}</span>} end}}, "/a/#{group.slug}/applications"] if group.enable_applications or group.mapplications.where(:status.ne => 'accepted').count > 0),        
           (["Habits", "/a/#{group.slug}/habits"] if group.enable_habits),              
