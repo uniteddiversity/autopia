@@ -65,7 +65,7 @@ if @group.democratic_threshold
     <div style="margin-bottom: 10px; font-size: 13px;">
 
       <% x.each_with_index { |el,i| k,v,t,c = *el %>
-        <label style="display: inline; font-weight: normal"><%=t%> <strong><%=c%></strong> <%= radio_button_tag k, :value => v, :checked => (params[k] == v), :onclick => 'this.form.submit()' %></label>
+        <label style="display: inline; font-weight: normal"><%=t%> <strong><%=c%></strong> <%= radio_button_tag k, :value => v, :checked => (params[k] == v.to_s), :onclick => 'this.form.submit()' %></label>
         &middot;
       <% } %>      
 
