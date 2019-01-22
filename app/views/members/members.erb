@@ -24,9 +24,10 @@ if @group.ask_for_date_of_birth
 y = []
 
 if @group.enable_budget
-  y << [:paid, 'Paid in full', @group.memberships.where('this.paid == this.requested_contribution').count]
+  y << [:paid_something, 'Paid something', @group.memberships.where(:paid.gt => 0).count]
+  y << [:paid_nothing, 'Paid nothing', @group.memberships.where(:paid => 0).count]  
   y << [:more_to_pay, 'More to pay', @group.memberships.where('this.paid < this.requested_contribution').count]
-  y << [:paid_nothing, 'Paid nothing', @group.memberships.where(:paid => 0).count]
+  y << [:no_more_to_pay, 'No more to pay', @group.memberships.where('this.paid == this.requested_contribution').count]    
   y << [:overpaid, 'Overpaid', @group.memberships.where('this.paid > this.requested_contribution').count]
   end
 

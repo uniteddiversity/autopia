@@ -7,11 +7,12 @@ Autopo::App.controller do
     @memberships = @group.memberships
     @memberships = @memberships.where(:account_id.in => Account.where(gender: params[:gender]).pluck(:id)) if params[:gender] && params[:gender] != 'all'
     @memberships = @memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-params[:p].to_i.years)).where(:date_of_birth.gt => (Date.today-(params[:p].to_i+10).years)).pluck(:id)) if params[:p] && params[:p] != 'all'     
-    @memberships = @memberships.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
-    @memberships = @memberships.where('this.paid == this.requested_contribution') if params[:paid]
-    @memberships = @memberships.where('this.paid < this.requested_contribution') if params[:more_to_pay]
-    @memberships = @memberships.where('this.paid > this.requested_contribution') if params[:overpaid]
+    @memberships = @memberships.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]    
+    @memberships = @memberships.where(:paid.gt => 0) if params[:paid_something]
     @memberships = @memberships.where(:paid => 0) if params[:paid_nothing]
+    @memberships = @memberships.where('this.paid < this.requested_contribution') if params[:more_to_pay]
+    @memberships = @memberships.where('this.paid == this.requested_contribution') if params[:no_more_to_pay]
+    @memberships = @memberships.where('this.paid > this.requested_contribution') if params[:overpaid]    
     @memberships = @memberships.where(:account_id.in => @group.shifts.pluck(:account_id)) if params[:shifts]
     @memberships = @memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)) if params[:no_shifts]      
     @memberships = @memberships.where(:account_id.nin => @group.teamships.where(:team_id.nin => @group.teams.where(name: 'General').pluck(:id)).pluck(:account_id)) if params[:no_teams]
@@ -25,10 +26,10 @@ Autopo::App.controller do
     when :html        
       erb :'members/members'
     when :csv
-        CSV.generate do |csv|
-          csv << %w{name email joined}
-          @memberships.each { |membership| csv << [membership.account.name, membership.account.email, membership.created_at.to_s(:db)] }        
-        end        
+      CSV.generate do |csv|
+        csv << %w{name email joined}
+        @memberships.each { |membership| csv << [membership.account.name, membership.account.email, membership.created_at.to_s(:db)] }        
+      end        
     end
   end   
   
