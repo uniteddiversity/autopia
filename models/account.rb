@@ -29,7 +29,8 @@ class Account
     self.name = self.name.strip if self.name
     
     errors.add(:facebook_profile_url, 'must contain facebook.com') if self.facebook_profile_url and !self.facebook_profile_url.include?('facebook.com')    
-    self.facebook_profile_url = "https://#{self.facebook_profile_url}" if self.facebook_profile_url and !(self.facebook_profile_url =~ /\Ahttps?:\/\//)       
+    self.facebook_profile_url = "https://#{self.facebook_profile_url}" if self.facebook_profile_url and !(self.facebook_profile_url =~ /\Ahttps?:\/\//)
+    self.facebook_profile_url = self.facebook_profile_url.gsub('m.facebook.com','facebook.com') if self.facebook_profile_url
     
     errors.add(:date_of_birth, 'is invalid') if self.age && self.age <= 0
   end
