@@ -14,7 +14,6 @@
   <p>There was an error processing the transaction. You have not been charged.</p>
 </div>
 
-<script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
   var handler = StripeCheckout.configure({
     key: '<%=ENV['STRIPE_PK']%>',
@@ -36,6 +35,7 @@
   });
 
   $('#pay-form').submit(function () {
+    console.log('paying')
     handler.open({
       name: 'Autopo',
       description: '<%=js_escape_html("Payment for #{@group.name}")%>',

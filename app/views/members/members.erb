@@ -6,95 +6,80 @@
   a.selected { font-weight: bold; text-decoration: underline }
 </style>
 
-<% x = [] %>
-<%  x << capture do %>
-  <a href="?"><i data-toggle="tooltip" title="Members" class="fa fa-group"></i></a> <%= @group.memberships.count %>
-<% end %>
+<% x = []
 
-<% if @group.ask_for_gender %>
-  <% Account.genders.reject(&:blank?).map { |gender| x << capture do %>
-      <a href="?gender=<%=gender%>"><%= Account.gender_symbol(gender, pluralize: true) %></a> <%= @group.memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id)).count %>
-    <% end  } %>
-<% end %>
+if @group.ask_for_gender
+  x << [:gender, 'any', 'Any gender', @group.memberships.count]
+  Account.genders.reject(&:blank?).each { |gender|
+    x << [:gender, gender, gender, @group.memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id)).count]
+  }
+  end
 
-<% if @group.ask_for_date_of_birth %>
-  <% youngest = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth desc').first %>
-  <% oldest = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first %>
-  <% if youngest and oldest %>
-    <% (youngest.age.to_s[0].to_i).upto(oldest.age.to_s[0].to_i) do |p| p = "#{p}0".to_i; %>
-      <% x << capture do %>
-        <a <% if params[:p] and params[:p] == p.to_s %>class="selected"<% end %> href="?p=<%=p%>" data-toggle="tooltip" title="People in their <%=p%>s"><%=p%>s</a>
-        <%= @group.memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-p.years)).where(:date_of_birth.gt => (Date.today-(p+10).years)).pluck(:id)).count %>
-      <% end %>
-    <% end %>    
-  <% end %>
-<% end %>
+if @group.ask_for_date_of_birth
+  youngest = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth desc').first
+  oldest = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first
+  if youngest and oldest
+    x << [:p, 'any', 'Any age', @group.memberships.count]
+    (youngest.age.to_s[0].to_i).upto(oldest.age.to_s[0].to_i) do |p| p = "#{p}0".to_i;
+      x << [:p, p, "People in their #{p}s", @group.memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-p.years)).where(:date_of_birth.gt => (Date.today-(p+10).years)).pluck(:id)).count]
+    end
+  end
+  end
 
-<% y = [] %>
+y = []
 
-<% if @group.enable_budget %>
-  <% y << capture do %>
-    <a <% if params[:paid] %>class="selected"<% end %> href="?paid=true">Paid in full</a> <%= @group.memberships.where('this.paid == this.requested_contribution').count %>
-  <% end %>
-  <% y << capture do %>
-    <a <% if params[:more_to_pay] %>class="selected"<% end %> href="?more_to_pay=true">More to pay</a> <%= @group.memberships.where('this.paid < this.requested_contribution').count %>
-  <% end %>
-  <% y << capture do %>
-    <a <% if params[:paid_nothing] %>class="selected"<% end %> href="?paid_nothing=true">Paid nothing</a> <%= @group.memberships.where(:paid => 0).count %>
-  <% end %>  
-  <% y << capture do %>
-    <a <% if params[:overpaid] %>class="selected"<% end %> href="?overpaid=true">Overpaid</a> <%= @group.memberships.where('this.paid > this.requested_contribution').count %>
-  <% end %>   
-<% end %>
+if @group.enable_budget
+  y << [:paid, 'Paid in full', @group.memberships.where('this.paid == this.requested_contribution').count]
+  y << [:more_to_pay, 'More to pay', @group.memberships.where('this.paid < this.requested_contribution').count]
+  y << [:paid_nothing, 'Paid nothing', @group.memberships.where(:paid => 0).count]
+  y << [:overpaid, 'Overpaid', @group.memberships.where('this.paid > this.requested_contribution').count]
+  end
 
-<% if @group.enable_rotas %>
-  <% y << capture do %>
-    <a <% if params[:shifts] %>class="selected"<% end %> href="?shifts=true">People with shifts</a> <%= @group.memberships.where(:account_id.in => @group.shifts.pluck(:account_id)).count %>
-  <% end %>
-  <% y << capture do %>
-    <a <% if params[:no_shifts] %>class="selected"<% end %>  href="?no_shifts=true">People without shifts</a> <%= @group.memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)).count %>
-  <% end %>
-<% end %>
+if @group.enable_rotas
+  y << [:shifts, 'People with shifts', @group.memberships.where(:account_id.in => @group.shifts.pluck(:account_id)).count]
+  y << [:no_shifts, 'People without shifts', @group.memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)).count]
+  end
 
-<% if @group.enable_teams %>
-  <% y << capture do %>
-    <a <% if params[:no_teams] %>class="selected"<% end %> href="?no_teams=true">No teams</a> <%= @group.memberships.where(:account_id.nin => @group.teamships.where(:team_id.nin => @group.teams.where(name: 'General').pluck(:id)).pluck(:account_id)).count %>
-  <% end %>
-<% end %>    
+if @group.enable_teams
+  y << [:no_teams, 'No teams', @group.memberships.where(:account_id.nin => @group.teamships.where(:team_id.nin => @group.teams.where(name: 'General').pluck(:id)).pluck(:account_id)).count]
+  end
 
-<% if @group.enable_tiers %>
-  <% y << capture do %>
-    <a <% if params[:no_tier] %>class="selected"<% end %> href="?no_tier=true">No tier</a> <%= @group.memberships.where(:account_id.nin => @group.tierships.pluck(:account_id)).count %>
-  <% end %>
-<% end %>
+if @group.enable_tiers
+  y << [:no_tier, 'No tier', @group.memberships.where(:account_id.nin => @group.tierships.pluck(:account_id)).count]
+  end
 
-<% if @group.enable_accommodation %>
-  <% y << capture do %>
-    <a <% if params[:no_accom] %>class="selected"<% end %> href="?no_accom=true">No accommodation</a> <%= @group.memberships.where(:account_id.nin => @group.accomships.pluck(:account_id)).count %>
-  <% end %>  
-<% end %>
+if @group.enable_accommodation
+  y << [:no_accom, 'No accommodation', @group.memberships.where(:account_id.nin => @group.accomships.pluck(:account_id)).count]
+  end
 
-<% if @group.facebook_group_url %>
-  <% y << capture do %>
-    <a <% if params[:member_of_facebook_group] %>class="selected"<% end %> href="?member_of_facebook_group=true">Member of Facebook group</a> <%= @group.memberships.where(:member_of_facebook_group => true).count %>
-  <% end %>
-  <% y << capture do %>
-    <a <% if params[:not_member_of_facebook_group] %>class="selected"<% end %>  href="?not_member_of_facebook_group=true">Not member of Facebook group</a> <%= @group.memberships.where(:member_of_facebook_group.ne => true).count %>
-  <% end %>
-<% end %>    
+if @group.facebook_group_url
+  y << [:member_of_facebook_group, 'Member of Facebook group', @group.memberships.where(:member_of_facebook_group => true).count]
+  y << [:not_member_of_facebook_group,'Not member of Facebook group', @group.memberships.where(:member_of_facebook_group.ne => true).count]
+  end
 
-<% if @group.democratic_threshold %>
-  <% y << capture do %>
-    <a <% if params[:threshold] %>class="selected"<% end %> href="?threshold=true">Suggesting magic number</a> <%= @group.memberships.where(:desired_threshold.ne => nil).count %>
-  <% end %>
-<% end %>
+if @group.democratic_threshold
+  y << [:threshold, 'Suggesting magic number', @group.memberships.where(:desired_threshold.ne => nil).count]
+  end
 
-<div style="margin-top: 10px; font-size: 20px"><%= x.map(&:strip).join(' &middot; ') %></div>
-<div style="margin-bottom: 10px; font-size: 13px;"><%= y.map(&:strip).join(' &middot; ') %></div>
+%>
 
 <div class="mb-3">
 
   <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
+
+    <div style="margin-bottom: 10px; font-size: 13px;">
+
+      <% x.each_with_index { |el,i| k,v,t,c = *el %>
+        <label style="display: inline; font-weight: normal"><%=t%> <strong><%=c%></strong> <%= radio_button_tag k, :value => v, :checked => (params[k] == v), :onclick => 'this.form.submit()' %></label>
+        &middot;
+      <% } %>      
+
+      <% y.each_with_index { |el,i| k,t,c = *el %>
+        <label style="display: inline; font-weight: normal"><%=t%> <strong><%=c%></strong> <%= check_box_tag k, :value => true, :checked => params[k], :onclick => 'this.form.submit()' %></label>
+        <% unless i == (y.length-1) %> &middot; <% end %>
+      <% } %>
+    </div>
+
     <%= text_field_tag :q, :class => 'form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>
     View as
     <%= select_tag :view, :class => 'form-control mr-1', :options => %w{details vibes dietary_requirements emails}.map { |view| [view.to_s.humanize.capitalize,view] }, :selected => params[:view], :onchange => 'this.form.submit()' %>        

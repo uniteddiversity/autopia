@@ -5,8 +5,8 @@ Autopo::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @memberships = @group.memberships
-    @memberships = @memberships.where(:account_id.in => Account.where(gender: params[:gender]).pluck(:id)) if params[:gender]  
-    @memberships = @memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-params[:p].to_i.years)).where(:date_of_birth.gt => (Date.today-(params[:p].to_i+10).years)).pluck(:id)) if params[:p]      
+    @memberships = @memberships.where(:account_id.in => Account.where(gender: params[:gender]).pluck(:id)) if params[:gender] && params[:gender] != 'any'
+    @memberships = @memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-params[:p].to_i.years)).where(:date_of_birth.gt => (Date.today-(params[:p].to_i+10).years)).pluck(:id)) if params[:p] && params[:p] != 'any'     
     @memberships = @memberships.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
     @memberships = @memberships.where('this.paid == this.requested_contribution') if params[:paid]
     @memberships = @memberships.where('this.paid < this.requested_contribution') if params[:more_to_pay]
