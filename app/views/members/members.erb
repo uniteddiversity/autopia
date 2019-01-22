@@ -4,9 +4,9 @@
 <% x = []
 
 if @group.ask_for_gender
-  x << [:gender, 'any', 'Any gender', @group.memberships.count]
+  x << [:gender, 'all', 'All genders', @group.memberships.count]
   Account.genders.reject(&:blank?).each { |gender|
-    x << [:gender, gender, gender, @group.memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id)).count]
+    x << [:gender, gender, gender == 'Nonbinary' ? 'Nonbinary' : gender.pluralize, @group.memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id)).count]
   }
   end
 
@@ -14,7 +14,7 @@ if @group.ask_for_date_of_birth
   youngest = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth desc').first
   oldest = Account.where(:id.in => @group.memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first
   if youngest and oldest
-    x << [:p, 'any', 'Any age', @group.memberships.count]
+    x << [:p, 'all', 'All ages', @group.memberships.count]
     (youngest.age.to_s[0].to_i).upto(oldest.age.to_s[0].to_i) do |p| p = "#{p}0".to_i;
       x << [:p, p, "People in their #{p}s", @group.memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-p.years)).where(:date_of_birth.gt => (Date.today-(p+10).years)).pluck(:id)).count]
     end
