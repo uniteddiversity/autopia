@@ -297,5 +297,72 @@ class Group
       ((sorted[(len - 1) / 2] + sorted[len / 2]) / 2.0).round
     end
   end
+  
+  def radio_scopes
+    x = []
+
+    if ask_for_gender
+      x << [:gender, 'all', 'All genders', memberships]
+      Account.genders.reject(&:blank?).each { |gender|
+        x << [:gender, gender, gender == 'Nonbinary' ? 'Nonbinary' : gender.pluralize, memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id))]
+      }
+    end
+
+    if ask_for_date_of_birth
+      youngest = Account.where(:id.in => memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth desc').first
+      oldest = Account.where(:id.in => memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first
+      if youngest and oldest
+        x << [:p, 'all', 'All ages', memberships]
+        (youngest.age.to_s[0].to_i).upto(oldest.age.to_s[0].to_i) do |p| p = "#{p}0".to_i;
+          x << [:p, p, "People in their #{p}s", memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-p.years)).where(:date_of_birth.gt => (Date.today-(p+10).years)).pluck(:id))]
+        end
+      end
+    end 
+    
+    x
+  end
+  
+  def check_box_scopes
+    y = []
+
+    if enable_budget
+      y << [:paid_something, 'Paid something', memberships.where(:paid.gt => 0)]
+      y << [:paid_nothing, 'Paid nothing', memberships.where(:paid => 0)]  
+      y << [:more_to_pay, 'More to pay', memberships.where('this.paid < this.requested_contribution')]
+      y << [:no_more_to_pay, 'No more to pay', memberships.where('this.paid == this.requested_contribution')]    
+      y << [:overpaid, 'Overpaid', memberships.where('this.paid > this.requested_contribution')]
+    end
+
+    if enable_rotas
+      y << [:with_shifts, 'With shifts', memberships.where(:account_id.in => shifts.pluck(:account_id))]
+      y << [:without_shifts, 'Without shifts', memberships.where(:account_id.nin => shifts.pluck(:account_id))]
+    end
+
+    if enable_teams
+      y << [:with_teams, 'With teams', memberships.where(:account_id.in => teamships.where(:team_id.nin => teams.where(name: 'General').pluck(:id)).pluck(:account_id))]
+      y << [:without_teams, 'Without teams', memberships.where(:account_id.nin => teamships.where(:team_id.nin => teams.where(name: 'General').pluck(:id)).pluck(:account_id))]
+    end
+
+    if enable_tiers
+      y << [:with_tiers, 'With tier', memberships.where(:account_id.in => tierships.pluck(:account_id))]
+      y << [:without_tiers, 'Without tier', memberships.where(:account_id.nin => tierships.pluck(:account_id))]
+    end
+
+    if enable_accommodation
+      y << [:with_accom, 'With accommodation', memberships.where(:account_id.in => accomships.pluck(:account_id))]
+      y << [:without_accom, 'Without accommodation', memberships.where(:account_id.nin => accomships.pluck(:account_id))]
+    end
+
+    if facebook_group_url
+      y << [:member_of_facebook_group, 'Member of Facebook group', memberships.where(:member_of_facebook_group => true)]
+      y << [:not_member_of_facebook_group, 'Not member of Facebook group', memberships.where(:member_of_facebook_group.ne => true)]
+    end
+
+    if democratic_threshold
+      y << [:threshold, 'Suggesting magic number', memberships.where(:desired_threshold.ne => nil)]
+    end
+
+    y    
+  end
     
 end

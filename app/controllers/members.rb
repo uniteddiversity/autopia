@@ -4,23 +4,14 @@ Autopo::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    @memberships = @group.memberships
-    @memberships = @memberships.where(:account_id.in => Account.where(gender: params[:gender]).pluck(:id)) if params[:gender] && params[:gender] != 'all'
-    @memberships = @memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-params[:p].to_i.years)).where(:date_of_birth.gt => (Date.today-(params[:p].to_i+10).years)).pluck(:id)) if params[:p] && params[:p] != 'all'     
-    @memberships = @memberships.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]    
-    @memberships = @memberships.where(:paid.gt => 0) if params[:paid_something]
-    @memberships = @memberships.where(:paid => 0) if params[:paid_nothing]
-    @memberships = @memberships.where('this.paid < this.requested_contribution') if params[:more_to_pay]
-    @memberships = @memberships.where('this.paid == this.requested_contribution') if params[:no_more_to_pay]
-    @memberships = @memberships.where('this.paid > this.requested_contribution') if params[:overpaid]    
-    @memberships = @memberships.where(:account_id.in => @group.shifts.pluck(:account_id)) if params[:shifts]
-    @memberships = @memberships.where(:account_id.nin => @group.shifts.pluck(:account_id)) if params[:no_shifts]      
-    @memberships = @memberships.where(:account_id.nin => @group.teamships.where(:team_id.nin => @group.teams.where(name: 'General').pluck(:id)).pluck(:account_id)) if params[:no_teams]
-    @memberships = @memberships.where(:account_id.nin => @group.tierships.pluck(:account_id)) if params[:no_tier]     
-    @memberships = @memberships.where(:account_id.nin => @group.accomships.pluck(:account_id)) if params[:no_accom]     
-    @memberships = @memberships.where(:member_of_facebook_group => true) if params[:member_of_facebook_group]
-    @memberships = @memberships.where(:member_of_facebook_group.ne => true) if params[:not_member_of_facebook_group]
-    @memberships = @memberships.where(:desired_threshold.ne => nil) if params[:threshold]
+    @memberships = @group.memberships    
+    @group.radio_scopes.select { |k,v,t,r| params[k] == v.to_s && params[k] != 'all' }.each { |k,v,t,r|
+      @memberships = @memberships.where(:id.in => r.pluck(:id))
+    }    
+    @group.check_box_scopes.select { |k,t,r| params[k] }.each { |k,t,r|
+      @memberships = @memberships.where(:id.in => r.pluck(:id))
+    }       
+    @memberships = @memberships.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
     @memberships = @memberships.order('created_at desc')
     case content_type
     when :html        
