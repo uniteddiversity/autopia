@@ -1,4 +1,4 @@
-<% form_for @habit, @habit.new_record? ? '/habits/new' : "/habits/#{@habit.id}/edit", :class => 'my-3 form-horizontal' do  |f| %>
+<% form_for @habit, @habit.new_record? ? '/habits/new' : "/habits/#{@habit.id}/edit" do  |f| %>
   <%= f.text_block :name %>
   <%= f.image_block :image %>
   <%= f.url_block :image_url %>
