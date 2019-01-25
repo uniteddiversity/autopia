@@ -57,7 +57,7 @@
           <% if habit.habit_completions.count == 0
             last_completed = 'Never'
             else; latest_habit_completion = habit.habit_completions.order('date desc').first
-            if latest_habit_completion.date == Date.today
+            if latest_habit_completion.date == Date.current
               last_completed = 'Today'
               else
               last_completed = "#{time_ago_in_words latest_habit_completion.date} ago"

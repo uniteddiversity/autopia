@@ -314,7 +314,7 @@ class Group
       if youngest and oldest
         x << [:p, 'all', 'All ages', memberships]
         (youngest.age.to_s[0].to_i).upto(oldest.age.to_s[0].to_i) do |p| p = "#{p}0".to_i;
-          x << [:p, p, "People in their #{p}s", memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.today-p.years)).where(:date_of_birth.gt => (Date.today-(p+10).years)).pluck(:id))]
+          x << [:p, p, "People in their #{p}s", memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.current-p.years)).where(:date_of_birth.gt => (Date.current-(p+10).years)).pluck(:id))]
         end
       end
     end 

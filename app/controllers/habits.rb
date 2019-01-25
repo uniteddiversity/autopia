@@ -3,8 +3,8 @@ Autopo::App.controller do
   get '/habits' do
     sign_in_required!
     @habit = Habit.new
-    @date = params[:date] ? Date.parse(params[:date]) : Date.today
-    @dates = ((Date.today-4)..Date.today).to_a.reverse 
+    @date = params[:date] ? Date.parse(params[:date]) : Date.current
+    @dates = ((Date.current-4)..Date.current).to_a.reverse 
     erb :'habits/habits'
   end
   
@@ -12,19 +12,19 @@ Autopo::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    @dates = ((Date.today-4)..Date.today).to_a.reverse    
+    @dates = ((Date.current-4)..Date.current).to_a.reverse    
     @accounts = @group.members    
     erb :'habits/group'
   end
   
   get '/habits/network' do
-    @dates = ((Date.today-4)..Date.today).to_a.reverse
+    @dates = ((Date.current-4)..Date.current).to_a.reverse
     @accounts = current_account.network
     partial :'habits/log'
   end
   
   get '/habits/me' do
-    @dates = ((Date.today-4)..Date.today).to_a.reverse
+    @dates = ((Date.current-4)..Date.current).to_a.reverse
     partial :'habits/me'
   end  
   
@@ -49,7 +49,7 @@ Autopo::App.controller do
   get '/habits/:id/block' do
     @habit = Habit.find(params[:id]) || not_found
     halt unless (current_account and @habit.account.id == current_account.id) or @habit.public?
-    @date = params[:date] || Date.today    
+    @date = params[:date] || Date.current    
     partial :'habits/block', :locals => {:habit => @habit, :date => @date}
   end
   

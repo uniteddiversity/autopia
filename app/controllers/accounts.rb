@@ -76,14 +76,14 @@ Autopo::App.controller do
   get '/accounts/:id' do    
     @account = Account.find(params[:id]) || not_found
     @habits = @account.habits.where(public: true).where(:id.in => @account.habit_completions.pluck(:habit_id))
-    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @date = params[:date] ? Date.parse(params[:date]) : Date.current
     erb :'accounts/account'
   end  
   
   get '/accounts/:id/habits' do    
     @account = Account.find(params[:id]) || not_found
     @habits = @account.habits.where(public: true).where(:id.in => @account.habit_completions.pluck(:habit_id))
-    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+    @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @hide_nav = true
     erb :'accounts/habits', :layout => :minimal
   end  
