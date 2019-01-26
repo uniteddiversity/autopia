@@ -18,7 +18,7 @@
   <% case @type; when 'accounts' %>
     <% @accounts.each { |account|  %>
       <li>
-        <div class="search-result-media">
+        <div class="search-result-media" style="height: auto">
           <%= partial :'accounts/square', :locals => {:account => account, :style => 'display: block;'} %>
         </div>
         <div class="search-result-content">
@@ -30,8 +30,8 @@
     <% @groups.each { |group|  %>
       <li>
         <% if group.cover_image %>
-          <div class="search-result-media">
-            <a href="/a/<%=group.slug%>"><img src="<%=group.cover_image.url%>" /></a>
+          <div class="search-result-media" style="height: auto">
+            <a href="/a/<%=group.slug%>"><img src="<%=group.cover_image.thumb('400x400').url%>" /></a>
           </div>
         <% end %>
         <div class="search-result-content">
