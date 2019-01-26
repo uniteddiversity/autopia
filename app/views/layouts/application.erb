@@ -52,8 +52,9 @@
                 <li class="dropdown">
                   <a href="javascript:;" data-toggle="dropdown" class="dropdown-toggle navbar-icon <% if current_account.unread_notifications? %>with-label<% end %>" onclick="$.post('/checked_notifications')">
                     <i class="ti-bell"></i>
-                  </a>
-                  <%= partial :notifications %>
+                  </a>  
+                  <style>#notifications .fa-spin { display: none }</style>
+                  <div id="notifications" data-pagelet-url="/notifications"></div>                                    
                 </li>              
 
                 <li class="dropdown">
