@@ -25,6 +25,7 @@ Autopo::App.controller do
   get '/a/:slug' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    @notifications = @group.notifications.order('created_at desc').page(params[:page])
     if !@membership
       if @group.enable_applications
         redirect "/a/#{@group.slug}/apply"
@@ -34,23 +35,7 @@ Autopo::App.controller do
     end
     erb :'groups/group'
   end  
-  
-  get '/a/:slug/newsfeed' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)    
-    confirmed_membership_required!
-    @notifications = @group.notifications.order('created_at desc').page(params[:page])
-    partial :'groups/newsfeed', :locals => {:notifications => @notifications}   
-  end
-  
-  get '/a/:slug/minifeed' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)        
-    confirmed_membership_required!
-    @notifications = @group.notifications.order('created_at desc').limit(3)
-    partial :'groups/newsfeed', :locals => {:notifications => @notifications, :minifeed => true}
-  end
-  
+      
   get '/a/:slug/todos' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)

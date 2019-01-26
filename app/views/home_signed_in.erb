@@ -1,9 +1,15 @@
-
-<a class="btn btn-primary mb-2 mr-2" href="/a/new"><i class="fa fa-plus-circle"></i> Create a group</a>
-<a class="btn btn-primary mb-2" href="/habits?add=true"><i class="fa fa-plus-circle"></i> Add a habit</a>
-
 <div class="row">
   <div class="col-sm-8">
+
+    <a class="btn btn-primary mb-2 mr-2" href="/a/new">Create a group</a>
+    <a class="btn btn-primary mb-2" href="/habits?add=true">Add a habit</a>
+
+    <div class="mt-3">
+      <%= partial :newsfeed, :locals => {:notifications => @notifications, :include_group_name => true} %>
+    </div>
+
+  </div>  
+  <div class="col-sm-4">
 
     <style>.group h1 { font-size: 26px }</style>
 
@@ -11,19 +17,15 @@
 
       <h2>Your groups</h2>
 
-      <div class="row">
-
-        <% current_account.memberships.sort_by { |membership| membership.group.notifications.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.reverse.each { |membership| group = membership.group %>
-          <div class="col-6 col-sm-4 mb-3">
-            <%= partial :'groups/group', :object => group  %>
-          </div>
+      <div class="list-group mb-3">        
+        <% current_account.memberships.sort_by { |membership| membership.group.notifications.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.reverse.each { |membership| group = membership.group %>       
+          <a href="/a/<%=group.slug%>" class="list-group-item"><%=group.name%></a>
         <% } %>
-
-      </div>  
+      </div>
 
     <% end %>   
 
-    <div style="margin-bottom: 10px">
+    <div class="mb-3">
       <h2>Online now</h2>
       <div class="image-wall">
         <% current_account.network.where(:last_active.gt => 5.minutes.ago).each { |account| %>
@@ -33,7 +35,4 @@
     </div>
 
   </div>  
-  <div class="col-sm-4">
-    <%= partial :'groups/newsfeed', :locals => {:notifications => @notifications, :include_group_name => true} %>
-  </div>
 </div>

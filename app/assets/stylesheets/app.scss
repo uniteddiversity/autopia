@@ -44,10 +44,4 @@ textarea[id=verdict_reason] { height: 6em; }
 .input-group-prepend { height: 2.125rem }
 .badge { border-radius: 0.25rem }
 
-@media (max-width: 767px) {
-  #page-container {
-    padding-top: 2.75rem;
-  }
-}
-
 .alert button.close { font-size: 1rem }

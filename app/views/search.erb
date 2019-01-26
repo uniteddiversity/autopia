@@ -1,0 +1,44 @@
+<form action="/search" id="search-form">
+  <div class="search-input">
+    <a href="javascript:;" onclick="$(this).next().val('').focus()" class="search-close">×</a>
+    <input name="q" type="text" class="form-control input-lg" value="<%=params[:q]%>">  
+  </div>
+  <input type="hidden" name="type" id="type" value="<%=@type%>" />
+</form>
+
+<ul class="search-tab">
+  <% {'People' => 'accounts', 'Groups' => 'groups'}.each { |k,v| %>
+    <li <% if @type == v %> class="active" <% end %> ><a href="javascript:;" onclick="$('#type').val('<%=v%>');
+          $('#search-form').submit()"><%=k%></a></li>
+    <% } %>
+</ul>
+
+<ul class="search-result-list">
+
+  <% case @type; when 'accounts' %>
+    <% @accounts.each { |account|  %>
+      <li>
+        <div class="search-result-media" style="width: auto; height: auto">
+          <%= partial :'accounts/square', :locals => {:account => account, :style => 'display: block; width: 100px'} %>
+        </div>
+        <div class="search-result-content">
+          <h3><a href="/accounts/<%=account.id%>"><%=account.name%></a></h3>
+        </div>
+      </li>
+    <% } %>
+  <% when 'groups' %>
+    <% @groups.each { |group|  %>
+      <li>
+        <% if group.cover_image %>
+          <div class="search-result-media">
+            <img src="<%=group.cover_image.url%>" />
+          </div>
+        <% end %>
+        <div class="search-result-content">
+          <h3><a href="/a/<%=group.slug%>"><%=group.name%></a></h3>
+        </div>
+      </li>
+    <% } %>
+  <% end %>
+
+</ul>

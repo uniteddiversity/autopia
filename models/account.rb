@@ -15,10 +15,11 @@ class Account
   field :crypted_password, :type => String
   field :picture_uid, :type => String
   field :sign_ins, :type => Integer
-  field :sign_in_token, :type => String
-  field :last_active, :type => Time
+  field :sign_in_token, :type => String  
   field :unsubscribed, :type => Boolean
   field :not_on_facebook, :type => Boolean
+  field :last_active, :type => Time
+  field :last_checked_notifications, :type => Time
   
   def self.protected_attributes
     %w{admin}
@@ -126,6 +127,10 @@ class Account
   def picture_thumb_or_gravatar_url
     picture ? picture.thumb('400x400#').url : "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.downcase)}?s=400&d=#{URI::encode("#{ENV['BASE_URI']}/images/silhouette.png")}"
   end  
+  
+  def unread_notifications?
+    last_checked_notifications && network_notifications.order('created_at desc').first.created_at > last_checked_notifications
+  end
     
   has_many :provider_links, :dependent => :destroy
   accepts_nested_attributes_for :provider_links  

@@ -207,7 +207,8 @@ var handleHeaderSearchBar = function () {
       $(this).remove();
     });
   });
-  var searchTags = ['Report', 'Analytic', 'Product', 'Project', 'Sales', 'Mobile App Development', 'Build Website', 'Helper', 'Profile', 'Setting'];
+  // var searchTags = ['Report', 'Analytic', 'Product', 'Project', 'Sales', 'Mobile App Development', 'Build Website', 'Helper', 'Profile', 'Setting']; 
+  var searchTags = []
   $('#header-search').autocomplete({
     source: searchTags,
     minLength: 0

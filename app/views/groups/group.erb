@@ -1,27 +1,33 @@
 
 <%= partial :'groups/header' %>
 
-<p>         
-  <% if @membership.unsubscribed %>
-    <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/subscribe">Turn on email notifications of key events</a>
-  <% else %>
-    <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/unsubscribe">Turn off email notifications of key events</a>
-  <% end %>       
-  <% if @membership.hide_from_sidebar %>
-    <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/show_in_sidebar">Show in sidebar</a>
-  <% else %>
-    <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/hide_from_sidebar">Hide from sidebar</a>
-  <% end %>           
-  <a class="btn btn-outline-primary mb-1" data-confirm="Are you sure you want to leave the group?" href="/a/<%=@group.slug%>/leave">Leave group</a>
-</p>
-
-<p class="lead">
-  Non-members can <%=  @group.enable_applications ? 'apply' : 'join' %> at <a href="<%="#{ENV['BASE_URI']}/a/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%>"><%="#{ENV['BASE_URI']}/a/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%></a>
-</p>
-
 <div class="row">
-  <div class="col-sm-6">
-    <div data-pagelet-url="/a/<%=@group.slug%>/todos" style="margin-top: 20px">
+  <div class="col-sm-8">
+
+    <p>         
+      <% if @membership.unsubscribed %>
+        <a class="btn btn-primary mb-1" href="/a/<%=@group.slug%>/subscribe"><i class="fa fa-bell-slash-o"></i> Email notifications off</a>
+      <% else %>
+        <a class="btn btn-primary mb-1" href="/a/<%=@group.slug%>/unsubscribe"><i class="fa fa-bell-o"></i> Email notifications on</a>
+      <% end %>       
+      <% if @membership.hide_from_sidebar %>
+        <a class="btn btn-primary mb-1" href="/a/<%=@group.slug%>/show_in_sidebar">Show in sidebar</a>
+      <% else %>
+        <a class="btn btn-primary mb-1" href="/a/<%=@group.slug%>/hide_from_sidebar">Hide from sidebar</a>
+      <% end %>           
+      <a class="btn btn-primary mb-1" data-confirm="Are you sure you want to leave the group?" href="/a/<%=@group.slug%>/leave">Leave group</a>
+    </p>
+
+    <p class="lead">
+      Non-members can <%=  @group.enable_applications ? 'apply' : 'join' %> at <a href="<%="#{ENV['BASE_URI']}/a/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%>"><%="#{ENV['BASE_URI']}/a/#{@group.slug}/#{@group.enable_applications ? 'apply' : 'join'}"%></a>
+    </p>    
+
+    <%= partial :newsfeed, :locals => {:notifications => @notifications, :include_group_name => false} %>
+
+  </div>  
+  <div class="col-sm-4">
+
+    <div data-pagelet-url="/a/<%=@group.slug%>/todos">
       <%= partial :'groups/todos' %>
     </div>    
     <% if @group.intro_for_members %>  
@@ -39,8 +45,5 @@
       <div class="fb-group mt-3" data-href="<%=@group.facebook_group_url%>" data-width="300" data-show-social-context="true" data-show-metadata="false"></div>
     <% end %>
 
-  </div>  
-  <div class="col-sm-6">
-    <div data-pagelet-url="/a/<%=@group.slug%>/newsfeed" data-pusher-channel="notifications.<%=@group.slug%>" style="margin-top: 10px"></div>
   </div>
 </div>

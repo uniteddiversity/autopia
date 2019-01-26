@@ -1,0 +1,29 @@
+<ul class="fa-ul" id="notifications">
+  <% notifications.each_with_index { |notification,i| %>
+    <li>      
+
+      <i class="fa fa-li <%=notification.icon%>"></i>
+      <% if include_group_name %>
+      <strong><a class="text-dark" href="/a/<%=notification.group.slug%>"><%= notification.group.name %></a></strong>
+      <% else %>      
+        <a href="<%= notification.link[1] %>"><%= notification.sentence %></a>
+      <% end %>
+      <span style="font-size: 11px" class="text-muted"><%= timeago(notification.created_at) %></span>      
+
+      <% if include_group_name %>
+        <p class="my-0 mt-1">
+          <a href="<%= notification.link[1] %>"><%= notification.sentence %></a>
+        </p>
+      <% end %>
+
+      <% if notification.type == 'commented' %>
+        <blockquote class="my-2 p-2 border-light" style="border-left-width: 4px; border-left-style: solid"><%=notification.notifiable.body %></blockquote>
+      <% end %>
+
+      <hr class="my-3 border-light" />
+
+    </li>
+  <% } %>
+</ul>
+
+<%= will_paginate notifications, :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
