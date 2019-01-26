@@ -7,8 +7,7 @@ class Comment
   belongs_to :post, index: true
   
   belongs_to :commentable, polymorphic: true, index: true
-
-  field :subject, :type => String  
+ 
   field :body, :type => String 
   field :file_uid, :type => String
   
@@ -91,11 +90,11 @@ class Comment
       end
       s << '] '
     end
-    if first_in_post.subject
+    if post.subject
       if first_in_post?
-        s << subject
+        s << post.subject
       else
-        s << "Re: #{first_in_post.subject}"
+        s << "Re: #{post.subject}"
       end
     else
       s << Nokogiri::HTML(description).text
@@ -133,7 +132,6 @@ class Comment
 
   def self.admin_fields
     {
-      :subject => :text,
       :body => :text_area,
       :file => :file,
       :account_id => :lookup,

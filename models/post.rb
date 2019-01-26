@@ -2,8 +2,9 @@ class Post
   include Mongoid::Document
   include Mongoid::Timestamps
   
-  belongs_to :account, index: true
+  field :subject, :type => String
   
+  belongs_to :account, index: true  
   belongs_to :commentable, polymorphic: true, index: true
 
   has_many :subscriptions, :dependent => :destroy
@@ -19,8 +20,9 @@ class Post
   end  
   
   def self.admin_fields
-    {
+    {      
       :id => {:type => :text, :edit => false},
+      :subject => :text,
       :account_id => :lookup,
       :commentable_id => :text,
       :commentable_type => :select,

@@ -15,10 +15,11 @@ Autopo::App.controller do
   
   post '/comment' do
     @commentable = params[:comment][:commentable_type].constantize.find(params[:comment][:commentable_id])        
+    subject = params[:comment].delete(:subject)
     @comment = @commentable.comments.build(params[:comment])
     @comment.account = current_account
     if !@comment.post
-      @post = @commentable.posts.create!(account: current_account)
+      @post = @commentable.posts.create!(account: current_account, subject: subject)
       @comment.post = @post
     end
     if @comment.save

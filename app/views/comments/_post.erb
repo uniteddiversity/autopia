@@ -2,9 +2,9 @@
 <% comment.read_receipts.create account: current_account %>
 
 <div class="card mb-5" id="post-<%=post.id%>">
-  <% if comment.subject %>
+  <% if post.subject %>
     <div class="card-header text-white bg-primary">
-      <h4 class="mb-0"><%=comment.subject%></h4>
+      <h4 class="mb-0"><%=post.subject%></h4>
     </div>
   <% end %>
   <div class="card-body p-0">

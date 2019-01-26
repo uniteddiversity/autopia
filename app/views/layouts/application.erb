@@ -50,7 +50,7 @@
                 </li>              
 
                 <li class="dropdown">
-                  <a id="notification-bell" href="javascript:;" data-toggle="dropdown" class="dropdown-toggle navbar-icon" onclick="$.post('/checked_notifications')">
+                  <a id="notification-bell" href="javascript:;" data-toggle="dropdown" class="dropdown-toggle navbar-icon" onclick="$(this).removeClass('with-label'); $.post('/checked_notifications')">
                     <i class="ti-bell"></i>
                   </a>  
                   <style>#notifications .fa-spin { display: none }</style>
