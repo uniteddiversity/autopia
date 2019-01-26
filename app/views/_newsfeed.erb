@@ -26,4 +26,4 @@
   <% } %>
 </ul>
 
-<%= will_paginate notifications, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+<%= will_paginate notifications, :inner_window => 2, :outer_window => 2, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
