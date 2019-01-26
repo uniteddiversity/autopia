@@ -85,9 +85,9 @@ module Autopo
       @type = params[:type] || 'accounts'
       case @type
       when 'groups'
-        @groups = Group.where(:id.in => current_account.memberships.pluck(:group_id)).where({name: /#{::Regexp.escape(params[:q])}/i})
+        @groups = Group.where({name: /#{::Regexp.escape(params[:q])}/i})
       else
-        @accounts = current_account.network.or({name: /#{::Regexp.escape(params[:q])}/i}, {email: /#{::Regexp.escape(params[:q])}/i})
+        @accounts = Account.or({name: /#{::Regexp.escape(params[:q])}/i}, {email: /#{::Regexp.escape(params[:q])}/i})
       end
       erb :search
     end
