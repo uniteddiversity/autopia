@@ -92,7 +92,7 @@ module Autopo
       when 'groups'
         @groups = Group.where({name: /#{::Regexp.escape(params[:q])}/i})
       else
-        @accounts = Account.or({name: /#{::Regexp.escape(params[:q])}/i}, {email: /#{::Regexp.escape(params[:q])}/i})
+        @accounts = Account.or({name: /#{::Regexp.escape(params[:q])}/i}, {email: /#{::Regexp.escape(params[:q])}/i}).order('last_active desc')
       end
       erb :search
     end
