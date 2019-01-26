@@ -18,8 +18,8 @@
   <% case @type; when 'accounts' %>
     <% @accounts.each { |account|  %>
       <li>
-        <div class="search-result-media" style="width: auto; height: auto">
-          <%= partial :'accounts/square', :locals => {:account => account, :style => 'display: block; width: 100px'} %>
+        <div class="search-result-media">
+          <%= partial :'accounts/square', :locals => {:account => account, :style => 'display: block;'} %>
         </div>
         <div class="search-result-content">
           <h3><a href="/accounts/<%=account.id%>"><%=account.name%></a></h3>
