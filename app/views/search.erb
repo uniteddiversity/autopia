@@ -31,7 +31,7 @@
       <li>
         <% if group.cover_image %>
           <div class="search-result-media">
-            <img src="<%=group.cover_image.url%>" />
+            <a href="/a/<%=group.slug%>"><img src="<%=group.cover_image.url%>" /></a>
           </div>
         <% end %>
         <div class="search-result-content">
