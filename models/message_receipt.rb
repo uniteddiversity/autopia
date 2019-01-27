@@ -6,7 +6,7 @@ class MessageReceipt
   belongs_to :messengee, class_name: "Account", inverse_of: :message_receipts_as_massangee, index: true
   
   validates_uniqueness_of :messenger, :scope => :messengee
-  
+    
   def self.admin_fields
     {
     	:messenger_id => :lookup,

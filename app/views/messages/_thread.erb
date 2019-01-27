@@ -17,7 +17,8 @@
 <div class="message-thread p-1">
   <ul class="widget-chat">
 
-    <% Message.or({:messenger => current_account, :messengee_id => @account},{:messenger => @account, :messengee_id => current_account}).order('created_at asc').each { |message| %>
+    <% messages = Message.or({:messenger => current_account, :messengee_id => @account},{:messenger => @account, :messengee_id => current_account}).order('created_at asc') %>
+    <% messages.each_with_index { |message,i| %>
       <% if message.messenger_id == @account.id %>
         <li>              
           <div class="widget-chat-media">
@@ -35,7 +36,12 @@
             <div class="widget-chat-message last" data-toggle="tooltip" title="<%=message.created_at%>">
               <%=message.body%>
             </div>
-          </div>
+            <% if i == messages.count-1 && (message_receipt = MessageReceipt.find_by(messenger: current_account, messengee: @account)) && message_receipt.created_at > message.created_at %>
+              <div class="widget-chat-status">
+                <b>Read</b> <%=timeago(message_receipt.created_at)%>
+              </div>            
+            <% end %>     
+          </div>     
         </li>
       <% end %>
     <% } %>
