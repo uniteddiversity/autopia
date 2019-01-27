@@ -1,5 +1,5 @@
 <div style="margin-top: 10px">
-  <% comment.options.each { |option| %>
+  <% comment.options.order('text asc').each { |option| %>
     <div style="margin-bottom: 5px">
       <% form_tag "/options/#{option.id}/vote" do %>
         <label style="background: #e9ecef; padding: 5px; margin: 0; display: inline-block ">
