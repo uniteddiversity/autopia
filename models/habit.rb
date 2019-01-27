@@ -46,6 +46,12 @@ class Habit
     }
   end
   
+  def self.human_attribute_name(attr, options={})  
+    {
+      :image_url => 'Image URL',
+    }[attr.to_sym] || super  
+  end    
+  
   def self.edit_tips
     self.new_tips
   end
