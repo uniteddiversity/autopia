@@ -35,7 +35,7 @@ class Message
   
   after_create :send_email  
   def send_email
-    if ENV['SMTP_ADDRESS'] and !messengee.unsubscribed?
+    if ENV['SMTP_ADDRESS'] and !messengee.unsubscribed_messages?
       message = self
       messenger = message.messenger      
       messengee = message.messengee
