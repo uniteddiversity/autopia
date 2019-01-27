@@ -24,33 +24,18 @@ Autopo::App.controller do
     end
     if @comment.save
       request.xhr? ? 200 : redirect(back)
-        # redirect("/a/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}#post-#{@comment.post_id}")
     else
       @post.destroy if @post
-      flash[:error] = 'There was an error saving the comment'
-      erb :'comments/comment_build'
+      request.xhr? ? 400 : redirect(back)
     end
   end  
-    
-  get '/comments/:id/edit' do
-    @comment = Comment.find(params[:id]) || not_found
-    @commentable = @comment.commentable
-    halt unless @comment.account.id == current_account.id or @membership.admin?
-    @show_buttons = true
-    erb :'comments/comment_build'
-  end
   
   post '/comments/:id/edit' do
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
     halt unless @comment.account.id == current_account.id or @membership.admin?
-    if @comment.update_attributes(params[:comment])
-      redirect back
-      # redirect "/a/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}#post-#{@comment.post_id}"
-    else
-      flash[:error] = 'There was an error saving the comment'
-      erb :'comments/comment_build'
-    end
+    @comment.update_attribute(:body, params[:body])
+    200
   end  
   
   get '/comments/:id/destroy' do
@@ -58,8 +43,7 @@ Autopo::App.controller do
     @commentable = @comment.commentable
     halt unless @comment.account.id == current_account.id or @membership.admin?
     @comment.destroy
-    redirect back
-    # redirect "/a/#{@group.slug}/#{@comment.commentable_type.underscore.pluralize}/#{@comment.commentable_id}"
+    redirect back    
   end  
   
   get '/comments/:id/likes' do

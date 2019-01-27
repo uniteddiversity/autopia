@@ -2,6 +2,15 @@
 
 var LOADING = '<i class="my-3 fa fa-spin fa-circle-o-notch"></i>'
 
+function nl2br(str) {
+  return str.replace(/(?:\r\n|\r|\n)/g, '<br>');
+}
+
+function br2nl(str) {
+  return str.replace(/<br>/g, "\r\n");
+}
+
+
 $(function () {
 
   function addPlaceholders() {
@@ -14,7 +23,7 @@ $(function () {
 
   function tooltip() {
     $('[data-toggle="tooltip"]').tooltip({
-      html: true,      
+      html: true,
       title: function () {
         if ($(this).attr('title').length > 0)
           return $(this).attr('title')

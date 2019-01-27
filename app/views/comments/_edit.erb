@@ -1,0 +1,23 @@
+<script>
+  $(function () {
+
+    $('#comment-edit-<%=comment.id%>').click(function () {
+      var textarea = $('<textarea class="form-control"></textarea>');
+      var comment = $(this).closest('.comment')
+      var commentBody = comment.find('.comment-body')
+      var destroy = $('<a class="btn btn-danger btn-sm text-white my-1">Delete</a>')
+      destroy.attr('href', '/comments/' + comment.attr('data-comment-id') + '/destroy')
+
+      textarea.insertAfter(commentBody).val(br2nl(commentBody.html().trim()))
+      destroy.insertAfter(textarea)
+      commentBody.hide()
+      textarea.blur(function () {
+        $.post('/comments/' + comment.attr('data-comment-id') + '/edit', {body: textarea.val()})
+        commentBody.html(nl2br(textarea.val())).show()
+        textarea.remove()
+        destroy.remove()
+      })
+    })
+
+  })
+</script>
