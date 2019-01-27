@@ -4,13 +4,17 @@ Autopo::App.controller do
     sign_in_required!
   end
     
-  get '/messages' do
-    message = current_account.messages.order('created_at desc').first
-    if message
-      account = (current_account == message.messenger ? message.messengee : message.messenger)
-      redirect "/messages/#{account.id}"
-    else
-      redirect '/search'
+  get '/messages' do    
+    if request.xhr?
+      partial :'messages/dropdown'
+    else   
+      message = current_account.messages.order('created_at desc').first
+      if message
+        account = (current_account == message.messenger ? message.messengee : message.messenger)
+        redirect "/messages/#{account.id}"
+      else
+        redirect '/search'
+      end
     end
   end
   
@@ -20,8 +24,8 @@ Autopo::App.controller do
       flash[:notice] = "You can't message yourself"
       redirect '/messages'
     end
-    MessageReceipt.find_by(messenger: @account, messengee: current_account).try(:destroy)
-    MessageReceipt.create!(messenger: @account, messengee: current_account)
+    message_receipt = MessageReceipt.find_by(messenger: @account, messengee: current_account) || MessageReceipt.create!(messenger: @account, messengee: current_account)
+    message_receipt.set(created_at: Time.now)    
     if request.xhr?
       partial :'messages/thread'
     else    

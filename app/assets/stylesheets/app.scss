@@ -26,8 +26,8 @@
 .subtle.active, .subtle:hover { color: $color_primary !important }
 .habit-completion-likes a:hover { color: $color_grey_hover !important }
 
-.select-message:hover, .select-message.active { background: $color_muted_transparent_3 }
-.select-message.unread { border: 1px solid $color_primary }
+.message-preview:hover, .message-preview.active { background: $color_muted_transparent_3 }
+.message-preview.unread { background: $color_primary_transparent_2 !important }
 
 .table-hr td:first-child { width: 1px; white-space: nowrap; font-weight: bold; padding-right: 1rem; }
 .table-hr td { border: 0 !important; border-bottom: 0.1rem solid #eee !important; }

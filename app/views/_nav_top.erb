@@ -1,0 +1,54 @@
+<ul class="nav navbar-nav navbar-right">
+
+  <% if current_account %>
+
+    <li>
+      <a href="javascript:;" data-toggle="search-bar" class="navbar-icon">
+        <i class="ti-search"></i>
+      </a>
+    </li>              
+
+    <li class="dropdown">
+      <a id="notifications-a" href="javascript:;" data-toggle="dropdown" class="dropdown-toggle navbar-icon" onclick="$(this).removeClass('with-label');
+          $.post('/checked_notifications')">
+        <i class="ti-bell"></i>
+      </a>  
+      <style>#notifications .fa-spin { display: none }</style>
+      <div id="notifications" data-pagelet-url="/notifications"></div>
+    </li>              
+
+    <li class="dropdown">
+      <a id="messages-a" href="javascript:;" data-toggle="dropdown" class="dropdown-toggle navbar-icon" onclick="$(this).removeClass('with-label');">
+        <i class="ti-comment"></i>
+      </a>  
+      <style>#messages .fa-spin { display: none }</style>
+      <div id="messages" data-pagelet-url="/messages"></div>                  
+    </li>                 
+
+    <li class="dropdown">
+      <a href="javascript:;" data-toggle="dropdown">
+        <span class="navbar-user-img online pull-left">
+          <img src="<%=current_account.picture_thumb_or_gravatar_url %>" />
+        </span>
+        <span class="hidden-xs "><%=current_account.name%> <b class="caret"></b></span>
+      </a>
+
+      <%= partial :'nav_profile', locals: {ul_class: 'dropdown-menu'} %>
+
+    </li>
+  <% else %>
+
+    <li>
+      <a href="/accounts/sign_up">
+        Sign up
+      </a>
+    </li>                
+
+    <li>
+      <a href="/accounts/sign_in">
+        Sign in
+      </a>
+    </li>                                
+
+  <% end %>
+</ul>
