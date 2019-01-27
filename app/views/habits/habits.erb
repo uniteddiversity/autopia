@@ -14,10 +14,17 @@
   })
 </script>
 
-<a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><i class="fa fa-plus-circle"></i> Add habit</a>
+<a id="add-habit" class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><i class="fa fa-plus-circle"></i> Add habit</a>
 <div style="display: none">
   <%= partial :'habits/build' %>
 </div>
+<% if params[:add] %>
+  <script>
+    $(function () {
+      $('#add-habit').click().next().find('input').first().focus()
+    })
+  </script>
+<% end %>
 
 <div class="row">
 
