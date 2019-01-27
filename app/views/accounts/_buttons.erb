@@ -8,5 +8,5 @@
 <% end %>
 
 <% unless current_account == account %>
-  <a target="_blank" href="/messages/<%=account.id%>" class="<%=btn_class if defined?(btn_class)%> btn btn-outline-primary mt-1"><i class="ti-comment"></i> Message</a>
+  <a href="/messages/<%=account.id%>" class="<%=btn_class if defined?(btn_class)%> btn btn-outline-primary mt-1"><i class="ti-comment"></i> Message</a>
 <% end %>
