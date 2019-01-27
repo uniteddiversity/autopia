@@ -38,7 +38,7 @@ $(function () {
   }
 
   function datepickers() {
-    $(".datepicker").flatpickr({altInput: true, altFormat: 'J F Y'});
+    $(".datepicker").datepicker({format: 'yyyy-mm-dd'});
     $(".datetimepicker").flatpickr({altInput: true, altFormat: 'J F Y, H:i', enableTime: true, time_24hr: true});
   }
 

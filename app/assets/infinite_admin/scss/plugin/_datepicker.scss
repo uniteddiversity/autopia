@@ -126,7 +126,7 @@ body .datepicker table tr td span.active:hover:active,
 body .datepicker table tr td span.active:hover:hover, 
 body .datepicker table tr td span.active:hover[disabled], 
 body .datepicker table tr td span.active[disabled] {
-	background: $color_danger;
+	background: $color_primary;
 	border-color: $color_white;
 	text-shadow: none;
 	color: $color_white;
@@ -137,7 +137,7 @@ body .datepicker thead + tbody > tr:first-child {
 body .datepicker .datepicker-switch {
 	font-weight: 300;
 	font-size: 1.25rem;
-	color: $color_danger;
+	color: $color_primary;
 	width: 100%;
 }
 body .datepicker-inline {
