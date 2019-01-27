@@ -8,7 +8,7 @@
   </div>
 </td>
 <td>
-  <%= partial :vibe, :locals => {:account => account, :btn_class => 'btn-sm'} %>
+  <%= partial :'accounts/buttons', :locals => {:account => account, :btn_class => 'btn-sm'} %>
 </td>
 <td>
   <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : '' %>
