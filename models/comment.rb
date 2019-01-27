@@ -53,9 +53,9 @@ class Comment
       "<strong>#{account.name}</strong> commented on <strong>#{commentable.account.name}</strong>'s application"                  
     else
       if post.comments.count == 1
-        "<strong>#{account.name}</strong> posted in <strong>#{commentable.name}</strong>"                  
+        "<strong>#{account.name}</strong> started a thread"                  
       else
-        "<strong>#{account.name}</strong> replied to a thread in <strong>#{commentable.name}</strong>"                  
+        "<strong>#{account.name}</strong> replied"                  
       end
     end      
   end
