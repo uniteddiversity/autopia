@@ -44,7 +44,7 @@ class Message
       mail = Mail.new
       mail.to = messengee.email
       mail.from = "#{messenger.name} <#{messenger.email}>"
-      mail.subject = "Message from #{messenger.name} via Autopo"
+      mail.subject = "[Autopo] Message from #{messenger.name}"
             
       content = ERB.new(File.read(Padrino.root('app/views/emails/message.erb'))).result(binding)
       html_part = Mail::Part.new do
