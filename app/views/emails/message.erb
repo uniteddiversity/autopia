@@ -1,6 +1,6 @@
 <p>
   <strong><%=messanger.name%></strong> sent you a message via Autopo.
-  <a href="<%=ENV['BASE_URI']%>/accounts/<%=messanger.id%>">View <%=messanger.firstname%>'s profile</a>
+  <a href="<%=ENV['BASE_URI']%>/messages/<%=messanger.id%>">View your message history with <%=messanger.firstname%></a>
 </p>
 
 <p><%=message.body.gsub("\n","<br />")%></p>
