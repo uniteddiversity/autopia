@@ -63,8 +63,8 @@
                      <%
                      messages = current_account.messages.order('created_at desc')
                      if message = messages.first
-                       account = (current_account == message.messanger ? message.messangee : message.messanger) 
-                       if account == message.messanger && Message.unread?(account, current_account)
+                       account = (current_account == message.messenger ? message.messengee : message.messenger) 
+                       if account == message.messenger && Message.unread?(account, current_account)
                        %>
                          with-label
                        <% end; end %>

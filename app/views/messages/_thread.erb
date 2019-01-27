@@ -17,8 +17,8 @@
 <div class="message-thread">
   <ul class="widget-chat">
 
-    <% Message.or({:messanger => current_account, :messangee_id => @account},{:messanger => @account, :messangee_id => current_account}).order('created_at asc').each { |message| %>
-      <% if message.messanger_id == @account.id %>
+    <% Message.or({:messenger => current_account, :messengee_id => @account},{:messenger => @account, :messengee_id => current_account}).order('created_at asc').each { |message| %>
+      <% if message.messenger_id == @account.id %>
         <li>              
           <div class="widget-chat-media">
             <%= partial :'accounts/square', :locals => {:account => @account, :style => 'display: block; width: 64px'} %>

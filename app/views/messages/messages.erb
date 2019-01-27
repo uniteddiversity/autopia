@@ -3,11 +3,11 @@
   <% if current_account.messages.count > 0 %>
     <div class="col-sm-3">
 
-      <% messanger_ids = [] %>
+      <% messenger_ids = [] %>
       <% current_account.messages.order('created_at desc').each { |message| %>      
-        <% account = (current_account == message.messanger ? message.messangee : message.messanger) %>      
-        <% next if messanger_ids.include?(account.id) %>
-        <a class="p-2 select-message d-block mb-2 text-dark <% if account.id == @account.id %>active <% end %> <% if account.id == message.messanger_id && Message.unread?(account, current_account) %> unread <% end %>" style="text-decoration: none" href="/messages/<%=account.id%>">
+        <% account = (current_account == message.messenger ? message.messengee : message.messenger) %>      
+        <% next if messenger_ids.include?(account.id) %>
+        <a class="p-2 select-message d-block mb-2 text-dark <% if account.id == @account.id %>active <% end %> <% if account.id == message.messenger_id && Message.unread?(account, current_account) %> unread <% end %>" style="text-decoration: none" href="/messages/<%=account.id%>">
           <div class="media">
             <%= partial :'accounts/square', :locals => {:account => account, :content => (account.last_active ? "Active #{time_ago_in_words account.last_active} ago" : "Never logged in"), :style => 'display: block; width: 64px'} %>
             <div class="media-body ml-3">            
@@ -17,14 +17,14 @@
             </div>
           </div>
         </a>
-        <% messanger_ids << account.id } %>
+        <% messenger_ids << account.id } %>
 
     </div>
   <% end %>
   <div class="<% if current_account.messages.count > 0 %>col-sm-9<% else %>col-sm-12<% end %>">
 
     <% if @account %>
-      <div data-pagelet-url="/messages/<%=@account.id%>"></div>
+      <div data-pagelet-url="/messages/<%=@account.id%>" data-pusher-channel="message.<%=@account.id%>.<%=current_account.id%>"></div>
     <% end %>
 
   </div>
