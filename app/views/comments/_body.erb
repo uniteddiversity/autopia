@@ -1,0 +1,11 @@
+<div class="comment-body">
+  <%= Rinku.auto_link(comment.body.gsub("\n","<br />")) %>
+</div>
+
+<% if comment.first_in_post? %>
+  <div data-pagelet-url="/comments/<%=comment.id%>/options">
+    <%= partial :'comments/options', :locals => {:comment => comment} %>
+  </div>
+
+  <%= partial :'comments/file', :locals => {:comment => comment} %>
+<% end %>

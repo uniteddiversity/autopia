@@ -17,8 +17,8 @@
       <% end %>
     </small>
 
-    <div class="comment-body mb-3">
-      <%= Rinku.auto_link(comment.body.gsub("\n","<br />")) %>
+    <div class="mb-3">
+      <%= partial :'comments/body', :locals => {:comment => comment} %>
     </div>
 
     <div style="background: #e9ecef; font-size: 12px;">
