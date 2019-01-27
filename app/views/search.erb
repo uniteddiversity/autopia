@@ -13,6 +13,8 @@
     <% } %>
 </ul>
 
+<% if params[:q] %>
+
 <ul class="search-result-list">
 
   <% case @type; when 'accounts' %>
@@ -47,3 +49,5 @@
   <% end %>
 
 </ul>
+
+<% end %>

@@ -88,11 +88,13 @@ module Autopo
     get '/search' do
       sign_in_required!  
       @type = params[:type] || 'accounts'
-      case @type
-      when 'groups'
-        @groups = Group.where({name: /#{::Regexp.escape(params[:q])}/i})
-      else
-        @accounts = Account.or({name: /#{::Regexp.escape(params[:q])}/i}, {email: /#{::Regexp.escape(params[:q])}/i}).order('last_active desc')
+      if params[:q]
+        case @type
+        when 'groups'
+          @groups = Group.where({name: /#{::Regexp.escape(params[:q])}/i})
+        else
+          @accounts = Account.or({name: /#{::Regexp.escape(params[:q])}/i}, {email: /#{::Regexp.escape(params[:q])}/i}).order('last_active desc')
+        end
       end
       erb :search
     end
