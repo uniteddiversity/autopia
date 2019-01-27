@@ -1,13 +1,17 @@
 <% messenger_ids = [] %>
+<% m = 0 %>
 
 <ul class="dropdown-menu dropdown-lg no-padding">
   <% current_account.messages.order('created_at desc').each_with_index { |message,i| %>      
     <% account = (current_account == message.messenger ? message.messengee : message.messenger) # the other person %>      
     <% next if messenger_ids.include?(account.id) %>
+    <% m += 1 %>
     <li class="notification">
       <%= partial :'messages/preview', :locals => {:message => message} %>
     </li>
-    <% messenger_ids << account.id } %>
+    <% messenger_ids << account.id %>
+    <% break if m == 2 %>
+  <% } %>
   <li class="text-center"><a href="/messages">All messages &#10142;</a></li>
 </ul>
 
