@@ -22,7 +22,7 @@
           <a href="/a/<%=group.slug%>" class="list-group-item">
             <%=group.name%>
             <% if change = group.notifications.order('created_at desc').first.try(:created_at) %>
-              Active <span style="font-size: 11px" class="text-muted"><%= timeago(change) %></span>      
+              <span style="font-size: 11px" class="text-muted">Active <%= timeago(change) %></span>      
             <% end %>          
           </a>
         <% } %>
