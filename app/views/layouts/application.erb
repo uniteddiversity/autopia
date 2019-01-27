@@ -50,12 +50,29 @@
                 </li>              
 
                 <li class="dropdown">
-                  <a id="notification-bell" href="javascript:;" data-toggle="dropdown" class="dropdown-toggle navbar-icon" onclick="$(this).removeClass('with-label'); $.post('/checked_notifications')">
+                  <a id="notification-bell" href="javascript:;" data-toggle="dropdown" class="dropdown-toggle navbar-icon" onclick="$(this).removeClass('with-label');
+                      $.post('/checked_notifications')">
                     <i class="ti-bell"></i>
                   </a>  
                   <style>#notifications .fa-spin { display: none }</style>
                   <div id="notifications" data-pagelet-url="/notifications"></div>                                    
                 </li>              
+
+                <li>
+                  <a href="/messages" class="navbar-icon
+                     <%
+                     messages = current_account.messages.order('created_at desc')
+                     if message = messages.first
+                       account = (current_account == message.messanger ? message.messangee : message.messanger) 
+                       if account == message.messanger && Message.unread?(account, current_account)
+                       %>
+                         with-label
+                       <% end; end %>
+
+                     ">
+                    <i class="ti-comment"></i>
+                  </a>
+                </li>                 
 
                 <li class="dropdown">
                   <a href="javascript:;" data-toggle="dropdown">

@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-sm-3">
+
+    <% messanger_ids = [] %>
+    <% current_account.messages.order('created_at desc').each { |message| %>      
+      <% account = (current_account == message.messanger ? message.messangee : message.messanger) %>      
+      <% next if messanger_ids.include?(account.id) %>
+      <a class="p-2 select-message d-block mb-2 text-dark <% if account.id == @account.id %>active <% end %> <% if account == message.messanger && Message.unread?(account, current_account) %> unread <% end %>" style="text-decoration: none" href="/messages/<%=account.id%>">
+        <div class="media">
+          <%= partial :'accounts/square', :locals => {:account => account, :content => (account.last_active ? "Active #{time_ago_in_words account.last_active} ago" : "Never logged in"), :style => 'display: block; width: 64px'} %>
+          <div class="media-body ml-3">            
+            <h5 class="my-0"><%=account.name%></h5>
+            <p class="text-muted"><%=message.body%></p>
+            <p class="mb-0 float-right"><%=timeago(message.created_at)%></p>          
+          </div>
+        </div>
+      </a>
+      <% messanger_ids << account.id } %>
+
+  </div>
+  <div class="col-sm-9">
+
+    <% if @account %>
+
+      <div class="media mb-3">
+        <%= partial :'accounts/square', :locals => {:account => @account, :content => (@account.last_active ? "Active #{time_ago_in_words @account.last_active} ago" : "Never logged in"), :style => 'display: block; width: 64px'} %>
+        <div class="media-body ml-3">            
+          <h4 class="my-0"><%=@account.name%></h4>
+        </div>
+      </div>    
+
+      <div class="widget-body">
+        <ul class="widget-chat">
+
+          <% Message.or({:messanger => current_account, :messangee_id => @account},{:messanger => @account, :messangee_id => current_account}).order('created_at asc').each { |message| %>
+            <% if message.messanger_id == @account.id %>
+              <li>              
+                <div class="widget-chat-media">
+                  <%= partial :'accounts/square', :locals => {:account => @account, :style => 'display: block; width: 64px'} %>
+                </div>
+                <div class="widget-chat-content">                
+                  <div class="widget-chat-message last">
+                    <%=message.body%>
+                  </div>
+                </div>
+              </li>
+            <% else %>
+              <li class="reply">
+                <div class="widget-chat-content">
+                  <div class="widget-chat-message last">
+                    <%=message.body%>
+                  </div>
+                </div>
+              </li>
+            <% end %>
+          <% } %>
+
+          <% form_tag "/messages/#{@account.id}", :class => 'mt-3' do %>
+            <%= text_field_tag :body, :placeholder => 'Type a message...', :class => 'form-control' %>
+          <% end %>
+
+        </ul>
+      </div>
+
+    <% end %>
+
+  </div>
+</div>

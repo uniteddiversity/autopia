@@ -102,6 +102,15 @@ class Account
   # Vibes
   has_many :vibes_as_viber, :class_name => "Vibe", :inverse_of => :viber, :dependent => :destroy
   has_many :vibes_as_vibee, :class_name => "Vibe", :inverse_of => :vibee, :dependent => :destroy
+  # Messages
+  has_many :messages_as_messanger, :class_name => "Message", :inverse_of => :messanger, :dependent => :destroy
+  has_many :messages_as_messangee, :class_name => "Message", :inverse_of => :messangee, :dependent => :destroy  
+  def messages
+    Message.or({:messanger => self},{:messangee => self})
+  end
+  # MessageReceipts
+  has_many :message_receipts_as_messanger, :class_name => "MessageReceipt", :inverse_of => :messanger, :dependent => :destroy
+  has_many :message_receipts_as_messangee, :class_name => "MessageReceipt", :inverse_of => :messangee, :dependent => :destroy
   
   has_many :notifications, as: :notifiable, dependent: :destroy
     
