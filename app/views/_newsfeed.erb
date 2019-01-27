@@ -19,11 +19,12 @@
             </p>
           <% end %>
 
-          <% if notification.type == 'commented' %>
+          <% if notification.type == 'commented'; comment = notification.notifiable %>
             <div class="media ml-2 my-2">
               <%= partial :'accounts/square', :locals => {:account => notification.notifiable.account, :style => 'display: block; width: 32px'} %>
               <div class="media-body ml-2">
-                <%=notification.notifiable.body.gsub("\n","<br />") %>            
+                <%=comment.body.gsub("\n","<br />") %>            
+                <%= partial :'comments/file', :locals => {:comment => comment} %>
               </div>              
             </div>
           <% end %>
