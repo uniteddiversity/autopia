@@ -24,9 +24,9 @@
           <%= partial :'accounts/square', :locals => {:account => account, :style => 'display: block;'} %>
         </div>
         <div class="search-result-content">
-          <h1>
+          <h2>
             <a class="text-dark" href="/accounts/<%=account.id%>"><%=account.name%></a>    
-          </h1>  
+          </h2>  
           <%= partial :'accounts/buttons', :locals => {:account => account} %>          
         </div>
       </li>
@@ -40,9 +40,9 @@
           </div>
         <% end %>
         <div class="search-result-content">
-          <h1>
+          <h2>
             <a class="text-dark" href="/a/<%=group.slug%>"><%=group.name%></a>    
-          </h1>            
+          </h2>            
         </div>
       </li>
     <% } %>
