@@ -1,7 +1,7 @@
 <div class="row">
 
   <% if current_account.messages.count > 0 %>
-    <div class="col-sm-3">
+    <div class="col-md-3">
 
       <% messenger_ids = [] %>
       <% current_account.messages.order('created_at desc').each { |message| %>      
@@ -21,7 +21,7 @@
 
     </div>
   <% end %>
-  <div class="<% if current_account.messages.count > 0 %>col-sm-9<% else %>col-sm-12<% end %>">
+  <div class="<% if current_account.messages.count > 0 %>col-md-9<% else %>col-md-12<% end %>">
 
     <% if @account %>
       <div data-pagelet-url="/messages/<%=@account.id%>" data-pusher-channel="message.<%=@account.id%>.<%=current_account.id%>"></div>
