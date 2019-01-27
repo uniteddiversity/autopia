@@ -13,7 +13,7 @@
       <% if @membership.hide_from_sidebar %>
         <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/show_in_sidebar">Hidden from sidebar</a>
       <% else %>
-        <a class="btn btn-primary mb-1" href="/a/<%=@group.slug%>/hide_from_sidebar">Showing from sidebar</a>
+        <a class="btn btn-primary mb-1" href="/a/<%=@group.slug%>/hide_from_sidebar">Showing in sidebar</a>
       <% end %>           
       <a class="btn btn-primary mb-1" data-confirm="Are you sure you want to leave the group?" href="/a/<%=@group.slug%>/leave">Leave group</a>
     </p>
