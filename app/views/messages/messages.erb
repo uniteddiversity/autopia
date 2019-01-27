@@ -1,24 +1,27 @@
 <div class="row">
-  <div class="col-sm-3">
 
-    <% messanger_ids = [] %>
-    <% current_account.messages.order('created_at desc').each { |message| %>      
-      <% account = (current_account == message.messanger ? message.messangee : message.messanger) %>      
-      <% next if messanger_ids.include?(account.id) %>
-      <a class="p-2 select-message d-block mb-2 text-dark <% if account.id == @account.id %>active <% end %> <% if account.id == message.messanger_id && Message.unread?(account, current_account) %> unread <% end %>" style="text-decoration: none" href="/messages/<%=account.id%>">
-        <div class="media">
-          <%= partial :'accounts/square', :locals => {:account => account, :content => (account.last_active ? "Active #{time_ago_in_words account.last_active} ago" : "Never logged in"), :style => 'display: block; width: 64px'} %>
-          <div class="media-body ml-3">            
-            <h5 class="my-0"><%=account.name%></h5>
-            <p class="text-muted"><%=message.body%></p>
-            <p class="mb-0 float-right"><%=timeago(message.created_at)%></p>          
+  <% if current_account.messages.count > 0 %>
+    <div class="col-sm-3">
+
+      <% messanger_ids = [] %>
+      <% current_account.messages.order('created_at desc').each { |message| %>      
+        <% account = (current_account == message.messanger ? message.messangee : message.messanger) %>      
+        <% next if messanger_ids.include?(account.id) %>
+        <a class="p-2 select-message d-block mb-2 text-dark <% if account.id == @account.id %>active <% end %> <% if account.id == message.messanger_id && Message.unread?(account, current_account) %> unread <% end %>" style="text-decoration: none" href="/messages/<%=account.id%>">
+          <div class="media">
+            <%= partial :'accounts/square', :locals => {:account => account, :content => (account.last_active ? "Active #{time_ago_in_words account.last_active} ago" : "Never logged in"), :style => 'display: block; width: 64px'} %>
+            <div class="media-body ml-3">            
+              <h5 class="my-0"><%=account.name%></h5>
+              <p class="text-muted"><%=message.body%></p>
+              <p class="mb-0 float-right"><%=timeago(message.created_at)%></p>          
+            </div>
           </div>
-        </div>
-      </a>
-      <% messanger_ids << account.id } %>
+        </a>
+        <% messanger_ids << account.id } %>
 
-  </div>
-  <div class="col-sm-9">
+    </div>
+  <% end %>
+  <div class="<% if current_account.messages.count > 0 %>col-sm-9<% else %>col-sm-12<% end %>">
 
     <% if @account %>
 
@@ -32,7 +35,7 @@
       <script>
         $(function () {
           $('.message-thread').slimScroll({
-            height: $(window).height()/2,
+            height: $(window).height() / 2,
             start: 'bottom'
           })
         });
