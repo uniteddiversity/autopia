@@ -9,11 +9,7 @@
       <a class="text-dark" href="/accounts/<%=@account.id%>"><%=@account.name%></a>    
     </h1>   
 
-    <div class="d-inline-block" data-pagelet-url="/vibes/<%=@account.id%>">
-      <%= partial :vibe, :locals => {:account => @account} %>
-    </div>
-
-    <a href="/messages/<%=@account.id%>" class="btn btn-outline-primary"><i class="ti-comment"></i> Message</a>
+    <%= partial :'accounts/buttons', :locals => {:account => @account} %>
 
     <div class="table-hr-container">
       <table class="table table-hr">
