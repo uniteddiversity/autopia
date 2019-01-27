@@ -6,15 +6,6 @@
   </div>
 </div>    
 
-<script>
-  $(function () {
-    $('#thread-scroll').slimScroll({
-      height: $(window).height() / 2,
-      start: 'bottom'
-    })
-    $('#thread-panel').fadeIn()
-  });
-</script>
 <div id="thread-scroll" class="p-1">
   <ul class="widget-chat">
 
@@ -48,3 +39,13 @@
     <% } %>
   </ul>
 </div>
+
+<script>
+  $(function () {
+    $('#thread-scroll').slimScroll({
+      height: $(window).height() / 2,
+      start: 'bottom'
+    })
+    $('#thread-panel').fadeIn()
+  });
+</script>
