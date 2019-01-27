@@ -1,24 +1,34 @@
-<ul class="fa-ul">
+<ul class="list-unstyled">
   <% notifications.each_with_index { |notification,i| %>
-    <li>      
+    <li>    
 
-      <i class="fa fa-li <%=notification.icon%>"></i>
-      <% if include_group_name %>
-      <strong><a class="text-dark" href="/a/<%=notification.group.slug%>"><%= notification.group.name %></a></strong>
-      <% else %>      
-        <a href="<%= notification.link[1] %>"><%= notification.sentence %></a>
-      <% end %>
-      <span style="font-size: 11px" class="text-muted"><%= timeago(notification.created_at) %></span>      
+      <div class="media">
+        <span style="border-radius: 6px; height: 18px; width: 18px" class="text-center bg-primary"><i class="fa <%=notification.icon%>"></i></span>
 
-      <% if include_group_name %>
-        <p class="my-0 mt-1">
-          <a href="<%= notification.link[1] %>"><%= notification.sentence %></a>
-        </p>
-      <% end %>
+        <div class="media-body ml-2">
+          <% if include_group_name %>
+            <strong><a class="text-dark" href="/a/<%=notification.group.slug%>"><%= notification.group.name %></a></strong>
+          <% else %>      
+            <a href="<%= notification.link[1] %>"><%= notification.sentence %></a>
+          <% end %>
+          <span style="font-size: 11px" class="text-muted"><%= timeago(notification.created_at) %></span>      
 
-      <% if notification.type == 'commented' %>
-        <blockquote class="my-2 p-2 border-light" style="border-left-width: 4px; border-left-style: solid"><%=notification.notifiable.body %></blockquote>
-      <% end %>
+          <% if include_group_name %>
+            <p class="my-0 mt-1">
+              <a href="<%= notification.link[1] %>"><%= notification.sentence %></a>
+            </p>
+          <% end %>
+
+          <% if notification.type == 'commented' %>
+            <div class="media ml-2 my-2">
+              <%= partial :'accounts/square', :locals => {:account => notification.notifiable.account, :style => 'display: block; width: 32px'} %>
+              <div class="media-body ml-2">
+                <%=notification.notifiable.body.gsub("\n","<br />") %>            
+              </div>              
+            </div>
+          <% end %>
+        </div>
+      </div>
 
       <hr class="my-3 border-light" />
 
