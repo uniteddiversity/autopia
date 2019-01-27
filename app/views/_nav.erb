@@ -25,21 +25,38 @@
 
   <% end %>
 
-  <li class="<%='active' if request.path == '/'%>">
-    <a href="/">
-      <i class="fa fa-fw fa-dashboard"></i>
-      <span class="nav-link-text">Dashboard</span>
-    </a>
-  </li>
 
-  <li class="<%='active' if request.path == '/a/new'%>">
-    <a href="/a/new">
-      <i class="fa fa-fw fa-plus-circle"></i>
-      <span class="nav-link-text">Create a group</span>
-    </a>
-  </li>      
+  <% if !current_account %>
 
-  <% if current_account %>        
+    <li class="<%='active' if request.path == '/'%>">
+      <a href="/">
+        <i class="fa fa-fw fa-home"></i>
+        <span class="nav-link-text">Home</span>
+      </a>
+    </li>
+
+    <li class="<%='active' if request.path == '/a/new'%>">
+      <a href="/a/new">
+        <i class="fa fa-fw fa-plus-circle"></i>
+        <span class="nav-link-text">Create a group</span>
+      </a>
+    </li>     
+
+  <% else %>
+
+    <li class="<%='active' if request.path == '/'%>">
+      <a href="/">
+        <i class="fa fa-fw fa-newspaper-o"></i>
+        <span class="nav-link-text">Newsfeed</span>
+      </a>
+    </li>
+
+    <li class="<%='active' if request.path == '/a/new'%>">
+      <a href="/a/new">
+        <i class="fa fa-fw fa-plus-circle"></i>
+        <span class="nav-link-text">Create a group</span>
+      </a>
+    </li>    
 
     <li class="nav-divider"></li>
     <li class="nav-header">Groups</li>    
