@@ -2,4 +2,6 @@
   <%= partial :vibe, :locals => {:account => account} %>
 </div>
 
-<a href="/messages/<%=account.id%>" class="btn btn-outline-primary"><i class="ti-comment"></i> Message</a>
+<% unless current_account == account %>
+  <a href="/messages/<%=account.id%>" class="btn btn-outline-primary"><i class="ti-comment"></i> Message</a>
+<% end %>

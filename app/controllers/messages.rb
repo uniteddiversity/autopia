@@ -16,6 +16,10 @@ Autopo::App.controller do
   
   get '/messages/:id' do    
     @account = Account.find(params[:id])
+    if @account.id == current_account.id
+      flash[:notice] = "You can't message yourself"
+      redirect '/messages'
+    end
     MessageReceipt.find_by(messanger: @account, messangee: current_account).try(:destroy)
     MessageReceipt.create!(messanger: @account, messangee: current_account)
     erb :'messages/messages'
