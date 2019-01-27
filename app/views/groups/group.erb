@@ -6,7 +6,7 @@
 
     <p>         
       <% if @membership.unsubscribed %>
-        <a class="btn btn-primary mb-1" href="/a/<%=@group.slug%>/subscribe"><i class="fa fa-bell-slash-o"></i> Email notifications off</a>
+        <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/subscribe"><i class="fa fa-bell-slash-o"></i> Email notifications off</a>
       <% else %>
         <a class="btn btn-primary mb-1" href="/a/<%=@group.slug%>/unsubscribe"><i class="fa fa-bell-o"></i> Email notifications on</a>
       <% end %>       
