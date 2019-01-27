@@ -29,7 +29,12 @@ Autopo::App.controller do
     end
   end  
   
-  post '/messages/:id' do    
+  get '/messages/:id/send' do  
+    @account = Account.find(params[:id])
+    partial :'messages/send'
+  end
+  
+  post '/messages/:id/send' do    
     Message.create!(body: params[:body], messenger: current_account, messengee_id: params[:id])
     redirect back
   end

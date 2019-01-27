@@ -47,6 +47,3 @@
     $('#compose input').focus()
   })
 </script>
-<% form_tag "/messages/#{@account.id}", :id => 'compose', :class => 'mt-3' do %>
-    <%= text_field_tag :body, :placeholder => 'Type a message...', :class => 'form-control' %>
-  <% end %>      

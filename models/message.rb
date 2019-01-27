@@ -19,6 +19,7 @@ class Message
     if ENV['PUSHER_APP_ID']
       pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
       pusher_client.trigger("message.#{messenger.id}.#{messengee.id}", 'updated', {})
+      pusher_client.trigger("message.#{messengee.id}.#{messenger.id}", 'updated', {})
     end
   end
   
