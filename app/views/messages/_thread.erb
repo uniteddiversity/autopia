@@ -8,14 +8,14 @@
 
 <script>
   $(function () {
-    $('.message-thread').slimScroll({
+    $('#thread-scroll').slimScroll({
       height: $(window).height() / 2,
       start: 'bottom'
     })
     $('#thread-panel').fadeIn()
   });
 </script>
-<div class="message-thread p-1">
+<div id="thread-scroll" class="p-1">
   <ul class="widget-chat">
 
     <% messages = Message.or({:messenger => current_account, :messengee_id => @account},{:messenger => @account, :messengee_id => current_account}).order('created_at asc') %>
