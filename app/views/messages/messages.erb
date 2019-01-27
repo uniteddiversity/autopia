@@ -24,54 +24,7 @@
   <div class="<% if current_account.messages.count > 0 %>col-sm-9<% else %>col-sm-12<% end %>">
 
     <% if @account %>
-
-      <div class="media mb-3">
-        <%= partial :'accounts/square', :locals => {:account => @account, :style => 'display: block; width: 64px'} %>
-        <div class="media-body ml-3">            
-          <h4 class="my-0"><%=@account.name%></h4>
-        </div>
-      </div>    
-
-      <script>
-        $(function () {
-          $('.message-thread').slimScroll({
-            height: $(window).height() / 2,
-            start: 'bottom'
-          })
-        });
-      </script>
-      <div class="message-thread">
-        <ul class="widget-chat">
-
-          <% Message.or({:messanger => current_account, :messangee_id => @account},{:messanger => @account, :messangee_id => current_account}).order('created_at asc').each { |message| %>
-            <% if message.messanger_id == @account.id %>
-              <li>              
-                <div class="widget-chat-media">
-                  <%= partial :'accounts/square', :locals => {:account => @account, :style => 'display: block; width: 64px'} %>
-                </div>
-                <div class="widget-chat-content">                
-                  <div class="widget-chat-message last">
-                    <%=message.body%>
-                  </div>
-                </div>
-              </li>
-            <% else %>
-              <li class="reply">
-                <div class="widget-chat-content">
-                  <div class="widget-chat-message last">
-                    <%=message.body%>
-                  </div>
-                </div>
-              </li>
-            <% end %>
-          <% } %>
-        </ul>
-      </div>
-
-      <% form_tag "/messages/#{@account.id}", :class => 'mt-3' do %>
-        <%= text_field_tag :body, :placeholder => 'Type a message...', :class => 'form-control' %>
-      <% end %>      
-
+      <div data-pagelet-url="/messages/<%=@account.id%>"></div>
     <% end %>
 
   </div>

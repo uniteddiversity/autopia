@@ -22,7 +22,11 @@ Autopo::App.controller do
     end
     MessageReceipt.find_by(messanger: @account, messangee: current_account).try(:destroy)
     MessageReceipt.create!(messanger: @account, messangee: current_account)
-    erb :'messages/messages'
+    if request.xhr?
+      partial :'messages/thread'
+    else    
+      erb :'messages/messages'
+    end
   end  
   
   post '/messages/:id' do    
