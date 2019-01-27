@@ -10,7 +10,7 @@ Autopo::App.controller do
       account = (current_account == message.messanger ? message.messangee : message.messanger)
       redirect "/messages/#{account.id}"
     else
-      erb :'messages/messages'
+      redirect '/search'
     end
   end
   
