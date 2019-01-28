@@ -1,20 +1,24 @@
 <div class="row">
-  <div id="preview-panel" class="col-md-3 <% if @account %>d-none d-md-block <% end %>">
 
-    <div class="d-block d-md-none">
-      <ul class="breadcrumb">
-        <li class="breadcrumb-item active">Messages</li>
-      </ul>    
+  <% if current_account.messages.count > 0 %>
+    <div id="preview-panel" class="col-md-3 <% if @account %>d-none d-md-block <% end %>">
+
+      <div class="d-block d-md-none">
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item active">Messages</li>
+        </ul>    
+      </div>
+
+      <% messenger_ids = [] %>
+      <% current_account.messages.order('created_at desc').each { |message| %>      
+        <% account = (current_account == message.messenger ? message.messengee : message.messenger) # the other person %>      
+        <% next if messenger_ids.include?(account.id) %>        
+        <%= partial :'messages/preview', :locals => {:message => message, :klass => "p-2 d-block #{'active' if @account && account.id == @account.id}"} %>        
+        <% messenger_ids << account.id } %>
+
     </div>
+  <% end %>
 
-    <% messenger_ids = [] %>
-    <% current_account.messages.order('created_at desc').each { |message| %>      
-      <% account = (current_account == message.messenger ? message.messengee : message.messenger) # the other person %>      
-      <% next if messenger_ids.include?(account.id) %>        
-      <%= partial :'messages/preview', :locals => {:message => message, :klass => "p-2 d-block #{'active' if @account && account.id == @account.id}"} %>        
-      <% messenger_ids << account.id } %>
-
-  </div>
   <div id="thread-panel" class="<% if current_account.messages.count > 0 %>col-md-9<% else %>col-md-12<% end %>">
 
     <% if @account %>
