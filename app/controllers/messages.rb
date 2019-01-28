@@ -23,8 +23,7 @@ Autopo::App.controller do
       flash[:notice] = "You can't message yourself"
       redirect '/messages'
     end
-    MessageReceipt.find_by(messenger: @account, messengee: current_account).try(:destroy)
-    MessageReceipt.create!(messenger: @account, messengee: current_account)
+    MessageReceipt.find_or_create_by(messenger: @account, messengee: current_account).set(received_at: Time.now)
     if request.xhr?
       partial :'messages/thread'
     else    

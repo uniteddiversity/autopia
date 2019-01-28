@@ -3,12 +3,10 @@ class Account
   include Mongoid::Timestamps
   extend Dragonfly::Model
             
-  field :name, :type => String
-  field :facebook_name, :type => String 
+  field :name, :type => String  
   field :email, :type => String
   field :gender, :type => String
   field :date_of_birth, :type => Date
-  field :facebook_profile_url, :type => String
   field :dietary_requirements, :type => String
   field :admin, :type => Boolean
   field :time_zone, :type => String
@@ -18,6 +16,8 @@ class Account
   field :sign_in_token, :type => String  
   field :unsubscribed, :type => Boolean
   field :unsubscribed_messages, :type => Boolean
+  field :facebook_name, :type => String 
+  field :facebook_profile_url, :type => String  
   field :not_on_facebook, :type => Boolean
   field :last_active, :type => Time
   field :last_checked_notifications, :type => Time

@@ -4,6 +4,8 @@ class Message
   
   field :body, :type => String 
   
+  validates_presence_of :body
+  
   belongs_to :messenger, class_name: "Account", inverse_of: :messages_as_messenger, index: true
   belongs_to :messengee, class_name: "Account", inverse_of: :messages_as_massangee, index: true
     
@@ -27,7 +29,7 @@ class Message
     messages = Message.where(messenger: messenger, messengee: messengee).order('created_at desc')
     message = messages.first
     message_receipt = MessageReceipt.find_by(messenger: messenger, messengee: messengee)    
-    message && message_receipt && message_receipt.created_at > message.created_at
+    message && message_receipt && message_receipt.received_at > message.created_at
   end
   
   def self.unread?(messenger, messengee)
