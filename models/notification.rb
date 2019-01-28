@@ -28,7 +28,7 @@ class Notification
   end
   
   def self.types
-    %w{created_group applied joined_group joined_team created_spend created_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented liked_a_comment left_group created_payment created_inventory_item mapplication_removed}  
+    %w{created_group applied joined_group joined_team created_spend created_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}  
   end
   
   def self.mailable_types
@@ -157,9 +157,9 @@ class Notification
           "<strong>#{comment.account.name}</strong> replied to <strong>#{comment.commentable.name}#{if comment.post.subject; "/#{comment.post.subject}"; end}</strong>"                  
         end
       end      
-    when :liked_a_comment
-      comment_like = notifiable
-      "<strong>#{comment_like.account.name}</strong> liked <strong>#{comment_like.comment.account.name}'s</strong> comment in <strong>#{comment_like.commentable.name}#{if comment_like.comment.post.subject; "/#{comment_like.comment.post.subject}"; end}</strong>"
+    when :reacted_to_a_comment
+      comment_reaction = notifiable
+      "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.commentable.name}#{if comment_reaction.comment.post.subject; "/#{comment_reaction.comment.post.subject}"; end}</strong>"
     when :left_group
       account = notifiable
       "<strong>#{account.name}</strong> is no longer a member of #{self.group.name}"
@@ -227,7 +227,7 @@ class Notification
       ['View qualities', "#{ENV['BASE_URI']}/a/#{group.slug}/qualities"]
     when :commented
       ['View post', "#{ENV['BASE_URI']}/a/#{group.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
-    when :liked_a_comment
+    when :reacted_to_a_comment
       ['View post', "#{ENV['BASE_URI']}/a/#{group.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
     when :left_group
       ['View members', "#{ENV['BASE_URI']}/a/#{group.slug}/members"]
@@ -292,7 +292,7 @@ class Notification
       'fa-star'  
     when :commented
       'fa-comment'       
-    when :liked_a_comment
+    when :reacted_to_a_comment
       'fa-thumbs-up' 
     when :left_group
       'fa fa-sign-out'

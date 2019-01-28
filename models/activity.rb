@@ -15,7 +15,7 @@ class Activity
   has_many :posts, :as => :commentable, :dependent => :destroy
   has_many :subscriptions, :as => :commentable, :dependent => :destroy
   has_many :comments, :as => :commentable, :dependent => :destroy
-  has_many :comment_likes, :as => :commentable, :dependent => :destroy  
+  has_many :comment_reactions, :as => :commentable, :dependent => :destroy  
     
   before_validation do    
     self.timetable = self.space.timetable if self.space

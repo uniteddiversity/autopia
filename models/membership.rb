@@ -84,7 +84,7 @@ class Membership
   has_many :posts, :dependent => :destroy
   has_many :subscriptions, :dependent => :destroy
   has_many :comments, :dependent => :destroy
-  has_many :comment_likes, :dependent => :destroy
+  has_many :comment_reactions, :dependent => :destroy
   # Rotas
   has_many :shifts, :dependent => :destroy
   # Tiers

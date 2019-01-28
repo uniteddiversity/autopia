@@ -15,7 +15,7 @@ class Habit
   has_many :posts, :as => :commentable, :dependent => :destroy
   has_many :subscriptions, :as => :commentable, :dependent => :destroy
   has_many :comments, :as => :commentable, :dependent => :destroy
-  has_many :comment_likes, :as => :commentable, :dependent => :destroy  
+  has_many :comment_reactions, :as => :commentable, :dependent => :destroy  
   
   validates_presence_of :name
   

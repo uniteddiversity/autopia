@@ -46,10 +46,10 @@ Autopo::App.controller do
     redirect back    
   end  
   
-  get '/comments/:id/likes' do
+  get '/comments/:id/reactions' do
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
-    partial :'comments/comment_likes', :locals => {:comment => @comment}
+    partial :'comments/comment_reactions', :locals => {:comment => @comment}
   end  
   
   get '/comments/:id/read_receipts' do
@@ -58,17 +58,17 @@ Autopo::App.controller do
     partial :'comments/read_receipts', :locals => {:comment => @comment}
   end   
   
-  get '/comments/:id/like' do
+  post '/comments/:id/react' do
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
-    @comment.comment_likes.create account: current_account
+    @comment.comment_reactions.create account: current_account, body: params[:body]
     200
   end
   
-  get '/comments/:id/unlike' do
+  get '/comments/:id/unreact' do
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
-    @comment.comment_likes.find_by(account: current_account).try(:destroy)
+    @comment.comment_reactions.find_by(account: current_account).try(:destroy)
     200
   end    
   

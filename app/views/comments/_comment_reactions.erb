@@ -1,0 +1,19 @@
+<% if !comment.comment_reactions.find_by(account: current_account) %>
+  <a href="javascript:;" onclick="$(this).hide().next().css('display','inline').find('input').focus()">React</a>
+  <% form_tag "/comments/#{comment.id}/react", :class => 'form-inline', :style => 'display: none;' do %>
+    <%= text_field_tag :body, :placeholder => 'Enter an emoji', :class => 'form-control d-inline', :style => 'width: 8rem' %>
+  <% end %>
+<% end %>
+
+
+<% if comment.comment_reactions.count > 0 %>
+  <% comment.comment_reactions.pluck(:body).uniq.each { |body| comment_reactions = comment.comment_reactions.where(body: body) %>  
+    <% c = 'd-inline-block border bg-white rounded p-1 text-dark' %>
+    <a style="text-decoration: none;" <% if comment_reactions.find_by(account: current_account) %> title="Remove your reaction" class="pagelet-trigger border-primary <%=c%>" href="/comments/<%=comment.id%>/unreact" <% else %> class="<%=c%> border-light" <% end %> >
+      <span data-toggle="tooltip" ><%= body %> <%=comment_reactions.count%></span>
+      <span style="display: none">
+        <%=comment_reactions.map { |comment_reaction| comment_reaction.account.name }.join('<br />') %> 
+      </span>		
+    </a>
+  <% } %>
+<% end %>

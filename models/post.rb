@@ -9,7 +9,7 @@ class Post
 
   has_many :subscriptions, :dependent => :destroy
   has_many :comments, :dependent => :destroy
-  has_many :comment_likes, :dependent => :destroy 
+  has_many :comment_reactions, :dependent => :destroy 
     
   after_create do
     commentable.subscribers.each { |account| subscriptions.create account: account }    
