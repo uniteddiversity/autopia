@@ -10,8 +10,7 @@ Autopo::App.controller do
     else   
       message = current_account.messages.order('created_at desc').first
       if message
-        account = (current_account == message.messenger ? message.messengee : message.messenger)
-        redirect "/messages/#{account.id}"
+        erb :'messages/messages'
       else
         redirect '/search'
       end
