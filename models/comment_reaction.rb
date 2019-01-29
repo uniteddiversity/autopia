@@ -16,6 +16,8 @@ class CommentReaction
     self.body = self.body[0] if self.body
   end    
   
+  validates_uniqueness_of :account, :scope => :comment
+  
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     if account and commentable.respond_to?(:group)
