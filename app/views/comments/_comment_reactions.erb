@@ -4,7 +4,7 @@
   <% form_tag "/comments/#{comment.id}/react", :class => 'form-inline', :style => 'display: none;' do %>
     <div class="row no-gutters align-items-center">
       <div class="col-auto">
-        <% %w{❤️ 🧡 💛 💚 💙 💜 👍}.each { |e| %>
+        <% %w{😍 👍}.each { |e| %>
           <a style="text-decoration: none; background: white" class="rounded p-1 border border-light" href="javascript:;" onclick="$(this).closest('form').find('input').val($(this).text()).closest('form').submit()"><%=e%></a>
         <% } %>  
       </div>
