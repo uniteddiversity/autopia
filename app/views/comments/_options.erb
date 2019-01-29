@@ -1,34 +1,39 @@
-<div style="margin-top: 10px">
+<div class="mt-3">
   <% comment.options.order('text asc').each { |option| %>
-    <div style="margin-bottom: 5px">
+    <div class="mb-1">
       <% form_tag "/options/#{option.id}/vote" do %>
-        <label style="background: #e9ecef; padding: 5px; margin: 0; display: inline-block ">
+        <label class="p-1 m-0 mb-1" style="background: #e9ecef; display: inline-block ">
           <%= check_box_tag :vote, :value => true, :checked => option.votes.find_by(account: current_account), :onclick => '$(this.form).submit()' %>
           <%= option.text %>
         </label>
       <% end %>
       <% if option.votes.count > 0 %>
-        <div style="margin-top: 5px">
-          <div class="image-wall">
-            <% option.votes.each { |vote| account = vote.account %>
-              <%= partial :'accounts/square', :locals => {:account => account, :width => '32px'} %>
-            <% } %>
-          </div>
+        <div class="image-wall">
+          <% option.votes.each { |vote| account = vote.account %>
+            <%= partial :'accounts/square', :locals => {:account => account, :width => '32px'} %>
+          <% } %>
         </div>
       <% end %>
     </div>
   <% } %>
-  <a id="poll-for-<%=comment.id%>" href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><i class="fa fa-bar-chart"></i> Add a poll</a> 
-  <% form_tag '/options/create', :style => 'display: none' do %>
-    <%= hidden_field_tag :comment_id, :value => comment.id %>
-    <%= text_field_tag :text, :class => 'form-control', :placeholder => 'Add an option...' %>
+
+  <% if comment.account == current_account %>
+
+    <a id="poll-for-<%=comment.id%>" href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><i class="fa fa-bar-chart"></i> Add a poll</a> 
+    <% form_tag '/options/create', :style => 'display: none' do %>
+      <%= hidden_field_tag :comment_id, :value => comment.id %>
+      <%= text_field_tag :text, :class => 'form-control', :placeholder => 'Add an option...' %>
+    <% end %>
+
+    <% if comment.options.count > 0 %>
+      <script>
+        $(function () {
+          $('#poll-for-<%=comment.id%>').hide().next().show()
+        })
+      </script>
+    <% end %> 
+
   <% end %>
+
 </div>
 
-<% if comment.options.count > 0 %>
-  <script>
-    $(function () {
-      $('#poll-for-<%=comment.id%>').hide().next().show()
-    })
-  </script>
-<% end %> 
