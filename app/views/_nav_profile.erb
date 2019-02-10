@@ -1,7 +1,6 @@
 <%= ul_nav [
   (["View profile", "/accounts/#{current_account.id}"]),
   (['Edit profile', '/accounts/edit']),
-  (['Habits', "/habits"]),
   (['Sign out', '/accounts/sign_out']),
   ].compact, ul_class: ul_class, li_class: '', a_class: ''
 %>

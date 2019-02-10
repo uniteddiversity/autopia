@@ -9,6 +9,19 @@
 <div id="thread-scroll" class="p-1">
   <ul class="widget-chat">
 
+    <% if @account.id == '586d2eb3cc88ff00093f21e5'  %>
+      <li>              
+        <div class="widget-chat-media">
+          <%= partial :'accounts/square', :locals => {:account => @account, :style => 'display: block; width: 64px'} %>
+        </div>
+        <div class="widget-chat-content">                
+          <div class="widget-chat-message last" data-toggle="tooltip">
+            Hey! I'm happy to answer your questions about Autopo. I'd also love to hear about any bugs or ideas for new features.
+          </div>
+        </div>
+      </li>   
+    <% end %>
+
     <% messages = Message.or({:messenger => current_account, :messengee_id => @account},{:messenger => @account, :messengee_id => current_account}).order('created_at asc') %>
     <% messages.each_with_index { |message,i| %>
       <% if message.messenger_id == @account.id %>
@@ -43,7 +56,7 @@
 <script>
   $(function () {
     $('#thread-scroll').slimScroll({
-      height: $(window).height()*0.4,
+      height: $(window).height() * 0.4,
       start: 'bottom'
     })
   });
