@@ -67,11 +67,12 @@
   <% } %>
     
   <% [
+    '//cdn.rawgit.com/alexgibson/notify.js/30583643edea073fbc980a6c91113a3476d4c3a5/dist/notify.js',
     '//cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/067bd296184a4dda8c669923417124065b4ebced/bootstrap3-typeahead.min.js',
     '//cdn.rawgit.com/jackmoore/autosize/6ae70cd3d28888eb858eef1167e6ed75d25dff7f/dist/autosize.min.js',
     "/javascripts/app.js?#{Time.now.to_i}",      
     '//cdn.rawgit.com/wordsandwriting/activate-tools/7bef07297b78b0f68e40ae465d68be68ea49e27b/js/pagelets.js',
-    "//cdn.rawgit.com/wordsandwriting/activate-tools/7a73525b76c8234a4803e3196b4403ec6fd6ded7/js/textboxio/textboxio.js",
+    "//cdn.rawgit.com/wordsandwriting/activate-tools/7a73525b76c8234a4803e3196b4403ec6fd6ded7/js/textboxio/textboxio.js",    
     '//checkout.stripe.com/checkout.js'
     ].each { |f| %>
     <script src="<%=f%>"></script>

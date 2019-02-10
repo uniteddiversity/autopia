@@ -125,3 +125,19 @@ $(function () {
   });
 
 });
+
+
+if (Notify.needsPermission) {
+  Notify.requestPermission(function () {
+    console.log('Permission has been granted by the user');
+  }, function () {
+    console.warn('Permission has been denied by the user');
+  });
+} else {
+  console.log('Permission has already been granted by the user');
+}
+
+var n = new Notify('Yo dawg!', {
+  body: 'just testing'
+})
+n.show();
