@@ -18,7 +18,7 @@ Autopo::App.controller do
   end
   
   get '/messages/:id' do    
-    @account = Account.find(params[:id])
+    @account = Account.find(params[:id]) || not_found
     if @account.id == current_account.id
       flash[:notice] = "You can't message yourself"
       redirect '/messages'
@@ -32,7 +32,7 @@ Autopo::App.controller do
   end  
   
   get '/messages/:id/send' do  
-    @account = Account.find(params[:id])
+    @account = Account.find(params[:id]) || not_found
     partial :'messages/send'
   end
   

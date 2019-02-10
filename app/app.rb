@@ -99,7 +99,7 @@ module Autopo
       erb :search
     end
     
-    get '/suggest' do
+    get '/help' do
       redirect '/messages/586d2eb3cc88ff00093f21e5'
     end
             
