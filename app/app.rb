@@ -100,24 +100,9 @@ module Autopo
     end
     
     get '/suggest' do
-      erb :suggest
+      redirect '/messages/586d2eb3cc88ff00093f21e5'
     end
-    
-    post '/suggest' do
-      sign_in_required!
-    	if ENV['SMTP_ADDRESS']
-	      mail = Mail.new
-	      mail.to = ENV['ADMIN_EMAIL']
-	      mail.from = ENV['BOT_EMAIL']
-        mail.reply_to = current_account.email
-	      mail.subject = "Suggestion from #{current_account.name} (#{current_account.email})"
-	      mail.body = params[:suggestion]
-	      mail.deliver
-      end
-      flash[:notice] = 'Thanks!'
-      redirect '/'
-    end
-        
+            
     get '/notifications/:id' do
       admins_only!
       @notification = Notification.find(params[:id]) || not_found
