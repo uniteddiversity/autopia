@@ -9,7 +9,7 @@
 <div id="thread-scroll" class="p-1">
   <ul class="widget-chat">
 
-    <% if @account.id == '586d2eb3cc88ff00093f21e5'  %>
+    <% if @account.id.to_s == '586d2eb3cc88ff00093f21e5'  %>
       <li>              
         <div class="widget-chat-media">
           <%= partial :'accounts/square', :locals => {:account => @account, :style => 'display: block; width: 64px'} %>
