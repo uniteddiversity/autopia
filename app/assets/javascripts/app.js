@@ -127,17 +127,35 @@ $(function () {
 });
 
 
-if (Notify.needsPermission) {
-  Notify.requestPermission(function () {
-    console.log('Permission has been granted by the user');
-  }, function () {
-    console.warn('Permission has been denied by the user');
-  });
-} else {
-  console.log('Permission has already been granted by the user');
-}
+const grantPermission = () => {
+  if (!('Notification' in window)) {
+    alert('This browser does not support system notifications');
+    return;
+  }
 
-var n = new Notify('Yo dawg!', {
-  body: 'just testing'
-})
-n.show();
+  if (Notification.permission === 'granted') {
+    new Notification('You are already subscribed to web notifications');
+    return;
+  }
+
+  if (
+          Notification.permission !== 'denied' ||
+          Notification.permission === 'default'
+          ) {
+    Notification.requestPermission().then(result => {
+      if (result === 'granted') {
+        const notification = new Notification(
+                'Awesome! You will start receiving notifications shortly'
+                );
+      }
+    });
+  }
+};
+grantPermission();
+
+const showNotification = data => {
+  const title = `${data}`
+  new Notification(title);
+};
+
+showNotification('Welcome to Autopo!');
