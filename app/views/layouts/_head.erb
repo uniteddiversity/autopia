@@ -65,7 +65,7 @@
     ].each { |f| %> 
     <link rel="stylesheet" href="<%=f%>" />    
   <% } %>
-    
+
   <% [    
     '//cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/067bd296184a4dda8c669923417124065b4ebced/bootstrap3-typeahead.min.js',
     '//cdn.rawgit.com/jackmoore/autosize/6ae70cd3d28888eb858eef1167e6ed75d25dff7f/dist/autosize.min.js',
@@ -86,6 +86,17 @@
   <meta name="twitter:title" content="<%=@title%>">
   <meta name="twitter:description" content="<%=@og_desc%>">
   <meta name="twitter:image" content="<%=@og_image%>">    
+
+  <link rel="manifest" href="/manifest.json" />
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script>
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(function () {
+      OneSignal.init({
+        appId: "87765e03-d043-4249-aac2-ec3359ca6467",
+      });
+    });
+  </script>  
 
   <%= eval(f('head')) %>
 </head>
