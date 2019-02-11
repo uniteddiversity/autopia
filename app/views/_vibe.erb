@@ -9,11 +9,11 @@
           <% else %>
             Vibing
           <% end %>
-        </a>
+        </button>
       <% end %>
     <% else %>
       <% form_tag "/vibe/#{account.id}" do %>
-        <button class="btn btn-outline-primary <%= btn_class if defined?(btn_class) %>" href="/vibe/<%=account.id%>">
+        <button class="btn btn-outline-primary <%= btn_class if defined?(btn_class) %>">
           <i class="fa fa-hand-peace-o"></i>
           Vibe
         </button>

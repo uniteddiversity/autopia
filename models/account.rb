@@ -15,6 +15,7 @@ class Account
   field :sign_ins, :type => Integer
   field :sign_in_token, :type => String  
   field :unsubscribed, :type => Boolean
+  field :unsubscribed_habit_completion_likes, :type => Boolean
   field :unsubscribed_messages, :type => Boolean
   field :facebook_name, :type => String 
   field :facebook_profile_url, :type => String  
@@ -167,6 +168,7 @@ class Account
       :picture => :image,
       :admin => :check_box,
       :unsubscribed => :check_box,
+      :unsubscribed_habit_completion_likes => :check_box,
       :unsubscribed_messages => :check_box,
       :not_on_facebook => :check_box,
       :time_zone => :select,
@@ -231,7 +233,8 @@ class Account
     {
       :facebook_profile_url => 'Facebook profile URL',
       :not_on_facebook => "I don't use Facebook",
-      :unsubscribed => "Don't send me email notifications of important events",
+      :unsubscribed => "Don't send me email notifications of any kind",
+      :unsubscribed_habit_completion_likes => "Don't send me email notifications when people like my habit completions",
       :unsubscribed_messages => "Don't send me email notifications of messages",
     }[attr.to_sym] || super  
   end   

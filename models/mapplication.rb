@@ -18,7 +18,7 @@ class Mapplication
   has_many :comment_reactions, :as => :commentable, :dependent => :destroy   
   
   def subscribers
-    Account.where(:id.in => (verdicts.pluck(:account_id) + group.admins.pluck(:id)))
+    group.subscribers.where(:id.in => (verdicts.pluck(:account_id) + group.admins.pluck(:id)))
   end  
   
   validates_presence_of :status

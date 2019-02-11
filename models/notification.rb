@@ -28,7 +28,7 @@ class Notification
   end
   
   def self.types
-    %w{created_group applied joined_group joined_team created_spend created_activity signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict created_transport created_tier created_team created_accom created_rota scheduled_activity unscheduled_activity made_admin unadmined booked created_timetable cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}  
+    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend joined_team signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict scheduled_activity unscheduled_activity made_admin unadmined booked cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
   end
   
   def self.mailable_types

@@ -37,7 +37,7 @@ class Activity
     Account.where(:id.in => attendances.pluck(:account_id))
   end
   def subscribers
-    Account.where(:id.in => attendances.pluck(:account_id) + [account.id])
+    group.subscribers.where(:id.in => attendances.pluck(:account_id) + [account.id])
   end  
   
   has_many :notifications, as: :notifiable, dependent: :destroy

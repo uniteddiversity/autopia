@@ -69,24 +69,29 @@ Autopo::App.controller do
     @group.destroy
     flash[:notice] = 'The group was deleted'
     redirect '/'
-  end   
+  end  
   
   get '/a/:slug/subscribe' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
+    partial :'groups/subscribe', :locals => {:membership => @membership}
+  end
+  
+  post '/a/:slug/subscribe' do        
+    @group = Group.find_by(slug: params[:slug]) || not_found      
+    @membership = @group.memberships.find_by(account: current_account)
+    confirmed_membership_required!
     @membership.update_attribute(:unsubscribed, nil)
-    flash[:notice] = "You'll now receive email notifications of key events in #{@group.name}"
-    redirect "/a/#{@group.slug}"
+    200
   end      
   
-  get '/a/:slug/unsubscribe' do        
+  post '/a/:slug/unsubscribe' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @membership.update_attribute(:unsubscribed, true)
-    flash[:notice] = "OK! You won't receive emails about key events in #{@group.name}"
-    redirect "/a/#{@group.slug}"
+    200
   end  
   
   get '/a/:slug/show_in_sidebar' do        

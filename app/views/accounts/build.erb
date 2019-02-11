@@ -18,6 +18,7 @@
       <div class="my-3">
         <%= f.check_box_block :not_on_facebook %>  
         <%= f.check_box_block :unsubscribed %>
+        <%= f.check_box_block :unsubscribed_habit_completion_likes %>        
         <%= f.check_box_block :unsubscribed_messages %>
       </div>
     <% end %>
@@ -57,5 +58,21 @@
       <% end %>
     <% } %>   
   </table>
+
+  <h2>Group notification settings</h2>  
+  <table class="table table-borderless">
+    <% @account.memberships.each { |membership| %>
+      <tr>
+        <td>
+          <%=membership.group.name%>
+        <td>
+        <td>
+          <div data-pagelet-url="/a/<%=membership.group.slug%>/subscribe" style="display: inline"></div>
+        </td>
+      </tr>
+    <% } %>
+  </table>
+
+  <p class="text-muted">You can also turn email notifications on/off for each team within a group, by visiting the team page.</p>
 
 </div>

@@ -33,7 +33,7 @@ class Team
     Account.where(:id.in => teamships.pluck(:account_id))
   end
   def subscribers
-    Account.where(:id.in => teamships.where(:unsubscribed.ne => true).pluck(:account_id))
+    group.subscribers.where(:id.in => teamships.where(:unsubscribed.ne => true).pluck(:account_id))
   end
     
   def spent

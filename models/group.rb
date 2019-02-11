@@ -144,9 +144,13 @@ class Group
   def admin_emails
     Account.where(:id.in => memberships.where(admin: true).pluck(:account_id)).pluck(:email)
   end
+    
+  def subscribers
+    Account.where(:unsubscribed.ne => true).where(:id.in => memberships.where(:unsubscribed.ne => true).pluck(:account_id))
+  end
   
   def emails
-    Account.where(:unsubscribed.ne => true).where(:id.in => memberships.where(:unsubscribed.ne => true).pluck(:account_id)).pluck(:email)
+    subscribers.pluck(:email)
   end  
   
   def vouchers
