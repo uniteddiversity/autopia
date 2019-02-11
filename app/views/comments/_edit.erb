@@ -8,14 +8,16 @@
       var destroy = $('<a class="btn btn-danger btn-sm text-white my-1">Delete</a>')
       destroy.attr('href', '/comments/' + comment.attr('data-comment-id') + '/destroy')
 
-      textarea.insertAfter(commentBody).val(br2nl(commentBody.html().trim()))
+      textarea.insertAfter(commentBody).val(commentBody.attr('data-original'))
       destroy.insertAfter(textarea)
       commentBody.hide()
       textarea.blur(function () {
-        $.post('/comments/' + comment.attr('data-comment-id') + '/edit', {body: textarea.val()})
-        commentBody.html(nl2br(textarea.val())).show()
-        textarea.remove()
-        destroy.remove()
+        $.post('/comments/' + comment.attr('data-comment-id') + '/edit', {body: textarea.val()}, function () {
+          commentBody.attr('data-original', textarea.val())
+          commentBody.html(textarea.val()).show()
+          textarea.remove()
+          destroy.remove()
+        })
       })
     })
 

@@ -1,6 +1,4 @@
-<div class="comment-body">
-  <%= Rinku.auto_link(comment.body.gsub("\n","<br />")) %>
-</div>
+<div class="comment-body linkify nl2br tagify" data-original="<%=comment.body%>"><%=comment.body%></div>
 
 <% if comment.first_in_post? %>
   <div data-pagelet-url="/comments/<%=comment.id%>/options">

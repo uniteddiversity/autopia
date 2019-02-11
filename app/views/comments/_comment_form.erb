@@ -1,4 +1,3 @@
-
 <% form_for comment, comment.new_record ? "/comment" : "/comments/#{comment.id}/edit", :class => "comment-form add-placeholders mb-3", :multipart => true do |f| %>
   <%= f.hidden_field :commentable_id %>
   <%= f.hidden_field :commentable_type %>

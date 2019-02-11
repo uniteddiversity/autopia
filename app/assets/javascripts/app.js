@@ -10,7 +10,6 @@ function br2nl(str) {
   return str.replace(/<br>/g, "\r\n");
 }
 
-
 $(function () {
 
   function addPlaceholders() {
@@ -49,18 +48,54 @@ $(function () {
     autosize($('textarea[id=comment_body]'));
   }
 
+  function tribute() {
+    $('[id=comment_body]').each(function () {
+      var tribute = new Tribute({
+        values: network,
+        selectTemplate: function (item) {
+          return '[@' + item.original.key + '](@' + item.original.value + ')';
+        },
+      })
+      tribute.attach(this);
+    })
+  }
+
+  function linkify() {
+    $('.linkify').linkify();
+  }
+
+  function nl2brify() {
+    $('.nl2br').each(function () {
+      $(this).html(nl2br($(this).html()))
+    })
+  }
+
+  function tagify() {
+    $('.tagify').each(function () {
+      $(this).html($(this).html().replace(/\[@([\w\s]+)\]\(@(\w+)\)/g, '<a href="/accounts/$2">$1</a>'));
+    })
+  }
+
   $(document).ajaxComplete(function () {
     addPlaceholders()
     tooltip()
     timeago()
     datepickers()
     resizeCommentTextareas()
+    tribute()
+    linkify()
+    nl2brify()
+    tagify()
   });
   addPlaceholders()
   tooltip()
   timeago()
   datepickers()
   resizeCommentTextareas()
+  tribute()
+  linkify()
+  nl2brify()
+  tagify()
 
   $('form').submit(function () {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');

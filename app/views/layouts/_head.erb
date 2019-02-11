@@ -40,7 +40,17 @@
       cluster: '<%=ENV['PUSHER_CLUSTER']%>',
       encrypted: true
     });
-  </script>     
+  </script>  
+
+  <script>
+    var network = [
+<% if current_account %>
+  <% current_account.network.each { |account| %>
+        {key: '<%=account.name%>', value: '<%=account.id%>'},
+  <% } %>
+<% end %>
+    ]
+  </script>
 
   <% {            
     'font-awesome/4.7.0' => 'css/font-awesome.min.css',
@@ -48,6 +58,7 @@
     'moment.js/2.17.1' => 'moment.min.js locale/en-gb.js',     
     'flatpickr/4.5.2' => 'flatpickr.min.js flatpickr.min.css',
     'datatables/1.10.16' => 'js/jquery.dataTables.min.js js/dataTables.bootstrap4.min.js css/dataTables.bootstrap4.min.css',
+    'tributejs/3.5.3' => 'tribute.min.js tribute.min.css'
     }.each { |k,v| %>    
     <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
       <% case f.split('.').last.to_sym; when :js %>
@@ -72,6 +83,8 @@
     "/javascripts/app.js?#{Time.now.to_i}",      
     '//cdn.rawgit.com/wordsandwriting/activate-tools/7bef07297b78b0f68e40ae465d68be68ea49e27b/js/pagelets.js',
     "//cdn.rawgit.com/wordsandwriting/activate-tools/7a73525b76c8234a4803e3196b4403ec6fd6ded7/js/textboxio/textboxio.js",    
+    '/javascripts/linkify.min.js',
+    '/javascripts/linkify-jquery.min.js',
     '//checkout.stripe.com/checkout.js'
     ].each { |f| %>
     <script src="<%=f%>"></script>
@@ -86,6 +99,6 @@
   <meta name="twitter:title" content="<%=@title%>">
   <meta name="twitter:description" content="<%=@og_desc%>">
   <meta name="twitter:image" content="<%=@og_image%>">    
-  
+
   <%= eval(f('head')) %>
 </head>
