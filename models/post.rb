@@ -19,6 +19,23 @@ class Post
     %w{Team Activity Mapplication Habit}
   end  
   
+  def url
+    case commentable_type
+    when 'Team'
+      team = commentable
+      "#{ENV['BASE_URI']}/a/#{team.group.slug}/teams/#{team.id}#post-#{id}"
+    when 'Activity'
+      activity = commentable
+      "#{ENV['BASE_URI']}/a/#{activity.group.slug}/activities/#{activity.id}#post-#{id}"
+    when 'Mapplication'
+      mapplication = commentable
+      "#{ENV['BASE_URI']}/a/#{mapplication.group.slug}/applications"
+    when 'Habit'
+      habit = commentable
+      "#{ENV['BASE_URI']}/habits/#{habit.id}#post-#{id}"
+    end    
+  end
+  
   def self.admin_fields
     {      
       :id => {:type => :text, :edit => false},

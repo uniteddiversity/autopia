@@ -43,7 +43,7 @@ Autopo::App.controller do
     @commentable = @comment.commentable
     halt unless @comment.account.id == current_account.id or @membership.admin?
     @comment.destroy
-    redirect back    
+    redirect(back)    
   end  
   
   get '/comments/:id/reactions' do
@@ -83,8 +83,7 @@ Autopo::App.controller do
     @commentable = @post.commentable
     @post.subscriptions.find_by(account: current_account).try(:destroy)
     flash[:notice] = "You unsubscribed from the post"
-    redirect back
-    # redirect "/a/#{@group.slug}/#{@post.commentable_type.underscore.pluralize}/#{@post.commentable_id}#post-#{@post.id}"        
+    redirect @post.url    
   end    
   
   get '/posts/:id/replies' do
@@ -118,7 +117,7 @@ Autopo::App.controller do
   get '/options/:id/destroy' do
     @option = Option.find(params[:id]) || not_found
     @option.destroy
-    redirect back
+    redirect(back)
   end    
   
   get '/subscriptions/create' do
