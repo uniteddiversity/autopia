@@ -42,7 +42,11 @@ Autopo::App.controller do
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
     halt unless @comment.account.id == current_account.id or @membership.admin?
-    @comment.destroy
+    if @comment.first_in_post?
+      @comment.post.destroy
+    else
+      @comment.destroy
+    end
     redirect(back)    
   end  
   
