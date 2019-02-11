@@ -133,14 +133,10 @@
 
       <% @group.spends.sort_by { |spend| [spend.reimbursed ? 1 : 0, spend.team.try(:name) || '', -spend.amount] }.each { |spend| %>
         <tr>
-          <td>
-            <% if @membership.admin? %>
-              <a href="/a/<%=@group.slug%>/spends/<%=spend.id%>/edit">
-                <%=spend.item%>
-              </a>
-            <% else %>
+          <td>            
+            <a href="/a/<%=@group.slug%>/spends/<%=spend.id%>/edit">
               <%=spend.item%>
-            <% end %>                
+            </a>               
           </td>
           <td><%=@group.currency_symbol%><%=spend.amount%></td>
           <td>
@@ -150,19 +146,12 @@
           </td>   
           <td><a href="/accounts/<%=spend.account_id%>"><%=spend.account.name%></a></td>
           <td>
-            <% if @membership.admin? %>
-              <% if spend.reimbursed %>
-                <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
-              <% end %>  
-              <% form_tag "/spends/#{spend.id}/reimbursed", :style => ('display:none' if spend.reimbursed) do %>
-                <%= check_box_tag :reimbursed, :value => true, :checked => spend.reimbursed, :onclick => '$(this.form).submit()' %>
-              <% end %>       
-
-            <% else %>
-              <% if spend.reimbursed %>
-                <i class="fa fa-check"></i>
-              <% end %>          
-            <% end %>
+            <% if spend.reimbursed %>
+              <i style="cursor: pointer" class="fa fa-check" onclick="$(this).hide().next().show().find('input').click()"></i>
+            <% end %>  
+            <% form_tag "/spends/#{spend.id}/reimbursed", :style => ('display:none' if spend.reimbursed) do %>
+              <%= check_box_tag :reimbursed, :value => true, :checked => spend.reimbursed, :onclick => '$(this.form).submit()' %>
+            <% end %>       
           </td>
         </tr>
       <% } %>

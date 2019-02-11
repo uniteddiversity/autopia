@@ -28,7 +28,7 @@ Autopo::App.controller do
   get '/a/:slug/spends/:id/edit' do
     @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    confirmed_membership_required!
     @spend = @group.spends.find(params[:id]) || not_found
     erb :'budget/build'     
   end  
@@ -36,7 +36,7 @@ Autopo::App.controller do
   post '/a/:slug/spends/:id/edit' do
     @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    confirmed_membership_required!
     @spend = @group.spends.find(params[:id]) || not_found
     if @spend.update_attributes(params[:spend])
       redirect "/a/#{@group.slug}/budget"
@@ -48,7 +48,7 @@ Autopo::App.controller do
   get '/a/:slug/spends/:id/destroy' do
     @group = Group.find_by(slug: params[:slug])  || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    confirmed_membership_required!
     @spend = @group.spends.find(params[:id]) || not_found
     @spend.destroy   
     redirect "/a/#{@group.slug}/budget"
@@ -58,7 +58,7 @@ Autopo::App.controller do
     @spend = Spend.find(params[:id]) || not_found
     @group = @spend.group
     @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    confirmed_membership_required!
     @spend.update_attribute(:reimbursed, params[:reimbursed])
     200  
   end      
