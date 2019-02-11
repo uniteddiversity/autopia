@@ -24,7 +24,7 @@
       $('#group_name').focus().attr('autocomplete', 'off')
 <% end %>
 
-    var pairs = [['#group_enable_bookings', '#group_booking_limit']]
+    var pairs = []
     $.each(pairs, function (i, pair) {
       var a = pair[0]
       var b = pair[1]
@@ -39,6 +39,7 @@
       else
         $(b).parent().parent().hide()
     });
+    
     $('#group_enable_applications').click(function () {
       if ($(this).is(':checked'))
         $('#application-options').show()
@@ -128,7 +129,7 @@
         <%= f.wysiwyg_block :intro_for_members %>       
       </div>
       <div role="tabpanel" class="tab-pane" id="tab4">
-        <% (Group.enablable - %w{bookings}).each { |x| %>
+        <% Group.enablable.each { |x| %>
           <%= f.check_box_block "enable_#{x}".to_sym %>
         <% } %>
         <%= f.check_box_block :demand_payment %>  

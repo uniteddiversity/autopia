@@ -114,20 +114,6 @@
     <% end %>
   </td>
 <% end %>
-<% if @group.enable_bookings %>
-  <td>
-    <% if @membership.admin? %>
-      <% if membership.booking_limit %>
-        <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= membership.booking_limit if membership.booking_limit %></a>
-      <% end %>
-      <% form_tag "/memberships/#{membership.id}/booking_limit", :style => ('display:none' if membership.booking_limit) do %>
-        <%= number_field_tag :booking_limit, :class => 'form-control', :style => 'width: 6em', :value => membership.booking_limit, :onblur => '$(this.form).submit()' %>
-      <% end %>
-    <% else %>
-      <%= membership.booking_limit if membership.booking_limit %>
-    <% end %>
-  </td>          
-<% end %>        
 <% if @membership.admin? %>
   <td style="font-size: 13px">
     <% y = [] %>

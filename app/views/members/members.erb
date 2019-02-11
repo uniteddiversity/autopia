@@ -129,9 +129,6 @@
         <% if @group.facebook_group_url %>
           <th>Member of Facebook group</th>    
         <% end %>
-        <% if @group.enable_bookings %>
-          <th>Booking limit</th>     
-        <% end %>
         <% if @membership.admin %>
           <th></th>
         <% end %>           
@@ -169,9 +166,6 @@
       <% if @group.facebook_group_url %>
         <th></th>
       <% end %>        
-      <% if @group.enable_bookings %>
-        <th></th>     
-      <% end %>
       <% if @membership.admin %>
         <th></th>
       <% end %>                 

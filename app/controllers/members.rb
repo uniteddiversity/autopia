@@ -164,16 +164,7 @@ Autopo::App.controller do
     @group.accomships.create(account: membership.account_id, accom_id: params[:accom_id])
     200
   end   
-      
-  post '/memberships/:id/booking_limit' do
-    membership = Membership.find(params[:id]) || not_found
-    @group = membership.group
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    membership.update_attribute(:booking_limit, params[:booking_limit])
-    200
-  end   
-    
+            
   post '/memberships/:id/member_of_facebook_group' do
     membership = Membership.find(params[:id]) || not_found
     @group = membership.group

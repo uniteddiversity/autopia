@@ -6,7 +6,6 @@ Autopo::App.controller do
     Group.enablable.each { |x|
       @group.send("enable_#{x}=", true)
     }
-    @group.enable_bookings = false
     erb :'groups/build'
   end  
     

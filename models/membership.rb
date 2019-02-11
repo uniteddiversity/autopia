@@ -5,7 +5,6 @@ class Membership
   field :admin, :type => Boolean
   field :paid, :type => Integer
   field :desired_threshold, :type => Integer
-  field :booking_limit, :type => Integer
   field :requested_contribution, :type => Integer
   field :unsubscribed, :type => Boolean
   field :member_of_facebook_group, :type => Boolean
@@ -101,8 +100,6 @@ class Membership
   has_many :transportships, :dependent => :destroy
   # Budget
   has_many :spends, :dependent => :destroy
-  # Bookings
-  has_many :bookings, :dependent => :destroy
   # Qualities
   has_many :cultivations, :dependent => :destroy
   # Inventory
@@ -136,7 +133,6 @@ class Membership
       :admin => :check_box,
       :paid => :number,
       :desired_threshold => :number,
-      :booking_limit => :number,
       :requested_contribution => :number,
       :unsubscribed => :check_box,
       :hide_from_sidebar => :check_box,

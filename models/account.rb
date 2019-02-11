@@ -88,9 +88,6 @@ class Account
   has_many :transportships, :dependent => :destroy 
   # Budget
   has_many :spends, :dependent => :destroy
-  # Bookings
-  has_many :bookings, :dependent => :destroy
-  has_many :booking_lifts, :dependent => :nullify
   # Qualities
   has_many :qualities, :dependent => :nullify
   has_many :cultivations, :dependent => :destroy

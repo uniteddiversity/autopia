@@ -28,7 +28,7 @@ class Notification
   end
   
   def self.types
-    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend joined_team signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict scheduled_activity unscheduled_activity made_admin unadmined booked cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
+    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend joined_team signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
   end
   
   def self.mailable_types
@@ -137,9 +137,6 @@ class Notification
     when :unadmined
       membership = notifiable
       "<strong>#{membership.account.name}</strong> was unadmined by <strong>#{membership.admin_status_changed_by.name}</strong>"      
-    when :booked
-      booking = notifiable
-      "<strong>#{booking.account.name}</strong> booked <strong>#{booking.date}</strong>"      
     when :created_timetable
       timetable = notifiable
       "<strong>#{timetable.account.name}</strong> created the timetable <strong>#{timetable.name}</strong>"      
@@ -219,8 +216,6 @@ class Notification
       ['View members', "#{ENV['BASE_URI']}/a/#{group.slug}/members"]      
     when :unadmined
       ['View members', "#{ENV['BASE_URI']}/a/#{group.slug}/members"]      
-    when :booked
-      ['View bookings', "#{ENV['BASE_URI']}/a/#{group.slug}/bookings"]  
     when :created_timetable
       ['View timetables', "#{ENV['BASE_URI']}/a/#{group.slug}/timetables/#{notifiable.id}"]      
     when :cultivating_quality
@@ -284,8 +279,6 @@ class Notification
       'fa-key'
     when :unadmined
       'fa-key'
-    when :booked
-      'fa-calendar'
     when :created_timetable
       'fa-table'   
     when :cultivating_quality

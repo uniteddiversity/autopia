@@ -6,7 +6,7 @@ class Group
   dragonfly_accessor :cover_image
   
   def self.enablable
-    %w{habits teams qualities timetables rotas tiers accommodation transport bookings inventory budget}
+    %w{habits teams qualities timetables rotas tiers accommodation transport inventory budget}
   end  
   
   field :name, :type => String
@@ -27,7 +27,6 @@ class Group
   field :proposing_delay, :type => Integer
   field :require_reason_proposer, :type => Boolean
   field :require_reason_supporter, :type => Boolean
-  field :booking_limit, :type => Integer
   field :processed_via_stripe, :type => Integer
   field :disable_stripe, :type => Boolean
   field :balance, :type => Float
@@ -119,9 +118,6 @@ class Group
   has_many :transportships, :dependent => :destroy
   # Budget  
   has_many :spends, :dependent => :destroy
-  # Bookings
-  has_many :bookings, :dependent => :destroy
-  has_many :booking_lifts, :dependent => :destroy
   # Qualities
   has_many :qualities, :dependent => :destroy
   has_many :cultivations, :dependent => :destroy
@@ -190,7 +186,6 @@ class Group
       :proposing_delay => :number,
       :require_reason_proposer => :check_box,
       :require_reason_supporter => :check_box,
-      :booking_limit => :number,
       :processed_via_stripe => :number,
       :disable_stripe => :check_box,
       :balance => :number,
