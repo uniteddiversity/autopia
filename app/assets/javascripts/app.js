@@ -12,15 +12,13 @@ function br2nl(str) {
 
 $(function () {
 
-  function addPlaceholders() {
+  function ajaxCompleted() {
     $('form.add-placeholders label[for]').each(function () {
       var input = $(this).next().children().first()
       if (!$(input).attr('placeholder'))
         $(input).attr('placeholder', $.trim($(this).text()))
     });
-  }
 
-  function tooltip() {
     $('[data-toggle="tooltip"]').tooltip({
       html: true,
       title: function () {
@@ -30,25 +28,17 @@ $(function () {
           return $(this).next('span').html()
       }
     })
-  }
 
-  function timeago() {
     $("abbr.timeago").timeago()
-  }
 
-  function datepickers() {
     $(".datepicker").datepicker({format: 'yyyy-mm-dd'});
     $(".datetimepicker").flatpickr({altInput: true, altFormat: 'J F Y, H:i', enableTime: true, time_24hr: true});
-  }
 
-  function resizeCommentTextareas() {
     $('[id=comment_subject], [id=comment_body]').focus(function () {
       $(this.form).find('.btn-primary').parent().parent().removeClass('d-none')
     })
     autosize($('textarea[id=comment_body]'));
-  }
 
-  function tribute() {
     $('[id=comment_body]').each(function () {
       var tribute = new Tribute({
         values: network,
@@ -58,44 +48,22 @@ $(function () {
       })
       tribute.attach(this);
     })
-  }
 
-  function linkify() {
     $('.linkify').linkify();
-  }
 
-  function nl2brify() {
     $('.nl2br').each(function () {
       $(this).html(nl2br($(this).html()))
     })
-  }
 
-  function tagify() {
     $('.tagify').each(function () {
       $(this).html($(this).html().replace(/\[@([\w\s'-]+)\]\(@(\w+)\)/g, '<a href="/accounts/$2">$1</a>'));
     })
   }
 
   $(document).ajaxComplete(function () {
-    addPlaceholders()
-    tooltip()
-    timeago()
-    datepickers()
-    resizeCommentTextareas()
-    tribute()
-    linkify()
-    nl2brify()
-    tagify()
+    ajaxCompleted()
   });
-  addPlaceholders()
-  tooltip()
-  timeago()
-  datepickers()
-  resizeCommentTextareas()
-  tribute()
-  linkify()
-  nl2brify()
-  tagify()
+  ajaxCompleted()
 
   $('form').submit(function () {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
