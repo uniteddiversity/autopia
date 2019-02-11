@@ -108,12 +108,7 @@ module Autopo
       @notification = Notification.find(params[:id]) || not_found
       erb :'emails/notification', :locals => {:notification => @notification, :group => @notification.group}, :layout => false
     end
-        
-    get '/stats' do
-      admins_only!
-      erb :stats
-    end 
-    
+            
     get '/:slug' do
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)
         erb :page
