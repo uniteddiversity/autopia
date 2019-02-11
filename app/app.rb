@@ -52,7 +52,7 @@ module Autopo
       @og_desc = 'Autopo is a tool for organising co-created gatherings. Use it to organise stand-alone events, or camps/barrios at larger events like Nowhere or the Borderland.'
       @og_image = "#{ENV['BASE_URI']}/images/autopo-link.png"
       if current_account
-        current_account.update_attribute(:last_active, Time.now)
+        current_account.set(last_active: Time.now)
       end
     end        
                 
