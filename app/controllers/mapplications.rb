@@ -17,11 +17,7 @@ Autopo::App.controller do
     @group = @mapplication.group
     @membership = @group.memberships.find_by(account: current_account)      
     confirmed_membership_required!
-    if @mapplication.status == 'accepted'
-      200
-    else
-      partial :'mapplications/mapplication_row', :locals => {:mapplication => @mapplication}
-    end
+    partial :'mapplications/mapplication_row', :locals => {:mapplication => @mapplication}
   end    
 	
   get '/a/:slug/apply' do      

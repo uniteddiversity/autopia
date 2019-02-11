@@ -323,6 +323,8 @@ class Group
   
   def check_box_scopes
     y = []
+    
+    y << [:admin, 'Admins', memberships.where(:admin => true)]
 
     if enable_budget
       y << [:paid_something, 'Paid something', memberships.where(:paid.gt => 0)]
