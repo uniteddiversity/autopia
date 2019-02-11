@@ -97,12 +97,16 @@
         <% end %>   
       </div>
       <div role="tabpanel" class="tab-pane" id="tab2">
-        <%= f.wysiwyg_block :intro_for_non_members %>      
-        <%= f.check_box_block :ask_for_date_of_birth %>  
-        <%= f.check_box_block :ask_for_gender %>  
-        <%= f.check_box_block :ask_for_facebook_profile_url %>          
+        <%= f.wysiwyg_block :intro_for_non_members %> 
+        <div class="mb-2">
+          <%= f.check_box_block :ask_for_date_of_birth %>  
+          <%= f.check_box_block :ask_for_gender %>  
+          <%= f.check_box_block :ask_for_facebook_profile_url %>          
+        </div>
         <%= f.number_block :member_limit %>
-        <%= f.check_box_block :enable_applications %>          
+        <div class="mb-2">
+          <%= f.check_box_block :enable_applications %>          
+        </div>
         <div id="application-options" style="display: none">  
           <%= f.text_area_block :application_questions %>                
           <%= f.check_box_block :require_reason_proposer %>
@@ -111,8 +115,12 @@
             <%= f.check_box_block :require_reason_supporter %>
             <%= f.check_box_block :anonymise_supporters %>                  
           </div>
-          <%= f.number_block :fixed_threshold %>
-          <%= f.check_box_block :democratic_threshold %>          
+          <div class="mt-2">
+            <%= f.number_block :fixed_threshold %>
+          </div>
+          <div class="mb-2">
+            <%= f.check_box_block :democratic_threshold %>          
+          </div>
           <%= f.number_block :proposing_delay %>    
         </div>
       </div>
@@ -125,7 +133,7 @@
         <% } %>
         <%= f.check_box_block :demand_payment %>  
         <div class="mt-2">
-        <%= f.url_block :facebook_group_url %>    
+          <%= f.url_block :facebook_group_url %>    
         </div>
         <% if @group.new_record? %>
           <%= f.submit_block %>  

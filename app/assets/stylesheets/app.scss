@@ -2,6 +2,8 @@
 
 @import "../infinite_admin/scss/style";
 
+body[contenteditable] { background: white }
+
 #content { background: white }
 
 @media print {
