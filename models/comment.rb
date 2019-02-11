@@ -27,7 +27,7 @@ class Comment
   end
   
   def body_with_additions
-    b = comment.body
+    b = body
     b = b.gsub("\n","<br />")
     b = b.gsub(/\[@([\w\s'-]+)\]\(@(\w+)\)/,'<a href="'+ENV['BASE_URI']+'/accounts/\2">\1</a>')
     b
