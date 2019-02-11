@@ -5,8 +5,8 @@ class HabitCompletion
   field :date, :type => Date
   field :comment, :type => String
 
-  belongs_to :account
-  belongs_to :habit
+  belongs_to :account, index: true
+  belongs_to :habit, index: true
   
   has_many :habit_completion_likes, :dependent => :destroy
     

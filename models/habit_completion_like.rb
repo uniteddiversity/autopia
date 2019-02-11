@@ -2,8 +2,8 @@ class HabitCompletionLike
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  belongs_to :account
-  belongs_to :habit_completion
+  belongs_to :account, index: true
+  belongs_to :habit_completion, index: true
     
   validates_presence_of :account, :habit_completion
   validates_uniqueness_of :account, :scope => :habit_completion

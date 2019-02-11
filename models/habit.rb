@@ -8,7 +8,7 @@ class Habit
   field :o, :type => Integer
   field :image_uid, :type => String
   
-  belongs_to :account
+  belongs_to :account, index: true
   
   has_many :habit_completions, :dependent => :destroy  
 
