@@ -13,7 +13,20 @@ function br2nl(str) {
 $(function () {
 
   function ajaxCompleted() {
-    
+
+    $('a[data-confirm]:not([data-confirm-registered])').each(function () {
+      $(this).click(function () {
+        $(this).removeClass('no-trigger')
+
+        var message = $(this).data('confirm');
+        if (!confirm(message)) {
+          $(this).addClass('no-trigger')
+          return false
+        }
+      })
+      $(this).attr('data-confirm-registered', 'true')
+    });
+
     $('form.add-placeholders label[for]').each(function () {
       var input = $(this).next().children().first()
       if (!$(input).attr('placeholder'))
@@ -117,15 +130,6 @@ $(function () {
           $(textarea).val(' ')
         }
       })
-  });
-
-  $(document).on('click', 'a[data-confirm]', function (e) {
-    $(this).removeClass('no-trigger')
-    var message = $(this).data('confirm');
-    if (!confirm(message)) {
-      $(this).addClass('no-trigger')
-      return false
-    }
   });
 
 });

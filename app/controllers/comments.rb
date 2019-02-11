@@ -117,7 +117,7 @@ Autopo::App.controller do
   get '/options/:id/destroy' do
     @option = Option.find(params[:id]) || not_found
     @option.destroy
-    redirect(back)
+    200
   end    
   
   get '/subscriptions/create' do
