@@ -31,15 +31,18 @@
     </p>
   <% end %>
 
-  <script>
-    $(function () {
-      $('.use-picture').popover({trigger: 'hover', html: true});
-    });
-  </script>
+  <% if @account.persisted? %>
 
-  <table class="table mt-3">
-    <% Provider.registered.each { |provider| %>
-      <% if @account.persisted? or (session['omniauth.auth'] and session['omniauth.auth']['provider'] == provider.omniauth_name) %>
+    <script>
+      $(function () {
+        $('.use-picture').popover({trigger: 'hover', html: true});
+      });
+    </script>    
+
+    <h2>Connected accounts</h2>  
+
+    <table class="table table-borderless mt-3">
+      <% Provider.registered.each { |provider| %>
         <tr>
           <td><%=provider.display_name%></td>
           <td>
@@ -55,12 +58,11 @@
             <% end %>
           </td>
         </tr>
-      <% end %>
-    <% } %>   
-  </table>
+      <% } %>   
+    </table>
 
-  <% if @account.persisted? %>
     <h2>Group notification settings</h2>  
+
     <table class="table table-borderless">
       <% Group.where(:id.in => @account.memberships.pluck(:group_id)).order('name asc').each { |group| membership = @account.memberships.find_by(group: group) %>
         <tr>
