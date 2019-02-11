@@ -8,7 +8,7 @@
 
 <p><%=comment.description%></p>   
 
-<p><%=comment.body.gsub("\n","<br />").gsub(/\[@([\w\s'-]+)\]\(@(\w+)\)/,'<a href="'+ENV['BASE_URI']+'/accounts/\2">\1</a>')%></p>
+<p><%=comment.body_with_additions%></p>
 <% if comment.file %>
   <p>
     <% if %w{png jpg gif jpeg}.any? { |x| comment.file.name.downcase.ends_with? ".#{x}" } %>
@@ -23,7 +23,7 @@
   <p>On <%=comment.created_at%>, <%=comment.account.name%> wrote:</p>
   <%= '<div style="border-left: 1px solid #ccc; margin-left: 1em; padding-left: 1em">' %>
 
-  <p><%=comment.body.gsub("\n","<br />")%></p>
+  <p><%=comment.body_with_additions%></p>
   <% if comment.file %>
     <p>
       <% if %w{png jpg gif jpeg}.any? { |x| comment.file.name.downcase.ends_with? ".#{x}" } %>

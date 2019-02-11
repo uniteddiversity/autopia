@@ -25,6 +25,13 @@ class Comment
       post.subscriptions.create account_id: match[0]
     }
   end
+  
+  def body_with_additions
+    b = comment.body
+    b = b.gsub("\n","<br />")
+    b = b.gsub(/\[@([\w\s'-]+)\]\(@(\w+)\)/,'<a href="'+ENV['BASE_URI']+'/accounts/\2">\1</a>')
+    b
+  end
 
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
