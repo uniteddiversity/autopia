@@ -61,7 +61,7 @@
 
   <h2>Group notification settings</h2>  
   <table class="table table-borderless">
-    <% @account.memberships.each { |membership| %>
+    <% Group.where(:id.in => @account.memberships.pluck(:group_id)).order('name asc').each { |group| membership = @account.memberships.find_by(group: group) %>
       <tr>
         <td>
           <%=membership.group.name%>
