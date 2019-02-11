@@ -2,10 +2,10 @@
 <script>
   $(function () {
     $('#network-habits-tab').click(function () {
-      $('#network-habits').load('/habits/network')
+      $('#network-habits').html(LOADING).load('/habits/network')
     })
     $('#my-habits-tab').click(function () {
-      $('#my-habits').load('/habits/me')
+      $('#my-habits').html(LOADING).load('/habits/me')
     })
   })
 </script>
