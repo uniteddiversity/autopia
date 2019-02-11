@@ -32,11 +32,11 @@ class Post
   end
   
   def subscribers
-    Account.where(:id.in => subscriptions.pluck(:account_id))
+    Account.where(:unsubscribed.ne => true).where(:id.in => subscriptions.pluck(:account_id))
   end
   
   def emails
-    subscribers.where(:unsubscribed.ne => true).pluck(:email)
+    subscribers.pluck(:email)
   end
     
 end
