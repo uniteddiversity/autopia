@@ -16,9 +16,7 @@
         js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2&appId=1498399346894704&autoLogAppEvents=1';
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));</script>   
-
-    <%= partial :alert %>
-
+    
     <!-- BEGIN #page-container -->
     <div id="page-container" class="page-header-fixed page-sidebar-fixed">
       <!-- BEGIN #header -->
@@ -74,6 +72,8 @@
       <!-- BEGIN #content -->
       <div id="content" class="content">
 
+        <%= partial :alert %>
+        
         <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
 
       </div>
