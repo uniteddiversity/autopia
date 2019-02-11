@@ -29,7 +29,7 @@ class Post
       "#{ENV['BASE_URI']}/a/#{activity.group.slug}/activities/#{activity.id}#post-#{id}"
     when 'Mapplication'
       mapplication = commentable
-      "#{ENV['BASE_URI']}/a/#{mapplication.group.slug}/applications"
+      "#{ENV['BASE_URI']}/a/#{mapplication.group.slug}/mapplications/#{mapplication.id}#post-#{id}"
     when 'Habit'
       habit = commentable
       "#{ENV['BASE_URI']}/habits/#{habit.id}#post-#{id}"
