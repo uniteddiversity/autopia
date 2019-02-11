@@ -46,7 +46,7 @@
     var network = [
 <% if current_account %>
   <% current_account.network.each { |account| %>
-        {key: '<%=account.name%>', value: '<%=account.id%>'},
+        {key: '<%=js_escape_html account.name%>', value: '<%=account.id%>'},
   <% } %>
 <% end %>
     ]
