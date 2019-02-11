@@ -13,6 +13,7 @@ function br2nl(str) {
 $(function () {
 
   function ajaxCompleted() {
+    
     $('form.add-placeholders label[for]').each(function () {
       var input = $(this).next().children().first()
       if (!$(input).attr('placeholder'))

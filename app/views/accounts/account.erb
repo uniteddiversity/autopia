@@ -45,7 +45,13 @@
           <tr>
             <td>Gender</td>
             <td>
-              <%=@account.gender%>
+              <% case @account.gender; when 'Man' %>
+                <i data-toggle="tooltip" title="<%=@account.gender%>" class="fa fa-mars"></i>
+              <% when 'Woman' %>
+                <i data-toggle="tooltip" title="<%=@account.gender%>" class="fa fa-venus"></i>
+              <% when 'Nonbinary' %>
+                <i data-toggle="tooltip" title="<%=@account.transgender%>" class="fa fa-mars"></i>
+              <% end %>
             </td>  
           </tr>
         <% end %>        

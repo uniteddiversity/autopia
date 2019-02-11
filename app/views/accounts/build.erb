@@ -59,20 +59,22 @@
     <% } %>   
   </table>
 
-  <h2>Group notification settings</h2>  
-  <table class="table table-borderless">
-    <% Group.where(:id.in => @account.memberships.pluck(:group_id)).order('name asc').each { |group| membership = @account.memberships.find_by(group: group) %>
-      <tr>
-        <td>
-          <%=membership.group.name%>
-        <td>
-        <td>
-          <div data-pagelet-url="/a/<%=membership.group.slug%>/subscribe" style="display: inline"></div>
-        </td>
-      </tr>
-    <% } %>
-  </table>
+  <% if @account.persisted? %>
+    <h2>Group notification settings</h2>  
+    <table class="table table-borderless">
+      <% Group.where(:id.in => @account.memberships.pluck(:group_id)).order('name asc').each { |group| membership = @account.memberships.find_by(group: group) %>
+        <tr>
+          <td>
+            <%=membership.group.name%>
+          <td>
+          <td>
+            <div data-pagelet-url="/a/<%=membership.group.slug%>/subscribe" style="display: inline"></div>
+          </td>
+        </tr>
+      <% } %>
+    </table>
 
-  <p class="text-muted">You can also turn email notifications on/off for each team within a group, by visiting the team page.</p>
+    <p class="text-muted">You can also turn email notifications on/off for each team within a group, by visiting the team page.</p>
+  <% end %>
 
 </div>
