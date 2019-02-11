@@ -4,7 +4,7 @@
 <div class="container">
 
   <% form_for @account, @account.new_record? ? '/accounts/new' : '/accounts/edit', :multipart => true do |f| %>
-    <%= hidden_field_tag :h, :value => params[:h] %>
+    <%= hidden_field_tag :slug, :value => params[:slug] %>
     <%= f.text_block :name %>
     <%= f.text_block :email %>
     <%= f.password_block :password %>

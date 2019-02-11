@@ -49,7 +49,7 @@ class Membership
       group = self.group
       
       if !account.sign_ins or account.sign_ins == 0
-        action = %Q{<a href="#{ENV['BASE_URI']}/accounts/edit?sign_in_token=#{account.sign_in_token}&h=#{group.slug}">Click here to finish setting up your account and get involved with the co-creation!</a>}
+        action = %Q{<a href="#{ENV['BASE_URI']}/accounts/edit?sign_in_token=#{account.sign_in_token}&slug=#{group.slug}">Click here to finish setting up your account and get involved with the co-creation!</a>}
       else
         action = %Q{<a href="#{ENV['BASE_URI']}/a/#{group.slug}?sign_in_token=#{account.sign_in_token}">Sign in to get involved with the co-creation!</a>}
       end       
