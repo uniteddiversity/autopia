@@ -5020,8 +5020,8 @@ label {
 
 @font-face {
 	font-family: 'Glyphicons Halflings';
-	src: url('../plugins/bootstrap/bootstrap3/fonts/glyphicons-halflings-regular.eot');
-	src: url('../plugins/bootstrap/bootstrap3/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../plugins/bootstrap/bootstrap3/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../plugins/bootstrap/bootstrap3/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../plugins/bootstrap/bootstrap3/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../plugins/bootstrap/bootstrap3/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+	src: url('/infinite_admin/plugins/bootstrap/bootstrap3/fonts/glyphicons-halflings-regular.eot');
+	src: url('/infinite_admin/plugins/bootstrap/bootstrap3/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('/infinite_admin/plugins/bootstrap/bootstrap3/fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('/infinite_admin/plugins/bootstrap/bootstrap3/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/infinite_admin/plugins/bootstrap/bootstrap3/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/infinite_admin/plugins/bootstrap/bootstrap3/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
 	position: relative;
