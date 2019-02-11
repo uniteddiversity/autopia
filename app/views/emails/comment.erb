@@ -8,7 +8,7 @@
 
 <p><%=comment.description%></p>   
 
-<p><%=comment.body.gsub("\n","<br />").gsub(/\[@[(\w\s'-)]+\]\(@(\w+)\)/,%Q{<a href="#{ENV['BASE_URI']}/accounts/\2">\1</a>})%></p>
+<p><%=comment.body.gsub("\n","<br />").gsub(/\[@([\w\s'-]+)\]\(@(\w+)\)/,%Q{<a href="#{ENV['BASE_URI']}/accounts/\2">\1</a>})%></p>
 <% if comment.file %>
   <p>
     <% if %w{png jpg gif jpeg}.any? { |x| comment.file.name.downcase.ends_with? ".#{x}" } %>
