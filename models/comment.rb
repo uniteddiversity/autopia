@@ -84,7 +84,10 @@ class Comment
   
   def email_subject
     s = ''
-    if commentable.respond_to?(:group)
+    if commentable.is_a?(Habit)
+      habit = commentable
+      s << "[#{habit.account.name}/#{habit.name}] "
+    else
       s << '['
       s << commentable.group.name
       if commentable.is_a?(Team)
@@ -97,7 +100,11 @@ class Comment
         s << activity.timetable.name
         s << '/'
         s << activity.name
-      end
+      elsif commentable.is_a?(Mapplication)
+        mapplication = commentable
+        s << '/'
+        s << "#{mapplication.account.name}'s application"
+      end      
       s << '] '
     end
     if post.subject
