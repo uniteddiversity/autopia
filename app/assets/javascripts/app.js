@@ -72,7 +72,7 @@ $(function () {
 
   function tagify() {
     $('.tagify').each(function () {
-      $(this).html($(this).html().replace(/\[@([\w\s]+)\]\(@(\w+)\)/g, '<a href="/accounts/$2">$1</a>'));
+      $(this).html($(this).html().replace(/\[@([\w\s'-]+)\]\(@(\w+)\)/g, '<a href="/accounts/$2">$1</a>'));
     })
   }
 
