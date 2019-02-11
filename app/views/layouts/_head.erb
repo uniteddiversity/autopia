@@ -11,7 +11,6 @@
   <!-- ================== END BASE CSS STYLE ================== -->
 
   <!-- ================== BEGIN BASE JS ================== -->
-  <script src="/infinite_admin/plugins/loader/pace/pace.min.js"></script>
   <script src="/infinite_admin/plugins/jquery/jquery-3.2.1.min.js"></script>
   <script src="/infinite_admin/plugins/jquery-ui/jquery-ui.min.js"></script>
   <script src="/infinite_admin/plugins/cookie/js/js.cookie.js"></script>
@@ -71,8 +70,8 @@
 
   <% [
     '/stylesheets/share.css',
-    "/stylesheets/app.css",
-    "/infinite_admin/css/theme/default.css"
+    '/stylesheets/app.css',
+    '/infinite_admin/css/theme/default.css'
     ].each { |f| %> 
     <link rel="stylesheet" href="<%=f%>" />    
   <% } %>
@@ -80,9 +79,9 @@
   <% [    
     '//cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/067bd296184a4dda8c669923417124065b4ebced/bootstrap3-typeahead.min.js',
     '//cdn.rawgit.com/jackmoore/autosize/6ae70cd3d28888eb858eef1167e6ed75d25dff7f/dist/autosize.min.js',
-    "/javascripts/app.js",      
+    '/javascripts/app.js',
     '//cdn.rawgit.com/wordsandwriting/activate-tools/7bef07297b78b0f68e40ae465d68be68ea49e27b/js/pagelets.js',
-    "//cdn.rawgit.com/wordsandwriting/activate-tools/7a73525b76c8234a4803e3196b4403ec6fd6ded7/js/textboxio/textboxio.js",    
+    '//cdn.rawgit.com/wordsandwriting/activate-tools/7a73525b76c8234a4803e3196b4403ec6fd6ded7/js/textboxio/textboxio.js',
     '/javascripts/linkify.min.js',
     '/javascripts/linkify-jquery.min.js',
     '//checkout.stripe.com/checkout.js'

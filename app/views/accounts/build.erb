@@ -33,35 +33,39 @@
 
   <% if @account.persisted? %>
 
-    <script>
-      $(function () {
-        $('.use-picture').popover({trigger: 'hover', html: true});
-      });
-    </script>    
+    <% if Provider.registered.count > 0 %>
 
-    <h2>Connected accounts</h2>  
+      <script>
+        $(function () {
+          $('.use-picture').popover({trigger: 'hover', html: true});
+        });
+      </script>    
 
-    <table class="table table-borderless mt-3">
-      <% Provider.registered.each { |provider| %>
-        <tr>
-          <td><%=provider.display_name%></td>
-          <td>
-            <% if provider_link = @account.provider_links.select { |provider_link| provider_link.provider == provider.display_name }[0] %>
-              <a style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(provider_link.omniauth_hash) %>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
-              <% if current_account %>
-                <a class="use-picture btn btn-secondary" href="/accounts/use_picture/<%=provider.omniauth_name%>" data-content="<img src='<%=provider.image.call(provider_link.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
-                <a class="btn btn-secondary" href="/accounts/disconnect/<%=provider.omniauth_name%>">Disconnect</a>
-              <% end %>                
-            <% else %>
-              <span style="margin-top: 5px">Not connected</span>
-              <a class="btn btn-secondary" href="/auth/<%=provider.omniauth_name%>">Connect</a>
-            <% end %>
-          </td>
-        </tr>
-      <% } %>   
-    </table>
+      <h2 class="mt-3">Connected accounts</h2>  
 
-    <h2>Group notification settings</h2>  
+      <table class="table table-borderless mt-3">
+        <% Provider.registered.each { |provider| %>
+          <tr>
+            <td><%=provider.display_name%></td>
+            <td>
+              <% if provider_link = @account.provider_links.select { |provider_link| provider_link.provider == provider.display_name }[0] %>
+                <a style="margin-top: 5px" target="_blank" href="<%= provider.profile_url.call(provider_link.omniauth_hash) %>"><%=provider.nickname.call(provider_link.omniauth_hash)%></a>
+                <% if current_account %>
+                  <a class="use-picture btn btn-secondary" href="/accounts/use_picture/<%=provider.omniauth_name%>" data-content="<img src='<%=provider.image.call(provider_link.omniauth_hash)%>'>" title="Click to use this picture">Use picture</a>
+                  <a class="btn btn-secondary" href="/accounts/disconnect/<%=provider.omniauth_name%>">Disconnect</a>
+                <% end %>                
+              <% else %>
+                <span style="margin-top: 5px">Not connected</span>
+                <a class="btn btn-secondary" href="/auth/<%=provider.omniauth_name%>">Connect</a>
+              <% end %>
+            </td>
+          </tr>
+        <% } %>   
+      </table>
+
+    <% end %>
+
+    <h2 class="mt-3">Group notification settings</h2>  
 
     <table class="table table-borderless">
       <% Group.where(:id.in => @account.memberships.pluck(:group_id)).order('name asc').each { |group| membership = @account.memberships.find_by(group: group) %>
