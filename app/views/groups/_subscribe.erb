@@ -1,9 +1,5 @@
 <% if membership.unsubscribed %>
-  <% form_tag "/a/#{membership.group.slug}/subscribe", :style => 'display: inline' do %>
-    <button class="btn btn-outline-primary mb-1"><i class="fa fa-bell-slash-o"></i> Email notifications off</button>
-  <% end %>
+  <a href="/a/<%=membership.group.slug%>/set_subscribe" class="pagelet-trigger btn btn-outline-primary mb-1"><i class="fa fa-bell-slash-o"></i> Email notifications off</a>
 <% else %>
-  <% form_tag "/a/#{membership.group.slug}/unsubscribe", :style => 'display: inline' do %>
-    <button class="btn btn-primary mb-1"><i class="fa fa-bell-o"></i> Email notifications on</button>
-  <% end %>    
+  <a href="/a/<%=membership.group.slug%>/set_unsubscribe" class="pagelet-trigger btn btn-primary mb-1"><i class="fa fa-bell-o"></i> Email notifications on</a>
 <% end %>

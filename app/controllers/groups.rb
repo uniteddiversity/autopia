@@ -77,7 +77,7 @@ Autopo::App.controller do
     partial :'groups/subscribe', :locals => {:membership => @membership}
   end
   
-  post '/a/:slug/subscribe' do        
+  get '/a/:slug/set_subscribe' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
@@ -85,7 +85,7 @@ Autopo::App.controller do
     200
   end      
   
-  post '/a/:slug/unsubscribe' do        
+  get '/a/:slug/set_unsubscribe' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!

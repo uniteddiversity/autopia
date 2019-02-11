@@ -5,7 +5,9 @@
   <div class="col-sm-8">
 
     <div class="mb-3">         
-      <div data-pagelet-url="/a/<%=@group.slug%>/subscribe" style="display: inline"></div>
+      <div data-pagelet-url="/a/<%=@group.slug%>/subscribe" style="display: inline">
+        <%= partial :'groups/subscribe', :locals => {:membership => @membership} %>
+      </div>
       <% if @membership.hide_from_sidebar %>
         <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/show_in_sidebar">Hidden from sidebar</a>
       <% else %>
