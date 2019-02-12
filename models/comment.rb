@@ -3,7 +3,7 @@ class Comment
   include Mongoid::Timestamps
   extend Dragonfly::Model
   
-  belongs_to :account, index: true
+  belongs_to :account, index: true, inverse_of: :comments_as_creator
   belongs_to :post, index: true
   
   belongs_to :commentable, polymorphic: true, index: true

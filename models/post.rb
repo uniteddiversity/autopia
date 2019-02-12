@@ -4,7 +4,7 @@ class Post
   
   field :subject, :type => String
   
-  belongs_to :account, index: true  
+  belongs_to :account, index: true, inverse_of: :posts_as_creator
   belongs_to :commentable, polymorphic: true, index: true
 
   has_many :subscriptions, :dependent => :destroy

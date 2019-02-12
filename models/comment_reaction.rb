@@ -4,7 +4,7 @@ class CommentReaction
   
   field :body, :type => String
   
-  belongs_to :account, index: true
+  belongs_to :account, index: true, inverse_of: :comment_reactions_as_creator
   belongs_to :comment, index: true
   belongs_to :post, index: true
   

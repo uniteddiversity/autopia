@@ -2,7 +2,7 @@ class Subscription
   include Mongoid::Document
   include Mongoid::Timestamps
     
-  belongs_to :account, index: true
+  belongs_to :account, index: true, inverse_of: :subscriptions_as_creator
   belongs_to :post, index: true
   
   belongs_to :commentable, polymorphic: true, index: true

@@ -123,10 +123,10 @@ class Account
   has_many :comments_as_creator,  :class_name => "Comment", :inverse_of => :account, :dependent => :destroy
   has_many :comment_reactions_as_creator, :class_name => "CommentReaction", :inverse_of => :account, :dependent => :destroy  
   
-  has_many :posts, :as => :commentable, :dependent => :destroy, :class_name => "Post", :inverse_of => :commentable
-  has_many :subscriptions, :as => :commentable, :dependent => :destroy, :class_name => "Subscription", :inverse_of => :commentable
-  has_many :comments, :as => :commentable, :dependent => :destroy, :class_name => "Comment", :inverse_of => :commentable
-  has_many :comment_reactions, :as => :commentable, :dependent => :destroy, :class_name => "CommentReaction", :inverse_of => :commentable
+  has_many :posts, :as => :commentable, :dependent => :destroy
+  has_many :subscriptions, :as => :commentable, :dependent => :destroy
+  has_many :comments, :as => :commentable, :dependent => :destroy
+  has_many :comment_reactions, :as => :commentable, :dependent => :destroy
     
   # Dragonfly
   dragonfly_accessor :picture 
