@@ -95,7 +95,7 @@ class Comment
     if commentable.is_a?(Habit)
       habit = commentable
       s << "[#{habit.account.name}/#{habit.name}] "
-    elsif comment_is_a?(Account)
+    elsif commentable.is_a?(Account)
       account = commentable
       s << "[#{account.name}] "
     else
