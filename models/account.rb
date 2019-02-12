@@ -52,7 +52,7 @@ class Account
   end
   
   def network_notifications
-    Notification.where(:circle_type => 'Group', :circle_id.in => memberships.pluck(:group_id))    
+    Notification.or({:circle_type => 'Group', :circle_id.in => memberships.pluck(:group_id)},{:circle_type => 'Account', :circle_id.in => [id]})
   end  
   
   has_many :groups, :dependent => :nullify  
