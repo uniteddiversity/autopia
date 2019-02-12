@@ -88,7 +88,7 @@
 <% end %>
 
 <% if current_account %>
-  <div data-pagelet-url="/commentable?commentable_type=Account&commentable_id=<%=@account.id%>">
+  <div data-pagelet-url="/commentable?commentable_type=Account&commentable_id=<%=@account.id%>" class="mt-5">
     <%= partial :'comments/commentable', :locals => {:commentable => @account} %>
   </div>  
 <% end %>
