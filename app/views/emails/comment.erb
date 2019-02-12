@@ -38,17 +38,7 @@
 <% } %>
 <%= close_divs %> 
 
-<p style="font-size: 13px">To continue the conversation,
-  <a href="
-  <% if group %>
-    <%="#{ENV['BASE_URI']}/a/#{group.slug}/#{comment.commentable_type.underscore.pluralize}/#{comment.commentable_id}#post-#{comment.post_id}"%>
-  <% else %>
-    <%="#{ENV['BASE_URI']}/#{comment.commentable_type.underscore.pluralize}/#{comment.commentable_id}#post-#{comment.post_id}"%>
-  <% end %>
-     ">
-    view the post</a>
-
-  or reply to this email.</p>
+<p style="font-size: 13px">To continue the conversation, <a href="<%=comment.post.url%>">view the post</a> or reply to this email.</p>
 
 <p style="font-size: 12px;">
   <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">Unsubscribe from this post</a>
