@@ -14,7 +14,7 @@ class Tier
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :group => group, :type => 'created_tier'
+    notifications.create! :circle => group, :type => 'created_tier'
   end      
   
   def members

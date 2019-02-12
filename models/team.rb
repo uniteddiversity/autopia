@@ -25,7 +25,7 @@ class Team
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     unless prevent_notifications
-      notifications.create! :group => group, :type => 'created_team'
+      notifications.create! :circle => group, :type => 'created_team'
     end
   end      
   

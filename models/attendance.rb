@@ -17,7 +17,7 @@ class Attendance
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    # notifications.create! :group => activity.group, :type => 'interested_in_activity'
+    # notifications.create! :circle => activity.group, :type => 'interested_in_activity'
   end      
         
   def self.admin_fields

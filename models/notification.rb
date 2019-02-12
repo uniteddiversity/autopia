@@ -4,25 +4,15 @@ class Notification
 
   field :type, :type => String
   
-  belongs_to :group, index: true
+  belongs_to :circle, polymorphic: true, index: true
   belongs_to :notifiable, polymorphic: true, index: true
   
+  def self.circle_types
+    %w{Group Account}
+  end
+  
   validates_presence_of :type
-  
-  after_create do
-    if ENV['PUSHER_APP_ID']
-      pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
-      pusher_client.trigger("notifications.#{group.slug}", 'updated', {})
-    end
-  end
-  
-  after_destroy do
-    if ENV['PUSHER_APP_ID']
-      pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
-      pusher_client.trigger("notifications.#{group.slug}", 'updated', {})    
-    end
-  end
-  
+    
   before_validation do
     errors.add(:type, 'not found') unless Notification.types.include?(type)
   end
@@ -37,16 +27,16 @@ class Notification
     
   after_create :send_email  
   def send_email
-    if ENV['SMTP_ADDRESS'] and Notification.mailable_types.include?(type)
+    if ENV['SMTP_ADDRESS'] && Notification.mailable_types.include?(type) && circle.is_a?(Group)
       notification = self      
-      group = self.group
-      bcc = group.emails
+      circle = self.circle
+      bcc = circle.emails
       
       if bcc.length > 0
         mail = Mail.new
         mail.bcc = bcc
         mail.from = ENV['NOTIFICATION_EMAIL']
-        mail.subject = "[#{group.name}] #{Nokogiri::HTML(notification.sentence).text}"
+        mail.subject = "[#{circle.name}] #{Nokogiri::HTML(notification.sentence).text}"
             
         content = ERB.new(File.read(Padrino.root('app/views/emails/notification.erb'))).result(binding)
         html_part = Mail::Part.new do
@@ -88,7 +78,7 @@ class Notification
       "<strong>#{teamship.account.name}</strong> joined the <strong>#{teamship.team.name}</strong> team"
     when :created_spend
       spend = notifiable
-      "<strong>#{spend.account.name}</strong> spent #{self.group.currency_symbol}#{spend.amount} on <strong>#{spend.item}</strong>"
+      "<strong>#{spend.account.name}</strong> spent #{spend.group.currency_symbol}#{spend.amount} on <strong>#{spend.item}</strong>"
     when :created_activity
       activity = notifiable
       "<strong>#{activity.account.name}</strong> proposed the activity <strong>#{activity.name}</strong> under <strong>#{activity.timetable.name}</strong>"
@@ -159,7 +149,7 @@ class Notification
       "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.commentable.name}#{if comment_reaction.comment.post.subject; "/#{comment_reaction.comment.post.subject}"; end}</strong>"
     when :left_group
       account = notifiable
-      "<strong>#{account.name}</strong> is no longer a member of #{self.group.name}"
+      "<strong>#{account.name}</strong> is no longer a member of #{circle.name}"
     when :created_payment
       payment = notifiable
       "<strong>#{payment.account.name}</strong> made a payment of #{Group.currency_symbol(payment.currency)}#{payment.amount}"
@@ -175,63 +165,63 @@ class Notification
   def link
     case type.to_sym
     when :created_group
-      ['View group', "#{ENV['BASE_URI']}/a/#{group.slug}"]
+      ['View group', "#{ENV['BASE_URI']}/a/#{circle.slug}"]
     when :applied
-      ['View applications', "#{ENV['BASE_URI']}/a/#{group.slug}/applications"]
+      ['View applications', "#{ENV['BASE_URI']}/a/#{circle.slug}/applications"]
     when :joined_group
-      ['View members', "#{ENV['BASE_URI']}/a/#{group.slug}/members"]      
+      ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]      
     when :joined_team
-      ['View team', "#{ENV['BASE_URI']}/a/#{group.slug}/teams/#{notifiable.team_id}"]
+      ['View team', "#{ENV['BASE_URI']}/a/#{circle.slug}/teams/#{notifiable.team_id}"]
     when :created_spend
-      ['View budget', "#{ENV['BASE_URI']}/a/#{group.slug}/budget"]
+      ['View budget', "#{ENV['BASE_URI']}/a/#{circle.slug}/budget"]
     when :created_activity
-      ['View timetable', "#{ENV['BASE_URI']}/a/#{group.slug}/activities/#{notifiable.id}"]
+      ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]
     when :signed_up_to_a_shift
-      ['View rotas', "#{ENV['BASE_URI']}/a/#{group.slug}/rotas/#{notifiable.rota_id}"]
+      ['View rotas', "#{ENV['BASE_URI']}/a/#{circle.slug}/rotas/#{notifiable.rota_id}"]
     when :joined_tier
-      ['View tiers', "#{ENV['BASE_URI']}/a/#{group.slug}/tiers"]    
+      ['View tiers', "#{ENV['BASE_URI']}/a/#{circle.slug}/tiers"]    
     when :joined_transport
-      ['View transport', "#{ENV['BASE_URI']}/a/#{group.slug}/transports"] 
+      ['View transport', "#{ENV['BASE_URI']}/a/#{circle.slug}/transports"] 
     when :joined_accom
-      ['View accommodation', "#{ENV['BASE_URI']}/a/#{group.slug}/accoms"]      
+      ['View accommodation', "#{ENV['BASE_URI']}/a/#{circle.slug}/accoms"]      
     when :interested_in_activity
-      ['View timetable', "#{ENV['BASE_URI']}/a/#{group.slug}/activities/#{notifiable.activity_id}"]  
+      ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.activity_id}"]  
     when :gave_verdict
-      ['View applications', "#{ENV['BASE_URI']}/a/#{group.slug}/applications"]
+      ['View applications', "#{ENV['BASE_URI']}/a/#{circle.slug}/applications"]
     when :created_transport
-      ['View transport', "#{ENV['BASE_URI']}/a/#{group.slug}/transports"] 
+      ['View transport', "#{ENV['BASE_URI']}/a/#{circle.slug}/transports"] 
     when :created_tier
-      ['View tiers', "#{ENV['BASE_URI']}/a/#{group.slug}/tiers"]    
+      ['View tiers', "#{ENV['BASE_URI']}/a/#{circle.slug}/tiers"]    
     when :created_team
-      ['View team', "#{ENV['BASE_URI']}/a/#{group.slug}/teams/#{notifiable.id}"]
+      ['View team', "#{ENV['BASE_URI']}/a/#{circle.slug}/teams/#{notifiable.id}"]
     when :created_accom
-      ['View accommodation', "#{ENV['BASE_URI']}/a/#{group.slug}/accoms"]      
+      ['View accommodation', "#{ENV['BASE_URI']}/a/#{circle.slug}/accoms"]      
     when :created_rota
-      ['View rotas', "#{ENV['BASE_URI']}/a/#{group.slug}/rotas/#{notifiable.id}"]
+      ['View rotas', "#{ENV['BASE_URI']}/a/#{circle.slug}/rotas/#{notifiable.id}"]
     when :scheduled_activity
-      ['View timetable', "#{ENV['BASE_URI']}/a/#{group.slug}/activities/#{notifiable.id}"]  
+      ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]  
     when :unscheduled_activity
-      ['View timetable', "#{ENV['BASE_URI']}/a/#{group.slug}/activities/#{notifiable.id}"]  
+      ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]  
     when :made_admin
-      ['View members', "#{ENV['BASE_URI']}/a/#{group.slug}/members"]      
+      ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]      
     when :unadmined
-      ['View members', "#{ENV['BASE_URI']}/a/#{group.slug}/members"]      
+      ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]      
     when :created_timetable
-      ['View timetables', "#{ENV['BASE_URI']}/a/#{group.slug}/timetables/#{notifiable.id}"]      
+      ['View timetables', "#{ENV['BASE_URI']}/a/#{circle.slug}/timetables/#{notifiable.id}"]      
     when :cultivating_quality
-      ['View qualities', "#{ENV['BASE_URI']}/a/#{group.slug}/qualities"]
+      ['View qualities', "#{ENV['BASE_URI']}/a/#{circle.slug}/qualities"]
     when :commented
-      ['View post', "#{ENV['BASE_URI']}/a/#{group.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
+      ['View post', "#{ENV['BASE_URI']}/a/#{circle.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
     when :reacted_to_a_comment
-      ['View post', "#{ENV['BASE_URI']}/a/#{group.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
+      ['View post', "#{ENV['BASE_URI']}/a/#{circle.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
     when :left_group
-      ['View members', "#{ENV['BASE_URI']}/a/#{group.slug}/members"]
+      ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]
     when :created_payment
-      ['View budget', "#{ENV['BASE_URI']}/a/#{group.slug}/budget"]
+      ['View budget', "#{ENV['BASE_URI']}/a/#{circle.slug}/budget"]
     when :created_inventory_item
-      ['View inventory', "#{ENV['BASE_URI']}/a/#{group.slug}/inventory"]
+      ['View inventory', "#{ENV['BASE_URI']}/a/#{circle.slug}/inventory"]
     when :mapplication_removed
-      ['View applications', "#{ENV['BASE_URI']}/a/#{group.slug}/applications"]
+      ['View applications', "#{ENV['BASE_URI']}/a/#{circle.slug}/applications"]
     end
   end
     
@@ -301,7 +291,8 @@ class Notification
         
   def self.admin_fields
     {
-      :group_id => :lookup,
+      :circle_type => :text,
+      :circle_id => :text,
       :notifiable_type => :text,
       :notifiable_id => :text,
       :type => :text

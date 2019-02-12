@@ -15,7 +15,7 @@ class Tiership
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :group => group, :type => 'joined_tier'
+    notifications.create! :circle => group, :type => 'joined_tier'
   end    
            
   def self.admin_fields

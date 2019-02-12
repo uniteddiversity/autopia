@@ -109,7 +109,7 @@ Autopo::App.controller do
     membership.admin_status_changed_by = current_account
     membership.save!
     membership.notifications.where(:type.in => ['made_admin', 'unadmined']).destroy_all
-    membership.notifications.create! :group => @group, :type => 'made_admin'
+    membership.notifications.create! :circle => @group, :type => 'made_admin'
     redirect back      
   end
     
@@ -122,7 +122,7 @@ Autopo::App.controller do
     membership.admin_status_changed_by = current_account
     membership.save!
     membership.notifications.where(:type.in => ['made_admin', 'unadmined']).destroy_all
-    membership.notifications.create! :group => @group, :type => 'unadmined'
+    membership.notifications.create! :circle => @group, :type => 'unadmined'
     redirect back      
   end    
     

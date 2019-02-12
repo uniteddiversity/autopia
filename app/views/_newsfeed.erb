@@ -7,7 +7,7 @@
 
         <div class="media-body ml-2">
           <% if include_group_name %>
-            <strong><a class="text-dark" href="/a/<%=notification.group.slug%>"><%= notification.group.name %></a></strong>
+            <strong><a class="text-dark" href="/a/<%=notification.circle.slug%>"><%= notification.circle.name %></a></strong>
           <% else %>      
             <a href="<%= notification.link[1] %>"><%= notification.sentence %></a>
           <% end %>

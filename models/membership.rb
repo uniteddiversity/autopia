@@ -29,7 +29,7 @@ class Membership
   has_many :notifications, as: :notifiable, dependent: :destroy  
   after_create do
     unless prevent_notifications
-      notifications.create! :group => group, :type => 'joined_group'
+      notifications.create! :circle => group, :type => 'joined_group'
     end
     if general = group.teams.find_by(name: 'General')
       general.teamships.create! account: account, prevent_notifications: true
@@ -65,7 +65,7 @@ class Membership
   handle_asynchronously :send_email
    
   after_destroy do
-    account.notifications.create! :group => group, :type => 'left_group'
+    account.notifications_as_notifiable.create! :circle => group, :type => 'left_group'
     if mapplication
       mapplication.prevent_notifications = true
       mapplication.destroy

@@ -18,10 +18,10 @@
       <h2>Your groups</h2>
 
       <div class="list-group mb-3">        
-        <% current_account.memberships.sort_by { |membership| membership.group.notifications.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.reverse.each { |membership| group = membership.group %>
+        <% current_account.memberships.sort_by { |membership| membership.group.notifications_as_circle.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.reverse.each { |membership| group = membership.group %>
           <a href="/a/<%=group.slug%>" class="list-group-item">
             <%=group.name%>
-            <% if change = group.notifications.order('created_at desc').first.try(:created_at) %>
+            <% if change = group.notifications_as_circle.order('created_at desc').first.try(:created_at) %>
               <span style="font-size: 11px" class="text-muted">Active <%= timeago(change) %></span>      
             <% end %>          
           </a>

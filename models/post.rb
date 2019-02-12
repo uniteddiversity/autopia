@@ -16,7 +16,7 @@ class Post
   end
   
   def self.commentable_types
-    %w{Team Activity Mapplication Habit}
+    %w{Team Activity Mapplication Habit Account}
   end  
   
   def url
@@ -33,6 +33,9 @@ class Post
     when 'Habit'
       habit = commentable
       "#{ENV['BASE_URI']}/habits/#{habit.id}#post-#{id}"
+    when 'Account'
+      account = commentable
+      "#{ENV['BASE_URI']}/accounts/#{account.id}#post-#{id}"      
     end    
   end
   

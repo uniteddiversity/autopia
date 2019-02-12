@@ -24,7 +24,7 @@ Autopo::App.controller do
   get '/a/:slug' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    @notifications = @group.notifications.order('created_at desc').page(params[:page])
+    @notifications = @group.notifications_as_circle.order('created_at desc').page(params[:page])
     if !@membership
       if @group.enable_applications
         redirect "/a/#{@group.slug}/apply"

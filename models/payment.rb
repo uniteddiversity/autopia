@@ -12,7 +12,7 @@ class Payment
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :group => group, :type => 'created_payment'
+    notifications.create! :circle => group, :type => 'created_payment'
   end
   
   validates_presence_of :group_name, :amount, :currency

@@ -82,9 +82,11 @@ class Group
   validates_uniqueness_of :slug
   validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/
   
+  has_many :notifications_as_notifiable, :as => :notifiable, :dependent => :destroy, :class_name => "Notification", :inverse_of => :notifiable
+  has_many :notifications_as_circle, :as => :circle, :dependent => :destroy, :class_name => "Notification", :inverse_of => :circle
+  
   has_many :memberships, :dependent => :destroy
-  has_many :mapplications, :dependent => :destroy  
-  has_many :notifications, :dependent => :destroy
+  has_many :mapplications, :dependent => :destroy    
   has_many :verdicts, :dependent => :destroy
   has_many :payments, :dependent => :nullify
   has_many :withdrawals, :dependent => :nullify

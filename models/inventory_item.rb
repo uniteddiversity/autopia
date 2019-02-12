@@ -20,7 +20,7 @@ class InventoryItem
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     if account
-      notifications.create! :group => group, :type => 'created_inventory_item'
+      notifications.create! :circle => group, :type => 'created_inventory_item'
     end
   end  
         

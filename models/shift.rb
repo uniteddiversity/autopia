@@ -20,7 +20,7 @@ class Shift
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     if account
-      notifications.create! :group => rota.group, :type => 'signed_up_to_a_shift'
+      notifications.create! :circle => rota.group, :type => 'signed_up_to_a_shift'
     end
   end  
         

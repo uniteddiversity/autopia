@@ -15,7 +15,7 @@ class Accom
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :group => group, :type => 'created_accom'
+    notifications.create! :circle => group, :type => 'created_accom'
   end      
   
   def members

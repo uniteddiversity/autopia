@@ -196,7 +196,7 @@ Autopo::App.controller do
     @activity.save!  
     @activity.notifications.where(:type.in => ['scheduled_activity', 'unscheduled_activity']).destroy_all
     if @activity.timetable.scheduling_by_all
-      @activity.notifications.create! :group => @group, :type => 'scheduled_activity'   
+      @activity.notifications.create! :circle => @group, :type => 'scheduled_activity'   
     end
     200      
   end
@@ -213,7 +213,7 @@ Autopo::App.controller do
     @activity.save!
     @activity.notifications.where(:type.in => ['scheduled_activity', 'unscheduled_activity']).destroy_all
     if @activity.timetable.scheduling_by_all
-      @activity.notifications.create! :group => @group, :type => 'unscheduled_activity'
+      @activity.notifications.create! :circle => @group, :type => 'unscheduled_activity'
     end
     200
   end  

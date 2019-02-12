@@ -11,6 +11,10 @@ class Comment
   field :body, :type => String 
   field :file_uid, :type => String
   
+  def self.commentable_types
+    %w{Team Activity Mapplication Habit Account}
+  end    
+  
   dragonfly_accessor :file  
   
   validates_presence_of :body
@@ -35,10 +39,14 @@ class Comment
 
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    if account and commentable.respond_to?(:group)
-      notifications.create! :group => commentable.group, :type => 'commented'
+    if %w{Team Activity Mapplication}.include?(commentable_type)
+      notifications.create! :circle => commentable.group, :type => 'commented'
+    elsif %w{Account}.include?(commentable_type)
+      notifications.create! :circle => commentable, :type => 'commented'
+    elsif %w{Habit}.include?(commentable_type)
+      notifications.create! :circle => commentable.account, :type => 'commented'
     end
-  end  
+  end
     
   after_create do
     if ENV['PUSHER_APP_ID']
@@ -87,6 +95,9 @@ class Comment
     if commentable.is_a?(Habit)
       habit = commentable
       s << "[#{habit.account.name}/#{habit.name}] "
+    elsif comment_is_a?(Account)
+      account = commentable
+      s << "[#{account.name}] "
     else
       s << '['
       s << commentable.group.name
@@ -143,10 +154,6 @@ class Comment
   end
   handle_asynchronously :send_comment  
   
-  def self.commentable_types
-    %w{Team Activity Mapplication Habit}
-  end
-
   def self.admin_fields
     {
       :body => :text_area,

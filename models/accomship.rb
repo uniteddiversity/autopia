@@ -15,7 +15,7 @@ class Accomship
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :group => group, :type => 'joined_accom'
+    notifications.create! :circle => group, :type => 'joined_accom'
   end      
         
   def self.admin_fields

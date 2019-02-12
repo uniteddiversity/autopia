@@ -42,8 +42,16 @@ class Account
     Account.where(:id.in => Membership.where(:group_id.in => memberships.pluck(:group_id)).pluck(:account_id))
   end
   
+  def subscribers
+    network.where(:unsubscribed.ne => true)
+  end
+  
+  def emails
+    subscribers.pluck(:email)
+  end
+  
   def network_notifications
-    Notification.where(:group_id.in => memberships.pluck(:group_id))    
+    Notification.where(:circle_type => 'Group', :circle_id.in => memberships.pluck(:group_id))    
   end  
   
   has_many :groups, :dependent => :nullify  
@@ -67,10 +75,6 @@ class Account
   # Teams
   has_many :teams, :dependent => :nullify  
   has_many :teamships, :dependent => :destroy 
-  has_many :posts, :dependent => :destroy
-  has_many :subscriptions, :dependent => :destroy
-  has_many :comments, :dependent => :destroy
-  has_many :comment_reactions, :dependent => :destroy
   has_many :read_receipts, :dependent => :destroy
   has_many :options, :dependent => :destroy
   has_many :votes, :dependent => :destroy
@@ -111,7 +115,18 @@ class Account
   has_many :message_receipts_as_messenger, :class_name => "MessageReceipt", :inverse_of => :messenger, :dependent => :destroy
   has_many :message_receipts_as_messengee, :class_name => "MessageReceipt", :inverse_of => :messengee, :dependent => :destroy
   
-  has_many :notifications, as: :notifiable, dependent: :destroy
+  has_many :notifications_as_notifiable, :as => :notifiable, :dependent => :destroy, :class_name => "Notification", :inverse_of => :notifiable
+  has_many :notifications_as_circle, :as => :circle, :dependent => :destroy, :class_name => "Notification", :inverse_of => :circle
+  
+  has_many :posts_as_creator, :class_name => "Post", :inverse_of => :account, :dependent => :destroy
+  has_many :subscriptions_as_creator, :class_name => "Subscription", :inverse_of => :account, :dependent => :destroy
+  has_many :comments_as_creator,  :class_name => "Comment", :inverse_of => :account, :dependent => :destroy
+  has_many :comment_reactions_as_creator, :class_name => "CommentReaction", :inverse_of => :account, :dependent => :destroy  
+  
+  has_many :posts, :as => :commentable, :dependent => :destroy, :class_name => "Post", :inverse_of => :commentable
+  has_many :subscriptions, :as => :commentable, :dependent => :destroy, :class_name => "Subscription", :inverse_of => :commentable
+  has_many :comments, :as => :commentable, :dependent => :destroy, :class_name => "Comment", :inverse_of => :commentable
+  has_many :comment_reactions, :as => :commentable, :dependent => :destroy, :class_name => "CommentReaction", :inverse_of => :commentable
     
   # Dragonfly
   dragonfly_accessor :picture 
