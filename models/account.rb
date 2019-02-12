@@ -43,7 +43,8 @@ class Account
   end
   
   def subscribers
-    network.where(:unsubscribed.ne => true)
+    # network.where(:unsubscribed.ne => true)
+    Account.where(:id.in => [id])
   end
   
   def emails

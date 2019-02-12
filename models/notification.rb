@@ -27,7 +27,7 @@ class Notification
     
   after_create :send_email  
   def send_email
-    if ENV['SMTP_ADDRESS'] && Notification.mailable_types.include?(type) && circle.is_a?(Group)
+    if ENV['SMTP_ADDRESS'] && Notification.mailable_types.include?(type)
       notification = self      
       circle = self.circle
       bcc = circle.emails
@@ -211,9 +211,9 @@ class Notification
     when :cultivating_quality
       ['View qualities', "#{ENV['BASE_URI']}/a/#{circle.slug}/qualities"]
     when :commented
-      ['View post', "#{ENV['BASE_URI']}/a/#{circle.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
+      ['View post', notifiable.post.url]
     when :reacted_to_a_comment
-      ['View post', "#{ENV['BASE_URI']}/a/#{circle.slug}/#{notifiable.commentable_type.underscore.pluralize}/#{notifiable.commentable_id}#post-#{notifiable.post_id}"]
+      ['View post', notifiable.post.url]
     when :left_group
       ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]
     when :created_payment
