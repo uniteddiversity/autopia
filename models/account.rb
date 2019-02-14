@@ -153,7 +153,7 @@ class Account
   end  
   
   def unread_notifications?
-    last_checked_notifications && network_notifications.order('created_at desc').first.created_at > last_checked_notifications
+    last_checked_notifications && (n = network_notifications.order('created_at desc').first) && n.created_at > last_checked_notifications
   end
     
   has_many :provider_links, :dependent => :destroy
