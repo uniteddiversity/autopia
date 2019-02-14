@@ -11,6 +11,14 @@ class Notification
     %w{Group Account}
   end
   
+  def circle_url
+    if circle.is_a?(Group)
+      "#{ENV['BASE_URI']}/a/#{circle.slug}"
+    elsif circle.is_a?(Account)
+      "#{ENV['BASE_URI']}/accounts/#{circle.id}"
+    end
+  end
+  
   validates_presence_of :type
     
   before_validation do
