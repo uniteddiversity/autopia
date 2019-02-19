@@ -30,7 +30,7 @@
             <%= partial :'accounts/square', :locals => {:account => @account, :style => 'display: block; width: 64px'} %>
           </div>
           <div class="widget-chat-content">                
-            <div class="widget-chat-message last" data-toggle="tooltip" title="<%=message.created_at%>">
+            <div class="linkify widget-chat-message last" data-toggle="tooltip" title="<%=message.created_at%>">
               <%=message.body%>
             </div>
           </div>
@@ -38,7 +38,7 @@
       <% else %>
         <li class="reply">
           <div class="widget-chat-content">
-            <div class="widget-chat-message last" data-toggle="tooltip" title="<%=message.created_at%>">
+            <div class="linkify widget-chat-message last" data-toggle="tooltip" title="<%=message.created_at%>">
               <%=message.body%>
             </div>
             <% if i == messages.count-1 && (message_receipt = MessageReceipt.find_by(messenger: current_account, messengee: @account)) && message_receipt.received_at > message.created_at %>
