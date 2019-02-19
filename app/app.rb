@@ -40,7 +40,7 @@ module Autopo
     end
        
     before do
-      @cachebuster = 'anteater'
+      @cachebuster = 'bluebell'
       redirect "#{ENV['BASE_URI']}#{request.path}" if ENV['BASE_URI'] and "#{request.scheme}://#{request.env['HTTP_HOST']}" != ENV['BASE_URI']
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : 'London'
       fix_params!
