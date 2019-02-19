@@ -1,12 +1,15 @@
 
 <script>
   $(function () {
-    $('#network-habits-tab').click(function () {
-      $('#network-habits').html(LOADING).load('/habits/network')
-    })
-    $('#my-habits-tab').click(function () {
-      $('#my-habits').html(LOADING).load('/habits/me')
-    })
+    $('#network-habits').html(LOADING).load('/habits/network')
+    $('#my-habits').html(LOADING).load('/habits/me')
+
+    $(document).ajaxComplete(function (event, xhr, settings) {
+      if (settings.url.endsWith('/completed')) {
+        $('#network-habits').load('/habits/network')
+        $('#my-habits').load('/habits/me')
+      }
+    });
   })
 </script>
 
