@@ -25,38 +25,29 @@
 
   <% end %>
 
+  <li class="<%='active' if request.path == '/'%>">
+    <a href="/">
+      <i class="fa fa-fw fa-home"></i>
+      <span class="nav-link-text">Home</span>
+    </a>
+  </li>
 
-  <% if !current_account %>
+  <li class="<%='active' if request.path == '/a/new'%>">
+    <a href="/a/new">
+      <i class="fa fa-fw fa-plus-circle"></i>
+      <span class="nav-link-text">Create a group</span>
+    </a>
+  </li>  
 
-    <li class="<%='active' if request.path == '/'%>">
-      <a href="/">
-        <i class="fa fa-fw fa-home"></i>
-        <span class="nav-link-text">Home</span>
-      </a>
-    </li>
+  <li>
+    <a target="_blank" href="https://autopo.slack.com/">
+      <i class="fa fa-fw fa-slack"></i>
+      <span class="nav-link-text">Chat to us on Slack</span>
+    </a>          
+  </li>      
 
-    <li class="<%='active' if request.path == '/a/new'%>">
-      <a href="/a/new">
-        <i class="fa fa-fw fa-plus-circle"></i>
-        <span class="nav-link-text">Create a group</span>
-      </a>
-    </li>     
 
-  <% else %>
-
-    <li class="<%='active' if request.path == '/'%>">
-      <a href="/">
-        <i class="fa fa-fw fa-home"></i>
-        <span class="nav-link-text">Home</span>
-      </a>
-    </li>
-
-    <li class="<%='active' if request.path == '/a/new'%>">
-      <a href="/a/new">
-        <i class="fa fa-fw fa-plus-circle"></i>
-        <span class="nav-link-text">Create a group</span>
-      </a>
-    </li>    
+  <% if current_account %>
 
     <li class="nav-divider"></li>
     <li class="nav-header">Groups</li>    
