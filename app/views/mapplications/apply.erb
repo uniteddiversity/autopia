@@ -1,5 +1,5 @@
 
-<%= partial :'groups/header' %>
+
 
 <% if params[:applied] or (current_account and @group.mapplications.find_by(:status.ne => 'accepted', :account => current_account)) %>
 
