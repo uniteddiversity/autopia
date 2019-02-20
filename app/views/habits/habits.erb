@@ -1,9 +1,6 @@
 
 <script>
   $(function () {
-    $('#network-habits').html(LOADING).load('/habits/network')
-    $('#my-habits').html(LOADING).load('/habits/me')
-
     $(document).ajaxComplete(function (event, xhr, settings) {
       if (settings.url.endsWith('/completed')) {
         $('#network-habits').load('/habits/network')
@@ -15,7 +12,7 @@
 
 <a id="add-habit" class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><i class="fa fa-plus-circle"></i> Add habit</a>
 <div style="display: none">
-<%= partial :'habits/build' %>
+  <%= partial :'habits/build' %>
 </div>
 <% if params[:add] %>
   <script>
@@ -40,11 +37,15 @@
 <div class="tab-content">
   <div class="tab-pane fade show active" id="habit-tiles" role="tabpanel">
 
-<% if !(habits = current_account.habits).empty? %>
-  <%= partial :'habits/blocks', :locals => {:habits => habits, :block_class => 'col-sm-4'} %>
-<% end %>          
+    <% if !(habits = current_account.habits).empty? %>
+      <%= partial :'habits/blocks', :locals => {:habits => habits, :block_class => 'col-sm-4'} %>
+    <% end %>          
 
   </div>  
-  <div class="tab-pane fade" id="my-habits" role="tabpanel"></div>
-  <div class="tab-pane fade" id="network-habits" role="tabpanel"></div>  
+  <div class="tab-pane fade" id="my-habits" role="tabpanel">
+    <%= partial :'habits/log', :locals => {:accounts => current_account.network} %>
+  </div>
+  <div class="tab-pane fade" id="network-habits" role="tabpanel">
+    <%= partial :'habits/me' %>
+  </div>  
 </div>

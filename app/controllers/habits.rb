@@ -12,15 +12,13 @@ Autopo::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    @dates = ((Date.current-4)..Date.current).to_a.reverse    
-    @accounts = @group.members    
+    @dates = ((Date.current-4)..Date.current).to_a.reverse        
     erb :'habits/group'
   end
   
   get '/habits/network' do
     @dates = ((Date.current-4)..Date.current).to_a.reverse
-    @accounts = current_account.network
-    partial :'habits/log'
+    partial :'habits/log', :locals => {:accounts => current_account.network}
   end
   
   get '/habits/me' do
