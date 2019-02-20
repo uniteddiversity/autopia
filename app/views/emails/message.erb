@@ -1,8 +1,9 @@
 <p>
-  <strong><%=messenger.name%></strong> sent you a message via Autopo.
-  <a href="<%=ENV['BASE_URI']%>/messages/<%=messenger.id%>">View message history</a>
+  <strong><%=messenger.name%></strong> sent you a message via Autopo.  
 </p>
 
 <p><%=message.body.gsub("\n","<br />")%></p>
+
+<p style="font-size: 13px"><a href="<%=ENV['BASE_URI']%>/messages/<%=messenger.id%>">View message history</a></p>
 
 <p style="font-size: 12px;"><a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">Turn off email notifications</a></p>
