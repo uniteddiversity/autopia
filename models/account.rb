@@ -194,7 +194,8 @@ class Account
       :provider_links => :collection,
       :sign_ins => :number,
       :memberships => :collection,
-      :mapplications => :collection
+      :mapplications => :collection,
+      :last_active => :datetime
     }
   end
   
