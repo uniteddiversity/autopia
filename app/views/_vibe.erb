@@ -1,5 +1,5 @@
 <% if current_account %>
-  <% unless current_account == account %>
+  <% unless current_account.id == account.id %>
     <% if current_account.vibes_as_viber.find_by vibee: account %>
       <% form_tag "/unvibe/#{account.id}" do %>
         <button class="btn <% if Vibe.vibing(current_account, account) %> btn-success <% else %> btn-primary <% end %> <%= btn_class if defined?(btn_class) %>">

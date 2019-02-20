@@ -3,7 +3,7 @@
 
 <ul class="dropdown-menu dropdown-lg no-padding">
   <% current_account.messages.order('created_at desc').each_with_index { |message,i| %>      
-    <% account = (current_account == message.messenger ? message.messengee : message.messenger) # the other person %>      
+    <% account = (current_account.id == message.messenger_id ? message.messengee : message.messenger) # the other person %>      
     <% next if messenger_ids.include?(account.id) %>
     <% m += 1 %>
     <li class="notification">

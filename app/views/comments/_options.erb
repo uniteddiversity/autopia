@@ -6,7 +6,7 @@
           <%= check_box_tag :vote, :value => true, :checked => option.votes.find_by(account: current_account), :onclick => '$(this.form).submit()' %>
           <%= option.text %>
         </label>
-        <% if comment.account == current_account %>
+        <% if comment.account_id == current_account.id %>
           <a class="subtle pagelet-trigger" data-confirm="Are you sure?" href="/options/<%=option.id%>/destroy"><i class="fa fa-times"></i></a>
         <% end %>
       <% end %>
@@ -20,7 +20,7 @@
     </div>
   <% } %>
 
-  <% if comment.account == current_account %>
+  <% if comment.account_id == current_account.id %>
 
     <a id="poll-for-<%=comment.id%>" href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><i class="fa fa-bar-chart"></i> Add a poll</a> 
     <% form_tag '/options/create', :style => 'display: none' do %>
