@@ -23,7 +23,7 @@ Autopo::App.controller do
       @comment.post = @post
     end
     if @comment.save
-      request.xhr? ? 200 : redirect(back)
+      request.xhr? ? 200 : redirect(@comment.post.url)
     else
       @post.destroy if @post
       request.xhr? ? 400 : redirect(back)
