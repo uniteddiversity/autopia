@@ -6,7 +6,8 @@
   <div class="col">
 
     <h1 class="mt-2 mt-sm-0">
-      <a class="text-dark" href="/accounts/<%=@account.id%>"><%=@account.name%></a>    
+      <a class="text-dark" href="/u/<%=@account.username%>"><%=@account.name%></a>   
+      <small class="text-muted">@<%=@account.username%></small>
     </h1>   
 
     <%= partial :'accounts/buttons', :locals => {:account => @account} %>

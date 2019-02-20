@@ -1,5 +1,5 @@
 <% if !defined?(content) %>
-  <a style="text-decoration: none" href="/accounts/<%=account.id%>">
+  <a style="text-decoration: none" href="/u/<%=account.username%>">
   <% end %>
   <img <% if defined?(klass) %> class="<%=klass%>" <% end %> data-toggle="tooltip" title="<%=account.name%><% if defined?(content) && content %>: <%=CGI::escapeHTML(content) if content%><% end %>" <% if defined?(style) %> style="<%= style%>" <% else %> style="width: <%=width%>;" <% end %> src="<%=account.picture_thumb_or_gravatar_url %>" />
   <% if !defined?(content) %>

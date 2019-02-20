@@ -71,10 +71,15 @@ Autopo::App.controller do
     sign_in_required!
     current_account.update_attribute(:not_on_facebook, true)
     redirect back
-  end         
+  end     
   
   get '/accounts/:id' do    
     @account = Account.find(params[:id]) || not_found
+    redirect "/u/#{@account.username}"
+  end
+  
+  get '/u/:username' do
+    @account = Account.find_by(username: params[:username]) || not_found
     @habits = @account.habits.where(public: true).where(:id.in => @account.habit_completions.pluck(:habit_id))
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     erb :'accounts/account'

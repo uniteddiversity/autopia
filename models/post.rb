@@ -35,7 +35,7 @@ class Post
       "#{ENV['BASE_URI']}/habits/#{habit.id}#post-#{id}"
     when 'Account'
       account = commentable
-      "#{ENV['BASE_URI']}/accounts/#{account.id}#post-#{id}"      
+      "#{ENV['BASE_URI']}/u/#{account.username}#post-#{id}"      
     end    
   end
   
