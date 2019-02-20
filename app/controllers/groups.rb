@@ -85,7 +85,7 @@ Autopo::App.controller do
     200
   end      
   
-  get '/a/:slug/set_unsubscribe' do        
+  get '/a/:slug/unsubscribe' do        
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
