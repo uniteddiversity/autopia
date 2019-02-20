@@ -1,15 +1,9 @@
 
 <% if current_account %>
-
   <% unless current_account.id == account.id %>
     <div class="d-inline-block mb-1" data-pagelet-url="/vibes/<%=account.id%>?btn_class=<%=btn_class if defined?(btn_class)%>">
       <%= partial :vibe, :locals => {:account => account, :btn_class => (btn_class if defined?(btn_class))} %>
     </div>
-  <% end %>
-
-  <% unless current_account.id == account.id %>
     <a href="/messages/<%=account.id%>" class="<%=btn_class if defined?(btn_class)%> btn btn-outline-primary"><i class="ti-comment"></i> Message</a>
   <% end %>
-
 <% end %>
-
