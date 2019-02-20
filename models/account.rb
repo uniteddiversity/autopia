@@ -31,6 +31,7 @@ class Account
   before_validation do
     self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
     self.name = self.name.strip if self.name
+    self.username = self.username.downcase if self.username
     
     errors.add(:facebook_profile_url, 'must contain facebook.com') if self.facebook_profile_url and !self.facebook_profile_url.include?('facebook.com')    
     self.facebook_profile_url = "https://#{self.facebook_profile_url}" if self.facebook_profile_url and !(self.facebook_profile_url =~ /\Ahttps?:\/\//)
@@ -212,7 +213,8 @@ class Account
     {
       :gender => 'Optional. Please only provide this information if you feel comfortable doing so',
       :date_of_birth => 'Optional. Please only provide this information if you feel comfortable doing so',
-      :facebook_profile_url => 'Optional. Please only provide this information if you feel comfortable doing so'      
+      :facebook_profile_url => 'Optional. Please only provide this information if you feel comfortable doing so',
+      :username => 'Letters, numbers, underscores and periods'
     }
   end
   
