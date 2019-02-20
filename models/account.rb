@@ -5,6 +5,7 @@ class Account
             
   field :name, :type => String  
   field :email, :type => String
+  field :username, :type => String
   field :gender, :type => String
   field :date_of_birth, :type => Date
   field :dietary_requirements, :type => String
@@ -161,19 +162,22 @@ class Account
           
   attr_accessor :password  
 
-  validates_presence_of :name
-  validates_presence_of     :email
+  validates_presence_of :name, :username, :email
   validates_length_of       :email,    :within => 3..100
   validates_uniqueness_of   :email,    :case_sensitive => false
   validates_format_of       :email,    :with => /\A[^@\s]+@[^@\s]+\.[^@\s]+\Z/i
   validates_presence_of     :password,                   :if => :password_required
   validates_length_of       :password, :within => 4..40, :if => :password_required
+  
+  validates_format_of :username, :with => /\A[a-z0-9_\.]+\z/
+  validates_uniqueness_of :username
           
   def self.admin_fields
     {
       :name => :text,
       :facebook_name => :text,
       :email => :text,
+      :username => :text,
       :gender => :select,
       :date_of_birth => :date,
       :facebook_profile_url => :text,

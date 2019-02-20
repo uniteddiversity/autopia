@@ -5,8 +5,9 @@
 
   <% form_for @account, @account.new_record? ? '/accounts/new' : '/accounts/edit', :multipart => true do |f| %>
     <%= hidden_field_tag :slug, :value => params[:slug] %>
-    <%= f.text_block :name %>
-    <%= f.text_block :email %>
+    <%= f.text_block :username %>
+    <%= f.text_block :name %>    
+    <%= f.text_block :email %>    
     <%= f.password_block :password %>
     <% if @account.persisted? %>
       <%= f.image_block :picture, rotate: false %>
@@ -75,7 +76,7 @@
           <td>
           <td>
             <div data-pagelet-url="/a/<%=membership.group.slug%>/subscribe">
-            <%= partial :'groups/subscribe', :locals => {:membership => membership} %>
+              <%= partial :'groups/subscribe', :locals => {:membership => membership} %>
             </div>
           </td>
         </tr>
