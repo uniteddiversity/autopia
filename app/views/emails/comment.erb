@@ -1,12 +1,27 @@
 <% group = (comment.commentable.respond_to?(:group) ? comment.commentable.group : nil) %>
 
-<% if comment.post.subject %>
-  <h1 style="margin-top: 0">
-    <%=comment.post.subject%>
-  </h1>
-<% end %>
 
-<p><%=comment.description%></p>   
+<% if comment.post.comments.count == 1 %>
+
+  <p><%=comment.description%></p>
+
+  <% if comment.post.subject %>
+    <h1 style="margin-top: 0">
+      <%=comment.post.subject%>
+    </h1>
+  <% end %>
+
+<% else %>
+
+  <% if comment.post.subject %>
+    <h1 style="margin-top: 0">
+      <%=comment.post.subject%>
+    </h1>
+  <% end %>
+
+  <p><%=comment.description%></p>
+
+<% end %>
 
 <p><%=comment.body_with_additions%></p>
 <% if comment.file %>
