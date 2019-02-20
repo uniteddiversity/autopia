@@ -29,6 +29,14 @@ class Account
   end
       
   before_validation do
+    if !self.username and self.name
+      u = self.name.parameterize.underscore
+      n = Account.where(username: u).count
+      if n > 0
+        u = "#{u}#{n}"
+      end
+      self.username = u
+    end
     self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
     self.name = self.name.strip if self.name
     self.username = self.username.downcase if self.username

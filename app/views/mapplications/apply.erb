@@ -41,7 +41,7 @@
         </script>
         <% if !current_account or @membership %>
           <%= f.text_block :name %>
-          <%= f.text_block :email %>
+          <%= f.email_block :email %>
           <%= f.image_block :picture %>  
           <% if @group.ask_for_date_of_birth %>
             <%= f.date_block :date_of_birth %>

@@ -7,7 +7,7 @@
     <%= hidden_field_tag :slug, :value => params[:slug] %>
     <%= f.text_block :username %>
     <%= f.text_block :name %>    
-    <%= f.text_block :email %>    
+    <%= f.email_block :email %>    
     <%= f.password_block :password %>
     <% if @account.persisted? %>
       <%= f.image_block :picture, rotate: false %>
