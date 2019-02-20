@@ -41,9 +41,9 @@
     <% end %>          
   </div>  
   <div class="tab-pane fade" id="my-habits" role="tabpanel">
-    <%= partial :'habits/log', :locals => {:accounts => current_account.network} %>
+    <%= partial :'habits/me' %>
   </div>
   <div class="tab-pane fade" id="network-habits" role="tabpanel">
-    <%= partial :'habits/me' %>
+    <%= partial :'habits/log', :locals => {:accounts => current_account.network} %>
   </div>  
 </div>
