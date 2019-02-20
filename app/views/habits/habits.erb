@@ -36,11 +36,9 @@
 
 <div class="tab-content">
   <div class="tab-pane fade show active" id="habit-tiles" role="tabpanel">
-
     <% if !(habits = current_account.habits).empty? %>
       <%= partial :'habits/blocks', :locals => {:habits => habits, :block_class => 'col-sm-4'} %>
     <% end %>          
-
   </div>  
   <div class="tab-pane fade" id="my-habits" role="tabpanel">
     <%= partial :'habits/log', :locals => {:accounts => current_account.network} %>
