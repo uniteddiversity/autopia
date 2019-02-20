@@ -8,13 +8,21 @@
     <div style="margin-bottom: 10px; font-size: 13px;">
 
       <% @group.radio_scopes.each_with_index { |el,i| k,v,t,r = *el %>
-        <label style="display: inline; font-weight: normal"><%=t%> <strong><%=r.count%></strong> <%= radio_button_tag k, :value => v, :checked => (params[k] == v.to_s), :onclick => 'this.form.submit()' %></label>
-        &middot;
+        <div class="radio-inline ml-3 mb-2">
+          <%= radio_button_tag k, :value => v, :checked => (params[k] == v.to_s), :onclick => 'this.form.submit()', :id => "#{k}-#{v}" %>
+          <label for="<%=k%>-<%=v%>">
+            <%=t%>&nbsp;<strong><%=r.count%></strong> 
+          </label>
+        </div>
       <% } %>      
 
       <% @group.check_box_scopes.each_with_index { |el,i| k,t,r = *el %>
-        <label style="display: inline; font-weight: normal"><%=t%> <strong><%=r.count%></strong> <%= check_box_tag k, :value => true, :checked => params[k], :onclick => 'this.form.submit()' %></label>
-        <% unless i == (@group.check_box_scopes.length-1) %> &middot; <% end %>
+        <div class="checkbox-inline ml-3 mb-2">
+          <%= check_box_tag k, :value => true, :checked => params[k], :onclick => 'this.form.submit()', :id => k %>
+          <label for="<%=k%>">
+            <%=t%>&nbsp;<strong><%=r.count%></strong>
+          </label>
+        </div>        
       <% } %>
     </div>
 
