@@ -58,8 +58,14 @@
 <p style="font-size: 12px;">
   <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">Unsubscribe from this post</a>
   <% if comment.commentable.is_a?(Team) %>
-    or
-    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">turn off email notifications for this team</a>
+    &middot;
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">Unsubscribe from this team</a>
   <% end %>
+  <% if comment.circle.is_a?(Group) %>
+    &middot;
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>/unsubscribe">Unsubscribe from this group</a>    
+  <% end %>
+  &middot;
+  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">Unsubscribe from all emails</a>        
 </p>
 
