@@ -9,7 +9,7 @@
 <p style="font-size: 12px; color: #aaa">
   <% if notification.circle.is_a?(Group) %>
     <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=circle.slug%>/unsubscribe">Unsubscribe from this group</a>
-    &middot;
+    <br />
   <% end %>  
   <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">Unsubscribe from all emails</a>            
 </p>
