@@ -82,7 +82,7 @@ Autopo::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @membership.update_attribute(:unsubscribed, nil)
-    200
+    request.xhr? ? 200 : redirect("/a/#{@group.slug}")
   end      
   
   get '/a/:slug/unsubscribe' do        
@@ -90,7 +90,7 @@ Autopo::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @membership.update_attribute(:unsubscribed, true)
-    200
+    request.xhr? ? 200 : redirect("/a/#{@group.slug}")
   end  
   
   get '/a/:slug/show_in_sidebar' do        
