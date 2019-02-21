@@ -56,16 +56,17 @@
 <p style="font-size: 13px">To continue the conversation, <a href="<%=comment.post.url%>">view the post</a> or reply to this email.</p>
 
 <p style="font-size: 12px; color: #aaa">
-  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">Unsubscribe from this post</a>
+  Unsubscribe from
+  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">this post</a>
   <% if comment.commentable.is_a?(Team) %>
-    <br />
-    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">Unsubscribe from this team</a>
+    &middot;
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">this team</a>
   <% end %>
   <% if comment.commentable.respond_to?(:group) %>
-    <br />
-    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>/unsubscribe">Unsubscribe from this group</a>    
+    &middot;
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>/unsubscribe">this group</a>    
   <% end %>
-  <br />
-  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">Unsubscribe from all emails</a>        
+  &middot;
+  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">all emails</a>        
 </p>
 
