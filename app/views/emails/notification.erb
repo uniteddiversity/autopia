@@ -5,6 +5,12 @@
 
 <p><%=notification.sentence%>. <a href="<%=notification.link[1]%>"><%=notification.link[0]%></a></p>
 
-<% if notification.circle.is_a?(Group) %>
-  <p style="font-size: 12px;"><a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=circle.slug%>/unsubscribe">Turn off email notifications of key events in <%=circle.name%></a></p>
-<% end %>
+
+<p style="font-size: 12px;">
+  <% if notification.circle.is_a?(Group) %>
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=circle.slug%>/unsubscribe">Unsubscribe from this group</a>
+    &middot;
+  <% end %>  
+  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">Unsubscribe from all emails</a>            
+</p>
+

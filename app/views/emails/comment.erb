@@ -61,7 +61,7 @@
     &middot;
     <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">Unsubscribe from this team</a>
   <% end %>
-  <% if comment.circle.is_a?(Group) %>
+  <% if comment.commentable.respond_to?(:group) %>
     &middot;
     <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>/unsubscribe">Unsubscribe from this group</a>    
   <% end %>

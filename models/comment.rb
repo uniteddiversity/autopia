@@ -98,7 +98,7 @@ class Comment
     elsif commentable.is_a?(Account)
       account = commentable
       s << "[#{account.name}] "
-    else
+    elsif commentable.respond_to?(:group)
       s << '['
       s << commentable.group.name
       if commentable.is_a?(Team)
