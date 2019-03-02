@@ -77,6 +77,7 @@
   <% } %>
 
   <% [    
+    "//maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_MAPS_API_KEY']}&libraries=places",
     '//cdn.rawgit.com/bassjobsen/Bootstrap-3-Typeahead/067bd296184a4dda8c669923417124065b4ebced/bootstrap3-typeahead.min.js',
     '//cdn.rawgit.com/jackmoore/autosize/6ae70cd3d28888eb858eef1167e6ed75d25dff7f/dist/autosize.min.js',
     "/javascripts/app.js?#{@cachebuster}",
@@ -89,7 +90,7 @@
     <script src="<%=f%>"></script>
   <% } %>  
 
-  <%= favicon_tag 'autopo-square.png' %>
+  <%= favicon_tag 'autopia-square.png' %>
   <title><%=@title%></title>
   <meta name="description" content="<%=@og_desc%>">
   <meta property="og:title" content="<%=@title%>" />

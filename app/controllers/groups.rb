@@ -1,4 +1,4 @@
-Autopo::App.controller do
+Autopia::App.controller do
     
   get '/a/new' do
     sign_in_required!

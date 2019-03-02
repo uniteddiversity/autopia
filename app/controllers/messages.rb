@@ -1,4 +1,4 @@
-Autopo::App.controller do
+Autopia::App.controller do
   
   before do
     sign_in_required!

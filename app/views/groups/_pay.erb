@@ -17,7 +17,7 @@
 <script>
   var handler = StripeCheckout.configure({
     key: '<%=ENV['STRIPE_PK']%>',
-    image: '<%=ENV['BASE_URI']%>/images/autopo-square.png',
+    image: '<%=ENV['BASE_URI']%>/images/autopia-square.png',
     email: '<%=current_account.email%>',
     locale: 'auto',
     allowRememberMe: false,
@@ -37,7 +37,7 @@
   $('#pay-form').submit(function () {
     console.log('paying')
     handler.open({
-      name: 'Autopo',
+      name: 'Autopia',
       description: '<%=js_escape_html("Payment for #{@group.name}")%>',
       currency: '<%=@group.currency%>',
       amount: $('#amount').val() * 100,

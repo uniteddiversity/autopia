@@ -1,4 +1,4 @@
-Autopo::App.controller do
+Autopia::App.controller do
 
   post '/inbound/:id' do    
 		mail, html, plain_text = EmailReceiver.receive(request)				    			

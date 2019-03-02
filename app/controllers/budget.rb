@@ -1,4 +1,4 @@
-Autopo::App.controller do
+Autopia::App.controller do
 
   get '/a/:slug/budget' do
     @group = Group.find_by(slug: params[:slug]) || not_found

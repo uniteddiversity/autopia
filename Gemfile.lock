@@ -78,6 +78,7 @@ GEM
       fog-core
       nokogiri (>= 1.5.11, < 2.0.0)
     formatador (0.2.5)
+    geocoder (1.5.1)
     hashie (3.6.0)
     html_truncator (0.4.2)
       nokogiri (~> 1.5)
@@ -243,6 +244,7 @@ DEPENDENCIES
   delayed_job_mongoid
   dragonfly
   dragonfly-s3_data_store
+  geocoder
   html_truncator
   incoming
   koala

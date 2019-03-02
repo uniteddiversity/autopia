@@ -1,6 +1,6 @@
 
 <% if @group.persisted? %>
-  
+
 <% end %>
 
 <h1><%= @group.persisted? ? '' : 'Create a group' %></h1>
@@ -39,7 +39,7 @@
       else
         $(b).parent().parent().hide()
     });
-    
+
     $('#group_enable_applications').click(function () {
       if ($(this).is(':checked'))
         $('#application-options').show()
@@ -92,6 +92,18 @@
       <div role="tabpanel" class="tab-pane active" id="tab1">    
         <%= f.text_block :name %>
         <%= f.slug_block :slug %>
+
+        <script>
+          $(function () {
+            var autocomplete = new google.maps.places.Autocomplete($('#group_location')[0]);
+            $('#group_location').keydown(function (e) {
+              if (e.which == 13 && $('.pac-container:visible').length)
+                return false;
+            });
+          })
+        </script>
+        <%= f.text_block :location %>
+
         <%= f.image_block :cover_image %>  
         <% if @group.new_record? %>
           <%= f.select_block :currency %>

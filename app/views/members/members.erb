@@ -168,7 +168,7 @@
         <th></th>
         <th>
           <%=@group.currency_symbol%><%= @group.memberships.pluck(:paid).compact.sum %>
-          (<%=@group.currency_symbol%><%= @group.processed_via_stripe %> processed via Autopo)
+          (<%=@group.currency_symbol%><%= @group.processed_via_stripe %> processed via Autopia)
         </th>
       <% end %>
       <% if @group.facebook_group_url %>

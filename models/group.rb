@@ -11,6 +11,8 @@ class Group
   
   field :name, :type => String
   field :slug, :type => String
+  field :location, :type => String
+  field :coordinates, :type => Array  
   field :cover_image_uid, :type => String
   field :intro_for_members, :type => String
   field :enable_applications, :type => Boolean  
@@ -38,6 +40,14 @@ class Group
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
   }
+  
+  include Geocoder::Model::Mongoid
+  geocoded_by :location  
+  def lat; coordinates[1] if coordinates; end  
+  def lng; coordinates[0] if coordinates; end  
+  after_validation do
+    self.geocode || (self.coordinates = nil)
+  end    
     
   before_validation do
     self.balance = 0 if self.balance.nil?
@@ -180,7 +190,8 @@ class Group
   def self.admin_fields
     h = {
       :name => :text,
-      :slug => :slug,      
+      :slug => :slug,     
+      :location => :text,
       :cover_image => :image,
       :intro_for_members => :wysiwyg,
       :fixed_threshold => :number,

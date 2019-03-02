@@ -1,4 +1,4 @@
-Autopo::App.controller do
+Autopia::App.controller do
 
   get '/habits' do
     sign_in_required!

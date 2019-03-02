@@ -1,4 +1,4 @@
-Autopo::App.helpers do
+Autopia::App.helpers do
   
   def mass_assigning(params, model)
     params ||= {}

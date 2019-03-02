@@ -138,7 +138,7 @@ class Comment
       if bcc.length > 0
         mail = Mail.new
         mail.bcc = bcc
-        mail.from = "Autopo <#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
+        mail.from = "Autopia <#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
         mail.subject = comment.email_subject
             
         content = ERB.new(File.read(Padrino.root('app/views/emails/comment.erb'))).result(binding)

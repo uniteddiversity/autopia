@@ -1,4 +1,4 @@
-module Autopo
+module Autopia
   class App < Padrino::Application
     register Padrino::Rendering
     register Padrino::Helpers
@@ -49,9 +49,9 @@ module Autopo
         account.update_attribute(:sign_in_token, SecureRandom.uuid)
       end      
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
-      @title = 'Autopo'
-      @og_desc = 'Autopo is a tool for organising co-created gatherings. Use it to organise stand-alone events, or camps/barrios at larger events like Nowhere or the Borderland.'
-      @og_image = "#{ENV['BASE_URI']}/images/autopo-link.png"
+      @title = 'Autopia'
+      @og_desc = 'Autopia is a tool for organising co-created gatherings. Use it to organise stand-alone events, or camps/barrios at larger events like Nowhere or the Borderland.'
+      @og_image = "#{ENV['BASE_URI']}/images/autopia-link.png"
       if current_account
         current_account.set(last_active: Time.now)
       end

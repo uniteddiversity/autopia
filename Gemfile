@@ -42,3 +42,4 @@ gem 'premailer'
 gem 'mailgun-ruby', require: 'mailgun'
 
 gem 'koala'
+gem 'geocoder'

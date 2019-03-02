@@ -1,4 +1,4 @@
-Autopo::App.controller do
+Autopia::App.controller do
   
   post '/a/:slug/qualities/new' do
     @group = Group.find_by(slug: params[:slug]) || not_found
