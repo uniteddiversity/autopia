@@ -41,7 +41,7 @@ module Autopia
        
     before do
       @cachebuster = 'crow'
-      redirect "#{ENV['BASE_URI']}#{request.path}" if ENV['BASE_URI'] and "#{request.scheme}://#{request.env['HTTP_HOST']}" != ENV['BASE_URI']
+      # redirect "#{ENV['BASE_URI']}#{request.path}" if ENV['BASE_URI'] and "#{request.scheme}://#{request.env['HTTP_HOST']}" != ENV['BASE_URI']
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : 'London'
       fix_params!
       if params[:sign_in_token] and account = Account.find_by(sign_in_token: params[:sign_in_token])
