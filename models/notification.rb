@@ -143,7 +143,7 @@ class Notification
       if comment.commentable.is_a?(Mapplication)
         "<strong>#{comment.account.name}</strong> commented on <strong>#{comment.commentable.account.name}</strong>'s application"                  
       else
-        if comment.first_in_post? == 1
+        if comment.first_in_post?
           "<strong>#{comment.account.name}</strong> started a thread <strong>#{comment.commentable.name}#{if comment.post.subject; "/#{comment.post.subject}"; end}</strong>"                  
         else
           "<strong>#{comment.account.name}</strong> replied to <strong>#{comment.commentable.name}#{if comment.post.subject; "/#{comment.post.subject}"; end}</strong>"                  
