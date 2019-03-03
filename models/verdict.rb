@@ -28,14 +28,7 @@ class Verdict
       errors.add(:type, 'requires a reason')      
     end
   end
-  
-  has_many :notifications, as: :notifiable, dependent: :destroy
-  after_create do
-    if type == 'proposer' or (type == 'supporter' and !mapplication.group.anonymise_supporters)
-      notifications.create! :circle => mapplication.group, :type => 'gave_verdict'
-    end
-  end   
-          
+            
   def self.admin_fields
     {
       :account_id => :lookup,

@@ -26,7 +26,7 @@ class Notification
   end
   
   def self.types
-    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend joined_team signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity gave_verdict scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
+    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend joined_team signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
   end
   
   def self.mailable_types
@@ -105,9 +105,6 @@ class Notification
     when :interested_in_activity
       attendance = notifiable
       "<strong>#{attendance.account.name}</strong> is interested in <strong>#{attendance.activity.name}</strong>"
-    when :gave_verdict
-      verdict = notifiable
-      "<strong>#{verdict.account.name}</strong> #{verdict.ed} <strong>#{verdict.mapplication.account.name}</strong>"
     when :created_transport
       transport = notifiable
       "<strong>#{transport.account.name}</strong> created the transport <strong>#{transport.name}</strong>"
@@ -194,8 +191,6 @@ class Notification
       ['View accommodation', "#{ENV['BASE_URI']}/a/#{circle.slug}/accoms"]      
     when :interested_in_activity
       ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.activity_id}"]  
-    when :gave_verdict
-      ['View applications', "#{ENV['BASE_URI']}/a/#{circle.slug}/applications"]
     when :created_transport
       ['View transport', "#{ENV['BASE_URI']}/a/#{circle.slug}/transports"] 
     when :created_tier
@@ -257,8 +252,6 @@ class Notification
       'fa-home'
     when :interested_in_activity
       'fa-thumbs-up'
-    when :gave_verdict
-      'fa-puzzle-piece'
     when :created_transport
       'fa-bus'
     when :created_tier
