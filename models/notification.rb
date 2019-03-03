@@ -26,7 +26,7 @@ class Notification
   end
   
   def self.types
-    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend joined_team signed_up_to_a_shift joined_tier joined_transport joined_accom interested_in_activity scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
+    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend joined_team signed_up_to_a_shift interested_in_activity scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
   end
   
   def self.mailable_types
@@ -93,15 +93,6 @@ class Notification
     when :signed_up_to_a_shift
       shift = notifiable
       "<strong>#{shift.account.name}</strong> signed up for a <strong>#{shift.rota.name}</strong> shift"
-    when :joined_tier
-      tiership = notifiable
-      "<strong>#{tiership.account.name}</strong> joined the <strong>#{tiership.tier.name}</strong> tier"      
-    when :joined_transport
-      transportship = notifiable
-      "<strong>#{transportship.account.name}</strong> joined the <strong>#{transportship.transport.name}</strong> transport"   
-    when :joined_accom
-      accomship = notifiable
-      "<strong>#{accomship.account.name}</strong> joined the <strong>#{accomship.accom.name}</strong> accommodation"
     when :interested_in_activity
       attendance = notifiable
       "<strong>#{attendance.account.name}</strong> is interested in <strong>#{attendance.activity.name}</strong>"
@@ -183,12 +174,6 @@ class Notification
       ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]
     when :signed_up_to_a_shift
       ['View rotas', "#{ENV['BASE_URI']}/a/#{circle.slug}/rotas/#{notifiable.rota_id}"]
-    when :joined_tier
-      ['View tiers', "#{ENV['BASE_URI']}/a/#{circle.slug}/tiers"]    
-    when :joined_transport
-      ['View transport', "#{ENV['BASE_URI']}/a/#{circle.slug}/transports"] 
-    when :joined_accom
-      ['View accommodation', "#{ENV['BASE_URI']}/a/#{circle.slug}/accoms"]      
     when :interested_in_activity
       ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.activity_id}"]  
     when :created_transport
@@ -244,12 +229,6 @@ class Notification
       'fa-paper-plane'
     when :signed_up_to_a_shift
       'fa-hand-paper-o'
-    when :joined_tier
-      'fa-align-justify'
-    when :joined_transport
-      'fa-bus'
-    when :joined_accom
-      'fa-home'
     when :interested_in_activity
       'fa-thumbs-up'
     when :created_transport

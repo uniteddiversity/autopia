@@ -12,12 +12,7 @@ class Accomship
   before_validation do
     self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
   end  
-  
-  has_many :notifications, as: :notifiable, dependent: :destroy
-  after_create do
-    notifications.create! :circle => group, :type => 'joined_accom'
-  end      
-        
+          
   def self.admin_fields
     {
       :account_id => :lookup,
