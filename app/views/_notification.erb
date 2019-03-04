@@ -1,4 +1,4 @@
 <a href="<%= notification.link[1] %>"><%= notification.sentence %></a>
 <% if notification.type.to_sym == :applied; mapplication = notification.notifiable %>
-  <span class="float-right badge <%=mapplication.badge%>"><%=mapplication.status.capitalize%></span>
+  <span class="float-right label label-<%=mapplication.label%>"><%=mapplication.status.capitalize%></span>
 <% end %>

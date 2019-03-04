@@ -91,11 +91,11 @@ class Mapplication
     ['pending', 'accepted', 'paused']
   end 
   
-  def badge
+  def label
     case status
-    when 'pending'; 'badge-primary';
-    when 'accepted'; 'badge-success';
-    when 'paused'; 'badge-warning'
+    when 'pending'; 'primary';
+    when 'accepted'; 'success';
+    when 'paused'; 'warning'
     end
   end
 
