@@ -37,6 +37,7 @@ class Group
   field :teamup_calendar_url, :type => String
   field :facebook_group_url, :type => String
   field :demand_payment, :type => Boolean
+  field :hide_members_on_application_form, :type => Boolean
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
   }
@@ -212,6 +213,7 @@ class Group
       :ask_for_gender => :check_box,
       :ask_for_facebook_profile_url => :check_box,
       :demand_payment => :check_box,      
+      :hide_members_on_application_form => :check_box,
       :paypal_email => :text,
       :currency => :select,
       :teamup_calendar_url => :url,
@@ -278,7 +280,8 @@ class Group
       :facebook_group_url => 'Facebook group URL',
       :require_reason_proposer => 'Proposers must provide a reason',
       :require_reason_supporter => 'Supporters must provide a reason',
-      :demand_payment => 'Members must make a payment to access group content'
+      :demand_payment => 'Members must make a payment to access group content',
+      :hide_members_on_application_form => "Don't show existing members on the application form"
     }[attr.to_sym] || super  
   end   
   

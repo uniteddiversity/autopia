@@ -23,10 +23,12 @@
   <% end %>
 
   <div class="row" style="margin-top: 15px">
+    <% unless @group.hide_members_on_application_form %>
     <div class="col-sm-4 order-sm-1">
       <%= partial :'members/cocreators' %>
     </div>    
-    <div class="col-sm-8 order-sm-0">
+    <% end %>
+    <div class="<%= @group.hide_members_on_application_form ? 'col-sm-12' : 'col-sm-8' %> order-sm-0">
 
       <% if @group.intro_for_non_members %>
         <%=@group.intro_for_non_members%>
