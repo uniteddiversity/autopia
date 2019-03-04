@@ -74,7 +74,7 @@ class Notification
         if mapplication.processed_by
           "<strong>#{membership.account.name}</strong> was accepted by <strong>#{mapplication.processed_by.name}</strong>"
         else
-          "<strong>#{membership.account.name}</strong> was autoaccepted"
+          "<strong>#{membership.account.name}</strong> was accepted"
         end
       elsif membership.added_by
         "<strong>#{membership.account.name}</strong> was added by #{membership.added_by.name}"
