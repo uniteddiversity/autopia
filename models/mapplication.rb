@@ -89,6 +89,14 @@ class Mapplication
     
   def self.statuses
     ['pending', 'accepted', 'paused']
-  end    
+  end 
+  
+  def badge
+    case status
+    when 'pending'; 'badge-primary';
+    when 'accepted'; 'badge-success';
+    when 'paused'; 'badge-warning'
+    end
+  end
 
 end

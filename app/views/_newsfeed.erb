@@ -15,13 +15,13 @@
               <% end %>
             </strong>
           <% else %>      
-            <a href="<%= notification.link[1] %>"><%= notification.sentence %></a>
+            <%= partial :notification, :locals => {:notification => notification} %>
           <% end %>
           <span style="font-size: 11px" class="text-muted"><%= timeago(notification.created_at) %></span>      
 
           <% if include_circle_name %>
             <p class="my-0 mt-1">
-              <a href="<%= notification.link[1] %>"><%= notification.sentence %></a>
+              <%= partial :notification, :locals => {:notification => notification} %>
             </p>
           <% end %>
 
