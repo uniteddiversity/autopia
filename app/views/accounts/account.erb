@@ -83,16 +83,16 @@
 </script>
 
 <ul class="mt-3 nav nav-tabs" role="tablist">
-  <% if @habits.count > 0 %>  
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#habits" role="tab">Habits</a>
-    </li>  
-  <% end %>
   <% if @account.memberships.count > 0 %>
     <li class="nav-item">
       <a class="nav-link" data-toggle="tab" href="#groups" role="tab">Groups</a>
     </li>
   <% end %>
+  <% if @habits.count > 0 %>  
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#habits" role="tab">Habits</a>
+    </li>  
+  <% end %>    
   <% if current_account %>
     <li class="nav-item">
       <a class="nav-link" data-toggle="tab" href="#wall" role="tab">Wall</a>
@@ -101,11 +101,6 @@
 </ul>
 
 <div class="tab-content">
-  <% if @habits.count > 0 %>  
-    <div class="tab-pane fade" id="habits" role="tabpanel">
-      <%= partial :'habits/blocks', :locals => {:habits => @habits} %>        
-    </div>  
-  <% end %>
   <% if @account.memberships.count > 0 %>
     <div class="tab-pane fade" id="groups" role="tabpanel">
       <div class="row">
@@ -117,6 +112,11 @@
       </div>
     </div>
   <% end %>
+  <% if @habits.count > 0 %>  
+    <div class="tab-pane fade" id="habits" role="tabpanel">
+      <%= partial :'habits/blocks', :locals => {:habits => @habits} %>        
+    </div>  
+  <% end %>  
   <% if current_account %>
     <div class="tab-pane fade" id="wall" role="tabpanel">
       <div data-pagelet-url="/commentable?commentable_type=Account&commentable_id=<%=@account.id%>">
