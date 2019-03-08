@@ -28,7 +28,6 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
     redirect "/a/#{@group.slug}/apply" if @group.enable_applications
-    @title = "#{@group.name} · Autopia"
     @og_desc = "#{@group.name} is being co-created on Autopia"
     @og_image = @group.cover_image ? @group.cover_image.url : "#{ENV['BASE_URI']}/images/autopia-link.png"
     @account = Account.new

@@ -49,7 +49,6 @@ module Autopia
         account.update_attribute(:sign_in_token, SecureRandom.uuid)
       end      
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
-      @title = 'Autopia'
       @og_desc = 'Autopia is a tool for organising co-created gatherings. Use it to organise stand-alone events, or camps/barrios at larger events like Nowhere or the Borderland.'
       @og_image = "#{ENV['BASE_URI']}/images/autopia-link.png"
       if current_account
