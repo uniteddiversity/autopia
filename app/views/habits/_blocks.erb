@@ -1,4 +1,11 @@
 
+<% selected_tag = params[:tag] || ('priority' if habits.tags_a.include?('priority')) %>
+
+<% habits.tags_a.sort_by { |tag| tag == 'priority' ? 0 : 1 }.each { |tag| %>
+  <a href="<%= selected_tag == tag ? "?" : "?tag=#{tag}"%>" class="text-white label <%= selected_tag == tag ? 'label-primary' : 'label-default' %>" style="text-decoration: none"><%=tag%></a>
+<% } %>
+  
+
 <h3 class="my-3">
   <a href="?date=<%=(@date-1).to_s(:db)%>"><i class="fa fa-chevron-left"></i></a>
   <%= @date %>
@@ -15,6 +22,7 @@
   }
 </style>
 <div class="row mt-3" id="habits">
+  <% habits = habits.where(tags: /#{selected_tag}/) if selected_tag %>
   <% habits.order('o asc').each { |habit| %>  
     <div data-pagelet-url="/habits/<%=habit.id%>/block?date=<%=@date.to_s(:db)%>" class="habit col-6 col-sm-3 mb-3 <%=block_class if defined?(block_class)%>" id="<%=habit.id%>">
       <%= partial :'habits/block', :locals => {:habit => habit, :date => @date} %>

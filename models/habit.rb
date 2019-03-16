@@ -7,6 +7,7 @@ class Habit
   field :public, :type => Boolean
   field :o, :type => Integer
   field :image_uid, :type => String
+  field :tags, :type => String
   
   belongs_to :account, index: true
   
@@ -18,7 +19,7 @@ class Habit
   has_many :comment_reactions, :as => :commentable, :dependent => :destroy  
   
   validates_presence_of :name
-  
+   
   dragonfly_accessor :image 
   before_validation do
     if self.image
@@ -28,12 +29,17 @@ class Habit
         errors.add(:image, 'must be an image')
       end
     end
-  end      
-    
-        
+  end
+  
+  def self.tags_a
+    pluck(:tags).join(',').split(',').uniq
+  end
+  
+            
   def self.admin_fields
     {
       :name => :text,
+      :tags => :text,
       :o => :number,
       :public => :check_box,
       :account_id => :lookup
