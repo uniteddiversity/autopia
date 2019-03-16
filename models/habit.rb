@@ -32,7 +32,7 @@ class Habit
   end
   
   def self.tags_a
-    pluck(:tags).join(',').split(',').uniq
+    pluck(:tags).join(',').split(',').uniq.reject { |tag| tag.blank? }
   end
   
             
