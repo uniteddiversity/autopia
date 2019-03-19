@@ -7,10 +7,10 @@
       onclick="
       <% if completed %>
             if (confirm('Really uncomplete this habit?')) {
-              $(this).next().find('input').click()
+              $(this).next().find('input').click()              
             }
       <% else %>
-            $(this).next().find('input').click()
+            $(this).next().find('input').click()            
       <% end %>
       "        
     <% end %>
@@ -36,11 +36,6 @@
                   <% end %>
                 </a>
               </h4>
-              <% if habit.tags %>
-                <% habit.tags.split(',').each { |tag| %>
-                  <a onclick="event.stopPropagation();" href="?tag=<%=tag%>" class="text-white label label-primary" style="text-decoration: none"><%=tag%></a>
-                <% } %>
-              <% end %>
             </div>
             <div class="col-auto">    
               <% if current_account and current_account.id == habit.account_id %>              

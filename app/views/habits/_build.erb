@@ -1,22 +1,5 @@
-
-<script>
-  $(function () {
-    $('#habit_tags').tagsinput({confirmKeys: [9]})
-
-    $("#habit_tags").closest('form').find('input').on('keydown', function (e) {
-      if (e.which == 9)
-      {
-        $("#habit_tags").tagsinput('add', $(this).val());
-        $(this).val("");
-        e.preventDefault();
-      }
-    })
-  })
-</script>
-
 <% form_for @habit, @habit.new_record? ? '/habits/new' : "/habits/#{@habit.id}/edit" do  |f| %>
   <%= f.text_block :name %>
-  <%= f.text_block :tags %>
   <%= f.image_block :image %>
   <div class="my-3">&mdash; or &mdash;</div>
   <%= f.url_block :image_url %>
