@@ -26,7 +26,7 @@ class Comment
   after_create do
     post.subscriptions.create account: account
     body.scan(/\[@[\w\s'-]+\]\(@(\w+)\)/) { |match|
-      post.subscriptions.create account_id: match[0]
+      post.subscriptions.create account: Account.find_by(username: match[0])
     }
   end
   
