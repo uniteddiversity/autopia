@@ -1,8 +1,28 @@
 
 
 
-<div class="row">
-  <div class="col-sm-8">
+<div class="row">  
+  <div class="col-sm-4 order-sm-2 mb-3">
+
+    <div data-pagelet-url="/a/<%=@group.slug%>/todos">
+      <%= partial :'groups/todos' %>
+    </div>    
+    <% if @group.intro_for_members %>  
+      <%= @group.intro_for_members %>        
+    <% end %>  
+    <h2>Online now</h2>
+    <div class="image-wall">
+      <% @group.members.where(:last_active.gt => 5.minutes.ago).each { |account| %>
+        <%= partial :'accounts/square', :locals => {:account => account, :content => (if account.last_active; "#{time_ago_in_words account.last_active} ago"; end), :width => '75px'} %>
+      <% } %>
+    </div>
+
+    <% if @group.facebook_group_url %>
+      <div class="fb-group mt-3" data-href="<%=@group.facebook_group_url%>" data-width="300" data-show-social-context="true" data-show-metadata="false"></div>
+    <% end %>
+
+  </div>
+  <div class="col-sm-8 order-sm-1">
 
     <div class="mb-3">         
       <div data-pagelet-url="/a/<%=@group.slug%>/subscribe" style="display: inline">
@@ -23,24 +43,4 @@
     <%= partial :newsfeed, :locals => {:notifications => @notifications, :include_circle_name => false} %>
 
   </div>  
-  <div class="col-sm-4">
-
-    <div data-pagelet-url="/a/<%=@group.slug%>/todos">
-      <%= partial :'groups/todos' %>
-    </div>    
-    <% if @group.intro_for_members %>  
-      <%= @group.intro_for_members %>        
-    <% end %>  
-    <h2>Online now</h2>
-    <div class="image-wall">
-      <% @group.members.where(:last_active.gt => 5.minutes.ago).each { |account| %>
-        <%= partial :'accounts/square', :locals => {:account => account, :content => (if account.last_active; "#{time_ago_in_words account.last_active} ago"; end), :width => '75px'} %>
-      <% } %>
-    </div>
-
-    <% if @group.facebook_group_url %>
-      <div class="fb-group mt-3" data-href="<%=@group.facebook_group_url%>" data-width="300" data-show-social-context="true" data-show-metadata="false"></div>
-    <% end %>
-
-  </div>
 </div>
