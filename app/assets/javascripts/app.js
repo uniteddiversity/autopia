@@ -65,6 +65,18 @@ $(function () {
 
     $('.linkify').linkify();
 
+    $('.comment-body').each(function () {
+      $(this).html($(this).html().replace(/<a (.*)>(.*)<\/a>/, function (match, p1, p2) {
+        if (p2.length > 50) {
+          parts = p2.split('/')
+          t = parts[0] + '/' + parts[1] + '/' + parts[2] + '/...'
+        } else {
+          t = p2
+        }
+        return '<a ' + p1 + '>' + t + '</a>'
+      }))
+    })
+
     $('.nl2br').each(function () {
       $(this).html(nl2br($(this).html()))
     })
