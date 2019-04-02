@@ -67,8 +67,8 @@ $(function () {
 
     $('.comment-body').each(function () {
       $(this).html($(this).html().replace(/<a (.*)>(.*)<\/a>/, function (match, p1, p2) {
-        if (p2.match(/^(http|https):\/\//) && p2.length > 50) {
-          parts = p2.split('/')
+        parts = p2.split('/')
+        if (p2.match(/^(http|https):\/\//) && p2.length > 50 && parts.length > 3) {
           t = parts[0] + '//' + parts[2] + '/...'
         } else {
           t = p2
