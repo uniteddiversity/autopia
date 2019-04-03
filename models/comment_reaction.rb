@@ -20,8 +20,8 @@ class CommentReaction
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    if account and commentable.respond_to?(:group)
-      notifications.create! :circle => commentable.group, :type => 'reacted_to_a_comment'
+    if account      
+      notifications.create! :circle => (if commentable.is_a?(Account); commentable; elsif commentable.respond_to?(:group); commentable.group; end), :type => 'reacted_to_a_comment'
     end
   end    
   
