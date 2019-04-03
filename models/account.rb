@@ -116,6 +116,9 @@ class Account
   # Vibes
   has_many :vibes_as_viber, :class_name => "Vibe", :inverse_of => :viber, :dependent => :destroy
   has_many :vibes_as_vibee, :class_name => "Vibe", :inverse_of => :vibee, :dependent => :destroy
+  # Follows
+  has_many :follows_as_follower, :class_name => "Follow", :inverse_of => :follower, :dependent => :destroy
+  has_many :follows_as_followee, :class_name => "Follow", :inverse_of => :followee, :dependent => :destroy  
   # Messages
   has_many :messages_as_messenger, :class_name => "Message", :inverse_of => :messenger, :dependent => :destroy
   has_many :messages_as_messengee, :class_name => "Message", :inverse_of => :messengee, :dependent => :destroy  

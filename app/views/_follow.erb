@@ -1,0 +1,17 @@
+<% if current_account %>
+  <% unless current_account.id == account.id %>
+    <% if current_account.follows_as_follower.find_by followee: account %>
+      <% form_tag "/unfollow/#{account.id}" do %>
+        <button class="btn btn-primary <%= btn_class if defined?(btn_class) %>">
+          Following
+        </button>
+      <% end %>
+    <% else %>
+      <% form_tag "/follow/#{account.id}" do %>
+        <button class="btn btn-outline-primary <%= btn_class if defined?(btn_class) %>">
+          Follow
+        </button>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
