@@ -1,13 +1,13 @@
-<div class="row justify-content-between">
+<div class="row justify-content-between no-gutters">
   <div class="col">
     <h1>
       <%= @habit.name %>
       <% if !@habit.public? %>
         <i data-toggle="tooltip" title="Visible only to you" class="fa fa-lock"></i>
       <% end %>
-    <% if @habit.public? %>
-      <small class="text-muted">A habit of <a href="/accounts/<%=@habit.account_id%>"><%=@habit.account.name%></a></small>    
-    <% end %>        
+      <% if @habit.public? %>
+        <small class="d-block d-sm-inline text-muted">A habit of <a href="/accounts/<%=@habit.account_id%>"><%=@habit.account.name%></a></small>    
+      <% end %>        
     </h1>
   </div>
   <div class="col-auto">
@@ -17,15 +17,17 @@
   </div>
 </div>
 
-<ul class="fa-ul my-3">
+<dl class="row my-3"> 
   <% habit_completions = @habit.habit_completions.order('date desc').paginate(:page => params[:page], :per_page => 10); habit_completions.each { |habit_completion|  %>
-    <li>
-      <i class="fa fa-li fa-check"></i>
+    <dt class="col-6">
+      <i class="fa fa-check"></i>
       <strong><%= habit_completion.date %><% unless habit_completion.date == Date.current%> (<%= time_ago_in_words habit_completion.date %> ago)<% end %></strong><% if habit_completion.comment %>: <%= habit_completion.comment %><% end %>
+    </dt>
+    <dd class="col-6"><td>
       <div class="habit-completion-likes" data-pagelet-url="/habit_completions/<%=habit_completion.id%>/likes" style="font-size: 12px; display: inline"></div>
-    </li>
-  <% } %>
-</ul>
+      </dd>
+    <% } %>
+</dl>
 
 <%= will_paginate habit_completions, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 
