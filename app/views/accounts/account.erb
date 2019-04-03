@@ -19,8 +19,8 @@
 
     <div class="mt-2">
       <table class="table table-hr">
-
-        <% if current_account and current_account.network.include?(@account) %>
+        
+        <% if current_account && current_account.groupies.include?(@account) %>
           <tr>
             <td>Email</td>
             <td>

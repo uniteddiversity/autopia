@@ -52,6 +52,10 @@ class Account
     Account.where(:id.in => follows_as_follower.pluck(:followee_id))
   end
   
+  def groupies
+    Account.where(:id.in => Membership.where(:group_id.in => memberships.pluck(:group_id)).pluck(:account_id))
+  end
+  
   def subscribers    
     Account.where(:unsubscribed.ne => true).where(:id.in => [id] + follows_as_followee.pluck(:follower_id))
   end
