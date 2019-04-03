@@ -11,7 +11,11 @@
             <a class="text-dark" href="<%= notification.link[1] %>">
               <%= notification.sentence %>
               <% if include_circle_name %>
-                in <strong><%= notification.circle.name %></strong>
+                <% if notification.circle.is_a?(Account) %>
+                  on <strong><%= notification.circle.name %>'s wall</strong>
+                <% elsif notification.circle.is_a?(Group) %>
+                  in <strong><%= notification.circle.name %></strong>
+                <% end %>
               <% end %>            
             </a>
             <% if notification.type.to_sym == :applied; mapplication = notification.notifiable %>

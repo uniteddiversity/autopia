@@ -157,7 +157,11 @@ class Notification
       end      
     when :reacted_to_a_comment
       comment_reaction = notifiable
-      "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.commentable.name}#{if comment_reaction.comment.post.subject; "/#{comment_reaction.comment.post.subject}"; end}</strong>"
+      if comment_reaction.commentable.is_a?(Account)
+        "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{if comment_reaction.comment.post.subject; "#{comment_reaction.comment.post.subject}"; end}</strong>"  
+      else
+        "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.commentable.name}#{if comment_reaction.comment.post.subject; "/#{comment_reaction.comment.post.subject}"; end}</strong>"
+      end
     when :left_group
       account = notifiable
       "<strong>#{account.name}</strong> is no longer a member of #{circle.name}"
