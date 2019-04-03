@@ -30,9 +30,10 @@
             <div class="media ml-2 my-2">
               <%= partial :'accounts/square', :locals => {:account => notification.notifiable.account, :style => 'display: block; width: 32px'} %>
               <div class="media-body ml-2">
-                <%= partial :'comments/body', :locals => {:comment => comment} %>
+                <%= partial :'comments/body', :locals => {:comment => comment} %>                
+                <div data-pagelet-url="/comments/<%=comment.id%>/reactions" class="mt-3"></div>
               </div>              
-            </div>
+            </div>          
           <% end %>
         </div>
       </div>
