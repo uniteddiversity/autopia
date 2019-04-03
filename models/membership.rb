@@ -35,7 +35,7 @@ class Membership
       Follow.create follower: follower, followee: account
     }
     group.members.each { |followee|  
-      Follow.create follower: account, followee: follower
+      Follow.create follower: account, followee: followee
     }
     if general = group.teams.find_by(name: 'General')
       general.teamships.create! account: account, prevent_notifications: true
