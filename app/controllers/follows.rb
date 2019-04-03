@@ -20,4 +20,11 @@ Autopia::App.controller do
     200
   end  
   
+  get '/unfollow/:id' do
+    sign_in_required!
+    @account = Account.find(params[:id]) || not_found
+    current_account.follows_as_follower.find_by(followee: @account).try(:destroy)
+    redirect "/u/#{@account.username}"
+  end    
+  
 end
