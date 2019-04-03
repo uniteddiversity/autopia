@@ -15,6 +15,15 @@ class HabitCompletionLike
     }
   end
   
+  def habit
+    habit_completion.habit
+  end
+  
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :circle => account, :type => 'liked_a_habit_completion'
+  end       
+  
   after_create :send_like
   def send_like
     if ENV['SMTP_ADDRESS'] && !habit_completion.account.unsubscribed? && !habit_completion.account.unsubscribed_habit_completion_likes?

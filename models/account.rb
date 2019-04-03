@@ -63,7 +63,7 @@ class Account
   def network_notifications
     Notification.or(
       {:circle_type => 'Group', :circle_id.in => memberships.pluck(:group_id)},
-      {:circle_type => 'Account', :circle_id.in => [id] + network.pluck(:account_id)}
+      {:circle_type => 'Account', :circle_id.in => [id] + network.pluck(:id)}
     )
   end  
   
