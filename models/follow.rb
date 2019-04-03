@@ -5,7 +5,7 @@ class Follow
   belongs_to :follower, class_name: "Account", inverse_of: :follows_as_follower, index: true
   belongs_to :followee, class_name: "Account", inverse_of: :follows_as_followee, index: true
   
-  validates_uniqueness_of :follower, :scope => :followee
+  validates_uniqueness_of :followee, :scope => :follower
   before_validation do
     errors.add(:followee, 'cannot be the same as follower') if follower.id == followee.id
   end

@@ -31,6 +31,12 @@ class Membership
     unless prevent_notifications
       notifications.create! :circle => group, :type => 'joined_group'
     end
+    group.members.each { |follower|
+      Follow.create follower: follower, followee: account
+    }
+    group.members.each { |followee|  
+      Follow.create follower: account, followee: follower
+    }
     if general = group.teams.find_by(name: 'General')
       general.teamships.create! account: account, prevent_notifications: true
     end    
