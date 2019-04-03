@@ -22,6 +22,7 @@
     <li>
       <i class="fa fa-li fa-check"></i>
       <strong><%= habit_completion.date %><% unless habit_completion.date == Date.current%> (<%= time_ago_in_words habit_completion.date %> ago)<% end %></strong><% if habit_completion.comment %>: <%= habit_completion.comment %><% end %>
+      <%= partial :'habits/habit_completion_likes', :locals => {:habit_completion => habit_completion} %>
     </li>
   <% } %>
 </ul>
