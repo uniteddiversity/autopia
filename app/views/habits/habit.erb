@@ -18,13 +18,15 @@
 </div>
 
 <ul class="fa-ul my-3">
-  <% @habit.habit_completions.order('date desc').each { |habit_completion|  %>
+  <% habit_completions = @habit.habit_completions.order('date desc').paginate(:page => params[:page], :per_page => 10); habit_completions.each { |habit_completion|  %>
     <li>
       <i class="fa fa-li fa-check"></i>
       <strong><%= habit_completion.date %><% unless habit_completion.date == Date.current%> (<%= time_ago_in_words habit_completion.date %> ago)<% end %></strong><% if habit_completion.comment %>: <%= habit_completion.comment %><% end %>
     </li>
   <% } %>
 </ul>
+
+<%= will_paginate habit_completions, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 
 <div data-pagelet-url="/commentable?commentable_type=Habit&commentable_id=<%=@habit.id%>">
   <%= partial :'comments/commentable', :locals => {:commentable => @habit} %>

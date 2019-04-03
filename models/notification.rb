@@ -189,10 +189,10 @@ class Notification
       ['View team', "#{ENV['BASE_URI']}/a/#{circle.slug}/teams/#{notifiable.team_id}"]
     when :followed
       ['View profile', "#{ENV['BASE_URI']}/u/#{notifiable.followee.username}"]
-    when :completed_a_habit
-      ['View profile', "#{ENV['BASE_URI']}/u/#{notifiable.account.username}"]
+    when :completed_a_habit          
+      ['View habit', "#{ENV['BASE_URI']}/habits/#{notifiable.habit.id}"]
     when :liked_a_habit_completion
-      ['View profile', "#{ENV['BASE_URI']}/u/#{notifiable.habit.account.username}"]      
+      ['View habit', "#{ENV['BASE_URI']}/habits/#{notifiable.habit.id}"]
     when :created_spend
       ['View budget', "#{ENV['BASE_URI']}/a/#{circle.slug}/budget"]
     when :created_activity
