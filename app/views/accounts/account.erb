@@ -151,26 +151,10 @@
     </div>  
   <% end %>  
   <div class="tab-pane fade" id="following" role="tabpanel">
-    <div class="row no-gutters">
-      <% @account.follows_as_follower.each { |follow| %>
-        <div class="col-6 col-sm-4 col-md-2 mb-2">        
-          <div style="position: relative" class="mr-2">
-            <%= partial :'accounts/square', :locals => {:account => follow.followee, :width => '100%'} %>         
-          </div>
-        </div>            
-      <% } %>
-    </div>    
+    <div data-pagelet-url="/accounts/<%=@account.id%>/following"></div>  
   </div>
   <div class="tab-pane fade" id="followers" role="tabpanel">
-    <div class="row no-gutters">
-      <% @account.follows_as_followee.each { |follow| %>
-        <div class="col-6 col-sm-4 col-md-2 mb-2">        
-          <div style="position: relative" class="mr-2">
-            <%= partial :'accounts/square', :locals => {:account => follow.follower, :width => '100%'} %>         
-          </div>
-        </div>
-      <% } %>    
-    </div>
+    <div data-pagelet-url="/accounts/<%=@account.id%>/followers"></div>  
   </div>  
 </div>
 

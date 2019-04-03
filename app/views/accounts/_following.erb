@@ -1,0 +1,9 @@
+<div class="row no-gutters">
+  <% accounts.each { |account| %>
+    <div class="col-6 col-sm-4 col-md-2 mb-2">        
+      <div style="position: relative" class="mr-2">
+        <%= partial :'accounts/square', :locals => {:account => account, :width => '100%'} %>         
+      </div>
+    </div>            
+  <% } %>
+</div>  

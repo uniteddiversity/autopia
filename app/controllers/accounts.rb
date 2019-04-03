@@ -86,6 +86,16 @@ Autopia::App.controller do
     erb :'accounts/account'
   end  
   
+  get '/accounts/:id/following' do
+    @account = Account.find(params[:id]) || not_found
+    partial :'accounts/following', :locals => {:accounts => Account.where(:id.in => @account.follows_as_follower.pluck(:followee_id))}
+  end
+  
+  get '/accounts/:id/followers' do
+    @account = Account.find(params[:id]) || not_found
+    partial :'accounts/following', :locals => {:accounts => Account.where(:id.in => @account.follows_as_followee.pluck(:follower_id))}
+  end  
+  
   get '/accounts/:id/habits' do    
     @account = Account.find(params[:id]) || not_found
     @habits = @account.habits.where(public: true).where(:id.in => @account.habit_completions.pluck(:habit_id))
@@ -120,5 +130,5 @@ Autopia::App.controller do
       erb :'accounts/build'
     end
   end   
-  
+    
 end
