@@ -6,6 +6,9 @@ class Follow
   belongs_to :followee, class_name: "Account", inverse_of: :follows_as_followee, index: true
   
   validates_uniqueness_of :follower, :scope => :followee
+  before_validation do
+    errors.add(:followee, 'cannot be the same as follower') if follower.id == followee.id
+  end
     
   def self.admin_fields
     {
