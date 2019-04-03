@@ -10,7 +10,7 @@
   <% else %>
 
     <% if comment.new_record? && comment.first_in_post? %>
-      <div id="comment-subject-container">
+      <div id="comment-subject-container" <% if defined?(from_homepage) %>style="display: none"<% end %> >
         <%= f.text_block :subject, :label_class => 'd-none', :required => true %>
       </div>	 	
     <% end %>

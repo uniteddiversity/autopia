@@ -6,7 +6,15 @@
 
     <div class="mt-3">
 
-      <div class="media mt-0 mb-5">
+
+      <script>
+        $(function () {
+          $('#comment_body').one('focus', function () {
+            $('#comment-subject-container').show().find('input').focus()
+          })
+        })
+      </script>      
+      <div class="media mt-0 mb-3">
         <span class="mr-2">
           <%= partial :'accounts/square', :locals => {:account => current_account, :width => '32px', :klass => 'media-object'} %>
         </span>
