@@ -58,6 +58,10 @@
 <p style="font-size: 12px; color: #aaa">
   Unsubscribe from
   <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">this post</a>
+  <% if comment.commentable.is_a?(Account) %>
+    &middot;
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/unfollow/<%=commentable.id%>"><%=commentable.name%></a>
+  <% end %>  
   <% if comment.commentable.is_a?(Team) %>
     &middot;
     <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">this team</a>
