@@ -4,6 +4,8 @@ class Follow
   
   belongs_to :follower, class_name: "Account", inverse_of: :follows_as_follower, index: true
   belongs_to :followee, class_name: "Account", inverse_of: :follows_as_followee, index: true
+  
+  validates_uniqueness_of :follower, :scope => :followee
     
   def self.admin_fields
     {
