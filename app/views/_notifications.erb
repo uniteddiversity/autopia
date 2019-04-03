@@ -4,9 +4,9 @@
       <a href="<%= notification.link[1] %>">
         <div class="notification-icon bg-dark text-white"><i class="fa <%=notification.icon%>"></i></div>
         <div class="notification-info">
-          <h4 class="notification-title"><%= notification.circle.name %> <span class="notification-time"><%= timeago(notification.created_at) %></span></h4>
+          <h4 class="notification-title"><%= HTML_Truncator.truncate(notification.sentence, 50, :length_in_chars => true) %></h4>
           <p class="notification-desc">
-            <%= HTML_Truncator.truncate(notification.sentence, 50, :length_in_chars => true) %>
+            in <%= notification.circle.name %> <span class="notification-time"><%= timeago(notification.created_at) %></span>  
           </p>
         </div>
       </a>

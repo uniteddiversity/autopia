@@ -85,13 +85,13 @@ class Notification
       teamship = notifiable
       "<strong>#{teamship.account.name}</strong> joined the <strong>#{teamship.team.name}</strong> team"
     when :followed
-     follow = notifiable
+      follow = notifiable
       "<strong>#{follow.follower.name}</strong> followed <strong>#{follow.followee.name}</strong>"
     when :completed_a_habit
-     habit_completion = notifiable
+      habit_completion = notifiable
       "<strong>#{habit_completion.account.name}</strong> completed the habit <strong>#{habit_completion.habit.name}</strong>"      
     when :liked_a_habit_completion
-     habit_completion_like = notifiable
+      habit_completion_like = notifiable
       "<strong>#{habit_completion_like.account.name}</strong> liked <strong>#{habit_completion_like.habit.account.name}</strong>'s completion of <strong>#{habit_completion_like.habit.name}</strong>"
     when :created_spend
       spend = notifiable
@@ -142,6 +142,12 @@ class Notification
       comment = notifiable
       if comment.commentable.is_a?(Mapplication)
         "<strong>#{comment.account.name}</strong> commented on <strong>#{comment.commentable.account.name}</strong>'s application"                  
+      elsif comment.commentable.is_a?(Account)
+        if comment.first_in_post?
+          "<strong>#{comment.account.name}</strong> started a thread <strong>#{if comment.post.subject; "#{comment.post.subject}"; end}</strong>"
+        else
+          "<strong>#{comment.account.name}</strong> replied to <strong>#{if comment.post.subject; "#{comment.post.subject}"; end}</strong>"
+        end          
       else
         if comment.first_in_post?
           "<strong>#{comment.account.name}</strong> started a thread <strong>#{comment.commentable.name}#{if comment.post.subject; "/#{comment.post.subject}"; end}</strong>"                  

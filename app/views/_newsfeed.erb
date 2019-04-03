@@ -6,24 +6,22 @@
         <span style="border-radius: 6px; height: 18px; width: 18px; font-size: 12px" class="text-center bg-dark text-white"><i class="fa <%=notification.icon%>"></i></span>
 
         <div class="media-body ml-2">
-          <% if include_circle_name %>
-            <strong>
-              <% if notification.circle.is_a?(Group) %>
-                <a class="text-dark" href="/a/<%=notification.circle.slug%>"><%= notification.circle.name %></a>            
-              <% else %>
-                <a class="text-dark" href="/accounts/<%=notification.circle_id%>"><%= notification.circle.name %></a>                          
-              <% end %>
-            </strong>
-          <% else %>      
-            <%= partial :notification, :locals => {:notification => notification} %>
-          <% end %>
-          <span style="font-size: 11px" class="text-muted"><%= timeago(notification.created_at) %></span>      
 
-          <% if include_circle_name %>
-            <p class="my-0 mt-1">
-              <%= partial :notification, :locals => {:notification => notification} %>
-            </p>
-          <% end %>
+          <p class="my-0 mb-1">
+            <%= partial :notification, :locals => {:notification => notification} %>
+            in
+            <% if include_circle_name %>
+              <strong>
+                <% if notification.circle.is_a?(Group) %>
+                  <a class="text-dark" href="/a/<%=notification.circle.slug%>"><%= notification.circle.name %></a>            
+                <% else %>
+                  <a class="text-dark" href="/accounts/<%=notification.circle_id%>"><%= notification.circle.name %></a>                          
+                <% end %>
+              </strong>                
+            <% end %>
+
+            <span style="font-size: 11px" class="text-muted"><%= timeago(notification.created_at) %></span>
+          </p>
 
           <% if notification.type == 'commented'; comment = notification.notifiable %>
             <div class="media ml-2 my-2">

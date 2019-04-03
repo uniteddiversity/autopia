@@ -2,6 +2,9 @@
   <%= f.hidden_field :commentable_id %>
   <%= f.hidden_field :commentable_type %>
   <%= f.hidden_field :post_id, :value => comment.post_id %>
+  <% if defined?(from_homepage) %>
+    <%= hidden_field_tag :from_homepage, :value => true %>
+  <% end %>
   <% if defined?(reply) %>
     <%= f.text_area_block :body, :placeholder => 'Write a comment...', :label_class => 'd-none' %>
   <% else %>
@@ -12,7 +15,7 @@
       </div>	 	
     <% end %>
 
-    <%= f.text_area_block :body, :placeholder => "Write a comment...", :label_class => 'd-none' %>
+    <%= f.text_area_block :body, :placeholder => (defined?(placeholder) ? placeholder : 'Write a comment...'), :label_class => 'd-none' %>
 
     <div id="comment-file-container" style="display: none">
       <%= f.file_block :file, :label_class => 'd-none' %>
@@ -23,8 +26,8 @@
       <div style="margin-bottom: 5px; margin-top: -10px;">       
 
         <a id="attach-a-file" style="text-decoration: none" href="javascript:;" onclick="$(this).hide();
-                    $('#divider').hide();
-                    $('#comment-file-container').show().find('input').click();">
+            $('#divider').hide();
+            $('#comment-file-container').show().find('input').click();">
           <i class="fa fa-paperclip"></i>
           Attach a file
         </a>
