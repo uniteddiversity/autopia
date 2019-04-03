@@ -11,12 +11,14 @@
             <a class="text-dark" href="<%= notification.link[1] %>">
               <%= notification.sentence %>
               <% if include_circle_name %>
-                <% if notification.circle.is_a?(Account) %>
-                  on <strong><%= notification.circle.name %>'s wall</strong>
-                <% elsif notification.circle.is_a?(Group) %>
-                  in <strong><%= notification.circle.name %></strong>
-                <% end %>
-              <% end %>            
+                <% unless %w{completed_a_habit}.include?(notification.type) %>
+                  <% if notification.circle.is_a?(Account) %>
+                    on <strong><%= notification.circle.name %>'s wall</strong>
+                  <% elsif notification.circle.is_a?(Group) %>
+                    in <strong><%= notification.circle.name %></strong>
+                  <% end %>
+                <% end %>            
+              <% end %>
             </a>
             <% if notification.type.to_sym == :applied; mapplication = notification.notifiable %>
               <span class="float-right label label-<%=mapplication.label%>"><%=mapplication.status.capitalize%></span>
