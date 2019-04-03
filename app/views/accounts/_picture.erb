@@ -10,8 +10,8 @@
       <% end %>            
     </div>                         
     <div class="my-1 mr-1" style="position: absolute; bottom: 0; right: 0;">            
-      <div data-pagelet-url="/vibes/<%=account.id%>?btn_class=btn-sm" style="display: inline-block">
-        <%= partial :vibe, :locals => {:account => account, :btn_class => 'btn-sm'} %>
+      <div data-pagelet-url="/follows/<%=account.id%>?btn_class=btn-sm" style="display: inline-block">
+        <%= partial :follow, :locals => {:account => account, :btn_class => 'btn-sm'} %>
       </div>    
     </div>
   </div>

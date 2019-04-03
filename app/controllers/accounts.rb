@@ -80,6 +80,7 @@ Autopia::App.controller do
   
   get '/u/:username' do
     @account = Account.find_by(username: params[:username]) || not_found
+    @notifications = @account.notifications_as_circle.order('created_at desc').page(params[:page])
     @habits = @account.habits.where(public: true).where(:id.in => @account.habit_completions.pluck(:habit_id))
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     erb :'accounts/account'

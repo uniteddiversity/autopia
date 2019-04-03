@@ -26,11 +26,11 @@ class Notification
   end
   
   def self.types
-    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend joined_team signed_up_to_a_shift interested_in_activity scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
+    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend followed joined_team signed_up_to_a_shift interested_in_activity scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
   end
   
   def self.mailable_types
-    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend}
+    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend followed}
   end
     
   after_create :send_email  
@@ -84,6 +84,9 @@ class Notification
     when :joined_team
       teamship = notifiable
       "<strong>#{teamship.account.name}</strong> joined the <strong>#{teamship.team.name}</strong> team"
+    when :followed
+     follow = notifiable
+      "<strong>#{follow.follower.name}</strong> followed <strong>#{follow.followee.name}</strong>"
     when :created_spend
       spend = notifiable
       "<strong>#{spend.account.name}</strong> spent #{spend.group.currency_symbol}#{spend.amount} on <strong>#{spend.item}</strong>"
@@ -168,6 +171,8 @@ class Notification
       ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]      
     when :joined_team
       ['View team', "#{ENV['BASE_URI']}/a/#{circle.slug}/teams/#{notifiable.team_id}"]
+    when :followed
+      ['View profile', "#{ENV['BASE_URI']}/u/#{notifiable.followee.username}"]
     when :created_spend
       ['View budget', "#{ENV['BASE_URI']}/a/#{circle.slug}/budget"]
     when :created_activity
@@ -223,6 +228,8 @@ class Notification
       'fa-user-plus'      
     when :joined_team
       'fa-group'
+    when :followed
+      'fa-user-plus'
     when :created_spend
       'fa-money'
     when :created_activity

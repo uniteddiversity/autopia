@@ -1,9 +1,6 @@
 
 <% if current_account %>
   <% unless current_account.id == account.id %>
-    <div class="d-inline-block mb-1" data-pagelet-url="/vibes/<%=account.id%>?btn_class=<%=btn_class if defined?(btn_class)%>">
-      <%= partial :vibe, :locals => {:account => account, :btn_class => (btn_class if defined?(btn_class))} %>
-    </div>
     <div class="d-inline-block mb-1" data-pagelet-url="/follows/<%=account.id%>?btn_class=<%=btn_class if defined?(btn_class)%>">
       <%= partial :follow, :locals => {:account => account, :btn_class => (btn_class if defined?(btn_class))} %>
     </div>

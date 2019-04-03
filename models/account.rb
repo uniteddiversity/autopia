@@ -49,12 +49,11 @@ class Account
   end
   
   def network
-    Account.where(:id.in => Membership.where(:group_id.in => memberships.pluck(:group_id)).pluck(:account_id))
+    Account.where(:id.in => follows_as_follower.pluck(:followee_id))
   end
   
-  def subscribers
-    # network.where(:unsubscribed.ne => true)
-    Account.where(:id.in => [id])
+  def subscribers    
+    Account.where(:unsubscribed.ne => true).where(:id.in => [id] + follows_as_followee.pluck(:follower_id))
   end
   
   def emails
@@ -62,7 +61,10 @@ class Account
   end
   
   def network_notifications
-    Notification.or({:circle_type => 'Group', :circle_id.in => memberships.pluck(:group_id)},{:circle_type => 'Account', :circle_id.in => [id]})
+    Notification.or(
+      {:circle_type => 'Group', :circle_id.in => memberships.pluck(:group_id)},
+      {:circle_type => 'Account', :circle_id.in => [id] + follows_as_follower.pluck(:followee_id)}
+    )
   end  
   
   has_many :groups, :dependent => :nullify  
@@ -113,9 +115,6 @@ class Account
   has_many :habits, :dependent => :destroy
   has_many :habit_completions, :dependent => :destroy
   has_many :habit_completion_likes, :dependent => :destroy
-  # Vibes
-  has_many :vibes_as_viber, :class_name => "Vibe", :inverse_of => :viber, :dependent => :destroy
-  has_many :vibes_as_vibee, :class_name => "Vibe", :inverse_of => :vibee, :dependent => :destroy
   # Follows
   has_many :follows_as_follower, :class_name => "Follow", :inverse_of => :follower, :dependent => :destroy
   has_many :follows_as_followee, :class_name => "Follow", :inverse_of => :followee, :dependent => :destroy  

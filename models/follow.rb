@@ -15,5 +15,10 @@ class Follow
   def self.mutual(a,b)
     Follow.find_by(follower: a, followee: b) && Follow.find_by(follower: b, followee: a)
   end
+  
+#  has_many :notifications, as: :notifiable, dependent: :destroy
+#  after_create do
+#    notifications.create! :circle => followee, :type => 'followed'    
+#  end   
       
 end

@@ -57,7 +57,7 @@ class Habit
   end
   
   def subscribers
-    [account]
+    account.subscribers
   end
     
 end
