@@ -57,8 +57,7 @@
     'moment.js/2.17.1' => 'moment.min.js locale/en-gb.js',     
     'flatpickr/4.5.2' => 'flatpickr.min.js flatpickr.min.css',
     'datatables/1.10.16' => 'js/jquery.dataTables.min.js js/dataTables.bootstrap4.min.js css/dataTables.bootstrap4.min.css',
-    'tributejs/3.5.3' => 'tribute.min.js tribute.min.css',
-    'bootstrap-select/1.13.9' => 'js/bootstrap-select.min.js js/i18n/defaults-en_US.min.js css/bootstrap-select.min.css'
+    'tributejs/3.5.3' => 'tribute.min.js tribute.min.css'
     }.each { |k,v| %>    
     <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
       <% case f.split('.').last.to_sym; when :js %>

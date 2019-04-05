@@ -57,7 +57,7 @@ class Account
   end
   
   def subscribers    
-    Account.where(:unsubscribed.ne => true).where(:id.in => [id] + follows_as_followee.pluck(:follower_id))
+    Account.where(:unsubscribed.ne => true).where(:id.in => [id] + follows_as_followee.where(:unsubscribed.ne => true).pluck(:follower_id))
   end
   
   def emails
