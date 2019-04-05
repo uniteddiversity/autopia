@@ -6,7 +6,7 @@
         <div class="notification-info">
           <h4 class="notification-title"><%= HTML_Truncator.truncate(notification.sentence, 50, :length_in_chars => true) %></h4>
           <p class="notification-desc">
-            in <%= notification.circle.name %> <span class="notification-time"><%= timeago(notification.created_at) %></span>  
+            <%= notification.circle.name %> <span class="notification-time"><%= timeago(notification.created_at) %></span>  
           </p>
         </div>
       </a>
