@@ -2,7 +2,7 @@ Autopia::App.controller do
 
   post '/inbound/:id' do    
 		mail, html, plain_text = EmailReceiver.receive(request)				    			
-		account = Account.find_by(email: mail.from.first)
+		account = Account.find_by(email: mail.from.first) || not_found
 		@post = Post.find(params[:id])
 		@post.comments.create! account: account, body: plain_text		
 		200
