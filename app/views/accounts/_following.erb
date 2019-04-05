@@ -1,6 +1,6 @@
 <ul class="search-result-list mb-3">
 
-  <% accounts = accounts.paginate(:page => params[:page], :per_page => 10); accounts.each { |account|  %>
+  <% accounts = accounts.order('name asc').paginate(:page => params[:page], :per_page => 50); accounts.each { |account|  %>
     <li>
       <%= partial 'accounts/search_result', :locals => {:account => account} %>
     </li>
