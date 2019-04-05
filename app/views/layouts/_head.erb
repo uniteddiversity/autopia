@@ -6,7 +6,7 @@
   <link href="/infinite_admin/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
   <link href="/infinite_admin/plugins/bootstrap/bootstrap4/css/bootstrap.min.css" rel="stylesheet" />
   <link href="/infinite_admin/plugins/icon/themify-icons/themify-icons.css" rel="stylesheet" />
-  <link href="/infinite_admin/plugins/form/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+  <link href="/infinite_admin/plugins/form/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />  
   <link href="/infinite_admin/css/animate.min.css" rel="stylesheet" /> 
   <!-- ================== END BASE CSS STYLE ================== -->
 
@@ -57,7 +57,8 @@
     'moment.js/2.17.1' => 'moment.min.js locale/en-gb.js',     
     'flatpickr/4.5.2' => 'flatpickr.min.js flatpickr.min.css',
     'datatables/1.10.16' => 'js/jquery.dataTables.min.js js/dataTables.bootstrap4.min.js css/dataTables.bootstrap4.min.css',
-    'tributejs/3.5.3' => 'tribute.min.js tribute.min.css'
+    'tributejs/3.5.3' => 'tribute.min.js tribute.min.css',
+    'bootstrap-select/1.13.9' => 'js/bootstrap-select.min.js js/i18n/defaults-en_US.min.js css/bootstrap-select.min.css'
     }.each { |k,v| %>    
     <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
       <% case f.split('.').last.to_sym; when :js %>

@@ -1,30 +1,19 @@
 Autopia::App.controller do
   
-  get '/follows/:id' do
+  get '/follow/:id' do
     sign_in_required!
     @account = Account.find(params[:id]) || not_found
-    partial :follow, :locals => {:account => @account, :btn_class => params[:btn_class]}
+    case params[:f]
+    when 'not_following'
+      current_account.follows_as_follower.find_by(followee: @account).try(:destroy)
+    when 'follow_without_subscribing'
+      follow = current_account.follows_as_follower.find_by(followee: @account) || current_account.follows_as_follower.create(followee: @account)
+      follow.update_attribute(:unsubscribed, true)
+    when 'follow_and_subscribe'
+      follow = current_account.follows_as_follower.find_by(followee: @account) || current_account.follows_as_follower.create(followee: @account)
+      follow.update_attribute(:unsubscribed, false)
+    end
+    request.xhr? ? (partial :follow, :locals => {:account => @account, :btn_class => params[:btn_class]}) : redirect("/u/#{@account.username}")
   end
-  
-  post '/follow/:id' do
-    sign_in_required!
-    @account = Account.find(params[:id]) || not_found
-    current_account.follows_as_follower.create followee: @account
-    200
-  end
-  
-  post '/unfollow/:id' do
-    sign_in_required!
-    @account = Account.find(params[:id]) || not_found
-    current_account.follows_as_follower.find_by(followee: @account).try(:destroy)
-    200
-  end  
-  
-  get '/unfollow/:id' do
-    sign_in_required!
-    @account = Account.find(params[:id]) || not_found
-    current_account.follows_as_follower.find_by(followee: @account).try(:destroy)
-    redirect "/u/#{@account.username}"
-  end    
-  
+    
 end

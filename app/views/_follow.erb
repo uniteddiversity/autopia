@@ -1,17 +1,32 @@
 <% if current_account %>
   <% unless current_account.id == account.id %>
-    <% if current_account.follows_as_follower.find_by followee: account %>
-      <% form_tag "/unfollow/#{account.id}" do %>
-        <button class="btn btn-primary <%= btn_class if defined?(btn_class) %>">
-          Following
-        </button>
-      <% end %>
-    <% else %>
-      <% form_tag "/follow/#{account.id}" do %>
-        <button class="btn btn-outline-primary <%= btn_class if defined?(btn_class) %>">
-          Follow
-        </button>
-      <% end %>
-    <% end %>
+
+    <%
+    follow = current_account.follows_as_follower.find_by(followee: account)
+    state_options = {
+      'not_following' => 'Not following',
+      'follow_without_subscribing' => 'Following without subscribing',
+      'follow_and_subscribe' => 'Following and subscribing'
+      }    
+    current_state = follow ? (follow.unsubscribed ? 'follow_without_subscribing' : 'follow_and_subscribe') : 'not_following'
+    text = state_options[current_state]
+    action_options = {
+      'not_following' => 'Unfollow',
+      'follow_without_subscribing' => 'Follow without subscribing',
+      'follow_and_subscribe' => 'Follow and subscribe'
+      }    
+  %>
+
+    <div class="dropdown">
+      <button class="btn <%= btn_class if defined?(btn_class) %> <%= current_state == 'not_following' ? 'btn-outline-primary' : 'btn-primary' %> dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <%= text %>
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <% action_options.invert.each { |text,value| %>
+          <a class="pagelet-trigger dropdown-item" href="/follow/<%=account.id%>?f=<%=value%>"><%=text%></a>
+        <% } %>
+      </div>
+    </div>          
+
   <% end %>
 <% end %>

@@ -60,7 +60,7 @@
   <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">this post</a>
   <% if comment.commentable.is_a?(Account) %>
     &middot;
-    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/unfollow/<%=commentable.id%>"><%=commentable.name%></a>
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/follow/<%=commentable.id%>?f=follow_without_subscribing"><%=commentable.name%></a>
   <% end %>  
   <% if comment.commentable.is_a?(Team) %>
     &middot;

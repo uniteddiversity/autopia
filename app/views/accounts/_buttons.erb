@@ -1,7 +1,7 @@
 
 <% if current_account %>
   <% unless current_account.id == account.id %>
-    <div class="d-inline-block mb-1" data-pagelet-url="/follows/<%=account.id%>?btn_class=<%=btn_class if defined?(btn_class)%>">
+    <div class="d-inline-block mb-1" data-pagelet-url="/follow/<%=account.id%>?btn_class=<%=btn_class if defined?(btn_class)%>">
       <%= partial :follow, :locals => {:account => account, :btn_class => (btn_class if defined?(btn_class))} %>
     </div>
     <a href="/messages/<%=account.id%>" class="<%=btn_class if defined?(btn_class)%> btn btn-outline-primary"><i class="ti-comment"></i> Message</a>
