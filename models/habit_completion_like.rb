@@ -19,10 +19,10 @@ class HabitCompletionLike
     habit_completion.habit
   end
   
-  has_many :notifications, as: :notifiable, dependent: :destroy
-  after_create do
-    notifications.create! :circle => account, :type => 'liked_a_habit_completion'
-  end       
+#  has_many :notifications, as: :notifiable, dependent: :destroy
+#  after_create do
+#    notifications.create! :circle => account, :type => 'liked_a_habit_completion'
+#  end       
   
   after_create :send_like
   def send_like
