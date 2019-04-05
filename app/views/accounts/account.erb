@@ -93,25 +93,26 @@
       <a class="nav-link" data-toggle="tab" href="#wall" role="tab">Wall</a>
     </li>  
   <% end %>  
-  <% if @account.memberships.count > 0 %>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#groups" role="tab">
-        Groups
-        <% c = @account.memberships.count; if c > 0 %>
-          <span class="badge badge-secondary"><%=c%></span>
-        <% end %>      
-      </a>
-    </li>
-  <% end %>
-  <% if @habits.count > 0 %>  
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#habits" role="tab">Habits</a>
-    </li>  
-  <% end %>    
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#groups" role="tab">
+      Groups
+      <% if (c = @account.memberships.count) > 0 %>
+        <span class="badge badge-secondary"><%=c%></span>
+      <% end %>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#habits" role="tab">
+      Habits
+      <% if (c = @habits.count) > 0 %>  
+        <span class="badge badge-secondary"><%=c%></span>
+      <% end %>
+    </a>
+  </li>  
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#following" role="tab">
       Following
-      <% c = @account.follows_as_follower.count; if c > 0 %>
+      <% if (c = @account.follows_as_follower.count) > 0 %>
         <span class="badge badge-secondary"><%=c%></span>
       <% end %>
     </a>
@@ -119,7 +120,7 @@
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#followers" role="tab">
       Followers
-      <% c = @account.follows_as_followee.count; if c > 0 %>
+      <% if (c = @account.follows_as_followee.count) > 0 %>
         <span class="badge badge-secondary"><%=c%></span>
       <% end %>      
     </a>
@@ -134,22 +135,18 @@
       </div>  
     </div>  
   <% end %>  
-  <% if @account.memberships.count > 0 %>
-    <div class="tab-pane fade" id="groups" role="tabpanel">
-      <div class="row">
-        <% @account.memberships.each { |membership| group = membership.group %>
-          <div class="col-6 col-sm-3 mb-3">
-            <%= partial :'groups/group', :object => group  %>
-          </div>
-        <% } %>
-      </div>
+  <div class="tab-pane fade" id="groups" role="tabpanel">
+    <div class="row">
+      <% @account.memberships.each { |membership| group = membership.group %>
+        <div class="col-6 col-sm-3 mb-3">
+          <%= partial :'groups/group', :object => group  %>
+        </div>
+      <% } %>
     </div>
-  <% end %>
-  <% if @habits.count > 0 %>  
-    <div class="tab-pane fade" id="habits" role="tabpanel">
-      <%= partial :'habits/blocks', :locals => {:habits => @habits} %>        
-    </div>  
-  <% end %>  
+  </div>
+  <div class="tab-pane fade" id="habits" role="tabpanel">
+    <%= partial :'habits/blocks', :locals => {:habits => @habits} %>        
+  </div>  
   <div class="tab-pane fade" id="following" role="tabpanel">
     <div data-pagelet-url="/accounts/<%=@account.id%>/following"></div>  
   </div>
