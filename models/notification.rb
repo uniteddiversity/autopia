@@ -164,7 +164,7 @@ class Notification
       end
     when :left_group
       account = notifiable
-      "<strong>#{account.name}</strong> is no longer a member of #{circle.name}"
+      "<strong>#{account.name}</strong> is no longer a member"
     when :created_payment
       payment = notifiable
       "<strong>#{payment.account.name}</strong> made a payment of #{Group.currency_symbol(payment.currency)}#{payment.amount}"
