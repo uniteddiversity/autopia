@@ -21,9 +21,17 @@ class CommentReaction
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     if account   
-      notifications.create! :circle => (if commentable.is_a?(Account); commentable; elsif commentable.respond_to?(:group); commentable.group; end), :type => 'reacted_to_a_comment'
+      notifications.create! :circle => (
+        if %w{Team Activity Mapplication}.include?(commentable_type)
+          commentable.group
+        elsif %w{Account}.include?(commentable_type)
+          commentable
+        elsif %w{Habit}.include?(commentable_type)
+          commentable.account
+        end
+      ), :type => 'reacted_to_a_comment'
     end
-  end    
+  end
   
   def self.commentable_types
     %w{Team Activity Mapplication Habit}
@@ -32,7 +40,7 @@ class CommentReaction
   def self.admin_fields
     {
       :body => :text,
-			:comment_id => :lookup,
+      :comment_id => :lookup,
       :account_id => :lookup,
       :commentable_id => :text,
       :commentable_type => :select,
