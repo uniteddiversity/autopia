@@ -11,7 +11,7 @@
         <small class="text-muted">@<%=@account.username%></small>
       </h1>       
       <% if current_account && (follow = Follow.find_by(follower: @account, followee: current_account)) %>
-        <small class="label label-default"><% follow.unsubscribed ? 'Follows you' : 'Follows and subscribes to you' %></small>
+        <small class="label label-default"><%= follow.unsubscribed ? 'Follows you' : 'Follows and subscribes to you' %></small>
       <% end %>    
     </div>
 
