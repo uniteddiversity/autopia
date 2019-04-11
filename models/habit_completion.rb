@@ -28,7 +28,9 @@ class HabitCompletion
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => account, :type => 'completed_a_habit'    
+    if habit.public?
+      notifications.create! :circle => account, :type => 'completed_a_habit'    
+    end
   end     
     
 end
