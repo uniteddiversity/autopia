@@ -130,5 +130,13 @@ Autopia::App.controller do
       erb :'accounts/build'
     end
   end   
+  
+  post '/accounts/update_location' do
+    sign_in_required!
+    @account = current_account
+    @account.location = params[:location]
+    @account.save
+    redirect back
+  end
     
 end

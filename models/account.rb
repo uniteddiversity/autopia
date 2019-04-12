@@ -1,6 +1,7 @@
 class Account
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Geocoder::Model::Mongoid
   extend Dragonfly::Model
             
   field :name, :type => String  
@@ -23,6 +24,8 @@ class Account
   field :not_on_facebook, :type => Boolean
   field :last_active, :type => Time
   field :last_checked_notifications, :type => Time
+  field :location, :type => String
+  field :coordinates, :type => Array
   
   def self.protected_attributes
     %w{admin}
@@ -47,6 +50,18 @@ class Account
     
     errors.add(:date_of_birth, 'is invalid') if self.age && self.age <= 0
   end
+  
+  # Geocoder
+  geocoded_by :location  
+  def lat; coordinates[1] if coordinates; end  
+  def lng; coordinates[0] if coordinates; end  
+  after_validation do
+    self.geocode || (self.coordinates = nil)
+  end
+  
+  def self.marker_color
+    'E2413B'
+  end  
   
   def network
     Account.where(:id.in => follows_as_follower.pluck(:followee_id))

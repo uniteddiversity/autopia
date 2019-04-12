@@ -12,7 +12,25 @@
     <%= f.email_block :email %>    
     <%= f.password_block :password %>
     <% if @account.persisted? %>
+
+      <script>
+        $(function () {
+          var autocomplete = new google.maps.places.Autocomplete($('#account_location')[0]);
+          $('#account_location').keydown(function (e) {
+            if (e.which == 13 && $('.pac-container:visible').length)
+              return false;
+          });
+        })
+      </script>
+
       <%= f.image_block :picture, rotate: false %>
+      <%= f.text_block :location %>
+      <% if @account.coordinates %>
+        <style>
+          #map-canvas { height: 200px !important; margin-bottom: 1rem }
+        </style>
+        <%= partial :'maps/map', :locals => {:points => [@account]} %>
+      <% end %>
       <%= f.url_block :facebook_profile_url %>
       <%= f.date_block :date_of_birth %>
       <%= f.select_block :gender %>

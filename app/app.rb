@@ -115,6 +115,16 @@ module Autopia
       else
         pass
       end
+    end  
+    
+    get '/map' do
+      sign_in_required!
+      @accounts = current_account.network + [current_account]
+      erb :map
+    end
+    
+    get '/point/:model/:id' do
+      partial "maps/#{params[:model].downcase}".to_sym, :object => params[:model].constantize.find(params[:id])
     end    
          
   end         

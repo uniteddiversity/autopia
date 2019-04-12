@@ -1,0 +1,10 @@
+<table>
+  <tr>
+    <td class="mr-2">
+      <%= partial :'accounts/square', :locals => {:account => account, :width=> '64px'} %>
+    </td>
+    <td>
+      <h4 class="mt-0"><a target="_parent" href="/u/<%=account.username%>"><%=account.name%></a></h4>
+    </td>
+  </tr>
+</table>

@@ -13,3 +13,5 @@ Padrino.load!
 
 Mongoid.load!("#{PADRINO_ROOT}/config/mongoid.yml")
 Mongoid.raise_not_found_error = false
+
+Geocoder.configure(lookup: :google, api_key: ENV['GOOGLE_MAPS_API_KEY'])
