@@ -17,6 +17,10 @@ Autopia::App.controller do
     end
   end
   
+  get '/messages/index' do
+    partial :'messages/index'
+  end
+  
   get '/messages/:id' do    
     @account = Account.find(params[:id]) || not_found
     if @account.id == current_account.id

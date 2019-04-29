@@ -1,0 +1,16 @@
+<% dm = 5; messenger_ids = []; broke = nil %>
+<% current_account.messages.order('created_at desc').each { |message| %>      
+  <% account = (current_account.id == message.messenger_id ? message.messengee : message.messenger) # the other person %>      
+  <% next if messenger_ids.include?(account.id) %>        
+  <%= partial :'messages/preview', :locals => {:message => message, :klass => "p-2 d-block #{'active' if @account && account.id == @account.id}"} %>        
+  <% messenger_ids << account.id
+  if messenger_ids.length == (params[:m] || dm)
+    broke = true
+  break
+  end
+  } %>
+<% if broke %>
+  <div class="text-center mt-1 pagination">
+    <a href="/messages/index?m=<%=(params[:m].to_i+dm) || dm%>">More</a>
+  </div>
+<% end %>
