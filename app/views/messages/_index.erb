@@ -4,7 +4,7 @@
   <% next if messenger_ids.include?(account.id) %>        
   <%= partial :'messages/preview', :locals => {:message => message, :klass => "p-2 d-block #{'active' if @account && account.id == @account.id}"} %>        
   <% messenger_ids << account.id
-  if messenger_ids.length == (params[:m] ? params[:m].to_i || dm)
+  if messenger_ids.length == (params[:m] ? params[:m].to_i : dm)
     broke = true
   break
   end
