@@ -38,14 +38,17 @@
   <div class="tab-pane fade show active" id="habit-tiles" role="tabpanel">
 
     <% form_tag '', :class => 'form-inline mb-3', :method => 'get' do %>
-      <div class="checkbox-inline">
-        <%= check_box_tag :archived, :value => true, :checked => params[:archived], :onclick => 'this.form.submit()', :id => 'archived' %>
-        <label for="archived">
-          Include archived
-        </label>
-      </div>   
+
+      <% {:archived => 'Include archived', :public => 'Public', :private => 'Private'}.each { |k,t| %>
+        <div class="checkbox-inline ml-3 mb-2">
+          <%= check_box_tag k, :value => true, :checked => params[k], :onclick => 'this.form.submit()', :id => k %>
+          <label for="<%=k%>">
+            <%=t%>
+          </label>
+        </div>        
+      <% } %>  
     <% end %>
-    
+
     <% if !@habits.empty? %>
       <%= partial :'habits/blocks', :locals => {:habits => @habits, :block_class => 'col-sm-4'} %>
     <% end %>          

@@ -7,6 +7,8 @@ Autopia::App.controller do
     @dates = ((Date.current-4)..Date.current).to_a.reverse 
     @habits = current_account.habits
     @habits = params[:archived] ? @habits : @habits.where(:archived.ne => true)
+    @habits = @habits.where(public: true) if params[:public]
+    @habits = @habits.where(:public.ne => true) if params[:private]
     erb :'habits/habits'
   end
   
