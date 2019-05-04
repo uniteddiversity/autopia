@@ -5,6 +5,8 @@ Autopia::App.controller do
     @habit = Habit.new
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @dates = ((Date.current-4)..Date.current).to_a.reverse 
+    @habits = current_account.habits
+    @habits = params[:archived] ? @habits : @habits.where(:archived.ne => true)
     erb :'habits/habits'
   end
   

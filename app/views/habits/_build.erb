@@ -4,6 +4,9 @@
   <div class="my-3">&mdash; or &mdash;</div>
   <%= f.url_block :image_url %>
   <%= f.check_box_block :public %>
+  <% if @habit.persisted? %>
+    <%= f.check_box_block :archived %>
+  <% end %>
   <div class="my-3">
     <%= f.submit_block destroy_url: "/habits/#{@habit.id}/destroy" %>
   </div>

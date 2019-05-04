@@ -5,6 +5,7 @@ class Habit
     
   field :name, :type => String
   field :public, :type => Boolean
+  field :archived, :type => Boolean
   field :o, :type => Integer
   field :image_uid, :type => String
   
@@ -36,6 +37,7 @@ class Habit
       :name => :text,
       :o => :number,
       :public => :check_box,
+      :archived => :check_box,
       :account_id => :lookup
     }
   end
