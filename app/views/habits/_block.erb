@@ -33,7 +33,7 @@
                   <%= habit.name %>
                 </a>
                 <% if completed %>
-                  <i class="fa fa-check"></i>
+                  <i class="fa fa-check <% if habit.image %>text-white<% else %>text-dark<% end%>"></i>
                 <% end %>                
                 <% if current_account and current_account.id == habit.account_id %>
                   <a class="<% if habit.image %>text-white<% else %>text-dark<% end%> habit-edit" style="display: none" href="/habits/<%=habit.id%>/edit" onclick="event.stopPropagation();">
