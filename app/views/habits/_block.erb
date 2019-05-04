@@ -36,7 +36,7 @@
                   <i class="fa fa-check"></i>
                 <% end %>                
                 <% if current_account and current_account.id == habit.account_id %>
-                  <a class="text-dark habit-edit" style="display: none" href="/habits/<%=habit.id%>/edit" onclick="event.stopPropagation();">
+                  <a class="<% if habit.image %>text-white<% else %>text-dark<% end%> habit-edit" style="display: none" href="/habits/<%=habit.id%>/edit" onclick="event.stopPropagation();">
                     <i class="fa fa-pencil"></i>
                   </a>                    
                 <% end %>                
