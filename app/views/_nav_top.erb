@@ -6,7 +6,15 @@
       <a href="javascript:;" data-toggle="search-bar" class="navbar-icon">
         <i class="ti-search"></i>
       </a>
-    </li>              
+    </li>      
+    
+    <li class="dropdown">
+      <a id="messages-a" href="javascript:;" data-toggle="dropdown" class="dropdown-toggle navbar-icon" onclick="$(this).removeClass('with-label');">
+        <i class="ti-comment"></i>
+      </a>  
+      <style>#messages .fa-spin { display: none }</style>
+      <div id="messages" data-pagelet-url="/messages"></div>                  
+    </li>       
 
     <li class="dropdown">
       <a id="notifications-a" href="javascript:;" data-toggle="dropdown" class="dropdown-toggle navbar-icon" onclick="$(this).removeClass('with-label');
@@ -16,14 +24,6 @@
       <style>#notifications .fa-spin { display: none }</style>
       <div id="notifications" data-pagelet-url="/notifications"></div>
     </li>              
-
-    <li class="dropdown">
-      <a id="messages-a" href="javascript:;" data-toggle="dropdown" class="dropdown-toggle navbar-icon" onclick="$(this).removeClass('with-label');">
-        <i class="ti-comment"></i>
-      </a>  
-      <style>#messages .fa-spin { display: none }</style>
-      <div id="messages" data-pagelet-url="/messages"></div>                  
-    </li>   
     
     <li>
       <a data-toggle="tooltip" href="/map" class="navbar-icon" title="Map">
