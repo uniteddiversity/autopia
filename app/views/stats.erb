@@ -56,7 +56,7 @@
         </td>
         <td>
           <% account.mapplications.each { |mapplications| %>
-            <span class="label" style="background-color: #<%=Digest::MD5.hexdigest("Group#{membership.group_id}")[0..5]%>"><%= membership.group.name %></span>
+            <span class="label" style="background-color: #<%=Digest::MD5.hexdigest("Group#{mapplication.group_id}")[0..5]%>"><%= mapplication.group.name %></span>
           <% } %>
         </td>        
         <td>
