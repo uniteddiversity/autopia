@@ -5,6 +5,7 @@ class Account
   extend Dragonfly::Model
             
   field :name, :type => String  
+  field :name_transliterated, :type => String
   field :email, :type => String
   field :username, :type => String
   field :gender, :type => String
@@ -42,6 +43,7 @@ class Account
     end
     self.sign_in_token = SecureRandom.uuid if !self.sign_in_token
     self.name = self.name.strip if self.name
+    self.name_transliterated = I18n.transliterate(self.name) if self.name
     self.username = self.username.downcase if self.username
     
     errors.add(:facebook_profile_url, 'must contain facebook.com') if self.facebook_profile_url and !self.facebook_profile_url.include?('facebook.com')    

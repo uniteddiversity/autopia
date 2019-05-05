@@ -94,7 +94,11 @@ module Autopia
         when 'groups'
           @groups = Group.where({name: /#{::Regexp.escape(params[:q])}/i})
         else
-          @accounts = Account.or({name: /#{::Regexp.escape(params[:q])}/i}, {email: /#{::Regexp.escape(params[:q])}/i}).order('last_active desc')
+          @accounts = Account.or(         
+            {name: /#{::Regexp.escape(params[:q])}/i},
+            {name_transliterated: /#{::Regexp.escape(params[:q])}/i},
+            {email: /#{::Regexp.escape(params[:q])}/i}
+          ).order('last_active desc')
         end
       end
       discuss 'Search'
