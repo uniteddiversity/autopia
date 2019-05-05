@@ -9,11 +9,13 @@
     </tr>
   </thead>
   <tbody>
-    <% @comments.each { |comment| %>
+    <% @comments.each { |comment| 
+      c = comment.commentable.respond_to?(:group) ? "Group#{comment.commentable.group_id}" : "#{comment.commentable_type}#{comment.commentable_id}"
+    %>
       <tr>
         <td class="subject">
           <a href="<%=comment.post.url%>">
-            <span class="label" style="background-color: #<%=Digest::MD5.hexdigest("#{comment.commentable_type}#{comment.commentable_id}")[0..5]%>"><%= comment.first_in_post.email_subject.split(']').first.split('[').last %></span>
+            <span class="label" style="background-color: #<%=Digest::MD5.hexdigest(c)[0..5]%>"><%= comment.first_in_post.email_subject.split(']').first.split('[').last %></span>
             <%= comment.first_in_post.email_subject.split(']').last %>
           </a>
         </td>
