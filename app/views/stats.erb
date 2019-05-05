@@ -12,7 +12,10 @@
     <% @comments.each { |comment| %>
       <tr>
         <td class="subject">
-          <a href="<%=comment.post.url%>"><%= comment.first_in_post.email_subject %></a>
+          <a href="<%=comment.post.url%>">
+            <span class="label" style="background-color: #<%=Digest::MD5.hexdigest("#{comment.commentable_type}#{comment.commentable_id}")[0..5]%>"><%= comment.first_in_post.email_subject.split(']').first.split('[').last %></span>
+            <%= comment.first_in_post.email_subject.split(']').last %>
+          </a>
         </td>
         <td>
           <a href="/u/<%=comment.account.username%>"><%=comment.account.name%></a>
@@ -24,16 +27,6 @@
     <% } %>
   </tbody>
 </table>
-
-<script>
-  $(function () {
-    $('.subject a').each(function () {
-      [a, b] = $(this).text().split(']')
-      a = a.split('[')[1]
-      $(this).html('<span class="label label-primary">' + a + '</span>' + b)
-    })
-  })
-</script>
 
 <%= will_paginate @comments, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer, :param_name => 'comments_page' %>
 
