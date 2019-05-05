@@ -12,7 +12,7 @@
   </div>
 <% end %>
 
-<div class="row" style="margin-top: 15px">
+<div class="row">
   <% unless @group.hide_members_on_application_form %>
     <div class="col-sm-4 order-sm-1">
       <%= partial :'members/cocreators' %>
@@ -32,7 +32,7 @@
         <%=@group.intro_for_non_members%>
       <% end %>
 
-      <% form_for @account, "/a/#{@group.slug}/apply", :style => 'margin-top: 20px' do |f| %>
+      <% form_for @account, "/a/#{@group.slug}/apply", :class => 'mt-3' do |f| %>
 
         <script>
           $(function () {
