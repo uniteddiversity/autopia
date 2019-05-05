@@ -1,5 +1,26 @@
 <h2>Comments</h2>
 
+<% h = {}; Comment.where(:created_at.gte => 1.month.ago).each { |comment|
+  if comment.commentable.respond_to?(:group)    
+    if !h[comment.commentable.group_id]
+      h[comment.commentable.group_id] = 1
+      else
+      h[comment.commentable.group_id] += 1
+    end  
+  end
+  }; active_groups = h.select { |id,count| count >= 3 } %>
+
+<p class="lead">
+  <%= pluralize active_groups.count, 'active group' %> in the last month
+  <small>
+    <% active_groups.each { |id,count| %>
+      <span class="label" style="background-color: #<%=Digest::MD5.hexdigest("Group#{id}")[0..5]%>"><%= Group.find(id).name %></span>
+    <% } %>
+  </small>
+</p>
+
+
+
 <table class="table">
   <thead>
     <tr>
