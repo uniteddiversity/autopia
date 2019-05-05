@@ -110,15 +110,7 @@ module Autopia
       @notification = Notification.find(params[:id]) || not_found
       erb :'emails/notification', :locals => {:notification => @notification, :circle => @notification.circle}, :layout => false
     end
-            
-    get '/:slug' do
-      if @fragment = Fragment.find_by(slug: params[:slug], page: true)
-        erb :page
-      else
-        pass
-      end
-    end  
-    
+                
     get '/map' do
       sign_in_required!
       @accounts = current_account.network + [current_account]
@@ -128,7 +120,15 @@ module Autopia
     
     get '/point/:model/:id' do
       partial "maps/#{params[:model].downcase}".to_sym, :object => params[:model].constantize.find(params[:id])
-    end    
+    end  
+    
+    get '/:slug' do
+      if @fragment = Fragment.find_by(slug: params[:slug], page: true)
+        erb :page
+      else
+        pass
+      end
+    end      
          
   end         
 end
