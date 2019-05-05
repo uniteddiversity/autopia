@@ -6,6 +6,7 @@ Autopia::App.controller do
     Group.enablable.each { |x|
       @group.send("enable_#{x}=", true)
     }
+    discuss 'Create a group'
     erb :'groups/build'
   end  
     
