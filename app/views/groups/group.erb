@@ -28,7 +28,7 @@
       <div data-pagelet-url="/a/<%=@group.slug%>/subscribe" style="display: inline">
         <%= partial :'groups/subscribe', :locals => {:membership => @membership} %>
       </div>
-      <% if @membership.hide_from_sidebar %>
+      <% if @membership && @membership.hide_from_sidebar %>
         <a class="btn btn-outline-primary mb-1" href="/a/<%=@group.slug%>/show_in_sidebar">Hidden from sidebar</a>
       <% else %>
         <a class="btn btn-primary mb-1" href="/a/<%=@group.slug%>/hide_from_sidebar">Showing in sidebar</a>

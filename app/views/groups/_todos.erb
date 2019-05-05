@@ -57,7 +57,7 @@
         Your transport
       </th>
       <td>
-        <% if @membership.transportships.count > 0 %>
+        <% if @membership && @membership.transportships.count > 0 %>
           <% @membership.transportships.each { |transportship| %>
             <a href="/a/<%=@group.slug%>/transports" class="label label-primary"><%= transportship.transport.name %> (<%=@group.currency_symbol%><%= transportship.transport.cost %>)</a> 
           <% } %>     
@@ -74,7 +74,7 @@
         Your teams
       </th>
       <td>
-        <% if @membership.teamships.count > 0 %>
+        <% if @membership && @membership.teamships.count > 0 %>
           <% @membership.teamships.each { |teamship| %>
             <a href="/a/<%=@group.slug%>/teams/<%=teamship.team_id%>"><span class="label label-primary"><%=teamship.team.name%></span></a>
           <% } %>      
@@ -91,7 +91,7 @@
         Your shifts
       </th>
       <td>                
-        <% if @membership.shifts.count > 0 %>
+        <% if @membership && @membership.shifts.count > 0 %>
           <% @membership.shifts.each { |shift| %>
             <a href="/a/<%=@group.slug%>/rotas/<%=shift.rota_id%>"><span class="label label-primary"><%=shift.rota.name%>, <%=shift.rslot.name%></span></a>
           <% } %>      

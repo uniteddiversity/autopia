@@ -94,7 +94,7 @@
 <% end %>
 <% if @group.facebook_group_url %>
   <td>
-    <% if @membership.admin %>
+    <% if admin? || @membership.admin? %>
       <% if membership.account.not_on_facebook %>
         Doesn't use Facebook    
       <% else %>
