@@ -6,8 +6,8 @@
   <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
     <%= text_field_tag :q, :class => 'form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>
     View as
-    <%= select_tag :view, :class => 'form-control mr-1', :options => %w{details pictures dietary_requirements emails}.map { |view| [view.to_s.humanize.capitalize,view] }, :selected => params[:view], :onchange => 'this.form.submit()' %>        
-    
+    <%= select_tag :view, :class => 'form-control mr-1', :options => %w{details pictures dietary_requirements map emails}.map { |view| [view.to_s.humanize.capitalize,view] }, :selected => params[:view], :onchange => 'this.form.submit()' %>        
+
     <div class="mt-3 mb-1" style="font-size: 13px;">
 
       <% @group.radio_scopes.each_with_index { |el,i| k,v,t,r = *el %>
@@ -28,7 +28,7 @@
         </div>        
       <% } %>
     </div>
-    
+
   <% end %>
 
   <% if admin? || @membership.admin? %>
@@ -107,6 +107,10 @@
       </tr>
     <% } %>
   </table>    
+
+<% when 'map' %>
+
+  <%= partial :'maps/map', :locals => {:points => Account.where(:id.in => @memberships.pluck(:account_id))} %>
 
 <% when 'details'; @memberships = @memberships.per_page(10).page(params[:page]) %>
 
