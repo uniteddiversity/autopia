@@ -25,4 +25,29 @@
   </tbody>
 </table>
 
-<%= will_paginate @comments, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+<%= will_paginate @comments, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer, :param_name => 'comments_page' %>
+
+<h2>Accounts</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Account</th>
+      <th>Created at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accounts.each { |account| %>
+      <tr>
+        <td>
+          <a href="/u/<%=account.username%>"><%=account.name%></a>
+        </td>
+        <td>
+          <%= account.created_at %>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer, :param_name => 'accounts_page' %>
