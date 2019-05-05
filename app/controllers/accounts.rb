@@ -52,6 +52,7 @@ Autopia::App.controller do
   get '/accounts/edit' do
     sign_in_required!
     @account = current_account
+    discuss 'Edit profile'
     erb :'accounts/build'
   end
   
@@ -74,7 +75,7 @@ Autopia::App.controller do
   end     
   
   get '/accounts/:id' do    
-    @account = Account.find(params[:id]) || not_found
+    @account = Account.find(params[:id]) || not_found    
     redirect "/u/#{@account.username}"
   end
   
@@ -83,6 +84,7 @@ Autopia::App.controller do
     # @notifications = @account.notifications_as_circle.order('created_at desc').page(params[:page])
     @habits = @account.habits.where(public: true).where(:archived.ne => true).where(:id.in => @account.habit_completions.pluck(:habit_id))
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
+    discuss 'User profiles'
     erb :'accounts/account'
   end  
   
@@ -101,6 +103,7 @@ Autopia::App.controller do
     @habits = @account.habits.where(public: true).where(:archived.ne => true).where(:id.in => @account.habit_completions.pluck(:habit_id))
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @hide_nav = true
+    discuss 'Habits'
     erb :'accounts/habits', :layout => :minimal
   end  
   

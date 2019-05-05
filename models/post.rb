@@ -16,7 +16,7 @@ class Post
   end
   
   def self.commentable_types
-    %w{Team Activity Mapplication Habit Account}
+    %w{Team Activity Mapplication Habit Account Feature}
   end  
   
   def url
@@ -35,6 +35,9 @@ class Post
     elsif commentable.is_a?(Account)
       account = commentable
       "#{ENV['BASE_URI']}/u/#{account.username}#post-#{id}"      
+    elsif commentable.is_a?(Feature)
+      feature = commentable
+      "#{ENV['BASE_URI']}/features/#{feature.id}"            
     end    
   end
   

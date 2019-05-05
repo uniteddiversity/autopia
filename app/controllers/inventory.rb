@@ -8,6 +8,7 @@ Autopia::App.controller do
     if request.xhr?
       partial :'inventory/inventory'
     else
+      discuss 'Inventory'
       erb :'inventory/inventory'  
     end    
   end  

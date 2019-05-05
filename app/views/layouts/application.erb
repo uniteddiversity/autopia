@@ -16,7 +16,7 @@
         js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2&appId=1498399346894704&autoLogAppEvents=1';
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));</script>   
-    
+
     <!-- BEGIN #page-container -->
     <div id="page-container" class="page-header-fixed page-sidebar-fixed">
       <!-- BEGIN #header -->
@@ -73,7 +73,7 @@
       <div id="content" class="content">
 
         <%= partial :alert %>
-        
+
         <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
 
       </div>
@@ -81,6 +81,12 @@
 
     </div>
     <!-- END #page-container -->
+
+    <% if @feature && !request.path.starts_with?('/features') %>
+      <a style="position: fixed; bottom: 1rem; right: 1rem" class="btn btn-primary" href="javascript:;" onclick="$('#modal .modal-content').load('/features/<%=@feature.id%>', function () {
+            $('#modal').modal('show')
+          });">Discuss this feature</a>
+       <% end %>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="modal">
       <div class="modal-dialog" role="document">

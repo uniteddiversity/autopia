@@ -26,6 +26,7 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
+    discuss 'Timetables'
     erb :'timetables/timetables'      
   end
   
@@ -37,6 +38,7 @@ Autopia::App.controller do
     if request.xhr?
       partial :'timetables/timetable', :locals => {:timetable => @timetable}
     else
+      discuss 'Timetables'
       erb :'timetables/timetable'      
     end
   end  

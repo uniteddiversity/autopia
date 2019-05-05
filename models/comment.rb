@@ -12,7 +12,7 @@ class Comment
   field :file_uid, :type => String
   
   def self.commentable_types
-    %w{Team Activity Mapplication Habit Account}
+    %w{Team Activity Mapplication Account Habit Feature}
   end    
   
   dragonfly_accessor :file  
@@ -92,7 +92,10 @@ class Comment
   
   def email_subject
     s = ''
-    if commentable.is_a?(Habit)
+    if commentable.is_a?(Feature)
+      feature = commentable
+      s << "[#{feature.name}] "      
+    elsif commentable.is_a?(Habit)
       habit = commentable
       s << "[#{habit.account.name}/#{habit.name}] "
     elsif commentable.is_a?(Account)

@@ -68,6 +68,7 @@ module Autopia
     get '/' do
       if current_account
         @notifications = current_account.network_notifications.order('created_at desc').page(params[:page])
+        discuss 'Newsfeed'
         erb :home_signed_in
       else
         erb :home_not_signed_in
@@ -96,6 +97,7 @@ module Autopia
           @accounts = Account.or({name: /#{::Regexp.escape(params[:q])}/i}, {email: /#{::Regexp.escape(params[:q])}/i}).order('last_active desc')
         end
       end
+      discuss 'Search'
       erb :search
     end
     
@@ -120,6 +122,7 @@ module Autopia
     get '/map' do
       sign_in_required!
       @accounts = current_account.network + [current_account]
+      discuss 'Map'
       erb :map
     end
     

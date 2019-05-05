@@ -21,6 +21,7 @@ Autopia::App.controller do
     if request.xhr?
       partial :'tiers/tiers'
     else
+      discuss 'Tiers'
       erb :'tiers/tiers'
     end
   end

@@ -32,6 +32,7 @@ Autopia::App.controller do
         redirect "/a/#{@group.slug}/join"
       end
     end
+    discuss 'Group homepage'
     erb :'groups/group'
   end  
       
@@ -46,6 +47,7 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!
+    discuss 'Group settings'
     erb :'groups/build'
   end  
     
@@ -122,6 +124,7 @@ Autopia::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!    
     @accounts = @group.members
+    discuss 'Map'
     erb :'groups/map'    
   end
         

@@ -9,6 +9,7 @@ Autopia::App.controller do
     if request.xhr?
       partial :'transports/transports'
     else
+      discuss 'Transport'
       erb :'transports/transports'
     end
   end

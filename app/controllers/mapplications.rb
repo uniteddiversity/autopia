@@ -8,6 +8,7 @@ Autopia::App.controller do
     if request.xhr?
       partial :'mapplications/mapplication_modal', :locals => {:mapplication => @mapplication}
     else
+      discuss 'Applications'
       erb :'mapplications/mapplication'
     end
   end
@@ -65,6 +66,7 @@ Autopia::App.controller do
     confirmed_membership_required!    
     @mapplications = @group.mapplications.pending
     @mapplications = @mapplications.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
+    discuss 'Applications'
     erb :'mapplications/pending'
   end   
     
@@ -89,6 +91,7 @@ Autopia::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @mapplications = @group.mapplications.paused
+    discuss 'Applications'
     erb :'mapplications/paused'
   end    
     

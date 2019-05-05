@@ -8,6 +8,7 @@ Autopia::App.controller do
     if request.xhr?
       partial :'budget/budget'
     else
+      discuss 'Budget'
       erb :'budget/budget'
     end
   end

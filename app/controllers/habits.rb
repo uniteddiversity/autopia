@@ -9,6 +9,7 @@ Autopia::App.controller do
     @habits = params[:archived] ? @habits : @habits.where(:archived.ne => true)
     @habits = @habits.where(public: true) if params[:public]
     @habits = @habits.where(:public.ne => true) if params[:private]
+    discuss 'Habits'
     erb :'habits/habits'
   end
   
@@ -17,6 +18,7 @@ Autopia::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @dates = ((Date.current-4)..Date.current).to_a.reverse        
+    discuss 'Habits'
     erb :'habits/group'
   end
   

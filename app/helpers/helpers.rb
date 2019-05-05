@@ -36,6 +36,10 @@ Autopia::App.helpers do
       end).to_s
   end  
   
+  def discuss(name)
+    @feature = Feature.find_by(name: name) || Feature.create(name: name)
+  end
+  
   def membership_required!(group=nil, account=current_account)
     group = @group if !group
     unless account and group and (group.memberships.find_by(account: account) or account.admin?)

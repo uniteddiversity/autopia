@@ -1,0 +1,5 @@
+<h1 class="mb-3"><%=@feature.name%> <small class="text-muted">Feature discussion</small></h1>
+
+<div data-pagelet-url="/commentable?commentable_type=Feature&commentable_id=<%=@feature.id%>">
+  <%= partial :'comments/commentable', :locals => {:commentable => @feature} %>
+</div> 

@@ -26,6 +26,7 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
+    discuss 'Rotas'
     erb :'rotas/rotas'     
   end     
   
@@ -37,6 +38,7 @@ Autopia::App.controller do
     if request.xhr?
       partial :'rotas/rota', :locals => {:rota => @rota}
     else
+      discuss 'Rotas'
       erb :'rotas/rota'
     end
   end

@@ -34,7 +34,6 @@ class Group
   field :balance, :type => Float
   field :paypal_email, :type => String
   field :currency, :type => String
-  field :teamup_calendar_url, :type => String
   field :facebook_group_url, :type => String
   field :demand_payment, :type => Boolean
   field :hide_members_on_application_form, :type => Boolean
@@ -216,7 +215,6 @@ class Group
       :hide_members_on_application_form => :check_box,
       :paypal_email => :text,
       :currency => :select,
-      :teamup_calendar_url => :url,
       :facebook_group_url => :url,
       :account_id => :lookup,
       :memberships => :collection,
@@ -276,7 +274,6 @@ class Group
       :ask_for_facebook_profile_url => 'Ask for Facebook profile URL',
       :fixed_threshold => 'Magic number',
       :democratic_threshold => 'Allow all group members to suggest a magic number, and use the median',
-      :teamup_calendar_url => 'Teamup calendar URL',
       :facebook_group_url => 'Facebook group URL',
       :require_reason_proposer => 'Proposers must provide a reason',
       :require_reason_supporter => 'Supporters must provide a reason',

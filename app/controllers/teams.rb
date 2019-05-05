@@ -29,6 +29,7 @@ Autopia::App.controller do
     if request.xhr?
       partial :'teams/teams'
     else
+      discuss 'Teams'
       erb :'teams/teams'
     end
   end
@@ -41,6 +42,7 @@ Autopia::App.controller do
     if request.xhr?
       partial :'teams/team'
     else
+      discuss 'Teams'
       erb :'teams/team', :layout => 'layouts/teams' 
     end
   end

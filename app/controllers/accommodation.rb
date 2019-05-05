@@ -17,6 +17,7 @@ Autopia::App.controller do
   get '/a/:slug/accoms' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
+    discuss 'Accommodation'
     confirmed_membership_required!
     if request.xhr?
       partial :'accoms/accoms'

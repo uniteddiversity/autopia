@@ -15,6 +15,7 @@ Autopia::App.controller do
     @memberships = @memberships.order('created_at desc')
     case content_type
     when :html        
+      discuss 'Members'
       erb :'members/members'
     when :csv
       CSV.generate do |csv|

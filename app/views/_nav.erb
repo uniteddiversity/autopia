@@ -87,7 +87,6 @@
               )              
               ] if group.enable_teams),      
           (["Qualities", "/a/#{group.slug}/qualities"] if group.enable_qualities),
-          (["Calendar", "/a/#{group.slug}/calendar"] if group.teamup_calendar_url),
           (["Timetables",
               (
                 group.timetables(true).map { |timetable| [timetable.name, "/a/#{group.slug}/timetables/#{timetable.id}"] } + (membership.admin? ? [['Create a timetable', "/a/#{group.slug}/timetables/new"]] : [])
