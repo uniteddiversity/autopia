@@ -24,9 +24,9 @@
   <% if mapplication.status != 'accepted' %>
     <% if mapplication.status == 'paused' %>
       Paused by <%=mapplication.processed_by.name%>
-      <% if @membership.admin? %> &middot; <% end %>
+      <% if admin? || @membership.admin? %> &middot; <% end %>
     <% end %>  
-    <% if @membership.admin? %>          
+    <% if admin? || @membership.admin? %>          
       <% if mapplication.acceptable? %>
         <a class="btn btn-success" href="/mapplications/<%=mapplication.id%>/process?status=accepted">Accept</a>
       <% end %>

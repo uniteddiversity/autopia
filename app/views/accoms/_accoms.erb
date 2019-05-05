@@ -12,7 +12,7 @@
   <% @group.accoms.order('name asc').each { |accom| %>
     <tr>
       <td>
-        <% if @membership.admin? %>
+        <% if admin? || @membership.admin? %>
           <a href="/a/<%=@group.slug%>/accoms/<%=accom.id%>/edit">
             <%=accom.name%>
           </a>

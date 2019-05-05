@@ -5,7 +5,7 @@
     <% rota.rslots.order('o asc').each { |rslot| %>
       <td>
         <strong>
-          <% if @membership.admin? %>
+          <% if admin? || @membership.admin? %>
             <a class="pagelet-trigger" data-confirm="Delete this slot?" href="/rslots/<%=rslot.id%>/destroy">
               <%=rslot.name%>
             </a>
@@ -15,7 +15,7 @@
         </strong>
       </td>
     <% } %>
-    <% if @membership.admin? %>
+    <% if admin? || @membership.admin? %>
       <td>        
         <% form_tag "/rslots/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>
           <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New slot' %>
@@ -27,7 +27,7 @@
     <tr>
       <td>
         <strong>
-          <% if @membership.admin? %>
+          <% if admin? || @membership.admin? %>
             <a class="pagelet-trigger"data-confirm="Delete this role?" href="/roles/<%=role.id%>/destroy">
               <%=role.name%>
             </a>
@@ -41,12 +41,12 @@
           <%= partial :'rotas/rota_rslot_role', :locals => {:rota => rota, :rslot => rslot, :role => role} %>
         </td>          
       <% } %>
-      <% if @membership.admin? %>
+      <% if admin? || @membership.admin? %>
         <td></td>
       <% end %>
     </tr>
   <% } %>
-  <% if @membership.admin? %>
+  <% if admin? || @membership.admin? %>
     <tr>      
       <td>        
         <% form_tag "/roles/create?rota_id=#{rota.id}", :class => 'form-inline', :style => 'display: inline' do %>

@@ -7,7 +7,7 @@
   <% form_for @rota ||= Rota.new, @rota.new_record? ? "/a/#{@group.slug}/rotas/new" : "/a/#{@group.slug}/rotas/#{@rota.id}/edit" do |f| %>
     <%= f.text_block :name %>
     <%= f.wysiwyg_block :description %>
-    <%= f.submit_block destroy_url: ("/a/#{@group.slug}/rotas/#{@rota.id}/destroy" if @membership.admin?) %>
+    <%= f.submit_block destroy_url: ("/a/#{@group.slug}/rotas/#{@rota.id}/destroy" if (admin? || @membership.admin?)) %>
   <% end %>  
 
 </div>

@@ -10,7 +10,7 @@
   <% @group.tiers.order('cost asc').each { |tier| %>
     <tr>
       <td>
-        <% if @membership.admin? %>
+        <% if admin? || @membership.admin? %>
           <a href="/a/<%=@group.slug%>/tiers/<%=tier.id%>/edit">
             <%=tier.name%>
           </a>

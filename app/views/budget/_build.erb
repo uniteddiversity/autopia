@@ -2,7 +2,7 @@
   <%= f.text_block :item %>
   <%= f.number_block :amount %>  
   <%= f.select_block :team_id, :options => @group.teams.order('name asc').map { |team| [team.name, team.id] } %>  
-  <% if @membership.admin? %>
+  <% if admin? || @membership.admin? %>
     <%= f.select_block :account_id, :options => @group.members.order('name asc').map { |account| [account.name, account.id] } %>  
   <% end %>
   <% if @spend.persisted? %>

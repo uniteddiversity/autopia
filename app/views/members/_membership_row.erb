@@ -32,7 +32,7 @@
 <% end %>   
 <% if @group.enable_tiers %>
   <td>        
-    <% if @membership.admin? %>
+    <% if admin? || @membership.admin? %>
       <% if tiership = membership.tiership %>
         <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (<%=@group.currency_symbol%><%= tiership.tier.cost %>)</span>
       <% end %>  
@@ -48,7 +48,7 @@
 <% end %>
 <% if @group.enable_accommodation %>
   <td>       
-    <% if @membership.admin? %>
+    <% if admin? || @membership.admin? %>
       <% if accomship = membership.accomship %>
         <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (<%=@group.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
       <% end %>  
@@ -75,7 +75,7 @@
     <%=@group.currency_symbol%><%= membership.requested_contribution %>
   </td>
   <td>
-    <% if @membership.admin? %>
+    <% if admin? || @membership.admin? %>
       <% if membership.paid %>
         <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "#{@group.currency_symbol}#{membership.paid}" if membership.paid %></a>
       <% end %>
@@ -114,7 +114,7 @@
     <% end %>
   </td>
 <% end %>
-<% if @membership.admin? %>
+<% if admin? || @membership.admin? %>
   <td style="font-size: 13px">
     <% y = [] %>
     <% if membership.admin %>

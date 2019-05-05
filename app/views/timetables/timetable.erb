@@ -4,7 +4,7 @@
   <%=@timetable.name%>
 </h2>
 
-<% if @membership.admin? %>
+<% if admin? || @membership.admin? %>
   <a style="border-bottom: 1px dotted; text-decoration: none" href="/a/<%=@group.slug%>/timetables/<%=@timetable.id%>/edit">
     Edit timetable
   </a>
@@ -27,7 +27,7 @@
       <%= partial :'timetables/timetable', :locals => {:timetable => @timetable} %>
     </div>
 
-    <% if @membership.admin? and !@timetable.hide_schedule? %>
+    <% if (admin? || @membership.admin?) and !@timetable.hide_schedule? %>
 
       <script>
         $(function () {

@@ -4,7 +4,7 @@
   <%=@rota.name%>
 </h2>
 
-<% if @membership.admin? %>
+<% if admin? || @membership.admin? %>
   <a style="border-bottom: 1px dotted; text-decoration: none" href="/a/<%=@group.slug%>/rotas/<%=@rota.id%>/edit">
     Edit rota
   </a>
@@ -20,7 +20,7 @@
   <%= partial :'rotas/rota', :locals => {:rota => @rota} %>
 </div>
 
-<% if @membership.admin? %>
+<% if admin? || @membership.admin? %>
 
   <style>
     .roles li, .rslots li { cursor: move }

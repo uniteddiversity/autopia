@@ -14,7 +14,7 @@
   <% @group.transports.order('name asc').each { |transport| %>
     <tr>
       <td>
-        <% if @membership.admin? %>
+        <% if admin? || @membership.admin? %>
           <a href="/a/<%=@group.slug%>/transports/<%=transport.id%>/edit">
             <%=transport.name%>
           </a>

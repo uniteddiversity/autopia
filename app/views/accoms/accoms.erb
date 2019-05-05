@@ -1,6 +1,6 @@
 
 
-<% if @membership.admin? %>
+<% if admin? || @membership.admin? %>
   <div style="margin: 10px 0">
     <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List accommodation</a>
     <div style="display: none" class="accom-form">

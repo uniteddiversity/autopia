@@ -9,7 +9,7 @@
     <%= f.wysiwyg_block :description %>    
     <%= f.check_box_block :scheduling_by_all %>
     <%= f.check_box_block :hide_schedule %>
-    <%= f.submit_block destroy_url: ("/a/#{@group.slug}/timetables/#{@timetable.id}/destroy" if @membership.admin?) %>
+    <%= f.submit_block destroy_url: ("/a/#{@group.slug}/timetables/#{@timetable.id}/destroy" if (admin? || @membership.admin?)) %>
   <% end %>  
 
 </div>

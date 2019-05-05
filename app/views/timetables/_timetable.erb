@@ -10,7 +10,7 @@
 
 <% else %>
 
-  <% if @membership.admin? or timetable.scheduling_by_all %>
+  <% if (admin? || @membership.admin?) or timetable.scheduling_by_all %>
 
     <script>
       $(function () {
@@ -56,7 +56,7 @@
           <% timetable.spaces.order('o asc').each { |space| %>
             <td>
               <strong>
-                <% if @membership.admin? %>
+                <% if admin? || @membership.admin? %>
                   <a class="pagelet-trigger" data-confirm="Delete this space?" href="/spaces/<%=space.id%>/destroy">
                     <%=space.name%>
                   </a>
@@ -66,7 +66,7 @@
               </strong>
             </td>
           <% } %>
-          <% if @membership.admin? %>
+          <% if admin? || @membership.admin? %>
             <td style="width: 1px">
               <% form_tag "/spaces/create?timetable_id=#{timetable.id}", :class => 'form-inline', :style => 'display: inline' do %>
                 <%= text_field_tag :name, :class => 'form-control', :style => 'width: 10em', :placeholder => 'New space' %>
@@ -78,7 +78,7 @@
           <tr>
             <td style="width: 1px">
               <strong>
-                <% if @membership.admin? %>
+                <% if admin? || @membership.admin? %>
                   <a class="pagelet-trigger" data-confirm="Delete this slot?" href="/tslots/<%=tslot.id%>/destroy">
                     <%=tslot.name%>
                   </a>
@@ -96,12 +96,12 @@
                 </div>
               </td>
             <% } %>
-            <% if @membership.admin? %>
+            <% if admin? || @membership.admin? %>
               <td></td>
             <% end %>        
           </tr>
         <% } %>
-        <% if @membership.admin? %>
+        <% if admin? || @membership.admin? %>
           <tr>
             <td>
               <% form_tag "/tslots/create?timetable_id=#{timetable.id}", :class => 'form-inline', :style => 'display: inline' do %>
