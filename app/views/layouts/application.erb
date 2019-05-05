@@ -85,7 +85,7 @@
     <% if @feature && !request.path.starts_with?('/features') %>
       <a style="position: fixed; bottom: 1rem; right: 1rem" class="btn btn-primary" href="javascript:;" onclick="$('#modal .modal-content').load('/features/<%=@feature.id%>', function () {
             $('#modal').modal('show')
-          });"><i class="fa fa-comment"></i> Discuss this feature</a>
+          });"><i class="fa fa-comments"></i> Discuss this feature</a>
        <% end %>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="modal">
