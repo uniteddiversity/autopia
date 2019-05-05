@@ -49,6 +49,10 @@ class Group
     self.geocode || (self.coordinates = nil)
   end    
     
+ def self.marker_color
+    '54e645'
+  end    
+  
   before_validation do
     self.balance = 0 if self.balance.nil?
     self.processed_via_stripe = 0 if self.processed_via_stripe.nil?

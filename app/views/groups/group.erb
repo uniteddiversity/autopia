@@ -3,13 +3,23 @@
 
 <div class="row">  
   <div class="col-sm-4 order-sm-2 mb-3">
-
     <div data-pagelet-url="/a/<%=@group.slug%>/todos">
       <%= partial :'groups/todos' %>
     </div>    
     <% if @group.intro_for_members %>  
-      <%= @group.intro_for_members %>        
+      <div class="card mb-3">
+        <h5 class="card-header bg-primary">Welcome to <%=@group.name%>!</h5>
+        <div class="card-body pb-0">
+          <%= @group.intro_for_members %>        
+        </div>
+      </div>
     <% end %>  
+    <% if @group.coordinates %>  
+      <style>
+        #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
+      </style>    
+      <%= partial :'maps/map', :locals => {:points => [@group]} %>
+    <% end %>        
     <h2>Online now</h2>
     <div class="image-wall">
       <% @group.members.where(:last_active.gt => 5.minutes.ago).each { |account| %>
