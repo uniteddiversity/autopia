@@ -1,0 +1,36 @@
+<h2>Accounts</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Account</th>
+      <th>Memberships</th>
+      <th>Applications</th>
+      <th>Created at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @accounts.each { |account| %>
+      <tr>
+        <td>
+          <a href="/u/<%=account.username%>"><%=account.name%></a>
+        </td>
+        <td>
+          <% account.memberships.each { |membership| %>
+            <span class="label" style="background-color: #<%=Digest::MD5.hexdigest("Group#{membership.group_id}")[0..5]%>"><%= membership.group.name %></span>
+          <% } %>
+        </td>
+        <td>
+          <% account.mapplications.each { |mapplications| %>
+            <span class="label" style="background-color: #<%=Digest::MD5.hexdigest("Group#{mapplication.group_id}")[0..5]%>"><%= mapplication.group.name %></span>
+          <% } %>
+        </td>        
+        <td>
+          <%= account.created_at %>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>

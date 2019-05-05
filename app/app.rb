@@ -74,14 +74,7 @@ module Autopia
         erb :home_not_signed_in
       end
     end
-    
-    get '/stats' do
-      admins_only!
-      @comments = Comment.order('created_at desc').paginate(:page => params[:comments_page], :per_page => 50)
-      @accounts = Account.order('created_at desc').paginate(:page => params[:accounts_page], :per_page => 50)
-      erb :stats
-    end
-    
+      
     get '/notifications' do
       sign_in_required!
       partial :notifications

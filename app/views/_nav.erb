@@ -45,7 +45,7 @@
       <span class="nav-link-text">Chat with us on Slack</span>
     </a>          
   </li>      
-  
+
   <li>
     <a target="_blank" href="https://github.com/stephenreid321/autopia">
       <i class="fa fa-fw fa-github"></i>
@@ -123,5 +123,23 @@
     <% } %>
   <% end %>
 
+  <% if admin? %>  
+
+    <li class="nav-divider"></li>
+    <li class="nav-header">Stats</li>        
+
+    <li>
+      <a href="/stats/comments">
+        <span class="nav-link-text">Comments</span>
+      </a>          
+    </li>  
+
+    <li>
+      <a href="/stats/accounts">
+        <span class="nav-link-text">Accounts</span>
+      </a>          
+    </li>         
+
+  <% end %>
 
 </ul>
