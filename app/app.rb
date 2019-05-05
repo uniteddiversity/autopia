@@ -75,6 +75,12 @@ module Autopia
       end
     end
     
+    get '/stats' do
+      admins_only!
+      @comments = Comment.order('created_at desc').paginate(:page => params[:page], :per_page => 50)
+      erb :stats
+    end
+    
     get '/notifications' do
       sign_in_required!
       partial :notifications

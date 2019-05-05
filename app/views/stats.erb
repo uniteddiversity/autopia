@@ -1,0 +1,28 @@
+<h2>Comments</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Commentable</th>
+      <th>Subject</th>
+      <th>Created at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @comments.each { |comment| %>
+      <tr>
+        <td>
+          <a href="<%=comment.post.url%>"><%= comment.first_in_post.email_subject %></a>
+        </td>
+        <td>
+          <a href="/u/<%=comment.account.username%>"><%=comment.account.name%></a>
+        </td>
+        <td>
+          <%= comment.created_at %>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<%= will_paginate @comments, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
