@@ -11,7 +11,7 @@
   <tbody>
     <% @comments.each { |comment| %>
       <tr>
-        <td>
+        <td class="subject">
           <a href="<%=comment.post.url%>"><%= comment.first_in_post.email_subject %></a>
         </td>
         <td>
@@ -24,6 +24,16 @@
     <% } %>
   </tbody>
 </table>
+
+<script>
+  $(function () {
+    $('.subject a').each(function () {
+      [a, b] = $(this).text().split(']')
+      a = a.split('[')[1]
+      $(this).html('<span class="label label-primary">' + a + '</span>' + b)
+    })
+  })
+</script>
 
 <%= will_paginate @comments, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer, :param_name => 'comments_page' %>
 
