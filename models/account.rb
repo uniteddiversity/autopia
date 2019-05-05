@@ -207,6 +207,7 @@ class Account
   def self.admin_fields
     {
       :name => :text,
+      :name_transliterated => {:type => :text, :disabled => true},
       :facebook_name => :text,
       :email => :text,
       :username => :text,
