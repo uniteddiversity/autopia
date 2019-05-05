@@ -94,7 +94,7 @@ class Comment
     s = ''
     if commentable.is_a?(Feature)
       feature = commentable
-      s << "[#{feature.name}] "      
+      s << "[Features/#{feature.name}] "      
     elsif commentable.is_a?(Habit)
       habit = commentable
       s << "[#{habit.account.name}/#{habit.name}] "
