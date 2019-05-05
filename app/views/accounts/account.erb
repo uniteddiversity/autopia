@@ -1,7 +1,7 @@
 <div class="row">
 
   <div class="col-auto">
-    <%= partial :'accounts/square', :locals => {:account => @account, :style => 'width: 200px; background: white; border: 3px solid white'} %>
+    <%= partial :'accounts/square', :locals => {:account => @account, :style => 'width: 200px; background: white; border: 3px solid white'} %>         
   </div>
   <div class="col">
 
@@ -74,16 +74,15 @@
       </table>     
 
     </div>    
-  </div>
-  <% if @account.coordinates %>  
-    <div class="col">
-      <style>
-        #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
-      </style>    
-      <%= partial :'maps/map', :locals => {:points => [@account]} %>
-    </div>
-  <% end %> 
+  </div> 
 </div>
+
+<% if @account.coordinates %>  
+  <style>
+    #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
+  </style>    
+  <%= partial :'maps/map', :locals => {:points => [@account]} %>
+<% end %>
 
 
 <script>
