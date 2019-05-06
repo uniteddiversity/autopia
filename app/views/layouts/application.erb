@@ -82,7 +82,7 @@
     </div>
     <!-- END #page-container -->
 
-    <% if @feature && !request.path.starts_with?('/features') %>
+    <% if current_account && @feature && !request.path.starts_with?('/features') %>
       <a style="position: fixed; bottom: 1rem; right: 1rem" class="btn btn-primary" href="javascript:;" onclick="$('#modal .modal-content').load('/features/<%=@feature.id%>', function () {
             $('#modal').modal('show')
           });"><i class="fa fa-comments"></i><span class="d-none d-sm-inline"> Discuss this feature</span></a>
