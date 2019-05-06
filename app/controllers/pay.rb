@@ -7,6 +7,58 @@ Autopia::App.controller do
     discuss 'Balance'
     erb :'groups/balance'
   end    
+  
+  post '/stripe' do
+    payload = request.body.read
+    event = nil
+
+    # Verify webhook signature and extract the event
+    # See https://stripe.com/docs/webhooks/signatures for more information.
+    sig_header = request.env['HTTP_STRIPE_SIGNATURE']
+    begin
+      event = Stripe::Webhook.construct_event(
+        payload, sig_header, endpoint_secret
+      )
+    rescue JSON::ParserError => e
+      # Invalid payload
+      status 400
+      return
+    rescue Stripe::SignatureVerificationError => e
+      # Invalid signature
+      status 400
+      return
+    end
+
+    # Handle the checkout.session.completed event
+    if event['type'] == 'checkout.session.completed'
+      session = event['data']['object']
+
+      raise session.inspect
+    end
+
+    200
+  end  
+  
+  post '/a/:slug/pay2', :provides => :json do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)    
+    membership_required!    
+    Stripe.api_key = ENV['STRIPE_SK']
+    session = Stripe::Checkout::Session.create(
+      payment_method_types: ['card'],
+      line_items: [{
+          name: "Payment for #{@group.name}",
+          images: [@group.cover_image.try(:url)].compact,
+          amount: params[:amount].to_i * 100,
+          currency: @group.currency,
+          quantity: 1,
+        }],
+      success_url: 'https://example.com/success',
+      cancel_url: 'https://example.com/cancel',
+    )    
+    @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @group.currency, :session_id => session.id  
+    {session_id: session.id}.to_json
+  end
 	
   post '/a/:slug/pay' do
     @group = Group.find_by(slug: params[:slug]) || not_found

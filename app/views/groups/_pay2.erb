@@ -1,0 +1,35 @@
+<% form_tag "/a/#{@group.slug}/pay2", :class => 'form-inline no-trigger', :id => 'pay-form' do %>
+  <div class="form-group mb-0">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><%=@group.currency_symbol%></span>
+      </div>  
+      <%= number_field_tag :amount, :value => (amount if defined?(amount)), :style => 'width: 5em;', :required => 'required', :class => 'form-control', :min => 5, :id => 'amount' %>
+    </div>
+  </div>  
+  <button type="submit" class="btn btn-default ml-1" style="height: 2.125rem">Pay</button> 
+<% end %>
+
+
+<script>
+  $(function () {
+    $('#pay-form').submit(function () {
+
+      $.post('/a/<%=@group.slug%>/pay2', {amount: $('#amount').val()}, function (data) {
+        var stripe = Stripe('<%=ENV['STRIPE_PK_TEST']%>');
+        stripe.redirectToCheckout({
+          sessionId: data['session_id']
+        })
+      }).fail(function () {
+        $('#pay-form').hide()
+        $('#card-error').show()
+      }).always(function () {
+        $('#pay-form').css('opacity', 1)
+      })
+      
+      return false
+
+    })
+    console.log('paying')
+  })
+</script> 

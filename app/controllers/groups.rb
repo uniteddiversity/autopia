@@ -36,7 +36,7 @@ Autopia::App.controller do
     discuss 'Group homepage'
     erb :'groups/group'
   end  
-      
+        
   get '/a/:slug/todos' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
