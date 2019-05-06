@@ -103,6 +103,7 @@ class Group
   has_many :mapplications, :dependent => :destroy    
   has_many :verdicts, :dependent => :destroy
   has_many :payments, :dependent => :nullify
+  has_many :payment_attempts, :dependent => :nullify
   has_many :withdrawals, :dependent => :nullify
   
   # Timetable

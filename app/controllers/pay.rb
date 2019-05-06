@@ -53,8 +53,8 @@ Autopia::App.controller do
           currency: @group.currency,
           quantity: 1,
         }],
-      success_url: 'https://example.com/success',
-      cancel_url: 'https://example.com/cancel',
+      success_url: "#{ENV['BASE_URI']}/a/#{@group.slug}",
+      cancel_url: "#{ENV['BASE_URI']}/a/#{@group.slug}",
     )    
     @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @group.currency, :session_id => session.id  
     {session_id: session.id}.to_json
