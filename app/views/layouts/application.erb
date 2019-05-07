@@ -74,13 +74,6 @@
 
         <%= partial :alert %>
 
-        <div id="a2hs" class="card mb-3" style="display: none">
-          <div class="card-body text-center">        
-            <a id="a2hs-btn" class="btn btn-primary" href="javascript:;">Add Autopia to your home screen</a>     
-          </div>
-        </div>
-
-
         <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
 
       </div>
