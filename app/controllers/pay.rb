@@ -17,7 +17,7 @@ Autopia::App.controller do
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
     begin
       event = Stripe::Webhook.construct_event(
-        payload, sig_header, endpoint_secret
+        payload, sig_header, ENV['STRIPE_ENDPOINT_SECRET']
       )
     rescue JSON::ParserError => e
       # Invalid payload
