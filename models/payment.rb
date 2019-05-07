@@ -29,6 +29,7 @@ class Payment
       :account_id => :lookup,
       :group_id => :lookup,
       :membership_id => :lookup,
+      :payment_attempt_id => :lookup,
       :group_name => :text,
       :currency => :text,
       :amount => :number
