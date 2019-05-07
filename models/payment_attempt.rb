@@ -5,7 +5,7 @@ class PaymentAttempt
   belongs_to :account, index: true
   belongs_to :group, index: true
   belongs_to :membership, index: true
-  has_one :payment_attempt, :dependent => :nullify
+  # has_one :payment_attempt, :dependent => :nullify
   
 	field :group_name, :type => String
   field :amount, :type => Integer

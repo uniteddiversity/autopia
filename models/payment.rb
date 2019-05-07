@@ -19,6 +19,11 @@ class Payment
   validates_presence_of :group_name, :amount, :currency
 
   before_validation do  	
+    if self.payment_attempt
+      self.membership = self.payment_attempt.membership
+      self.amount = self.payment_attempt.amount
+      self.currency = self.payment_attempt.currency
+    end
   	self.account = self.membership.account if self.membership
     self.group = self.membership.group if self.membership
     self.group_name = self.group.name if self.group    
