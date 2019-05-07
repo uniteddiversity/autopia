@@ -1,5 +1,5 @@
 
-<% dm = 5; m = params[:m] ? params[:m].to_i : dm; messenger_ids = []; broke = nil %>
+<% dm = 10; m = params[:m] ? params[:m].to_i : dm; messenger_ids = []; broke = nil %>
 <% current_account.messages.order('created_at desc').each { |message| %>      
   <% account = (current_account.id == message.messenger_id ? message.messengee : message.messenger) # the other person %>      
   <% next if messenger_ids.include?(account.id) %>        
