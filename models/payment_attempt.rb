@@ -22,13 +22,13 @@ class PaymentAttempt
 
   def self.admin_fields
     {
+      :session_id => :text,
       :account_id => :lookup,
       :group_id => :lookup,
       :membership_id => :lookup,
       :group_name => :text,
       :currency => :text,
-      :amount => :number,
-      :session_id => :text
+      :amount => :number      
     }
   end
     

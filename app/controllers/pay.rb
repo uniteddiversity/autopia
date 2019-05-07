@@ -7,6 +7,27 @@ Autopia::App.controller do
     discuss 'Balance'
     erb :'groups/balance'
   end    
+    
+  post '/a/:slug/pay2', :provides => :json do
+    @group = Group.find_by(slug: params[:slug]) || not_found
+    @membership = @group.memberships.find_by(account: current_account)    
+    membership_required!    
+    Stripe.api_key = ENV['STRIPE_SK_TEST']
+    session = Stripe::Checkout::Session.create(
+      payment_method_types: ['card'],
+      line_items: [{
+          name: "Payment for #{@group.name}",
+          images: [@group.cover_image.try(:url)].compact,
+          amount: params[:amount].to_i * 100,
+          currency: @group.currency,
+          quantity: 1,
+        }],
+      success_url: "#{ENV['BASE_URI']}/a/#{@group.slug}",
+      cancel_url: "#{ENV['BASE_URI']}/a/#{@group.slug}",
+    )    
+    @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @group.currency, :session_id => session.id
+    {session_id: session.id}.to_json
+  end
   
   post '/stripe' do
     payload = request.body.read
@@ -29,28 +50,7 @@ Autopia::App.controller do
     else
       400
     end 
-  end  
-  
-  post '/a/:slug/pay2', :provides => :json do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)    
-    membership_required!    
-    Stripe.api_key = ENV['STRIPE_SK_TEST']
-    session = Stripe::Checkout::Session.create(
-      payment_method_types: ['card'],
-      line_items: [{
-          name: "Payment for #{@group.name}",
-          images: [@group.cover_image.try(:url)].compact,
-          amount: params[:amount].to_i * 100,
-          currency: @group.currency,
-          quantity: 1,
-        }],
-      success_url: "#{ENV['BASE_URI']}/a/#{@group.slug}",
-      cancel_url: "#{ENV['BASE_URI']}/a/#{@group.slug}",
-    )    
-    @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @group.currency, :session_id => session.id
-    {session_id: session.id}.to_json
-  end
+  end    
 	
   post '/a/:slug/pay' do
     @group = Group.find_by(slug: params[:slug]) || not_found
