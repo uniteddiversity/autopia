@@ -31,9 +31,9 @@ Autopia::App.controller do
 
     # Handle the checkout.session.completed event
     if event['type'] == 'checkout.session.completed'
-      session = event['data']['object']
-
-      raise session.inspect
+      session = event['data']['object']      
+      p = PaymentAttempt.find_by(session_id: session.id)
+      p.create_payment(membership: p.membership, amount: p.amount, currency: p.currency)
     end
 
     200
@@ -56,7 +56,7 @@ Autopia::App.controller do
       success_url: "#{ENV['BASE_URI']}/a/#{@group.slug}",
       cancel_url: "#{ENV['BASE_URI']}/a/#{@group.slug}",
     )    
-    @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @group.currency, :session_id => session.id  
+    @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @group.currency, :session_id => session.id
     {session_id: session.id}.to_json
   end
 	

@@ -5,6 +5,7 @@ class Payment
   belongs_to :account, index: true
   belongs_to :group, index: true
   belongs_to :membership, index: true
+  belongs_to :payment_attempt, index: true, optional: true
   
 	field :group_name, :type => String
   field :amount, :type => Integer
