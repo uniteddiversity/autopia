@@ -110,11 +110,7 @@
       You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 
       (You've paid <%=@group.currency_symbol%><%=@membership.paid or 0%> of a requested contribution of <%=@group.currency_symbol%><%=@membership.requested_contribution%>.)          
       <div style="margin-top: 10px">
-        <% if admin? %>
-          <%= partial :'groups/pay2', :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
-        <% else %>
-          <%= partial :'groups/pay', :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
-        <% end %>
+        <%= partial :'groups/pay', :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
       </div>
     </div>
   </div>

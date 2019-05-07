@@ -8,7 +8,7 @@ Autopia::App.controller do
     erb :'groups/balance'
   end    
     
-  post '/a/:slug/pay2', :provides => :json do
+  post '/a/:slug/pay', :provides => :json do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!    
@@ -22,6 +22,7 @@ Autopia::App.controller do
           currency: @group.currency,
           quantity: 1,
         }],
+      customer_email: current_account.email,
       success_url: "#{ENV['BASE_URI']}/a/#{@group.slug}",
       cancel_url: "#{ENV['BASE_URI']}/a/#{@group.slug}",
     )    
@@ -51,23 +52,7 @@ Autopia::App.controller do
       400
     end 
   end    
-	
-  post '/a/:slug/pay' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)    
-    membership_required!
-    Stripe.api_key = ENV['STRIPE_SK']
-    Stripe::Charge.create(
-      :source => params[:id],
-      :amount => params[:amount].to_i * 100,
-      :currency => @group.currency,
-      :receipt_email => params[:email],
-      :description => "Payment for #{@group.name}"
-    )
-    @membership.payments.create! :amount => params[:amount].to_i, :currency => @group.currency
-    200
-  end 
-  
+	  
   post '/a/:slug/payout' do
     @group = Group.find_by(slug: params[:slug]) || not_found      
     @membership = @group.memberships.find_by(account: current_account)
