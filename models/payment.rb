@@ -28,6 +28,12 @@ class Payment
     self.group = self.membership.group if self.membership
     self.group_name = self.group.name if self.group    
   end    
+  
+  after_create do
+    membership.update_attribute(:paid, membership.paid + amount)
+    group.update_attribute(:processed_via_stripe, group.processed_via_stripe + amount)
+    group.update_attribute(:balance, group.balance + amount*0.95)    
+  end
 
   def self.admin_fields
     {

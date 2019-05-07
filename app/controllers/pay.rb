@@ -11,31 +11,24 @@ Autopia::App.controller do
   post '/stripe' do
     payload = request.body.read
     event = nil
-
-    # Verify webhook signature and extract the event
-    # See https://stripe.com/docs/webhooks/signatures for more information.
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
     begin
       event = Stripe::Webhook.construct_event(
         payload, sig_header, ENV['STRIPE_ENDPOINT_SECRET']
       )
     rescue JSON::ParserError => e
-      # Invalid payload
-      status 400
-      return
+      halt 400
     rescue Stripe::SignatureVerificationError => e
-      # Invalid signature
-      status 400
-      return
+      halt 400
     end
-
-    # Handle the checkout.session.completed event
+    
     if event['type'] == 'checkout.session.completed'
       session = event['data']['object']      
       Payment.create!(payment_attempt: PaymentAttempt.find_by(session_id: session.id))
-    end
-
-    200
+      200
+    else
+      400
+    end 
   end  
   
   post '/a/:slug/pay2', :provides => :json do
@@ -72,9 +65,6 @@ Autopia::App.controller do
       :description => "Payment for #{@group.name}"
     )
     @membership.payments.create! :amount => params[:amount].to_i, :currency => @group.currency
-    @membership.update_attribute(:paid, @membership.paid + params[:amount].to_i)
-    @group.update_attribute(:processed_via_stripe, @group.processed_via_stripe + params[:amount].to_i)
-    @group.update_attribute(:balance, @group.balance + params[:amount].to_i*0.95)
     200
   end 
   
