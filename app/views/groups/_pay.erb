@@ -1,4 +1,4 @@
-<% form_tag "/a/#{@group.slug}/pay2", :class => 'form-inline no-trigger', :id => 'pay-form' do %>
+<% form_tag '', :class => 'form-inline no-trigger', :id => 'pay-form' do %>
   <div class="form-group mb-0">
     <div class="input-group">
       <div class="input-group-prepend">
@@ -15,7 +15,7 @@
   $(function () {
     $('#pay-form').submit(function () {
 
-      $.post('/a/<%=@group.slug%>/pay2', {amount: $('#amount').val()}, function (data) {
+      $.post('/a/<%=@group.slug%>/pay', {amount: $('#amount').val()}, function (data) {
         var stripe = Stripe('<%=ENV['STRIPE_PK_TEST']%>');
         stripe.redirectToCheckout({
           sessionId: data['session_id']

@@ -108,7 +108,8 @@
   <div class="card text-white bg-danger mb-3">
     <div class="card-body">
       You owe <%=@group.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 
-      (You've paid <%=@group.currency_symbol%><%=@membership.paid or 0%> of a requested contribution of <%=@group.currency_symbol%><%=@membership.requested_contribution%>.)          
+      (
+      You've paid <%=@group.currency_symbol%><%=@membership.paid or 0%> of a requested contribution of <%=@group.currency_symbol%><%=@membership.requested_contribution%>.<% if (a = current_account.payment_attempts.where(:id.nin => current_account.payments.pluck(:payment_attempt_id)).map(&:amount).sum) > 0 %> <%=@group.currency_symbol%><%= a %> is waiting to clear.<% end %>)
       <div style="margin-top: 10px">
         <%= partial :'groups/pay', :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
       </div>
