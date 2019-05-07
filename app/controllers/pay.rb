@@ -12,7 +12,7 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)    
     membership_required!    
-    Stripe.api_key = ENV['STRIPE_SK_TEST']
+    Stripe.api_key = ENV['STRIPE_SK']
     session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
       line_items: [{

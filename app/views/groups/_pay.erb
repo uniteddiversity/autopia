@@ -16,7 +16,7 @@
     $('#pay-form').submit(function () {
 
       $.post('/a/<%=@group.slug%>/pay', {amount: $('#amount').val()}, function (data) {
-        var stripe = Stripe('<%=ENV['STRIPE_PK_TEST']%>');
+        var stripe = Stripe('<%=ENV['STRIPE_PK']%>');
         stripe.redirectToCheckout({
           sessionId: data['session_id']
         })
