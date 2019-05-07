@@ -46,7 +46,7 @@ Autopia::App.controller do
     
     if event['type'] == 'checkout.session.completed'
       session = event['data']['object']      
-      Payment.create!(payment_attempt: PaymentAttempt.find_by(session_id: session.id))
+      Payment.create!(payment_attempt: PaymentAttempt.find_by!(session_id: session.id))
       200
     else
       400
