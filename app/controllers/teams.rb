@@ -38,7 +38,7 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    @team = @group.teams.find(params[:id])    
+    @team = @group.teams.find(params[:id]) || not_found    
     if request.xhr?
       partial :'teams/team'
     else
@@ -51,7 +51,7 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    @team = @group.teams.find(params[:id])
+    @team = @group.teams.find(params[:id]) || not_found
     erb :'teams/build', :layout => 'layouts/teams' 
   end  
   
@@ -59,7 +59,7 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    @team = @group.teams.find(params[:id])
+    @team = @group.teams.find(params[:id]) || not_found
     if @team.update_attributes(params[:team])
       redirect "/a/#{@group.slug}/teams/#{@team.id}"
     else
@@ -71,7 +71,7 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    @team = @group.teams.find(params[:id])
+    @team = @group.teams.find(params[:id]) || not_found
     @team.destroy
     redirect "/a/#{@group.slug}/teams"
   end    
@@ -108,7 +108,7 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    @team = @group.teams.find(params[:id])
+    @team = @group.teams.find(params[:id]) || not_found
     @teamship = @team.teamships.find_by(account: current_account)
     redirect (@teamship ? "/teamships/#{@teamship.id}/unsubscribe" : "/a/#{@group.slug}/teams/#{@team.id}")
   end

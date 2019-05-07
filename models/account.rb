@@ -46,6 +46,9 @@ class Account
     self.name_transliterated = I18n.transliterate(self.name) if self.name
     self.username = self.username.downcase if self.username
     
+    errors.add(:name, 'must not contain an @') if self.name and self.name.include?('@')
+    errors.add(:email, 'must not contain commas') if self.email and self.email.include?(',')    
+    
     errors.add(:facebook_profile_url, 'must contain facebook.com') if self.facebook_profile_url and !self.facebook_profile_url.include?('facebook.com')    
     self.facebook_profile_url = "https://#{self.facebook_profile_url}" if self.facebook_profile_url and !(self.facebook_profile_url =~ /\Ahttps?:\/\//)
     self.facebook_profile_url = self.facebook_profile_url.gsub('m.facebook.com','facebook.com') if self.facebook_profile_url
