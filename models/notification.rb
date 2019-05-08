@@ -196,11 +196,11 @@ class Notification
     when :created_spend
       ['View budget', "#{ENV['BASE_URI']}/a/#{circle.slug}/budget"]
     when :created_activity
-      ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]
+      ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]
     when :signed_up_to_a_shift
       ['View rotas', "#{ENV['BASE_URI']}/a/#{circle.slug}/rotas/#{notifiable.rota_id}"]
     when :interested_in_activity
-      ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.activity_id}"]  
+      ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.activity_id}"]  
     when :created_transport
       ['View transport', "#{ENV['BASE_URI']}/a/#{circle.slug}/transports"] 
     when :created_tier
@@ -212,15 +212,15 @@ class Notification
     when :created_rota
       ['View rotas', "#{ENV['BASE_URI']}/a/#{circle.slug}/rotas/#{notifiable.id}"]
     when :scheduled_activity
-      ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]  
+      ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]  
     when :unscheduled_activity
-      ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]  
+      ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]  
     when :made_admin
       ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]      
     when :unadmined
       ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]      
     when :created_timetable
-      ['View timetables', "#{ENV['BASE_URI']}/a/#{circle.slug}/timetables/#{notifiable.id}"]      
+      ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/timetables/#{notifiable.id}"]      
     when :cultivating_quality
       ['View qualities', "#{ENV['BASE_URI']}/a/#{circle.slug}/qualities"]
     when :commented
