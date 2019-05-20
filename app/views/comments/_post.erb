@@ -27,7 +27,7 @@
         <small class="subtle">
           <a class="text-muted" href="#post-<%=post.id%>"><%= timeago(comment.created_at) %></a>
 
-          <% if comment.account.id == current_account.id %>
+          <% if admin? or comment.account.id == current_account.id %>
             &middot;
             <a href="javascript:;" id="comment-edit-<%=comment.id%>"><i class="fa fa-pencil"></i></a>
             <%= partial :'comments/edit', :locals => {:comment => comment}  %>
