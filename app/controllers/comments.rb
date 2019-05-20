@@ -33,7 +33,7 @@ Autopia::App.controller do
   post '/comments/:id/edit' do
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
-    halt unless @comment.account.id == current_account.id or @membership.admin?
+    halt unless admin? or @comment.account.id == current_account.id
     @comment.update_attribute(:body, params[:body])
     200
   end  
@@ -41,7 +41,7 @@ Autopia::App.controller do
   get '/comments/:id/destroy' do
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
-    halt unless @comment.account.id == current_account.id or @membership.admin?
+    halt unless admin? or @comment.account.id == current_account.id
     if @comment.first_in_post?
       @comment.post.destroy
     else
