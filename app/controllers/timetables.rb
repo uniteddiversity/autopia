@@ -33,7 +33,7 @@ Autopia::App.controller do
   get '/a/:slug/timetables/:id' do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
-    @timetable = @group.timetables.find(params[:id])
+    @timetable = @group.timetables.find(params[:id]) || not_found
     confirmed_membership_required!
     if request.xhr?
       partial :'timetables/timetable', :locals => {:timetable => @timetable}
@@ -47,7 +47,7 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
-    @timetable = @group.timetables.find(params[:id])
+    @timetable = @group.timetables.find(params[:id]) || not_found
     erb :'timetables/build'
   end
   
@@ -55,7 +55,7 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
-    @timetable = @group.timetables.find(params[:id])
+    @timetable = @group.timetables.find(params[:id]) || not_found
     if @timetable.update_attributes(params[:timetable])
       redirect "/a/#{@group.slug}/timetables/#{@timetable.id}"
     else
@@ -68,7 +68,7 @@ Autopia::App.controller do
     @group = Group.find_by(slug: params[:slug]) || not_found
     @membership = @group.memberships.find_by(account: current_account)
     group_admins_only!    
-    @timetable = @group.timetables.find(params[:id])
+    @timetable = @group.timetables.find(params[:id]) || not_found
     @timetable.destroy
     redirect "/a/#{@group.slug}/timetables"      
   end    
