@@ -6,28 +6,28 @@
     <% if current_account and current_account.id == habit.account_id %>
       onclick="
       <% if completed %>
-              if (confirm('Really uncomplete this habit?')) {
-                $(this).next().find('input').click()
-              }
-      <% else %>
+            if (confirm('Really uncomplete this habit?')) {
               $(this).next().find('input').click()
+            }
+      <% else %>
+            $(this).next().find('input').click()
       <% end %>
       "        
     <% end %>
 
     class="p-2 d-block" 
-    style="
-    overflow: hidden;
+    style="    
+    height: 180px; overflow: hidden;
     <% if current_account and current_account.id == habit.account_id %>cursor: pointer; <% end%>
     <% if !habit.image %>border: 2px solid #343a40;<% end %>
     <% if habit.image %>background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=habit.image.url%>'); background-size: cover; background-position: center center;<% end %>
     ">
 
-    <table style="width: 100%; height: 160px;">
+    <table style="width: 100%; height: 100%">
       <tr>
         <td style="vertical-align: top">
           <div class="row justify-content-between">
-            <div class="col-auto">
+            <div class="col">
               <h4 class="block-title">
                 <a class="<% if habit.image %>text-white<% else %>text-dark<% end%>" target="_parent" href="/habits/<%=habit.id%>" onclick="event.stopPropagation();">
                   <%= habit.name %>
@@ -41,6 +41,9 @@
                   </a>                    
                 <% end %>                
               </h4>
+              <% if completed and completed.comment %>
+                <p style="font-size: 0.9rem" class="<% if habit.image %>text-white<% else %>text-dark<% end%>"><em><%= completed.comment %></em></p>
+              <% end %>                      
             </div>
             <div class="col-auto">    
               <% if current_account and current_account.id == habit.account_id %>              
@@ -52,9 +55,6 @@
               <% end %>
             </div>
           </div>
-          <% if completed and completed.comment %>
-            <p class="lead <% if habit.image %>text-white<% else %>text-dark<% end%>"><%= completed.comment %></p>
-          <% end %>        
         </td>  
       </tr>
       <tr>
