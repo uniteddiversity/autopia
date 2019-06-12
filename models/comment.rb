@@ -25,7 +25,7 @@ class Comment
   
   after_create do
     post.subscriptions.create account: account
-    body.scan(/\[@[\w\s'-]+\]\(@(\w+)\)/) { |match|
+    body.scan(/\[@[\w\s'-\.]+\]\(@(\w+)\)/) { |match|
       post.subscriptions.create account: Account.find_by(username: match[0])
     }
   end
@@ -33,7 +33,7 @@ class Comment
   def body_with_additions
     b = body
     b = b.gsub("\n","<br />")
-    b = b.gsub(/\[@([\w\s'-]+)\]\(@(\w+)\)/,'<a href="'+ENV['BASE_URI']+'/u/\2">\1</a>')
+    b = b.gsub(/\[@([\w\s'-\.]+)\]\(@(\w+)\)/,'<a href="'+ENV['BASE_URI']+'/u/\2">\1</a>')
     b
   end
 
