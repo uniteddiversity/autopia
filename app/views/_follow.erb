@@ -5,8 +5,8 @@
     follow = current_account.follows_as_follower.find_by(followee: account)
     state_options = {
       'not_following' => 'Not following',
-      'follow_without_subscribing' => 'Following without subscribing',
-      'follow_and_subscribe' => 'Following and subscribing'
+      'follow_without_subscribing' => 'Following, emails off',
+      'follow_and_subscribe' => 'Following, emails on'
       }    
     current_state = follow ? (follow.unsubscribed ? 'follow_without_subscribing' : 'follow_and_subscribe') : 'not_following'
     text = state_options[current_state]
