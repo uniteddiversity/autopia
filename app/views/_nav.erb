@@ -32,27 +32,19 @@
     </a>
   </li>
 
-  <li class="<%='active' if request.path == '/a/new'%>">
-    <a href="/a/new">
-      <i class="fa fa-fw fa-plus-circle"></i>
-      <span class="nav-link-text">Create a group</span>
+  <li class="<%='active' if request.path == '/map'%>">
+    <a href="/map">
+      <i class="ti-map"></i>
+      <span class="nav-link-text">Map</span>
     </a>
-  </li>  
+  </li>
 
-  <li>
-    <a target="_blank" href="http://slack.autopia.co/">
-      <i class="fa fa-fw fa-slack"></i>
-      <span class="nav-link-text">Chat with us on Slack</span>
-    </a>          
-  </li>      
-
-  <li>
-    <a target="_blank" href="https://github.com/stephenreid321/autopia">
-      <i class="fa fa-fw fa-github"></i>
-      <span class="nav-link-text">View the code on Github</span>
-    </a>          
-  </li>        
-
+  <li class="<%='active' if request.path == '/habits'%>">
+    <a href="/habits">
+      <i class="ti-check-box"></i>
+      <span class="nav-link-text">Habits</span>
+    </a>
+  </li>
 
   <% if current_account %>
 
@@ -143,4 +135,28 @@
 
   <% end %>
 
+
+  <li class="nav-divider"></li>
+
+  <li>
+    <a target="_blank" href="http://stephenreid.net">
+      <i style="font-style: normal; font-weight: bold"><span class="hw">A</span></i>
+      <span class="nav-link-text">Created by Stephen Reid</span>
+    </a>          
+  </li>      
+
+  <li>
+    <a target="_blank" href="http://slack.autopia.co/">
+      <i class="fa fa-fw fa-slack"></i>
+      <span class="nav-link-text">Chat with us on Slack</span>
+    </a>          
+  </li>      
+
+  <li>
+    <a target="_blank" href="https://github.com/stephenreid321/autopia">
+      <i class="fa fa-fw fa-github"></i>
+      <span class="nav-link-text">View the code on Github</span>
+    </a>          
+  </li>      
+  
 </ul>
