@@ -6,6 +6,7 @@ class Place
   
   field :name, :type => String  
   field :location, :type => String
+  field :website, :type => String
   field :coordinates, :type => Array  
   field :image_uid, :type => String
     
@@ -38,7 +39,8 @@ class Place
         
   def self.admin_fields
     {
-      :name => :text
+      :name => :text,
+      :website => :url        
     }
   end
     
