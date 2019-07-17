@@ -4,7 +4,8 @@ Autopia::App.controller do
     sign_in_required!
     @place = Place.new
     @accounts = current_account.network + [current_account]
-    @places = Place.all.order('name asc')
+    @places = Place.all.order('created_at desc')
+    @places = @places.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]    
     discuss 'Map'
     erb :'places/places'
   end
