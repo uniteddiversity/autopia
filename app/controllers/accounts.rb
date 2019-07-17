@@ -83,7 +83,7 @@ Autopia::App.controller do
     @account = Account.find_by(username: params[:username]) || not_found
     # @notifications = @account.notifications_as_circle.order('created_at desc').page(params[:page])
     @habits = @account.habits.where(public: true).where(:archived.ne => true)
-    @places = @account.places
+    @places = @account.places.order('name asc')
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     discuss 'User profiles'
     erb :'accounts/account'
