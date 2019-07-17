@@ -9,10 +9,9 @@
     </div>        
   <% } %>      
 
-  <%= hidden_field_tag :q, :value => 1 %>
 </form>
 
-<% if params[:q] %>
+<% if Account.open_to.any? { |x| params[:"open_to_#{x}"] } %>
   <ul class="search-result-list">
 
     <% @accounts.each { |account|  %>

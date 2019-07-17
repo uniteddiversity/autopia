@@ -33,8 +33,12 @@ class Account
   field :open_to_long_term_dating, :type => Boolean
   field :open_to_non_monogamy, :type => Boolean
   
+  def self.open_to
+    %w{new_friends hookups short_term_dating long_term_dating non_monogamy}
+  end
+  
   def open_to
-    %w{new_friends hookups short_term_dating long_term_dating non_monogamy}.select { |x| self.send("open_to_#{x}") }
+    Account.open_to.select { |x| self.send("open_to_#{x}") }
   end
   
   def self.check_box_scopes

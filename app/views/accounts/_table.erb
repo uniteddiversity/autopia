@@ -46,7 +46,7 @@
     <tr>
       <td>Open to</td>
       <td>
-        <%=account.open_to.map { |x| %Q{<a href="/search?open_to_#{x}=true" class="label label-primary">#{x == 'non_monogamy' ? 'Non-monogamy' : x.humanize}</a>} }.join(' ') %>
+        <%=account.open_to.map { |x| %Q{<a href="/dating?open_to_#{x}=true" class="label label-primary">#{x == 'non_monogamy' ? 'Non-monogamy' : x.humanize}</a>} }.join(' ') %>
       </td>  
     </tr> 
   <% end %>
