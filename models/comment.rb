@@ -95,7 +95,7 @@ class Comment
     if commentable.is_a?(Feature)
       feature = commentable
       s << "[Features/#{feature.name}] " 
-    elsf commentable.is_a?(Place)
+    elsif commentable.is_a?(Place)
       place = commentable
       s << "[Places/#{place.name}] "      
     elsif commentable.is_a?(Habit)
