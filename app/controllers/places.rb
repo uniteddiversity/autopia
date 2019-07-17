@@ -1,22 +1,18 @@
 Autopia::App.controller do
   
-  get '/map' do
+  get '/places' do
     sign_in_required!
     @place = Place.new
     @accounts = current_account.network + [current_account]
     @places = Place.all.order('name asc')
     discuss 'Map'
-    erb :'places/map'
+    erb :'places/places'
   end
     
   get '/point/:model/:id' do
     partial "maps/#{params[:model].downcase}".to_sym, :object => params[:model].constantize.find(params[:id])
   end   
   
-  get '/places' do
-    redirect '/map'
-  end
-
   post '/places/new' do
     sign_in_required!
     @place = current_account.places.build(params[:place])
