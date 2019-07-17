@@ -6,14 +6,14 @@
     state_options = {
       'not_following' => 'Not following',
       'follow_without_subscribing' => 'Following',
-      'follow_and_subscribe' => 'Following with email alerts'
+      'follow_and_subscribe' => 'Following with email updates'
       }    
     current_state = follow ? (follow.unsubscribed ? 'follow_without_subscribing' : 'follow_and_subscribe') : 'not_following'
     text = state_options[current_state]
     action_options = {
       'not_following' => 'Unfollow',
       'follow_without_subscribing' => 'Follow',
-      'follow_and_subscribe' => 'Follow with email alerts'
+      'follow_and_subscribe' => 'Follow with email updates'
       }    
   %>
 
