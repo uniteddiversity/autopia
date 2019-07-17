@@ -27,6 +27,26 @@ class Account
   field :last_checked_notifications, :type => Time
   field :location, :type => String
   field :coordinates, :type => Array
+  field :open_to_hookups, :type => Boolean
+  field :open_to_new_friends, :type => Boolean
+  field :open_to_short_term_dating, :type => Boolean
+  field :open_to_long_term_dating, :type => Boolean
+  field :open_to_non_monogamy, :type => Boolean
+  
+  def open_to
+    %w{new_friends hookups short_term_dating long_term_dating non_monogamy}.select { |x| self.send("open_to_#{x}") }
+  end
+  
+  def self.check_box_scopes
+    y = []
+    
+    y << [:open_to_new_friends, 'Open to new friends', where(:open_to_new_friends => true)]
+    y << [:open_to_hookups, 'Open to hookups', where(:open_to_hookups => true)]
+    y << [:open_to_short_term_dating, 'Open to short-term dating', where(:open_to_short_term_dating => true)]
+    y << [:open_to_long_term_dating, 'Open to long-term dating', where(:open_to_long_term_dating => true)]
+    y << [:open_to_non_monogamy, 'Open to non-monogamy', where(:open_to_non_monogamy => true)]
+    
+  end
   
   def self.protected_attributes
     %w{admin}
@@ -209,7 +229,7 @@ class Account
   
   validates_format_of :username, :with => /\A[a-z0-9_\.]+\z/
   validates_uniqueness_of :username
-          
+            
   def self.admin_fields
     {
       :name => :text,

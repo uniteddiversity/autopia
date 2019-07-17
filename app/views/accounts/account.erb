@@ -60,7 +60,16 @@
               <% end %>
             </td>  
           </tr>
-        <% end %>        
+        <% end %>  
+
+        <% if @account.open_to.count > 0 %>
+          <tr>
+            <td>Open to</td>
+            <td>
+              <%=@account.open_to.map { |x| %Q{<span class="label label-primary">#{x == 'non_monogamy' ? 'Non-monogamy' : x.humanize}</span>} }.join(' ') %>
+            </td>  
+          </tr> 
+        <% end %>
 
         <% if @account.last_active %>
           <tr>

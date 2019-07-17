@@ -89,16 +89,21 @@ module Autopia
     get '/search' do
       sign_in_required!  
       @type = params[:type] || 'accounts'
-      if params[:q]
+      if params[:type]
         case @type
         when 'groups'
           @groups = Group.where({name: /#{::Regexp.escape(params[:q])}/i})
         else
-          @accounts = Account.or(         
+          @accounts = Account.all
+          @accounts = @accounts.or(         
             {name: /#{::Regexp.escape(params[:q])}/i},
             {name_transliterated: /#{::Regexp.escape(params[:q])}/i},
             {email: /#{::Regexp.escape(params[:q])}/i}
-          ).order('last_active desc')
+          ) if params[:q]
+          Account.check_box_scopes.select { |k,t,r| params[k] }.each { |k,t,r|
+            @accounts = @accounts.where(:id.in => r.pluck(:id))
+          }   
+          @accounts = @accounts.order('last_active desc')          
         end
       end
       discuss 'Search'
