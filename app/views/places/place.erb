@@ -7,7 +7,7 @@
       <li><i class="fa fa-li fa-map-marker"></i> <%=@place.location%></li>
       <li><i class="fa fa-li fa-user"></i> Listed by <a href="/u/<%=@place.account.username%>"><%=@place.account.name%></a></li>
       <% if @place.website %>
-        <li><i class="fa fa-li fa-globe"></i><a target="_blank" href="<%=@place.website%>"><%=@place.website.gsub(/https?:\/\//,'')%></a></li>
+        <li><i class="fa fa-li fa-globe"></i><a target="_blank" href="<%=@place.website%>"><%=URI(@place.website).host.gsub('www.','')%></a></li>
       <% end %>
     </ul>
   </div>
