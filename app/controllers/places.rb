@@ -4,7 +4,7 @@ Autopia::App.controller do
     sign_in_required!
     @place = Place.new
     @accounts = current_account.network + [current_account]
-    @places = Place.all
+    @places = Place.all.order('name asc')
     discuss 'Map'
     erb :'places/map'
   end
