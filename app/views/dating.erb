@@ -1,3 +1,13 @@
+<p>  
+  <% if current_account.open_to.count > 0 %>
+    You're open to:
+    <%=current_account.open_to.map { |x| %Q{<a href="/dating?open_to_#{x}=true" class="text-white label label-primary">#{x == 'non_monogamy' ? 'Non-monogamy' : x.humanize}</a>} }.join(' ') %>
+    <a href="/accounts/edit">Change</a>
+  <% else %>
+    <a href="/accounts/edit">Choose what you're open to</a>
+  <% end %>
+</p>
+
 <form action="/dating" id="search-form">
 
   <% Account.check_box_scopes.each_with_index { |el,i| k,t,r = *el %>
@@ -22,9 +32,9 @@
 
   </ul>
 
-<div class="mt-3">
-  <%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
-</div>
+  <div class="mt-3">
+    <%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+  </div>
 
 <% end %>
 
