@@ -89,7 +89,7 @@ module Autopia
     get '/search' do
       sign_in_required!  
       @type = params[:type] || 'accounts'
-      if params[:type]
+      if params[:q]
         case @type
         when 'groups'
           @groups = Group.where({name: /#{::Regexp.escape(params[:q])}/i})
