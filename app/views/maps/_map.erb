@@ -33,7 +33,7 @@
   position: new google.maps.LatLng(point.lat, point.lng),
           title: point.name,
           model: point.model,
-          icon: { url: 'http://maps.google.com/mapfiles/ms/icons/'+ point.color +'-dot.png' }, 
+          icon: { url: 'http://maps.google.com/mapfiles/ms/icons/' + point.color + '-dot.png' },
           id: point.id
   });
   google.maps.event.addListener(marker, 'click', function (marker) {
@@ -51,13 +51,8 @@
 
   var markerClusterer = new MarkerClusterer(map, markers, {maxZoom: 14});
 <% if defined?(global) %>
-    if ($(window).width() > 768) {
-    map.setCenter(new google.maps.LatLng(40, - 20))
-            map.setZoom(3)
-    } else {
-    map.setCenter(new google.maps.LatLng(53, - 1))
-            map.setZoom(3)
-    }
+    map.setCenter(new google.maps.LatLng(45, 0));
+    map.setZoom(3)
 <% elsif defined?(centre) %>
     map.setCenter(new google.maps.LatLng(<%=centre.lat%>, <%=centre.lng%>))
             map.setZoom(14)
