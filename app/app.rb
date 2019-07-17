@@ -110,6 +110,17 @@ module Autopia
       erb :search
     end
     
+    get '/dating' do
+      sign_in_required!  
+      @accounts = Account.all
+      Account.check_box_scopes.select { |k,t,r| params[k] }.each { |k,t,r|
+        @accounts = @accounts.where(:id.in => r.pluck(:id))
+      }   
+      @accounts = @accounts.order('last_active desc')          
+      discuss 'Dating'
+      erb :dating
+    end    
+    
     get '/help' do
       redirect '/messages/586d2eb3cc88ff00093f21e5'
     end

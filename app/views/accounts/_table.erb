@@ -1,0 +1,63 @@
+<table class="table table-hr">
+
+  <% if current_account && current_account.groupies.include?(account) %>
+    <tr>
+      <td>Email</td>
+      <td>
+        <%=account.email%>
+      </td>  
+    </tr> 
+  <% end %>        
+
+  <% if account.facebook_profile_url %>
+    <tr>
+      <td>Facebook</td>
+      <td>
+        <a target="_blank" href="<%=account.facebook_profile_url%>"><%=account.facebook_profile_url.split('/')[3..-1].join('/').split('?').first%></a>
+      </td>  
+    </tr>
+  <% end %>    
+
+  <% if account.date_of_birth %>
+    <tr>
+      <td>Age</td>
+      <td>
+        <%=account.age%>
+      </td>  
+    </tr>
+  <% end %> 
+
+  <% if account.gender %>
+    <tr>
+      <td>Gender</td>
+      <td>
+        <% case account.gender; when 'Man' %>
+          <i data-toggle="tooltip" title="<%=account.gender%>" class="fa fa-mars"></i>
+        <% when 'Woman' %>
+          <i data-toggle="tooltip" title="<%=account.gender%>" class="fa fa-venus"></i>
+        <% when 'Nonbinary' %>
+          <i data-toggle="tooltip" title="<%=account.gender%>" class="fa fa-transgender-alt"></i>
+        <% end %>
+      </td>  
+    </tr>
+  <% end %>  
+
+  <% if account.open_to.count > 0 %>
+    <tr>
+      <td>Open to</td>
+      <td>
+        <%=account.open_to.map { |x| %Q{<a href="/search?open_to_#{x}=true" class="label label-primary">#{x == 'non_monogamy' ? 'Non-monogamy' : x.humanize}</a>} }.join(' ') %>
+      </td>  
+    </tr> 
+  <% end %>
+
+  <% if account.last_active %>
+    <tr>
+      <td>Last active</td>
+      <td>
+        <%=time_ago_in_words account.last_active%> ago
+      </td>  
+    </tr> 
+  <% end %>
+
+</table>     

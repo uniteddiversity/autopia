@@ -1,10 +1,6 @@
-
-
 <script>
   $(function () {
-
     $('ul.sub-menu ul.sub-menu li.active').closest('li.has-sub').find('> a').click()
-
   })
 </script>
 
@@ -45,6 +41,13 @@
       <span class="nav-link-text">Habits</span>
     </a>
   </li>
+  
+  <li class="<%='active' if request.path == '/dating'%>">
+    <a href="/dating">
+      <i class="fa fa-heart-o"></i>
+      <span class="nav-link-text">Dating</span>
+    </a>
+  </li>  
 
   <% if current_account %>
 

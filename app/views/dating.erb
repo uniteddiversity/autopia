@@ -1,0 +1,25 @@
+<form action="/dating" id="search-form">
+
+  <% Account.check_box_scopes.each_with_index { |el,i| k,t,r = *el %>
+    <div class="checkbox-inline ml-3 mb-2">
+      <%= check_box_tag k, :value => true, :checked => params[k], :onclick => 'this.form.submit()', :id => k %>
+      <label for="<%=k%>">
+        <%=t%>&nbsp;<strong><%=r.count%></strong>
+      </label>
+    </div>        
+  <% } %>      
+
+  <%= hidden_field_tag :q, :value => 1 %>
+</form>
+
+<% if params[:q] %>
+  <ul class="search-result-list">
+
+    <% @accounts.each { |account|  %>
+      <li>
+        <%= partial 'accounts/search_result', :locals => {:account => account} %>
+      </li>
+    <% } %>
+
+  </ul>
+<% end %>

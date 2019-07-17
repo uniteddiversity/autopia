@@ -2,17 +2,7 @@
   <div class="search-input">
     <a href="javascript:;" onclick="$(this).next().val('').focus()" class="search-close">×</a>
     <input name="q" type="text" class="form-control input-lg" value="<%=params[:q]%>">  
-  </div>
-
-  <% Account.check_box_scopes.each_with_index { |el,i| k,t,r = *el %>
-    <div class="checkbox-inline ml-3 mb-2">
-      <%= check_box_tag k, :value => true, :checked => params[k], :onclick => 'this.form.submit()', :id => k %>
-      <label for="<%=k%>">
-        <%=t%>&nbsp;<strong><%=r.count%></strong>
-      </label>
-    </div>        
-  <% } %>      
-
+  </div>   
   <input type="hidden" name="type" id="type" value="<%=@type%>" />
 </form>
 
