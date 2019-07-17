@@ -1,0 +1,45 @@
+<% if current_account %>
+  <% if current_account.location %>
+    <p>Current location: <a href="javascript:;" onclick="$(this).parent().hide().next().show().find('input').focus()"><%= current_account.location %></a></p>
+  <% end %>
+  <% form_tag '/accounts/update_location', :class => 'mb-3', :style => ('display: none' if current_account.location) do %>
+
+    <script>
+      $(function () {
+        var autocomplete = new google.maps.places.Autocomplete($('#location')[0]);
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+          $('#location')[0].form.submit()
+        });
+      })
+    </script>
+
+    <%= text_field_tag :location, :id => 'location', :class => 'form-control', :placeholder => 'Enter your location' %>
+  <% end %>
+<% end %>
+
+<div class="mb-3">
+  <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('input').first().focus()"><i class="fa fa-plus-circle"></i> Add a place</a>
+  <div style="display: none">
+    <%= partial :'places/build' %>
+  </div>    
+</div>
+
+<div style="position: relative">
+  <div class="row">
+    <div class="order-sm-2 col-sm-6 mb-3">
+      <div id="map">
+        <%= partial :'maps/map', :locals => {:points => @accounts + @places} %>
+      </div>
+    </div>
+    <div class="order-sm-1 col-sm-6">    
+      <%= partial :'places/blocks', :locals => {:places => @places, :block_class => 'col-12 col-sm-6'} %>        
+    </div>  
+  </div>
+</div>
+
+<style>
+  @media(min-width: 768px) {
+    .page-header-fixed.page-sidebar-fixed .content { overflow: inherit }
+    #map { position: sticky; top: calc(2.8125rem + 0.75rem); }
+  }
+</style>

@@ -40,7 +40,7 @@ module Autopia
     end
        
     before do
-      @cachebuster = 95
+      @cachebuster = 97
       redirect "#{ENV['BASE_URI']}#{request.path}" if ENV['BASE_URI'] and "#{request.scheme}://#{request.env['HTTP_HOST']}" != ENV['BASE_URI']
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : 'London'
       fix_params!
@@ -114,18 +114,7 @@ module Autopia
       @notification = Notification.find(params[:id]) || not_found
       erb :'emails/notification', :locals => {:notification => @notification, :circle => @notification.circle}, :layout => false
     end
-                
-    get '/map' do
-      sign_in_required!
-      @accounts = current_account.network + [current_account]
-      discuss 'Map'
-      erb :map
-    end
-    
-    get '/point/:model/:id' do
-      partial "maps/#{params[:model].downcase}".to_sym, :object => params[:model].constantize.find(params[:id])
-    end  
-    
+                    
     get '/:slug' do
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)
         erb :page

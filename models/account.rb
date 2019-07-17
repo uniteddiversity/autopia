@@ -91,6 +91,8 @@ class Account
     )
   end  
   
+  has_many :places, :dependent => :nullify
+  
   has_many :groups, :dependent => :nullify  
     
   has_many :mapplications, :class_name => "Mapplication", :inverse_of => :account, :dependent => :destroy

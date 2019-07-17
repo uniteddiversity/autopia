@@ -1,0 +1,23 @@
+
+<script>
+  $(function () {
+    $('.place').hover(
+            function () { $('.place-edit', this).show() },
+            function () { $('.place-edit', this).hide() },
+    )
+  })
+</script>
+
+<style>
+  h4.block-title { font-size: 1.25rem }
+  @media(max-width: 768px) { 
+    h4.block-title { font-size: 5vw }
+  }
+</style>
+<div class="row" id="places">
+  <% places.order('o asc').each { |place| %>  
+    <div data-pagelet-url="/places/<%=place.id%>/block" class="place col-6 col-sm-3 mb-3 <%=block_class if defined?(block_class)%>" id="<%=place.id%>">
+      <%= partial :'places/block', :locals => {:place => place} %>
+    </div>
+  <% } %>
+</div>

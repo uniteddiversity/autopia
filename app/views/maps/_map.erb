@@ -1,75 +1,74 @@
 <script>
-          $(function () {
-          map = new google.maps.Map(document.getElementById("map-canvas"), {
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-                  mapTypeControl: false,
-                  scaleControl: true,
-                  streetViewControl: false,
-                  maxZoom: 16,
+  $(function () {
+  map = new google.maps.Map(document.getElementById("map-canvas"), {
+  mapTypeId: google.maps.MapTypeId.ROADMAP,
+          mapTypeControl: false,
+          scaleControl: true,
+          streetViewControl: false,
+          maxZoom: 16,
 <% if @disable_scrollwheel %>50vh
-                    scrollwheel: false
+            scrollwheel: false
 <% end %>
-          });
-          var bounds = new google.maps.LatLngBounds();
-          var points = []
+  });
+  var bounds = new google.maps.LatLngBounds();
+  var points = []
 <% points.select(&:coordinates).each { |point| %>
-            points.push({
-            id: '<%=point.id%>',
-                    lat: <%=point.lat%>,
-                    lng: <%=point.lng%>,
-                    color: '<%=point.class.marker_color%>',
-                    name: "<%=js_escape_html(point.try(:name) || point.try(:title))%>",
-                    model: "<%=js_escape_html(point.class.to_s)%>",
-                    id: "<%=js_escape_html(point.id.to_s)%>",
-            })
+    points.push({
+    id: '<%=point.id%>',
+            lat: <%=point.lat%>,
+            lng: <%=point.lng%>,
+            color: '<%=point.class.marker_color%>',
+            name: "<%=js_escape_html(point.try(:name) || point.try(:title))%>",
+            model: "<%=js_escape_html(point.class.to_s)%>",
+            id: "<%=js_escape_html(point.id.to_s)%>",
+    })
 <% } %>
 
 
-          var infowindow = new google.maps.InfoWindow();
-          var markers = []
-                  for (i = 0; i < points.length; i++) {
-          var point = points[i];
-          var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(point.lat, point.lng),
-                  title: point.name,
-                  model: point.model,
-                  id: point.id
-          });
-          google.maps.event.addListener(marker, 'click', function (marker) {
-          return function () {
-          infowindow.setContent('<i class="fa fa-spin fa-circle-o-notch"></i>');
-          infowindow.open(map, marker);
-          $.get('/point/' + marker.model + '/' + marker.id, function(data) {
-          infowindow.setContent('<div class="infowindow">' + data + '</div>');
-          })
-          }
-          }(marker));
-          bounds.extend(marker.getPosition());
-          markers.push(marker);
-          }
+  var infowindow = new google.maps.InfoWindow();
+  var markers = []
+          for (i = 0; i < points.length; i++) {
+  var point = points[i];
+  var marker = new google.maps.Marker({
+  position: new google.maps.LatLng(point.lat, point.lng),
+          title: point.name,
+          model: point.model,
+          id: point.id
+  });
+  google.maps.event.addListener(marker, 'click', function (marker) {
+  return function () {
+  infowindow.setContent('<i class="fa fa-spin fa-circle-o-notch"></i>');
+  infowindow.open(map, marker);
+  $.get('/point/' + marker.model + '/' + marker.id, function(data) {
+  infowindow.setContent('<div class="infowindow">' + data + '</div>');
+  })
+  }
+  }(marker));
+  bounds.extend(marker.getPosition());
+  markers.push(marker);
+  }
 
-          var markerClusterer = new MarkerClusterer(map, markers, {maxZoom: 14});
+  var markerClusterer = new MarkerClusterer(map, markers, {maxZoom: 14});
 <% if defined?(global) %>
-            if ($(window).width() > 768) {
-            map.setCenter(new google.maps.LatLng(40, - 20))
-                    map.setZoom(3)
-            } else {
-            map.setCenter(new google.maps.LatLng(53, - 1))
-                    map.setZoom(3)
-            }
+    if ($(window).width() > 768) {
+    map.setCenter(new google.maps.LatLng(40, - 20))
+            map.setZoom(3)
+    } else {
+    map.setCenter(new google.maps.LatLng(53, - 1))
+            map.setZoom(3)
+    }
 <% elsif defined?(centre) %>
-            map.setCenter(new google.maps.LatLng(<%=centre.lat%>, <%=centre.lng%>))
-                    map.setZoom(14)
+    map.setCenter(new google.maps.LatLng(<%=centre.lat%>, <%=centre.lng%>))
+            map.setZoom(14)
 <% elsif !points.empty? %>
-            map.fitBounds(bounds);
+    map.fitBounds(bounds);
 <% end %>
 
-          });</script>
+  });</script>
 
 <style>
-  div.infowindow { white-space: nowrap }
+  #map-container .place { width: 250px; height: 130px !important; }
 </style>
-
 <div id="map-container">
   <div id="map-canvas" style="height: 70vh"></div>
 </div>
