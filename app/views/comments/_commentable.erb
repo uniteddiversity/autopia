@@ -9,7 +9,7 @@
 
 <% (@posts = commentable.posts.order('updated_at desc').paginate(:page => params[:page], :per_page => 10)).each { |post| %>
   <% if post.comments.count > 0 %>
-    <div data-pagelet-url="/posts/<%=post.id%>">
+    <div data-pagelet-url="/posts/<%=post.id%>" id="comments">
       <%= partial :'comments/post', :object => post %>
     </div>
   <% end %>
