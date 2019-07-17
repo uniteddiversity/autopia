@@ -103,7 +103,7 @@ module Autopia
           Account.check_box_scopes.select { |k,t,r| params[k] }.each { |k,t,r|
             @accounts = @accounts.where(:id.in => r.pluck(:id))
           }   
-          @accounts = @accounts.order('last_active desc')          
+          @accounts = @accounts.paginate(:page => params[:page], :per_page => 10).order('last_active desc')          
         end
       end
       discuss 'Search'
