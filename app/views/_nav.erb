@@ -27,18 +27,18 @@
       <span class="nav-link-text">Newsfeed</span>
     </a>
   </li>
+  
+  <li class="<%='active' if request.path == '/habits'%>">
+    <a href="/habits">
+      <i class="ti-check-box"></i>
+      <span class="nav-link-text">Habits</span>
+    </a>
+  </li>  
 
   <li class="<%='active' if request.path == '/places'%>">
     <a href="/places">
       <i class="fa fa-fw fa-map-marker"></i>
       <span class="nav-link-text">Places</span>
-    </a>
-  </li>
-
-  <li class="<%='active' if request.path == '/habits'%>">
-    <a href="/habits">
-      <i class="ti-check-box"></i>
-      <span class="nav-link-text">Habits</span>
     </a>
   </li>
   
