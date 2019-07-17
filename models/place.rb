@@ -34,7 +34,7 @@ class Place
   end    
   
   def self.marker_color
-    'E2413B'
+    'red'
   end  
         
   def self.admin_fields

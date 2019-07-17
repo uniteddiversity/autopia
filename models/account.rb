@@ -65,7 +65,7 @@ class Account
   end
   
   def self.marker_color
-    'E2413B'
+    'green'
   end  
   
   def network
