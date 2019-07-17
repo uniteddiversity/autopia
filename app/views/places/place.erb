@@ -19,6 +19,10 @@
 </div>
 
 <style>
-  #map-canvas { height: 400px !important; margin-bottom: 1rem; margin-top: 1rem }
+  #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
 </style>    
 <%= partial :'maps/map', :locals => {:points => [@place]} %>
+
+<div data-pagelet-url="/commentable?commentable_type=Place&commentable_id=<%=@place.id%>">
+  <%= partial :'comments/commentable', :locals => {:commentable => @place} %>
+</div> 

@@ -12,7 +12,7 @@ class Comment
   field :file_uid, :type => String
   
   def self.commentable_types
-    %w{Team Activity Mapplication Account Habit Feature}
+    %w{Team Activity Mapplication Account Habit Feature Place}
   end    
   
   dragonfly_accessor :file  
@@ -94,7 +94,10 @@ class Comment
     s = ''
     if commentable.is_a?(Feature)
       feature = commentable
-      s << "[Features/#{feature.name}] "      
+      s << "[Features/#{feature.name}] " 
+    elsf commentable.is_a?(Place)
+      place = commentable
+      s << "[Places/#{place.name}] "      
     elsif commentable.is_a?(Habit)
       habit = commentable
       s << "[#{habit.account.name}/#{habit.name}] "

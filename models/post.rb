@@ -16,7 +16,7 @@ class Post
   end
   
   def self.commentable_types
-    %w{Team Activity Mapplication Habit Account Feature}
+    %w{Team Activity Mapplication Habit Account Feature Place}
   end  
   
   def url
@@ -37,7 +37,10 @@ class Post
       "#{ENV['BASE_URI']}/u/#{account.username}#post-#{id}"      
     elsif commentable.is_a?(Feature)
       feature = commentable
-      "#{ENV['BASE_URI']}/features/#{feature.id}"            
+      "#{ENV['BASE_URI']}/features/#{feature.id}"  
+    elsif commentable.is_a?(Place)
+      place = commentable
+      "#{ENV['BASE_URI']}/places/#{place.id}"                  
     end    
   end
   
