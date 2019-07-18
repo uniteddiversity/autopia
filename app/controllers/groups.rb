@@ -1,6 +1,7 @@
 Autopia::App.controller do
   
   get '/groups' do
+    sign_in_required!
     erb :'groups/groups'
   end
     
