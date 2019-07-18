@@ -12,6 +12,15 @@
 
 <form action="/dating" id="search-form">
 
+  <% Account.radio_scopes.each_with_index { |el,i| k,v,t,r = *el %>
+    <div class="radio-inline ml-3 mb-2">
+      <%= radio_button_tag k, :value => v, :checked => (params[k] == v.to_s), :onclick => 'this.form.submit()', :id => "#{k}-#{v}" %>
+      <label for="<%=k%>-<%=v%>">
+        <%=t%>
+      </label>
+    </div>
+  <% } %>    
+
   <% Account.check_box_scopes.each_with_index { |el,i| k,t,r = *el %>
     <div class="checkbox-inline ml-3 mb-2">
       <%= check_box_tag k, :value => true, :checked => params[k], :onclick => 'this.form.submit()', :id => k %>

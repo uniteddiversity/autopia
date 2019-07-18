@@ -40,18 +40,7 @@ class Account
   def open_to
     Account.open_to.select { |x| self.send("open_to_#{x}") }
   end
-  
-  def self.check_box_scopes
-    y = []
     
-    y << [:open_to_new_friends, 'Open to new friends', where(:open_to_new_friends => true)]
-    y << [:open_to_hookups, 'Open to hookups', where(:open_to_hookups => true)]
-    y << [:open_to_short_term_dating, 'Open to short-term dating', where(:open_to_short_term_dating => true)]
-    y << [:open_to_long_term_dating, 'Open to long-term dating', where(:open_to_long_term_dating => true)]
-    y << [:open_to_non_monogamy, 'Open to non-monogamy', where(:open_to_non_monogamy => true)]
-    
-  end
-  
   def self.protected_attributes
     %w{admin}
   end
@@ -313,6 +302,29 @@ class Account
       now = Time.now.utc.to_date
       now.year - dob.year - ((now.month > dob.month || (now.month == dob.month && now.day >= dob.day)) ? 0 : 1)
     end
+  end 
+  
+  def self.radio_scopes
+    x = []
+
+    x << [:gender, 'all', 'All genders', all]
+    Account.genders.reject(&:blank?).each { |gender|
+      x << [:gender, gender, gender == 'Nonbinary' ? 'Nonbinary' : gender.pluralize, where(:gender => gender)]
+    }
+    
+    x
+  end  
+  
+  def self.check_box_scopes
+    y = []
+    
+    y << [:open_to_new_friends, 'Open to new friends', where(:open_to_new_friends => true)]
+    y << [:open_to_hookups, 'Open to hookups', where(:open_to_hookups => true)]
+    y << [:open_to_short_term_dating, 'Open to short-term dating', where(:open_to_short_term_dating => true)]
+    y << [:open_to_long_term_dating, 'Open to long-term dating', where(:open_to_long_term_dating => true)]
+    y << [:open_to_non_monogamy, 'Open to non-monogamy', where(:open_to_non_monogamy => true)]   
+    
+    y
   end  
   
   def self.human_attribute_name(attr, options={})  
