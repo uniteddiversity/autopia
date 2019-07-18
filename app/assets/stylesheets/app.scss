@@ -61,3 +61,10 @@ li.reply .widget-chat-message a { color: white; text-decoration: underline }
 .pace .pace-activity { display: none }
 
 .bgo:hover { opacity: 0 !important }
+
+.rainbow  {
+  margin: 0 auto;
+  background: linear-gradient(to right, #8747e6, #47a6e6, #54e645); 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

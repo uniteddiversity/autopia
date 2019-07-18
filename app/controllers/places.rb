@@ -1,9 +1,8 @@
 Autopia::App.controller do
   
   get '/places' do
-    sign_in_required!
-    @place = Place.new
-    @accounts = current_account.network + [current_account]
+    @place = Place.new    
+    @accounts = current_account ? (current_account.network + [current_account]) : []
     @places = Place.all.order('created_at desc')
     @places = @places.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]    
     discuss 'Map'

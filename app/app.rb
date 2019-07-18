@@ -40,7 +40,7 @@ module Autopia
     end
        
     before do
-      @cachebuster = 97
+      @cachebuster = 98
       redirect "#{ENV['BASE_URI']}#{request.path}" if ENV['BASE_URI'] and "#{request.scheme}://#{request.env['HTTP_HOST']}" != ENV['BASE_URI']
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : 'London'
       fix_params!
@@ -71,6 +71,8 @@ module Autopia
         discuss 'Newsfeed'
         erb :home_signed_in
       else
+        @accounts = []
+        @places = Place.all.order('created_at desc')        
         erb :home_not_signed_in
       end
     end
@@ -111,7 +113,6 @@ module Autopia
     end
     
     get '/dating' do
-      sign_in_required!  
       @accounts = Account.all
       Account.check_box_scopes.select { |k,t,r| params[k] }.each { |k,t,r|
         @accounts = @accounts.where(:id.in => r.pluck(:id))

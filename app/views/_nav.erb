@@ -23,8 +23,13 @@
 
   <li class="<%='active' if request.path == '/'%>">
     <a href="/">
-      <i class="fa fa-fw fa-newspaper-o"></i>
-      <span class="nav-link-text">Newsfeed</span>
+      <% if current_account %>
+        <i class="fa fa-fw fa-newspaper-o"></i>
+        <span class="nav-link-text">Newsfeed</span>
+      <% else %>
+        <i class="ti-home"></i>
+        <span class="nav-link-text">Home</span>      
+      <% end %>
     </a>
   </li>
 

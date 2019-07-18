@@ -1,12 +1,14 @@
-<p>  
-  <% if current_account.open_to.count > 0 %>
-    You're open to:
-    <%=current_account.open_to.map { |x| %Q{<a href="/dating?open_to_#{x}=true" class="text-white label label-primary">#{x == 'non_monogamy' ? 'Non-monogamy' : x.humanize}</a>} }.join(' ') %>
-    <a href="/accounts/edit">Change</a>
-  <% else %>
-    <a href="/accounts/edit">Choose what you're open to</a>
-  <% end %>
-</p>
+<% if current_account %>
+  <p>    
+    <% if current_account.open_to.count > 0 %>
+      You're open to:
+      <%=current_account.open_to.map { |x| %Q{<a href="/dating?open_to_#{x}=true" class="text-white label label-primary">#{x == 'non_monogamy' ? 'Non-monogamy' : x.humanize}</a>} }.join(' ') %>
+      <a href="/accounts/edit">Change</a>
+    <% else %>
+      <a href="/accounts/edit">Choose what you're open to</a>
+    <% end %>
+  </p>
+<% end %>
 
 <form action="/dating" id="search-form">
 
