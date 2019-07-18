@@ -68,3 +68,8 @@ li.reply .widget-chat-message a { color: white; text-decoration: underline }
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+  h4.block-title { font-size: 1.25rem }
+  @media(max-width: 768px) { 
+    h4.block-title { font-size: 5vw }
+  }
