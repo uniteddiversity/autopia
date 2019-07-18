@@ -91,7 +91,7 @@
           </h4>
         </div>      
         <div class="card-body pb-0">
-          <%= partial :'places/blocks', :locals => {:places => Place.where(:id.in => placeships.pluck(:place_id))} %>        
+          <%= partial :'places/blocks', :locals => {:places => Place.where(:id.in => placeships.pluck(:place_id)).shuffle} %>        
       </div>
     </div> 
   <% end %>
