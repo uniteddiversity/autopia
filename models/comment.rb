@@ -41,7 +41,7 @@ class Comment
   after_create do
     if %w{Team Activity Mapplication}.include?(commentable_type)
       notifications.create! :circle => commentable.group, :type => 'commented'
-    elsif %w{Account}.include?(commentable_type)
+    elsif %w{Account Place}.include?(commentable_type)
       notifications.create! :circle => commentable, :type => 'commented'
     elsif %w{Habit}.include?(commentable_type)
       notifications.create! :circle => commentable.account, :type => 'commented'

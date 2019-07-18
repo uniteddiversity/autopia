@@ -18,11 +18,16 @@ class Place
   has_many :subscriptions, :as => :commentable, :dependent => :destroy
   has_many :comments, :as => :commentable, :dependent => :destroy
   has_many :comment_reactions, :as => :commentable, :dependent => :destroy  
-
+  
+  has_many :notifications_as_notifiable, :as => :notifiable, :dependent => :destroy, :class_name => "Notification", :inverse_of => :notifiable
+  has_many :notifications_as_circle, :as => :circle, :dependent => :destroy, :class_name => "Notification", :inverse_of => :circle  
+  
+  has_many :placeships, :dependent => :destroy
+  
   def subscribers
-    [account]
+    Account.where(:id.in => placeships.where(:unsubscribed.ne => true).pluck(:account_id))
   end
-      
+        
   dragonfly_accessor :image 
   before_validation do
     if self.image

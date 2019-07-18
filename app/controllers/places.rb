@@ -17,6 +17,8 @@ Autopia::App.controller do
     sign_in_required!
     @place = current_account.places.build(params[:place])
     if @place.save
+      placeship = current_account.placeships.find_by(place: @place) || current_account.placeships.create(place: @place)
+      placeship.update_attribute(:unsubscribed, true)
       redirect '/places'
     else
       flash[:error] = 'There was an error saving the place.'
@@ -53,6 +55,21 @@ Autopia::App.controller do
     @place.destroy
     redirect '/places'
   end    
-         
   
+  get '/placeship/:id' do
+    sign_in_required!
+    @place = Place.find(params[:id]) || not_found
+    case params[:f]
+    when 'not_following'
+      current_account.placeships.find_by(place: @place).try(:destroy)
+    when 'follow_without_subscribing'
+      placeship = current_account.placeships.find_by(place: @place) || current_account.placeships.create(place: @place)
+      placeship.update_attribute(:unsubscribed, true)
+    when 'follow_and_subscribe'
+      placeship = current_account.placeships.find_by(place: @place) || current_account.placeships.create(place: @place)
+      placeship.update_attribute(:unsubscribed, false)
+    end
+    request.xhr? ? (partial :'places/placeship', :locals => {:place => @place, :btn_class => params[:btn_class]}) : redirect("/places/#{@place.id}")
+  end  
+         
 end

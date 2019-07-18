@@ -1,21 +1,57 @@
-<div class="row justify-content-between no-gutters">
+<div class="row">
+
+  <div class="col-auto">
+    <% if @place.image %>
+      <img src="<%=@place.image.thumb('200x200#').url%>" />
+    <% else %>
+      <div style="height: 200px; width: 200px; border: 2px solid #343a40;"></div>
+    <% end %>
+  </div>
   <div class="col">
+
     <h1>
       <%= @place.name %>
     </h1>
-    <ul class="fa-ul mb-0">
-      <li><i class="fa fa-li fa-map-marker"></i> <%=@place.location%></li>
+
+    <div class="mb-2">
+      <div class="d-inline-block mb-1" data-pagelet-url="/placeship/<%=@place.id%>?btn_class=<%=btn_class if defined?(btn_class)%>">
+        <%= partial :'places/placeship', :locals => {:place => @place, :btn_class => (btn_class if defined?(btn_class))} %>
+      </div>
+
+      <% if @place.account_id == current_account.id %>
+        <a class="btn btn-primary" href="/places/<%=@place.id%>/edit"><i class="fa fa-pencil"></i> Edit place</a>
+      <% end %>    
+    </div>
+
+    <table class="table table-hr">
+
+      <tr>
+        <td>Location</td>
+        <td>
+          <%=@place.location%>
+        </td>  
+      </tr> 
+
       <% if @place.website %>
-        <li><i class="fa fa-li fa-globe"></i><a target="_blank" href="<%=@place.website%>"><%=URI(@place.website).host.gsub('www.','')%></a></li>
-      <% end %>      
-      <li><i class="fa fa-li fa-user"></i> Listed by <a href="/u/<%=@place.account.username%>"><%=@place.account.name%></a></li>
-    </ul>
-  </div>
-  <div class="col-auto">
-    <% if @place.account_id == current_account.id %>
-      <a class="btn btn-primary" href="/places/<%=@place.id%>/edit"><i class="fa fa-pencil"></i> Edit place</a>
-    <% end %>    
-  </div>
+        <tr>
+          <td>Website</td>
+          <td>
+            <%=@place.website%>
+          </td>  
+        </tr> 
+      <% end %>
+
+      <tr>
+        <td>Listed by</td>
+        <td>
+          <a href="/u/<%=@place.account.username%>"><%=@place.account.name%></a>
+        </td>  
+      </tr> 
+
+    </table>
+
+
+  </div> 
 </div>
 
 <style>

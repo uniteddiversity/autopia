@@ -42,6 +42,15 @@
     </tr>
   <% end %>  
 
+  <% if account.location %>
+    <tr>
+      <td>Location</td>
+      <td>
+        <%=account.location%>
+      </td>  
+    </tr>     
+  <% end %>
+
   <% if account.open_to.count > 0 %>
     <tr>
       <td>Open to</td>

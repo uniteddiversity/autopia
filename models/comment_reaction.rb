@@ -23,7 +23,7 @@ class CommentReaction
     if account
       if %w{Team Activity Mapplication}.include?(commentable_type)
         notifications.create! :circle => commentable.group, :type => 'reacted_to_a_comment'
-      elsif %w{Account}.include?(commentable_type)
+      elsif %w{Account Place}.include?(commentable_type)
         notifications.create! :circle => commentable, :type => 'reacted_to_a_comment'            
       elsif %w{Habit}.include?(commentable_type)
         notifications.create! :circle => commentable.account, :type => 'reacted_to_a_comment' 

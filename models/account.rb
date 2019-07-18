@@ -111,7 +111,8 @@ class Account
   def network_notifications
     Notification.or(
       {:circle_type => 'Group', :circle_id.in => memberships.pluck(:group_id)},
-      {:circle_type => 'Account', :circle_id.in => [id] + network.pluck(:id)}
+      {:circle_type => 'Account', :circle_id.in => [id] + network.pluck(:id)},
+      {:circle_type => 'Place', :circle_id.in => places_following.pluck(:id)}
     )
   end  
   
@@ -178,7 +179,10 @@ class Account
   # MessageReceipts
   has_many :message_receipts_as_messenger, :class_name => "MessageReceipt", :inverse_of => :messenger, :dependent => :destroy
   has_many :message_receipts_as_messengee, :class_name => "MessageReceipt", :inverse_of => :messengee, :dependent => :destroy
-  
+  # Placeships
+  has_many :placeships, :dependent => :destroy
+  def places_following; Place.where(:id.in => placeships.pluck(:place_id)); end
+    
   has_many :notifications_as_notifiable, :as => :notifiable, :dependent => :destroy, :class_name => "Notification", :inverse_of => :notifiable
   has_many :notifications_as_circle, :as => :circle, :dependent => :destroy, :class_name => "Notification", :inverse_of => :circle
   
