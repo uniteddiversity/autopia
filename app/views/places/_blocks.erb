@@ -9,7 +9,7 @@
 </script>
 
 <div class="row" id="places">
-  <% places.order('o asc').each { |place| %>  
+  <% places.each { |place| %>  
     <div data-pagelet-url="/places/<%=place.id%>/block" class="place col-6 col-sm-3 mb-3 <%=block_class if defined?(block_class)%>" id="<%=place.id%>">
       <%= partial :'places/block', :locals => {:place => place} %>
     </div>

@@ -5,6 +5,7 @@ class Place
   extend Dragonfly::Model
   
   field :name, :type => String  
+  field :name_transliterated, :type => String
   field :location, :type => String
   field :website, :type => String
   field :coordinates, :type => Array  
@@ -13,6 +14,10 @@ class Place
   validates_presence_of :name, :location
   
   belongs_to :account, index: true, optional: true
+  
+  before_validation do
+    self.name_transliterated = I18n.transliterate(self.name) if self.name
+  end
   
   has_many :posts, :as => :commentable, :dependent => :destroy
   has_many :subscriptions, :as => :commentable, :dependent => :destroy
@@ -54,6 +59,7 @@ class Place
   def self.admin_fields
     {
       :name => :text,
+      :name_transliterated => {:type => :text, :disabled => true},
       :website => :url        
     }
   end
