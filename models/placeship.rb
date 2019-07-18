@@ -6,6 +6,7 @@ class Placeship
   
   belongs_to :account, index: true
   belongs_to :place, index: true
+  belongs_to :placeship_category, optional: true, index: true  
   
   validates_uniqueness_of :account, :scope => :place
     
@@ -13,7 +14,8 @@ class Placeship
     {
       :unsubscribed => :check_box,
 			:account_id => :lookup,
-      :place_id => :lookup
+      :place_id => :lookup,
+      :placeship_category_id => :lookup,
     }
   end
         
