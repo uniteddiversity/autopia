@@ -92,12 +92,12 @@ Autopia::App.controller do
   
   get '/accounts/:id/following' do
     @account = Account.find(params[:id]) || not_found
-    partial :'accounts/following', :locals => {:accounts => Account.where(:id.in => @account.follows_as_follower.pluck(:followee_id))}
+    partial :'accounts/following', :locals => {:follows => @account.follows_as_follower, :follower_or_followee => 'followee'}
   end
   
   get '/accounts/:id/followers' do
     @account = Account.find(params[:id]) || not_found
-    partial :'accounts/following', :locals => {:accounts => Account.where(:id.in => @account.follows_as_followee.pluck(:follower_id))}
+    partial :'accounts/following', :locals => {:follows => @account.follows_as_followee, :follower_or_followee => 'follower'}
   end  
   
   get '/accounts/:id/habits' do    

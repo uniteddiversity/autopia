@@ -1,9 +1,9 @@
 <div class="image-wall">
-  <% accounts = accounts.order('name asc').paginate(:page => params[:page], :per_page => 50); accounts.each { |account|  %>
+  <% follows = follows.order('created_at desc').paginate(:page => params[:page], :per_page => 50); follows.each { |follow| account = follow.send(follower_or_followee)  %>
     <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
   <% } %>
 </div>
 
 <div class="mt-3">
-  <%= will_paginate accounts, :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+  <%= will_paginate follows, :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 </div>
