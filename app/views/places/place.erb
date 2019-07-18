@@ -67,7 +67,7 @@
   <h2 class="mt-5">Followers</h2>
 
   <div class="image-wall">
-    <% accounts = Account.where(:id.in => @place.placeships.pluck(:account_id)).order('name asc').paginate(:page => params[:page], :per_page => 50); accounts.each { |account|  %>
+    <% accounts = @place.followers.order('name asc').paginate(:page => params[:page], :per_page => 50); accounts.each { |account|  %>
       <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
     <% } %>
   </div>  

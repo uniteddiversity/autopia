@@ -32,6 +32,10 @@ class Place
   def subscribers
     Account.where(:id.in => placeships.where(:unsubscribed.ne => true).pluck(:account_id))
   end
+  
+  def followers
+    Account.where(:id.in => placeships.pluck(:account_id))
+  end
         
   dragonfly_accessor :image 
   before_validation do
