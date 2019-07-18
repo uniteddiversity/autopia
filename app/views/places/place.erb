@@ -62,3 +62,16 @@
 <div data-pagelet-url="/commentable?commentable_type=Place&commentable_id=<%=@place.id%>">
   <%= partial :'comments/commentable', :locals => {:commentable => @place} %>
 </div> 
+
+<% if @place.placeships.count > 0 %>
+  <h2 class="mt-5">Followers</h2>
+
+  <div class="image-wall">
+    <% accounts = Account.where(:id.in => @place.placeships.pluck(:account_id)).order('name asc').paginate(:page => params[:page], :per_page => 50); accounts.each { |account|  %>
+      <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+    <% } %>
+  </div>  
+  <div class="mt-3">
+    <%= will_paginate accounts, :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+  </div>
+<% end %>
