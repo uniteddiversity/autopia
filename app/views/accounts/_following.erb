@@ -1,10 +1,5 @@
-<ul class="search-result-list mb-3">
-
-  <% accounts = accounts.order('name asc').paginate(:page => params[:page], :per_page => 10); accounts.each { |account|  %>
-    <li>
-      <%= partial 'accounts/search_result', :locals => {:account => account} %>
-    </li>
-  <% } %>
-</ul>
+<% accounts = accounts.order('name asc').paginate(:page => params[:page], :per_page => 10); accounts.each { |account|  %>
+  <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+<% } %>
 
 <%= will_paginate accounts, :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>

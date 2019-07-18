@@ -40,84 +40,34 @@
   })
 </script>
 
-<ul class="mt-3 nav nav-tabs" role="tablist">
-  <% if current_account %>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#wall" role="tab">Wall</a>
-    </li>  
-  <% end %>  
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#groups" role="tab">
-      Groups
-      <% if (c = @account.memberships.count) > 0 %>
-        <span class="badge badge-secondary"><%=c%></span>
-      <% end %>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#habits" role="tab">
-      Habits
-      <% if (c = @habits.count) > 0 %>  
-        <span class="badge badge-secondary"><%=c%></span>
-      <% end %>
-    </a>
-  </li> 
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#places" role="tab">
-      Places
-      <% if (c = @places.count) > 0 %>  
-        <span class="badge badge-secondary"><%=c%></span>
-      <% end %>
-    </a>
-  </li>   
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#following" role="tab">
-      Following
-      <% if (c = @account.follows_as_follower.count) > 0 %>
-        <span class="badge badge-secondary"><%=c%></span>
-      <% end %>
-    </a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" data-toggle="tab" href="#followers" role="tab">
-      Followers
-      <% if (c = @account.follows_as_followee.count) > 0 %>
-        <span class="badge badge-secondary"><%=c%></span>
-      <% end %>      
-    </a>
-  </li>  
-</ul>
 
-<div class="tab-content">
-  <% if current_account %>
-    <div class="tab-pane fade" id="wall" role="tabpanel">
-      <div data-pagelet-url="/commentable?commentable_type=Account&commentable_id=<%=@account.id%>">
-        <%= partial :'comments/commentable', :locals => {:commentable => @account} %>
-      </div>  
-    </div>  
-  <% end %>  
-  <div class="tab-pane fade" id="groups" role="tabpanel">
-    <div class="row">
-      <% @account.memberships.each { |membership| group = membership.group %>
-        <div class="col-6 col-sm-3 mb-3">
-          <%= partial :'groups/group', :object => group  %>
-        </div>
-      <% } %>
+<% if current_account %>
+  <div data-pagelet-url="/commentable?commentable_type=Account&commentable_id=<%=@account.id%>">
+    <%= partial :'comments/commentable', :locals => {:commentable => @account} %>
+  </div>  
+<% end %>  
+
+<h2 class="mt-5">Groups</h2>
+<div class="row">
+  <% @account.memberships.each { |membership| group = membership.group %>
+    <div class="col-6 col-sm-3 mb-3">
+      <%= partial :'groups/group', :object => group  %>
     </div>
-  </div>
-  <div class="tab-pane fade" id="habits" role="tabpanel">
-    <%= partial :'habits/blocks', :locals => {:habits => @habits} %>        
-  </div>  
-  <div class="tab-pane fade" id="places" role="tabpanel">
-    <%= partial :'places/blocks', :locals => {:places => @places} %>        
-  </div>    
-  <div class="tab-pane fade" id="following" role="tabpanel">
-    <div data-pagelet-url="/accounts/<%=@account.id%>/following"></div>  
-  </div>
-  <div class="tab-pane fade" id="followers" role="tabpanel">
-    <div data-pagelet-url="/accounts/<%=@account.id%>/followers"></div>  
-  </div>  
+  <% } %>
 </div>
+
+<h2 class="mt-5">Habits</h2>
+<%= partial :'habits/blocks', :locals => {:habits => @habits} %>        
+
+<h2 class="mt-5">Places</h2>
+<%= partial :'places/blocks', :locals => {:places => @places} %>        
+
+<h2 class="mt-5">Following</h2>
+<div data-pagelet-url="/accounts/<%=@account.id%>/following"></div>  
+
+<h2 class="mt-5">Followers</h2>
+<div data-pagelet-url="/accounts/<%=@account.id%>/followers"></div>  
+
 
 
 
