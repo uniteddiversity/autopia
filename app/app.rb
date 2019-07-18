@@ -95,8 +95,10 @@ module Autopia
         case @type
         when 'groups'
           @groups = Group.where({name: /#{::Regexp.escape(params[:q])}/i})
+          @groups = @groups.paginate(:page => params[:page], :per_page => 10).order('name asc')          
         when 'places'
-          @places = Place.where({name: /#{::Regexp.escape(params[:q])}/i})          
+          @places = Place.where({name: /#{::Regexp.escape(params[:q])}/i}) 
+          @places = @places.paginate(:page => params[:page], :per_page => 10).order('name asc')          
         else
           @accounts = Account.all
           @accounts = @accounts.or(         
