@@ -42,31 +42,41 @@
 
 
 <% if current_account %>
-  <div data-pagelet-url="/commentable?commentable_type=Account&commentable_id=<%=@account.id%>">
+  <div class="mt-3" data-pagelet-url="/commentable?commentable_type=Account&commentable_id=<%=@account.id%>">
     <%= partial :'comments/commentable', :locals => {:commentable => @account} %>
   </div>  
 <% end %>  
 
-<h2 class="mt-5">Groups</h2>
-<div class="row">
-  <% @account.memberships.each { |membership| group = membership.group %>
-    <div class="col-6 col-sm-3 mb-3">
-      <%= partial :'groups/group', :object => group  %>
-    </div>
-  <% } %>
-</div>
+<% if @account.memberships.count > 0 %>
+  <h2 class="mt-5">Groups</h2>
+  <div class="row">
+    <% @account.memberships.each { |membership| group = membership.group %>
+      <div class="col-6 col-sm-3 mb-3">
+        <%= partial :'groups/group', :object => group  %>
+      </div>
+    <% } %>
+  </div>
+<% end %>
 
-<h2 class="mt-5" id="habits">Habits</h2>
-<%= partial :'habits/blocks', :locals => {:habits => @habits} %>        
+<% if @account.habits.count > 0 %>
+  <h2 class="mt-5" id="habits">Habits</h2>
+  <%= partial :'habits/blocks', :locals => {:habits => @habits} %>        
+<% end %>
 
-<h2 class="mt-5">Places</h2>
-<%= partial :'places/blocks', :locals => {:places => @places} %>        
+<% if @account.places_following.count > 0 %>
+  <h2 class="mt-5">Places</h2>
+  <%= partial :'places/blocks', :locals => {:places => @places} %>        
+<% end %>
 
-<h2 class="mt-5">Following</h2>
-<div data-pagelet-url="/accounts/<%=@account.id%>/following"></div>  
+<% if @account.follows_as_follower.count > 0 %>
+  <h2 class="mt-5">Following</h2>
+  <div data-pagelet-url="/accounts/<%=@account.id%>/following"></div>  
+<% end %>
 
-<h2 class="mt-5">Followers</h2>
-<div data-pagelet-url="/accounts/<%=@account.id%>/followers"></div>  
+<% if @account.follows_as_followee.count > 0 %>
+  <h2 class="mt-5">Followers</h2>
+  <div data-pagelet-url="/accounts/<%=@account.id%>/followers"></div>  
+<% end %>
 
 
 
