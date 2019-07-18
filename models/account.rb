@@ -186,7 +186,11 @@ class Account
   has_many :comment_reactions, :as => :commentable, :dependent => :destroy
     
   # Dragonfly
-  dragonfly_accessor :picture 
+  dragonfly_accessor :picture do  
+    after_assign do |attachment|
+      attachment.convert! '-auto-orient'
+    end  
+  end
   before_validation do
     if self.picture
       begin
