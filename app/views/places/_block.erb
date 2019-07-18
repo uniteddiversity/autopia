@@ -24,7 +24,7 @@
               <% end %>                
             </h4>     
             <ul style="margin-left: 1.4em" class="fa-ul <% if place.image %>text-white<% else %>text-dark<% end%>">
-              <li><i class="fa fa-li fa-map-marker"></i> <%=place.location%></li>
+              <li><i class="fa fa-li fa-map-marker"></i> <%=place.location.gsub(/#{place.name}[\w ]*,/i,'')%></li>
               <% if place.website %>
                 <li><i class="fa fa-li fa-globe"></i><a target="_blank" class="<% if place.image %>text-white<% else %>text-dark<% end%>" href="<%=place.website%>"><%=URI(place.website).host.gsub('www.','')%></a></li>
               <% end %>
