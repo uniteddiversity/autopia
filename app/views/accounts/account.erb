@@ -76,9 +76,9 @@
   <% end %>
 
 
-  <% c = current_account.placeship_categories.count %>
-  <% (current_account.placeship_categories + [current_account.placeships.where(:placeship_category_id => nil)]).each_with_index { |placeship_category, i| %>    
-    <% placeships = (i < c ? placeship_category.placeships : current_account.placeships.where(:placeship_category_id => nil)) %>
+  <% c = @account.placeship_categories.count %>
+  <% (@account.placeship_categories + [@account.placeships.where(:placeship_category_id => nil)]).each_with_index { |placeship_category, i| %>    
+    <% placeships = (i < c ? placeship_category.placeships : @account.placeships.where(:placeship_category_id => nil)) %>
     <% if placeships.count > 0 %>
       <div class="placeship_category card" style="border-bottom-width: 0; border-radius: 0; <% if i == 0 %>border-top-left-radius: 5px; border-top-right-radius: 5px; <% end %>">
         <div class="card-header">
