@@ -1,0 +1,12 @@
+<div class="search-result-media" style="height: auto">
+  <% if place.image %>
+    <img src="<%=place.image.thumb('200x200#').url%>" />
+  <% else %>
+    <div style="height: 200px; width: 200px; border: 2px solid #343a40;"></div>
+  <% end %>
+</div>
+<div class="search-result-content">
+  <h2>
+    <a class="text-dark" href="/places/<%=place.id%>"><%=place.name%></a>    
+  </h2>  
+</div>

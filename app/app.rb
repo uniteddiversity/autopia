@@ -95,6 +95,8 @@ module Autopia
         case @type
         when 'groups'
           @groups = Group.where({name: /#{::Regexp.escape(params[:q])}/i})
+        when 'places'
+          @places = Place.where({name: /#{::Regexp.escape(params[:q])}/i})          
         else
           @accounts = Account.all
           @accounts = @accounts.or(         
