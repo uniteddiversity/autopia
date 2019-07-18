@@ -2,7 +2,7 @@
 
   <div class="col-auto">
     <% if @habit.image %>
-      <img src="<%=@habit.image.thumb('200x200#').url%>" />
+      <img src="<%=@habit.image.thumb('200x200').url%>" />
     <% else %>
       <div style="height: 200px; width: 200px; border: 2px solid #343a40;"></div>
     <% end %>
