@@ -28,7 +28,7 @@
       <tr>
         <td>Location</td>
         <td>
-          <%=@place.location.gsub(/#{place.name}[\w ]*,/i,'')%>
+          <%=@place.location.gsub(/#{@place.name}[\w ]*,/i,'')%>
         </td>  
       </tr> 
 
