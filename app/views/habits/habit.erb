@@ -49,11 +49,9 @@
 
     <%= will_paginate habit_completions, :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 
-
-
   </div> 
 </div>
 
-<div data-pagelet-url="/commentable?commentable_type=Habit&commentable_id=<%=@habit.id%>">
+<div class="mt-3" data-pagelet-url="/commentable?commentable_type=Habit&commentable_id=<%=@habit.id%>">
   <%= partial :'comments/commentable', :locals => {:commentable => @habit} %>
 </div>
