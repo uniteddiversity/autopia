@@ -27,7 +27,7 @@
       <span class="nav-link-text">Newsfeed</span>
     </a>
   </li>
-  
+
   <li class="<%='active' if request.path == '/habits'%>">
     <a href="/habits">
       <i class="ti-check-box"></i>
@@ -41,13 +41,24 @@
       <span class="nav-link-text">Places</span>
     </a>
   </li>
-  
+
   <li class="<%='active' if request.path == '/dating'%>">
     <a href="/dating">
       <i class="fa fa-heart-o"></i>
       <span class="nav-link-text">Dating</span>
     </a>
   </li>  
+
+  <% if !current_account %>
+
+    <li class="<%='active' if request.path == '/groups'%>">
+      <a href="/groups">
+        <i class="fa fa-users"></i>
+        <span class="nav-link-text">Groups</span>
+      </a>
+    </li>  
+
+  <% end %>
 
   <% if current_account %>
 
@@ -161,5 +172,5 @@
       <span class="nav-link-text">View the code on Github</span>
     </a>          
   </li>      
-  
+
 </ul>
