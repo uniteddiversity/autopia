@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <style>
+      img { max-width: 100% }
+      .password { font-size: 200%; font-weight: bold; }     
+    </style>
+  </head>
+  <body style="font-size: 16px; font-family: 'Roboto', sans-serif; background-color: #F8F9FA">
+
+    <div style="text-align: center">
+      <a href="https://autopia.co"><img src="https://autopia.co/images/autopia-square-inverse.png" style="max-width: 190px; padding: 16px"></a>
+    </div>
+
+    <div style="max-width: 650px; margin: 0 auto;">
+      <div style="background: white; padding: 16px; margin: 0 16px; border: 1px solid #f2f2f2; border-radius: 4px">      
+        <%= body %>
+      </div>
+    </div>
+
+    <div style="padding: 16px; text-align: center;">
+      <% if unsubscribe_url %>
+        <small><a style="color: #647386; text-decoration: none" href="<%=unsubscribe_url%>"><%= unsubscribe_desc %></a></small>
+        <% end %>          
+    </div>
+
+  </body>
+</html>
