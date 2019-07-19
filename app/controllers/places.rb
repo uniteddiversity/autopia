@@ -34,13 +34,15 @@ Autopia::App.controller do
   
   get '/places/:id/edit' do
     sign_in_required!
-    @place = current_account.places.find(params[:id]) || not_found
+    @place = Place.find(params[:id]) || not_found
+    halt unless admin? || @place.account_id == current_account.id
     erb :'places/build'
   end
       
   post '/places/:id/edit' do
     sign_in_required!
-    @place = current_account.places.find(params[:id]) || not_found
+    @place = Place.find(params[:id]) || not_found
+    halt unless admin? || @place.account_id == current_account.id
     if @place.update_attributes(params[:place])
       redirect "/places/#{@place.id}"
     else
@@ -51,7 +53,8 @@ Autopia::App.controller do
   
   get '/places/:id/destroy' do
     sign_in_required!
-    @place = current_account.places.find(params[:id]) || not_found
+    @place = Place.find(params[:id]) || not_found
+    halt unless admin? || @place.account_id == current_account.id
     @place.destroy
     redirect '/places'
   end    
