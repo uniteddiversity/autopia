@@ -14,26 +14,15 @@
       <% if !@habit.public? %>
         <i data-toggle="tooltip" title="Visible only to you" class="fa fa-lock"></i>
       <% end %>      
+      <% if @habit.public? %>
+        <small>A habit of <a href="/u/<%=@habit.account.username%>"><%=@habit.account.name%></a></small>
+      <% end %>        
     </h1>
     <div class="mb-2">
       <% if @habit.account_id == current_account.id %>
         <a class="btn btn-primary" href="/habits/<%=@habit.id%>/edit"><i class="fa fa-pencil"></i> Edit habit</a>
       <% end %>      
     </div>
-
-    <% if @habit.public? %>
-      <table class="table table-hr">
-
-
-        <tr>
-          <td>A habit of</td>
-          <td>
-            <a href="/u/<%=@habit.account.username%>"><%=@habit.account.name%></a>
-          </td>  
-        </tr> 
-
-      </table>
-    <% end %>
 
     <dl class="row my-3"> 
       <% habit_completions = @habit.habit_completions.order('date desc').paginate(:page => params[:page], :per_page => 10); habit_completions.each { |habit_completion|  %>
