@@ -100,12 +100,18 @@ Autopia::App.controller do
     partial :'accounts/following', :locals => {:follows => @account.follows_as_followee, :follower_or_followee => 'follower'}
   end  
   
-  get '/accounts/:id/habits' do    
-    @account = Account.find(params[:id]) || not_found
+  get '/u/:username/places' do    
+    @account = Account.find_by(username: params[:username]) || not_found
+    @places = @account.places_following.order('name_transliterated asc')
+    @hide_nav = true
+    erb :'accounts/places', :layout => :minimal
+  end    
+  
+  get '/u/:username/habits' do    
+    @account = Account.find_by(username: params[:username]) || not_found
     @habits = @account.habits.where(public: true).where(:archived.ne => true)
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @hide_nav = true
-    discuss 'Habits'
     erb :'accounts/habits', :layout => :minimal
   end  
   
