@@ -63,7 +63,7 @@ class Pmail
     batch_message.add_tag id
     
     eval(to).where(:unsubscribed.ne => true).each { |account|
-      batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.secret_token, 'id' => account.id})
+      batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
     }
         
     batch_message.finalize    
