@@ -53,7 +53,7 @@ class Pmail
     mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
     batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
     
-    unsubscribe_url = "#{ENV['BASE_URI']}/accounts/edit?sign_in_token=%recipient.token%"      
+    unsubscribe_url = "#{ENV['BASE_URI']}/accounts/unsubscribe?sign_in_token=%recipient.token%"      
     unsubscribe_desc = 'Unsubscribe'
           
     batch_message.from from  

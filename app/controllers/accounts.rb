@@ -14,6 +14,13 @@ Autopia::App.controller do
     redirect '/'
   end
   
+  get '/accounts/unsubscribe' do
+    sign_in_required!
+    current_account.update_attribute(:unsubscribed, true)
+    flash[:notice] = "You were unsubscribed."
+    redirect '/accounts/edit'
+  end
+  
   post '/accounts/forgot_password' do
     if params[:email] and @account = Account.find_by(email: /^#{::Regexp.escape(params[:email])}$/i)
       if @account.reset_password!        
