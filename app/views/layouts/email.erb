@@ -1,26 +1,22 @@
-<html>
+<!doctype html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">    
     <style>
-      img { max-width: 100% }
-      .password { font-size: 200%; font-weight: bold; }     
-    </style>
+      p, ul, ol, input, select, .form-control, body, blockquote { font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 16px }
+      h1, h2, h3, h4, h5, h6, .h { font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif; }      
+      blockquote { border-left: 8px solid #eee; padding-left: 1em }
+    </style>    
   </head>
-  <body style="font-size: 16px; font-family: 'Roboto', sans-serif; background-color: #F8F9FA">
+  <body>
 
-    <div style="text-align: center">
-      <a href="https://autopia.co"><img src="https://autopia.co/images/autopia-square-inverse.png" style="max-width: 50px; padding: 16px"></a>
-    </div>
+    <div style="background: #eee; padding: 20px;">
 
-    <div style="max-width: 650px; margin: 0 auto;">
-      <div style="background: white; padding: 16px; margin: 0 16px; border: 1px solid #f2f2f2; border-radius: 4px">      
-        <%= content %>
+      <div style="max-width: 600px; margin: 0 auto; background: white;">
+        <div style="padding: 20px;">
+          <%= content %>
+        </div>
       </div>
-    </div>
-
-    <div style="padding: 16px; text-align: center;">
-      <small><a style="color: #647386; text-decoration: none" href="https://autopia.co/u/%recipient.username%?sign_in_token=%recipient.token%">View your profile on Autopia</a></small>
-      &middot;
-      <small><a style="color: #647386; text-decoration: none" href="https://autopia.co/accounts/unsubscribe?sign_in_token=%recipient.token%">Unsubscribe</a></small>
     </div>
 
   </body>
