@@ -7,9 +7,16 @@
 <div class="row">
   <div class="col-sm-8">
 
-    <a class="btn btn-primary mb-2 mr-2" href="/a/new">Create a group</a>
-    <a class="btn btn-primary mb-2 mr-2" href="/habits?add=true">Add a habit</a>
-    <a class="btn btn-primary mb-2" href="/places">List a place</a>
+    <div class="dropdown">
+      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-magic"></i> Create
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">       
+        <a class="pagelet-trigger dropdown-item" href="/a/new">Create a group</a>
+        <a class="pagelet-trigger dropdown-item" href="/habits?add=true">Add a habit</a>
+        <a class="pagelet-trigger dropdown-item" href="/places">List a place</a>
+      </div>
+    </div>       
 
     <div class="mt-3">
 
