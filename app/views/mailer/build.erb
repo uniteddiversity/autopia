@@ -40,18 +40,16 @@
 <div class="container-fluid mt-3">
 
   <% form_for @pmail, @pmail.new_record? ? "/mailer/new" : "/mailer/#{@pmail.id}/edit", :multipart => true do |f| %>
-      <%= f.text_block :to %>
-      <% if @pmail.to && !@pmail.sent_at %>
-        <div class="my-3">          
-          <% begin; c = eval("#{@pmail.to}.where(:unsubscribed.ne => true).count") %>
-            <span style="font-size: 125%" class="badge badge-success">Sending to <%= pluralize(c, 'person') %></span>
-          <% rescue %>
-            <span style="font-size: 125%" class="badge badge-danger">Invalid query</span>
-          <% end %>
-        </div>
-      <% end %>
+    <%= f.text_block :to %>
+    <% if @pmail.to && !@pmail.sent_at %>
+      <div class="my-3">          
+        <% begin; c = eval("#{@pmail.to}.where(:unsubscribed.ne => true).count") %>
+          <span style="font-size: 125%" class="badge badge-success">Sending to <%= pluralize(c, 'person') %></span>
+        <% rescue %>
+          <span style="font-size: 125%" class="badge badge-danger">Invalid query</span>
+        <% end %>
+      </div>
     <% end %>
-    <hr />
     <%= f.text_block :from %>
     <%= f.text_block :subject %>
     <%= f.text_area_block :body %>

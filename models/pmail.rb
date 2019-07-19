@@ -31,12 +31,7 @@ class Pmail
       :account_id => :lookup
     }
   end
-      
-  has_many :notifications, as: :notifiable, dependent: :destroy
-  after_create do
-    notifications.create! :type => 'new_mail'
-  end          
-        
+                   
   def send_pmail
     if !sent_at
       message_ids = send_batch_message(to)
