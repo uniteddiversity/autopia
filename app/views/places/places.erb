@@ -18,7 +18,7 @@
 <% end %>
 
 <div class="mb-3">
-  
+
   <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
     <%= text_field_tag :q, :class => 'form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Search places', :value => params[:q] %>
   <% end %>    
@@ -41,7 +41,9 @@
       </div>
     </div>
     <div class="order-sm-1 col-sm-6">    
+      <% @places = @places.paginate(:page => params[:page], :per_page => 50) %>
       <%= partial :'places/blocks', :locals => {:places => @places, :block_class => 'col-12 col-sm-6'} %>        
+      <%= will_paginate @places, :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
     </div>  
   </div>
 </div>
