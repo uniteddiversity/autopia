@@ -92,7 +92,7 @@ Autopia::App.controller do
     @habits = @account.habits.where(public: true).where(:archived.ne => true)
     @places = @account.places_following.order('name_transliterated asc')
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
-    @placeship_category = PlaceshipCategory.new if current_account.id == @account.id
+    @placeship_category = PlaceshipCategory.new if current_account && current_account.id == @account.id
     discuss 'User profiles'
     erb :'accounts/account'
   end  
