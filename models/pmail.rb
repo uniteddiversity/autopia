@@ -10,7 +10,7 @@ class Pmail
   field :message_ids, :type => String
   field :sent_at, :type => ActiveSupport::TimeWithZone  
   
-  validates_presence_of :from, :subject, :body
+  validates_presence_of :to, :from, :subject, :body
   validates_format_of :from, :with => /.* <.*>/
   
   belongs_to :account
@@ -53,8 +53,7 @@ class Pmail
     mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
     batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
     
-    unsubscribe_url = "#{ENV['BASE_URI']}/accounts/edit?sign_in_token=%recipient.token%"
-      
+    unsubscribe_url = "#{ENV['BASE_URI']}/accounts/edit?sign_in_token=%recipient.token%"      
     unsubscribe_desc = 'Unsubscribe'
           
     batch_message.from from  
