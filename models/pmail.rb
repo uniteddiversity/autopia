@@ -45,24 +45,21 @@ class Pmail
     send_batch_message "Account.where(id: '#{account.id}')", test_message: true
   end
   
-  def self.layout(body, unsubscribe_url: unsubscribe_url, unsubscribe_desc: 'Unsubscribe')
+  def self.layout(body)
     ERB.new(File.read(Padrino.root('app/views/layouts/mailer.erb'))).result(binding)
   end  
   
   def send_batch_message(to, test_message: false)
     mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
     batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
-    
-    unsubscribe_url = "#{ENV['BASE_URI']}/accounts/unsubscribe?sign_in_token=%recipient.token%"      
-    unsubscribe_desc = 'Unsubscribe'
-          
+              
     batch_message.from from  
     batch_message.subject (test_message ? "#{subject} [test sent #{Time.now}]" : subject)
-    batch_message.body_html (no_layout ? body.gsub('unsubscribe_url', unsubscribe_url).gsub('unsubscribe_desc', unsubscribe_desc) : Pmail.layout(body, unsubscribe_url: unsubscribe_url, unsubscribe_desc: unsubscribe_desc))
+    batch_message.body_html Pmail.layout(body)
     batch_message.add_tag id
     
     eval(to).where(:unsubscribed.ne => true).each { |account|
-      batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
+      batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id, 'username' => account.username})
     }
         
     batch_message.finalize    
