@@ -1,4 +1,4 @@
-ActivateApp::App.controller do
+Autopia::App.controller do
   
   before do
     admins_only!

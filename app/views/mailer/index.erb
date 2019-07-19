@@ -1,0 +1,43 @@
+
+<a href="/mailer/new" class="btn btn-primary"><i class="fa fa-pencil"></i> New message</a>
+
+<table class="table table-striped mt-3">
+  <thead>
+    <tr>
+      <th></th>
+      <th>To</th>
+      <th>From</th>
+      <th>Subject</th>      
+      <th>Created by</th>
+      <th>Created at</th>
+      <th>Sent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pmails.each { |pmail| %>
+      <tr>      
+        <td>
+          <% if pmail.sent_at %>
+            <a class="btn btn-secondary mr-1 mb-1" href="/mailer/<%=pmail.id%>/edit">            
+              <i class="fa fa-circle-o"></i> View                                      
+            </a>        
+          <% else %>
+            <a class="btn btn-secondary" href="/mailer/<%=pmail.id%>/edit">            
+              <i class="fa fa-edit"></i> Edit
+            </a>                              
+          <% end %>
+        </td>
+        <td>
+          <%=pmail.to.split("@#{ENV['MAILGUN_DOMAIN']}").first %>
+        </td>
+        <td><%=pmail.from%></td>
+        <td><a href="/mailer/<%=pmail.id%>/edit"><%=pmail.subject%></a></td>
+        <td><%=pmail.account.name%></td>
+        <td><%=pmail.created_at%></td>
+        <td><%=pmail.sent_at%></td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<%= will_paginate @pmails, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
