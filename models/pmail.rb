@@ -45,7 +45,7 @@ class Pmail
     send_batch_message "Account.where(id: '#{account.id}')", test_message: true
   end
   
-  def self.layout(body)
+  def self.layout(content)
     ERB.new(File.read(Padrino.root('app/views/layouts/mailer.erb'))).result(binding)
   end  
   
