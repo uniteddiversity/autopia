@@ -2,9 +2,9 @@
 
   <div class="col">
     <% form_tag '', :class => 'form-inline', :method => 'get' do %>
-      <%= text_field_tag :start_date, :class => 'datepicker form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Start date', :value => params[:start_date] %>
-      <%= text_field_tag :end_date, :class => 'datepicker form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'End date', :value => params[:end_date] %>
-      <%= submit_tag 'Search', :class => 'btn btn-primary' %>
+      <%= text_field_tag :start_date, :class => 'datepicker form-control d-block d-sm-inline-block w-sm-auto mr-1 mb-1 mb-sm-0', :placeholder => 'Start date', :value => params[:start_date] %>
+      <%= text_field_tag :end_date, :class => 'datepicker form-control d-block d-sm-inline-block w-sm-auto mr-1 mb-1 mb-sm-0', :placeholder => 'End date', :value => params[:end_date] %>
+      <%= submit_tag 'Search', :class => 'd-block d-sm-inline-block btn btn-primary' %>
     <% end %>    
   </div>
   <% if current_account %>
