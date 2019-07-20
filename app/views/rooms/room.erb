@@ -41,15 +41,19 @@
         <td>Listed by</td>
         <td>
           <a href="/u/<%=@room.account.username%>"><%=@room.account.name%></a>
+          <br />
+          <a href="/messages/<%=@room.account.id%>" class="mt-1 btn-sm btn btn-outline-primary"><i class="ti-comment"></i> Message</a>
         </td>  
       </tr> 
 
-      <tr>
-        <td>Availability</td>          
-        <td>
-          <%= partial :'rooms/periods', :locals => {:room => @room} %>
-        </td>
-      </tr>
+      <% if @room.account_id == current_account.id || @room.room_periods.count > 0 %>
+        <tr>
+          <td>Availability</td>          
+          <td>
+            <%= partial :'rooms/periods', :locals => {:room => @room} %>
+          </td>
+        </tr>
+      <% end %>
 
     </table>
 
