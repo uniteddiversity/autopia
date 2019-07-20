@@ -5,7 +5,20 @@ class RoomAttachment
  
   field :image_uid, :type => String
   
-  dragonfly_accessor :image  
+  dragonfly_accessor :image do  
+    after_assign do |attachment|
+      attachment.convert! '-auto-orient'
+    end  
+  end
+  before_validation do
+    if self.image
+      begin
+        self.image.format
+      rescue        
+        errors.add(:image, 'must be an image')
+      end
+    end
+  end
   
   belongs_to :room, index: true  
   belongs_to :account, index: true  

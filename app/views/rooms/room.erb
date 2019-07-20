@@ -22,11 +22,11 @@
       <%= @room.name %>
     </h1>
 
-    <div class="mb-2">
-      <% if @room.account_id == current_account.id %>
+    <% if @room.account_id == current_account.id %>
+      <div class="mb-2">
         <a class="btn btn-primary" href="/rooms/<%=@room.id%>/edit"><i class="fa fa-pencil"></i> Edit room</a>
-      <% end %>    
-    </div>
+      </div>
+    <% end %>    
 
     <table class="table table-hr">
 

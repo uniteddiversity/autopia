@@ -12,7 +12,7 @@ class Room
   has_many :room_attachments, :dependent => :destroy
   has_many :room_periods, :dependent => :destroy
   
-  validates_presence_of :name
+  validates_presence_of :name, :location, :description
   
   def image
     room_attachments.order('created_at asc').first.try(:image)
