@@ -30,5 +30,11 @@ class RoomPeriod
   def currency_symbol
     Group.currency_symbol(currency)
   end  
+  
+  def self.human_attribute_name(attr, options={})  
+    {
+      :price => 'Price per night',
+    }[attr.to_sym] || super  
+  end  
     
 end

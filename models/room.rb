@@ -37,12 +37,6 @@ class Room
       :description => :text_area,
       :account_id => :lookup
     }
-  end
-  
-  def self.human_attribute_name(attr, options={})  
-    {
-      :price => 'Price per night',
-    }[attr.to_sym] || super  
-  end     
+  end      
     
 end
