@@ -46,6 +46,13 @@
       <span class="nav-link-text">Places</span>
     </a>
   </li>
+  
+  <li class="<%='active' if request.path == '/rooms'%>">
+    <a href="/rooms">
+      <i class="fa fa-fw fa-cube"></i>
+      <span class="nav-link-text">Rooms</span>
+    </a>
+  </li>  
 
   <li class="<%='active' if request.path == '/dating'%>">
     <a href="/dating">

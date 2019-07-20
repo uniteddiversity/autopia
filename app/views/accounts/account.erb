@@ -78,6 +78,15 @@
   <%= partial :'accounts/places' %>
 
 <% end %>
+  
+  
+
+<% if @account.rooms.count > 0 %>
+  <h2 class="mt-5" id="rooms">Rooms</h2>
+  <%= partial :'rooms/blocks', :locals => {:rooms => @account.rooms} %>        
+<% end %>
+  
+  
 
 <% if @account.follows_as_follower.count > 0 %>
   <h2 class="mt-5">Following</h2>

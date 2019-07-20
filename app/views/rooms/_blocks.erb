@@ -1,0 +1,17 @@
+
+<script>
+  $(function () {
+    $('.room').hover(
+            function () { $('.room-edit', this).show() },
+            function () { $('.room-edit', this).hide() },
+    )
+  })
+</script>
+
+<div class="row" id="rooms">
+  <% rooms.each { |room| %>  
+    <div data-pagelet-url="/rooms/<%=room.id%>/block" class="room col-6 col-sm-3 mb-3 <%=block_class if defined?(block_class)%>" id="<%=room.id%>">
+      <%= partial :'rooms/block', :locals => {:room => room} %>
+    </div>
+  <% } %>
+</div>

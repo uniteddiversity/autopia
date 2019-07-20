@@ -1,0 +1,42 @@
+<div class="row mb-3 justify-content-between">
+
+  <div class="col">
+    <% form_tag '', :class => 'form-inline', :method => 'get' do %>
+      <%= text_field_tag :start_date, :class => 'datepicker form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Start date', :value => params[:start_date] %>
+      <%= text_field_tag :end_date, :class => 'datepicker form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'End date', :value => params[:end_date] %>
+      <%= submit_tag 'Search', :class => 'btn btn-primary' %>
+    <% end %>    
+  </div>
+  <% if current_account %>
+    <div class="col-auto">
+      <a class="btn btn-primary mt-1 mt-sm-0" href="javascript:;" onclick="$(this).hide();
+            $('#room-build').show().find('input').first().focus()"><i class="fa fa-plus-circle"></i> Add a room</a>
+    </div>
+  <% end %>
+</div>
+
+<div id="room-build" style="display: none" class="mt-3">
+  <%= partial :'rooms/build' %>
+</div>    
+
+<div style="position: relative">
+  <div class="row">
+    <div class="order-sm-2 col-sm-6 mb-3">
+      <div id="map">
+        <%= partial :'maps/map', :locals => {:points => @rooms, :global => !params[:q]} %>
+      </div>
+    </div>
+    <div class="order-sm-1 col-sm-6">    
+      <% @rooms = @rooms.paginate(:page => params[:page], :per_page => 50) %>
+      <%= partial :'rooms/blocks', :locals => {:rooms => @rooms, :block_class => 'col-12 col-sm-6'} %>        
+      <%=  will_paginate @rooms, :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer%>
+    </div>  
+  </div>
+</div>
+
+<style>
+  @media(min-width: 768px) {
+    .page-header-fixed.page-sidebar-fixed .content { overflow: inherit }
+    #map { position: sticky; top: calc(2.8125rem + 0.75rem); }
+  }
+</style>

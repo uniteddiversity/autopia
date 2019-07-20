@@ -5,7 +5,7 @@ Autopia::App.controller do
     @accounts = (current_account && !params[:q]) ? (current_account.network + [current_account]) : []
     @places = Place.all.order('created_at desc')
     @places = @places.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]    
-    discuss 'Map'
+    discuss 'Places'
     erb :'places/places'
   end
     
@@ -22,6 +22,7 @@ Autopia::App.controller do
       redirect '/places'
     else
       flash[:error] = 'There was an error saving the place.'
+      discuss 'Places'
       erb :'places/places'
     end
   end  
@@ -29,6 +30,7 @@ Autopia::App.controller do
   get '/places/:id' do
     sign_in_required!
     @place = Place.find(params[:id]) || not_found   
+    discuss 'Places'
     erb :'places/place'
   end  
   
@@ -36,6 +38,7 @@ Autopia::App.controller do
     sign_in_required!
     @place = Place.find(params[:id]) || not_found
     halt(403) unless admin? || @place.account_id == current_account.id
+    discuss 'Places'
     erb :'places/build'
   end
       
@@ -47,6 +50,7 @@ Autopia::App.controller do
       redirect "/places/#{@place.id}"
     else
       flash[:error] = 'There was an error saving the place.'
+      discuss 'Places'
       erb :'places/build'
     end
   end 

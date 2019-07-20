@@ -1,0 +1,24 @@
+<ul class="list-unstyled">
+  <% room.room_periods.each { |room_period| %>
+    <li>
+      <% if room.account_id == current_account.id %>
+        <a data-confirm="Are you sure you want to remove this period?" class="text-dark" href="/rooms/<%=room.id%>/room_periods/<%=room_period.id%>/destroy">
+          <%= room_period.start_date %> &ndash; <%= room_period.end_date %>, <%=room_period.currency_symbol%><%=room_period.price%>/night
+        </a>
+      <% else %>
+        <%= room_period.start_date %> &ndash; <%= room_period.end_date %>, <%=room_period.currency_symbol%><%=room_period.price%>/night
+      <% end %>
+    </li>
+  <% } %>
+</ul>
+
+<% if room.account_id == current_account.id %>
+    <a class="btn btn-outline-primary btn-sm" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus"></i></a>
+      <% form_for (@room_period || @room.room_periods.build), "/rooms/#{room.id}/room_periods/new", :style => 'display: none' do |f| %>
+        <%= f.date_block :start_date %>
+        <%= f.date_block :end_date %>
+        <%= f.number_block :price %>
+        <%= f.select_block :currency %>
+        <%= f.submit_block %>
+      <% end %>
+<% end %>

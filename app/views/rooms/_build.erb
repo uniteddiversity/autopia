@@ -1,0 +1,16 @@
+<% form_for @room, @room.new_record? ? '/rooms/new' : "/rooms/#{@room.id}/edit" do  |f| %>
+  <%= f.text_block :name %>
+  <%= f.text_block :location %>
+  <script>
+    $(function () {
+      var autocomplete = new google.maps.places.Autocomplete($('#room_location')[0]);
+    })
+  </script>
+  
+  <%= f.text_area_block :description %>
+
+  <p>Add images and availability in the next step.</p>
+  <div class="my-3">
+    <%= f.submit_block destroy_url: "/rooms/#{@room.id}/destroy" %>
+  </div>
+<% end %>

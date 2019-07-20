@@ -172,7 +172,11 @@ class Account
   has_many :placeships, :dependent => :destroy
   def places_following; Place.where(:id.in => placeships.pluck(:place_id)); end
   has_many :placeship_categories, :dependent => :destroy
-    
+  # Rooms
+  has_many :rooms, :dependent => :destroy
+  has_many :room_attachments, :dependent => :destroy
+  has_many :room_periods, :dependent => :destroy
+  
   has_many :notifications_as_notifiable, :as => :notifiable, :dependent => :destroy, :class_name => "Notification", :inverse_of => :notifiable
   has_many :notifications_as_circle, :as => :circle, :dependent => :destroy, :class_name => "Notification", :inverse_of => :circle
   
