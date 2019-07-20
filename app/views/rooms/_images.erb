@@ -1,12 +1,25 @@
 <% if room.room_attachments.count > 1 %>
   <% room.room_attachments.order('created_at asc')[1..-1].each { |room_attachment| %>
-    <% if room.account_id == current_account.id %>
-      <a data-confirm="Are you sure you want to delete this image?" href="/rooms/<%=room.id%>/room_attachments/<%=room_attachment.id%>/destroy">
-        <img src="<%=room_attachment.image.thumb('200x200#').url%>" />
-      </a>
-    <% else %>
+
+    <a href="javascript:;" data-toggle="modal" data-target="#room-attachment-<%=room_attachment.id%>">
       <img src="<%=room_attachment.image.thumb('200x200#').url%>" />
-    <% end %>
+    </a>
+    <div class="modal fade" id="room-attachment-<%=room_attachment.id%>" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <img class="w-100" src="<%=room_attachment.image.url%>" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <% if room.account_id == current_account.id %>
+              <a class="btn btn-danger" data-confirm="Are you sure you want to delete this image?" href="/rooms/<%=room.id%>/room_attachments/<%=room_attachment.id%>/destroy">Delete</a>
+            <% end %>
+          </div>               
+        </div>     
+      </div>
+    </div>  
+
   <% } %>
 <% end %>
 
