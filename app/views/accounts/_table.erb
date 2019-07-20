@@ -7,7 +7,17 @@
         <%=account.email%>
       </td>  
     </tr> 
-  <% end %>        
+  <% end %>   
+    
+
+  <% if account.website %>
+    <tr>
+      <td>Website</td>
+      <td>
+        <a target="_blank" href="<%=account.website%>"><%=account.website%></a>
+      </td>  
+    </tr>
+  <% end %>     
 
   <% if account.facebook_profile_url %>
     <tr>

@@ -8,6 +8,7 @@ class Account
   field :name_transliterated, :type => String
   field :email, :type => String
   field :username, :type => String
+  field :website, :type => String
   field :gender, :type => String
   field :date_of_birth, :type => Date
   field :dietary_requirements, :type => String
@@ -253,6 +254,7 @@ class Account
       :default_currency => :select,
       :email => :text,
       :username => :text,
+      :website => :url,
       :gender => :select,
       :date_of_birth => :date,
       :facebook_profile_url => :text,
