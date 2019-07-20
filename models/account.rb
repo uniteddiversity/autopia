@@ -32,6 +32,7 @@ class Account
   field :open_to_short_term_dating, :type => Boolean
   field :open_to_long_term_dating, :type => Boolean
   field :open_to_non_monogamy, :type => Boolean
+  field :default_currency, :type => String
   
   def self.open_to
     %w{new_friends hookups short_term_dating long_term_dating non_monogamy}
@@ -235,12 +236,21 @@ class Account
   
   validates_format_of :username, :with => /\A[a-z0-9_\.]+\z/
   validates_uniqueness_of :username
+  
+  def self.default_currencies
+    [''] + %w{GBP EUR USD SEK DKK}
+  end
+  
+  def currency_symbol
+    Group.currency_symbol(default_currency)
+  end   
             
   def self.admin_fields
     {
       :name => :text,
       :name_transliterated => {:type => :text, :disabled => true},
       :facebook_name => :text,
+      :default_currency => :select,
       :email => :text,
       :username => :text,
       :gender => :select,

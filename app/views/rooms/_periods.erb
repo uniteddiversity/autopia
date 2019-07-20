@@ -13,12 +13,12 @@
 </ul>
 
 <% if room.account_id == current_account.id %>
-    <a class="btn btn-outline-primary btn-sm" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus"></i></a>
-      <% form_for (@room_period || @room.room_periods.build), "/rooms/#{room.id}/room_periods/new", :style => 'display: none' do |f| %>
-        <%= f.date_block :start_date %>
-        <%= f.date_block :end_date %>
-        <%= f.number_block :price %>
-        <%= f.select_block :currency %>
-        <%= f.submit_block %>
-      <% end %>
+  <a class="btn btn-outline-primary btn-sm" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus"></i></a>
+  <% form_for (@room_period || @room.room_periods.build(currency: current_account.default_currency)), "/rooms/#{room.id}/room_periods/new", :style => 'display: none' do |f| %>
+    <%= f.date_block :start_date %>
+    <%= f.date_block :end_date %>
+    <%= f.number_block :price %>
+    <%= f.select_block :currency %>
+    <%= f.submit_block %>
+  <% end %>
 <% end %>

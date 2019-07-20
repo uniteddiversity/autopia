@@ -7,7 +7,7 @@ Autopia::App.controller do
     
   get '/a/new' do
     sign_in_required!
-    @group = Group.new
+    @group = Group.new(currency: current_account.default_currency)
     Group.enablable.each { |x|
       @group.send("enable_#{x}=", true)
     }
