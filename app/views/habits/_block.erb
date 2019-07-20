@@ -19,7 +19,7 @@
   height: 180px; overflow: hidden;
   <% if current_account and current_account.id == habit.account_id %>cursor: pointer; <% end%>
   <% if !habit.image %>border: 2px solid #343a40;<% end %>
-  <% if habit.image %>background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=habit.image.url%>'); background-size: cover; background-position: center center;<% end %>
+  <% if habit.image %>background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=habit.image.thumb('400x400').url%>'); background-size: cover; background-position: center center;<% end %>
   ">
 
   <table style="width: 100%; height: 100%">
