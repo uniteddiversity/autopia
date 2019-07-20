@@ -115,10 +115,6 @@ class Group
   # Teams
   has_many :teams, :dependent => :destroy
   has_many :teamships, :dependent => :destroy  
-  has_many :posts, :dependent => :destroy
-  has_many :subscriptions, :dependent => :destroy
-  has_many :comments, :dependent => :destroy
-  has_many :comment_reactions, :dependent => :destroy
   # Rotas
   has_many :rotas, :dependent => :destroy
   has_many :roles, :dependent => :destroy
