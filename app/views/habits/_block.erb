@@ -46,13 +46,13 @@
           </div>
           <div class="col-auto">    
             <% if current_account and current_account.id == habit.account_id %>              
+              <% if habit.archived %>                         
+                <i class="fa fa-eye-slash <% if habit.image %>text-white<% else %>text-dark<% end%> "></i>
+              <% end %>            
               <% if habit.public %>                         
                 <i class="fa fa-globe  <% if habit.image %>text-white<% else %>text-dark<% end%>"></i>
               <% else %>
                 <i class="fa fa-lock <% if habit.image %>text-white<% else %>text-dark<% end%> "></i>
-              <% end %>
-              <% if habit.archived %>                         
-                <i class="fa fa-eye-slash <% if habit.image %>text-white<% else %>text-dark<% end%> "></i>
               <% end %>
             <% end %>
           </div>
