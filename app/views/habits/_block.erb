@@ -1,7 +1,7 @@
 <% completed = habit.habit_completions.find_by(date: date) %>
 
 <div 
-  <% if current_account and current_account.id == habit.account_id %>
+<% if current_account and current_account.id == habit.account_id %>
     onclick="
     <% if completed %>
           if (confirm('Really uncomplete this habit?')) {
@@ -50,6 +50,9 @@
                 <i class="fa fa-globe  <% if habit.image %>text-white<% else %>text-dark<% end%>"></i>
               <% else %>
                 <i class="fa fa-lock <% if habit.image %>text-white<% else %>text-dark<% end%> "></i>
+              <% end %>
+              <% if habit.archived %>                         
+                <i class="fa fa-eye-slash <% if habit.image %>text-white<% else %>text-dark<% end%> "></i>
               <% end %>
             <% end %>
           </div>
