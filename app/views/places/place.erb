@@ -28,7 +28,7 @@
       <tr>
         <td>Location</td>
         <td>
-          <%=@place.location.gsub(/#{@place.name}[\w ]*,/i,'')%>
+          <a target="_blank" href="https://www.google.co.uk/maps?q=<%=@place.name%>, <%=@place.location.gsub(/#{@place.name}[\w ]*,/i,'')%>"><%=@place.location.gsub(/#{@place.name}[\w ]*,/i,'')%></a>
         </td>  
       </tr> 
 
