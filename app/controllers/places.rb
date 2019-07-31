@@ -5,6 +5,11 @@ Autopia::App.controller do
     @accounts = (current_account && !params[:q]) ? (current_account.network + [current_account]) : []
     @places = Place.all.order('created_at desc')
     @places = @places.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]    
+    if params[:placeship_category_id] == 'uncategorised'
+      @places = @places.where(:id.in => current_account.placeships.where(:placeship_category_id => nil).pluck(:place_id))
+    elsif params[:placeship_category_id]    
+      @places = @places.where(:id.in => PlaceshipCategory.find(params[:placeship_category_id]).placeships.pluck(:place_id))
+    end
     discuss 'Places'
     erb :'places/places'
   end

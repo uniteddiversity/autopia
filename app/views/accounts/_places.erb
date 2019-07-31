@@ -7,13 +7,20 @@
     <% if placeships.count > 0 %>
       <div class="placeship_category card" style="border-bottom-width: 0; border-radius: 0; <% if i == 0 %>border-top-left-radius: 5px; border-top-right-radius: 5px; <% end %>">
         <div class="card-header">
-          <h4 class="mb-0">
-            <% if i < c  %>
-              <a class="text-dark" href="/placeship_categories/<%=placeship_category.id%>/edit"><%=placeship_category.name%></a>
-            <% else %>
-              Uncategorised
-            <% end %>
-          </h4>
+          <div class="row justify-content-between">
+            <div class="col">
+              <h4 class="mb-0">
+                <% if i < c  %>
+                  <a class="text-dark" href="/placeship_categories/<%=placeship_category.id%>/edit"><%=placeship_category.name%></a>
+                <% else %>
+                  Uncategorised
+                <% end %>
+              </h4>
+            </div>
+            <div class="col-auto">
+              <a class="text-dark" target="_blank" href="/places?placeship_category_id=<%=placeship_category.try(:id) || 'uncategorised'%>"><i class="fa fa-map"></i></a>
+            </div>
+          </div>
         </div>      
         <div class="card-body pb-0">
           <%= partial :'places/blocks', :locals => {:places => Place.where(:id.in => placeships.pluck(:place_id)).shuffle} %>        
