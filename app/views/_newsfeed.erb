@@ -11,13 +11,9 @@
             <a class="text-dark" href="<%= notification.link[1] %>">
               <%= notification.sentence %>
               <% if include_circle_name %>
-                <% unless %w{completed_a_habit liked_a_habit_completion created_room created_place updated_profile}.include?(notification.type) %>
-                  <% if notification.circle.is_a?(Account) %>
-                    on <strong><%= notification.circle.name %>'s wall</strong>
-                  <% elsif notification.circle.is_a?(Group) %>
-                    in <strong><%= notification.circle.name %></strong>
-                  <% end %>
-                <% end %>            
+                <% if notification.circle.is_a?(Group) %>
+                  in <strong><%= notification.circle.name %></strong>
+                <% end %>
               <% end %>
             </a>
             <% if notification.type.to_sym == :applied; mapplication = notification.notifiable %>
