@@ -41,12 +41,6 @@
           <%= f.text_block :name %>
           <%= f.email_block :email %>
           <%= f.image_block :picture %>  
-          <% if @group.ask_for_date_of_birth %>
-            <%= f.date_block :date_of_birth %>
-          <% end %>
-          <% if @group.ask_for_gender %>
-            <%= f.select_block :gender %>
-          <% end %>
           <% if @group.ask_for_facebook_profile_url %>
             <%= f.url_block :facebook_profile_url %>
           <% end %>

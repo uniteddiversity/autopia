@@ -37,20 +37,24 @@
     </tr>
   <% end %> 
 
+    
+  <% if account.sexuality %>
+    <tr>
+      <td>Sexuality</td>
+      <td>
+        <%=account.sexuality%>
+      </td>  
+    </tr>
+  <% end %>   
+    
   <% if account.gender %>
     <tr>
       <td>Gender</td>
       <td>
-        <% case account.gender; when 'Man' %>
-          <i data-toggle="tooltip" title="<%=account.gender%>" class="fa fa-mars"></i>
-        <% when 'Woman' %>
-          <i data-toggle="tooltip" title="<%=account.gender%>" class="fa fa-venus"></i>
-        <% when 'Nonbinary' %>
-          <i data-toggle="tooltip" title="<%=account.gender%>" class="fa fa-transgender-alt"></i>
-        <% end %>
+        <%=account.gender%>
       </td>  
     </tr>
-  <% end %>  
+  <% end %>     
 
   <% if account.location %>
     <tr>

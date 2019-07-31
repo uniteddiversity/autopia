@@ -22,8 +22,6 @@ class Group
   field :anonymise_supporters, :type => Boolean
   field :democratic_threshold, :type => Boolean
   field :fixed_threshold, :type => Integer
-  field :ask_for_date_of_birth, :type => Boolean
-  field :ask_for_gender, :type => Boolean
   field :ask_for_facebook_profile_url, :type => Boolean
   field :member_limit, :type => Integer
   field :proposing_delay, :type => Integer
@@ -209,8 +207,6 @@ class Group
       :application_questions => :text_area,
       :enable_supporters => :check_box,
       :anonymise_supporters => :check_box,
-      :ask_for_date_of_birth => :check_box,
-      :ask_for_gender => :check_box,
       :ask_for_facebook_profile_url => :check_box,
       :demand_payment => :check_box,      
       :hide_members_on_application_form => :check_box,
@@ -314,23 +310,16 @@ class Group
   def radio_scopes
     x = []
 
-    if ask_for_gender
-      x << [:gender, 'all', 'All genders', memberships]
-      Account.genders.reject(&:blank?).each { |gender|
-        x << [:gender, gender, gender == 'Nonbinary' ? 'Nonbinary' : gender.pluralize, memberships.where(:account_id.in => Account.where(:gender => gender).pluck(:id))]
-      }
-    end
-
-    if ask_for_date_of_birth
-      youngest = Account.where(:id.in => memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth desc').first
-      oldest = Account.where(:id.in => memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first
-      if youngest and oldest
-        x << [:p, 'all', 'All ages', memberships]
-        (youngest.age.to_s[0].to_i).upto(oldest.age.to_s[0].to_i) do |p| p = "#{p}0".to_i;
-          x << [:p, p, "People in their #{p}s", memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.current-p.years)).where(:date_of_birth.gt => (Date.current-(p+10).years)).pluck(:id))]
-        end
-      end
-    end 
+#    if ask_for_date_of_birth
+#      youngest = Account.where(:id.in => memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth desc').first
+#      oldest = Account.where(:id.in => memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first
+#      if youngest and oldest
+#        x << [:p, 'all', 'All ages', memberships]
+#        (youngest.age.to_s[0].to_i).upto(oldest.age.to_s[0].to_i) do |p| p = "#{p}0".to_i;
+#          x << [:p, p, "People in their #{p}s", memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.current-p.years)).where(:date_of_birth.gt => (Date.current-(p+10).years)).pluck(:id))]
+#        end
+#      end
+#    end 
     
     x
   end

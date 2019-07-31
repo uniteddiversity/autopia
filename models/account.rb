@@ -10,6 +10,7 @@ class Account
   field :username, :type => String
   field :website, :type => String
   field :gender, :type => String
+  field :sexuality, :type => String  
   field :date_of_birth, :type => Date
   field :dietary_requirements, :type => String
   field :admin, :type => Boolean
@@ -256,6 +257,7 @@ class Account
       :username => :text,
       :website => :url,
       :gender => :select,
+      :sexuality => :select,
       :date_of_birth => :date,
       :facebook_profile_url => :text,
       :dietary_requirements => :text,
@@ -288,8 +290,6 @@ class Account
   
   def self.new_tips
     {
-      :gender => 'Optional. Please only provide this information if you feel comfortable doing so',
-      :date_of_birth => 'Optional. Please only provide this information if you feel comfortable doing so',
       :facebook_profile_url => 'Optional. Please only provide this information if you feel comfortable doing so',
       :username => 'Letters, numbers, underscores and periods'
     }
@@ -299,25 +299,46 @@ class Account
     self.new_tips
   end
   
+  def self.sexualities
+    [''] + %Q{Straight
+Gay
+Bisexual
+Asexual
+Demisexual
+Heteroflexible
+Homoflexible
+Lesbian
+Pansexual
+Queer
+Questioning
+Sapiosexual}.split("\n")
+  end
+  
   def self.genders
-    [''] + %w{Nonbinary Woman Man}
+    [''] + %Q{Woman
+Man
+Agender
+Androgynous
+Bigender
+Cis Man
+Cis Woman
+Genderfluid
+Genderqueer
+Gender Nonconforming
+Hijra
+Intersex
+Non-binary
+Other
+Pangender
+Transfeminine
+Transgender
+Transmasculine
+Transsexual
+Trans Man
+Trans Woman
+Two Spirit}.split("\n")
   end  
-  
-  def self.gender_symbol(gender, pluralize: false)
-    case gender
-    when 'Man'
-      %Q{<i data-toggle="tooltip" title="#{pluralize ? 'Men' : 'Man'}" class="fa fa-mars"></i>}
-    when 'Woman'
-      %Q{<i data-toggle="tooltip" title="#{pluralize ? 'Women' : 'Woman'}" class="fa fa-venus"></i>}
-    when 'Nonbinary'
-      '<i data-toggle="tooltip" title="Nonbinary" class="fa fa-transgender"></i>'
-    end
-  end
-
-  def gender_symbol
-    Account.gender_symbol(gender)
-  end
-  
+    
   def age    
     if dob = date_of_birth
       now = Time.now.utc.to_date
@@ -326,13 +347,7 @@ class Account
   end 
   
   def self.radio_scopes
-    x = []
-
-    x << [:gender, 'all', 'All genders', all]
-    Account.genders.reject(&:blank?).each { |gender|
-      x << [:gender, gender, gender == 'Nonbinary' ? 'Nonbinary' : gender.pluralize, where(:gender => gender)]
-    }
-    
+    x = []    
     x
   end  
   
