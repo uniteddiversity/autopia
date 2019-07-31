@@ -14,12 +14,7 @@ class Place
   validates_presence_of :name, :location
   
   belongs_to :account, index: true, optional: true
-  
-  has_many :notifications, as: :notifiable, dependent: :destroy
-  after_create do
-    notifications.create! :circle => account, :type => 'created_place'
-  end     
-  
+    
   before_validation do
     self.name_transliterated = I18n.transliterate(self.name) if self.name
   end
@@ -31,6 +26,9 @@ class Place
   
   has_many :notifications_as_notifiable, :as => :notifiable, :dependent => :destroy, :class_name => "Notification", :inverse_of => :notifiable
   has_many :notifications_as_circle, :as => :circle, :dependent => :destroy, :class_name => "Notification", :inverse_of => :circle  
+  after_create do
+    notifications_as_notifiable.create! :circle => account, :type => 'created_place'
+  end     
   
   has_many :placeships, :dependent => :destroy
   
