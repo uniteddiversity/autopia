@@ -26,11 +26,11 @@ class Notification
   end
   
   def self.types
-    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend followed completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_activity scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
+    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend created_room created_place updated_profile followed completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_activity scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
   end
   
   def self.mailable_types
-    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend}
+    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend created_room created_place}
   end
     
   after_create :send_email  
@@ -96,6 +96,15 @@ class Notification
     when :created_spend
       spend = notifiable
       "<strong>#{spend.account.name}</strong> spent #{spend.group.currency_symbol}#{spend.amount} on <strong>#{spend.item}</strong>"
+    when :created_room
+      room = notifiable
+      "<strong>#{room.account.name}</strong> listed the room <strong>#{room.name}</strong>"
+    when :created_place
+      place = notifiable
+      "<strong>#{place.account.name}</strong> listed the place <strong>#{place.name}</strong>"
+    when :updated_profile
+      account = notifiable
+      "<strong>#{account.name}</strong> updated their profile"
     when :created_activity
       activity = notifiable
       "<strong>#{activity.account.name}</strong> proposed the activity <strong>#{activity.name}</strong> under <strong>#{activity.timetable.name}</strong>"
@@ -195,6 +204,12 @@ class Notification
       ['View habit', "#{ENV['BASE_URI']}/habits/#{notifiable.habit.id}"]
     when :created_spend
       ['View budget', "#{ENV['BASE_URI']}/a/#{circle.slug}/budget"]
+    when :created_room
+      ['View room', "#{ENV['BASE_URI']}/rooms/#{notifiable.id}"]
+    when :created_place
+      ['View place', "#{ENV['BASE_URI']}/places/#{notifiable.id}"]
+    when :updated_profile
+      ['View profile', "#{ENV['BASE_URI']}/u/#{notifiable.username}"]
     when :created_activity
       ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]
     when :signed_up_to_a_shift
@@ -256,6 +271,12 @@ class Notification
       'fa-thumbs-up'
     when :created_spend
       'fa-money'
+    when :created_room
+      'fa-cube'
+    when :created_place
+      'fa-map-marker'
+    when :updated_profile
+      'fa-user-circle-o'
     when :created_activity
       'fa-paper-plane'
     when :signed_up_to_a_shift

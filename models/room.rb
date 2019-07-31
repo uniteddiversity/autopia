@@ -14,6 +14,11 @@ class Room
   
   validates_presence_of :name, :location, :description
   
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :circle => account, :type => 'created_room'
+  end   
+  
   def image
     room_attachments.order('created_at asc').first.try(:image)
   end

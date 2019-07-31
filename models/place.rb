@@ -15,6 +15,11 @@ class Place
   
   belongs_to :account, index: true, optional: true
   
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  after_create do
+    notifications.create! :circle => account, :type => 'created_place'
+  end     
+  
   before_validation do
     self.name_transliterated = I18n.transliterate(self.name) if self.name
   end
