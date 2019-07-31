@@ -5,7 +5,7 @@ Autopia::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @team = Team.new
-    erb :'teams/build', :layout => 'layouts/teams' 
+    erb :'teams/build'
   end
   
   post '/a/:slug/teams/new' do
@@ -18,7 +18,7 @@ Autopia::App.controller do
       @team.teamships.create(account: current_account)
       redirect "/a/#{@group.slug}/teams/#{@team.id}"
     else
-      erb :'teams/build', :layout => 'layouts/teams' 
+      erb :'teams/build'
     end
   end
   
@@ -52,7 +52,7 @@ Autopia::App.controller do
     @membership = @group.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @team = @group.teams.find(params[:id]) || not_found
-    erb :'teams/build', :layout => 'layouts/teams' 
+    erb :'teams/build'
   end  
   
   post '/a/:slug/teams/:id/edit' do
@@ -63,7 +63,7 @@ Autopia::App.controller do
     if @team.update_attributes(params[:team])
       redirect "/a/#{@group.slug}/teams/#{@team.id}"
     else
-      erb :'teams/build', :layout => 'layouts/teams' 
+      erb :'teams/build' 
     end
   end    
   

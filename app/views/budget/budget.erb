@@ -1,5 +1,4 @@
-
-
+<%= partial :'groups/nav', locals: {group: @group, membership: @membership} %>
 
 <div data-pagelet-url="/a/<%=@group.slug%>/budget">
   <%= partial :'budget/budget' %>

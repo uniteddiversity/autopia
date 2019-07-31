@@ -1,6 +1,8 @@
 
 <% if @group.persisted? %>
 
+  <%= partial :'groups/nav', locals: {group: @group, membership: @membership} %>
+
 <% end %>
 
 <h1><%= @group.persisted? ? '' : 'Create a group' %></h1>

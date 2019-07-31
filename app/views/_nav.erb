@@ -1,6 +1,8 @@
 <script>
   $(function () {
-    $('ul.sub-menu ul.sub-menu li.active').closest('li.has-sub').find('> a').click()
+    <% if @group %>
+        $('.sub-menu a[href="/a/<%=@group.slug%>"]').parent().addClass('active')
+    <% end %>
   })
 </script>
 
@@ -46,7 +48,7 @@
       <span class="nav-link-text">Places</span>
     </a>
   </li>
-  
+
   <li class="<%='active' if request.path == '/rooms'%>">
     <a href="/rooms">
       <i class="fa fa-fw fa-cube"></i>
@@ -74,70 +76,23 @@
 
   <% if current_account %>
 
-    <li class="nav-divider"></li>
-    <li class="nav-header">Groups</li>    
+    <li class="has-sub <%='active' if @group%>">    
+      <a href="javascript:;">
+        <b class="caret caret-right pull-right"></b>
+        <i class="fa fa-users"></i> 
+        <span>Groups</span>
+      </a>    
 
-    <% current_account.memberships.select { |membership| membership.group == @group or !membership.hide_from_sidebar }.sort_by { |membership| membership.group.name }.each { |membership| group = membership.group %>          
-
-
-      <li class="has-sub <%= 'active' if @group == group %>">    
-        <a href="javascript:;" id="group-<%=group.slug%>">
-          <b class="caret caret-right pull-right"></b>
-          <i class="fa fa-users"></i> 
-          <span><%=group.name%></span>
-        </a>    
-
-        <%= ul_nav [
-          ["Home", "/a/#{group.slug}"],
-          (["Settings", "/a/#{group.slug}/edit"] if membership.admin),
-          ([%Q{Balance <span class="float-right label #{'label-primary' if group.balance > 0}">#{number_to_currency group.balance, unit: group.currency_symbol, precision: 0}</span>}, "/a/#{group.slug}/balance"]  if membership.admin),                   
-          [%Q{Members <span class="float-right label label-primary">#{group.member_limit ? %Q{#{group.memberships.count}/#{group.member_limit}} : group.memberships.count}</span>}, "/a/#{group.slug}/members"],
-          ([%Q{Applications #{if group.mapplications.pending.count > 0; %Q{<span class="float-right label label-primary">#{group.mapplications.pending.count}</span>} end}}, "/a/#{group.slug}/applications"] if group.enable_applications or group.mapplications.where(:status.ne => 'accepted').count > 0),        
-          (["Habits", "/a/#{group.slug}/habits"] if group.enable_habits),              
-          (["Teams",
-              (
-                group.teams(true).order('name asc').map { |team| [%Q{
-                #&nbsp;#{team.name}
-                #{
-                    # if (unread = team.comments.where(:id.nin => current_account.read_receipts.pluck(:comment_id)).count) > 0; %Q{<span class="float-right label label-primary" title="#{pluralize(unread, 'unread comment')}">#{unread}</span>}; end
-                }}, "/a/#{group.slug}/teams/#{team.id}"] } + [['Overview', "/a/#{group.slug}/teams"], ['Create a team', "/a/#{group.slug}/teams/new"]]
-              )              
-              ] if group.enable_teams),      
-          (["Qualities", "/a/#{group.slug}/qualities"] if group.enable_qualities),
-          (["Timetables",
-              (
-                group.timetables(true).map { |timetable| [timetable.name, "/a/#{group.slug}/timetables/#{timetable.id}"] } + (membership.admin? ? [['Create a timetable', "/a/#{group.slug}/timetables/new"]] : [])
-              )
-              ] if group.enable_timetables),
-          (["Rotas",
-              (
-                group.rotas(true).map { |rota| [rota.name, "/a/#{group.slug}/rotas/#{rota.id}"] } + (membership.admin? ? [['Create a rota', "/a/#{group.slug}/rotas/new"]] : [])
-              )              
-              ] if group.enable_rotas),
-          (["Tiers", "/a/#{group.slug}/tiers"] if group.enable_tiers),
-          (["Accommodation", "/a/#{group.slug}/accoms"] if group.enable_accommodation),
-          (["Transport", "/a/#{group.slug}/transports"] if group.enable_transport),        
-          (["Inventory", "/a/#{group.slug}/inventory"] if group.enable_inventory),       
-          (["Budget", "/a/#{group.slug}/budget"] if group.enable_budget)
-          ].compact,
+      <%= ul_nav current_account.memberships.select { |membership| membership.group == @group or !membership.hide_from_sidebar }.sort_by { |membership| membership.group.name }.map { |membership| [membership.group.name, "/a/#{membership.group.slug}"] },
         ul_class: 'sub-menu',
         li_class: '',
         li_active_class: 'active',
         a_class: '',
-        a_active_class: '',
-        ul_id: "collapse-group-#{group.slug}",             
-        subnav_li_class: 'has-sub',
-        subnav_data_toggle: '',
-        subnav_a_class: '',
-        subnav_caret: '<b class="caret caret-right pull-right"></b>',
-        subnav_ul_class: 'sub-menu',
-        subnav_li2_class: '',
-        subnav_a2_class: '',
-        generate_subnav_href_and_ul: false
+        a_active_class: ''
       %>
 
-      </li>  
-    <% } %>
+    </li>  
+
   <% end %>
 
   <% if admin? %>  

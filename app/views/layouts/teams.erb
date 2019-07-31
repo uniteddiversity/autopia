@@ -1,5 +1,7 @@
 <% content_for :content do %>
 
+  <%= partial :'groups/nav', locals: {group: @group, membership: @membership} %>
+
   <div class="row">	
     <div class="col-sm-9 order-sm-0">
       <% if @team and @team.persisted? %>

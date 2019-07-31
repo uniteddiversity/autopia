@@ -73,8 +73,7 @@
 
   <% [
     '/stylesheets/share.css',
-    "/stylesheets/app.css?#{@cachebuster}",
-    '/infinite_admin/css/theme/default.css'
+    "/stylesheets/app.css?#{@cachebuster}"
     ].each { |f| %> 
     <link rel="stylesheet" href="<%=f%>" />    
   <% } %>

@@ -73,3 +73,13 @@ li.reply .widget-chat-message a { color: white; text-decoration: underline }
   @media(max-width: 768px) { 
     h4.block-title { font-size: 5vw }
   }
+  
+#group-nav ul li a { font-size: 0.75rem }
+#group-nav .nav-link { padding: 0.33rem 0.66rem }
+#group-nav .nav > li > a:focus, .nav > li > a:hover { background: $color_inverse }
+#group-nav .nav-pills .nav-link.active, #group-nav .nav-pills .show>.nav-link { background: $color_inverse }
+
+.sidebar.sidebar-inverse .nav > li.active > a,
+.sidebar.sidebar-inverse .nav > li.active > a:hover,
+.sidebar.sidebar-inverse .nav > li.active > a:focus { background: $color_inverse !important }
+
