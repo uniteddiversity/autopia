@@ -18,7 +18,7 @@
 
 
 <div class="row mt-3" id="habits">
-  <% habits.order('archived asc, o asc').each { |habit| %>  
+  <% habits.sort_by { |habit| [habit.o.to_i, habit.archived ? 1 : 0] }.each { |habit| %>  
     <div data-pagelet-url="/habits/<%=habit.id%>/block?date=<%=@date.to_s(:db)%>" class="habit col-6 col-sm-3 mb-3 <%=block_class if defined?(block_class)%>" id="<%=habit.id%>">
       <%= partial :'habits/block', :locals => {:habit => habit, :date => @date} %>
     </div>
