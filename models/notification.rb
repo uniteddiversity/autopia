@@ -26,7 +26,7 @@ class Notification
   end
   
   def self.types
-    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend created_room created_place updated_profile followed completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_activity scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
+    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend created_room created_place updated_profile updated_place followed completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_activity scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
   end
   
   def self.mailable_types
@@ -105,6 +105,9 @@ class Notification
     when :updated_profile
       account = notifiable
       "<strong>#{account.name}</strong> updated their profile"
+    when :updated_place
+      place = notifiable
+      "<strong>#{place.name}</strong> was updated"      
     when :created_activity
       activity = notifiable
       "<strong>#{activity.account.name}</strong> proposed the activity <strong>#{activity.name}</strong> under <strong>#{activity.timetable.name}</strong>"
@@ -210,6 +213,8 @@ class Notification
       ['View place', "#{ENV['BASE_URI']}/places/#{notifiable.id}"]
     when :updated_profile
       ['View profile', "#{ENV['BASE_URI']}/u/#{notifiable.username}"]
+    when :updated_place
+      ['View place', "#{ENV['BASE_URI']}/places/#{notifiable.id}"]      
     when :created_activity
       ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]
     when :signed_up_to_a_shift
@@ -277,6 +282,8 @@ class Notification
       'fa-map-marker'
     when :updated_profile
       'fa-user-circle-o'
+    when :updated_place
+      'fa-map-marker'      
     when :created_activity
       'fa-paper-plane'
     when :signed_up_to_a_shift
