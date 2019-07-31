@@ -48,7 +48,7 @@ class Group
   end    
     
  def self.marker_color
-    '54e645'
+    'red'
   end    
   
   before_validation do
