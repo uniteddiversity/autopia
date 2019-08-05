@@ -18,7 +18,7 @@
   %>
 
     <div class="dropdown">
-      <button class="btn <%= btn_class if defined?(btn_class) %> <%= current_state == 'not_following' ? 'btn-outline-primary' : 'btn-primary' %> dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button class="d-block d-sm-inline-block w-100 w-sm-auto mb-1 mb-sm-0 btn <%= btn_class if defined?(btn_class) %> <%= current_state == 'not_following' ? 'btn-outline-primary' : 'btn-primary' %> dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <%= text %>
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

@@ -3,9 +3,6 @@
   <h3 class="modal-title">
     <a class="text-dark" href="/u/<%=@account.username%>"><%=@account.name%></a>
     <small class="text-muted">@<%=@account.username%></small>
-    <% if current_account && (follow = Follow.find_by(follower: @account, followee: current_account)) %>
-      <small style="font-size: 0.5em" class="label label-default"><%= follow.unsubscribed ? 'Follows you' : 'Follows and subscribes to you' %></small>
-    <% end %>         
   </h3>          
   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 </div>
