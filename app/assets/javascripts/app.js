@@ -49,13 +49,6 @@ $(function () {
       }
     })
 
-    if ($(window).width() < 768) {
-      $('[data-toggle="tooltip"]').each(function () {
-        if ($(this).parent().is('a[href]'))
-          $(this).parent().attr('href', 'javascript:;')
-      })
-    }
-
     $("abbr.timeago").timeago()
 
     $(".datepicker").datepicker({format: 'yyyy-mm-dd'});
