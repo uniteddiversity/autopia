@@ -95,7 +95,11 @@ Autopia::App.controller do
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @placeship_category = PlaceshipCategory.new if current_account && current_account.id == @account.id
     discuss 'User profiles'
-    erb :'accounts/account'
+    if request.xhr?
+      partial :'accounts/modal'
+    else
+      erb :'accounts/account'
+    end    
   end  
   
   get '/accounts/:id/following' do

@@ -14,6 +14,12 @@ $(function () {
 
   function ajaxCompleted() {
 
+    $('[data-account-username]').not('#modal [data-account-username]').click(function () {
+      $('#modal .modal-content').load('/u/'+$(this).attr('data-account-username'), function () {
+        $('#modal').modal('show')
+      });
+    })
+
     $('a[data-confirm]:not([data-confirm-registered])').each(function () {
       $(this).click(function () {
         $(this).removeClass('no-trigger')

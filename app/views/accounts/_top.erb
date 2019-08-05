@@ -1,0 +1,27 @@
+<div class="row no-gutters">
+
+  <div class="col-12 col-sm-auto mr-3">
+    <%= partial :'accounts/square', :locals => {:account => account, :style => 'width: 200px; background: white; border: 3px solid white'} %>         
+  </div>
+  <div class="col">
+
+    <% if defined?(modal) %>
+    <% else %>
+      <div class="mb-2">               
+        <h1 class="my-0 d-inline">
+          <a class="text-dark" href="/u/<%=account.username%>"><%=account.name%></a>
+          <small class="text-muted">@<%=account.username%></small>
+        </h1>       
+        <% if current_account && (follow = Follow.find_by(follower: account, followee: current_account)) %>
+          <small class="label label-default"><%= follow.unsubscribed ? 'Follows you' : 'Follows and subscribes to you' %></small>
+        <% end %>         
+      </div>
+    <% end %>
+
+    <%= partial :'accounts/buttons', :locals => {:account => account, :modal => (true if defined?(modal))} %>
+
+    <div class="mt-2">
+      <%= partial :'accounts/table', :locals => {:account => account} %>
+    </div>    
+  </div> 
+</div>
