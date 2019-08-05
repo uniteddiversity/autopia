@@ -16,7 +16,8 @@ $(function () {
 
     $('[data-account-username]').not('#modal [data-account-username]').click(function () {
       $('#modal .modal-content').load('/u/'+$(this).attr('data-account-username'), function () {
-        $('#modal').modal('show')
+        $('#modal').modal('show');
+        $('[data-toggle="tooltip"]').tooltip('hide');
       });
     })
 
