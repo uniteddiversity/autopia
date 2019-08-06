@@ -68,6 +68,7 @@ Autopia::App.controller do
     @account = current_account        
     if @account.update_attributes(mass_assigning(params[:account], Account))
       flash[:notice] = "<strong>Awesome!</strong> Your account was updated successfully."
+      @account.notifications_as_notifiable.where(type: 'updated_profile').destroy_all
       @account.notifications_as_notifiable.create! :circle => @account, :type => 'updated_profile'
       redirect (params[:slug] ? "/a/#{params[:slug]}" : '/accounts/edit')
     else
