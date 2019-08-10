@@ -94,7 +94,7 @@
   <% } %>  
 
   <%= favicon_tag 'autopia-square.png' %>
-  <% @title = 'Autopia'; if @group; @title = "#{@group.name} · " + @title; end %>
+  <% @title = 'Autopia'; if @gathering; @title = "#{@gathering.name} · " + @title; end %>
   <title><%=@title%></title>
   <meta name="description" content="<%=@og_desc%>">
   <meta property="og:title" content="<%=@title%>" />

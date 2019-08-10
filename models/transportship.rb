@@ -4,20 +4,20 @@ class Transportship
 
   belongs_to :account, index: true
   belongs_to :transport, index: true 
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :membership, index: true
   
   validates_uniqueness_of :account, :scope => :transport
     
   before_validation do
-    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
+    self.membership = self.gathering.memberships.find_by(account: self.account) if self.gathering and self.account and !self.membership
   end   
              
   def self.admin_fields
     {
       :account_id => :lookup,
       :transport_id => :lookup,
-      :group_id => :lookup,
+      :gathering_id => :lookup,
       :membership_id => :lookup
     }
   end

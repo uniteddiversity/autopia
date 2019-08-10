@@ -1,6 +1,6 @@
-<% form_for @tier ||= Tier.new, @tier.new_record? ? "/a/#{@group.slug}/tiers/new" : "/a/#{@group.slug}/tiers/#{@tier.id}/edit" do |f| %>
+<% form_for @tier ||= Tier.new, @tier.new_record? ? "/a/#{@gathering.slug}/tiers/new" : "/a/#{@gathering.slug}/tiers/#{@tier.id}/edit" do |f| %>
   <%= f.text_block :name %>
   <%= f.text_area_block :description %>
   <%= f.number_block :cost %>
-  <%= f.submit_block destroy_url: "/a/#{@group.slug}/tiers/#{@tier.id}/destroy" %>
+  <%= f.submit_block destroy_url: "/a/#{@gathering.slug}/tiers/#{@tier.id}/destroy" %>
 <% end %>  

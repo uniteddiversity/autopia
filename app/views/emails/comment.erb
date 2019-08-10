@@ -1,4 +1,4 @@
-<% group = (comment.commentable.respond_to?(:group) ? comment.commentable.group : nil) %>
+<% gathering = (comment.commentable.respond_to?(:gathering) ? comment.commentable.gathering : nil) %>
 
 
 <% if comment.post.comments.count == 1 %>
@@ -64,11 +64,11 @@
   <% end %>  
   <% if comment.commentable.is_a?(Team) %>
     &middot;
-    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">this team</a>
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=gathering.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">this team</a>
   <% end %>
-  <% if comment.commentable.respond_to?(:group) %>
+  <% if comment.commentable.respond_to?(:gathering) %>
     &middot;
-    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=group.slug%>/unsubscribe">this group</a>    
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=gathering.slug%>/unsubscribe">this gathering</a>    
   <% end %>
   &middot;
   <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">all emails</a>        

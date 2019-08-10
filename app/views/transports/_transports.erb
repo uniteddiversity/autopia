@@ -11,11 +11,11 @@
       <th>People</th> 
     </tr>
   </thead>
-  <% @group.transports.order('name asc').each { |transport| %>
+  <% @gathering.transports.order('name asc').each { |transport| %>
     <tr>
       <td>
         <% if admin? || @membership.admin? %>
-          <a href="/a/<%=@group.slug%>/transports/<%=transport.id%>/edit">
+          <a href="/a/<%=@gathering.slug%>/transports/<%=transport.id%>/edit">
             <%=transport.name%>
           </a>
         <% else %>
@@ -34,7 +34,7 @@
         <%= transport.return_departure_time %>
       </td>
       <td>
-        <%=@group.currency_symbol%><%=transport.cost%>
+        <%=@gathering.currency_symbol%><%=transport.cost%>
       </td>
       <td>
         <%=transport.transportships.count%>/<%= transport.capacity %>
@@ -45,7 +45,7 @@
         <% end %>        
       </td>
       <td>
-        <% if transportship = @group.transportships.find_by(transport: transport, account: current_account) %>
+        <% if transportship = @gathering.transportships.find_by(transport: transport, account: current_account) %>
           <a class="pagelet-trigger btn btn-primary" href="/transportships/<%=transportship.id%>/destroy">Leave</a>
         <% elsif !transport.full? %>
           <a class="pagelet-trigger btn btn-primary" href="/transportships/create?transport_id=<%=transport.id%>">Join</a>
@@ -77,5 +77,5 @@
 </table>
 
 <% if params[:view] != 'names' %>
-  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@group.slug%>/transports?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@gathering.slug%>/transports?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
 <% end %>

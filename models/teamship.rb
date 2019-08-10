@@ -4,7 +4,7 @@ class Teamship
 
   belongs_to :account, index: true
   belongs_to :team, index: true
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :membership, index: true
   
   field :unsubscribed, :type => Boolean
@@ -16,15 +16,15 @@ class Teamship
   end  
   
   before_validation do
-    self.group = self.team.group if self.team
-    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
+    self.gathering = self.team.gathering if self.team
+    self.membership = self.gathering.memberships.find_by(account: self.account) if self.gathering and self.account and !self.membership
   end    
   
   attr_accessor :prevent_notifications
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     unless prevent_notifications
-      notifications.create! :circle => team.group, :type => 'joined_team'
+      notifications.create! :circle => team.gathering, :type => 'joined_team'
     end
   end  
   
@@ -32,7 +32,7 @@ class Teamship
     {
       :account_id => :lookup,
       :team_id => :lookup,
-      :group_id => :lookup,
+      :gathering_id => :lookup,
       :membership_id => :lookup,
       :unsubscribed => :check_box
     }

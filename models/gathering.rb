@@ -1,4 +1,4 @@
-class Group
+class Gathering
   include Mongoid::Document
   include Mongoid::Timestamps
   extend Dragonfly::Model
@@ -60,7 +60,7 @@ class Group
   end
   
   after_create do    
-    notifications_as_notifiable.create! :circle => self, :type => 'created_group'    
+    notifications_as_notifiable.create! :circle => self, :type => 'created_gathering'    
     memberships.create! account: account, admin: true        
     if enable_teams
       general = teams.create! name: 'General', account: account, prevent_notifications: true
@@ -74,12 +74,12 @@ class Group
       mail = Mail.new
       mail.to = ENV['ADMIN_EMAIL']
       mail.from = ENV['BOT_EMAIL']
-      mail.subject = "New group: #{name}"
+      mail.subject = "New gathering: #{name}"
       
-      group = self
+      gathering = self
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body %Q{#{group.account.name} (#{group.account.email}) created a new group: <a href="#{ENV['BASE_URI']}/a/#{group.slug}">#{group.name}</a>}
+        body %Q{#{gathering.account.name} (#{gathering.account.email}) created a new gathering: <a href="#{ENV['BASE_URI']}/a/#{gathering.slug}">#{gathering.name}</a>}
       end
       mail.html_part = html_part
       
@@ -240,7 +240,7 @@ class Group
   end
   
   def currency_symbol
-    Group.currency_symbol(currency)
+    Gathering.currency_symbol(currency)
   end
     
   def admins
@@ -256,7 +256,7 @@ class Group
   
   def self.new_hints
     {
-      :slug => %Q{Group URL: #{ENV['BASE_URI']}/a/<span class="slug-replace"></span>},
+      :slug => %Q{Gathering URL: #{ENV['BASE_URI']}/a/<span class="slug-replace"></span>},
       :currency => 'This cannot be changed, choose wisely',
       :fixed_threshold => 'Automatically accept applications with this number of proposers + supporters (with at least one proposer)',
       :proposing_delay => 'Accept proposers on applications only once the application is this many hours old'
@@ -270,11 +270,11 @@ class Group
       :paypal_email => 'PayPal email',
       :ask_for_facebook_profile_url => 'Ask for Facebook profile URL',
       :fixed_threshold => 'Magic number',
-      :democratic_threshold => 'Allow all group members to suggest a magic number, and use the median',
-      :facebook_group_url => 'Facebook group URL',
+      :democratic_threshold => 'Allow all gathering members to suggest a magic number, and use the median',
+      :facebook_group_url => 'Facebook gathering URL',
       :require_reason_proposer => 'Proposers must provide a reason',
       :require_reason_supporter => 'Supporters must provide a reason',
-      :demand_payment => 'Members must make a payment to access group content',
+      :demand_payment => 'Members must make a payment to access gathering content',
       :hide_members_on_application_form => "Don't show existing members on the application form"
     }[attr.to_sym] || super  
   end   
@@ -358,8 +358,8 @@ class Group
     end
 
     if facebook_group_url
-      y << [:member_of_facebook_group, 'Member of Facebook group', memberships.where(:member_of_facebook_group => true)]
-      y << [:not_member_of_facebook_group, 'Not member of Facebook group', memberships.where(:member_of_facebook_group.ne => true)]
+      y << [:member_of_facebook_group, 'Member of Facebook gathering', memberships.where(:member_of_facebook_group => true)]
+      y << [:not_member_of_facebook_group, 'Not member of Facebook gathering', memberships.where(:member_of_facebook_group.ne => true)]
     end
 
     if democratic_threshold

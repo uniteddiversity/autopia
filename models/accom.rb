@@ -7,7 +7,7 @@ class Accom
   field :capacity, :type => Integer
   field :cost, :type => Integer
   
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :account, index: true
   validates_presence_of :name, :cost, :capacity
   
@@ -15,7 +15,7 @@ class Accom
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => group, :type => 'created_accom'
+    notifications.create! :circle => gathering, :type => 'created_accom'
   end      
   
   def members
@@ -28,7 +28,7 @@ class Accom
       :description => :text_area,
       :capacity => :number,
       :cost => :number,
-      :group_id => :lookup,
+      :gathering_id => :lookup,
       :account_id => :lookup
     }
   end

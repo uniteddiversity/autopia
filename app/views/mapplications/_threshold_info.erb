@@ -1,8 +1,8 @@
-<% if @group.threshold %>
+<% if @gathering.threshold %>
   <p>    
-    Applications are visible to all existing members, and are accepted upon gathering <%=@group.threshold%> <%=@group.vouchers%>.
-    <% if @group.democratic_threshold %>
-      This number is decided democratically by all group members.
+    Applications are visible to all existing members, and are accepted upon gathering <%=@gathering.threshold%> <%=@gathering.vouchers%>.
+    <% if @gathering.democratic_threshold %>
+      This number is decided democratically by all gathering members.
     <% end %>    
   </p>
 <% else %>

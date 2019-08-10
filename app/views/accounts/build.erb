@@ -96,24 +96,24 @@
 
     <% end %>
 
-    <h2 class="mt-3">Group notification settings</h2>  
+    <h2 class="mt-3">Gathering notification settings</h2>  
 
     <table class="table table-borderless">
-      <% Group.where(:id.in => @account.memberships.pluck(:group_id)).order('name asc').each { |group| membership = @account.memberships.find_by(group: group) %>
+      <% Gathering.where(:id.in => @account.memberships.pluck(:gathering_id)).order('name asc').each { |gathering| membership = @account.memberships.find_by(gathering: gathering) %>
         <tr>
           <td>
-            <%=membership.group.name%>
+            <%=membership.gathering.name%>
           <td>
           <td>
-            <div data-pagelet-url="/a/<%=membership.group.slug%>/subscribe">
-              <%= partial :'groups/subscribe', :locals => {:membership => membership} %>
+            <div data-pagelet-url="/a/<%=membership.gathering.slug%>/subscribe">
+              <%= partial :'gatherings/subscribe', :locals => {:membership => membership} %>
             </div>
           </td>
         </tr>
       <% } %>
     </table>
 
-    <p class="text-muted">You can also turn email notifications on/off for each team within a group, by visiting the team page.</p>
+    <p class="text-muted">You can also turn email notifications on/off for each team within a gathering, by visiting the team page.</p>
   <% end %>
 
 </div>

@@ -5,10 +5,10 @@ class Rota
   field :name, :type => String
   field :description, :type => String
  
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :account, index: true
   
-  validates_presence_of :name, :group
+  validates_presence_of :name, :gathering
   
   has_many :roles, :dependent => :destroy
   has_many :rslots, :dependent => :destroy
@@ -16,14 +16,14 @@ class Rota
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => group, :type => 'created_rota'
+    notifications.create! :circle => gathering, :type => 'created_rota'
   end        
    
   def self.admin_fields
     {
       :name => :text,
       :description => :wysiwyg,
-      :group_id => :lookup,
+      :gathering_id => :lookup,
       :account_id => :lookup,
       :roles => :collection,
       :rslots => :collection,

@@ -40,7 +40,7 @@ class Comment
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     if %w{Team Activity Mapplication}.include?(commentable_type)
-      notifications.create! :circle => commentable.group, :type => 'commented'
+      notifications.create! :circle => commentable.gathering, :type => 'commented'
     elsif %w{Account Place}.include?(commentable_type)
       notifications.create! :circle => commentable, :type => 'commented'
     elsif %w{Habit}.include?(commentable_type)
@@ -104,9 +104,9 @@ class Comment
     elsif commentable.is_a?(Account)
       account = commentable
       s << "[#{account.name}] "
-    elsif commentable.respond_to?(:group)
+    elsif commentable.respond_to?(:gathering)
       s << '['
-      s << commentable.group.name
+      s << commentable.gathering.name
       if commentable.is_a?(Team)
         team = commentable
         s << '/'

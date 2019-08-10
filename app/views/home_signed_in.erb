@@ -12,7 +12,7 @@
         <i class="fa fa-magic"></i> Create
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">       
-        <a class="pagelet-trigger dropdown-item" href="/a/new">Create a group</a>
+        <a class="pagelet-trigger dropdown-item" href="/a/new">Create a gathering</a>
         <a class="pagelet-trigger dropdown-item" href="/habits?add=true">Add a habit</a>
         <a class="pagelet-trigger dropdown-item" href="/places">List a place</a>
         <a class="pagelet-trigger dropdown-item" href="/rooms">List a room</a>
@@ -46,17 +46,17 @@
   </div>  
   <div class="col-sm-4">
 
-    <style>.group h1 { font-size: 26px }</style>
+    <style>.gathering h1 { font-size: 26px }</style>
 
     <% if current_account.memberships.count > 0 %>
 
-      <h2>Your groups</h2>
+      <h2>Your gatherings</h2>
 
       <div class="list-group mb-3">        
-        <% current_account.memberships.sort_by { |membership| membership.group.notifications_as_circle.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.reverse.each { |membership| group = membership.group %>
-          <a href="/a/<%=group.slug%>" class="list-group-item">
-            <%=group.name%>
-            <% if change = group.notifications_as_circle.order('created_at desc').first.try(:created_at) %>
+        <% current_account.memberships.sort_by { |membership| membership.gathering.notifications_as_circle.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.reverse.each { |membership| gathering = membership.gathering %>
+          <a href="/a/<%=gathering.slug%>" class="list-group-item">
+            <%=gathering.name%>
+            <% if change = gathering.notifications_as_circle.order('created_at desc').first.try(:created_at) %>
               <span style="font-size: 11px" class="text-muted">Active <%= timeago(change) %></span>      
             <% end %>          
           </a>

@@ -6,7 +6,7 @@ class Verdict
   field :reason, :type => String
   
   belongs_to :account, index: true
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :membership, index: true
   belongs_to :mapplication, index: true
   
@@ -14,17 +14,17 @@ class Verdict
   validates_uniqueness_of :account, :scope => :mapplication
   
   before_validation do
-    self.group = self.mapplication.group if self.mapplication
-    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
+    self.gathering = self.mapplication.gathering if self.mapplication
+    self.membership = self.gathering.memberships.find_by(account: self.account) if self.gathering and self.account and !self.membership
     
-    if type == 'proposer' and group and group.proposing_delay and (Time.now - mapplication.created_at) < group.proposing_delay.hours
-      errors.add(:type, 'is restricted by group.proposing_delay')
+    if type == 'proposer' and gathering and gathering.proposing_delay and (Time.now - mapplication.created_at) < gathering.proposing_delay.hours
+      errors.add(:type, 'is restricted by gathering.proposing_delay')
     end
     
-    if type == 'proposer' and group and group.require_reason_proposer and !reason
+    if type == 'proposer' and gathering and gathering.require_reason_proposer and !reason
       errors.add(:type, 'requires a reason')      
     end
-    if type == 'supporter' and group and group.require_reason_supporter and !reason
+    if type == 'supporter' and gathering and gathering.require_reason_supporter and !reason
       errors.add(:type, 'requires a reason')      
     end
   end
@@ -33,7 +33,7 @@ class Verdict
     {
       :account_id => :lookup,
       :mapplication_id => :lookup,
-      :group_id => :lookup,
+      :gathering_id => :lookup,
       :membership_id => :lookup,
       :type => :select,
       :reason => :text

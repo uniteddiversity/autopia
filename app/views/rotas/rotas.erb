@@ -1,14 +1,14 @@
-<%= partial :'groups/nav', locals: {group: @group, membership: @membership} %>
+<%= partial :'gatherings/nav', locals: {gathering: @gathering, membership: @membership} %>
 
 <% if admin? || @membership.admin? %>
   <div style="margin: 10px 0">
-    <a class="btn btn-primary" href="/a/<%=@group.slug%>/rotas/new"><i class="fa fa-plus-circle"></i> Create a rota</a>
+    <a class="btn btn-primary" href="/a/<%=@gathering.slug%>/rotas/new"><i class="fa fa-plus-circle"></i> Create a rota</a>
   </div>
 <% end %>
 
-<% @group.rotas.each { |rota| %>
+<% @gathering.rotas.each { |rota| %>
   <h2>
-    <a href="/a/<%=@group.slug%>/rotas/<%=rota.id%>">
+    <a href="/a/<%=@gathering.slug%>/rotas/<%=rota.id%>">
       <%=rota.name%>
     </a>  
   </h2>  

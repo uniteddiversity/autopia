@@ -9,11 +9,11 @@
       <th>Cost per person</th> 
     </tr>
   </thead>
-  <% @group.accoms.order('name asc').each { |accom| %>
+  <% @gathering.accoms.order('name asc').each { |accom| %>
     <tr>
       <td>
         <% if admin? || @membership.admin? %>
-          <a href="/a/<%=@group.slug%>/accoms/<%=accom.id%>/edit">
+          <a href="/a/<%=@gathering.slug%>/accoms/<%=accom.id%>/edit">
             <%=accom.name%>
           </a>
         <% else %>
@@ -23,7 +23,7 @@
         <%= accom.description %>        
       </td>
       <td>
-        <%=@group.currency_symbol%><%=accom.cost%>
+        <%=@gathering.currency_symbol%><%=accom.cost%>
       </td>
       <td>
         <%=accom.accomships.count%>/<%=accom.capacity%>
@@ -34,9 +34,9 @@
         <% end %>
       </td>      
       <td>
-        <% if accomship = @group.accomships.find_by(accom: accom, account: current_account) %>
+        <% if accomship = @gathering.accomships.find_by(accom: accom, account: current_account) %>
           <a class="pagelet-trigger btn btn-primary" href="/accomships/<%=accomship.id%>/destroy">Leave</a>
-        <% elsif !@group.accomships.find_by(account: current_account) and !accom.full? %>
+        <% elsif !@gathering.accomships.find_by(account: current_account) and !accom.full? %>
           <a class="pagelet-trigger btn btn-primary" href="/accomships/create?accom_id=<%=accom.id%>">Join</a>
         <% end %>
       </td>      
@@ -63,7 +63,7 @@
       </td>
       <td>
         <% if accom.cost_per_person %>
-          <%=@group.currency_symbol%><%=accom.cost_per_person%>
+          <%=@gathering.currency_symbol%><%=accom.cost_per_person%>
         <% end %>
       </td>
     </tr>
@@ -71,5 +71,5 @@
 </table>
 
 <% if params[:view] != 'names' %>
-  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@group.slug%>/accoms?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@gathering.slug%>/accoms?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
 <% end %>

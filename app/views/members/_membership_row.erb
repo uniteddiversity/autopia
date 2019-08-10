@@ -3,7 +3,7 @@
   <%= partial :'accounts/account', :object => account, :locals => {:membership => membership} %>
   <div>
     <% membership.teamships.each { |teamship| unless teamship.team.name == 'General' %>
-        <a href="/a/<%=@group.slug%>/teams/<%=teamship.team_id%>"><span class="label label-primary"><%=teamship.team.name%></span></a>
+        <a href="/a/<%=@gathering.slug%>/teams/<%=teamship.team_id%>"><span class="label label-primary"><%=teamship.team.name%></span></a>
       <% end } %>        
   </div>
 </td>
@@ -15,7 +15,7 @@
 </td>        
 <td>
   <% mapplication = membership.mapplication; if mapplication and mapplication.answers %>
-    <a href="javascript:;" onclick="$('#modal .modal-content').load('/a/<%=@group.slug%>/mapplications/<%=mapplication.id%>', function () {
+    <a href="javascript:;" onclick="$('#modal .modal-content').load('/a/<%=@gathering.slug%>/mapplications/<%=mapplication.id%>', function () {
             $('#modal').modal('show')
           });">
          <%= membership.created_at %>          
@@ -24,75 +24,75 @@
     <%= membership.created_at %>          
   <% end %>
   <% if mapplication %>  
-    <span title="Accepted at <%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %> <%=@group.vouchers%>" class="label label-primary"><%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %></span>
+    <span title="Accepted at <%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %> <%=@gathering.vouchers%>" class="label label-primary"><%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %></span>
   <% end %>          
 </td>
-<% if @group.democratic_threshold %>
+<% if @gathering.democratic_threshold %>
   <td><%=membership.desired_threshold%></td>
 <% end %>   
-<% if @group.enable_tiers %>
+<% if @gathering.enable_tiers %>
   <td>        
     <% if admin? || @membership.admin? %>
       <% if tiership = membership.tiership %>
-        <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (<%=@group.currency_symbol%><%= tiership.tier.cost %>)</span>
+        <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (<%=@gathering.currency_symbol%><%= tiership.tier.cost %>)</span>
       <% end %>  
       <% form_tag "/memberships/#{membership.id}/tier", :style => ('display:none' if tiership) do %>
-        <%= select_tag :tier_id, :class => 'form-control', :options => [''] + @group.tiers.map { |tier| [tier.name, tier.id] }, :selected => tiership.try(:tier_id), :onchange => '$(this.form).submit()' %>
+        <%= select_tag :tier_id, :class => 'form-control', :options => [''] + @gathering.tiers.map { |tier| [tier.name, tier.id] }, :selected => tiership.try(:tier_id), :onchange => '$(this.form).submit()' %>
       <% end %>  
     <% else %>
       <% if tiership = membership.tiership %>
-        <span class="label label-primary"><%= tiership.tier.name %> (<%=@group.currency_symbol%><%= tiership.tier.cost %>)</span>
+        <span class="label label-primary"><%= tiership.tier.name %> (<%=@gathering.currency_symbol%><%= tiership.tier.cost %>)</span>
       <% end %>   
     <% end %>                       
   </td>
 <% end %>
-<% if @group.enable_accommodation %>
+<% if @gathering.enable_accommodation %>
   <td>       
     <% if admin? || @membership.admin? %>
       <% if accomship = membership.accomship %>
-        <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (<%=@group.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
+        <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (<%=@gathering.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
       <% end %>  
       <% form_tag "/memberships/#{membership.id}/accom", :style => ('display:none' if accomship) do %>
-        <%= select_tag :accom_id, :class => 'form-control', :options => [''] + @group.accoms.select { |accom| !accom.full? }.map { |accom| [accom.name, accom.id] }, :selected => accomship.try(:accom_id), :onchange => '$(this.form).submit()' %>
+        <%= select_tag :accom_id, :class => 'form-control', :options => [''] + @gathering.accoms.select { |accom| !accom.full? }.map { |accom| [accom.name, accom.id] }, :selected => accomship.try(:accom_id), :onchange => '$(this.form).submit()' %>
       <% end %>
 
     <% else %>
       <% if accomship = membership.accomship %>
-        <span class="label label-primary"><%= accomship.accom.name %> (<%=@group.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
+        <span class="label label-primary"><%= accomship.accom.name %> (<%=@gathering.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
       <% end %>
     <% end %>           
   </td> 
 <% end %>
-<% if @group.enable_transport %>
+<% if @gathering.enable_transport %>
   <td>
     <% membership.transportships.each { |transportship| %>
-      <span class="label label-primary"><%= transportship.transport.name %> (<%=@group.currency_symbol%><%= transportship.transport.cost %>)</span> 
+      <span class="label label-primary"><%= transportship.transport.name %> (<%=@gathering.currency_symbol%><%= transportship.transport.cost %>)</span> 
     <% } %>
   </td>      
 <% end %>
-<% if @group.enable_budget %>
+<% if @gathering.enable_budget %>
   <td>
-    <%=@group.currency_symbol%><%= membership.requested_contribution %>
+    <%=@gathering.currency_symbol%><%= membership.requested_contribution %>
   </td>
   <td>
     <% if admin? || @membership.admin? %>
       <% if membership.paid %>
-        <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "#{@group.currency_symbol}#{membership.paid}" if membership.paid %></a>
+        <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "#{@gathering.currency_symbol}#{membership.paid}" if membership.paid %></a>
       <% end %>
       <% form_tag "/memberships/#{membership.id}/paid", :style => ('display:none' if membership.paid) do %>
         <div class="input-group">
           <div class="input-group-prepend">
-            <span class="input-group-text"><%=@group.currency_symbol%></span>
+            <span class="input-group-text"><%=@gathering.currency_symbol%></span>
           </div>  
           <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid, :onblur => '$(this.form).submit()' %>
         </div>              
       <% end %>
     <% else %>
-      <%= "#{@group.currency_symbol}#{membership.paid}" if membership.paid %>
+      <%= "#{@gathering.currency_symbol}#{membership.paid}" if membership.paid %>
     <% end %>
   </td> 
 <% end %>
-<% if @group.facebook_group_url %>
+<% if @gathering.facebook_group_url %>
   <td>
     <% if admin? || @membership.admin? %>
       <% if membership.account.not_on_facebook %>
@@ -127,7 +127,7 @@
       <% end %>
     <% end %>
     <% y << capture do %>            
-      <a class="btn btn-outline-primary mb-1" data-confirm="Are you sure you want to remove this person from the group?" href="/memberships/<%=membership.id%>/remove">Remove</a>
+      <a class="btn btn-outline-primary mb-1" data-confirm="Are you sure you want to remove this person from the gathering?" href="/memberships/<%=membership.id%>/remove">Remove</a>
     <% end %>
     <%= y.map(&:strip).join(' ') %>
   </td>

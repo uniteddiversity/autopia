@@ -1,10 +1,10 @@
 Autopia::App.controller do
   
   post '/a/:slug/qualities/new' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
-    @quality = @group.qualities.build(params[:quality])
+    @quality = @gathering.qualities.build(params[:quality])
     @quality.account = current_account
     if @quality.save
       @quality.cultivations.create account: current_account
@@ -16,28 +16,28 @@ Autopia::App.controller do
   end  
   
   get '/a/:slug/qualities' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!
     discuss 'Qualities'
     erb :'qualities/qualities'      
   end     
   
   get '/a/:slug/qualities/:id/edit' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!    
-    @quality = @group.qualities.find(params[:id])
+    @quality = @gathering.qualities.find(params[:id])
     erb :'qualities/build'
   end
   
   post '/a/:slug/qualities/:id/edit' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!   
-    @quality = @group.qualities.find(params[:id])
+    @quality = @gathering.qualities.find(params[:id])
     if @quality.update_attributes(params[:quality])
-      redirect "/a/#{@group.slug}/qualities"
+      redirect "/a/#{@gathering.slug}/qualities"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the quality from being saved." 
       erb :'qualities/build'
@@ -45,26 +45,26 @@ Autopia::App.controller do
   end  
   
   get '/a/:slug/qualities/:id/destroy' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!    
-    @quality = @group.qualities.find(params[:id])
+    @quality = @gathering.qualities.find(params[:id])
     @quality.destroy
-    redirect "/a/#{@group.slug}/qualities"      
+    redirect "/a/#{@gathering.slug}/qualities"      
   end    
   
   get '/qualities/:id/cultivators' do
     @quality = Quality.find(params[:id])
-    @group = @quality.group
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = @quality.gathering
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!        
     partial :'qualities/cultivators', :locals => {:quality => @quality}
   end
     
   get '/qualities/:id/cultivate' do
     @quality = Quality.find(params[:id])
-    @group = @quality.group
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = @quality.gathering
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
     @quality.cultivations.create account: current_account
     200
@@ -72,8 +72,8 @@ Autopia::App.controller do
     
   get '/qualities/:id/uncultivate' do
     @quality = Quality.find(params[:id])
-    @group = @quality.group
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = @quality.gathering
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
     @quality.cultivations.find_by(account: current_account).try(:destroy)
     200

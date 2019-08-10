@@ -14,12 +14,12 @@ Autopia::App.controller do
   end
   
   get '/a/:slug/habits' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @dates = ((Date.current-4)..Date.current).to_a.reverse        
     discuss 'Habits'
-    erb :'habits/group'
+    erb :'habits/gathering'
   end
   
   get '/habits/network' do

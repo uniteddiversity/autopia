@@ -1,0 +1,11 @@
+<%= partial :'gatherings/nav', locals: {gathering: @gathering, membership: @membership} %>
+
+<p class="lead" style="margin: 15px 0">
+  <strong><%=number_to_currency @gathering.balance, unit: @gathering.currency_symbol, precision: 0%></strong> is waiting to be paid out. Payouts are via PayPal.
+</p>
+
+<% form_for @gathering, "/a/#{@gathering.slug}/payout", :multipart => true do |f| %>
+  <%= f.text_block :paypal_email %>
+  <%= f.submit_block button_text: 'Request payout' %> 
+<% end %>
+

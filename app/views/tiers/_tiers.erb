@@ -7,11 +7,11 @@
       <th>People</th> 
     </tr>
   </thead>
-  <% @group.tiers.order('cost asc').each { |tier| %>
+  <% @gathering.tiers.order('cost asc').each { |tier| %>
     <tr>
       <td>
         <% if admin? || @membership.admin? %>
-          <a href="/a/<%=@group.slug%>/tiers/<%=tier.id%>/edit">
+          <a href="/a/<%=@gathering.slug%>/tiers/<%=tier.id%>/edit">
             <%=tier.name%>
           </a>
         <% else %>
@@ -21,12 +21,12 @@
         <%= tier.description %>
       </td>
       <td>
-        <%=@group.currency_symbol%><%=tier.cost%>
+        <%=@gathering.currency_symbol%><%=tier.cost%>
       </td>
       <td>
-        <% if tiership = @group.tierships.find_by(tier: tier, account: current_account) %>
+        <% if tiership = @gathering.tierships.find_by(tier: tier, account: current_account) %>
           <a class="pagelet-trigger btn btn-primary" href="/tierships/<%=tiership.id%>/destroy">Leave</a>
-        <% elsif !@group.tierships.find_by(account: current_account) %>
+        <% elsif !@gathering.tierships.find_by(account: current_account) %>
           <a class="pagelet-trigger btn btn-primary" href="/tierships/create?tier_id=<%=tier.id%>">Join</a>
         <% end %>
       </td>      
@@ -56,5 +56,5 @@
 </table>
 
 <% if params[:view] != 'names' %>
-  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@group.slug%>/tiers?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@gathering.slug%>/tiers?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
 <% end %>

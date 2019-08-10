@@ -1,7 +1,7 @@
 <script>
   $(function () {
-    <% if @group %>
-        $('.sub-menu a[href="/a/<%=@group.slug%>"]').parent().addClass('active')
+    <% if @gathering %>
+        $('.sub-menu a[href="/a/<%=@gathering.slug%>"]').parent().addClass('active')
     <% end %>
   })
 </script>
@@ -65,10 +65,10 @@
 
   <% if !current_account %>
 
-    <li class="<%='active' if request.path == '/groups'%>">
-      <a href="/groups">
+    <li class="<%='active' if request.path == '/gatherings'%>">
+      <a href="/gatherings">
         <i class="fa fa-users"></i>
-        <span class="nav-link-text">Groups</span>
+        <span class="nav-link-text">Gatherings</span>
       </a>
     </li>  
 
@@ -76,14 +76,14 @@
 
   <% if current_account %>
 
-    <li class="has-sub <%='active' if @group%>">    
+    <li class="has-sub <%='active' if @gathering%>">    
       <a href="javascript:;">
         <b class="caret caret-right pull-right"></b>
         <i class="fa fa-users"></i> 
-        <span>Groups</span>
+        <span>Gatherings</span>
       </a>    
 
-      <%= ul_nav current_account.memberships.select { |membership| membership.group == @group or !membership.hide_from_sidebar }.sort_by { |membership| membership.group.name }.map { |membership| [membership.group.name, "/a/#{membership.group.slug}"] },
+      <%= ul_nav current_account.memberships.select { |membership| membership.gathering == @gathering or !membership.hide_from_sidebar }.sort_by { |membership| membership.gathering.name }.map { |membership| [membership.gathering.name, "/a/#{membership.gathering.slug}"] },
         ul_class: 'sub-menu',
         li_class: '',
         li_active_class: 'active',

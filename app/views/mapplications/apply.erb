@@ -7,20 +7,20 @@
   </script>
   <div class="card mb-3">
     <div class="card-body">
-      <strong>Preview of application form (you are already a member of <%=@group.name%>)</strong>
+      <strong>Preview of application form (you are already a member of <%=@gathering.name%>)</strong>
     </div>
   </div>
 <% end %>
 
 <div class="row">
-  <% unless @group.hide_members_on_application_form %>
+  <% unless @gathering.hide_members_on_application_form %>
     <div class="col-sm-4 order-sm-1">
       <%= partial :'members/cocreators' %>
     </div>    
   <% end %>
-  <div class="<%= @group.hide_members_on_application_form ? 'col-sm-12' : 'col-sm-8' %> order-sm-0">
+  <div class="<%= @gathering.hide_members_on_application_form ? 'col-sm-12' : 'col-sm-8' %> order-sm-0">
 
-    <% if params[:applied] or (current_account and @group.mapplications.find_by(:status.ne => 'accepted', :account => current_account)) %>
+    <% if params[:applied] or (current_account and @gathering.mapplications.find_by(:status.ne => 'accepted', :account => current_account)) %>
 
       <h2>Thanks for applying</h2>
 
@@ -28,11 +28,11 @@
 
     <% else %>      
 
-      <% if @group.intro_for_non_members %>
-        <%=@group.intro_for_non_members%>
+      <% if @gathering.intro_for_non_members %>
+        <%=@gathering.intro_for_non_members%>
       <% end %>
 
-      <% form_for @account, "/a/#{@group.slug}/apply", :class => 'mt-3' do |f| %>
+      <% form_for @account, "/a/#{@gathering.slug}/apply", :class => 'mt-3' do |f| %>
 
         <script>
           $(function () {
@@ -43,12 +43,12 @@
           <%= f.text_block :name %>
           <%= f.email_block :email %>
           <%= f.image_block :picture %>  
-          <% if @group.ask_for_facebook_profile_url %>
+          <% if @gathering.ask_for_facebook_profile_url %>
             <%= f.url_block :facebook_profile_url %>
           <% end %>
         <% end %>
 
-        <% @group.application_questions_a.each_with_index { |q,i| %>
+        <% @gathering.application_questions_a.each_with_index { |q,i| %>
           <div class="form-group">
             <label><%=q%></label>
             <div>  

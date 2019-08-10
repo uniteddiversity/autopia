@@ -8,8 +8,8 @@
 
 <p style="font-size: 12px; color: #aaa">
   Unsubscribe from
-  <% if notification.circle.is_a?(Group) %>
-    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=circle.slug%>/unsubscribe">this group</a>
+  <% if notification.circle.is_a?(Gathering) %>
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=circle.slug%>/unsubscribe">this gathering</a>
     &middot;
   <% end %>  
   <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">all emails</a>            

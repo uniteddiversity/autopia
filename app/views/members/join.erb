@@ -9,7 +9,7 @@
   </script>
   <div class="card mt-3">
     <div class="card-body">
-      <strong>Preview of joining form (you are already a member of <%=@group.name%>)</strong>
+      <strong>Preview of joining form (you are already a member of <%=@gathering.name%>)</strong>
     </div>
   </div>
 <% end %>
@@ -20,17 +20,17 @@
   </div>    
   <div class="col-sm-8 order-sm-0">
 
-    <% if @group.intro_for_non_members %>
-      <%=@group.intro_for_non_members%>
+    <% if @gathering.intro_for_non_members %>
+      <%=@gathering.intro_for_non_members%>
     <% end %>
 
-    <% if @group.member_limit and @group.memberships.count >= @group.member_limit %>
+    <% if @gathering.member_limit and @gathering.memberships.count >= @gathering.member_limit %>
 
-      <p><em><%=@group.name%> is now full with all <%=@group.member_limit%> places taken</em></p>
+      <p><em><%=@gathering.name%> is now full with all <%=@gathering.member_limit%> places taken</em></p>
 
     <% else %>
 
-      <% form_for @account, "/a/#{@group.slug}/join", :style => 'margin-top: 20px' do |f| %>
+      <% form_for @account, "/a/#{@gathering.slug}/join", :style => 'margin-top: 20px' do |f| %>
 
         <script>
           $(function () {
@@ -41,7 +41,7 @@
           <%= f.text_block :name %>
           <%= f.email_block :email %>
           <%= f.image_block :picture %>  
-          <% if @group.ask_for_facebook_profile_url %>
+          <% if @gathering.ask_for_facebook_profile_url %>
             <%= f.url_block :facebook_profile_url %>
           <% end %>
         <% end %>

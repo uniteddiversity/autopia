@@ -9,7 +9,7 @@ class Quality
   
   dragonfly_accessor :image
  
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :account, index: true
   validates_presence_of :name, :link
   
@@ -20,7 +20,7 @@ class Quality
       :name => :text,
       :link => :url,
       :image => :image,
-      :group_id => :lookup,
+      :gathering_id => :lookup,
       :account_id => :lookup,
       :cultivations => :collection
     }

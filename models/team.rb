@@ -6,10 +6,10 @@ class Team
   field :intro, :type => String
   field :budget, :type => Integer
     
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :account, index: true
   
-  validates_presence_of :name, :group
+  validates_presence_of :name, :gathering
   
   has_many :teamships, :dependent => :destroy
   
@@ -25,7 +25,7 @@ class Team
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     unless prevent_notifications
-      notifications.create! :circle => group, :type => 'created_team'
+      notifications.create! :circle => gathering, :type => 'created_team'
     end
   end      
   
@@ -33,7 +33,7 @@ class Team
     Account.where(:id.in => teamships.pluck(:account_id))
   end
   def subscribers
-    group.subscribers.where(:id.in => teamships.where(:unsubscribed.ne => true).pluck(:account_id))
+    gathering.subscribers.where(:id.in => teamships.where(:unsubscribed.ne => true).pluck(:account_id))
   end
     
   def spent
@@ -44,7 +44,7 @@ class Team
     {
       :name => :text,
       :intro => :wysiwyg,
-      :group_id => :lookup,
+      :gathering_id => :lookup,
       :account_id => :lookup,
       :teamships => :collection,
     }

@@ -1,4 +1,4 @@
-<%= partial :'groups/nav', locals: {group: @group, membership: @membership} %>
+<%= partial :'gatherings/nav', locals: {gathering: @gathering, membership: @membership} %>
 
 <div style="margin: 10px 0">
   <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> List transport</a>
@@ -7,6 +7,6 @@
   </div>
 </div>
 
-<div data-pagelet-url="/a/<%=@group.slug%>/transports">
+<div data-pagelet-url="/a/<%=@gathering.slug%>/transports">
   <%= partial :'transports/transports' %>
 </div>

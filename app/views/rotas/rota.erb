@@ -1,11 +1,11 @@
-<%= partial :'groups/nav', locals: {group: @group, membership: @membership} %>
+<%= partial :'gatherings/nav', locals: {gathering: @gathering, membership: @membership} %>
 
 <h2>
   <%=@rota.name%>
 </h2>
 
 <% if admin? || @membership.admin? %>
-  <a style="border-bottom: 1px dotted; text-decoration: none" href="/a/<%=@group.slug%>/rotas/<%=@rota.id%>/edit">
+  <a style="border-bottom: 1px dotted; text-decoration: none" href="/a/<%=@gathering.slug%>/rotas/<%=@rota.id%>/edit">
     Edit rota
   </a>
 <% end %>
@@ -16,7 +16,7 @@
   </div>
 <% end %>
 
-<div data-pagelet-url="/a/<%=@group.slug%>/rotas/<%=@rota.id%>">
+<div data-pagelet-url="/a/<%=@gathering.slug%>/rotas/<%=@rota.id%>">
   <%= partial :'rotas/rota', :locals => {:rota => @rota} %>
 </div>
 

@@ -5,10 +5,10 @@
       <th>Members</th> 
     </tr>
   </thead>
-  <% @group.teams.order('name asc').each { |team| %>
+  <% @gathering.teams.order('name asc').each { |team| %>
     <tr>
       <td>
-        <a href="/a/<%=@group.slug%>/teams/<%=team.id%>">
+        <a href="/a/<%=@gathering.slug%>/teams/<%=team.id%>">
           <%=team.name%>
         </a>     
         <br />
@@ -44,5 +44,5 @@
 </table>
 
 <% if params[:view] != 'names' %>
-  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@group.slug%>/teams?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@gathering.slug%>/teams?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
 <% end %>

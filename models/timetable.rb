@@ -7,7 +7,7 @@ class Timetable
   field :hide_schedule, :type => Boolean
   field :scheduling_by_all, :type => Boolean
  
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :account, index: true
   
   has_many :spaces, :dependent => :destroy
@@ -16,7 +16,7 @@ class Timetable
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => group, :type => 'created_timetable'
+    notifications.create! :circle => gathering, :type => 'created_timetable'
   end        
   
   def self.new_tips
@@ -41,7 +41,7 @@ class Timetable
       :description => :wysiwyg,
       :hide_schedule => :check_box,
       :scheduling_by_all => :check_box,
-      :group_id => :lookup,
+      :gathering_id => :lookup,
       :account_id => :lookup,
       :spaces => :collection,
       :tslots => :collection,

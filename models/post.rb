@@ -22,13 +22,13 @@ class Post
   def url
     if commentable.is_a?(Team)
       team = commentable
-      "#{ENV['BASE_URI']}/a/#{team.group.slug}/teams/#{team.id}#post-#{id}"
+      "#{ENV['BASE_URI']}/a/#{team.gathering.slug}/teams/#{team.id}#post-#{id}"
     elsif commentable.is_a?(Activity)
       activity = commentable
-      "#{ENV['BASE_URI']}/a/#{activity.group.slug}/activities/#{activity.id}#post-#{id}"
+      "#{ENV['BASE_URI']}/a/#{activity.gathering.slug}/activities/#{activity.id}#post-#{id}"
     elsif commentable.is_a?(Mapplication)
       mapplication = commentable
-      "#{ENV['BASE_URI']}/a/#{mapplication.group.slug}/mapplications/#{mapplication.id}#post-#{id}"
+      "#{ENV['BASE_URI']}/a/#{mapplication.gathering.slug}/mapplications/#{mapplication.id}#post-#{id}"
     elsif commentable.is_a?(Habit)
       habit = commentable
       "#{ENV['BASE_URI']}/habits/#{habit.id}#post-#{id}"

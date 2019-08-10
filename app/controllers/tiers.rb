@@ -1,13 +1,13 @@
 Autopia::App.controller do
     
   post '/a/:slug/tiers/new' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!    
-    @tier = @group.tiers.build(params[:tier])
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!    
+    @tier = @gathering.tiers.build(params[:tier])
     @tier.account = current_account
     if @tier.save
-      redirect "/a/#{@group.slug}/tiers"
+      redirect "/a/#{@gathering.slug}/tiers"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the tier from being saved."
       erb :'tiers/build'    
@@ -15,8 +15,8 @@ Autopia::App.controller do
   end  
  
   get '/a/:slug/tiers' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!
     if request.xhr?
       partial :'tiers/tiers'
@@ -27,20 +27,20 @@ Autopia::App.controller do
   end
   
   get '/a/:slug/tiers/:id/edit' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!    
-    @tier = @group.tiers.find(params[:id])
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!    
+    @tier = @gathering.tiers.find(params[:id])
     erb :'tiers/build'
   end
   
   post '/a/:slug/tiers/:id/edit' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!    
-    @tier = @group.tiers.find(params[:id])
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!    
+    @tier = @gathering.tiers.find(params[:id])
     if @tier.update_attributes(params[:tier])
-      redirect "/a/#{@group.slug}/tiers"
+      redirect "/a/#{@gathering.slug}/tiers"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the tier from being saved." 
       erb :'tiers/build'
@@ -48,26 +48,26 @@ Autopia::App.controller do
   end  
   
   get '/a/:slug/tiers/:id/destroy' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!    
-    @tier = @group.tiers.find(params[:id])
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!    
+    @tier = @gathering.tiers.find(params[:id])
     @tier.destroy
-    redirect "/a/#{@group.slug}/tiers"      
+    redirect "/a/#{@gathering.slug}/tiers"      
   end     
         
   get '/tierships/create' do
     @tier = Tier.find(params[:tier_id]) || not_found
-    @group = @tier.group      
+    @gathering = @tier.gathering      
     confirmed_membership_required!      
-    Tiership.create(account: current_account, tier_id: params[:tier_id], group: @group)
+    Tiership.create(account: current_account, tier_id: params[:tier_id], gathering: @gathering)
     200
   end    
     
   get '/tierships/:id/destroy' do
     @tiership = Tiership.find(params[:id]) || not_found
-    @group = @tiership.tier.group
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = @tiership.tier.gathering
+    @membership = @gathering.memberships.find_by(account: current_account)
     halt unless @tiership.account.id == current_account.id or @membership.admin?
     @tiership.destroy
     200

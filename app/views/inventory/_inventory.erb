@@ -13,10 +13,10 @@
     <th>Responsible person</th>
   </tr> 
 
-  <% @group.inventory_items(true).sort_by { |inventory_item| inventory_item.team.try(:name) || '' }.each { |inventory_item| %>
+  <% @gathering.inventory_items(true).sort_by { |inventory_item| inventory_item.team.try(:name) || '' }.each { |inventory_item| %>
     <tr>
       <td>
-        <a href="/a/<%=@group.slug%>/inventory_items/<%=inventory_item.id%>/edit">
+        <a href="/a/<%=@gathering.slug%>/inventory_items/<%=inventory_item.id%>/edit">
           <%=inventory_item.name%>
         </a>
         <% if inventory_item.description %>
@@ -26,7 +26,7 @@
       </td>   
       <td>
         <% if inventory_item.team %>
-          <a href="/a/<%=@group.slug%>/teams/<%=inventory_item.team_id%>"><%=inventory_item.team.name%></a>
+          <a href="/a/<%=@gathering.slug%>/teams/<%=inventory_item.team_id%>"><%=inventory_item.team.name%></a>
         <% end %>
       </td>      
       <td><a href="/accounts/<%=inventory_item.account_id%>"><%=inventory_item.account.name%></a></td>
@@ -34,8 +34,8 @@
         <% if inventory_item.responsible %>
           <a href="javascript:;" onclick="$(this).hide().next().show()"><%= inventory_item.responsible.name %></a>
         <% end %>  
-        <% form_tag "/a/#{@group.slug}/inventory_items/#{inventory_item.id}/provided", :style => ('display:none' if inventory_item.responsible) do %>
-          <%= select_tag :responsible_id, :class => 'form-control', :options => [''] + @group.members.order('name asc').map { |account| [account.name, account.id] }, :selected => inventory_item.responsible.try(:id), :onchange => '$(this.form).submit()' %>
+        <% form_tag "/a/#{@gathering.slug}/inventory_items/#{inventory_item.id}/provided", :style => ('display:none' if inventory_item.responsible) do %>
+          <%= select_tag :responsible_id, :class => 'form-control', :options => [''] + @gathering.members.order('name asc').map { |account| [account.name, account.id] }, :selected => inventory_item.responsible.try(:id), :onchange => '$(this.form).submit()' %>
         <% end %>  
       </td>
     </tr>

@@ -1,10 +1,10 @@
 Autopia::App.controller do
   
   get '/a/:slug/mapplications/:id' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
-    @mapplication = @group.mapplications.find(params[:id]) || not_found
+    @mapplication = @gathering.mapplications.find(params[:id]) || not_found
     if request.xhr?
       partial :'mapplications/mapplication_modal', :locals => {:mapplication => @mapplication}
     else
@@ -15,24 +15,24 @@ Autopia::App.controller do
 	    
   get '/mapplication_row/:id' do
     @mapplication = Mapplication.find(params[:id]) || not_found
-    @group = @mapplication.group
-    @membership = @group.memberships.find_by(account: current_account)      
+    @gathering = @mapplication.gathering
+    @membership = @gathering.memberships.find_by(account: current_account)      
     confirmed_membership_required!
     partial :'mapplications/mapplication_row', :locals => {:mapplication => @mapplication}
   end    
 	
   get '/a/:slug/apply' do      
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
-    redirect "/a/#{@group.slug}/join" unless @group.enable_applications
-    @og_desc = "#{@group.name} is being co-created on Autopia"
-    @og_image = @group.cover_image ? @group.cover_image.url : "#{ENV['BASE_URI']}/images/autopia-link.png"
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
+    redirect "/a/#{@gathering.slug}/join" unless @gathering.enable_applications
+    @og_desc = "#{@gathering.name} is being co-created on Autopia"
+    @og_image = @gathering.cover_image ? @gathering.cover_image.url : "#{ENV['BASE_URI']}/images/autopia-link.png"
     @account = Account.new
     erb :'mapplications/apply'
   end    
     
   post '/a/:slug/apply' do
-    @group = Group.find_by(slug: params[:slug]) || not_found
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
 
     if current_account
       @account = current_account
@@ -48,38 +48,38 @@ Autopia::App.controller do
       end
     end    
     
-    if @group.memberships.find_by(account: @account)
-      flash[:notice] = "You're already part of that group"
+    if @gathering.memberships.find_by(account: @account)
+      flash[:notice] = "You're already part of that gathering"
       redirect back
-    elsif @group.mapplications.find_by(account: @account)
-      flash[:notice] = "You've already applied to that group"
+    elsif @gathering.mapplications.find_by(account: @account)
+      flash[:notice] = "You've already applied to that gathering"
       redirect back
     else
-      @mapplication = @group.mapplications.create! :account => @account, :status => 'pending', :answers => (params[:answers].map { |i,x| [@group.application_questions_a[i.to_i],x] } if params[:answers])
-      redirect "/a/#{@group.slug}/apply?applied=true"
+      @mapplication = @gathering.mapplications.create! :account => @account, :status => 'pending', :answers => (params[:answers].map { |i,x| [@gathering.application_questions_a[i.to_i],x] } if params[:answers])
+      redirect "/a/#{@gathering.slug}/apply?applied=true"
     end    
   end
            
   get '/a/:slug/applications' do     
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!    
-    @mapplications = @group.mapplications.pending
+    @mapplications = @gathering.mapplications.pending
     @mapplications = @mapplications.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:q])}/i).pluck(:id)) if params[:q]
     discuss 'Applications'
     erb :'mapplications/pending'
   end   
     
   get '/a/:slug/threshold' do     
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
     partial :'mapplications/threshold'
   end     
     
   post '/a/:slug/threshold' do     
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
     @membership.desired_threshold = params[:desired_threshold]
     @membership.save!
@@ -87,17 +87,17 @@ Autopia::App.controller do
   end         
     
   get '/a/:slug/applications/paused' do     
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    @mapplications = @group.mapplications.paused
+    @mapplications = @gathering.mapplications.paused
     discuss 'Applications'
     erb :'mapplications/paused'
   end    
     
   post '/mapplications/:id/verdicts/create' do
     @mapplication = Mapplication.find(params[:id]) || not_found
-    @group = @mapplication.group      
+    @gathering = @mapplication.gathering      
     confirmed_membership_required!
     verdict = @mapplication.verdicts.build(params[:verdict])
     verdict.account = current_account
@@ -114,9 +114,9 @@ Autopia::App.controller do
   
   get '/mapplications/:id/process' do
     @mapplication = Mapplication.find(params[:id]) || not_found
-    @group = @mapplication.group
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    @gathering = @mapplication.gathering
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!
     @mapplication.update_attribute(:processed_by, current_account)
     case params[:status]
     when 'accepted'      
@@ -131,9 +131,9 @@ Autopia::App.controller do
 
   get '/mapplications/:id/destroy' do
     @mapplication = Mapplication.find(params[:id]) || not_found
-    @group = @mapplication.group
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    @gathering = @mapplication.gathering
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!
     @mapplication.destroy
     redirect back
   end  

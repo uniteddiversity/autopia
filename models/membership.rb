@@ -10,16 +10,16 @@ class Membership
   field :member_of_facebook_group, :type => Boolean
   field :hide_from_sidebar, :type => Boolean
     
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :account, class_name: "Account", inverse_of: :memberships, index: true
   belongs_to :added_by, class_name: "Account", inverse_of: :memberships_added, index: true, optional: true
   belongs_to :admin_status_changed_by, class_name: "Account", inverse_of: :memberships_admin_status_changed, index: true, optional: true
   belongs_to :mapplication, index: true, optional: true
   
-  validates_uniqueness_of :account, :scope => :group
+  validates_uniqueness_of :account, :scope => :gathering
   
   before_validation do
-    errors.add(:group, 'is full') if self.new_record? and group.member_limit and group.memberships(true).count >= group.member_limit    
+    errors.add(:gathering, 'is full') if self.new_record? and gathering.member_limit and gathering.memberships(true).count >= gathering.member_limit    
     self.desired_threshold = 1 if (self.desired_threshold and self.desired_threshold < 1)
     self.paid = 0 if self.paid.nil?
     self.requested_contribution = 0 if self.requested_contribution.nil?    
@@ -29,15 +29,15 @@ class Membership
   has_many :notifications, as: :notifiable, dependent: :destroy  
   after_create do
     unless prevent_notifications
-      notifications.create! :circle => group, :type => 'joined_group'
+      notifications.create! :circle => gathering, :type => 'joined_gathering'
     end
-    group.members.each { |follower|
+    gathering.members.each { |follower|
       Follow.create follower: follower, followee: account, unsubscribed: true
     }
-    group.members.each { |followee|  
+    gathering.members.each { |followee|  
       Follow.create follower: account, followee: followee, unsubscribed: true
     }
-    if general = group.teams.find_by(name: 'General')
+    if general = gathering.teams.find_by(name: 'General')
       general.teamships.create! account: account, prevent_notifications: true
     end    
   end
@@ -48,20 +48,20 @@ class Membership
       mail = Mail.new
       mail.to = account.email
       mail.from = ENV['NOTIFICATION_EMAIL']
-      mail.subject = "You're now a member of #{group.name}"
+      mail.subject = "You're now a member of #{gathering.name}"
       
       account = self.account
-      group = self.group
+      gathering = self.gathering
       
       if !account.sign_ins or account.sign_ins == 0
-        action = %Q{<a href="#{ENV['BASE_URI']}/accounts/edit?sign_in_token=#{account.sign_in_token}&slug=#{group.slug}">Click here to finish setting up your account and get involved with the co-creation!</a>}
+        action = %Q{<a href="#{ENV['BASE_URI']}/accounts/edit?sign_in_token=#{account.sign_in_token}&slug=#{gathering.slug}">Click here to finish setting up your account and get involved with the co-creation!</a>}
       else
-        action = %Q{<a href="#{ENV['BASE_URI']}/a/#{group.slug}?sign_in_token=#{account.sign_in_token}">Sign in to get involved with the co-creation!</a>}
+        action = %Q{<a href="#{ENV['BASE_URI']}/a/#{gathering.slug}?sign_in_token=#{account.sign_in_token}">Sign in to get involved with the co-creation!</a>}
       end       
       
       html_part = Mail::Part.new do
         content_type 'text/html; charset=UTF-8'
-        body "Hi #{account.firstname},<br /><br />You're now a member of #{group.name} on Autopia. #{action}<br /><br />Best,<br />The Autopia Team" 
+        body "Hi #{account.firstname},<br /><br />You're now a member of #{gathering.name} on Autopia. #{action}<br /><br />Best,<br />The Autopia Team" 
       end
       mail.html_part = html_part
       
@@ -71,7 +71,7 @@ class Membership
   handle_asynchronously :send_email
    
   after_destroy do
-    account.notifications_as_notifiable.create! :circle => group, :type => 'left_group'
+    account.notifications_as_notifiable.create! :circle => gathering, :type => 'left_gathering'
     if mapplication
       mapplication.prevent_notifications = true
       mapplication.destroy
@@ -135,7 +135,7 @@ class Membership
   def self.admin_fields
     {
       :account_id => :lookup,
-      :group_id => :lookup,      
+      :gathering_id => :lookup,      
       :mapplication_id => :lookup,
       :admin => :check_box,
       :paid => :number,
@@ -148,7 +148,7 @@ class Membership
   end
   
   def confirmed?    
-    !group.demand_payment or group.disable_stripe or paid > 0 or admin?
+    !gathering.demand_payment or gathering.disable_stripe or paid > 0 or admin?
   end
       
 end

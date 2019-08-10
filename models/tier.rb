@@ -6,7 +6,7 @@ class Tier
   field :description, :type => String
   field :cost, :type => Integer
   
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :account, index: true
   validates_presence_of :name, :cost
     
@@ -14,7 +14,7 @@ class Tier
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => group, :type => 'created_tier'
+    notifications.create! :circle => gathering, :type => 'created_tier'
   end      
   
   def members
@@ -26,7 +26,7 @@ class Tier
       :name => :text,
       :description => :text_area,
       :cost => :number,
-      :group_id => :lookup,
+      :gathering_id => :lookup,
       :account_id => :lookup,
       :tierships => :collection,
     }

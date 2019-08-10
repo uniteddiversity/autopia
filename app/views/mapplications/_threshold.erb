@@ -1,21 +1,21 @@
 
 <div style="margin: 10px 0">
-  <% if @group.member_limit %>
+  <% if @gathering.member_limit %>
     <p style="font-size: 20px; margin: 0">
-      <%= pluralize(@group.member_limit - @group.memberships.count, 'place') %> remaining
+      <%= pluralize(@gathering.member_limit - @gathering.memberships.count, 'place') %> remaining
     </p>
   <% end %>
 
-  <% if @group.fixed_threshold or @group.democratic_threshold %>
-    <% if @group.threshold%>
+  <% if @gathering.fixed_threshold or @gathering.democratic_threshold %>
+    <% if @gathering.threshold%>
       <p style="font-size: 20px; margin: 0">
-        Automatically accepting applications with <%=@group.threshold%> <%=@group.vouchers%>
+        Automatically accepting applications with <%=@gathering.threshold%> <%=@gathering.vouchers%>
       </p>
     <% end %>
 
-    <% if @group.democratic_threshold %>
+    <% if @gathering.democratic_threshold %>
       What do you think the magic number should be?
-      <% form_tag "/a/#{@group.slug}/threshold", :style => 'display: inline' do %>
+      <% form_tag "/a/#{@gathering.slug}/threshold", :style => 'display: inline' do %>
         <%= number_field_tag :desired_threshold, :min => 1, :class => 'form-control', :value => @membership.desired_threshold, :style => 'display: inline-block; width: 4em', :onchange => '$(this.form).submit()' %>
       <% end %> 
     <% end %>    

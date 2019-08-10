@@ -1,0 +1,7 @@
+<div class="row">
+  <% Gathering.all.sort_by { |gathering| gathering.notifications_as_circle.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.each { |gathering| %>
+    <div class="col-6 col-sm-3 mb-3">
+      <%= partial :'gatherings/gathering', :object => gathering  %>
+    </div>
+  <% } %>
+</div>

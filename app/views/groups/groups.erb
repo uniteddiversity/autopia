@@ -1,7 +1,0 @@
-<div class="row">
-  <% Group.all.sort_by { |group| group.notifications_as_circle.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.each { |group| %>
-    <div class="col-6 col-sm-3 mb-3">
-      <%= partial :'groups/group', :object => group  %>
-    </div>
-  <% } %>
-</div>

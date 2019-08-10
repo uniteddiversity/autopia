@@ -1,6 +1,6 @@
-<%= partial :'groups/nav', locals: {group: @group, membership: @membership} %>
+<%= partial :'gatherings/nav', locals: {gathering: @gathering, membership: @membership} %>
 
-<div data-pagelet-url="/a/<%=@group.slug%>/threshold">
+<div data-pagelet-url="/a/<%=@gathering.slug%>/threshold">
   <%= partial :'mapplications/threshold' %>
 </div>
 
@@ -16,6 +16,6 @@
 
 <%= partial :'mapplications/mapplications' %>
 
-<% if @group.mapplications.paused.count > 0 %>
-  <a href="/a/<%=@group.slug%>/applications/paused">View <%=pluralize(@group.mapplications.paused.count, 'paused application')%></a>
+<% if @gathering.mapplications.paused.count > 0 %>
+  <a href="/a/<%=@gathering.slug%>/applications/paused">View <%=pluralize(@gathering.mapplications.paused.count, 'paused application')%></a>
 <% end %>

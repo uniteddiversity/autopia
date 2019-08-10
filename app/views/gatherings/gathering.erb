@@ -1,0 +1,55 @@
+<%= partial :'gatherings/nav', locals: {gathering: @gathering, membership: @membership} %>
+
+<div class="row">  
+  <div class="col-sm-4 order-sm-2 mb-3">
+    <div data-pagelet-url="/a/<%=@gathering.slug%>/todos">
+      <%= partial :'gatherings/todos' %>
+    </div>    
+    <% if @gathering.intro_for_members %>  
+      <div class="card mb-3">
+        <h5 class="card-header bg-primary">Welcome to <%=@gathering.name%>!</h5>
+        <div class="card-body pb-0">
+          <%= @gathering.intro_for_members %>        
+        </div>
+      </div>
+    <% end %>  
+    <% if @gathering.coordinates %>  
+      <style>
+        #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
+      </style>    
+      <%= partial :'maps/map', :locals => {:points => [@gathering]} %>
+    <% end %>        
+    <h2>Online now</h2>
+    <div class="image-wall">
+      <% @gathering.members.where(:last_active.gt => 5.minutes.ago).each { |account| %>
+        <%= partial :'accounts/square', :locals => {:account => account, :content => (if account.last_active; "#{time_ago_in_words account.last_active} ago"; end), :width => '75px'} %>
+      <% } %>
+    </div>
+
+    <% if @gathering.facebook_group_url %>
+      <div class="fb-group mt-3" data-href="<%=@gathering.facebook_group_url%>" data-width="300" data-show-social-context="true" data-show-metadata="false"></div>
+    <% end %>
+
+  </div>
+  <div class="col-sm-8 order-sm-1">
+
+    <div class="mb-3">         
+      <div data-pagelet-url="/a/<%=@gathering.slug%>/subscribe" style="display: inline">
+        <%= partial :'gatherings/subscribe', :locals => {:membership => @membership} %>
+      </div>
+      <% if @membership && @membership.hide_from_sidebar %>
+        <a class="btn btn-outline-primary mb-1" href="/a/<%=@gathering.slug%>/show_in_sidebar">Hidden from sidebar</a>
+      <% else %>
+        <a class="btn btn-primary mb-1" href="/a/<%=@gathering.slug%>/hide_from_sidebar">Showing in sidebar</a>
+      <% end %>           
+      <a class="btn btn-primary mb-1" data-confirm="Are you sure you want to leave the gathering?" href="/a/<%=@gathering.slug%>/leave">Leave gathering</a>
+    </div>
+
+    <p class="lead">
+      Non-members can <%=  @gathering.enable_applications ? 'apply' : 'join' %> at <a href="<%="#{ENV['BASE_URI']}/a/#{@gathering.slug}/#{@gathering.enable_applications ? 'apply' : 'join'}"%>"><%="#{ENV['BASE_URI']}/a/#{@gathering.slug}/#{@gathering.enable_applications ? 'apply' : 'join'}"%></a>
+    </p>    
+
+    <%= partial :newsfeed, :locals => {:notifications => @notifications, :include_circle_name => false} %>
+
+  </div>  
+</div>

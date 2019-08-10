@@ -13,15 +13,15 @@
           <em>Tiers</em>
         </td>
       </tr>
-      <% @group.tiers.each { |tier| %>
+      <% @gathering.tiers.each { |tier| %>
         <tr>
           <td>
             <%= tier.name %> x <%=tier.tierships.count%>                
           </td>
-          <td><%=@group.currency_symbol%><%=tier.cost*tier.tierships.count%></td>      
+          <td><%=@gathering.currency_symbol%><%=tier.cost*tier.tierships.count%></td>      
         </tr>
       <% } %>
-      <% accoms = @group.accoms.select { |accom| accom.accomships.count > 0 }; if accoms.count > 0 %>
+      <% accoms = @gathering.accoms.select { |accom| accom.accomships.count > 0 }; if accoms.count > 0 %>
         <tr>
           <td colspan="2">
             <em>Accommodation</em>
@@ -33,10 +33,10 @@
           <td>
             <%= accom.name %>
           </td>
-          <td><%=@group.currency_symbol%><%=accom.cost%></td>      
+          <td><%=@gathering.currency_symbol%><%=accom.cost%></td>      
         </tr>
       <% } %> 
-      <% transports = @group.transports; if transports.count > 0 %>
+      <% transports = @gathering.transports; if transports.count > 0 %>
         <tr>
           <td colspan="2">
             <em>Transport</em>
@@ -48,12 +48,12 @@
           <td>
             <%= transport.name %> x <%=transport.transportships.count%>                
           </td>
-          <td><%=@group.currency_symbol%><%=transport.cost*transport.transportships.count%></td>      
+          <td><%=@gathering.currency_symbol%><%=transport.cost*transport.transportships.count%></td>      
         </tr>
       <% } %>    
       <tr>   
         <th></th>      
-        <th><%=@group.currency_symbol%><%=@group.incomings%></th>    
+        <th><%=@gathering.currency_symbol%><%=@gathering.incomings%></th>    
       </tr>    
     </table>
 
@@ -63,8 +63,8 @@
       <tr>
         <th style="width: 50%"></th>
         <th>
-          <%=@group.currency_symbol%><%= @group.memberships.pluck(:paid).compact.sum %>
-          (<%=@group.currency_symbol%><%= @group.processed_via_stripe %> processed via Autopia)    
+          <%=@gathering.currency_symbol%><%= @gathering.memberships.pluck(:paid).compact.sum %>
+          (<%=@gathering.currency_symbol%><%= @gathering.processed_via_stripe %> processed via Autopia)    
         </th>
       </tr> 
     </table>
@@ -80,36 +80,36 @@
         <th>Budget</th>    
         <th>Spent</th>     
       </tr>
-      <% @group.teams.order('name asc').each { |team| %>
+      <% @gathering.teams.order('name asc').each { |team| %>
         <tr <% if team.budget and team.spent > team.budget %>class="danger"<% end %>>
-          <td><a href="/a/<%=@group.slug%>/teams/<%=team.id%>"><%=team.name%></a></td>
+          <td><a href="/a/<%=@gathering.slug%>/teams/<%=team.id%>"><%=team.name%></a></td>
           <td>
             <% if team.budget %>
-              <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "#{@group.currency_symbol}#{team.budget}" if team.budget %></a>
+              <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "#{@gathering.currency_symbol}#{team.budget}" if team.budget %></a>
             <% end %>
             <% form_tag "/teams/#{team.id}/budget", :style => ('display:none' if team.budget) do %>                            
               <div class="input-group">                
                 <div class="input-group-prepend">
-                  <span class="input-group-text"><%=@group.currency_symbol%></span>
+                  <span class="input-group-text"><%=@gathering.currency_symbol%></span>
                 </div>                
                 <%= number_field_tag :budget, :class => 'form-control', :style => 'width: 6em', :value => team.budget, :onblur => '$(this.form).submit()' %>
               </div>              
             <% end %>     
           </td>
-          <td><%=@group.currency_symbol%><%=team.spent%></td>       
+          <td><%=@gathering.currency_symbol%><%=team.spent%></td>       
         </tr>
       <% } %>
-      <% if @group.processed_via_stripe > 0 %>
+      <% if @gathering.processed_via_stripe > 0 %>
         <tr>   
           <td>Transaction fees</td>      
-          <td><%=number_to_currency 0.05*@group.incomings, unit: @group.currency_symbol, precision: 0%></td>
-          <td><%=number_to_currency 0.05*@group.processed_via_stripe, unit: @group.currency_symbol, precision: 0%></td>
+          <td><%=number_to_currency 0.05*@gathering.incomings, unit: @gathering.currency_symbol, precision: 0%></td>
+          <td><%=number_to_currency 0.05*@gathering.processed_via_stripe, unit: @gathering.currency_symbol, precision: 0%></td>
         </tr>   
       <% end %>   
       <tr>
         <th></th>
-        <th><%=@group.currency_symbol%><%= @group.teams.map(&:budget).compact.sum + (0.05*@group.incomings).round%></th>
-        <th><%=@group.currency_symbol%><%= @group.teams.map(&:spent).sum + (0.05*@group.processed_via_stripe).round%></th>   	
+        <th><%=@gathering.currency_symbol%><%= @gathering.teams.map(&:budget).compact.sum + (0.05*@gathering.incomings).round%></th>
+        <th><%=@gathering.currency_symbol%><%= @gathering.teams.map(&:spent).sum + (0.05*@gathering.processed_via_stripe).round%></th>   	
       </tr>
     </table>
 
@@ -131,17 +131,17 @@
         <th>Reimbursed?</th>
       </tr> 
 
-      <% @group.spends.sort_by { |spend| [spend.reimbursed ? 1 : 0, spend.team.try(:name) || '', -spend.amount] }.each { |spend| %>
+      <% @gathering.spends.sort_by { |spend| [spend.reimbursed ? 1 : 0, spend.team.try(:name) || '', -spend.amount] }.each { |spend| %>
         <tr>
           <td>            
-            <a href="/a/<%=@group.slug%>/spends/<%=spend.id%>/edit">
+            <a href="/a/<%=@gathering.slug%>/spends/<%=spend.id%>/edit">
               <%=spend.item%>
             </a>               
           </td>
-          <td><%=@group.currency_symbol%><%=spend.amount%></td>
+          <td><%=@gathering.currency_symbol%><%=spend.amount%></td>
           <td>
             <% if spend.team %>
-              <a href="/a/<%=@group.slug%>/teams/<%=spend.team_id%>"><%=spend.team.name%></a>
+              <a href="/a/<%=@gathering.slug%>/teams/<%=spend.team_id%>"><%=spend.team.name%></a>
             <% end %>
           </td>   
           <td><a href="/accounts/<%=spend.account_id%>"><%=spend.account.name%></a></td>
@@ -156,11 +156,11 @@
         </tr>
       <% } %>
 
-      <% if @group.processed_via_stripe > 0 %>
+      <% if @gathering.processed_via_stripe > 0 %>
         <tr>   
           <td>Transaction fees</td>      
           <td>
-          <td><%=number_to_currency 0.05*@group.processed_via_stripe, unit: @group.currency_symbol, precision: 0%></td>
+          <td><%=number_to_currency 0.05*@gathering.processed_via_stripe, unit: @gathering.currency_symbol, precision: 0%></td>
           <td></td>
           <td></td>
           <td></td>
@@ -169,7 +169,7 @@
 
       <tr>   
         <th></th>      
-        <th><%=@group.currency_symbol%><%=@group.spends.pluck(:amount).sum + (0.05*@group.processed_via_stripe).round%></th>
+        <th><%=@gathering.currency_symbol%><%=@gathering.spends.pluck(:amount).sum + (0.05*@gathering.processed_via_stripe).round%></th>
         <th></th>
         <th></th>       
         <th></th>

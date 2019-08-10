@@ -1,32 +1,32 @@
 Autopia::App.controller do
     
   get '/a/:slug/balance' do        
-    @group = Group.find_by(slug: params[:slug]) || not_found      
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!
     discuss 'Balance'
-    erb :'groups/balance'
+    erb :'gatherings/balance'
   end    
     
   post '/a/:slug/pay', :provides => :json do
-    @group = Group.find_by(slug: params[:slug]) || not_found
-    @membership = @group.memberships.find_by(account: current_account)    
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)    
     membership_required!    
     Stripe.api_key = ENV['STRIPE_SK']
     session = Stripe::Checkout::Session.create(
       payment_method_types: ['card'],
       line_items: [{
-          name: "Payment for #{@group.name}",
-          images: [@group.cover_image.try(:url)].compact,
+          name: "Payment for #{@gathering.name}",
+          images: [@gathering.cover_image.try(:url)].compact,
           amount: params[:amount].to_i * 100,
-          currency: @group.currency,
+          currency: @gathering.currency,
           quantity: 1,
         }],
       customer_email: current_account.email,
-      success_url: "#{ENV['BASE_URI']}/a/#{@group.slug}",
-      cancel_url: "#{ENV['BASE_URI']}/a/#{@group.slug}",
+      success_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
+      cancel_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
     )    
-    @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @group.currency, :session_id => session.id
+    @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @gathering.currency, :session_id => session.id
     {session_id: session.id}.to_json
   end
   
@@ -54,25 +54,25 @@ Autopia::App.controller do
   end    
 	  
   post '/a/:slug/payout' do
-    @group = Group.find_by(slug: params[:slug]) || not_found      
-    @membership = @group.memberships.find_by(account: current_account)
-    group_admins_only!
-    if @group.update_attributes(params[:group])
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!
+    if @gathering.update_attributes(params[:gathering])
     	
     	if ENV['SMTP_ADDRESS']
 	      mail = Mail.new
 	      mail.to = ENV['ADMIN_EMAIL']
 	      mail.from = ENV['BOT_EMAIL']
-	      mail.subject = "Payout requested for #{@group.name}"
-	      mail.body = "#{current_account.name} (#{current_account.email}) requested a payout for #{@group.name}:\n#{@group.currency_symbol}#{@group.balance} to #{@group.paypal_email}"   
+	      mail.subject = "Payout requested for #{@gathering.name}"
+	      mail.body = "#{current_account.name} (#{current_account.email}) requested a payout for #{@gathering.name}:\n#{@gathering.currency_symbol}#{@gathering.balance} to #{@gathering.paypal_email}"   
 	      mail.deliver
       end
 
 			flash[:notice] = 'The payout was requested. Payouts can take 3-5 working days to process.'    	
-      redirect "/a/#{@group.slug}"
+      redirect "/a/#{@gathering.slug}"
     else
       flash.now[:error] = 'Some errors prevented the payout'
-      erb :'groups/build'        
+      erb :'gatherings/build'        
     end
   end	  
   

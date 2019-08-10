@@ -44,7 +44,7 @@ class Habit
   
   def self.new_tips
     {
-      :public => 'Visible on profile and in your groups'
+      :public => 'Visible on profile and in your gatherings'
     }
   end
   

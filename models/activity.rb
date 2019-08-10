@@ -5,7 +5,7 @@ class Activity
      
   belongs_to :timetable, index: true
   belongs_to :account, class_name: "Account", inverse_of: :activities, index: true
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :membership, index: true
   
   belongs_to :space, index: true, optional: true
@@ -19,8 +19,8 @@ class Activity
     
   before_validation do    
     self.timetable = self.space.timetable if self.space
-    self.group = self.timetable.group if self.timetable
-    self.membership = self.group.memberships.find_by(account: self.account) if self.group and self.account and !self.membership
+    self.gathering = self.timetable.gathering if self.timetable
+    self.membership = self.gathering.memberships.find_by(account: self.account) if self.gathering and self.account and !self.membership
   end    
   
   field :name, :type => String
@@ -29,7 +29,7 @@ class Activity
   
   dragonfly_accessor :image
   
-  validates_presence_of :name, :description
+  validates_presence_of :name
   validates_uniqueness_of :space, :scope => :tslot, :allow_nil => true
   
   has_many :attendances, :dependent => :destroy
@@ -37,12 +37,12 @@ class Activity
     Account.where(:id.in => attendances.pluck(:account_id))
   end
   def subscribers
-    group.subscribers.where(:id.in => attendances.pluck(:account_id) + [account.id])
+    gathering.subscribers.where(:id.in => attendances.pluck(:account_id) + [account.id])
   end  
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => timetable.group, :type => 'created_activity'
+    notifications.create! :circle => timetable.gathering, :type => 'created_activity'
   end  
         
   def self.admin_fields
@@ -54,7 +54,7 @@ class Activity
       :space_id => :lookup,
       :tslot_id => :lookup,    
       :timetable_id => :lookup,
-      :group_id => :lookup,
+      :gathering_id => :lookup,
       :membership_id => :lookup
     }
   end

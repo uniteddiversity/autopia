@@ -1,9 +1,9 @@
-<%= partial :'groups/nav', locals: {group: @group, membership: @membership} %>
+<%= partial :'gatherings/nav', locals: {gathering: @gathering, membership: @membership} %>
 
 <div style="margin: 10px 0">
-  <a class="btn btn-primary" href="/a/<%=@group.slug%>/teams/new"><i class="fa fa-plus-circle"></i> Create a team</a>
+  <a class="btn btn-primary" href="/a/<%=@gathering.slug%>/teams/new"><i class="fa fa-plus-circle"></i> Create a team</a>
 </div>
 
-<div data-pagelet-url="/a/<%=@group.slug%>/teams">
+<div data-pagelet-url="/a/<%=@gathering.slug%>/teams">
   <%= partial :'teams/teams' %>
 </div> 

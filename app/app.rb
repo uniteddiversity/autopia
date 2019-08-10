@@ -40,7 +40,7 @@ module Autopia
     end
        
     before do
-      @cachebuster = 115
+      @cachebuster = 116
       redirect "#{ENV['BASE_URI']}#{request.path}" if ENV['BASE_URI'] and "#{request.scheme}://#{request.env['HTTP_HOST']}" != ENV['BASE_URI']
       Time.zone = (current_account and current_account.time_zone) ? current_account.time_zone : 'London'
       fix_params!
@@ -93,9 +93,9 @@ module Autopia
       @type = params[:type] || 'accounts'
       if params[:q]
         case @type
-        when 'groups'
-          @groups = Group.where({name: /#{::Regexp.escape(params[:q])}/i})
-          @groups = @groups.paginate(:page => params[:page], :per_page => 10).order('name asc')          
+        when 'gatherings'
+          @gatherings = Gathering.where({name: /#{::Regexp.escape(params[:q])}/i})
+          @gatherings = @gatherings.paginate(:page => params[:page], :per_page => 10).order('name asc')          
         when 'places'
           @places = Place.where({name: /#{::Regexp.escape(params[:q])}/i}) 
           @places = @places.paginate(:page => params[:page], :per_page => 10).order('name asc')          

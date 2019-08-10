@@ -44,24 +44,24 @@ Autopia::App.helpers do
     @feature = Feature.find_by(name: name) || Feature.create(name: name)
   end
   
-  def membership_required!(group=nil, account=current_account)
-    group = @group if !group
-    unless account and group and (group.memberships.find_by(account: account) or account.admin?)
-      flash[:notice] = 'You must be a member of that group to access that page'
+  def membership_required!(gathering=nil, account=current_account)
+    gathering = @gathering if !gathering
+    unless account and gathering and (gathering.memberships.find_by(account: account) or account.admin?)
+      flash[:notice] = 'You must be a member of that gathering to access that page'
       session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(account ? '/' : '/accounts/sign_in')
     end            
   end        
     
-  def confirmed_membership_required!(group=nil, account=current_account)
-    group = @group if !group
-    unless account and group and (((membership = group.memberships.find_by(account: account)) and membership.confirmed?) or account.admin?)
+  def confirmed_membership_required!(gathering=nil, account=current_account)
+    gathering = @gathering if !gathering
+    unless account and gathering and (((membership = gathering.memberships.find_by(account: account)) and membership.confirmed?) or account.admin?)
       session[:return_to] = request.url
       if membership
         flash[:notice] = 'You must make a payment before accessing that page'
-        request.xhr? ? halt(403) : redirect("/a/#{@group.slug}")
+        request.xhr? ? halt(403) : redirect("/a/#{@gathering.slug}")
       else
-        flash[:notice] = 'You must be a member of the group to access that page'
+        flash[:notice] = 'You must be a member of the gathering to access that page'
         request.xhr? ? halt(403) : redirect(account ? '/' : '/accounts/sign_in')
       end            
     end        
@@ -75,10 +75,10 @@ Autopia::App.helpers do
     end     
   end
   
-  def group_admins_only!(group=nil)
-    group = @group if !group
-    unless current_account and group and ((membership = group.memberships.find_by(account: current_account)) and membership.admin?)
-      flash[:notice] = 'You must be an admin of that group to access that page'
+  def gathering_admins_only!(gathering=nil)
+    gathering = @gathering if !gathering
+    unless current_account and gathering and ((membership = gathering.memberships.find_by(account: current_account)) and membership.admin?)
+      flash[:notice] = 'You must be an admin of that gathering to access that page'
       session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(current_account ? '/' : '/accounts/sign_in')
     end        

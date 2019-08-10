@@ -88,8 +88,8 @@ class Account
     Account.where(:id.in => follows_as_follower.pluck(:followee_id))
   end
   
-  def groupies
-    Account.where(:id.in => Membership.where(:group_id.in => memberships.pluck(:group_id)).pluck(:account_id))
+  def gatheringies
+    Account.where(:id.in => Membership.where(:gathering_id.in => memberships.pluck(:gathering_id)).pluck(:account_id))
   end
   
   def subscribers    
@@ -102,7 +102,7 @@ class Account
   
   def network_notifications
     Notification.or(
-      {:circle_type => 'Group', :circle_id.in => memberships.pluck(:group_id)},
+      {:circle_type => 'Gathering', :circle_id.in => memberships.pluck(:gathering_id)},
       {:circle_type => 'Account', :circle_id.in => [id] + network.pluck(:id)},
       {:circle_type => 'Place', :circle_id.in => places_following.pluck(:id)}
     )
@@ -110,7 +110,7 @@ class Account
   
   has_many :places, :dependent => :nullify
   
-  has_many :groups, :dependent => :nullify  
+  has_many :gatherings, :dependent => :nullify  
     
   has_many :mapplications, :class_name => "Mapplication", :inverse_of => :account, :dependent => :destroy
   has_many :mapplications_processed, :class_name => "Mapplication", :inverse_of => :processed_by, :dependent => :nullify  
@@ -244,7 +244,7 @@ class Account
   end
   
   def currency_symbol
-    Group.currency_symbol(default_currency)
+    Gathering.currency_symbol(default_currency)
   end   
             
   def self.admin_fields
@@ -279,7 +279,7 @@ class Account
   
   def self.new_hints
     {
-      :email => 'Shown only to people in your groups',
+      :email => 'Shown only to people in your gatherings',
       :password => 'Leave blank to keep existing password'
     }
   end   

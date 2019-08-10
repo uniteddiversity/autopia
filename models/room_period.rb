@@ -28,7 +28,7 @@ class RoomPeriod
   end
   
   def currency_symbol
-    Group.currency_symbol(currency)
+    Gathering.currency_symbol(currency)
   end  
   
   def self.human_attribute_name(attr, options={})  

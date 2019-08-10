@@ -7,7 +7,7 @@
 </form>
 
 <ul class="search-tab">
-  <% {'People' => 'accounts', 'Groups' => 'groups', 'Places' => 'places'}.each { |k,v| %>
+  <% {'People' => 'accounts', 'Gatherings' => 'gatherings', 'Places' => 'places'}.each { |k,v| %>
     <li <% if @type == v %> class="active" <% end %> ><a href="javascript:;" onclick="$('#type').val('<%=v%>');
           $('#search-form').submit()"><%=k%></a></li>
     <% } %>
@@ -30,18 +30,18 @@
       <%= will_paginate @accounts, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
     </div>
 
-  <% when 'groups' %>
+  <% when 'gatherings' %>
     <ul class="search-result-list">
-      <% @groups.each { |group|  %>
+      <% @gatherings.each { |gathering|  %>
         <li>
-          <% if group.cover_image %>
+          <% if gathering.cover_image %>
             <div class="search-result-media" style="height: auto">
-              <a href="/a/<%=group.slug%>"><img src="<%=group.cover_image.thumb('400x400').url%>" /></a>
+              <a href="/a/<%=gathering.slug%>"><img src="<%=gathering.cover_image.thumb('400x400').url%>" /></a>
             </div>
           <% end %>
           <div class="search-result-content">
             <h2>
-              <a class="text-dark" href="/a/<%=group.slug%>"><%=group.name%></a>    
+              <a class="text-dark" href="/a/<%=gathering.slug%>"><%=gathering.name%></a>    
             </h2>            
           </div>
         </li>
@@ -49,7 +49,7 @@
     </ul>
 
     <div class="mt-3">
-      <%= will_paginate @groups, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+      <%= will_paginate @gatherings, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
     </div>
 
   <% when 'places' %>

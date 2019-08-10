@@ -9,13 +9,13 @@ class Transport
   field :outbound_departure_time, :type => Time
   field :return_departure_time, :type => Time
   
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :account, index: true
   validates_presence_of :name, :cost, :capacity
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => group, :type => 'created_transport'
+    notifications.create! :circle => gathering, :type => 'created_transport'
   end      
   
   has_many :transportships, :dependent => :destroy
@@ -32,7 +32,7 @@ class Transport
       :return_departure_time => :datetime,
       :capacity => :number,
       :cost => :number,
-      :group_id => :lookup,
+      :gathering_id => :lookup,
       :account_id => :lookup,
       :transportships => :collection,
     }

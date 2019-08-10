@@ -14,7 +14,7 @@
   .quality h3 a { font-size: 18px; line-height: 20px }
 </style>
 <div class="row">
-  <% @group.qualities.sort_by { |quality| -quality.cultivations.count }.each { |quality| %>
+  <% @gathering.qualities.sort_by { |quality| -quality.cultivations.count }.each { |quality| %>
     <div class="col-sm-3">
       <%= partial :'qualities/quality', :object => quality %>
     </div>
@@ -24,13 +24,13 @@
 <h2>Who's cultivating what</h2>
 
 <table class="table">
-  <% @group.cultivators.order('name asc').each { |account| %>
+  <% @gathering.cultivators.order('name asc').each { |account| %>
     <tr>
       <th>
         <a href="/u/<%=account.username%>"><%=account.name%></a>
       </th>
       <td>
-        <%= @group.cultivations.where(:account_id => account.id).map { |cultivation| %Q{<a target="_blank" href="#{cultivation.quality.link}">#{cultivation.quality.name}</a>} }.join(', ') %>     
+        <%= @gathering.cultivations.where(:account_id => account.id).map { |cultivation| %Q{<a target="_blank" href="#{cultivation.quality.link}">#{cultivation.quality.name}</a>} }.join(', ') %>     
       </td>
     </tr>
   <% } %>

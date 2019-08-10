@@ -12,12 +12,12 @@ class Space
   has_many :activities, :dependent => :nullify
   
   belongs_to :timetable, index: true  
-  belongs_to :group, index: true  
+  belongs_to :gathering, index: true  
   
   validates_presence_of :name, :o
   
   before_validation do    
-    self.group = self.timetable.group if self.timetable
+    self.gathering = self.timetable.gathering if self.timetable
     if !self.o
       max = self.timetable.spaces.pluck(:o).compact.max
       self.o = max ? (max+1) : 0
@@ -30,7 +30,7 @@ class Space
       :image => :image,
       :o => :number,
       :timetable_id => :lookup,
-      :group_id => :lookup
+      :gathering_id => :lookup
     }
   end
     

@@ -1,5 +1,5 @@
-<%= partial :'groups/nav', locals: {group: @group, membership: @membership} %>
+<%= partial :'gatherings/nav', locals: {gathering: @gathering, membership: @membership} %>
 
-<div data-pagelet-url="/a/<%=@group.slug%>/budget">
+<div data-pagelet-url="/a/<%=@gathering.slug%>/budget">
   <%= partial :'budget/budget' %>
 </div>

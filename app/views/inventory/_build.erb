@@ -1,6 +1,6 @@
-<% form_for @inventory_item, @inventory_item.new_record? ? "/a/#{@group.slug}/inventory_items/new" : "/a/#{@group.slug}/inventory_items/#{@inventory_item.id}/edit", :class => 'no-trigger' do |f| %>
+<% form_for @inventory_item, @inventory_item.new_record? ? "/a/#{@gathering.slug}/inventory_items/new" : "/a/#{@gathering.slug}/inventory_items/#{@inventory_item.id}/edit", :class => 'no-trigger' do |f| %>
   <%= f.text_block :name %>
   <%= f.text_area_block :description %> 
-  <%= f.select_block :team_id, :options => @group.teams.order('name asc').map { |team| [team.name, team.id] } %>  
-  <%= f.submit_block destroy_url: "/a/#{@group.slug}/inventory_items/#{@inventory_item.id}/destroy" %>
+  <%= f.select_block :team_id, :options => @gathering.teams.order('name asc').map { |team| [team.name, team.id] } %>  
+  <%= f.submit_block destroy_url: "/a/#{@gathering.slug}/inventory_items/#{@inventory_item.id}/destroy" %>
 <% end %>

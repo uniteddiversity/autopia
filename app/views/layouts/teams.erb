@@ -1,6 +1,6 @@
 <% content_for :content do %>
 
-  <%= partial :'groups/nav', locals: {group: @group, membership: @membership} %>
+  <%= partial :'gatherings/nav', locals: {gathering: @gathering, membership: @membership} %>
 
   <div class="row">	
     <div class="col-sm-9 order-sm-0">
@@ -30,7 +30,7 @@
           <% else %>
             <a class="btn btn-primary mb-1" href="/teamships/create?team_id=<%=@team.id%>">Join</a>
           <% end %>
-          <a class="btn btn-primary mb-1" href="/a/<%=@group.slug%>/teams/<%=@team.id%>/edit">Edit team</a>
+          <a class="btn btn-primary mb-1" href="/a/<%=@gathering.slug%>/teams/<%=@team.id%>/edit">Edit team</a>
         </div>
 
       <% end %>

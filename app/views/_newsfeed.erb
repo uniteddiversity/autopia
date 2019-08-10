@@ -11,7 +11,7 @@
             <a class="text-dark" href="<%= notification.link[1] %>">
               <%= notification.sentence %>
               <% if include_circle_name %>
-                <% if notification.circle.is_a?(Group) %>
+                <% if notification.circle.is_a?(Gathering) %>
                   in <strong><%= notification.circle.name %></strong>
                 <% end %>
               <% end %>

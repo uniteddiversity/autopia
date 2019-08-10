@@ -1,0 +1,67 @@
+<script>
+  $(function () {
+    $('#gathering-nav-show').click(function () {
+      $('#gathering-nav > ul').slideDown('fast');
+      $('#gathering-nav-hide').show()
+      $(this).hide()
+    })
+    $('#gathering-nav-hide').click(function () {
+      $('#gathering-nav > ul').slideUp('fast');
+      $('#gathering-nav-show').show()
+      $(this).hide()
+    })
+  })
+</script>
+
+
+<div id="gathering-nav" class="mb-3 bg-dark p-1 rounded">   
+  <a class="text-white bg-dark p-1 rounded float-right" style="display: none" href="javascript:;" id="gathering-nav-show"><i class="fa fa-navicon"></i></a>
+  <a class="text-white bg-dark p-1 rounded float-right" style="display: inline-block" href="javascript:;" id="gathering-nav-hide"><i class="fa fa-times"></i></a>
+  <%= ul_nav [
+    ["Home", "/a/#{gathering.slug}"],
+    (["Settings", "/a/#{gathering.slug}/edit"] if membership.admin),
+    ([%Q{Balance <span class="label label-inverse">#{number_to_currency gathering.balance, unit: gathering.currency_symbol, precision: 0}</span>}, "/a/#{gathering.slug}/balance"]  if membership.admin),                   
+    [%Q{Members <span class="label label-inverse">#{gathering.member_limit ? %Q{#{gathering.memberships.count}/#{gathering.member_limit}} : gathering.memberships.count}</span>}, "/a/#{gathering.slug}/members"],
+    ([%Q{Applications #{if gathering.mapplications.pending.count > 0; %Q{<span class="label label-inverse">#{gathering.mapplications.pending.count}</span>} end}}, "/a/#{gathering.slug}/applications"] if gathering.enable_applications or gathering.mapplications.where(:status.ne => 'accepted').count > 0),        
+    (["Teams",
+        (
+          gathering.teams(true).order('name asc').map { |team| [%Q{
+            #&nbsp;#{team.name}
+            #{
+              # if (unread = team.comments.where(:id.nin => current_account.read_receipts.pluck(:comment_id)).count) > 0; %Q{<span class="label label-inverse" title="#{pluralize(unread, 'unread comment')}">#{unread}</span>}; end
+            }}, "/a/#{gathering.slug}/teams/#{team.id}"] } + [['Overview', "/a/#{gathering.slug}/teams"], ['Create a team', "/a/#{gathering.slug}/teams/new"]]
+        )              
+        ] if gathering.enable_teams),      
+    (["Timetables",
+        (
+          gathering.timetables(true).map { |timetable| [timetable.name, "/a/#{gathering.slug}/timetables/#{timetable.id}"] } + (membership.admin? ? [['Create a timetable', "/a/#{gathering.slug}/timetables/new"]] : [])
+        )
+        ] if gathering.enable_timetables),
+    (["Rotas",
+        (
+          gathering.rotas(true).map { |rota| [rota.name, "/a/#{gathering.slug}/rotas/#{rota.id}"] } + (membership.admin? ? [['Create a rota', "/a/#{gathering.slug}/rotas/new"]] : [])
+        )              
+        ] if gathering.enable_rotas),
+    (["Tiers", "/a/#{gathering.slug}/tiers"] if gathering.enable_tiers),
+    (["Accommodation", "/a/#{gathering.slug}/accoms"] if gathering.enable_accommodation),
+    (["Transport", "/a/#{gathering.slug}/transports"] if gathering.enable_transport),        
+    (["Inventory", "/a/#{gathering.slug}/inventory"] if gathering.enable_inventory),       
+    (["Budget", "/a/#{gathering.slug}/budget"] if gathering.enable_budget)
+    ].compact,
+    ul_class: 'nav nav-pills',
+    li_class: 'nav-item',
+    li_active_class: nil,
+    a_class: 'nav-link text-white',
+    a_active_class: 'active',
+    ul_id: nil,             
+    subnav_li_class: 'nav-item dropdown',
+    subnav_data_toggle: 'dropdown',
+    subnav_a_class: 'nav-link dropdown-toggle text-white',
+    subnav_caret: '<b class="caret caret-right pull-right ml-1"></b>',
+    subnav_ul_class: 'dropdown-menu',
+    subnav_li2_class: '',
+    subnav_a2_class: 'dropdown-item',
+    generate_subnav_href_and_ul: false
+%>
+  <span class="clearfix"></span>
+</div>

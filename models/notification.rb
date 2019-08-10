@@ -8,11 +8,11 @@ class Notification
   belongs_to :notifiable, polymorphic: true, index: true
   
   def self.circle_types
-    %w{Group Account}
+    %w{Gathering Account}
   end
   
   def circle_url
-    if circle.is_a?(Group)
+    if circle.is_a?(Gathering)
       "#{ENV['BASE_URI']}/a/#{circle.slug}"
     elsif circle.is_a?(Account)
       "#{ENV['BASE_URI']}/accounts/#{circle.id}"
@@ -26,11 +26,11 @@ class Notification
   end
   
   def self.types
-    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend created_room created_place updated_profile updated_place followed completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_activity scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_group created_payment created_inventory_item mapplication_removed}
+    %w{created_gathering applied joined_gathering created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend created_room created_place updated_profile updated_place followed completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_activity scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_gathering created_payment created_inventory_item mapplication_removed}
   end
   
   def self.mailable_types
-    %w{created_group applied joined_group created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend created_room created_place}
+    %w{created_gathering applied joined_gathering created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend created_room created_place}
   end
     
   after_create :send_email  
@@ -61,13 +61,13 @@ class Notification
       
   def sentence    
     case type.to_sym
-    when :created_group
-      group = notifiable
-      "<strong>#{group.account.name}</strong> created the group"    
+    when :created_gathering
+      gathering = notifiable
+      "<strong>#{gathering.account.name}</strong> created the gathering"    
     when :applied
       mapplication = notifiable
       "<strong>#{mapplication.account.name}</strong> applied"
-    when :joined_group
+    when :joined_gathering
       membership = notifiable
       mapplication = membership.mapplication
       if mapplication
@@ -79,7 +79,7 @@ class Notification
       elsif membership.added_by
         "<strong>#{membership.account.name}</strong> was added by #{membership.added_by.name}"
       else
-        "<strong>#{membership.account.name}</strong> joined the group"
+        "<strong>#{membership.account.name}</strong> joined the gathering"
       end
     when :joined_team
       teamship = notifiable
@@ -95,7 +95,7 @@ class Notification
       "<strong>#{habit_completion_like.account.name}</strong> liked <strong>#{habit_completion_like.habit.account.name}</strong>'s completion of <strong>#{habit_completion_like.habit.name}</strong>"
     when :created_spend
       spend = notifiable
-      "<strong>#{spend.account.name}</strong> spent #{spend.group.currency_symbol}#{spend.amount} on <strong>#{spend.item}</strong>"
+      "<strong>#{spend.account.name}</strong> spent #{spend.gathering.currency_symbol}#{spend.amount} on <strong>#{spend.item}</strong>"
     when :created_room
       room = notifiable
       "<strong>#{room.account.name}</strong> listed the room <strong>#{room.name}</strong>"
@@ -174,12 +174,12 @@ class Notification
       else
         "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.commentable.name}#{if comment_reaction.comment.post.subject; "/#{comment_reaction.comment.post.subject}"; end}</strong>"
       end
-    when :left_group
+    when :left_gathering
       account = notifiable
       "<strong>#{account.name}</strong> is no longer a member"
     when :created_payment
       payment = notifiable
-      "<strong>#{payment.account.name}</strong> made a payment of #{Group.currency_symbol(payment.currency)}#{payment.amount}"
+      "<strong>#{payment.account.name}</strong> made a payment of #{Gathering.currency_symbol(payment.currency)}#{payment.amount}"
     when :created_inventory_item
       inventory_item = notifiable
       "<strong>#{inventory_item.account.name}</strong> listed the item <strong>#{inventory_item.name}</strong>"
@@ -191,11 +191,11 @@ class Notification
   
   def link
     case type.to_sym
-    when :created_group
-      ['View group', "#{ENV['BASE_URI']}/a/#{circle.slug}"]
+    when :created_gathering
+      ['View gathering', "#{ENV['BASE_URI']}/a/#{circle.slug}"]
     when :applied
       ['View applications', "#{ENV['BASE_URI']}/a/#{circle.slug}/applications"]
-    when :joined_group
+    when :joined_gathering
       ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]      
     when :joined_team
       ['View team', "#{ENV['BASE_URI']}/a/#{circle.slug}/teams/#{notifiable.team_id}"]
@@ -247,7 +247,7 @@ class Notification
       ['View post', notifiable.post.url]
     when :reacted_to_a_comment
       ['View post', notifiable.post.url]
-    when :left_group
+    when :left_gathering
       ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]
     when :created_payment
       ['View budget', "#{ENV['BASE_URI']}/a/#{circle.slug}/budget"]
@@ -260,11 +260,11 @@ class Notification
     
   def icon
     case type.to_sym
-    when :created_group
+    when :created_gathering
       'fa-group'
     when :applied
       'fa-file-text-o'
-    when :joined_group
+    when :joined_gathering
       'fa-user-plus'      
     when :joined_team
       'fa-group'
@@ -316,7 +316,7 @@ class Notification
       'fa-comment'       
     when :reacted_to_a_comment
       'fa-thumbs-up' 
-    when :left_group
+    when :left_gathering
       'fa fa-sign-out'
     when :created_payment
       'fa-money'  

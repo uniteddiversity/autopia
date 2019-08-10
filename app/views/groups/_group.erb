@@ -1,8 +1,0 @@
-
-<a class="d-block p-2 <%if group.cover_image%>text-white<% else%>text-dark<% end %>" href="/a/<%=group.slug%>" style="<% if !group.cover_image %>border: 2px solid #343a40;<% end %> <% if group.cover_image %>background: linear-gradient( rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) ), url('<%=group.cover_image.thumb('400x400').url%>'); background-size: cover; background-position: center center;<% end %>" class="group">             
-  <div style="height: 160px;">
-    <h4 class="block-title">
-      <%=group.name%>
-    </h4> 
-  </div>
-</a>

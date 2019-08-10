@@ -5,7 +5,7 @@ class Mapplication
   field :status, :type => String
   field :answers, :type => Array  
 
-  belongs_to :group, index: true
+  belongs_to :gathering, index: true
   belongs_to :account, class_name: "Account", inverse_of: :mapplications, index: true
   belongs_to :processed_by, class_name: "Account", inverse_of: :mapplications_processed, index: true, optional: true
   
@@ -18,21 +18,21 @@ class Mapplication
   has_many :comment_reactions, :as => :commentable, :dependent => :destroy   
   
   def subscribers
-    group.subscribers.where(:id.in => (verdicts.pluck(:account_id) + group.admins.pluck(:id)))
+    gathering.subscribers.where(:id.in => (verdicts.pluck(:account_id) + gathering.admins.pluck(:id)))
   end  
   
   validates_presence_of :status
-  validates_uniqueness_of :account, :scope => :group  
+  validates_uniqueness_of :account, :scope => :gathering  
   
   attr_accessor :prevent_notifications
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => group, :type => 'applied'
+    notifications.create! :circle => gathering, :type => 'applied'
   end 
     
   after_destroy do
     unless prevent_notifications
-      account.notifications_as_notifiable.create! :circle => group, :type => 'mapplication_removed'
+      account.notifications_as_notifiable.create! :circle => gathering, :type => 'mapplication_removed'
     end
   end  
       
@@ -53,26 +53,26 @@ class Mapplication
   end
   
   def acceptable?
-    status == 'pending' and (!group.member_limit or (group.memberships.count < group.member_limit)) and verdicts.proposers.count > 0
+    status == 'pending' and (!gathering.member_limit or (gathering.memberships.count < gathering.member_limit)) and verdicts.proposers.count > 0
   end
   
   def meets_threshold
-    group.threshold and (verdicts.proposers.count + (group.enable_supporters ? verdicts.supporters.count : 0)) >= group.threshold
+    gathering.threshold and (verdicts.proposers.count + (gathering.enable_supporters ? verdicts.supporters.count : 0)) >= gathering.threshold
   end
   
   def accept
     mapplication = self    
     account = mapplication.account
-    group = mapplication.group    
+    gathering = mapplication.gathering    
     update_attribute(:status, 'accepted')
-    group.memberships.create! account: account, mapplication: mapplication
+    gathering.memberships.create! account: account, mapplication: mapplication
   end
         
   def self.admin_fields
     {
       :summary => {:type => :text, :index => false, :edit => false},
       :account_id => :lookup,
-      :group_id => :lookup,
+      :gathering_id => :lookup,
       :verdicts => :collection,
       :status => :select,
       :answers => :text_area
@@ -84,7 +84,7 @@ class Mapplication
   end
     
   def summary
-    "#{self.account.name} - #{self.group.name}"
+    "#{self.account.name} - #{self.gathering.name}"
   end
     
   def self.statuses

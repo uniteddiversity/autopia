@@ -17,12 +17,12 @@
         </td>
         <td>
           <% account.memberships.each { |membership| %>
-            <span class="label" style="background-color: #<%=Digest::MD5.hexdigest("Group#{membership.group_id}")[0..5]%>"><%= membership.group.name %></span>
+            <span class="label" style="background-color: #<%=Digest::MD5.hexdigest("Gathering#{membership.gathering_id}")[0..5]%>"><%= membership.gathering.name %></span>
           <% } %>
         </td>
         <td>
           <% account.mapplications.each { |mapplication| %>
-            <span class="label" style="background-color: #<%=Digest::MD5.hexdigest("Group#{mapplication.group_id}")[0..5]%>"><%= mapplication.group.name %></span>
+            <span class="label" style="background-color: #<%=Digest::MD5.hexdigest("Gathering#{mapplication.gathering_id}")[0..5]%>"><%= mapplication.gathering.name %></span>
           <% } %>
         </td>        
         <td>

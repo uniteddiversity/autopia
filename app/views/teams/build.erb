@@ -1,9 +1,9 @@
 
-<% form_for @team, @team.new_record? ? "/a/#{@group.slug}/teams/new" : "/a/#{@group.slug}/teams/#{@team.id}/edit" do |f| %>
+<% form_for @team, @team.new_record? ? "/a/#{@gathering.slug}/teams/new" : "/a/#{@gathering.slug}/teams/#{@team.id}/edit" do |f| %>
   <%= f.text_block :name %>
   <%= f.wysiwyg_block :intro %>
-  <% if @group.enable_budget %>
+  <% if @gathering.enable_budget %>
     <%= f.number_block :budget %>
   <% end %>
-  <%= f.submit_block destroy_url: "/a/#{@group.slug}/teams/#{@team.id}/destroy" %>
+  <%= f.submit_block destroy_url: "/a/#{@gathering.slug}/teams/#{@team.id}/destroy" %>
 <% end %>
