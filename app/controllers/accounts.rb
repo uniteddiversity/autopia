@@ -1,10 +1,5 @@
 Autopia::App.controller do
   
-  get '/accounts/sign_up' do
-    redirect '/accounts/new' if Provider.registered.empty?
-    erb :'accounts/sign_up'
-  end    
-  
   get '/accounts/sign_in' do
     erb :'accounts/sign_in'
   end    
@@ -36,7 +31,7 @@ Autopia::App.controller do
         
   get '/accounts/new' do
     @account = Account.new    
-    erb :'accounts/build'
+    erb :'accounts/new'
   end 
   
   post '/accounts/new' do
@@ -52,7 +47,7 @@ Autopia::App.controller do
       redirect '/'
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
-      erb :'accounts/build'
+      erb :'accounts/new'
     end
   end
         
@@ -60,7 +55,7 @@ Autopia::App.controller do
     sign_in_required!
     @account = current_account
     discuss 'Edit profile'
-    erb :'accounts/build'
+    erb :'accounts/edit'
   end
   
   post '/accounts/edit' do
@@ -73,7 +68,7 @@ Autopia::App.controller do
       redirect (params[:slug] ? "/a/#{params[:slug]}" : '/accounts/edit')
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
-      erb :'accounts/build'
+      erb :'accounts/edit'
     end
   end
   
@@ -138,7 +133,7 @@ Autopia::App.controller do
       redirect '/accounts/edit'
     else
       flash.now[:error] = "<strong>Hmm.</strong> There was a problem grabbing your picture."
-      erb :'accounts/build'
+      erb :'accounts/edit'
     end
   end   
   
@@ -151,7 +146,7 @@ Autopia::App.controller do
       redirect '/accounts/edit'
     else
       flash.now[:error] = "<strong>Oops.</strong> The disconnect wasn't successful."
-      erb :'accounts/build'
+      erb :'accounts/edit'
     end
   end   
   

@@ -71,6 +71,7 @@ module Autopia
         discuss 'Newsfeed'
         erb :home_signed_in
       else
+        @account = Account.new  
         @accounts = []
         @places = Place.all.order('created_at desc')        
         erb :home_not_signed_in

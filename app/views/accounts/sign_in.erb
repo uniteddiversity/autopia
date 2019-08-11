@@ -1,8 +1,8 @@
 <div class="row justify-content-center">
-  <div class="col-auto">
+  <div class="col-auto well p-4">
 
     <% form_tag '/auth/account/callback', :id => 'sign_in' do %>
-      <h2 class="mt-0">Sign in</h2>
+    <h2 class="mt-0">Sign in</h2>
       <div class="form-group mb-1">
         <label class="sr-only">Email</label>
         <%= email_field_tag :email, :id => 'email', :class => 'form-control', :placeholder => 'Email'%>
@@ -26,8 +26,8 @@
         </p> 
       <% end %>      
       <a href="/accounts/sign_up" class="btn btn-outline-primary">
-        Not yet registered? Sign up here
-      </a>
+      Not yet registered? Sign up here
+    </a>
     <% end %>
 
     <div id="forgot" style="display: none">
