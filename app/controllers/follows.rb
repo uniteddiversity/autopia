@@ -15,7 +15,7 @@ Autopia::App.controller do
       follow.update_attribute(:unsubscribed, false)
       follow.notifications.create! :circle => @account, :type => 'followed'
     end
-    request.xhr? ? (partial :follow, :locals => {:account => @account, :btn_class => params[:btn_class]}) : redirect("/u/#{@account.username}")
+    request.xhr? ? (partial :'accounts/follow', :locals => {:account => @account, :btn_class => params[:btn_class]}) : redirect("/u/#{@account.username}")
   end
     
 end
