@@ -45,7 +45,7 @@ Autopia::App.controller do
           @account.email = env['omniauth.auth']['info']['email']  
           @account.picture_url = @provider.image.call(env['omniauth.auth'])
           @account.provider_links.build(provider: @provider.display_name, provider_uid: env['omniauth.auth']['uid'], omniauth_hash: env['omniauth.auth'])
-          erb :'accounts/build'
+          erb :'accounts/new'
         end
       end
     end
