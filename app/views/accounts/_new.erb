@@ -1,14 +1,17 @@
 
 <div class="text-center">
-  <div class="mb-3">
-    <a href="/accounts/sign_in">Already an Autopian? Sign in</a>
+
+  <% unless env['omniauth.auth'] %>
+    <div class="mb-3">
+      <a href="/accounts/sign_in">Already an Autopian? Sign in</a>
+    </div>
+    <% if !Provider.registered.empty? %>
+      <%  Provider.registered.each { |provider| %>             
+        <a class="btn btn-primary" href="/auth/<%=provider.omniauth_name%>"><i class="fa fa-<%=provider.icon%>"></i> Sign up via <%=provider.display_name%></a>
+      <% } %>    
+    <% end %>
   </div>
-  <% if !Provider.registered.empty? %>
-    <%  Provider.registered.each { |provider| %>             
-      <a class="btn btn-primary" href="/auth/<%=provider.omniauth_name%>"><i class="fa fa-<%=provider.icon%>"></i> Sign up via <%=provider.display_name%></a>
-    <% } %>    
-  <% end %>
-</div>
+<% end %>
 
 <% form_for @account, '/accounts/new', :class => 'mt-3', :multipart => true do |f| %>
   <%= hidden_field_tag :slug, :value => params[:slug] %>
