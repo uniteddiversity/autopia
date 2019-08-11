@@ -26,7 +26,7 @@
           <!-- BEGIN mobile sidebar expand / collapse button -->
           <div class="navbar-header">
             <a href="/" class="navbar-brand">
-              <%= @gathering ? %Q{<span style="position: relative; top: 0.3rem"><span class="hw">A</span><span class="hw ml-2 mr-1">/</span><span style="position: relative; top: -0.15rem">#{@gathering.name}</a></span>} : '<span class="hw">Autopia</span>' %>
+              <span style="position: relative; top: 0.2rem"><%= @gathering ? %Q{<span style="position: relative; top: 0rem"><span class="hw">A</span><span class="hw ml-2 mr-1">/</span><span style="position: relative; top: 0rem">#{@gathering.name}</a></span>} : '<span class="hw">Autopia</span>' %></span>
             </a>
             <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
               <span class="icon-bar"></span>
@@ -75,7 +75,7 @@
         <%= partial :alert %>
 
         <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
-        
+
       </div>
       <!-- END #content -->
 

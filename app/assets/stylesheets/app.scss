@@ -1,4 +1,6 @@
 @import url('/fonts/mellony/stylesheet.css');
+@import url('/fonts/murmur/stylesheet.css');
+@import url('/fonts/zilap_tribu/stylesheet.css'); 
 
 @import "../infinite_admin/scss/style";
 
@@ -13,7 +15,7 @@ body[contenteditable] { background: white }
 }
 
 .hw {
-  font-family: 'mellony_dry_brushregular';
+  font-family: 'zilap_triburegular';
 }
 
 .navbar-brand .hw {
