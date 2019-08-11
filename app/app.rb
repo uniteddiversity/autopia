@@ -50,7 +50,7 @@ module Autopia
       end      
       @_params = params; def params; @_params; end # force controllers to inherit the fixed params
       @og_desc = 'Autopia is a social network emerging from co-created microfestivals and other real-life gatherings'
-      @og_image = "#{ENV['BASE_URI']}/images/autopia-link.png"
+      @og_image = "#{ENV['BASE_URI']}/images/cover.png"
       if current_account
         current_account.set(last_active: Time.now)
       end
