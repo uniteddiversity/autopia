@@ -3,12 +3,12 @@
   "name": "Autopia",
   "icons": [
     {
-      "src": "/images/autopia-192-0.png",
+      "src": "/images/autopia-192-1.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/images/autopia-512-0.png",
+      "src": "/images/autopia-512-1.png",
       "type": "image/png",
       "sizes": "512x512"
     }
