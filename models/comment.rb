@@ -16,9 +16,7 @@ class Comment
   end    
   
   dragonfly_accessor :file  
-  
-  validates_presence_of :body
-    
+      
   has_many :comment_reactions, :dependent => :destroy
   has_many :options, :dependent => :destroy
   has_many :read_receipts, :dependent => :destroy
@@ -27,14 +25,16 @@ class Comment
     post.subscriptions.create account: account
     body.scan(/\[@[\w\s'-\.]+\]\(@(\w+)\)/) { |match|
       post.subscriptions.create account: Account.find_by(username: match[0])
-    }
+    } if body
   end
   
   def body_with_additions
-    b = body
-    b = b.gsub("\n","<br />")
-    b = b.gsub(/\[@([\w\s'-\.]+)\]\(@(\w+)\)/,'<a href="'+ENV['BASE_URI']+'/u/\2">\1</a>')
-    b
+    if body
+      b = body
+      b = b.gsub("\n","<br />")
+      b = b.gsub(/\[@([\w\s'-\.]+)\]\(@(\w+)\)/,'<a href="'+ENV['BASE_URI']+'/u/\2">\1</a>')
+      b
+    end
   end
 
   has_many :notifications, as: :notifiable, dependent: :destroy
