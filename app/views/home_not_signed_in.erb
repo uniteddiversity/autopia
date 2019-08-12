@@ -1,8 +1,8 @@
 <div style="background-image: url(/images/bl.jpeg); background-size: cover; background-position: center; padding: 6em 2em">
   <h1 class="text-center p-3 text-white" style="background-color: rgba(0,0,0,0.65)">
-    <span class="hw">Autopia</span> is a social network emerging from
+    <span class="hw">Autopia</span> is an open-source social network emerging from
     <br style="d-none d-sm-block" />
-    <span class="rainbow">co-created microfestivals</span> and other real-life gatherings   
+    <span class="rainbow">co-created microfestivals</span> and other real-life gatherings
   </h1>
 
   <p class="lead text-center p-3 text-white" style="background-color: rgba(0,0,0,0.65)">
@@ -21,9 +21,9 @@
 <div class="row mt-5 justify-content-center">
   <div class="col-sm-6">
 
-    <div class="card"> 
+    <div class="card">
       <div class="hw card-header text-white bg-primary">
-        <h2 class="hw text-center my-0">Join us</h2>    
+        <h2 class="hw text-center my-0">Join us</h2>
       </div>
       <div class="card-body">
         <%= partial :'accounts/new' %>
@@ -39,4 +39,4 @@
 
 <p class="mt-3 lead text-center" style="font-size: 18px">
   <%= Place.order('name_transliterated asc').each.map { |place| %Q{<a href="/places/#{place.id}">#{place.name}</a>} }.join(' &middot; ') %>
-</p>  
+</p>
