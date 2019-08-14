@@ -5,13 +5,9 @@
     <% end %>
   })
 </script>
-
 <ul class="nav">
-
   <li style="height: 0.5rem"></li>
-
   <% if current_account %>
-
     <li class="d-md-none has-sub">
       <a href="javascript:;">
         <b class="caret caret-right pull-right"></b>
@@ -20,9 +16,7 @@
       </a>
       <%= partial :'nav_profile', locals: {ul_class: 'sub-menu'} %>
     </li>
-
   <% end %>
-
   <li class="<%='active' if request.path == '/'%>">
     <a href="/">
       <% if current_account %>
@@ -34,55 +28,45 @@
       <% end %>
     </a>
   </li>
-
   <li class="<%='active' if request.path == '/habits'%>">
     <a href="/habits">
       <i class="ti-check-box"></i>
       <span class="nav-link-text">Habits</span>
     </a>
   </li>
-
   <li class="<%='active' if request.path == '/places'%>">
     <a href="/places">
       <i class="fa fa-fw fa-map-marker"></i>
       <span class="nav-link-text">Places</span>
     </a>
   </li>
-
   <li class="<%='active' if request.path == '/rooms'%>">
     <a href="/rooms">
       <i class="fa fa-fw fa-cube"></i>
       <span class="nav-link-text">Rooms</span>
     </a>
   </li>
-
   <li class="<%='active' if request.path == '/dating'%>">
     <a href="/dating">
       <i class="fa fa-heart-o"></i>
       <span class="nav-link-text">Dating</span>
     </a>
   </li>
-
   <% if !current_account %>
-
     <li class="<%='active' if request.path == '/gatherings'%>">
       <a href="/gatherings">
         <i class="fa fa-users"></i>
         <span class="nav-link-text">Gatherings</span>
       </a>
     </li>
-
   <% end %>
-
   <% if current_account %>
-
     <li class="has-sub <%='active' if @gathering%>">
       <a href="javascript:;">
         <b class="caret caret-right pull-right"></b>
         <i class="fa fa-users"></i>
         <span>Gatherings</span>
       </a>
-
       <%= ul_nav current_account.memberships.select { |membership| membership.gathering == @gathering or !membership.hide_from_sidebar }.sort_by { |membership| membership.gathering.name }.map { |membership| [membership.gathering.name, "/a/#{membership.gathering.slug}"] },
         ul_class: 'sub-menu',
         li_class: '',
@@ -90,54 +74,42 @@
         a_class: '',
         a_active_class: ''
       %>
-
+      <li><a href="/a/new">Create a gathering</a></li>
     </li>
-
   <% end %>
-
   <% if admin? %>
-
     <li class="nav-divider"></li>
     <li class="nav-header">Stats</li>
-
     <li>
       <a href="/stats/comments">
         <i class="fa fa-fw fa-comments"></i>
         <span class="nav-link-text">Comments</span>
       </a>
     </li>
-
     <li>
       <a href="/stats/accounts">
         <i class="fa fa-fw fa-user"></i>
         <span class="nav-link-text">Accounts</span>
       </a>
     </li>
-
   <% end %>
-
-
   <li class="nav-divider"></li>
-
   <li>
     <a target="_blank" href="https://opencollective.com/autopia">
       <i class="fa fa-fw fa-money"></i>
       <span class="nav-link-text">Support us on OpenCollective</span>
     </a>
   </li>
-
   <li>
     <a target="_blank" href="http://slack.autopia.co/">
       <i class="fa fa-fw fa-slack"></i>
       <span class="nav-link-text">Join our Slack</span>
     </a>
   </li>
-
   <li>
     <a target="_blank" href="https://github.com/stephenreid321/autopia">
       <i class="fa fa-fw fa-github"></i>
       <span class="nav-link-text">View the code on Github</span>
     </a>
   </li>
-
 </ul>
