@@ -68,7 +68,7 @@
         <span>Gatherings</span>
       </a>
       <%= ul_nav
-      current_account.memberships.select { |membership| membership.gathering == @gathering or !membership.hide_from_sidebar }.sort_by { |membership| membership.gathering.name }.map { |membership| [membership.gathering.name, "/a/#{membership.gathering.slug}"] + ['Create a gathering', '/a/new'],
+      current_account.memberships.select { |membership| membership.gathering == @gathering or !membership.hide_from_sidebar }.sort_by { |membership| membership.gathering.name }.map { |membership| [membership.gathering.name, "/a/#{membership.gathering.slug}"] + [['Create a gathering', '/a/new']],
         ul_class: 'sub-menu',
         li_class: '',
         li_active_class: 'active',
