@@ -67,14 +67,14 @@
         <i class="fa fa-users"></i>
         <span>Gatherings</span>
       </a>
-      <%= ul_nav current_account.memberships.select { |membership| membership.gathering == @gathering or !membership.hide_from_sidebar }.sort_by { |membership| membership.gathering.name }.map { |membership| [membership.gathering.name, "/a/#{membership.gathering.slug}"] },
+      <%= ul_nav
+      current_account.memberships.select { |membership| membership.gathering == @gathering or !membership.hide_from_sidebar }.sort_by { |membership| membership.gathering.name }.map { |membership| [membership.gathering.name, "/a/#{membership.gathering.slug}"] + ['Create a gathering', '/a/new'],
         ul_class: 'sub-menu',
         li_class: '',
         li_active_class: 'active',
         a_class: '',
         a_active_class: ''
       %>
-      <li><a href="/a/new">Create a gathering</a></li>
     </li>
   <% end %>
   <% if admin? %>
