@@ -11,6 +11,10 @@ class Placeship
 
   validates_uniqueness_of :account, scope: :place
 
+  def stripe_user_id
+    JSON.parse(stripe_connect_json)['stripe_user_id']
+  end
+
   def self.admin_fields
     {
       unsubscribed: :check_box,
