@@ -1,0 +1,15 @@
+<script>
+  $(function () {
+    $('.event').hover(
+            function () { $('.event-edit', this).show() },
+            function () { $('.event-edit', this).hide() },
+    )
+  })
+</script>
+<div class="row" id="events">
+  <% events.each { |event| %>
+  <div data-pagelet-url="/events/<%=event.id%>/block" class="event col-6 col-sm-3 mb-3 <%=block_class if defined?(block_class)%>" id="<%=event.id%>">
+    <%= partial :'events/block', :locals => {:event => event} %>
+  </div>
+  <% } %>
+</div>

@@ -1,0 +1,26 @@
+<% if @event.persisted? %>
+  <a class="d-inline-block mb-3" href="/events/<%=@event.slug%>"><i class="fa fa-arrow-left"></i> Return to <%=@event.name%></a>
+<% end %>
+<script>
+  $(function () {
+    var autocomplete = new google.maps.places.Autocomplete($('#event_location')[0]);
+    $('#event_location').keydown(function (e) {
+      if (e.which == 13 && $('.pac-container:visible').length)
+      return false;
+    })
+  })
+</script>
+<% form_for @event, @event.new_record ? '/events/new' : "/events/#{@event.slug}/edit" do |f| %>
+  <%= f.text_block :name %>
+  <%= f.datetime_block :start_time %>
+  <%= f.datetime_block :end_time %>
+  <%= f.text_block :location %>
+  <%= f.lookup_block :promoter, lookup_url: "/promoters.json", placeholder: 'Search promoters', selected_link: (%Q{<a class="popup" href="/places/#{@event.promoter_id}">View record</a>} if @event.promoter_id) %>
+  <%= f.email_block :email %>
+  <%= f.image_block :image %>
+  <%= f.wysiwyg_block :description %>
+  <%= f.number_block :facebook_event_id %>
+  <!-- field :suggested_donation, type: Integer -->
+  <%= f.text_area_block :feedback_questions %>
+  <%= f.submit_block destroy_url: ("/events/#{@event.slug}/destroy") %>
+<% end %>

@@ -10,19 +10,27 @@ function br2nl(str) {
   return str.replace(/<br>/g, "\r\n");
 }
 
-$(function () {
+$(function() {
 
   function ajaxCompleted() {
 
-    $('[data-account-username]').not('#modal [data-account-username]').click(function () {
-      $('#modal .modal-content').load('/u/'+$(this).attr('data-account-username'), function () {
+    $('input[type=hidden].lookup').each(function() {
+      $(this).lookup({
+        lookup_url: $(this).attr('data-lookup-url'),
+        placeholder: $(this).attr('placeholder'),
+        id_param: 'id'
+      });
+    });
+
+    $('[data-account-username]').not('#modal [data-account-username]').click(function() {
+      $('#modal .modal-content').load('/u/' + $(this).attr('data-account-username'), function() {
         $('#modal').modal('show');
         $('[data-toggle="tooltip"]').tooltip('hide');
       });
     })
 
-    $('a[data-confirm]:not([data-confirm-registered])').each(function () {
-      $(this).click(function () {
+    $('a[data-confirm]:not([data-confirm-registered])').each(function() {
+      $(this).click(function() {
         $(this).removeClass('no-trigger')
 
         var message = $(this).data('confirm');
@@ -34,7 +42,7 @@ $(function () {
       $(this).attr('data-confirm-registered', 'true')
     });
 
-    $('form.add-placeholders label[for]').each(function () {
+    $('form.add-placeholders label[for]').each(function() {
       var input = $(this).next().children().first()
       if (!$(input).attr('placeholder'))
         $(input).attr('placeholder', $.trim($(this).text()))
@@ -42,7 +50,7 @@ $(function () {
 
     $('[data-toggle="tooltip"]').tooltip({
       html: true,
-      title: function () {
+      title: function() {
         if ($(this).attr('title').length > 0)
           return $(this).attr('title')
         else
@@ -52,18 +60,25 @@ $(function () {
 
     $("abbr.timeago").timeago()
 
-    $(".datepicker").datepicker({format: 'yyyy-mm-dd'});
-    $(".datetimepicker").flatpickr({altInput: true, altFormat: 'J F Y, H:i', enableTime: true, time_24hr: true});
+    $(".datepicker").datepicker({
+      format: 'yyyy-mm-dd'
+    });
+    $(".datetimepicker").flatpickr({
+      altInput: true,
+      altFormat: 'J F Y, H:i',
+      enableTime: true,
+      time_24hr: true
+    });
 
-    $('[id=comment_subject], [id=comment_body]').focus(function () {
+    $('[id=comment_subject], [id=comment_body]').focus(function() {
       $(this.form).find('.btn-primary').parent().parent().removeClass('d-none')
     })
     autosize($('textarea[id=comment_body]'));
 
-    $('[id=comment_body]').each(function () {
+    $('[id=comment_body]').each(function() {
       var tribute = new Tribute({
         values: network,
-        selectTemplate: function (item) {
+        selectTemplate: function(item) {
           return '[@' + item.original.key + '](@' + item.original.value + ')';
         },
       })
@@ -72,8 +87,8 @@ $(function () {
 
     $('.linkify').linkify();
 
-    $('.comment-body').each(function () {
-      $(this).html($(this).html().replace(/<a (.*)>(.*)<\/a>/, function (match, p1, p2) {
+    $('.comment-body').each(function() {
+      $(this).html($(this).html().replace(/<a (.*)>(.*)<\/a>/, function(match, p1, p2) {
         parts = p2.split('/')
         if (p2.match(/^(http|https):\/\//) && p2.length > 50 && parts.length > 3) {
           t = parts[0] + '//' + parts[2] + '/...'
@@ -84,52 +99,52 @@ $(function () {
       }))
     })
 
-    $('.nl2br').each(function () {
+    $('.nl2br').each(function() {
       $(this).html(nl2br($(this).html()))
     })
 
-    $('.tagify').each(function () {
+    $('.tagify').each(function() {
       $(this).html($(this).html().replace(/\[@([\w\s'-\.]+)\]\(@(\w+)\)/g, '<a href="/u/$2">$1</a>'));
     })
   }
 
-  $(document).ajaxComplete(function () {
+  $(document).ajaxComplete(function() {
     ajaxCompleted()
   });
   ajaxCompleted()
 
-  $('form').submit(function () {
+  $('form').submit(function() {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
   });
 
-  $('[data-upload-url]').click(function () {
+  $('[data-upload-url]').click(function() {
     var form = $('<form action="' + $(this).attr('data-upload-url') + '" method="post" enctype="multipart/form-data"><input style="display: none" type="file" name="upload"></form>')
     form.insertAfter(this)
-    form.find('input').click().change(function () {
+    form.find('input').click().change(function() {
       this.form.submit()
     })
   })
 
-  $('input[type=text].slug').each(function () {
+  $('input[type=text].slug').each(function() {
     var slug = $(this);
     var start_length = slug.val().length;
     var pos = $.inArray(this, $('input', this.form)) - 1;
     var title = $($('input', this.form).get(pos));
-    slug.focus(function () {
+    slug.focus(function() {
       slug.data('focus', true);
     });
-    title.keyup(function () {
+    title.keyup(function() {
       if (start_length == 0 && slug.data('focus') != true)
         slug.val(title.val().toLowerCase().replace(/ /g, '-').replace(/[^a-z0-9\-]/g, ''));
     });
   });
 
-  $(document).on('click', 'a.popup', function (e) {
+  $(document).on('click', 'a.popup', function(e) {
     window.open(this.href, null, 'scrollbars=yes,width=600,height=600,left=150,top=150').focus();
     return false;
   });
 
-  $('textarea.wysiwyg').each(function () {
+  $('textarea.wysiwyg').each(function() {
     var textarea = this
     var editor = textboxio.replace(textarea, {
       css: {
@@ -143,7 +158,7 @@ $(function () {
       }
     });
     if (textarea.form)
-      $(textarea.form).submit(function () {
+      $(textarea.form).submit(function() {
         if ($(editor.content.get()).text().trim() == '') {
           editor.content.set(' ')
           $(textarea).val(' ')

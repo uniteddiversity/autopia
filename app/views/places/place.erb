@@ -1,5 +1,4 @@
 <div class="row no-gutters">
-
   <div class="col-12 col-sm-auto mr-3">
     <% if @place.image %>
       <img src="<%=@place.image.thumb('200x200').url%>" />
@@ -8,69 +7,59 @@
     <% end %>
   </div>
   <div class="col">
-
     <h1>
       <%= @place.name %>
     </h1>
-
     <div class="mb-2">
       <div class="d-inline-block mb-1" data-pagelet-url="/placeship/<%=@place.id%>?btn_class=<%=btn_class if defined?(btn_class)%>">
         <%= partial :'places/placeship', :locals => {:place => @place, :btn_class => (btn_class if defined?(btn_class))} %>
       </div>
-
       <% if @place.account_id == current_account.id %>
         <a class="btn btn-primary" href="/places/<%=@place.id%>/edit"><i class="fa fa-pencil"></i> Edit place</a>
-      <% end %>    
+      <% end %>
     </div>
-
     <table class="table table-hr">
-
       <tr>
         <td>Location</td>
         <td>
           <a target="_blank" href="https://www.google.co.uk/maps?q=<%=@place.name%>, <%=@place.location.gsub(/#{@place.name}[\w ]*,/i,'')%>"><%=@place.location.gsub(/#{@place.name}[\w ]*,/i,'')%></a>
-        </td>  
-      </tr> 
-
+        </td>
+      </tr>
       <% if @place.website %>
         <tr>
           <td>Website</td>
           <td>
             <a target="_blank" href="<%=@place.website%>"><%=@place.website%></a>
-          </td>  
-        </tr> 
+          </td>
+        </tr>
       <% end %>
-
       <tr>
         <td>Listed by</td>
         <td>
           <a href="/u/<%=@place.account.username%>"><%=@place.account.name%></a>
-        </td>  
-      </tr> 
-
+        </td>
+      </tr>
     </table>
-
-
-  </div> 
+  </div>
 </div>
-
 <style>
   #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
-</style>    
+</style>
 <%= partial :'maps/map', :locals => {:points => [@place]} %>
-
 <div data-pagelet-url="/commentable?commentable_type=Place&commentable_id=<%=@place.id%>">
   <%= partial :'comments/commentable', :locals => {:commentable => @place} %>
-</div> 
-
+</div>
+<% if @place.events.count > 0 %>
+  <h2 class="mt-5" id="events">Events</h2>
+  <%= partial :'events/blocks', :locals => {:events => @place.events} %>
+<% end %>
 <% if @place.placeships.count > 0 %>
   <h2 class="mt-5">Followers</h2>
-
   <div class="image-wall">
     <% accounts = @place.followers.order('name asc').paginate(:page => params[:page], :per_page => 50); accounts.each { |account|  %>
-      <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+    <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
     <% } %>
-  </div>  
+  </div>
   <div class="mt-3">
     <%= will_paginate accounts, :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
   </div>

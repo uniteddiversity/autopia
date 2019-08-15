@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Autopia
   class App < Padrino::Application
     register Padrino::Rendering

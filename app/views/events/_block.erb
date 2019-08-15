@@ -1,0 +1,33 @@
+<div
+
+class="event p-2 d-block"
+style="
+height: 180px; overflow: hidden;
+<% if !event.image %>border: 2px solid #343a40;<% end %>
+<% if event.image %>background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('<%=event.image.thumb('400x400').url%>'); background-size: cover; background-position: center center;<% end %>
+">
+  <table style="width: 100%; height: 100%">
+    <tr>
+      <td style="vertical-align: top">
+        <div class="row justify-content-between">
+          <div class="col">
+            <h4 class="block-title">
+              <a class="<% if event.image %>text-white<% else %>text-dark<% end%>" target="_parent" href="/events/<%=event.slug%>" onclick="event.stopPropagation();">
+                <%= event.name %>
+              </a>
+              <% if current_account and current_account.id == event.account_id %>
+                <a class="<% if event.image %>text-white<% else %>text-dark<% end%> event-edit" style="display: none" href="/events/<%=event.id%>/edit" onclick="event.stopPropagation();">
+                  <i class="fa fa-pencil"></i>
+                </a>
+              <% end %>
+            </h4>
+            <ul style="margin-left: 1.4em" class="fa-ul <% if event.image %>text-white<% else %>text-dark<% end%>">
+              <li><i class="fa fa-li fa-calendar"></i> <%=event.when_details%></li>
+              <li><i class="fa fa-li fa-map-marker"></i> <%=event.location%></li>
+            </ul>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
