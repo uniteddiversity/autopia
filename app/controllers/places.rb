@@ -98,7 +98,7 @@ Autopia::App.controller do
     @placeship.update_attribute(:stripe_connect_json, response.body)
     flash[:notice] = "Connected to #{@place.name}!"
     redirect "/places/#{@place.id}"
-  end  
+  end
 
   post '/places/:id/stripe_webhook' do
     @place = Place.find(params[:id]) || not_found
