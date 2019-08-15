@@ -115,6 +115,7 @@ Autopia::App.controller do
           quantity: 1
         }],
         payment_intent_data: {
+          application_fee_amount: 1,
           on_behalf_of: @event.account.placeships.find_by(place: @event.promoter).stripe_user_id,
           transfer_data: {
             destination: @event.account.placeships.find_by(place: @event.promoter).stripe_user_id
