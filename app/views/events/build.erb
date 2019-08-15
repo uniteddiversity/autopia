@@ -15,10 +15,10 @@
   <%= f.datetime_block :start_time %>
   <%= f.datetime_block :end_time %>
   <%= f.text_block :location %>
-  <%= f.lookup_block :promoter, lookup_url: "/promoters.json", placeholder: 'Search promoters', selected_link: (%Q{<a class="popup" href="/places/#{@event.promoter_id}">View record</a>} if @event.promoter_id) %>
+  <%= f.lookup_block :promoter_id, lookup_url: "/places.json", placeholder: 'Search promoters', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/places/#{@event.promoter_id}">View place</a>} if @event.promoter_id) %>
   <%= f.email_block :email %>
   <%= f.image_block :image %>
-  <%= f.wysiwyg_block :description %>
+  <%= f.text_area_block :description %>
   <%= f.number_block :facebook_event_id %>
   <!-- field :suggested_donation, type: Integer -->
   <%= f.text_area_block :feedback_questions %>

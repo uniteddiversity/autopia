@@ -14,14 +14,6 @@ $(function() {
 
   function ajaxCompleted() {
 
-    $('input[type=hidden].lookup').each(function() {
-      $(this).lookup({
-        lookup_url: $(this).attr('data-lookup-url'),
-        placeholder: $(this).attr('placeholder'),
-        id_param: 'id'
-      });
-    });
-
     $('[data-account-username]').not('#modal [data-account-username]').click(function() {
       $('#modal .modal-content').load('/u/' + $(this).attr('data-account-username'), function() {
         $('#modal').modal('show');
@@ -60,10 +52,10 @@ $(function() {
 
     $("abbr.timeago").timeago()
 
-    $(".datepicker").datepicker({
+    $(".datepicker:not(.datepickerd)").addClass('datepickerd').datepicker({
       format: 'yyyy-mm-dd'
     });
-    $(".datetimepicker").flatpickr({
+    $(".datetimepicker:not(.flatpickrd)").addClass('flatpickrd').flatpickr({
       altInput: true,
       altFormat: 'J F Y, H:i',
       enableTime: true,
@@ -112,6 +104,14 @@ $(function() {
     ajaxCompleted()
   });
   ajaxCompleted()
+
+  $('input[type=hidden].lookup').each(function() {
+    $(this).lookup({
+      lookup_url: $(this).attr('data-lookup-url'),
+      placeholder: $(this).attr('placeholder'),
+      id_param: 'id'
+    });
+  });
 
   $('form').submit(function() {
     $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');

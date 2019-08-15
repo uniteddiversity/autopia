@@ -16,7 +16,7 @@ height: 180px; overflow: hidden;
                 <%= event.name %>
               </a>
               <% if current_account and current_account.id == event.account_id %>
-                <a class="<% if event.image %>text-white<% else %>text-dark<% end%> event-edit" style="display: none" href="/events/<%=event.id%>/edit" onclick="event.stopPropagation();">
+                <a class="<% if event.image %>text-white<% else %>text-dark<% end%> event-edit" style="display: none" href="/events/<%=event.slug%>/edit" onclick="event.stopPropagation();">
                   <i class="fa fa-pencil"></i>
                 </a>
               <% end %>

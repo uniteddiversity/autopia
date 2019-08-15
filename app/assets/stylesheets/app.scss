@@ -1,6 +1,6 @@
 @import url('/fonts/mellony/stylesheet.css');
 @import url('/fonts/murmur/stylesheet.css');
-@import url('/fonts/zilap_tribu/stylesheet.css'); 
+@import url('/fonts/zilap_tribu/stylesheet.css');
 
 @import "../infinite_admin/scss/style";
 
@@ -57,7 +57,7 @@ li.reply .widget-chat-message a { color: white; text-decoration: underline }
 
 .no-gutters>.col, .no-gutters>[class*=col-] {
   padding-right: 0 !important;
-  padding-left: 0 !important; 
+  padding-left: 0 !important;
 }
 
 .pace .pace-activity { display: none }
@@ -66,16 +66,16 @@ li.reply .widget-chat-message a { color: white; text-decoration: underline }
 
 .rainbow  {
   margin: 0 auto;
-  background: linear-gradient(to right, #8747e6, #47a6e6, #54e645); 
+  background: linear-gradient(to right, #8747e6, #47a6e6, #54e645);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
   h4.block-title { font-size: 1.25rem }
-  @media(max-width: 768px) { 
+  @media(max-width: 768px) {
     h4.block-title { font-size: 5vw }
   }
-  
+
 #gathering-nav ul li a { font-size: 0.75rem }
 #gathering-nav .nav-link { padding: 0.33rem 0.66rem }
 #gathering-nav .nav > li > a:focus, #gathering-nav .nav > li > a:hover { background: $color_inverse }
@@ -85,3 +85,4 @@ li.reply .widget-chat-message a { color: white; text-decoration: underline }
 .sidebar.sidebar-inverse .nav > li.active > a:hover,
 .sidebar.sidebar-inverse .nav > li.active > a:focus { background: $color_inverse !important }
 
+.select2-container { height: auto; }

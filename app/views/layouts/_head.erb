@@ -61,7 +61,7 @@
     'flatpickr/4.5.2' => 'flatpickr.min.js flatpickr.min.css',
     'datatables/1.10.16' => 'js/jquery.dataTables.min.js js/dataTables.bootstrap4.min.js css/dataTables.bootstrap4.min.css',
     'tributejs/3.5.3' => 'tribute.min.js tribute.min.css',
-    'select2/4.0.3' => 'js/select2.min.js css/select2.min.css'
+    'select2/3.5.2' => 'select2.min.js select2.min.css'
     }.each { |k,v| %>
     <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
       <% case f.split('.').last.to_sym; when :js %>
