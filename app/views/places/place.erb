@@ -40,6 +40,9 @@
         </td>
       </tr>
     </table>
+    <% if admin? && @place.stripe_client_id %>
+      <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%=@place.stripe_client_id%>&scope=read_write">Connect Stripe to <%=@place.name%></a>
+    <% end %>
   </div>
 </div>
 <style>

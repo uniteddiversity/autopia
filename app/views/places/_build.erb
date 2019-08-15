@@ -7,10 +7,12 @@
       var autocomplete = new google.maps.places.Autocomplete($('#place_location')[0]);
     })
   </script>
-
   <%= f.image_block :image %>
   <div class="my-3">&mdash; or &mdash;</div>
   <%= f.url_block :image_url %>
+  <% if admin? %>
+    <%= f.text_block :stripe_client_id %>
+  <% end %>
   <div class="my-3">
     <%= f.submit_block destroy_url: "/places/#{@place.id}/destroy" %>
   </div>
