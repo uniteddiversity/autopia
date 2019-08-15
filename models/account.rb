@@ -198,6 +198,10 @@ class Account
   has_many :subscriptions, as: :commentable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :comment_reactions, as: :commentable, dependent: :destroy
+  
+  has_many :orders, dependent: :destroy
+  has_many :tickets, dependent: :destroy
+  has_many :donations, dependent: :destroy
 
   # Dragonfly
   dragonfly_accessor :picture do

@@ -15,7 +15,7 @@ class Event
   field :email, type: String
   field :facebook_event_id, type: String
   field :feedback_questions, type: String
-  field :suggested_donation, type: Integer
+  field :suggested_donation, type: Float
   field :capacity, type: Integer
 
   def self.marker_color
@@ -38,11 +38,12 @@ class Event
   belongs_to :account
   belongs_to :promoter, class_name: 'Place', inverse_of: :events, index: true, optional: true
 
-  # has_many :ticket_types, :dependent => :destroy
-  # accepts_nested_attributes_for :ticket_types, allow_destroy: true, reject_if: :all_blank
-  #
-  # has_many :tickets, :dependent => :destroy
-  # has_many :donations, :dependent => :nullify
+  has_many :ticket_types, dependent: :destroy
+  accepts_nested_attributes_for :ticket_types, allow_destroy: true, reject_if: :all_blank
+
+  has_many :tickets, dependent: :destroy
+  has_many :donations, dependent: :nullify
+  has_many :orders, dependent: :destroy
 
   before_validation do
     unless slug
@@ -85,7 +86,8 @@ class Event
       suggested_donation: :number,
       capacity: :number,
       account_id: :lookup,
-      promoter_id: :lookup
+      promoter_id: :lookup,
+      ticket_types: :collection
     }
   end
 
@@ -119,26 +121,33 @@ class Event
     end
   end
 
-  field :name, type: String
-  field :slug, type: String
-  field :start_time, type: Time
-  field :end_time, type: Time
-  field :location, type: String
-  field :coordinates, type: Array
-  field :image_uid, type: String
-  field :description, type: String
-  field :email, type: String
-  field :facebook_event_id, type: String
-  field :feedback_questions, type: String
-  field :suggested_donation, type: Integer
-  field :capacity, type: Integer
-
-  def self.human_attribute_name(attr, options={})
+  def self.human_attribute_name(attr, options = {})
     {
-      :name => 'Event title',
-      :email => 'Contact email',
-      :facebook_event_id => 'Facebook event ID'
-    }[attr.to_sym] || super  
+      name: 'Event title',
+      email: 'Contact email',
+      facebook_event_id: 'Facebook event ID'
+    }[attr.to_sym] || super
   end
 
+  def sold_out?
+    ticket_types.count > 0 && ticket_types.where(:hidden.ne => true).all? { |ticket_type| ticket_type.number_of_tickets_available_in_single_purchase == 0 }
+  end
+  
+  def tickets_available?
+    ticket_types.count > 0 && ticket_types.where(:hidden.ne => true).any? { |ticket_type| ticket_type.number_of_tickets_available_in_single_purchase > 0 }
+  end
+
+  def tickets_counting_towards_capacity
+    tickets.where(:ticket_type_id.in => ticket_types_counting_towards_capacity.pluck(:id))
+  end
+
+  def ticket_types_counting_towards_capacity
+    ticket_types.where(:exclude_from_capacity.ne => true)
+  end
+
+  def places_remaining
+    if capacity
+      capacity - tickets_counting_towards_capacity.count
+    end
+  end
 end

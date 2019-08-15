@@ -62,3 +62,36 @@
   #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
 </style>
 <%= partial :'maps/map', :locals => {:points => [@event]} %>
+<% if params[:success] %>
+  <div class="card" id="share-event">
+    <h4 class="card-header bg-primary text-white">Thanks for booking!</h4>
+    <div class="card-body">
+      <% if @event.experience_retreat? %>
+        <p>You'll receive further information via email shortly.</p>
+      <% else %>
+        <p class="refunds">
+          <strong>Please note that we do not offer refunds or exchanges. You are, however, welcome to sell your ticket(s).</strong>
+        </p>
+        <p>We look forward to seeing you soon!</p>
+      <% end %>
+      <%= partial :share_big %>
+    </div>
+  </div>
+<% elsif @event.sold_out? or (@event.ticket_types.count > 0 and @event.future?) %>
+  <% if @event.sold_out? and !params[:ticket_type_id] %>
+    <% if params[:added_to_waitlist] %>
+      <div class="card">
+        <h4 class="card-header bg-primary text-white">Thanks!</h4>
+        <div class="card-body">
+          <p class="lead mb-0">
+            We'll be in touch if we are able to issue more tickets.
+          </p>
+        </div>
+      </div>
+    <% else %>
+      <%= partial :'events/waitlist' %>
+    <% end %>
+  <% else %>
+    <%= partial :'events/purchase' %>
+  <% end  %>
+<% end  %>

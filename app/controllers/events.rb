@@ -14,6 +14,10 @@ Autopia::App.controller do
 
   post '/events/new' do
     sign_in_required!
+    params[:event][:ticket_types_attributes].each { |k,v|
+      params['event']['ticket_types_attributes'][k]['hidden'] = nil if v[:name].nil?
+      params['event']['ticket_types_attributes'][k]['exclude_from_capacity'] = nil if v[:name].nil?
+    } if params[:event] and params[:event][:ticket_types_attributes]
     @event = Event.new(params[:event])
     @event.account = current_account
     if @event.save
@@ -30,6 +34,11 @@ Autopia::App.controller do
   end
 
   get '/events/:slug/edit' do
+    sign_in_required!
+    params[:event][:ticket_types_attributes].each { |k,v|
+      params['event']['ticket_types_attributes'][k]['hidden'] = nil if v[:name].nil?
+      params['event']['ticket_types_attributes'][k]['exclude_from_capacity'] = nil if v[:name].nil?
+    } if params[:event] and params[:event][:ticket_types_attributes]
     @event = Event.find_by(slug: params[:slug]) || not_found
     unless admin? || creator?(@event)
       flash[:error] = "You can't edit that event"
@@ -51,4 +60,65 @@ Autopia::App.controller do
       erb :'events/build'
     end
   end
+
+  post '/events/:slug/create_order', :provides => :json do
+    @event = Event.find_by(slug: params[:slug]) || not_found
+
+    ticketForm = {}
+    params[:ticketForm].each { |k,v| ticketForm[v['name']] = v['value'] }
+    donation_amount = ticketForm['donation_amount'].to_i
+    total = ticketForm['total'].to_i
+
+    detailsForm = {}
+    params[:detailsForm].each { |k,v| detailsForm[v['name']] = v['value'] }
+    email = detailsForm['account[email]']
+
+    account_hash = {name: detailsForm['account[name]'], email: email, postcode: detailsForm['account[postcode]']}
+    @account = if (account = Account.find_by(email: /^#{::Regexp.escape(email)}$/i))
+      account
+    else
+      Account.new(account_hash)
+    end
+    @account.persisted? ? @account.update_attributes!(Hash[account_hash.map { |k,v| [k, v] if v }.compact]) : @account.save!
+
+    order = @account.orders.create!(:event => @event, :value => total)
+
+    ticketForm.select { |k,v| k.starts_with?('quantities') }.each { |k,v|
+      ticket_type_id = k.to_s.match(/quantities\[(\w+)\]/)[1]
+      ticket_type = @event.ticket_types.find(ticket_type_id)
+      v.to_i.times do
+        @account.tickets.create!(:event => @event, :order => order, :ticket_type => ticket_type)
+      end
+    }
+
+    if donation_amount > 0
+      @account.donations.create!(:event => @event, :order => order, :amount => donation_amount)
+    end
+
+    if (order.tickets.sum(&:price) + order.donations.sum(&:amount)) != total
+      raise "Amounts do not match: #{order.description} - #{@account.email}"
+    end
+
+    if total > 0
+      Stripe.api_key = @event.promoter.stripe_sk
+      session = Stripe::Checkout::Session.create(
+        payment_method_types: ['card'],
+        line_items: [{
+            name: "Tickets to #{@event.name}",
+            images: [@event.image.try(:url)].compact,
+            amount: total * 100,
+            currency: 'GBP',
+            quantity: 1,
+          }],
+        customer_email: (current_account.email if current_account),
+        success_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?success=true",
+        cancel_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?cancelled=true",
+      )
+      order.set(stripe_id: session.id)
+      {session_id: session.id}.to_json
+    else
+      {}.to_json
+    end
+  end
+
 end

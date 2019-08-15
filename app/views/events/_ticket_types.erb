@@ -1,0 +1,89 @@
+<div class="form-group <%= 'has-error' if !f.error_message_on(:ticket_types).blank? %>">
+  <label>
+    Ticket types
+  </label>
+  <div>             
+    <div id="ticket_types">
+      <% f.fields_for :ticket_types do |o| %>
+        <div class="ticket_type">
+          <div><%= o.text_field :name, :class => 'form-control', :placeholder => 'Name' %></div><div>£<%= o.number_field :price, :class => 'form-control ml-1', :placeholder => 'Price' %></div><div>&times;<%= o.number_field :quantity, :class => 'form-control ml-1', :placeholder => 'Quantity' %></div>
+          <label>
+            Hidden?
+            <%= o.check_box :hidden %>
+          </label>
+          <label>
+            Don't count towards capacity limit
+            <%= o.check_box :exclude_from_capacity %>            
+          </label>
+          <% unless o.object.new_record? %>
+            <span>
+              <i style="cursor: pointer" onclick="$(this).siblings().last().prop('checked', true).closest('.ticket_type').hide()" class="fa fa-times"></i>
+              <%= o.check_box '_destroy', :style => 'display: none' %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <style>
+      .ticket_type { margin-bottom: 10px; padding-left: 10px; border-left: 4px solid #ddd; }
+      .ticket_type > div, .ticket_type > label { display: inline-block; margin-bottom: 5px; margin-right: 5px }
+      .ticket_type input[type=text] { display: inline-block; width: auto }
+      .ticket_type input[type=number] { display: inline-block; width: 7em }
+    </style>
+    <script>
+      $(function () {
+        var icon = $('<div><i style="color: #999; cursor: pointer" class="fa fa-plus-square"></i> <a style="color: #999" href="javascript:;">Add another ticket type</a></div>');
+        $(icon).click(function () {
+          var c = $('.ticket_type').length
+          var i = $('<div></div>')
+          var i0 = $('<input type="text" />');
+          i0.attr('name', 'event[ticket_types_attributes][' + c + '][name]');
+          i0.attr('id', 'event_ticket_types_attributes_' + c + '_name');
+          i0.attr('placeholder', 'Name');
+          i0.addClass('form-control');
+          var j = $('<div>£</div>')
+          var j0 = $('<input type="number" step="any" />');
+          j0.attr('name', 'event[ticket_types_attributes][' + c + '][price]');
+          j0.attr('id', 'event_ticket_types_attributes_' + c + '_price');
+          j0.attr('placeholder', 'Price');
+          j0.addClass('form-control ml-1');
+          var k = $('<div>&times;</div>')
+          var k0 = $('<input type="number" step="any" />');
+          k0.attr('name', 'event[ticket_types_attributes][' + c + '][quantity]');
+          k0.attr('id', 'event_ticket_types_attributes_' + c + '_quantity');
+          k0.attr('placeholder', 'Quantity');
+          k0.addClass('form-control ml-1');
+          var l = $('<label>Hidden? </label>')
+          var l0 = $('<input type="hidden" value="0">')
+          l0.attr('name', 'event[ticket_types_attributes][' + c + '][hidden]');
+          var l1 = $('<input type="checkbox" value="1">')
+          l1.attr('name', 'event[ticket_types_attributes][' + c + '][hidden]');
+          l1.attr('id', 'event_ticket_types_attributes_' + c + '_hidden');
+          var m = $('<label>Don\'t count towards capacity limit </label>')
+          var m0 = $('<input type="hidden" value="0">')
+          m0.attr('name', 'event[ticket_types_attributes][' + c + '][exclude_from_capacity]');
+          var m1 = $('<input type="checkbox" value="1">')
+          m1.attr('name', 'event[ticket_types_attributes][' + c + '][exclude_from_capacity]');
+          m1.attr('id', 'event_ticket_types_attributes_' + c + '_exclude_from_capacity');
+          var d = $('<div class="ticket_type"/>');
+          i0.appendTo(i);
+          i.appendTo(d);
+          j0.appendTo(j);
+          j.appendTo(d);
+          k0.appendTo(k);
+          k.appendTo(d);
+          l0.appendTo(l);
+          l1.appendTo(l);
+          l.appendTo(d);
+          m0.appendTo(m);
+          m1.appendTo(m);
+          m.appendTo(d);          
+          d.appendTo('#ticket_types');
+        });
+        icon.insertAfter('#ticket_types');
+        if ($('.ticket_type').length == 0)
+          $(icon).click();
+      });
+    </script>
+  </div>
+</div> 
