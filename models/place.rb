@@ -11,6 +11,7 @@ class Place
   field :coordinates, type: Array
   field :image_uid, type: String
   field :stripe_client_id, type: String
+  field :stripe_secret, type: String
 
   validates_presence_of :name, :location
 
@@ -75,7 +76,8 @@ class Place
       name: :text,
       name_transliterated: { type: :text, disabled: true },
       website: :url,
-      stripe_client_id: :text
+      stripe_client_id: :text,
+      stripe_secret: :text
     }
   end
 end

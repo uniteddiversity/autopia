@@ -70,7 +70,7 @@ Autopia::App.controller do
     sign_in_required!
     @place = Place.find(params[:id]) || not_found
     @placeship = current_account.placeships.find_by(place: @place) || current_account.placeships.create(place: @place, unsubscribed: true)
-    response = Mechanize.new.post "https://connect.stripe.com/oauth/token", {client_secret: @place.stripe_client_id, code: params[:code], grant_type: 'authorization_code'}
+    response = Mechanize.new.post "https://connect.stripe.com/oauth/token", {client_secret: @place.stripe_secret, code: params[:code], grant_type: 'authorization_code'}
     @placeship.update_attribute(:stripe_connect_json, response.body)
     flash[:notice] = "Connected to #{@place.name}!"
     redirect "/places/#{@place.id}"
