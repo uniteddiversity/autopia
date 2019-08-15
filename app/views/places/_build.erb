@@ -12,6 +12,7 @@
   <%= f.url_block :image_url %>
   <% if admin? %>
     <%= f.text_block :stripe_client_id %>
+    <%= f.text_block :stripe_endpoint_secret %>
     <%= f.text_block :stripe_pk %>
     <%= f.text_block :stripe_sk %>
   <% end %>
