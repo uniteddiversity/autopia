@@ -104,26 +104,37 @@ Autopia::App.controller do
     end
 
     if total > 0
-      Stripe.api_key = @event.promoter.stripe_sk
-      session = Stripe::Checkout::Session.create(
-        payment_method_types: ['card'],
-        line_items: [{
-          name: "Tickets to #{@event.name}",
-          images: [@event.image.try(:url)].compact,
-          amount: total * 100,
-          currency: 'GBP',
-          quantity: 1
-        }],
-        payment_intent_data: {
-          application_fee_amount: (@event.promoter_revenue_share * total * 100).round,
-          transfer_data: {
-            destination: @event.facilitator.promoterships.find_by(promoter: @event.promoter).stripe_user_id
-          }
-        },
-        customer_email: (current_account&.email),
-        success_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?success=true",
-        cancel_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?cancelled=true"
-      )
+      stripe_session_hash = { payment_method_types: ['card'],
+                              line_items: [{
+                                name: "Tickets to #{@event.name}",
+                                images: [@event.image.try(:url)].compact,
+                                amount: total * 100,
+                                currency: 'GBP',
+                                quantity: 1
+                              }],
+                              customer_email: (current_account&.email),
+                              success_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?success=true",
+                              cancel_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?cancelled=true" }
+
+      if @event.promoter && @event.facilitator
+        Stripe.api_key = @event.promoter.stripe_sk
+        # payment_intent_data: {
+        #   application_fee_amount: (@event.promoter_revenue_share * total * 100).round if @event.promoter,
+        #   transfer_data: {
+        #     destination: @event.facilitator.promoterships.find_by(promoter: @event.promoter).stripe_user_id
+        #   }
+        # },
+      elsif @event.promoter
+        Stripe.api_key = @event.promoter.stripe_sk
+        session = Stripe::Checkout::Session.create(stripe_session_hash)
+      end
+      # payment_intent_data: {
+      #   application_fee_amount: (@event.promoter_revenue_share * total * 100).round if @event.promoter,
+      #   transfer_data: {
+      #     destination: @event.facilitator.promoterships.find_by(promoter: @event.promoter).stripe_user_id
+      #   }
+      # },
+
       order.set(stripe_id: session.id)
       { session_id: session.id }.to_json
     else
