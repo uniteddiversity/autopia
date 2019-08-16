@@ -1,6 +1,7 @@
 Autopia::App.controller do
   get '/promoters', provides: %i[json] do
     @promoters = Promoter.all.order('created_at desc')
+    @promoters = @promoters.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
     @promoters = @promoters.where(id: params[:id]) if params[:id]
     case content_type
     when :json
