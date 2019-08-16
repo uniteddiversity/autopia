@@ -104,6 +104,7 @@ Autopia::App.controller do
     end
 
     if total > 0
+      Stripe.api_key = @event.promoter.stripe_sk
       stripe_session_hash = { payment_method_types: ['card'],
                               line_items: [{
                                 name: "Tickets to #{@event.name}",
@@ -115,26 +116,15 @@ Autopia::App.controller do
                               customer_email: (current_account&.email),
                               success_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?success=true",
                               cancel_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?cancelled=true" }
-
-      if @event.promoter && @event.facilitator
-        Stripe.api_key = @event.promoter.stripe_sk
-        # payment_intent_data: {
-        #   application_fee_amount: (@event.promoter_revenue_share * total * 100).round if @event.promoter,
-        #   transfer_data: {
-        #     destination: @event.facilitator.promoterships.find_by(promoter: @event.promoter).stripe_user_id
-        #   }
-        # },
-      elsif @event.promoter
-        Stripe.api_key = @event.promoter.stripe_sk
-        session = Stripe::Checkout::Session.create(stripe_session_hash)
+      if @event.facilitator
+        stripe_session_hash.merge!({payment_intent_data: {
+          application_fee_amount: (@event.promoter_revenue_share * total * 100).round if @event.promoter,
+          transfer_data: {
+            destination: @event.facilitator.promoterships.find_by(promoter: @event.promoter).stripe_user_id
+          }
+        }})
       end
-      # payment_intent_data: {
-      #   application_fee_amount: (@event.promoter_revenue_share * total * 100).round if @event.promoter,
-      #   transfer_data: {
-      #     destination: @event.facilitator.promoterships.find_by(promoter: @event.promoter).stripe_user_id
-      #   }
-      # },
-
+      session = Stripe::Checkout::Session.create(stripe_session_hash)
       order.set(stripe_id: session.id)
       { session_id: session.id }.to_json
     else
