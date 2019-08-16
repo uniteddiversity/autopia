@@ -20,7 +20,15 @@
         <tr>
           <td>Promoter</td>
           <td>
-            <a href="/places/<%=@event.promoter_id%>"><%=@event.promoter.name%></a>
+            <a href="/promoters/<%=@event.promoter_id%>"><%=@event.promoter.name%></a>
+          </td>
+        </tr>
+      <% end %>
+      <% if @event.facilitator %>
+        <tr>
+          <td>Facilitator</td>
+          <td>
+            <a href="/u/<%=@event.facilitator.username%>"><%=@event.facilitator.name%></a>
           </td>
         </tr>
       <% end %>

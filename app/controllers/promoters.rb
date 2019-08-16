@@ -1,4 +1,14 @@
 Autopia::App.controller do
+  get '/promoters', provides: %i[json] do
+    @promoters = Promoter.all.order('created_at desc')
+    @promoters = @promoters.where(id: params[:id]) if params[:id]
+    case content_type
+    when :json
+      {
+        results: @promoters.map { |promoter| {id: promoter.id.to_s, text: "#{promoter.name} (id:#{promoter.id})"} }
+      }.to_json
+    end
+  end
 
   get '/promoters/new' do
     sign_in_required!

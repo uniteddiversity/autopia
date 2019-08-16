@@ -17,6 +17,7 @@ class Event
   field :feedback_questions, type: String
   field :suggested_donation, type: Float
   field :capacity, type: Integer
+  field :promoter_revenue_share, type: Float
 
   def self.marker_color
     'red'
@@ -36,6 +37,7 @@ class Event
   end
 
   belongs_to :account, index: true
+  belongs_to :facilitator, class_name: "Account", inverse_of: :events_facilitating, index: true, optional: true
   belongs_to :promoter, index: true, optional: true
 
   has_many :ticket_types, dependent: :destroy

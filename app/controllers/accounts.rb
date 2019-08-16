@@ -1,24 +1,35 @@
 Autopia::App.controller do
-  
+
+  get '/accounts', provides: %i[json] do
+    @accounts = Account.all
+    @accounts = @accounts.where(id: params[:id]) if params[:id]
+    case content_type
+    when :json
+      {
+        results: @accounts.map { |account| {id: account.id.to_s, text: "#{account.name} (id:#{account.id})"} }
+      }.to_json
+    end
+  end
+
   get '/accounts/sign_in' do
     erb :'accounts/sign_in'
-  end    
-    
+  end
+
   get '/accounts/sign_out' do
     session.clear
     redirect '/'
   end
-  
+
   get '/accounts/unsubscribe' do
     sign_in_required!
     current_account.update_attribute(:unsubscribed, true)
     flash[:notice] = "You were unsubscribed."
     redirect '/accounts/edit'
   end
-  
+
   post '/accounts/forgot_password' do
     if params[:email] and @account = Account.find_by(email: /^#{::Regexp.escape(params[:email])}$/i)
-      if @account.reset_password!        
+      if @account.reset_password!
         flash[:notice] = "A new password was sent to #{@account.email}"
       else
         flash[:error] = "There was a problem resetting your password."
@@ -27,20 +38,20 @@ Autopia::App.controller do
       flash[:error] = "There's no account registered under that email address."
     end
     redirect '/'
-  end  
-        
+  end
+
   get '/accounts/new' do
-    @account = Account.new    
+    @account = Account.new
     erb :'accounts/new'
-  end 
-  
+  end
+
   post '/accounts/new' do
     @account = Account.new(mass_assigning(params[:account], Account))
     if session['omniauth.auth']
       @provider = Provider.object(session['omniauth.auth']['provider'])
       @account.provider_links.build(provider: @provider.display_name, provider_uid: session['omniauth.auth']['uid'], omniauth_hash: session['omniauth.auth'])
       @account.picture_url = @provider.image.call(session['omniauth.auth']) unless @account.picture
-    end        
+    end
     if @account.save
       flash[:notice] = "<strong>Awesome!</strong> Your account was created successfully."
       session['account_id'] = @account.id.to_s
@@ -50,17 +61,17 @@ Autopia::App.controller do
       erb :'accounts/new'
     end
   end
-        
+
   get '/accounts/edit' do
     sign_in_required!
     @account = current_account
     discuss 'Edit profile'
     erb :'accounts/edit'
   end
-  
+
   post '/accounts/edit' do
     sign_in_required!
-    @account = current_account        
+    @account = current_account
     if @account.update_attributes(mass_assigning(params[:account], Account))
       flash[:notice] = "<strong>Awesome!</strong> Your account was updated successfully."
       @account.notifications_as_notifiable.where(type: 'updated_profile').destroy_all
@@ -71,18 +82,18 @@ Autopia::App.controller do
       erb :'accounts/edit'
     end
   end
-  
+
   get '/accounts/not_on_facebook' do
     sign_in_required!
     current_account.update_attribute(:not_on_facebook, true)
     redirect back
-  end     
-  
-  get '/accounts/:id' do    
-    @account = Account.find(params[:id]) || not_found        
+  end
+
+  get '/accounts/:id' do
+    @account = Account.find(params[:id]) || not_found
     redirect "/u/#{@account.username}"
   end
-  
+
   get '/u/:username' do
     @account = Account.find_by(username: params[:username]) || not_found
     # @notifications = @account.notifications_as_circle.order('created_at desc').page(params[:page])
@@ -95,34 +106,34 @@ Autopia::App.controller do
       partial :'accounts/modal'
     else
       erb :'accounts/account'
-    end    
-  end  
-  
+    end
+  end
+
   get '/accounts/:id/following' do
     @account = Account.find(params[:id]) || not_found
     partial :'accounts/following', :locals => {:follows => @account.follows_as_follower, :follower_or_followee => 'followee'}
   end
-  
+
   get '/accounts/:id/followers' do
     @account = Account.find(params[:id]) || not_found
     partial :'accounts/following', :locals => {:follows => @account.follows_as_followee, :follower_or_followee => 'follower'}
-  end  
-  
-  get '/u/:username/places' do    
+  end
+
+  get '/u/:username/places' do
     @account = Account.find_by(username: params[:username]) || not_found
     @places = @account.places_following.order('name_transliterated asc')
     @hide_nav = true
     erb :'accounts/places', :layout => :minimal
-  end    
-  
-  get '/u/:username/habits' do    
+  end
+
+  get '/u/:username/habits' do
     @account = Account.find_by(username: params[:username]) || not_found
     @habits = @account.habits.where(public: true).where(:archived.ne => true)
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @hide_nav = true
     erb :'accounts/habits', :layout => :minimal
-  end  
-  
+  end
+
   get '/accounts/use_picture/:provider' do
     sign_in_required!
     @provider = Provider.object(params[:provider])
@@ -135,11 +146,11 @@ Autopia::App.controller do
       flash.now[:error] = "<strong>Hmm.</strong> There was a problem grabbing your picture."
       erb :'accounts/edit'
     end
-  end   
-  
+  end
+
   get '/accounts/disconnect/:provider' do
     sign_in_required!
-    @provider = Provider.object(params[:provider])    
+    @provider = Provider.object(params[:provider])
     @account = current_account
     if @account.provider_links.find_by(provider: @provider.display_name).destroy
       flash[:notice] = "<i class=\"fa fa-#{@provider.icon}\"></i> Disconnected!"
@@ -148,8 +159,8 @@ Autopia::App.controller do
       flash.now[:error] = "<strong>Oops.</strong> The disconnect wasn't successful."
       erb :'accounts/edit'
     end
-  end   
-  
+  end
+
   post '/accounts/update_location' do
     sign_in_required!
     @account = current_account
@@ -157,5 +168,5 @@ Autopia::App.controller do
     @account.save
     redirect back
   end
-    
+
 end

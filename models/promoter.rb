@@ -45,4 +45,13 @@ class Promoter
       stripe_sk: :text
     }
   end
+
+  def self.human_attribute_name(attr, options = {})
+    {
+      stripe_client_id: 'Stripe client ID',
+      stripe_endpoint_secret: 'Stripe endpoint secret',
+      stripe_pk: 'Stripe public key',
+      stripe_sk: 'Stripe secret key',
+    }[attr.to_sym] || super
+  end
 end

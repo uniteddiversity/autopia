@@ -115,8 +115,9 @@ Autopia::App.controller do
           quantity: 1
         }],
         payment_intent_data: {
+          application_fee: @event.promoter_revenue_share * total * 100,
           transfer_data: {
-            destination: @event.account.placeships.find_by(place: @event.promoter).stripe_user_id
+            destination: @event.facilitator.promoterships.find_by(promoter: @event.promoter).stripe_user_id
           }
         },
         customer_email: (current_account&.email),

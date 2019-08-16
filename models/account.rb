@@ -115,6 +115,9 @@ class Account
   has_many :promoters, dependent: :nullify
   has_many :promoterships, dependent: :destroy
 
+  has_many :events, class_name: 'Event', inverse_of: :account, dependent: :destroy
+  has_many :events_facilitating, class_name: 'Event', inverse_of: :facilitator, dependent: :nullify
+
   has_many :places, dependent: :nullify
 
   has_many :gatherings, dependent: :nullify
