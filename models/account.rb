@@ -112,6 +112,9 @@ class Account
     )
   end
 
+  has_many :promoters, dependent: :nullify
+  has_many :promoterships, dependent: :destroy
+
   has_many :places, dependent: :nullify
 
   has_many :gatherings, dependent: :nullify
@@ -198,7 +201,7 @@ class Account
   has_many :subscriptions, as: :commentable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :comment_reactions, as: :commentable, dependent: :destroy
-  
+
   has_many :orders, dependent: :destroy
   has_many :tickets, dependent: :destroy
   has_many :donations, dependent: :destroy

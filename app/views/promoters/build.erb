@@ -1,0 +1,14 @@
+<% form_for @promoter, @promoter.new_record? ? '/promoters/new' : "/promoters/#{@promoter.id}/edit" do  |f| %>
+  <%= f.text_block :name %>
+  <%= f.url_block :website %>
+  <%= f.image_block :image %>
+  <div class="my-3">&mdash; or &mdash;</div>
+  <%= f.url_block :image_url %>
+  <%= f.text_block :stripe_client_id %>
+  <%= f.text_block :stripe_endpoint_secret %>
+  <%= f.text_block :stripe_pk %>
+  <%= f.text_block :stripe_sk %>
+  <div class="my-3">
+    <%= f.submit_block destroy_url: "/promoters/#{@promoter.id}/destroy" %>
+  </div>
+<% end %>

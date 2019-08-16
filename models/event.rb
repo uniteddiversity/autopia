@@ -35,8 +35,8 @@ class Event
     geocode || (self.coordinates = nil)
   end
 
-  belongs_to :account
-  belongs_to :promoter, class_name: 'Place', inverse_of: :events, index: true, optional: true
+  belongs_to :account, index: true
+  belongs_to :promoter, index: true, optional: true
 
   has_many :ticket_types, dependent: :destroy
   accepts_nested_attributes_for :ticket_types, allow_destroy: true, reject_if: :all_blank
@@ -91,10 +91,6 @@ class Event
     }
   end
 
-  def self.promoters
-    Place.all.map { |place| [place.name, place.id] }
-  end
-
   def future?(from = Date.today)
     start_time >= from
   end
@@ -132,7 +128,7 @@ class Event
   def sold_out?
     ticket_types.count > 0 && ticket_types.where(:hidden.ne => true).all? { |ticket_type| ticket_type.number_of_tickets_available_in_single_purchase == 0 }
   end
-  
+
   def tickets_available?
     ticket_types.count > 0 && ticket_types.where(:hidden.ne => true).any? { |ticket_type| ticket_type.number_of_tickets_available_in_single_purchase > 0 }
   end

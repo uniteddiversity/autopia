@@ -1,0 +1,49 @@
+<div class="row no-gutters">
+  <div class="col-12 col-sm-auto mr-3">
+    <% if @promoter.image %>
+      <img src="<%=@promoter.image.thumb('200x200').url%>" />
+    <% else %>
+      <div style="height: 200px; width: 200px; border: 2px solid #343a40;"></div>
+    <% end %>
+  </div>
+  <div class="col">
+    <h1>
+      <%= @promoter.name %>
+    </h1>
+    <div class="mb-2">
+      <% if @promoter.account_id == current_account.id %>
+        <a class="btn btn-primary" href="/promoters/<%=@promoter.id%>/edit"><i class="fa fa-pencil"></i> Edit promoter</a>
+      <% end %>
+    </div>
+    <table class="table table-hr">
+      <% if @promoter.website %>
+        <tr>
+          <td>Website</td>
+          <td>
+            <a target="_blank" href="<%=@promoter.website%>"><%=@promoter.website%></a>
+          </td>
+        </tr>
+      <% end %>
+      <tr>
+        <td>Created by</td>
+        <td>
+          <a href="/u/<%=@promoter.account.username%>"><%=@promoter.account.name%></a>
+        </td>
+      </tr>
+    </table>
+    <% if @promoter.stripe_client_id %>
+      <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%=@promoter.stripe_client_id%>&scope=read_write">Connect your Stripe account to <%=@promoter.name%></a>
+    <% end %>
+  </div>
+</div>
+<% if @promoter.promoterships.count > 0 %>
+  <h2 class="mt-5">Connected to this promoter</h2>
+  <div class="image-wall">
+    <% accounts = @promoter.followers.order('name asc').paginate(:page => params[:page], :per_page => 50); accounts.each { |account|  %>
+    <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+    <% } %>
+  </div>
+  <div class="mt-3">
+    <%= will_paginate accounts, :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+  </div>
+<% end %>

@@ -90,43 +90,4 @@ Autopia::App.controller do
     request.xhr? ? (partial :'places/placeship', locals: { place: @place, btn_class: params[:btn_class] }) : redirect("/places/#{@place.id}")
   end
 
-  get '/places/:id/stripe_connect' do
-    sign_in_required!
-    @place = Place.find(params[:id]) || not_found
-    @placeship = current_account.placeships.find_by(place: @place) || current_account.placeships.create(place: @place, unsubscribed: true)
-    response = Mechanize.new.post "https://connect.stripe.com/oauth/token", {client_secret: @place.stripe_sk, code: params[:code], grant_type: 'authorization_code'}
-    @placeship.update_attribute(:stripe_connect_json, response.body)
-    flash[:notice] = "Connected to #{@place.name}!"
-    redirect "/places/#{@place.id}"
-  end
-
-  post '/places/:id/stripe_webhook' do
-    @place = Place.find(params[:id]) || not_found
-    payload = request.body.read
-    event = nil
-    sig_header = request.env['HTTP_STRIPE_SIGNATURE']
-    begin
-      event = Stripe::Webhook.construct_event(
-        payload, sig_header, @place.stripe_endpoint_secret
-      )
-    rescue JSON::ParserError => e
-      halt 400
-    rescue Stripe::SignatureVerificationError => e
-      halt 400
-    end
-
-    if event['type'] == 'checkout.session.completed'
-      session = event['data']['object']
-      if order = Order.find_by(stripe_id: session.id)
-        order.set(payment_completed: true)
-        200
-      else
-        400
-      end
-    else
-      400
-    end
-  end
-
-
 end

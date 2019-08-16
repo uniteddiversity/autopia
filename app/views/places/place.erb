@@ -52,10 +52,6 @@
 <div data-pagelet-url="/commentable?commentable_type=Place&commentable_id=<%=@place.id%>">
   <%= partial :'comments/commentable', :locals => {:commentable => @place} %>
 </div>
-<% if @place.events.count > 0 %>
-  <h2 class="mt-5" id="events">Events</h2>
-  <%= partial :'events/blocks', :locals => {:events => @place.events} %>
-<% end %>
 <% if @place.placeships.count > 0 %>
   <h2 class="mt-5">Followers</h2>
   <div class="image-wall">

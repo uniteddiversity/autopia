@@ -10,10 +10,6 @@ class Place
   field :website, type: String
   field :coordinates, type: Array
   field :image_uid, type: String
-  field :stripe_client_id, type: String
-  field :stripe_endpoint_secret, type: String
-  field :stripe_pk, type: String
-  field :stripe_sk, type: String
 
   validates_presence_of :name, :location
 
@@ -27,7 +23,6 @@ class Place
   has_many :subscriptions, as: :commentable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :comment_reactions, as: :commentable, dependent: :destroy
-  has_many :events, inverse_of: :promoter, dependent: :nullify
 
   has_many :notifications_as_notifiable, as: :notifiable, dependent: :destroy, class_name: 'Notification', inverse_of: :notifiable
   has_many :notifications_as_circle, as: :circle, dependent: :destroy, class_name: 'Notification', inverse_of: :circle
@@ -77,11 +72,7 @@ class Place
     {
       name: :text,
       name_transliterated: { type: :text, disabled: true },
-      website: :url,
-      stripe_client_id: :text,
-      stripe_endpoint_secret: :text,
-      stripe_pk: :text,
-      stripe_sk: :text
+      website: :url
     }
   end
 end
