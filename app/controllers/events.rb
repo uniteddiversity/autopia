@@ -117,8 +117,8 @@ Autopia::App.controller do
                               success_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?success=true",
                               cancel_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?cancelled=true" }
       if @event.facilitator
-        stripe_session_hash.merge!({payment_intent_data: {
-          application_fee_amount: (@event.promoter_revenue_share * total * 100).round if @event.promoter,
+        stripe_session_hash.merge!({ payment_intent_data: {
+          application_fee_amount: (@event.promoter_revenue_share * total * 100).round,
           transfer_data: {
             destination: @event.facilitator.promoterships.find_by(promoter: @event.promoter).stripe_user_id
           }
