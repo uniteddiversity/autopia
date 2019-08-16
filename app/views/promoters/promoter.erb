@@ -31,8 +31,10 @@
         </td>
       </tr>
     </table>
-    <% if @promoter.stripe_client_id %>
-      <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%=@promoter.stripe_client_id%>&scope=read_write">Connect your Stripe account to <%=@promoter.name%></a>
+    <% if promotership = @promoter.promoterships.find_by(account: current_account) %>
+      <a class="btn btn-danger" href="/promoterships/<%=promotership.id%>/destroy">Disconnect your Stripe account from <%=@promoter.name%></a>
+    <% else %>
+      <a class="btn btn-success" href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%=@promoter.stripe_client_id%>&scope=read_write">Connect your Stripe account to <%=@promoter.name%></a>
     <% end %>
   </div>
 </div>

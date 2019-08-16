@@ -54,6 +54,14 @@ Autopia::App.controller do
     redirect '/promoters/new'
   end
 
+  get '/promoterships/:id/destroy' do
+    sign_in_required!
+    @promotership = Promotership.find(params[:id]) || not_found
+    halt(403) unless admin? || @promotership.account_id == current_account.id
+    @promotership.destroy
+    redirect "/promoters/#{@promotership.promoter_id}"
+  end
+
   get '/promoters/:id/stripe_connect' do
     sign_in_required!
     @promoter = Promoter.find(params[:id]) || not_found
