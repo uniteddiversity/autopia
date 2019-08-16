@@ -7,7 +7,7 @@ Autopia::App.controller do
     case content_type
     when :json
       {
-        results: @accounts.map { |account| {id: account.id.to_s, text: "#{account.name} (id:#{account.id})"} }
+        results: @accounts.map { |account| {id: account.id.to_s, text: "#{account.name} (#{account.username})"} }
       }.to_json
     end
   end
