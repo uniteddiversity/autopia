@@ -39,7 +39,7 @@
 <% if @promoter.promoterships.count > 0 %>
   <h2 class="mt-5">Connected to this promoter</h2>
   <div class="image-wall">
-    <% accounts = @promoter.followers.order('name asc').paginate(:page => params[:page], :per_page => 50); accounts.each { |account|  %>
+    <% accounts = @promoter.clients.order('name asc').paginate(:page => params[:page], :per_page => 50); accounts.each { |account|  %>
     <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
     <% } %>
   </div>

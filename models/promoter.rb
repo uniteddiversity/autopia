@@ -18,7 +18,7 @@ class Promoter
 
   has_many :events, dependent: :nullify
   has_many :promoterships, dependent: :destroy
-  
+
   dragonfly_accessor :image
   before_validation do
     if image
@@ -28,6 +28,10 @@ class Promoter
         errors.add(:image, 'must be an image')
       end
     end
+  end
+
+  def clients
+    Account.where(:id.in => promoterships.pluck(:account_id))
   end
 
   def self.admin_fields
