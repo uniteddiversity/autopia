@@ -117,14 +117,18 @@ Autopia::App.controller do
         success_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?success=true",
         cancel_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?cancelled=true" }
       if @event.facilitator
-        stripe_session_hash.merge!({
-            payment_intent_data: {
-              application_fee_amount: (@event.promoter_revenue_share * total * 100).round,
-              transfer_data: {
-                destination: @event.facilitator.promoterships.find_by(promoter: @event.promoter).stripe_user_id
+        if promotership = @event.promoter.promoterships.find_by(account: @event.facilitator)
+          # raise an error
+        else        
+          stripe_session_hash.merge!({
+              payment_intent_data: {
+                application_fee_amount: (@event.promoter_revenue_share * total * 100).round,
+                transfer_data: {
+                  destination: promotership.stripe_user_id
+                }
               }
-            }
-          })
+            })
+        end
       end
       session = Stripe::Checkout::Session.create(stripe_session_hash)
       order.set(stripe_id: session.id)
