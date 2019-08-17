@@ -79,9 +79,9 @@ Autopia::App.controller do
 
     account_hash = { name: detailsForm['account[name]'], email: email, postcode: detailsForm['account[postcode]'] }
     @account = if (account = Account.find_by(email: /^#{::Regexp.escape(email)}$/i))
-                 account
-               else
-                 Account.new(account_hash)
+      account
+    else
+      Account.new(account_hash)
     end
     @account.persisted? ? @account.update_attributes!(Hash[account_hash.map { |k, v| [k, v] if v }.compact]) : @account.save!
 
@@ -106,23 +106,25 @@ Autopia::App.controller do
     if total > 0
       Stripe.api_key = @event.promoter.stripe_sk
       stripe_session_hash = { payment_method_types: ['card'],
-                              line_items: [{
-                                name: "Tickets to #{@event.name}",
-                                images: [@event.image.try(:url)].compact,
-                                amount: total * 100,
-                                currency: 'GBP',
-                                quantity: 1
-                              }],
-                              customer_email: (current_account&.email),
-                              success_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?success=true",
-                              cancel_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?cancelled=true" }
+        line_items: [{
+            name: "Tickets to #{@event.name}",
+            images: [@event.image.try(:url)].compact,
+            amount: total * 100,
+            currency: 'GBP',
+            quantity: 1
+          }],
+        customer_email: (current_account.email if current_account),
+        success_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?success=true",
+        cancel_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?cancelled=true" }
       if @event.facilitator
-        stripe_session_hash.merge!({ payment_intent_data: {
-          application_fee_amount: (@event.promoter_revenue_share * total * 100).round,
-          transfer_data: {
-            destination: @event.facilitator.promoterships.find_by(promoter: @event.promoter).stripe_user_id
-          }
-        }})
+        stripe_session_hash.merge!({
+            payment_intent_data: {
+              application_fee_amount: (@event.promoter_revenue_share * total * 100).round,
+              transfer_data: {
+                destination: @event.facilitator.promoterships.find_by(promoter: @event.promoter).stripe_user_id
+              }
+            }
+          })
       end
       session = Stripe::Checkout::Session.create(stripe_session_hash)
       order.set(stripe_id: session.id)

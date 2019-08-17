@@ -61,8 +61,8 @@ class Account
     self.name_transliterated = I18n.transliterate(name) if name
     self.username = username.downcase if username
 
-    errors.add(:name, 'must not contain an @') if name&.include?('@')
-    errors.add(:email, 'must not contain commas') if email&.include?(',')
+    errors.add(:name, 'must not contain an @') if name && name.include?('@')
+    errors.add(:email, 'must not contain commas') if email && email.include?(',')
 
     errors.add(:facebook_profile_url, 'must contain facebook.com') if facebook_profile_url && !facebook_profile_url.include?('facebook.com')
     self.facebook_profile_url = "https://#{facebook_profile_url}" if facebook_profile_url && facebook_profile_url !~ %r{\Ahttps?://}
@@ -247,8 +247,8 @@ class Account
   validates_length_of       :email,    within: 3..100
   validates_uniqueness_of   :email,    case_sensitive: false
   validates_format_of       :email,    with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\Z/i
-  validates_presence_of     :password, if: :password_required
-  validates_length_of       :password, within: 4..40, if: :password_required
+  validates_presence_of     :password, :if => :password_required
+  validates_length_of       :password, within: 4..40, :if => :password_required
 
   validates_format_of :username, with: /\A[a-z0-9_\.]+\z/
   validates_uniqueness_of :username
@@ -406,10 +406,12 @@ Two Spirit).split("\n")
 
   def self.authenticate(email, password)
     account = find_by(email: /^#{::Regexp.escape(email)}$/i) if email.present?
-    account&.has_password?(password) ? account : nil
+    if account
+      account.has_password?(password) ? account : nil
+    end
   end
 
-  before_save :encrypt_password, if: :password_required
+  before_save :encrypt_password, :if => :password_required
 
   def has_password?(password)
     ::BCrypt::Password.new(crypted_password) == password

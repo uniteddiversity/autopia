@@ -53,7 +53,7 @@ module Autopia
       end
       @og_desc = 'Autopia is a social network emerging from co-created microfestivals and other real-life gatherings'
       @og_image = "#{ENV['BASE_URI']}/images/cover2.png"
-      current_account&.set(last_active: Time.now)
+      current_account.set(last_active: Time.now) if current_account
     end
 
     error do

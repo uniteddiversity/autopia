@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Notification
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -164,9 +162,17 @@ class Notification
         end
       elsif comment.commentable.is_a?(Account)
         if comment.first_in_post?
-          "<strong>#{comment.account.name}</strong> started a thread <strong>#{comment.post.subject&.to_s}</strong>"
+          if comment.post.subject
+            "<strong>#{comment.account.name}</strong> started a thread <strong>#{comment.post.subject}</strong>"  
+          else
+            "<strong>#{comment.account.name}</strong> started a thread"  
+          end
         else
-          "<strong>#{comment.account.name}</strong> replied to <strong>#{comment.post.subject&.to_s}</strong>"
+          if comment.post.subject
+            "<strong>#{comment.account.name}</strong> replied to <strong>#{comment.post.subject}</strong>"
+          else
+            "<strong>#{comment.account.name}</strong> replied"
+          end
         end
       else
         if comment.first_in_post?
@@ -178,9 +184,17 @@ class Notification
     when :reacted_to_a_comment
       comment_reaction = notifiable
       if comment_reaction.commentable.is_a?(Account)
-        "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.comment.post.subject&.to_s}</strong>"
+        if comment_reaction.comment.post.subject
+        "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.comment.post.subject}</strong>"
+        else
+          "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment"
+        end
       else
-        "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.commentable.name}#{if comment_reaction.comment.post.subject; "/#{comment_reaction.comment.post.subject}"; end}</strong>"
+        if comment_reaction.comment.post.subject
+        "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.commentable.name}/#{comment_reaction.comment.post.subject}</strong>"
+        else
+        "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.commentable.name}"
+        end
       end
     when :left_gathering
       account = notifiable

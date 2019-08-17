@@ -33,7 +33,7 @@ class Ticket
   end
 
   before_validation do
-    errors.add(:event, 'is in the past') if event&.past? && !force
+    errors.add(:event, 'is in the past') if event && event.past? && !force
     errors.add(:ticket_type, 'is full') if ticket_type && (ticket_type.number_of_tickets_available_in_single_purchase == 0)
   end
 
