@@ -5,7 +5,6 @@ class Event
   extend Dragonfly::Model
 
   field :name, type: String
-  field :slug, type: String
   field :start_time, type: Time
   field :end_time, type: Time
   field :location, type: String
@@ -47,12 +46,6 @@ class Event
   has_many :donations, dependent: :nullify
   has_many :orders, dependent: :destroy
 
-  before_validation do
-    unless slug
-      self.slug = name.parameterize + '-' + start_time.to_date.to_s.parameterize + '-' + Event.count.to_s
-    end
-  end
-
   def summary
     start_time ? "#{name} (#{start_time.to_date})" : name
   end
@@ -69,14 +62,12 @@ class Event
     errors.add(:end_time, 'must be after the start time') unless end_time >= start_time
   end
 
-  validates_presence_of :name, :slug, :start_time, :end_time, :location
-  validates_uniqueness_of :slug
+  validates_presence_of :name, :start_time, :end_time, :location
 
   def self.admin_fields
     {
       summary: { type: :text, index: false, edit: false },
       name: { type: :text, full: true },
-      slug: :slug,
       start_time: :datetime,
       end_time: :datetime,
       location: :text,

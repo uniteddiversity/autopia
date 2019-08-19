@@ -11,8 +11,8 @@
       <%= @event.name %>
     </h1>
     <div class="mb-2">
-      <% if @event.account_id == current_account.id %>
-        <a class="btn btn-primary" href="/events/<%=@event.slug%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
+      <% if current_account && @event.account_id == current_account.id %>
+        <a class="btn btn-primary" href="/events/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
       <% end %>
     </div>
     <table class="table table-hr">

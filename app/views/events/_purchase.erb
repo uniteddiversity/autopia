@@ -86,16 +86,7 @@
       <% else %>
         <%= f.text_block :name %>
         <%= f.email_block :email %>
-        <%= partial :'accounts/postcode', :locals => {:f => f} %>
       <% end %>
-
-      <p>
-        <span class="refunds"><strong>Please note that we do not offer refunds or exchanges. You are, however, welcome to sell your ticket(s).</strong></span><br />
-        <% if !current_account %>
-          We'll send you occasional email updates on the activities of the Psychedelic Society.
-        <% end %>
-      </p>
-
       <%= f.submit_block button_text: 'Submit' %>
     <% end %>
   </div>
@@ -157,7 +148,7 @@
 
       $('#total').prop('disabled', false)
       $('#details form button').text(($('#total').val() > 0) ? 'Redirecting you to Stripe...' : 'Processing...')
-      $.post('/events/<%=@event.slug%>/create_order', {ticketForm: $('#select-tickets form').serializeArray(), detailsForm: $('#details form').serializeArray()}, function (data) {
+      $.post('/events/<%=@event.id%>/create_order', {ticketForm: $('#select-tickets form').serializeArray(), detailsForm: $('#details form').serializeArray()}, function (data) {
         if ($('#total').val() > 0) {
           var stripe = Stripe('<%=@event.promoter.stripe_pk%>');
           stripe.redirectToCheckout({

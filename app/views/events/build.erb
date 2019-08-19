@@ -1,5 +1,5 @@
 <% if @event.persisted? %>
-  <a class="d-inline-block mb-3" href="/events/<%=@event.slug%>"><i class="fa fa-arrow-left"></i> Return to <%=@event.name%></a>
+  <a class="d-inline-block mb-3" href="/events/<%=@event.id%>"><i class="fa fa-arrow-left"></i> Return to <%=@event.name%></a>
 <% end %>
 <script>
   $(function () {
@@ -10,7 +10,7 @@
     })
   })
 </script>
-<% form_for @event, @event.new_record ? '/events/new' : "/events/#{@event.slug}/edit" do |f| %>
+<% form_for @event, @event.new_record ? '/events/new' : "/events/#{@event.id}/edit" do |f| %>
   <%= f.text_block :name %>
   <%= f.datetime_block :start_time %>
   <%= f.datetime_block :end_time %>
@@ -44,5 +44,5 @@
   </div>
   
   <%= f.text_area_block :feedback_questions %>
-  <%= f.submit_block destroy_url: ("/events/#{@event.slug}/destroy") %>
+  <%= f.submit_block destroy_url: ("/events/#{@event.id}/destroy") %>
 <% end %>

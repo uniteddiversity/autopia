@@ -23,19 +23,19 @@ Autopia::App.controller do
     @event = Event.new(params[:event])
     @event.account = current_account
     if @event.save
-      redirect "/events/#{@event.slug}"
+      redirect "/events/#{@event.id}"
     else
       flash[:error] = 'There was an error saving the event'
       erb :'events/build'
     end
   end
 
-  get '/events/:slug' do
-    @event = Event.find_by(slug: params[:slug]) || not_found
+  get '/events/:id' do
+    @event = Event.find(params[:id]) || not_found
     erb :'events/event'
   end
 
-  get '/events/:slug/edit' do
+  get '/events/:id/edit' do
     sign_in_required!
     if params[:event] && params[:event][:ticket_types_attributes]
       params[:event][:ticket_types_attributes].each do |k, v|
@@ -43,29 +43,29 @@ Autopia::App.controller do
         params['event']['ticket_types_attributes'][k]['exclude_from_capacity'] = nil if v[:name].nil?
       end
     end
-    @event = Event.find_by(slug: params[:slug]) || not_found
+    @event = Event.find(params[:id]) || not_found
     unless admin? || creator?(@event)
       flash[:error] = "You can't edit that event"
-      redirect "/events/#{@event.slug}"
+      redirect "/events/#{@event.id}"
     end
     erb :'events/build'
   end
 
-  post '/events/:slug/edit' do
-    @event = Event.find_by(slug: params[:slug]) || not_found
+  post '/events/:id/edit' do
+    @event = Event.find(params[:id]) || not_found
     unless admin? || creator?(@event)
       flash[:error] = "You can't edit that event"
-      redirect "/events/#{@event.slug}"
+      redirect "/events/#{@event.id}"
     end
     if @event.update_attributes(params[:event])
-      redirect "/events/#{@event.slug}"
+      redirect "/events/#{@event.id}"
     else
       flash[:error] = 'There was an error saving the event'
       erb :'events/build'
     end
   end
 
-  post '/events/:slug/create_order', provides: :json do
+  post '/events/:id/create_order', provides: :json do
     @event = Event.find_by(slug: params[:slug]) || not_found
 
     ticketForm = {}
@@ -114,8 +114,8 @@ Autopia::App.controller do
             quantity: 1
           }],
         customer_email: (current_account.email if current_account),
-        success_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?success=true",
-        cancel_url: "#{ENV['BASE_URI']}/events/#{@event.slug}?cancelled=true" }
+        success_url: "#{ENV['BASE_URI']}/events/#{@event.id}?success=true",
+        cancel_url: "#{ENV['BASE_URI']}/events/#{@event.id}?cancelled=true" }
       if @event.facilitator && @event.promoter_revenue_share
         if promotership = @event.promoter.promoterships.find_by(account: @event.facilitator)
           stripe_session_hash.merge!({
