@@ -69,7 +69,7 @@
     <tr>
       <td>Open to</td>
       <td>
-        <%=account.open_to.map { |x| %Q{<a href="/dating?open_to_#{x}=true" class="text-white label label-primary d-inline-block mb-1 mb-sm-0">#{x == 'non_monogamy' ? 'Non-monogamy' : x.humanize}</a>} }.join(' ') %>
+        <%=account.open_to.map { |x| %Q{<a href="/connect?open_to_#{x}=true" class="text-white label label-primary d-inline-block mb-1 mb-sm-0">#{x == 'non_monogamy' ? 'Non-monogamy' : x.humanize}</a>} }.join(' ') %>
       </td>  
     </tr> 
   <% end %>

@@ -54,12 +54,18 @@
       <span class="nav-link-text">Rooms</span>
     </a>
   </li>
-  <li class="<%='active' if request.path == '/dating'%>">
-    <a href="/dating">
+  <li class="<%='active' if request.path == '/connect'%>">
+    <a href="/connect">
       <i class="fa fa-heart-o"></i>
-      <span class="nav-link-text">Dating</span>
+      <span class="nav-link-text">Connect</span>
     </a>
   </li>
+  <li class="<%='active' if request.path == '/events'%>">
+    <a href="/events">
+      <i class="fa fa-calendar-o"></i>
+      <span class="nav-link-text">Events</span>
+    </a>
+  </li>  
   <% if !current_account %>
     <li class="<%='active' if request.path == '/gatherings'%>">
       <a href="/gatherings">

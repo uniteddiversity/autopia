@@ -15,32 +15,34 @@
   <%= f.datetime_block :start_time %>
   <%= f.datetime_block :end_time %>
   <%= f.text_block :location %>
+  <%= f.email_block :email %>
+  <%= f.image_block :image %>
+  <%= f.text_area_block :description %>
+  <%= f.number_block :facebook_event_id %>
+  
+  <div class="border border-dark p-3 mb-3 rounded">
   <%= f.lookup_block :promoter_id, lookup_url: "/promoters.json", placeholder: 'Search promoters', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/places/#{@event.promoter_id}">View promoter</a>} if @event.promoter_id) %>
   <script>
     $(function() {
       $('#event_promoter_id').change(function() {
         if ($(this).val().length > 0) {
-          $('#promoter-revenue-share-container').show()
+          $('#promoter-options').show()
         } else {
-          $('#promoter-revenue-share-container').hide()
+          $('#promoter-options').hide()
         }
       })
       $('#event_promoter_id').change()
     })
   </script>
-  <div id="promoter-revenue-share-container" style="display: none">
+  <div id="promoter-options" style="display: none">
+    <%= f.lookup_block :facilitator_id, lookup_url: "/accounts.json", placeholder: 'Search accounts', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/places/#{@event.facilitator_id}">View account</a>} if @event.facilitator_id) %>
     <%= f.number_block :promoter_revenue_share %>
-  </div>
-  <%= f.lookup_block :facilitator_id, lookup_url: "/accounts.json", placeholder: 'Search accounts', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/places/#{@event.facilitator_id}">View account</a>} if @event.facilitator_id) %>
-  <%= f.email_block :email %>
-  <%= f.image_block :image %>
-  <%= f.text_area_block :description %>
-  <%= f.number_block :facebook_event_id %>
-  <div class="border border-dark p-3 mb-3 rounded">
+  </div>    
     <%= partial :'events/ticket_types', :locals => {:f => f} %>
     <%= f.number_block :capacity %>
     <%= f.number_block :suggested_donation %>
   </div>
+  
   <%= f.text_area_block :feedback_questions %>
   <%= f.submit_block destroy_url: ("/events/#{@event.slug}/destroy") %>
 <% end %>

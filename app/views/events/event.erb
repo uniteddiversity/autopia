@@ -74,10 +74,6 @@
   <div class="card" id="share-event">
     <h4 class="card-header bg-primary text-white">Thanks for booking!</h4>
     <div class="card-body">
-      <p class="refunds">
-        <strong>Please note that we do not offer refunds or exchanges. You are, however, welcome to sell your ticket(s).</strong>
-      </p>
-      <p>We look forward to seeing you soon!</p>
       <%= partial :share_big %>
     </div>
   </div>
@@ -95,7 +91,7 @@
     <% else %>
       <%= partial :'events/waitlist' %>
     <% end %>
-  <% else %>
+  <% elsif @event.promoter %>
     <%= partial :'events/purchase' %>
   <% end  %>
 <% end  %>
