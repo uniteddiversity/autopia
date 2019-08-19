@@ -21,7 +21,7 @@
   <%= f.number_block :facebook_event_id %>
   
   <div class="border border-dark p-3 mb-3 rounded">
-  <%= f.lookup_block :promoter_id, lookup_url: "/promoters.json", placeholder: 'Search promoters', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/places/#{@event.promoter_id}">View promoter</a>} if @event.promoter_id) %>
+  <%= f.lookup_block :promoter_id, lookup_url: "/promoters.json", placeholder: 'Search promoters', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/promoters/#{@event.promoter_id}">View promoter</a>} if @event.promoter_id) %>
   <script>
     $(function() {
       $('#event_promoter_id').change(function() {
@@ -35,7 +35,7 @@
     })
   </script>
   <div id="promoter-options" style="display: none">
-    <%= f.lookup_block :facilitator_id, lookup_url: "/accounts.json", placeholder: 'Search accounts', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/places/#{@event.facilitator_id}">View account</a>} if @event.facilitator_id) %>
+    <%= f.lookup_block :facilitator_id, lookup_url: "/accounts.json", placeholder: 'Search accounts', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/u/#{@event.facilitator.username}">View account</a>} if @event.facilitator_id) %>
     <%= f.number_block :facilitator_revenue_share %>
   </div>    
     <%= partial :'events/ticket_types', :locals => {:f => f} %>

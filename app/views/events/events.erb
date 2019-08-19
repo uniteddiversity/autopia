@@ -1,11 +1,30 @@
-<div class="mb-3">
-  <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
-    <%= text_field_tag :q, :class => 'form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Search events', :value => params[:q] %>
-  <% end %>
+<div class="row justify-content-between mb-3">
+  <div class="col">
+    <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
+      <%= text_field_tag :q, :class => 'form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Search events', :value => params[:q] %>
+    <% end %>
+  </div>
   <% if current_account %>
-    <a  class="btn btn-primary mt-1 mt-sm-0" href="/events/new"><i class="fa fa-plus-circle"></i> List an event</a>
+    <div class="col-auto">      
+      <a class="btn btn-primary mt-1 mt-sm-0" href="/events/new"><i class="fa fa-plus-circle"></i> List an event</a>
+    </div>
   <% end %>
 </div>
 <% @events = @events.paginate(:page => params[:page], :per_page => 50) %>
 <%= partial :'events/blocks', :locals => {:events => @events} %>
-<%= will_paginate @events, :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+<%= will_paginate @events, :param_name => 'events_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+
+
+<div class="row justify-content-between mt-5">
+  <div class="col">
+    <h2>Promoters</h2>
+  </div>
+  <% if current_account %>
+    <div class="col-auto">      
+      <a class="btn btn-primary mt-1 mt-sm-0" href="/promoters/new"><i class="fa fa-plus-circle"></i> Create a promoter</a>
+    </div>
+  <% end %>
+</div>
+<% @promoters = Promoter.order('name asc').paginate(:page => params[:page], :per_page => 50) %>
+<%= partial :'promoters/blocks', :locals => {:promoters => @promoters} %>
+<%= will_paginate @promoters, :param_name => 'promoters_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>

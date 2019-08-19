@@ -37,7 +37,6 @@ Autopia::App.controller do
   end
 
   get '/events/:id/edit' do
-    sign_in_required!
     if params[:event] && params[:event][:ticket_types_attributes]
       params[:event][:ticket_types_attributes].each do |k, v|
         params['event']['ticket_types_attributes'][k]['hidden'] = nil if v[:name].nil?
@@ -45,19 +44,13 @@ Autopia::App.controller do
       end
     end
     @event = Event.find(params[:id]) || not_found
-    unless admin? || creator?(@event)
-      flash[:error] = "You can't edit that event"
-      redirect "/events/#{@event.id}"
-    end
+    event_admins_only!
     erb :'events/build'
   end
 
   post '/events/:id/edit' do
     @event = Event.find(params[:id]) || not_found
-    unless admin? || creator?(@event)
-      flash[:error] = "You can't edit that event"
-      redirect "/events/#{@event.id}"
-    end
+    event_admins_only!
     if @event.update_attributes(params[:event])
       redirect "/events/#{@event.id}"
     else

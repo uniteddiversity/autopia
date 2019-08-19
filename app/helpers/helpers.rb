@@ -47,6 +47,34 @@ Autopia::App.helpers do
   def discuss(name)
     @feature = Feature.find_by(name: name) || Feature.create(name: name)
   end
+  
+  def promoter_admin?(promoter=nil, account=current_account)
+    promoter = @promoter if !promoter
+    account && (promoter.account_id == account.id || promoter.promotercrowns.find_by(account: account) || account.admin?)
+  end  
+  
+  def promoter_admins_only!(promoter=nil, account=current_account)
+    promoter = @promoter if !promoter
+    unless promoter_admin?(promoter, account)
+      flash[:notice] = 'You must be a team member of that promoter to access that page'
+      session[:return_to] = request.url
+      request.xhr? ? halt(403) : redirect(account ? '/' : '/accounts/sign_in')      
+    end
+  end
+  
+  def event_admin?(event=nil, account=current_account)
+    event = @event if !event
+    account && (event.account_id == account.id || (event.promoter && promoter_admin?(event.promoter, account)) || account.admin?)
+  end  
+  
+  def event_admins_only!(event=nil, account=current_account)
+    event = @event if !event
+    unless event_admin?(event, account)
+      flash[:notice] = 'You must be an admin of that event to access that page'
+      session[:return_to] = request.url
+      request.xhr? ? halt(403) : redirect(account ? '/' : '/accounts/sign_in')      
+    end
+  end
 
   def membership_required!(gathering=nil, account=current_account)
     gathering = @gathering if !gathering

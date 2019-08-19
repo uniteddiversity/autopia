@@ -17,28 +17,29 @@
   <% end %>
 <% end %>
 
-<div class="mb-3">
-
-  <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
-    <%= text_field_tag :q, :class => 'form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Search places', :value => params[:q] %>
-  <% end %>    
-
+<div class="row justify-content-between mb-3">
+  <div class="col">
+    <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
+      <%= text_field_tag :q, :class => 'form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Search places', :value => params[:q] %>
+    <% end %>   
+  </div>
   <% if current_account %>
-    <a class="btn btn-primary mt-1 mt-sm-0" href="javascript:;" onclick="$(this).prev().hide().end().hide().next().show().find('input').first().focus()"><i class="fa fa-plus-circle"></i> Add a place</a>
-    <div style="display: none" class="mt-3">
-      <%= partial :'places/build' %>
-    </div>    
-  <% end %>
-
-
+    <div class="col-auto">
+      <a class="btn btn-primary mt-1 mt-sm-0" href="javascript:;" onclick="$(this).hide();
+                  $('#place-build').show().find('input').first().focus()"><i class="fa fa-plus-circle"></i> Add a place</a>
+    </div>
+  <% end %>    
 </div>
 
+<div id="place-build" style="display: none" class="mt-3">
+  <%= partial :'places/build' %>
+</div>        
 
-  <% if params[:uncategorised_id] %>    
-    <h3><%=Account.find(params[:uncategorised_id]).name%>'s uncategorised places</h3>
-  <% elsif params[:placeship_category_id]; placeship_category = PlaceshipCategory.find(params[:placeship_category_id]) %>
-    <h3><%=placeship_category.account.name%>'s <%=placeship_category.name %> places</h3>
-  <% end %>
+<% if params[:uncategorised_id] %>    
+  <h3><%=Account.find(params[:uncategorised_id]).name%>'s uncategorised places</h3>
+<% elsif params[:placeship_category_id]; placeship_category = PlaceshipCategory.find(params[:placeship_category_id]) %>
+  <h3><%=placeship_category.account.name%>'s <%=placeship_category.name %> places</h3>
+<% end %>
 
 
 <div style="position: relative">

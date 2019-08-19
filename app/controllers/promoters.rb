@@ -1,5 +1,6 @@
 Autopia::App.controller do
-  get '/promoters', provides: %i[json] do
+  
+  get '/promoters', provides: :json do
     @promoters = Promoter.all.order('created_at desc')
     @promoters = @promoters.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
     @promoters = @promoters.where(id: params[:id]) if params[:id]
@@ -30,24 +31,21 @@ Autopia::App.controller do
   end
 
   get '/promoters/:id' do
-    sign_in_required!
     @promoter = Promoter.find(params[:id]) || not_found
     discuss 'Promoters'
     erb :'promoters/promoter'
   end
 
   get '/promoters/:id/edit' do
-    sign_in_required!
     @promoter = Promoter.find(params[:id]) || not_found
-    halt(403) unless admin? || @promoter.account_id == current_account.id
+    promoter_admins_only!
     discuss 'Promoters'
     erb :'promoters/build'
   end
 
   post '/promoters/:id/edit' do
-    sign_in_required!
     @promoter = Promoter.find(params[:id]) || not_found
-    halt(403) unless admin? || @promoter.account_id == current_account.id
+    promoter_admins_only!
     if @promoter.update_attributes(params[:promoter])
       redirect "/promoters/#{@promoter.id}"
     else
@@ -56,19 +54,24 @@ Autopia::App.controller do
       erb :'promoters/build'
     end
   end
+  
+  post '/promoters/:id/promotercrowns/new' do    
+    @promoter = Promoter.find(params[:id]) || not_found
+    promoter_admins_only!
+    @promoter.promotercrowns.create(account_id: params[:promotercrown][:account_id])
+    redirect back
+  end  
 
   get '/promoters/:id/destroy' do
-    sign_in_required!
     @promoter = Promoter.find(params[:id]) || not_found
-    halt(403) unless admin? || @promoter.account_id == current_account.id
+    promoter_admins_only!
     @promoter.destroy
     redirect '/promoters/new'
   end
 
   get '/promoterships/:id/destroy' do
     sign_in_required!
-    @promotership = Promotership.find(params[:id]) || not_found
-    halt(403) unless admin? || @promotership.account_id == current_account.id
+    @promotership = current_account.promoterships.find(params[:id]) || not_found
     @promotership.destroy
     redirect "/promoters/#{@promotership.promoter_id}"
   end
@@ -110,4 +113,5 @@ Autopia::App.controller do
       400
     end
   end
+  
 end

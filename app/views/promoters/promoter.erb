@@ -11,7 +11,7 @@
       <%= @promoter.name %>
     </h1>
     <div class="mb-2">
-      <% if @promoter.account_id == current_account.id %>
+      <% if promoter_admin? %>
         <a class="btn btn-primary" href="/promoters/<%=@promoter.id%>/edit"><i class="fa fa-pencil"></i> Edit promoter</a>
       <% end %>
     </div>
@@ -33,19 +33,53 @@
     </table>
     <% if promotership = @promoter.promoterships.find_by(account: current_account) %>
       <a class="btn btn-danger" href="/promoterships/<%=promotership.id%>/destroy">Disconnect your Stripe account from <%=@promoter.name%></a>
-    <% else %>
+    <% elsif current_account %>
       <a class="btn btn-success" href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%=@promoter.stripe_client_id%>&scope=read_write">Connect your Stripe account to <%=@promoter.name%></a>
     <% end %>
   </div>
 </div>
+
+<% if @promoter.promotercrowns.count > 0 || promoter_admin? %>
+  <h2 class="mt-5">Team members</h2>
+  <% if promoter_admin? %>
+    <div class="mb-3">
+      <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()">Add a team member</a> 
+      <div style="display: none">
+        <% form_for Promotercrown.new, "/promoters/#{@promoter.id}/promotercrowns/new" do |f| %>
+          <%= f.lookup_block :account_id, lookup_url: "/accounts.json", placeholder: 'Search accounts' %>
+          <%= f.submit_block button_text: 'Add team member' %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>  
+  <div class="image-wall">
+    <% accounts = @promoter.team_members.order('name asc').paginate(:page => params[:page], :per_page => 50); accounts.each { |account|  %>
+      <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+    <% } %>
+  </div>
+  <div class="mt-3">
+    <%= will_paginate accounts, :param_name => 'team_members_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+  </div>  
+<% end %>
+
 <% if @promoter.promoterships.count > 0 %>
   <h2 class="mt-5">Connected to this promoter</h2>
   <div class="image-wall">
     <% accounts = @promoter.clients.order('name asc').paginate(:page => params[:page], :per_page => 50); accounts.each { |account|  %>
-    <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+      <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
     <% } %>
   </div>
   <div class="mt-3">
-    <%= will_paginate accounts, :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+    <%= will_paginate accounts, :param_name => 'clients_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+  </div>
+<% end %>
+
+
+<% if (events = @promoter.events.future.paginate(:page => params[:page], :per_page => 50)).count > 0  %>
+  <h2 class="mt-5">Events</h2>
+  <% events = @promoter.events.future.paginate(:page => params[:page], :per_page => 50) %>
+  <%= partial :'events/blocks', :locals => {:events => events} %>
+  <div class="mt-3">
+    <%= will_paginate events, :param_name => 'events_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
   </div>
 <% end %>

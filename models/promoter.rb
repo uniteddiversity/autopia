@@ -12,12 +12,13 @@ class Promoter
   field :stripe_pk, type: String
   field :stripe_sk, type: String
 
-  validates_presence_of :name, :website
+  validates_presence_of :name, :website, :stripe_client_id, :stripe_endpoint_secret, :stripe_pk, :stripe_sk
 
   belongs_to :account, index: true, optional: true
 
   has_many :events, dependent: :nullify
   has_many :promoterships, dependent: :destroy
+  has_many :promotercrowns, dependent: :destroy
 
   dragonfly_accessor :image
   before_validation do
@@ -29,6 +30,10 @@ class Promoter
       end
     end
   end
+
+  def team_members
+    Account.where(:id.in => promotercrowns.pluck(:account_id))
+  end  
 
   def clients
     Account.where(:id.in => promoterships.pluck(:account_id))

@@ -11,7 +11,7 @@
       <%= @event.name %>
     </h1>
     <div class="mb-2">
-      <% if current_account && @event.account_id == current_account.id %>
+      <% if event_admin? %>
         <a class="btn btn-primary" href="/events/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
       <% end %>
     </div>
@@ -29,7 +29,7 @@
           <td>Facilitator</td>
           <td>
             <a href="/u/<%=@event.facilitator.username%>"><%=@event.facilitator.name%></a>            
-            <% if current_account && @event.account_id == current_account.id && !(promotership = @event.promoter.promoterships.find_by(account: @event.facilitator))%>
+            <% if event_admin? && !(promotership = @event.promoter.promoterships.find_by(account: @event.facilitator))%>
               <span class="label label-danger">
                 <i class="fa fa-warning"></i> Facilitator not connect to this promoter
               </span>
