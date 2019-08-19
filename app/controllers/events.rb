@@ -127,7 +127,6 @@ Autopia::App.controller do
             }
           })
       end
-      raise stripe_session_hash.inspect
       session = Stripe::Checkout::Session.create(stripe_session_hash)
       order.set(stripe_id: session.id)
       { session_id: session.id }.to_json
