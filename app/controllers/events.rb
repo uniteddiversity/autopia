@@ -67,7 +67,7 @@ Autopia::App.controller do
   end
 
   post '/events/:id/create_order', provides: :json do
-    @event = Event.find_by(slug: params[:slug]) || not_found
+    @event = Event.find(params[:id]) || not_found
 
     ticketForm = {}
     params[:ticketForm].each { |_k, v| ticketForm[v['name']] = v['value'] }
@@ -117,7 +117,7 @@ Autopia::App.controller do
         customer_email: (current_account.email if current_account),
         success_url: "#{ENV['BASE_URI']}/events/#{@event.id}?success=true",
         cancel_url: "#{ENV['BASE_URI']}/events/#{@event.id}?cancelled=true" }
-      if @event.facilitator && @event.facilitator_revenue_share && promotership = @event.promoter.promoterships.find_by(account: @event.facilitator)
+      if @event.facilitator && @event.facilitator_revenue_share && promotership = @event.promoter.promoterships.find_by(account: @event.facilitator)        
         stripe_session_hash.merge!({
             payment_intent_data: {
               application_fee_amount: ((1 - @event.facilitator_revenue_share) * total * 100).round,
@@ -127,6 +127,7 @@ Autopia::App.controller do
             }
           })
       end
+      raise stripe_session_hash.inspect
       session = Stripe::Checkout::Session.create(stripe_session_hash)
       order.set(stripe_id: session.id)
       { session_id: session.id }.to_json
