@@ -15,7 +15,7 @@ height: 180px; overflow: hidden;
               <a class="<% if promoter.image %>text-white<% else %>text-dark<% end%>" target="_parent" href="/promoters/<%=promoter.id%>" onclick="event.stopPropagation();">
                 <%= promoter.name %>
               </a>
-              <% if current_account and current_account.id == promoter.account_id %>
+              <% if promoter_admin?(promoter) %>
                 <a class="<% if promoter.image %>text-white<% else %>text-dark<% end%> promoter-edit" style="display: none" href="/promoters/<%=promoter.id%>/edit" onclick="event.stopPropagation();">
                   <i class="fa fa-pencil"></i>
                 </a>
