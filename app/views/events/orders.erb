@@ -1,0 +1,54 @@
+
+<%= partial :'events/nav', :locals => {:event => @event} %>
+
+<pre>
+  <%= Account.where(:id.in => @event.orders.pluck(:account_id)).map { |account| "#{account.name} &lt;#{account.email}&gt;" }.join(', ') %>
+</pre>
+
+<table class="table" id="orders">
+  <thead>
+    <tr>      
+      <th>Name</th>
+      <th>Email</th>
+      <th>Value</th>
+      <th>Date</th>      
+      <th>Order ID</th>
+      <th>Feedback</th>
+    </tr>
+  </thead>
+  <% @event.orders.order('created_at desc').each { |order| %>
+    <tr>
+      <td>
+        <%= order.account.name  %>
+      </td>
+      <td>
+        <%= order.account.email  %>
+      </td>      
+      <td>
+        <abbr title="<%= order.description %>">
+          <%=number_to_currency order.value, unit: '£', precision: 0 %>
+        </abbr>
+        <% if order.incomplete? %><i title="Payment processing" class="ml-1 fa fa-spin fa-circle-o-notch"></i><% end %>
+      </td>
+      <td>
+        <%= order.created_at %>
+      </td>
+      <td>
+        <%= order.id %>
+      </td>           
+      <td>
+        <% if event_feedback = order.event.event_feedbacks.find_by(account: order.account) %>
+          <a href="/event_feedbacks/<%=event_feedback.id%>">
+            <% if event_feedback.rating %>
+              <% event_feedback.rating.times do %><i class="fa fa-star"></i><% end %>
+            <% else %>
+              <%=event_feedback.id%>
+            <% end %>
+          </a>
+        <% else %>
+          <input type="text" style="width: 8em" class="form-control" value="<%=ENV['BASE_URI']%>/events/<%=order.event_id%>/give_feedback?sign_in_token=<%=order.account.sign_in_token%>" />
+        <% end %>        
+      </td>      
+    </tr>
+  <% } %>
+</table>

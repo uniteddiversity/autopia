@@ -1,3 +1,5 @@
+<%= partial :'events/nav', :locals => {:event => @event} %>
+
 <div class="row no-gutters">
   <div class="col-12 col-sm-auto mr-3">
     <% if @event.image %>
@@ -10,11 +12,6 @@
     <h1>
       <%= @event.name %>
     </h1>
-    <div class="mb-2">
-      <% if event_admin? %>
-        <a class="btn btn-primary" href="/events/<%=@event.id%>/edit"><i class="fa fa-pencil"></i> Edit event</a>
-      <% end %>
-    </div>
     <table class="table table-hr">
       <% if @event.promoter %>
         <tr>
@@ -26,7 +23,7 @@
       <% end %>
       <% if @event.facilitator %>
         <tr>
-          <td>Facilitator</td>
+          <td>Lead facilitator</td>
           <td>
             <a href="/u/<%=@event.facilitator.username%>"><%=@event.facilitator.name%></a>            
             <% if event_admin? && !(promotership = @event.promoter.promoterships.find_by(account: @event.facilitator))%>
@@ -77,7 +74,7 @@
 <%= partial :'maps/map', :locals => {:points => [@event]} %>
 <% if params[:success] %>
   <div class="card" id="share-event">
-    <h4 class="card-header bg-primary text-white">Thanks for booking!</h4>
+    <h3 class="card-header bg-primary text-white">Thanks for booking!</h2>
     <div class="card-body">
       <%= partial :share_big %>
     </div>
@@ -86,7 +83,7 @@
   <% if @event.sold_out? and !params[:ticket_type_id] %>
     <% if params[:added_to_waitlist] %>
       <div class="card">
-        <h4 class="card-header bg-primary text-white">Thanks!</h4>
+        <h3 class="card-header bg-primary text-white">Thanks!</h2>
         <div class="card-body">
           <p class="lead mb-0">
             We'll be in touch if we are able to issue more tickets.

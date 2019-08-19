@@ -35,7 +35,7 @@ Autopia::App.controller do
     @event = Event.find(params[:id]) || not_found
     erb :'events/event'
   end
-
+  
   get '/events/:id/edit' do
     if params[:event] && params[:event][:ticket_types_attributes]
       params[:event][:ticket_types_attributes].each do |k, v|
@@ -58,6 +58,24 @@ Autopia::App.controller do
       erb :'events/build'
     end
   end
+  
+  post '/events/:id/waitship/new' do
+    sign_in_required!
+    @event = Event.find(params[:id]) || not_found
+   
+    email = params[:waitship][:email]
+    account_hash = { name: params[:waitship][:name], email: params[:waitship][:email], password: Account.generate_password(8) }    
+    @account = if (account = Account.find_by(email: /^#{::Regexp.escape(email)}$/i))
+      account
+    else
+      Account.new(account_hash)
+    end
+    @account.persisted? ? @account.update_attributes!(Hash[account_hash.map { |k, v| [k, v] if v }.compact]) : @account.save!    
+    
+    @event.waitships.create!(account: @account)
+    
+    redirect "/events/#{@event.id}?added_to_waitlist=true"
+  end  
 
   post '/events/:id/create_order', provides: :json do
     @event = Event.find(params[:id]) || not_found
@@ -128,4 +146,41 @@ Autopia::App.controller do
     end
   end
   
+  get '/events/:id/tickets' do
+    @event = Event.find(params[:id]) || not_found
+    event_admins_only!
+    erb :'events/tickets'      
+  end
+  
+  get '/events/:id/tickets/:ticket_id/destroy' do
+    @event = Event.find(params[:id]) || not_found
+    event_admins_only!
+    @event.tickets.find(params[:ticket_id]).destroy
+    redirect back
+  end     
+  
+  get '/events/:id/orders' do
+    @event = Event.find(params[:id]) || not_found
+    event_admins_only!
+    erb :'events/orders'      
+  end  
+  
+  get '/events/:id/donations' do
+    @event = Event.find(params[:id]) || not_found
+    event_admins_only!
+    erb :'events/donations'      
+  end    
+    
+  get '/events/:id/map' do
+    @event = Event.find(params[:id]) || not_found
+    event_admins_only!
+    erb :'events/map'      
+  end   
+  
+  get '/events/:id/waitlist' do
+    @event = Event.find(params[:id]) || not_found
+    event_admins_only!
+    erb :'events/waitlist'      
+  end   
+    
 end

@@ -1,0 +1,64 @@
+
+<%= partial :'events/nav', :locals => {:event => @event} %>
+
+<a class="btn btn-primary mb-3" href="/events/<%=@event.id%>/send_feedback_requests">Send pending feedback requests now</a>
+
+<% if @event.average_rating %>    
+  <p style="font-size: 2em">
+    <%= @event.average_rating %><small class="text-muted">/5 from <%=pluralize @event.event_feedbacks.count, 'rating' %></small>
+
+    <% @event.average_rating.round.times do %><i class="fa fa-star"></i><% end %>          
+  </p>    
+<% end %>
+
+<table class="table">
+  <thead>
+    <tr>      
+      <th>Name</th>
+      <th>Email</th>
+      <th>Rating</th>        
+      <th>Answers</th>
+      <th>Date</th>        
+    </tr>
+  </thead>
+  <% @event_feedbacks.order('created_at desc').each { |event_feedback| account = event_feedback.account %>
+    <tr>
+      <td>
+        <% if account.picture %>
+          <img title="<%=account.name%>" src="<%=account.picture ? account.picture.thumb('400x400').url : '/images/silhouette.png'%>" style="width: 100px; display: block"/>
+        <% end %>
+        <%= account.name  %>
+      </td>
+      <td>
+        <%= account.email  %>
+      </td>
+      <td>
+        <a href="/event_feedbacks/<%=event_feedback.id%>">
+          <% if event_feedback.rating %>
+            <% event_feedback.rating.times do %><i class="fa fa-star"></i><% end %>
+          <% else %>
+            <%=event_feedback.id%>
+          <% end %>
+        </a>
+      </td>      
+      <td>
+        <% event_feedback.event.feedback_questions_a.each_with_index { |q,i| %>  
+          <p><strong><%=q%></strong><br />
+            <%= answer = event_feedback.answers.detect { |k,v| k == q }; answer[1] if answer %>
+          </p>
+
+          <div class="my-3">
+            <div data-pagelet-url="/event_feedbacks/<%=event_feedback.id%>/public/<%=i%>"></div>
+          </div>            
+
+        <% } %>                  
+      </td>
+      <td>
+        <%=event_feedback.created_at%>
+      </td>        
+    </tr>
+  <% } %>
+</table>
+
+<%= will_paginate @event_feedbacks, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+

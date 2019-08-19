@@ -1,0 +1,27 @@
+
+<%= partial :'events/nav', :locals => {:event => @event} %>
+
+<pre style="margin-top: 15px;"><%= Account.where(:id.in => @event.waitships.pluck(:account_id)).map do |account| "#{account.name} &lt;#{account.email}&gt;" end.join(', ') %></pre>
+
+<table class="table">
+  <thead>
+    <tr>      
+      <th>Name</th>
+      <th>Email</th>
+      <th>Joined</th>
+    </tr>
+  </thead>
+  <% @event.waitships.order('created_at asc').each { |waitship| %>
+    <tr>
+      <td>
+        <%= waitship.account.name  %>
+      </td>
+      <td>
+        <%= waitship.account.email  %>
+      </td>           
+      <td>
+        <%= waitship.created_at  %>
+      </td>                 
+    </tr>
+  <% } %>
+</table>

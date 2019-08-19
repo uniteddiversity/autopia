@@ -1,0 +1,34 @@
+
+<%= partial :'events/nav', :locals => {:event => @event} %>
+
+<p>
+  <strong>Donations from this event:</strong> <%=number_to_currency @event.donations.pluck(:amount).sum, unit: '£', precision: 0%>
+</p>
+
+<table class="table">
+  <thead>
+    <tr>      
+      <th>Name</th>
+      <th>Email</th>
+      <th>Donation</th>
+      <th>Donation ID</th>
+    </tr>
+  </thead>
+  <% @event.donations.each { |donation| %>
+    <tr>
+      <td>
+        <%= donation.account.name  %>
+      </td>
+      <td>
+        <%= donation.account.email  %>
+      </td>      
+      <td>
+        £<%= donation.amount %>
+        <% if donation.incomplete? %><i title="Payment processing" class="ml-1 fa fa-spin fa-circle-o-notch"></i><% end %>
+      </td>            
+      <td>
+        <%= donation.id %>
+      </td>                     
+    </tr>
+  <% } %>
+</table>

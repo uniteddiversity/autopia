@@ -1,0 +1,3 @@
+<%= partial :'events/nav', :locals => {:event => @event} %>
+
+<%= partial :'maps/map', :locals => {:points => @event.attendees} %>

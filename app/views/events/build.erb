@@ -1,5 +1,5 @@
 <% if @event.persisted? %>
-  <a class="d-inline-block mb-3" href="/events/<%=@event.id%>"><i class="fa fa-arrow-left"></i> Return to <%=@event.name%></a>
+  <%= partial :'events/nav', :locals => {:event => @event} %>
 <% end %>
 <script>
   $(function () {

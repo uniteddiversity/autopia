@@ -45,6 +45,8 @@ class Event
   has_many :tickets, dependent: :destroy
   has_many :donations, dependent: :nullify
   has_many :orders, dependent: :destroy
+  has_many :waitships, dependent: :destroy
+  has_many :event_feedbacks, dependent: :destroy
 
   def summary
     start_time ? "#{name} (#{start_time.to_date})" : name
@@ -140,4 +142,17 @@ class Event
       capacity - tickets_counting_towards_capacity.count
     end
   end
+  
+  def average_rating
+    ratings = event_feedbacks.where(:rating.ne => nil).pluck(:rating)
+    if ratings.length > 0
+      ratings = ratings.map(&:to_i)
+      (ratings.inject(:+).to_f / ratings.length).round(1)
+    end
+  end
+  
+  def attendees
+    Account.where(:id.in => tickets.pluck(:account_id))
+  end  
+  
 end
