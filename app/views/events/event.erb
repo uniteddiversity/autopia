@@ -28,7 +28,12 @@
         <tr>
           <td>Facilitator</td>
           <td>
-            <a href="/u/<%=@event.facilitator.username%>"><%=@event.facilitator.name%></a>
+            <a href="/u/<%=@event.facilitator.username%>"><%=@event.facilitator.name%></a>            
+            <% if current_account && @event.account_id == current_account.id && !(promotership = @event.promoter.promoterships.find_by(account: @event.facilitator))%>
+              <span class="label label-danger">
+                <i class="fa fa-warning"></i> Facilitator not connect to this promoter
+              </span>
+            <% end %>
           </td>
         </tr>
       <% end %>

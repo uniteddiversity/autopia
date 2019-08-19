@@ -1,6 +1,6 @@
 Autopia::App.controller do
 
-  get '/accounts', provides: %i[json] do
+  get '/accounts', provides: [:json] do
     @accounts = Account.all
     @accounts = @accounts.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
     @accounts = @accounts.where(id: params[:id]) if params[:id]
