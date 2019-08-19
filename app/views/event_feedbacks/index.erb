@@ -1,8 +1,6 @@
 
 <%= partial :'events/nav', :locals => {:event => @event} %>
 
-<a class="btn btn-primary mb-3" href="/events/<%=@event.id%>/send_feedback_requests">Send pending feedback requests now</a>
-
 <% if @event.average_rating %>    
   <p style="font-size: 2em">
     <%= @event.average_rating %><small class="text-muted">/5 from <%=pluralize @event.event_feedbacks.count, 'rating' %></small>

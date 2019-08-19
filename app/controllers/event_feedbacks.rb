@@ -48,14 +48,14 @@ Autopia::App.controller do
   get '/event_feedbacks/:id/public/:i' do    
     @event_feedback = EventFeedback.find(params[:id])
     @event = @event_feedback.event
-    halt unless admin? or activity_facilitator?(activity: @event.activity) or creator?(@event)
+    event_admins_only!
     partial :'event_feedbacks/public'
   end
  
   post '/event_feedbacks/:id/public/:i' do   
     @event_feedback = EventFeedback.find(params[:id])
     @event = @event_feedback.event
-    halt unless admin? or activity_facilitator?(activity: @event.activity) or creator?(@event)
+    event_admins_only!
     
     public_answers = @event_feedback.event.feedback_questions_a.map { |q| [q,''] }
         
