@@ -16,7 +16,7 @@ class Event
   field :feedback_questions, type: String
   field :suggested_donation, type: Float
   field :capacity, type: Integer
-  field :promoter_revenue_share, type: Float
+  field :facilitator_revenue_share, type: Float
 
   def self.marker_color
     'red'
@@ -75,6 +75,7 @@ class Event
       description: :wysiwyg,
       email: :email,
       facebook_event_id: :number,
+      facilitator_revenue_share: :number,
       feedback_questions: :text_area,
       suggested_donation: :number,
       capacity: :number,

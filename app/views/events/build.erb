@@ -36,7 +36,7 @@
   </script>
   <div id="promoter-options" style="display: none">
     <%= f.lookup_block :facilitator_id, lookup_url: "/accounts.json", placeholder: 'Search accounts', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/places/#{@event.facilitator_id}">View account</a>} if @event.facilitator_id) %>
-    <%= f.number_block :promoter_revenue_share %>
+    <%= f.number_block :facilitator_revenue_share %>
   </div>    
     <%= partial :'events/ticket_types', :locals => {:f => f} %>
     <%= f.number_block :capacity %>

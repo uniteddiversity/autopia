@@ -117,11 +117,11 @@ Autopia::App.controller do
         customer_email: (current_account.email if current_account),
         success_url: "#{ENV['BASE_URI']}/events/#{@event.id}?success=true",
         cancel_url: "#{ENV['BASE_URI']}/events/#{@event.id}?cancelled=true" }
-      if @event.facilitator && @event.promoter_revenue_share
+      if @event.facilitator && @event.facilitator_revenue_share
         if promotership = @event.promoter.promoterships.find_by(account: @event.facilitator)
           stripe_session_hash.merge!({
               payment_intent_data: {
-                application_fee_amount: (@event.promoter_revenue_share * total * 100).round,
+                application_fee_amount: ((1 - @event.facilitator_revenue_share) * total * 100).round,
                 transfer_data: {
                   destination: promotership.stripe_user_id
                 }
