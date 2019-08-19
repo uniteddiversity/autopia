@@ -1,7 +1,8 @@
 Autopia::App.controller do
+  
   get '/events' do
-    @events = Event.future
-    @places = @places.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
+    @events = params[:q] ? Event.all : Event.future
+    @events = @events.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
     discuss 'Events'
     erb :'events/events'
   end
@@ -137,4 +138,5 @@ Autopia::App.controller do
       {}.to_json
     end
   end
+  
 end
