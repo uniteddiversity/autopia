@@ -22,7 +22,6 @@ class Gathering
   field :anonymise_supporters, :type => Boolean
   field :democratic_threshold, :type => Boolean
   field :fixed_threshold, :type => Integer
-  field :ask_for_facebook_profile_url, :type => Boolean
   field :member_limit, :type => Integer
   field :proposing_delay, :type => Integer
   field :require_reason_proposer, :type => Boolean
@@ -213,7 +212,6 @@ class Gathering
       :application_questions => :text_area,
       :enable_supporters => :check_box,
       :anonymise_supporters => :check_box,
-      :ask_for_facebook_profile_url => :check_box,
       :demand_payment => :check_box,      
       :hide_members_on_application_form => :check_box,
       :paypal_email => :text,
@@ -272,8 +270,7 @@ class Gathering
   def self.human_attribute_name(attr, options={})  
     {
       :intro_for_non_members => 'Intro for non-members',
-      :paypal_email => 'PayPal email',
-      :ask_for_facebook_profile_url => 'Ask for Facebook profile URL',
+      :paypal_email => 'PayPal email',     
       :fixed_threshold => 'Magic number',
       :democratic_threshold => 'Allow all gathering members to suggest a magic number, and use the median',
       :facebook_group_url => 'Facebook gathering URL',
