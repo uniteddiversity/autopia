@@ -47,7 +47,7 @@ class Gathering
   after_validation do
     self.geocode || (self.coordinates = nil)
   end   
-  
+    
   def self.privacies
     {'Anyone can join' => 'open', 'People must apply to join' => 'closed', 'Invitation-only' => 'secret'}
   end

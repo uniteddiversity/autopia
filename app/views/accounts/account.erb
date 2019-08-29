@@ -27,11 +27,11 @@
 <% if @account.memberships.count > 0 %>
   <h2 class="mt-5">Gatherings</h2>
   <div class="row">
-    <% @account.memberships.each { |membership| gathering = membership.gathering %>
+    <% @account.memberships.each { |membership| gathering = membership.gathering; unless gathering.privacy == 'secret' %>
       <div class="col-6 col-sm-3 mb-3">
         <%= partial :'gatherings/gathering', :object => gathering  %>
       </div>
-    <% } %>
+    <% end; } %>
   </div>
 <% end %>
 
