@@ -78,6 +78,14 @@ class Membership
     end
   end
   
+  def invitations_extended
+    gathering.memberships.where(added_by: account).count
+  end
+  
+  def invitations_remaining
+    gathering.invitations_granted - invitations_extended
+  end
+  
   has_many :verdicts, :dependent => :destroy
   has_many :payments, :dependent => :nullify
   has_many :payment_attempts, :dependent => :nullify

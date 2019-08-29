@@ -35,6 +35,7 @@ class Gathering
   field :facebook_group_url, :type => String
   field :demand_payment, :type => Boolean
   field :hide_members_on_application_form, :type => Boolean
+  field :invitations_granted, :type => Integer
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
   }
@@ -53,6 +54,7 @@ class Gathering
   
   before_validation do
     self.balance = 0 if self.balance.nil?
+    self.invitations_granted = 0 if self.invitations_granted.nil?
     self.processed_via_stripe = 0 if self.processed_via_stripe.nil?
     self.enable_teams = true if self.enable_budget
     # self.disable_stripe = true if self.currency == 'SEK'
@@ -275,7 +277,8 @@ class Gathering
       :require_reason_proposer => 'Proposers must provide a reason',
       :require_reason_supporter => 'Supporters must provide a reason',
       :demand_payment => 'Members must make a payment to access gathering content',
-      :hide_members_on_application_form => "Don't show existing members on the application form"
+      :hide_members_on_application_form => "Don't show existing members on the application form",
+      :invitations_granted => "People may invite this many others"
     }[attr.to_sym] || super  
   end   
   

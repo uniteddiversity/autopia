@@ -11,7 +11,7 @@
   <%= partial :'accounts/buttons', :locals => {:account => account, :btn_class => 'btn-sm'} %>
 </td>
 <td>
-  <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : '' %>
+  <%= membership.mapplication ? membership.mapplication.verdicts.proposers.map { |verdict| verdict.account.name }.to_sentence : (membership.added_by ? membership.added_by.name : '') %>
 </td>        
 <td>
   <% mapplication = membership.mapplication; if mapplication and mapplication.answers %>

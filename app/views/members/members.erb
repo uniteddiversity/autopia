@@ -8,6 +8,10 @@
     View as
     <%= select_tag :view, :class => 'form-control mr-1', :options => %w{details pictures dietary_requirements map emails}.map { |view| [view.to_s.humanize.capitalize,view] }, :selected => params[:view], :onchange => 'this.form.submit()' %>        
 
+    <% if admin? || @membership.admin? %>
+      <a class="btn btn-outline-primary" href="<%=request.path%>.csv?<%=request.query_string%>">Download results as CSV</a>            
+    <% end %>     
+
     <div class="mt-3 mb-1" style="font-size: 13px;">
 
       <% @gathering.radio_scopes.each_with_index { |el,i| k,v,t,r = *el %>
@@ -27,46 +31,12 @@
           </label>
         </div>        
       <% } %>
+
     </div>
 
   <% end %>
 
-  <% if admin? || @membership.admin? %>
-
-    <a class="btn btn-outline-primary" href="<%=request.path%>.csv?<%=request.query_string%>">Download results as CSV</a>            
-
-    <% if !@gathering.member_limit or @gathering.memberships.count < @gathering.member_limit %>
-
-
-      <script>
-        $(function () {
-          var accounts = <%=(current_account.network.where(:id.nin => @gathering.members.pluck(:id))).map { |account| {:name => account.name, :email => account.email} }.to_json%>
-          $('#add-member input[name=name]').typeahead({
-            source: accounts,
-            afterSelect: function (selected) {
-              $('#add-member input[name=email]').val(selected.email)
-            }
-          });
-        })
-      </script>
-
-
-      <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show().find('input[name=name]').focus()">
-        <i class="fa fa-plus-circle"></i> Add member
-      </a>
-
-      <div style="display:none" id="add-member" class="my-3">
-        <% form_tag "/a/#{@gathering.slug}/add_member", :class => 'form-inline' do %>
-          <%= text_field_tag :name, :class => 'form-control mr-1', :placeholder => 'Name', :autocomplete => 'off' %>
-          <%= email_field_tag :email, :class => 'form-control mr-1', :placeholder => 'Email' %>
-          <label class="d-inline mr-1">Don't notify gathering members <%= check_box_tag :prevent_notifications %></label>
-          <%= submit_tag 'Add member', :class => 'btn btn-primary' %>
-        <% end %>
-      </div>
-
-    <% end %> 
-
-  <% end %> 
+  <%= partial :'gatherings/invite' %>
 
 </div>
 

@@ -75,7 +75,12 @@ Autopia::App.controller do
   post '/a/:slug/add_member' do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
-    gathering_admins_only! 
+    confirmed_membership_required! 
+    
+    if !@membership.admin? && @membership.invitations_remaining == 0
+      flash[:error] = "You have run out of invitations"
+      redirect back
+    end
       
     if !params[:email] or !params[:name]
       flash[:error] = "Please provide a name and email address"
@@ -94,7 +99,7 @@ Autopia::App.controller do
       flash[:notice] = "That person is already a member of the gathering"
       redirect back
     else
-      @gathering.memberships.create! account: @account, prevent_notifications: params[:prevent_notifications], added_by: current_account
+      @gathering.memberships.create! account: @account, prevent_notifications: params[:prevent_notifications], added_by: current_account      
       redirect back
     end       
         
