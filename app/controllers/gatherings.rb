@@ -48,7 +48,7 @@ Autopia::App.controller do
   get '/a/:slug/todos' do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
-    confirmed_membership_required!
+    membership_required!
     partial :'gatherings/todos'
   end   
       
