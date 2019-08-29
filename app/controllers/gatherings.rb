@@ -32,10 +32,13 @@ Autopia::App.controller do
     @membership = @gathering.memberships.find_by(account: current_account)
     @notifications = @gathering.notifications_as_circle.order('created_at desc').page(params[:page])
     if !@membership
-      if @gathering.enable_applications
-        redirect "/a/#{@gathering.slug}/apply"
-      else
+      case @gathering.privacy
+      when 'open'
         redirect "/a/#{@gathering.slug}/join"
+      when 'closed'
+        redirect "/a/#{@gathering.slug}/apply"        
+      when 'secret'
+        redirect '/'
       end
     end
     discuss 'Gathering homepage'

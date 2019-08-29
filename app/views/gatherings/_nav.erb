@@ -22,7 +22,7 @@
     (["Settings", "/a/#{gathering.slug}/edit"] if membership.admin),
     ([%Q{Balance <span class="label label-inverse">#{number_to_currency gathering.balance, unit: gathering.currency_symbol, precision: 0}</span>}, "/a/#{gathering.slug}/balance"]  if membership.admin),                   
     [%Q{Members <span class="label label-inverse">#{gathering.member_limit ? %Q{#{gathering.memberships.count}/#{gathering.member_limit}} : gathering.memberships.count}</span>}, "/a/#{gathering.slug}/members"],
-    ([%Q{Applications #{if gathering.mapplications.pending.count > 0; %Q{<span class="label label-inverse">#{gathering.mapplications.pending.count}</span>} end}}, "/a/#{gathering.slug}/applications"] if gathering.enable_applications or gathering.mapplications.where(:status.ne => 'accepted').count > 0),        
+    ([%Q{Applications #{if gathering.mapplications.pending.count > 0; %Q{<span class="label label-inverse">#{gathering.mapplications.pending.count}</span>} end}}, "/a/#{gathering.slug}/applications"] if gathering.privacy == 'closed' or gathering.mapplications.where(:status.ne => 'accepted').count > 0),        
     (["Teams",
         (
           gathering.teams(true).order('name asc').map { |team| [%Q{

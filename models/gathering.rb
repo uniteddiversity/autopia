@@ -15,7 +15,7 @@ class Gathering
   field :coordinates, :type => Array  
   field :cover_image_uid, :type => String
   field :intro_for_members, :type => String
-  field :enable_applications, :type => Boolean  
+  field :privacy, :type => String
   field :intro_for_non_members, :type => String
   field :application_questions, :type => String
   field :enable_supporters, :type => Boolean
@@ -46,9 +46,13 @@ class Gathering
   def lng; coordinates[0] if coordinates; end  
   after_validation do
     self.geocode || (self.coordinates = nil)
-  end    
+  end   
+  
+  def self.privacies
+    {'Anyone can join' => 'open', 'People must apply to join' => 'closed', 'Invitation-only' => 'secret'}
+  end
     
- def self.marker_color
+  def self.marker_color
     'red'
   end    
   
@@ -204,7 +208,7 @@ class Gathering
       :disable_stripe => :check_box,
       :balance => :number,
       :democratic_threshold => :check_box,
-      :enable_applications => :check_box,      
+      :privacy => :select,      
       :intro_for_non_members => :wysiwyg,
       :application_questions => :text_area,
       :enable_supporters => :check_box,
@@ -268,7 +272,6 @@ class Gathering
   def self.human_attribute_name(attr, options={})  
     {
       :intro_for_non_members => 'Intro for non-members',
-      :enable_applications => 'People must apply to join',
       :paypal_email => 'PayPal email',
       :ask_for_facebook_profile_url => 'Ask for Facebook profile URL',
       :fixed_threshold => 'Magic number',
@@ -313,16 +316,16 @@ class Gathering
   def radio_scopes
     x = []
 
-#    if ask_for_date_of_birth
-#      youngest = Account.where(:id.in => memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth desc').first
-#      oldest = Account.where(:id.in => memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first
-#      if youngest and oldest
-#        x << [:p, 'all', 'All ages', memberships]
-#        (youngest.age.to_s[0].to_i).upto(oldest.age.to_s[0].to_i) do |p| p = "#{p}0".to_i;
-#          x << [:p, p, "People in their #{p}s", memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.current-p.years)).where(:date_of_birth.gt => (Date.current-(p+10).years)).pluck(:id))]
-#        end
-#      end
-#    end 
+    #    if ask_for_date_of_birth
+    #      youngest = Account.where(:id.in => memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth desc').first
+    #      oldest = Account.where(:id.in => memberships.pluck(:account_id)).where(:date_of_birth.ne => nil).order('date_of_birth asc').first
+    #      if youngest and oldest
+    #        x << [:p, 'all', 'All ages', memberships]
+    #        (youngest.age.to_s[0].to_i).upto(oldest.age.to_s[0].to_i) do |p| p = "#{p}0".to_i;
+    #          x << [:p, p, "People in their #{p}s", memberships.where(:account_id.in => Account.where(:date_of_birth.lte => (Date.current-p.years)).where(:date_of_birth.gt => (Date.current-(p+10).years)).pluck(:id))]
+    #        end
+    #      end
+    #    end 
     
     x
   end

@@ -28,7 +28,7 @@ Autopia::App.controller do
   get '/a/:slug/join' do      
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found
     @membership = @gathering.memberships.find_by(account: current_account)    
-    redirect "/a/#{@gathering.slug}/apply" if @gathering.enable_applications
+    redirect "/a/#{@gathering.slug}/apply" unless @gathering.privacy == 'open'
     @og_desc = "#{@gathering.name} is being co-created on Autopia"
     @og_image = @gathering.cover_image ? @gathering.cover_image.url : "#{ENV['BASE_URI']}/images/autopia-link.png"
     @account = Account.new
@@ -37,7 +37,7 @@ Autopia::App.controller do
   
   post '/a/:slug/join' do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found
-    halt if @gathering.enable_applications
+    halt unless @gathering.privacy == 'open'
     
     if current_account
       @account = current_account

@@ -42,13 +42,13 @@
         $(b).parent().parent().hide()
     });
 
-    $('#gathering_enable_applications').click(function () {
-      if ($(this).is(':checked'))
+    $('#gathering_privacy').change(function () {
+      if ($(this).val() == 'closed')
         $('#application-options').show()
       else
         $('#application-options').hide()
     })
-    if ($('#gathering_enable_applications').is(':checked'))
+    if ($('#gathering_privacy').val() == 'closed')
       $('#application-options').show()
     else
       $('#application-options').hide()
@@ -118,7 +118,7 @@
         </div>
         <%= f.number_block :member_limit %>
         <div class="mb-2">
-          <%= f.check_box_block :enable_applications %>          
+          <%= f.select_block :privacy %>          
         </div>
         <div id="application-options" style="display: none">  
           <%= f.text_area_block :application_questions %>                
