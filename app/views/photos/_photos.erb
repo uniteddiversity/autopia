@@ -1,5 +1,5 @@
 <% photoable.photos.order('created_at asc').each { |photo| %>
-  <%= partial :'photos/photo', :object => photo %>
+  <%= partial :'photos/photo', :locals => {:photo => photo, :dimensions => defined?(dimensions) ? dimensions : '200x200#'} %>
 <% } %>
 
 <% if (defined?(add_photo_if) && add_photo_if) || photoable.account_id == current_account.id %>

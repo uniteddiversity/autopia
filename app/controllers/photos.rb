@@ -7,7 +7,8 @@ Autopia::App.controller do
   
   post '/photos/new' do
     sign_in_required!
-    @photo = Photo.create(image: params[:image], account: current_account, photoable_type: params[:photoable_type], photoable_id: params[:photoable_id])
+    # TODO: check permissions
+    @photo = Photo.create!(image: params[:image], account: current_account, photoable_type: params[:photoable_type], photoable_id: params[:photoable_id])
     redirect @photo.url
   end
 

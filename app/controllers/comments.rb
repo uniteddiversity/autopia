@@ -14,6 +14,7 @@ Autopia::App.controller do
   end
   
   post '/comment' do
+    sign_in_required!
     @commentable = params[:comment][:commentable_type].constantize.find(params[:comment][:commentable_id])        
     subject = params[:comment].delete(:subject)
     @comment = @commentable.comments.build(params[:comment])
@@ -31,6 +32,7 @@ Autopia::App.controller do
   end  
   
   post '/comments/:id/edit' do
+    sign_in_required!
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
     halt unless admin? or @comment.account.id == current_account.id
@@ -39,6 +41,7 @@ Autopia::App.controller do
   end  
   
   get '/comments/:id/destroy' do
+    sign_in_required!
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
     halt unless admin? or @comment.account.id == current_account.id
@@ -63,6 +66,7 @@ Autopia::App.controller do
   end   
   
   post '/comments/:id/react' do
+    sign_in_required!
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
     @comment.comment_reactions.create account: current_account, body: params[:body]
@@ -70,19 +74,21 @@ Autopia::App.controller do
   end
   
   get '/comments/:id/unreact' do
+    sign_in_required!
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
     @comment.comment_reactions.find_by(account: current_account).try(:destroy)
     200
   end    
   
-  get '/posts/:id' do
+  get '/posts/:id' do    
     @post = Post.find(params[:id]) || not_found
     @commentable = @post.commentable
     partial :'comments/post', :locals => {:post => @post}
   end
   
   get '/posts/:id/unsubscribe' do
+    sign_in_required!
     @post = Post.find(params[:id]) || not_found
     @commentable = @post.commentable
     @post.subscriptions.find_by(account: current_account).try(:destroy)
@@ -103,12 +109,14 @@ Autopia::App.controller do
   end
   
   post '/options/create' do
+    sign_in_required!
     @comment = Comment.find(params[:comment_id]) || not_found
     @comment.options.create!(account: current_account, text: params[:text])
     200   
   end  
   
   post '/options/:id/vote' do
+    sign_in_required!
     @option = Option.find(params[:id]) || not_found
     if params[:vote]
       @option.votes.create!(account: current_account)
@@ -119,18 +127,21 @@ Autopia::App.controller do
   end  
   
   get '/options/:id/destroy' do
+    sign_in_required!
     @option = Option.find(params[:id]) || not_found
     @option.destroy
     200
   end    
   
   get '/subscriptions/create' do
+    sign_in_required!
     @post = Post.find(params[:post_id]) || not_found
     @post.subscriptions.create!(account: current_account)
     200   
   end      
   
   get '/subscriptions/:id/destroy' do
+    sign_in_required!
     @subscription = Subscription.find(params[:id]) || not_found
     @subscription.destroy
     200        
