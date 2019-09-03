@@ -15,7 +15,7 @@ class Subscription
   end    
   
   def self.commentable_types
-    %w{Team Activity Mapplication Habit Feature Place}
+    %w{Team Activity Mapplication Habit Feature Place Photo}
   end    
 
   def self.admin_fields

@@ -20,9 +20,13 @@ class InventoryItem
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     if account
-      notifications.create! :circle => gathering, :type => 'created_inventory_item'
+      notifications.create! :circle => circle, :type => 'created_inventory_item'
     end
   end  
+  
+  def circle
+    gathering
+  end
         
   def self.admin_fields
     {

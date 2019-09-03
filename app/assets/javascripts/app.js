@@ -143,6 +143,9 @@ $(function() {
     window.open(this.href, null, 'scrollbars=yes,width=600,height=600,left=150,top=150').focus();
     return false;
   });
+  
+  if (window.location.hash.startsWith('#photo-'))
+    $("[data-target='"+window.location.hash+"']").click()
 
   $('textarea.wysiwyg').each(function() {
     var textarea = this

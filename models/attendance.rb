@@ -14,12 +14,7 @@ class Attendance
   end  
   
   validates_uniqueness_of :activity, :scope => :account
-  
-  has_many :notifications, as: :notifiable, dependent: :destroy
-  after_create do
-    # notifications.create! :circle => activity.gathering, :type => 'interested_in_activity'
-  end      
-        
+            
   def self.admin_fields
     {
       :activity_id => :lookup,

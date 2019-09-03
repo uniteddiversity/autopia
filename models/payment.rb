@@ -13,7 +13,11 @@ class Payment
 
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! circle: gathering, type: 'created_payment'
+    notifications.create! circle: circle, type: 'created_payment'
+  end
+  
+  def circle
+    gathering
   end
 
   validates_presence_of :gathering_name, :amount, :currency

@@ -6,6 +6,11 @@
     <div class="modal-content">
       <div class="modal-body">
         <img class="w-100" src="<%=photo.image.url%>" />
+
+        <div class="mt-3" data-pagelet-url="/commentable?commentable_type=Photo&commentable_id=<%=photo.id%>">
+          <%= partial :'comments/commentable', :locals => {:commentable => photo} %>
+        </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -25,9 +25,13 @@ class Team
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     unless prevent_notifications
-      notifications.create! :circle => gathering, :type => 'created_team'
+      notifications.create! :circle => circle, :type => 'created_team'
     end
   end      
+  
+  def circle
+    gathering
+  end
   
   def members
     Account.where(:id.in => teamships.pluck(:account_id))

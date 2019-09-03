@@ -20,9 +20,13 @@ class Shift
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     if account
-      notifications.create! :circle => rota.gathering, :type => 'signed_up_to_a_shift'
+      notifications.create! :circle => circle, :type => 'signed_up_to_a_shift'
     end
   end  
+  
+  def circle
+    rota.gathering
+  end
         
   def self.admin_fields
     {

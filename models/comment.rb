@@ -12,7 +12,7 @@ class Comment
   field :file_uid, :type => String
   
   def self.commentable_types
-    %w{Team Activity Mapplication Account Habit Feature Place}
+    %w{Team Activity Mapplication Account Habit Feature Place Photo}
   end    
   
   dragonfly_accessor :file  
@@ -40,15 +40,29 @@ class Comment
 
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
+    notifications.create! :circle => circle, :type => 'commented'
+  end
+  
+  def circle
     if %w{Team Activity Mapplication}.include?(commentable_type)
-      notifications.create! :circle => commentable.gathering, :type => 'commented'
+      commentable.gathering
     elsif %w{Account Place}.include?(commentable_type)
-      notifications.create! :circle => commentable, :type => 'commented'
+      commentable
     elsif %w{Habit}.include?(commentable_type)
-      notifications.create! :circle => commentable.account, :type => 'commented'
+      commentable.account
+    elsif %w{Photo}.include?(commentable_type)
+      commentable.photoable.circle
     end
   end
-    
+  
+  def subscribers
+    post.subscribers
+  end
+  
+  def name
+    post.subject
+  end
+      
   after_create do
     if ENV['PUSHER_APP_ID']
       pusher_client = Pusher::Client.new(app_id: ENV['PUSHER_APP_ID'], key: ENV['PUSHER_KEY'], secret: ENV['PUSHER_SECRET'], cluster: ENV['PUSHER_CLUSTER'], encrypted: true)
@@ -102,6 +116,9 @@ class Comment
     elsif commentable.is_a?(Habit)
       habit = commentable
       s << "[#{habit.account.name}/#{habit.name}] "
+    elsif commentable.is_a?(Photo)
+      photo = commentable
+      s << "[Photos/#{photo.photoable.name}] "      
     elsif commentable.is_a?(Account)
       account = commentable
       s << "[#{account.name}] "

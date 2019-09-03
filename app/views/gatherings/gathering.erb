@@ -56,9 +56,11 @@
     <% when 'secret' %>
     <% end %>
 
-    <div class="my-3">
-      <%= partial :'photos/photos', :locals => {:photoable => @gathering} %>
-    </div>
+    <% if @membership.admin? or @gathering.photos.count > 0 %>
+      <div class="my-3">
+        <%= partial :'photos/photos', :locals => {:photoable => @gathering, :add_photo_if => @membership.admin?} %>
+      </div>
+    <% end %>
 
     <%= partial :newsfeed, :locals => {:notifications => @notifications, :include_circle_name => false} %>
 

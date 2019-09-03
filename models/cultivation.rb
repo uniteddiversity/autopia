@@ -17,8 +17,12 @@ class Cultivation
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => quality.gathering, :type => 'cultivating_quality'
+    notifications.create! :circle => circle, :type => 'cultivating_quality'
   end      
+  
+  def circle
+    quality.gathering
+  end
         
   def self.admin_fields
     {

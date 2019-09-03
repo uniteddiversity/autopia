@@ -154,6 +154,12 @@ class Notification
       comment = notifiable
       if comment.commentable.is_a?(Mapplication)
         "<strong>#{comment.account.name}</strong> commented on <strong>#{comment.commentable.account.name}</strong>'s application"
+      elsif comment.commentable.is_a?(Photo)
+        if comment.first_in_post?
+          "<strong>#{comment.account.name}</strong> started a thread <strong>#{comment.commentable.photoable.name}#{if comment.post.subject; "/#{comment.post.subject}"; end}</strong>"
+        else
+          "<strong>#{comment.account.name}</strong> replied to <strong>#{comment.commentable.photoable.name}#{if comment.post.subject; "/#{comment.post.subject}"; end}</strong>"
+        end        
       elsif comment.commentable.is_a?(Habit)
         if comment.first_in_post?
           "<strong>#{comment.account.name}</strong> started a thread <strong>#{comment.commentable.account.name}/#{comment.commentable.name}#{if comment.post.subject; "/#{comment.post.subject}"; end}</strong>"
@@ -185,15 +191,21 @@ class Notification
       comment_reaction = notifiable
       if comment_reaction.commentable.is_a?(Account)
         if comment_reaction.comment.post.subject
-        "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.comment.post.subject}</strong>"
+          "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.comment.post.subject}</strong>"
         else
           "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment"
         end
+      elsif comment_reaction.commentable.is_a?(Photo)
+        if comment_reaction.comment.post.subject
+          "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.comment.post.subject}</strong>"
+        else
+          "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment"
+        end        
       else
         if comment_reaction.comment.post.subject
-        "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.commentable.name}/#{comment_reaction.comment.post.subject}</strong>"
+          "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.commentable.name}/#{comment_reaction.comment.post.subject}</strong>"
         else
-        "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.commentable.name}"
+          "<strong>#{comment_reaction.account.name}</strong> reacted with #{comment_reaction.body} to <strong>#{comment_reaction.comment.account.name}'s</strong> comment in <strong>#{comment_reaction.commentable.name}"
         end
       end
     when :left_gathering

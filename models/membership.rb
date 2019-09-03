@@ -29,7 +29,7 @@ class Membership
   has_many :notifications, as: :notifiable, dependent: :destroy  
   after_create do
     unless prevent_notifications
-      notifications.create! :circle => gathering, :type => 'joined_gathering'
+      notifications.create! :circle => circle, :type => 'joined_gathering'
     end
     gathering.members.each { |follower|
       Follow.create follower: follower, followee: account, unsubscribed: true
@@ -40,6 +40,10 @@ class Membership
     if general = gathering.teams.find_by(name: 'General')
       general.teamships.create! account: account, prevent_notifications: true
     end    
+  end
+  
+  def circle
+    gathering
   end
   
   after_create :send_email

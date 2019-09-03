@@ -15,8 +15,12 @@ class Transport
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => gathering, :type => 'created_transport'
+    notifications.create! :circle => circle, :type => 'created_transport'
   end      
+  
+  def circle
+    gathering
+  end
   
   has_many :transportships, :dependent => :destroy
   

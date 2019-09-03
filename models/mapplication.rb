@@ -27,8 +27,12 @@ class Mapplication
   attr_accessor :prevent_notifications
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => gathering, :type => 'applied'
+    notifications.create! :circle => circle, :type => 'applied'
   end 
+  
+  def circle
+    gathering
+  end
     
   after_destroy do
     unless prevent_notifications

@@ -42,8 +42,12 @@ class Activity
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => timetable.gathering, :type => 'created_activity'
+    notifications.create! :circle => circle, :type => 'created_activity'
   end  
+  
+  def circle
+    timetable.gathering
+  end
         
   def self.admin_fields
     {

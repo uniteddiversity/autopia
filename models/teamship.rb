@@ -24,9 +24,13 @@ class Teamship
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     unless prevent_notifications
-      notifications.create! :circle => team.gathering, :type => 'joined_team'
+      notifications.create! :circle => circle, :type => 'joined_team'
     end
   end  
+  
+  def circle
+    team.gathering
+  end
   
   def self.admin_fields
     {

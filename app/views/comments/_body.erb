@@ -1,13 +1,15 @@
 <div class="comment-body linkify nl2br tagify" data-original="<%=comment.body%>"><%=comment.body%></div>
 
 <% if comment.first_in_post? %>
-  <div data-pagelet-url="/comments/<%=comment.id%>/options" class="<%= comment.options.empty? ? 'd-inline-block' : 'd-block mt-3' %>">
+  <div data-pagelet-url="/comments/<%=comment.id%>/options" class="mt-3 <%= comment.options.empty? ? 'd-inline-block' : 'd-block' %>">
     <%= partial :'comments/options', :locals => {:comment => comment} %>
   </div>
 
-  <div class="d-inline-block my-3">
-    <%= partial :'photos/photos', :locals => {:photoable => comment} %>
-  </div>
+  <% unless comment.commentable.is_a?(Photo) %>
+    <div class="d-inline-block my-3">
+      <%= partial :'photos/photos', :locals => {:photoable => comment} %>
+    </div>
+  <% end %>
 
   <%= partial :'comments/file', :locals => {:comment => comment} %>
 <% end %>

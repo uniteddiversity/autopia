@@ -14,8 +14,12 @@ class Tier
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => gathering, :type => 'created_tier'
+    notifications.create! :circle => circle, :type => 'created_tier'
   end      
+  
+  def circle
+    gathering
+  end
   
   def members
     Account.where(:id.in => tierships.pluck(:account_id))

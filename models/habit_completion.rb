@@ -25,12 +25,5 @@ class HabitCompletion
       :habit_id => :lookup
     }
   end
-  
-#  has_many :notifications, as: :notifiable, dependent: :destroy
-#  after_create do
-#    if habit.public?
-#      notifications.create! :circle => account, :type => 'completed_a_habit'    
-#    end
-#  end     
     
 end

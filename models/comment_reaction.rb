@@ -21,18 +21,16 @@ class CommentReaction
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     if account
-      if %w{Team Activity Mapplication}.include?(commentable_type)
-        notifications.create! :circle => commentable.gathering, :type => 'reacted_to_a_comment'
-      elsif %w{Account Place}.include?(commentable_type)
-        notifications.create! :circle => commentable, :type => 'reacted_to_a_comment'            
-      elsif %w{Habit}.include?(commentable_type)
-        notifications.create! :circle => commentable.account, :type => 'reacted_to_a_comment' 
-      end
+      notifications.create! :circle => circle, :type => 'reacted_to_a_comment'
     end
   end
   
+  def circle
+    comment.circle
+  end
+  
   def self.commentable_types
-    %w{Team Activity Mapplication Habit Feature Place}
+    %w{Team Activity Mapplication Habit Feature Place Photo}
   end   
 
   def self.admin_fields

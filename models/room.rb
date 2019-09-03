@@ -16,8 +16,12 @@ class Room
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => account, :type => 'created_room'
+    notifications.create! :circle => circle, :type => 'created_room'
   end   
+  
+  def circle
+    account
+  end
   
   def photo
     photos.order('created_at asc').first

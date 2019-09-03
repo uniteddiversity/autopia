@@ -16,8 +16,12 @@ class Timetable
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => gathering, :type => 'created_timetable'
+    notifications.create! :circle => circle, :type => 'created_timetable'
   end        
+  
+  def circle
+    gathering
+  end
   
   def self.new_tips
     {      

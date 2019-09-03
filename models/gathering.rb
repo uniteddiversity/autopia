@@ -65,12 +65,16 @@ class Gathering
   end
   
   after_create do    
-    notifications_as_notifiable.create! :circle => self, :type => 'created_gathering'    
+    notifications_as_notifiable.create! :circle => circle, :type => 'created_gathering'    
     memberships.create! account: account, admin: true        
     if enable_teams
       general = teams.create! name: 'General', account: account, prevent_notifications: true
       general.teamships.create! account: account, prevent_notifications: true
     end
+  end
+  
+  def circle
+    self
   end
   
   after_create :send_email

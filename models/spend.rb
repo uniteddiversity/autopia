@@ -19,7 +19,11 @@ class Spend
     
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => gathering, :type => 'created_spend'
+    notifications.create! :circle => circle, :type => 'created_spend'
+  end
+  
+  def circle
+    gathering
   end
           
   def self.admin_fields

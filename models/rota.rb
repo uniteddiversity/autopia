@@ -16,8 +16,12 @@ class Rota
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => gathering, :type => 'created_rota'
+    notifications.create! :circle => circle, :type => 'created_rota'
   end        
+  
+  def circle
+    gathering
+  end
    
   def self.admin_fields
     {
