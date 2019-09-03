@@ -20,6 +20,7 @@ class Comment
   has_many :comment_reactions, :dependent => :destroy
   has_many :options, :dependent => :destroy
   has_many :read_receipts, :dependent => :destroy
+  has_many :photos, as: :photoable, dependent: :destroy  
   
   after_create do
     post.subscriptions.create account: account

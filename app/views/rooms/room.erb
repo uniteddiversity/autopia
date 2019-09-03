@@ -1,17 +1,8 @@
 <div class="row no-gutters">
 
   <div class="col-12 col-sm-auto mr-3">
-    <% if @room.image %>
-
-      <% if @room.account_id == current_account.id %>
-        <% room_attachment = @room.room_attachments.order('created_at asc').first %>
-        <a data-confirm="Are you sure you want to delete this image?" href="/rooms/<%=@room.id%>/room_attachments/<%=room_attachment.id%>/destroy">
-          <img src="<%=room_attachment.image.thumb('200x200#').url%>" />
-        </a>
-      <% else %>
-        <img src="<%=@room.image.thumb('200x200#').url%>" />
-      <% end %>
-
+    <% if @room.photo %>
+      <%= partial :'photos/photo', :object => @room.photo %>
     <% else %>
       <div style="height: 200px; width: 200px; border: 2px solid #343a40;"></div>
     <% end %>
@@ -61,7 +52,7 @@
       <%=@room.description.gsub("\n",'<br />')%>
     </p>    
 
-    <%= partial :'rooms/images', :locals => {:room => @room} %>
+    <%= partial :'photos/photos', :locals => {:photoable => @room} %>
 
 
   </div> 

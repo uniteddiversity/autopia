@@ -60,23 +60,7 @@ Autopia::App.controller do
     @room.destroy
     redirect '/rooms'
   end    
-  
-  post '/rooms/:id/add_attachment' do
-    sign_in_required!
-    @room = Room.find(params[:id]) || not_found   
-    halt(403) unless admin? || @room.account_id == current_account.id
-    @room.room_attachments.create(image: params[:image], account: current_account)
-    redirect "/rooms/#{@room.id}" 
-  end
-
-  get '/rooms/:id/room_attachments/:room_attachment_id/destroy' do
-    sign_in_required!
-    @room = Room.find(params[:id]) || not_found   
-    halt(403) unless admin? || @room.account_id == current_account.id
-    @room.room_attachments.find(params[:room_attachment_id]).destroy
-    redirect "/rooms/#{@room.id}" 
-  end  
-  
+    
   post '/rooms/:id/room_periods/new' do
     sign_in_required!
     @room = Room.find(params[:id]) || not_found   

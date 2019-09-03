@@ -139,6 +139,8 @@ class Gathering
   has_many :cultivations, :dependent => :destroy
   # Inventory
   has_many :inventory_items, :dependent => :destroy
+  # Photos
+  has_many :photos, as: :photoable, dependent: :destroy
   
   def application_questions_a
     q = (application_questions || '').split("\n").map(&:strip).reject { |l| l.blank? }

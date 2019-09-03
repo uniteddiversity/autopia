@@ -56,6 +56,10 @@
     <% when 'secret' %>
     <% end %>
 
+    <div class="my-3">
+      <%= partial :'photos/photos', :locals => {:photoable => @gathering} %>
+    </div>
+
     <%= partial :newsfeed, :locals => {:notifications => @notifications, :include_circle_name => false} %>
 
   </div>  

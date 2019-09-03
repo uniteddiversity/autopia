@@ -9,18 +9,18 @@ class Room
   field :description, :type => String
   
   belongs_to :account, index: true  
-  has_many :room_attachments, :dependent => :destroy
-  has_many :room_periods, :dependent => :destroy
+  has_many :photos, as: :photoable, dependent: :destroy
+  has_many :room_periods, dependent: :destroy
   
-  validates_presence_of :name, :location, :description
+  validates_presence_of :name, :location
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     notifications.create! :circle => account, :type => 'created_room'
   end   
   
-  def image
-    room_attachments.order('created_at asc').first.try(:image)
+  def photo
+    photos.order('created_at asc').first
   end
   
   def self.marker_color

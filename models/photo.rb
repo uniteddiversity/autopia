@@ -1,7 +1,10 @@
-class RoomAttachment
+class Photo
   include Mongoid::Document
   include Mongoid::Timestamps
   extend Dragonfly::Model
+  
+  belongs_to :photoable, polymorphic: true, index: true
+  belongs_to :account, index: true    
  
   field :image_uid, :type => String
   
@@ -20,15 +23,17 @@ class RoomAttachment
     end
   end
   
-  belongs_to :room, index: true  
-  belongs_to :account, index: true  
-
   validates_presence_of :image
+  
+  def self.photoables
+    %w{Gatheering Room}
+  end
           
   def self.admin_fields
     {     
       :image => :image,
-      :room_id => :lookup
+      :photoable_id => :text,
+      :photoable_type => :select,
     }
   end
     

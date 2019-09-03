@@ -4,8 +4,8 @@
   class="room p-2 d-block" 
   style="    
   height: 180px; overflow: hidden;
-  <% if !room.image %>border: 2px solid #343a40;<% end %>
-  <% if room.image %>background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('<%=room.image.thumb('400x400').url%>'); background-size: cover; background-position: center center;<% end %>
+  <% if !room.photo %>border: 2px solid #343a40;<% end %>
+  <% if room.photo %>background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('<%=room.photo.image.thumb('400x400').url%>'); background-size: cover; background-position: center center;<% end %>
   ">
 
   <table style="width: 100%; height: 100%">
@@ -14,19 +14,19 @@
         <div class="row justify-content-between">
           <div class="col">
             <h4 class="block-title">
-              <a class="<% if room.image %>text-white<% else %>text-dark<% end%>" target="_parent" href="/rooms/<%=room.id%>" onclick="event.stopPropagation();">
+              <a class="<% if room.photo %>text-white<% else %>text-dark<% end%>" target="_parent" href="/rooms/<%=room.id%>" onclick="event.stopPropagation();">
                 <%= room.name %>
               </a>             
               <% if current_account and current_account.id == room.account_id %>
-                <a class="<% if room.image %>text-white<% else %>text-dark<% end%> room-edit" style="display: none" href="/rooms/<%=room.id%>/edit" onclick="event.stopPropagation();">
+                <a class="<% if room.photo %>text-white<% else %>text-dark<% end%> room-edit" style="display: none" href="/rooms/<%=room.id%>/edit" onclick="event.stopPropagation();">
                   <i class="fa fa-pencil"></i>
                 </a>                    
               <% end %>                
             </h4>     
-            <ul style="margin-left: 1.4em" class="fa-ul <% if room.image %>text-white<% else %>text-dark<% end%>">
+            <ul style="margin-left: 1.4em" class="fa-ul <% if room.photo %>text-white<% else %>text-dark<% end%>">
               <li><i class="fa fa-li fa-map-marker"></i> <%=room.location.gsub(/#{room.name}[\w ]*,/i,'')%></li>
               <% unless @account %>
-                <li><i class="fa fa-li fa-user"></i> Listed by <a class="<% if room.image %>text-white<% else %>text-dark<% end%>" href="/u/<%=room.account.username%>"><%=room.account.name%></a></li>
+                <li><i class="fa fa-li fa-user"></i> Listed by <a class="<% if room.photo %>text-white<% else %>text-dark<% end%>" href="/u/<%=room.account.username%>"><%=room.account.name%></a></li>
               <% end %>                
             </ul>
           </div>
