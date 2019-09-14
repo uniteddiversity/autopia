@@ -3,7 +3,9 @@
     <h3 style="color: white; margin-top: 0; margin-bottom: 0; position: relative" data-toggle="tooltip">
       <a href="/a/<%=@gathering.slug%>/activities/<%=activity.id%>"><%=activity.name%></a>
     </h3>
-    <span style="display: none"><%=activity.description.gsub("\n","<br />")%></span>
+    <% if activity.description %>
+      <span style="display: none"><%=activity.description.gsub("\n","<br />")%></span>
+    <% end %>
     <span style="color: white">by <a href="/accounts/<%=activity.account_id%>"><%=activity.account.name%></a></span>
     <div>
       <div style="display: inline-block" data-pagelet-url="/activities/<%=activity.id%>/attendees"></div>

@@ -66,7 +66,7 @@ Autopia::App.controller do
   get '/a/:slug/leave' do  
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
-    confirmed_membership_required!    
+    membership_required!    
     flash[:notice] = "You left #{@gathering.name}"
     @membership.destroy
     redirect '/'
