@@ -5,6 +5,8 @@
     html, body, #map-container, #map-canvas { height: 100% !important }
   </style>
   <body class="bg-white">
+    <%= '<div class="container-fluid">' if @minimal_container %>
     <%= yield %>
+    <%= '</div>' if @minimal_container %>
   </body>
 </html>

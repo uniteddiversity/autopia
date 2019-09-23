@@ -125,6 +125,7 @@ Autopia::App.controller do
     @habits = @account.habits.where(public: true).where(:archived.ne => true)
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
     @hide_nav = true
+    @minimal_container = true
     erb :'accounts/habits', :layout => :minimal
   end
 
