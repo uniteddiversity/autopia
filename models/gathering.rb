@@ -335,8 +335,13 @@ class Gathering
   
   def check_box_scopes
     y = []
-    
+        
     y << [:admin, 'Admins', memberships.where(:admin => true)]
+    
+    y << [:women, 'Women', memberships.where(:account_id.in => members.where(:gender => 'Woman').pluck(:id))]
+    y << [:men, 'Men', memberships.where(:account_id.in => members.where(:gender => 'Man').pluck(:id))]
+    y << [:other_genders, 'Other genders', memberships.where(:account_id.in => members.where(:gender.nin => ['Woman','Man',nil]).pluck(:id))]
+    y << [:unknown_gender, 'Gender not listed', memberships.where(:account_id.in => members.where(:gender => nil).pluck(:id))]    
 
     if enable_budget
       y << [:paid_something, 'Paid something', memberships.where(:paid.gt => 0)]

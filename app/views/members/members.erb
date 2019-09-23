@@ -36,15 +36,6 @@
 
   <% end %>
 
-
-  <% if admin? || @membership.admin %>
-    <p>
-      <%(Account.genders[1..-1] + ['']).each { |gender| %>
-        <%= gender.blank? ? 'Unknown' : gender %> <strong><%= @gathering.members.where(:gender => gender).count %></strong>
-      <% } %>
-    </p>
-  <% end %>
-
   <%= partial :'gatherings/invite' %>
 
 </div>
