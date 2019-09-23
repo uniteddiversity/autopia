@@ -1,8 +1,8 @@
 <script>
   $(function () {
-    <% if @gathering %>
-        $('.sub-menu a[href="/a/<%=@gathering.slug%>"]').parent().addClass('active')
-    <% end %>
+<% if @gathering %>
+      $('.sub-menu a[href="/a/<%=@gathering.slug%>"]').parent().addClass('active')
+<% end %>
   })
 </script>
 <ul class="nav">
@@ -40,14 +40,6 @@
       <span class="nav-link-text">Places</span>
     </a>
   </li>
-  <!--
-  <li class="<%='active' if request.path == '/events'%>">
-    <a href="/events">
-      <i class="fa fa-fw fa-calendar-o"></i>
-      <span class="nav-link-text">Events</span>
-    </a>
-  </li>
--->
   <li class="<%='active' if request.path == '/rooms'%>">
     <a href="/rooms">
       <i class="fa fa-fw fa-cube"></i>
@@ -60,12 +52,14 @@
       <span class="nav-link-text">Connect</span>
     </a>
   </li>
+  <!--
   <li class="<%='active' if request.path == '/events'%>">
     <a href="/events">
       <i class="fa fa-calendar-o"></i>
       <span class="nav-link-text">Events</span>
     </a>
   </li>  
+  -->
   <% if !current_account %>
     <li class="<%='active' if request.path == '/gatherings'%>">
       <a href="/gatherings">
@@ -87,7 +81,7 @@
         li_active_class: 'active',
         a_class: '',
         a_active_class: ''
-      %>
+    %>
     </li>
   <% end %>
   <% if admin? %>
