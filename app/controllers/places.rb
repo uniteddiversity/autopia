@@ -20,6 +20,12 @@ Autopia::App.controller do
     when :html
       if params[:map_only]
         partial :'maps/map', :locals => {:points => @accounts + @places, :global => !params[:q]}, :layout => :minimal
+      elsif params[:blocks_only]
+        if @account
+          partial :'accounts/places', :locals => {:block_class => 'col-12 col-sm-6'}, :layout => :minimal
+        else
+          partial :'places/blocks', :locals => {:places => @places, :block_class => 'col-12 col-sm-6'}, :layout => :minimal
+        end
       else
         erb :'places/places'
       end
