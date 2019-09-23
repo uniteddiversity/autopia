@@ -30,7 +30,7 @@ class Notification
   end
 
   def self.mailable_types
-    %w[created_gathering created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend created_room created_place]
+    %w[created_gathering created_team created_timetable created_activity created_rota created_tier created_transport created_spend created_room created_place]
   end
 
   after_create :send_email
