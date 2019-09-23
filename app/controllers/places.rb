@@ -1,16 +1,22 @@
 Autopia::App.controller do
-  get '/places', provides: %i[html json] do
-    @place = Place.new
-    @accounts = current_account && !params[:q] ? (current_account.network + [current_account]) : []
+  
+  get '/places', provides: [:html, :json] do
+    @place = Place.new    
     @places = Place.all.order('created_at desc')
     @places = @places.where(id: params[:id]) if params[:id]
     @places = @places.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
     @places = @places.where(:id.in => Account.find(params[:uncategorised_id]).placeships.where(placeship_category_id: nil).pluck(:place_id)) if params[:uncategorised_id]
     @places = @places.where(:id.in => PlaceshipCategory.find(params[:placeship_category_id]).placeships.pluck(:place_id)) if params[:placeship_category_id]
+    @places = @places.where(:id.in => Account.find_by(username: params[:u]).placeships.pluck(:place_id)) if params[:u]
+    @accounts = current_account && params[:show_people] ? (current_account.network + [current_account]) : []
     discuss 'Places'
     case content_type
     when :html
-      erb :'places/places'
+      if params[:map_only]
+        partial :'maps/map', :locals => {:points => @accounts + @places, :global => !params[:q]}, :layout => :minimal
+      else
+        erb :'places/places'
+      end
     when :json
       {
         results: @places.map { |place| {id: place.id.to_s, text: "#{place.name} (id:#{place.id})"} }

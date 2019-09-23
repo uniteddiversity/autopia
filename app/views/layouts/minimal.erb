@@ -1,13 +1,10 @@
 <!doctype html>
 <html lang="en">
   <%= partial :'layouts/head' %>
-
-  <body class="px-3 bg-white">
-
-    <%= partial :alert %>
-
-    <%= content_blocks[:content.to_sym].present? ? yield_content(:content) : yield %>
-
+  <style>
+    html, body, #map-container, #map-canvas { height: 100% !important }
+  </style>
+  <body>
+    <%= yield %>
   </body>
-
 </html>
