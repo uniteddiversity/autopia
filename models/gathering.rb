@@ -279,7 +279,7 @@ class Gathering
       :paypal_email => 'PayPal email',     
       :fixed_threshold => 'Magic number',
       :democratic_threshold => 'Allow all gathering members to suggest a magic number, and use the median',
-      :facebook_group_url => 'Facebook gathering URL',
+      :facebook_group_url => 'Facebook group URL',
       :require_reason_proposer => 'Proposers must provide a reason',
       :require_reason_supporter => 'Supporters must provide a reason',
       :demand_payment => 'Members must make a payment to access gathering content',
@@ -367,8 +367,8 @@ class Gathering
     end
 
     if facebook_group_url
-      y << [:member_of_facebook_group, 'Member of Facebook gathering', memberships.where(:member_of_facebook_group => true)]
-      y << [:not_member_of_facebook_group, 'Not member of Facebook gathering', memberships.where(:member_of_facebook_group.ne => true)]
+      y << [:member_of_facebook_group, 'Member of Facebook group', memberships.where(:member_of_facebook_group => true)]
+      y << [:not_member_of_facebook_group, 'Not member of Facebook group', memberships.where(:member_of_facebook_group.ne => true)]
     end
 
     if democratic_threshold

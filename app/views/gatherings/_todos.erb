@@ -1,7 +1,7 @@
 
-<% if !current_account.not_on_facebook and @gathering.facebook_group_url and !@membership.member_of_facebook_group %>
+<% if membership.confirmed? and !current_account.not_on_facebook and @gathering.facebook_group_url and !@membership.member_of_facebook_group %>
   <div class="alert alert-primary" style="margin-top: 10px">
-    <p>Have you joined the <a target="_blank" href="<%=@gathering.facebook_group_url%>">the Facebook gathering</a>?</p>
+    <p>Have you joined the <a target="_blank" href="<%=@gathering.facebook_group_url%>">the Facebook group</a>?</p>
 
     <p class="mb-0">
       <a class="btn btn-primary" href="/a/<%=@gathering.slug%>/joined_facebook_group">Yes, I'm a member</a>
