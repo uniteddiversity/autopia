@@ -1,6 +1,6 @@
 <% c = @account.placeship_categories.count %>
 <% if c == 0 %>
-  <%= partial :'places/blocks', :locals => {:places => Place.where(:id.in => @account.placeships.pluck(:place_id)).shuffle} %>        
+  <%= partial :'places/blocks', :locals => {:places => Place.where(:id.in => @account.placeships.pluck(:place_id)).shuffle, :block_class => (block_class if defined?(block_class))} %>        
 <% else %>
   <% (@account.placeship_categories + ['uncategorised']).each_with_index { |placeship_category, i| %>    
     <% placeships = (i < c ? placeship_category.placeships : @account.placeships.where(:placeship_category_id => nil)) %>
@@ -29,7 +29,7 @@
           </div>
         </div>      
         <div class="card-body pb-0">
-          <%= partial :'places/blocks', :locals => {:places => Place.where(:id.in => placeships.pluck(:place_id)).shuffle} %>        
+          <%= partial :'places/blocks', :locals => {:places => Place.where(:id.in => placeships.pluck(:place_id)).shuffle, :block_class => (block_class if defined?(block_class))} %>        
         </div>
       </div> 
     <% end %>

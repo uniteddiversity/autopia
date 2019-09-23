@@ -1,13 +1,19 @@
 Autopia::App.controller do
   
   get '/places', provides: [:html, :json] do
-    @place = Place.new    
-    @places = Place.all.order('created_at desc')
-    @places = @places.where(id: params[:id]) if params[:id]
-    @places = @places.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
-    @places = @places.where(:id.in => Account.find(params[:uncategorised_id]).placeships.where(placeship_category_id: nil).pluck(:place_id)) if params[:uncategorised_id]
-    @places = @places.where(:id.in => PlaceshipCategory.find(params[:placeship_category_id]).placeships.pluck(:place_id)) if params[:placeship_category_id]
-    @places = @places.where(:id.in => Account.find_by(username: params[:u]).placeships.pluck(:place_id)) if params[:u]
+    @place = Place.new        
+    if params[:u]
+      @account = Account.find_by(username: params[:u]) || not_found
+      @places = @account.places_following.order('name_transliterated asc')
+    elsif params[:uncategorised_id]
+      @places = Place.all.order('created_at desc').where(:id.in => Account.find(params[:uncategorised_id]).placeships.where(placeship_category_id: nil).pluck(:place_id))
+    elsif params[:placeship_category_id]      
+      @places = Place.all.order('created_at desc').where(:id.in => PlaceshipCategory.find(params[:placeship_category_id]).placeships.pluck(:place_id))
+    else
+      @places = Place.all.order('created_at desc')
+      @places = @places.where(id: params[:id]) if params[:id]
+      @places = @places.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
+    end
     @accounts = current_account && params[:show_people] ? (current_account.network + [current_account]) : []
     discuss 'Places'
     case content_type
