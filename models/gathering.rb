@@ -338,7 +338,7 @@ class Gathering
         
     y << [:admin, 'Admins', memberships.where(:admin => true)]
     
-    y << [:women, 'Women', memberships.where(:account_id.in => members.where(:gender => ['Woman', 'Cis Woman']).pluck(:id))]
+    y << [:women, 'Women', memberships.where(:account_id.in => members.where(:gender.in => ['Woman', 'Cis Woman']).pluck(:id))]
     y << [:men, 'Men', memberships.where(:account_id.in => members.where(:gender.in => ['Man', 'Cis Man']).pluck(:id))]
     y << [:other_genders, 'Other genders', memberships.where(:account_id.in => members.where(:gender.nin => ['Woman', 'Cis Woman', 'Man', 'Cis Man', nil]).pluck(:id))]
     y << [:unknown_gender, 'Gender not listed', memberships.where(:account_id.in => members.where(:gender => nil).pluck(:id))]    
