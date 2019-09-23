@@ -132,6 +132,7 @@
             <%= f.check_box_block :democratic_threshold %>          
           </div>
           <%= f.number_block :proposing_delay %>    
+          <%= f.check_box_block :hide_members_on_application_form %>    
         </div>
         <div class="mb-2">
           <%= f.number_block :invitations_granted %>    
@@ -144,8 +145,7 @@
         <% Gathering.enablable.each { |x| %>
           <%= f.check_box_block "enable_#{x}".to_sym %>
         <% } %>
-        <%= f.check_box_block :demand_payment %>  
-        <%= f.check_box_block :hide_members_on_application_form %>    
+        <%= f.check_box_block :demand_payment %>          
         <div class="mt-2">
           <%= f.url_block :facebook_group_url %>    
         </div>

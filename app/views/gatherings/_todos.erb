@@ -4,9 +4,13 @@
     <p>Have you joined the <a target="_blank" href="<%=@gathering.facebook_group_url%>">the Facebook group</a>?</p>
 
     <p class="mb-0">
-      <a class="btn btn-primary" href="/a/<%=@gathering.slug%>/joined_facebook_group">Yes, I'm a member</a>
-      <a class="btn btn-secondary" href="/accounts/not_on_facebook">I don't use Facebook</a>
-    </p>
+    <div class="d-inline d-sm-block mb-sm-1">
+      <a class="btn btn-primary btn-sm" href="/a/<%=@gathering.slug%>/joined_facebook_group">Yes, I'm a member</a>
+    </div>
+    <div class="d-inline d-sm-block">
+      <a class="btn btn-secondary btn-sm" href="/accounts/not_on_facebook">I don't use Facebook</a>
+    </div>
+  </p>
 
   </div>
 <% end %>
