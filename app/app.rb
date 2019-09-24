@@ -95,7 +95,7 @@ module Autopia
       if params[:q]
         case @type
         when 'gatherings'
-          @gatherings = Gathering.where(name: /#{::Regexp.escape(params[:q])}/i)
+          @gatherings = Gathering.where(name: /#{::Regexp.escape(params[:q])}/i).where(:privacy.ne => 'secret')
           @gatherings = @gatherings.paginate(page: params[:page], per_page: 10).order('name asc')
         when 'places'
           @places = Place.where(name: /#{::Regexp.escape(params[:q])}/i)
