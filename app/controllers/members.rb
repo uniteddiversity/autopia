@@ -30,7 +30,7 @@ Autopia::App.controller do
     @membership = @gathering.memberships.find_by(account: current_account)    
     redirect "/a/#{@gathering.slug}/apply" unless @gathering.privacy == 'open'
     @og_desc = "#{@gathering.name} is being co-created on Autopia"
-    @og_image = @gathering.cover_image ? @gathering.cover_image.url : "#{ENV['BASE_URI']}/images/autopia-link.png"
+    @og_image = @gathering.image ? @gathering.image.url : "#{ENV['BASE_URI']}/images/autopia-link.png"
     @account = Account.new
     erb :'members/join'
   end  	  

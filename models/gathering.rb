@@ -4,6 +4,7 @@ class Gathering
   extend Dragonfly::Model
   
   dragonfly_accessor :cover_image
+  dragonfly_accessor :image
   
   def self.enablable
     %w{teams timetables rotas tiers accommodation transport inventory budget comments_on_gathering_homepage}
@@ -14,6 +15,7 @@ class Gathering
   field :location, :type => String
   field :coordinates, :type => Array  
   field :cover_image_uid, :type => String
+  field :image_uid, :type => String
   field :intro_for_members, :type => String
   field :privacy, :type => String
   field :intro_for_non_members, :type => String
@@ -208,6 +210,7 @@ class Gathering
       :slug => :slug,     
       :location => :text,
       :cover_image => :image,
+      :image => :image,
       :intro_for_members => :wysiwyg,
       :fixed_threshold => :number,
       :member_limit => :number,

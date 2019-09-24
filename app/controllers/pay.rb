@@ -17,7 +17,7 @@ Autopia::App.controller do
       payment_method_types: ['card'],
       line_items: [{
           name: "Payment for #{@gathering.name}",
-          images: [@gathering.cover_image.try(:url)].compact,
+          images: [@gathering.image.try(:url)].compact,
           amount: params[:amount].to_i * 100,
           currency: @gathering.currency,
           quantity: 1,

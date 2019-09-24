@@ -34,9 +34,9 @@
     <ul class="search-result-list">
       <% @gatherings.each { |gathering|  %>
         <li>
-          <% if gathering.cover_image %>
+          <% if gathering.image %>
             <div class="search-result-media" style="height: auto">
-              <a href="/a/<%=gathering.slug%>"><img src="<%=gathering.cover_image.thumb('400x400').url%>" /></a>
+              <a href="/a/<%=gathering.slug%>"><img src="<%=gathering.image.thumb('400x400').url%>" /></a>
             </div>
           <% end %>
           <div class="search-result-content">

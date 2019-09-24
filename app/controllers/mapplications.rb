@@ -27,7 +27,7 @@ Autopia::App.controller do
     redirect '/' if @gathering.privacy == 'secret'
     redirect "/a/#{@gathering.slug}/join" if @gathering.privacy == 'open'    
     @og_desc = "#{@gathering.name} is being co-created on Autopia"
-    @og_image = @gathering.cover_image ? @gathering.cover_image.url : "#{ENV['BASE_URI']}/images/autopia-link.png"
+    @og_image = @gathering.image ? @gathering.image.url : "#{ENV['BASE_URI']}/images/autopia-link.png"
     @account = Account.new
     erb :'mapplications/apply'
   end    
