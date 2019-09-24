@@ -6,7 +6,7 @@ class Gathering
   dragonfly_accessor :cover_image
   
   def self.enablable
-    %w{teams timetables rotas tiers accommodation transport inventory budget}
+    %w{teams timetables rotas tiers accommodation transport inventory budget comments_on_gathering_homepage}
   end  
   
   field :name, :type => String
@@ -145,6 +145,11 @@ class Gathering
   has_many :inventory_items, :dependent => :destroy
   # Photos
   has_many :photos, as: :photoable, dependent: :destroy
+  
+  has_many :posts, as: :commentable, dependent: :destroy
+  has_many :subscriptions, as: :commentable, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :comment_reactions, as: :commentable, dependent: :destroy  
   
   def application_questions_a
     q = (application_questions || '').split("\n").map(&:strip).reject { |l| l.blank? }

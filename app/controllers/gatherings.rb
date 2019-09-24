@@ -11,6 +11,7 @@ Autopia::App.controller do
     Gathering.enablable.each { |x|
       @gathering.send("enable_#{x}=", true)
     }
+    @gathering.enable_comments_on_gathering_homepage = false
     discuss 'Create a gathering'
     erb :'gatherings/build'
   end  

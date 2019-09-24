@@ -12,7 +12,7 @@ class Comment
   field :file_uid, :type => String
   
   def self.commentable_types
-    %w{Team Activity Mapplication Account Habit Feature Place Photo}
+    %w{Team Activity Mapplication Account Habit Feature Place Photo Gathering}
   end    
   
   dragonfly_accessor :file  
@@ -46,7 +46,7 @@ class Comment
   def circle
     if %w{Team Activity Mapplication}.include?(commentable_type)
       commentable.gathering
-    elsif %w{Account Place}.include?(commentable_type)
+    elsif %w{Account Place Gathering}.include?(commentable_type)
       commentable
     elsif %w{Habit}.include?(commentable_type)
       commentable.account
@@ -112,7 +112,10 @@ class Comment
       s << "[Features/#{feature.name}] " 
     elsif commentable.is_a?(Place)
       place = commentable
-      s << "[Places/#{place.name}] "      
+      s << "[Places/#{place.name}] "   
+    elsif commentable.is_a?(Gathering)
+      gathering = commentable
+      s << "[#{gathering.name}] "            
     elsif commentable.is_a?(Habit)
       habit = commentable
       s << "[#{habit.account.name}/#{habit.name}] "

@@ -62,7 +62,13 @@
       </div>
     <% end %>
 
-    <%= partial :newsfeed, :locals => {:notifications => @notifications, :include_circle_name => false} %>
+    <% if @gathering.enable_comments_on_gathering_homepage %>
+      <div data-pagelet-url="/commentable?commentable_type=Gathering&commentable_id=<%=@gathering.id%>">
+        <%= partial :'comments/commentable', :locals => {:commentable => @gathering} %>
+      </div>      
+    <% else %>
+      <%= partial :newsfeed, :locals => {:notifications => @notifications, :include_circle_name => false} %>
+    <% end %>
 
   </div>  
 </div>

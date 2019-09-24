@@ -30,7 +30,7 @@ class CommentReaction
   end
   
   def self.commentable_types
-    %w{Team Activity Mapplication Habit Feature Place Photo}
+    %w{Team Activity Mapplication Habit Feature Place Gathering Photo}
   end   
 
   def self.admin_fields

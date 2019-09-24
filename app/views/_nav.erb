@@ -63,7 +63,7 @@
   <% if !current_account %>
     <li class="<%='active' if request.path == '/gatherings'%>">
       <a href="/gatherings">
-        <i class="fa fa-users"></i>
+        <i class="fa fa-moon-o"></i>
         <span class="nav-link-text">Gatherings</span>
       </a>
     </li>
@@ -72,7 +72,7 @@
     <li class="has-sub <%='active' if @gathering%>">
       <a href="javascript:;">
         <b class="caret caret-right pull-right"></b>
-        <i class="fa fa-users"></i>
+        <i class="fa fa-moon-o"></i>
         <span>Gatherings</span>
       </a>
       <%= ul_nav (current_account.memberships.select { |membership| membership.gathering == @gathering or !membership.hide_from_sidebar }.sort_by { |membership| membership.gathering.name }.map { |membership| [membership.gathering.name, "/a/#{membership.gathering.slug}"] } + [['Create a gathering', '/a/new']]),
