@@ -3,7 +3,6 @@ class Gathering
   include Mongoid::Timestamps
   extend Dragonfly::Model
   
-  dragonfly_accessor :cover_image
   dragonfly_accessor :image
   
   def self.enablable
@@ -14,7 +13,6 @@ class Gathering
   field :slug, :type => String
   field :location, :type => String
   field :coordinates, :type => Array  
-  field :cover_image_uid, :type => String
   field :image_uid, :type => String
   field :intro_for_members, :type => String
   field :privacy, :type => String
@@ -209,7 +207,6 @@ class Gathering
       :name => :text,
       :slug => :slug,     
       :location => :text,
-      :cover_image => :image,
       :image => :image,
       :intro_for_members => :wysiwyg,
       :fixed_threshold => :number,
