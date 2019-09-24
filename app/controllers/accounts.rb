@@ -163,5 +163,18 @@ Autopia::App.controller do
     @account.save
     redirect back
   end
+  
+  post '/accounts/destroy' do
+    sign_in_required!
+    if params[:email] and params[:email] == current_account.email
+      flash[:notice] = "Your account was deleted"
+      current_account.destroy
+      session.clear
+      redirect '/'
+    else
+      flash[:notice] = "The email you typed didn't match the email on this account"
+      redirect back
+    end
+  end   
 
 end

@@ -123,8 +123,7 @@ module Autopia
       @accounts = Account.all
       Account.check_box_scopes.select { |k, _t, _r| params[k] }.each do |_k, _t, r|
         @accounts = @accounts.where(:id.in => r.pluck(:id))
-      end
-      @accounts = @accounts.paginate(page: params[:page], per_page: 10).order('last_active desc')
+      end      
       discuss 'Connect'
       erb :connect
     end
