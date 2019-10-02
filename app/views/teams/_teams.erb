@@ -10,9 +10,10 @@
       <td>
         <a href="/a/<%=@gathering.slug%>/teams/<%=team.id%>">
           <%=team.name%>
-        </a>     
-        <br />
-        <%= team.intro %>
+        </a>
+        <div class="wysiwyg">
+          <%= team.intro %>
+        </div>
       </td>     
       <td>
         <% if team.teamships.count > 0 %>

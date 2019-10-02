@@ -21,7 +21,9 @@
   <div class="col-sm-8 order-sm-0">
 
     <% if @gathering.intro_for_non_members %>
-      <%=@gathering.intro_for_non_members%>
+      <div class="wysiwyg">
+        <%=@gathering.intro_for_non_members%>
+      </div>
     <% end %>
 
     <% if @gathering.member_limit and @gathering.memberships.count >= @gathering.member_limit %>

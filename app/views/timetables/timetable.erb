@@ -12,7 +12,9 @@
 
 <% if @timetable.description %>
   <div style="margin: 15px 0">
-    <%= @timetable.description %>
+    <div class="wysiwyg">
+      <%= @timetable.description %>
+    </div>
   </div>
 <% end %>
 

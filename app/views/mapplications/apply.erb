@@ -29,7 +29,9 @@
     <% else %>      
 
       <% if @gathering.intro_for_non_members %>
-        <%=@gathering.intro_for_non_members%>
+        <div class="wysiwyg">
+          <%=@gathering.intro_for_non_members%>
+        </div>
       <% end %>
 
       <% form_for @account, "/a/#{@gathering.slug}/apply", :class => 'mt-3' do |f| %>
