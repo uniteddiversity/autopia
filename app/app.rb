@@ -137,6 +137,12 @@ module Autopia
       @notification = Notification.find(params[:id]) || not_found
       erb :'emails/notification', locals: { notification: @notification, circle: @notification.circle }, layout: false
     end
+    
+    post '/image' do
+      sign_in_required!
+      upload = current_account.uploads.create(file: params[:image])
+      upload.file.url
+    end
 
     get '/:slug' do
       if @fragment = Fragment.find_by(slug: params[:slug], page: true)

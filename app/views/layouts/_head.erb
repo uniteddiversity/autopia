@@ -61,7 +61,8 @@
     'flatpickr/4.5.2' => 'flatpickr.min.js flatpickr.min.css',
     'datatables/1.10.16' => 'js/jquery.dataTables.min.js js/dataTables.bootstrap4.min.js css/dataTables.bootstrap4.min.css',
     'tributejs/3.5.3' => 'tribute.min.js tribute.min.css',
-    'select2/3.5.2' => 'select2.min.js select2.min.css'
+    'select2/3.5.2' => 'select2.min.js select2.min.css',
+    'quill/1.3.7' => 'quill.min.js quill.snow.css'
     }.each { |k,v| %>
     <% v.split(' ').each { |f| u = "https://cdnjs.cloudflare.com/ajax/libs/#{k}/#{f}" %>
       <% case f.split('.').last.to_sym; when :js %>
@@ -87,7 +88,6 @@
     '//cdn.rawgit.com/mahnunchik/markerclustererplus/736b0e3a7d916fbeb2ee5007494f17a5329b11a8/src/markerclusterer.js',
     "/javascripts/app.js?#{Padrino.env == :development ? SecureRandom.uuid : @cachebuster}",
     '//cdn.rawgit.com/wordsandwriting/activate-tools/3016e3e32d3be4ed6d34710b04ff9fc88f425314/js/pagelets.js',
-    '//cdn.rawgit.com/wordsandwriting/activate-tools/3016e3e32d3be4ed6d34710b04ff9fc88f425314/js/textboxio/textboxio.js',
     '//cdn.rawgit.com/wordsandwriting/activate-tools/3016e3e32d3be4ed6d34710b04ff9fc88f425314/js/jquery.lookup.js',
     '/javascripts/linkify.min.js',
     '/javascripts/linkify-jquery.min.js',

@@ -112,6 +112,8 @@ class Account
     )
   end
 
+  has_many :uploads, dependent: :destroy
+  
   has_many :promoters, dependent: :nullify
   has_many :promoterships, dependent: :destroy
   has_many :promotercrowns, dependent: :destroy

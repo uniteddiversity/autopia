@@ -6,9 +6,11 @@ Autopia::App.controller do
       @account = Account.find_by(username: params[:u]) || not_found
       @places = @account.places_following.order('name_transliterated asc')
     elsif params[:uncategorised_id]
-      @places = Place.all.order('created_at desc').where(:id.in => Account.find(params[:uncategorised_id]).placeships.where(placeship_category_id: nil).pluck(:place_id))
+      account = Account.find(params[:uncategorised_id]) || not_found
+      @places = Place.all.order('created_at desc').where(:id.in => account.placeships.where(placeship_category_id: nil).pluck(:place_id))
     elsif params[:placeship_category_id]      
-      @places = Place.all.order('created_at desc').where(:id.in => PlaceshipCategory.find(params[:placeship_category_id]).placeships.pluck(:place_id))
+      placeship_category = PlaceshipCategory.find(params[:placeship_category_id]) || not_found
+      @places = Place.all.order('created_at desc').where(:id.in => placeship_category.placeships.pluck(:place_id))
     else
       @places = Place.all.order('created_at desc')
       @places = @places.where(id: params[:id]) if params[:id]

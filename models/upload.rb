@@ -5,6 +5,8 @@ class Upload
 
   field :file_name, :type => String
   field :file_uid, :type => String
+  
+  belongs_to :account
     
   # Dragonfly
   dragonfly_accessor :file  
@@ -12,7 +14,8 @@ class Upload
   def self.admin_fields
     {
       :file_name => {:type => :text, :edit => false},      
-      :file => :file
+      :file => :file,
+      :account_id => :lookup
     }
   end
         
