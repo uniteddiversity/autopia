@@ -138,9 +138,9 @@ module Autopia
       erb :'emails/notification', locals: { notification: @notification, circle: @notification.circle }, layout: false
     end
     
-    post '/image' do
+    post '/upload' do
       sign_in_required!
-      upload = current_account.uploads.create(file: params[:image])
+      upload = current_account.uploads.create(file: params[:file])
       upload.file.url
     end
 

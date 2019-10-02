@@ -207,10 +207,10 @@ $(function () {
      */
     function saveToServer(file) {
       const fd = new FormData();
-      fd.append('image', file);
+      fd.append('file', file);
 
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', '/image', true);
+      xhr.open('POST', '/upload', true);
       xhr.onload = () => {
         if (xhr.status === 200) {
           // this is callback data: url
