@@ -39,7 +39,7 @@ module Autopia
     end
 
     before do
-      @cachebuster = Padrino.env == :development ? SecureRandom.uuid : 127
+      @cachebuster = Padrino.env == :development ? SecureRandom.uuid : 128
       redirect "#{ENV['BASE_URI']}#{request.path}" if ENV['BASE_URI'] && (ENV['BASE_URI'] != "#{request.scheme}://#{request.env['HTTP_HOST']}")
       Time.zone = current_account && current_account.time_zone ? current_account.time_zone : 'London'
       fix_params!
