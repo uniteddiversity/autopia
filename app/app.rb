@@ -124,6 +124,7 @@ module Autopia
       Account.check_box_scopes.select { |k, _t, _r| params[k] }.each do |_k, _t, r|
         @accounts = @accounts.where(:id.in => r.pluck(:id))
       end      
+      params[:page] = params[:page].to_i
       discuss 'Connect'
       erb :connect
     end
