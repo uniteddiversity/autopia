@@ -4,7 +4,7 @@
       <a href="/a/<%=@gathering.slug%>/activities/<%=activity.id%>"><%=activity.name%></a>
     </h3>
     <% if activity.description %>
-      <span style="display: none"><%=activity.description.gsub("\n","<br />")%></span>
+      <span style="display: none"><%=activity.description.gsub("\n","<br />").truncate(150) %></span>
     <% end %>
     <span style="color: white">by <a href="/accounts/<%=activity.account_id%>"><%=activity.account.name%></a></span>
     <div>
