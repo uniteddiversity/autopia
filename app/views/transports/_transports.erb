@@ -14,13 +14,9 @@
   <% @gathering.transports.order('name asc').each { |transport| %>
     <tr>
       <td>
-        <% if admin? || @membership.admin? %>
-          <a href="/a/<%=@gathering.slug%>/transports/<%=transport.id%>/edit">
-            <%=transport.name%>
-          </a>
-        <% else %>
+        <a href="/a/<%=@gathering.slug%>/transports/<%=transport.id%>/edit">
           <%=transport.name%>
-        <% end %>            
+        </a>          
         <br />
         <%= transport.description %>        
       </td>

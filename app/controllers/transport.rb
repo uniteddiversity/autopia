@@ -31,7 +31,7 @@ Autopia::App.controller do
   get '/a/:slug/transports/:id/edit' do
     @gathering = Gathering.find_by(slug: params[:slug])  || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
-    gathering_admins_only!
+    confirmed_membership_required!
     @transport = @gathering.transports.find(params[:id]) || not_found
     erb :'transports/build'     
   end  
@@ -39,7 +39,7 @@ Autopia::App.controller do
   post '/a/:slug/transports/:id/edit' do
     @gathering = Gathering.find_by(slug: params[:slug])  || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
-    gathering_admins_only!
+    confirmed_membership_required!
     @transport = @gathering.transports.find(params[:id]) || not_found
     if @transport.update_attributes(params[:transport])
       redirect "/a/#{@gathering.slug}/transports"

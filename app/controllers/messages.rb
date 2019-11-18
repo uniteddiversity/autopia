@@ -43,7 +43,7 @@ Autopia::App.controller do
   end
   
   post '/messages/:id/send' do    
-    Message.create!(body: params[:body], messenger: current_account, messengee_id: params[:id])
+    Message.create!(body: params[:body], messenger: current_account, messengee_id: params[:id]) if params[:body]
     redirect back
   end
  
