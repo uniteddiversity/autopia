@@ -44,4 +44,11 @@ class Order
 
     "#{event.name}, #{event.when_details} at #{event.location}: #{descriptions.join(', ')}"
   end
+  
+  after_create do
+    if event.activity
+      event.activity.activityships.create account: account      
+    end   
+  end
+  
 end

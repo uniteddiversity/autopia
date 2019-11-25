@@ -22,7 +22,7 @@
       Person
     </th>
     <td>
-      <a target="_blank" href="/admin/edit/Account/<%=@event_feedback.account_id%>"><%=@event_feedback.account.name%> (<%=@event_feedback.account.email%>)</a>
+      <a target="_blank" href="/u/<%=@event_feedback.account.username%>"><%=@event_feedback.account.name%> (<%=@event_feedback.account.email%>)</a>
     </td>
   </tr> 
   <% if @event_feedback.rating %>  

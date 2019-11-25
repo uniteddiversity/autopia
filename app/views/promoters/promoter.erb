@@ -39,28 +39,16 @@
   </div>
 </div>
 
-<% if @promoter.promotercrowns.count > 0 || promoter_admin? %>
-  <h2 class="mt-5">Team members</h2>
-  <% if promoter_admin? %>
-    <div class="mb-3">
-      <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()">Add a team member</a> 
-      <div style="display: none">
-        <% form_for Promotercrown.new, "/promoters/#{@promoter.id}/promotercrowns/new" do |f| %>
-          <%= f.lookup_block :account_id, lookup_url: "/accounts.json", placeholder: 'Search accounts' %>
-          <%= f.submit_block button_text: 'Add team member' %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>  
-  <div class="image-wall">
-    <% accounts = @promoter.team_members.order('name asc').paginate(:page => params[:page], :per_page => 50); accounts.each { |account|  %>
-      <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-    <% } %>
-  </div>
-  <div class="mt-3">
-    <%= will_paginate accounts, :param_name => 'team_members_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
-  </div>  
-<% end %>
+<h2 class="mt-5">Team members</h2>
+<%= partial :'accounts/add', locals: {
+  role: 'team member',
+  accounts: @promoter.team_members.order('name asc'),
+  add_and_remove: promoter_admin?,
+  new_object: Promotercrown.new,
+  new_url: "/promoters/#{@promoter.id}/promotercrowns/new",
+  destroy_url: "/promoters/#{@promoter.id}/promotercrowns/destroy",
+  remove_options: @promoter.promotercrowns.map { |promotercrown| [promotercrown.account.name, promotercrown.account_id] }
+  }  %>
 
 <% if @promoter.promoterships.count > 0 %>
   <h2 class="mt-5">Connected to this promoter</h2>

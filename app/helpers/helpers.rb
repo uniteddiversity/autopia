@@ -64,17 +64,21 @@ Autopia::App.helpers do
   
   def activity_admin?(activity=nil, account=current_account)
     activity = @activity if !activity
-    promoter_admin?(activity.promoter)
+    activity.activity_facilitations.find_by(account: account) || promoter_admin?(activity.promoter, account)
   end  
   
   def activity_admins_only!(activity=nil, account=current_account)
     activity = @activity if !activity
-    promoter_admins_only!(activity.promoter)
+    unless activity_admin?(activity, account)
+      flash[:notice] = 'You must be an admin of that activity to access that page'
+      session[:return_to] = request.url
+      request.xhr? ? halt(403) : redirect(account ? '/' : '/accounts/sign_in')      
+    end    
   end  
   
   def event_admin?(event=nil, account=current_account)
     event = @event if !event
-    account && (event.account_id == account.id || (event.promoter && promoter_admin?(event.promoter, account)) || account.admin?)
+    account && (event.account_id == account.id || event.leader_id == account.id || event.event_facilitations.find_by(account: account) || (event.activity && activity_admin?(event.activity, account)) || (event.promoter && promoter_admin?(event.promoter, account)) || account.admin?)
   end  
   
   def event_admins_only!(event=nil, account=current_account)

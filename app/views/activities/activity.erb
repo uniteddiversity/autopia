@@ -16,6 +16,12 @@
       <% end %>
     </div>
     <table class="table table-hr">
+      <tr>
+        <td>Promoter</td>
+        <td>
+          <a href="/promoters/<%=@activity.promoter_id%>"><%=@activity.promoter.name%></a>
+        </td>
+      </tr>        
       <% if @activity.website %>
         <tr>
           <td>Website</td>
@@ -23,7 +29,7 @@
             <a target="_blank" href="<%=@activity.website%>"><%=@activity.website%></a>
           </td>
         </tr>
-      <% end %>
+      <% end %>     
       <tr>
         <td>Created by</td>
         <td>
@@ -33,6 +39,17 @@
     </table>
   </div>
 </div>
+
+<h2 class="mt-5">Activity facilitators</h2>
+<%= partial :'accounts/add', locals: {
+  role: 'activity facilitator',
+  accounts: @activity.activity_facilitators.order('name asc'),
+  add_and_remove: activity_admin?,
+  new_object: ActivityFacilitation.new,
+  new_url: "/activities/#{@activity.id}/activity_facilitations/new",
+  destroy_url: "/activities/#{@activity.id}/activity_facilitations/destroy",
+  remove_options: @activity.activity_facilitations.map { |activity_facilitation| [activity_facilitation.account.name, activity_facilitation.account_id] }
+  }  %>
 
 <h2 class="mt-5">Events</h2>
 <a class="btn btn-primary mb-3" href="/events/new?activity_id=<%=@activity.id%>">Create an event</a>

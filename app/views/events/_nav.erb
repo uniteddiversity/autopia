@@ -4,6 +4,7 @@
     <%= ul_nav [
       ['View event', "/events/#{event.id}"],
       ['Edit event', "/events/#{event.id}/edit"],      
+      ['Facilitators', "/events/#{event.id}/facilitators"],
       (['Orders', "/events/#{event.id}/orders"] if (event.orders.count > 0)), 
       (['Tickets', "/events/#{event.id}/tickets"] if (event.ticket_types.count > 0 or event.tickets.count > 0)),       
       (['Donations', "/events/#{event.id}/donations"] if admin?),

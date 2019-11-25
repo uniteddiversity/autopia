@@ -61,6 +61,13 @@ Autopia::App.controller do
     @promoter.promotercrowns.create(account_id: params[:promotercrown][:account_id])
     redirect back
   end  
+  
+  post '/promoters/:id/promotercrowns/destroy' do    
+    @promoter = Promoter.find(params[:id]) || not_found
+    promoter_admins_only!
+    @promoter.promotercrowns.find_by(account_id: params[:account_id]).destroy
+    redirect back
+  end  
 
   get '/promoters/:id/destroy' do
     @promoter = Promoter.find(params[:id]) || not_found

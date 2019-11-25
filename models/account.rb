@@ -119,11 +119,12 @@ class Account
   has_many :promotercrowns, dependent: :destroy
 
   has_many :events, class_name: 'Event', inverse_of: :account, dependent: :destroy
-  has_many :events_facilitating, class_name: 'Event', inverse_of: :facilitator, dependent: :nullify
+  has_many :events_leading, class_name: 'Event', inverse_of: :leader, dependent: :nullify
+  has_many :event_facilitations, dependent: :destroy
   has_many :waitships, dependent: :destroy
   has_many :event_feedbacks, dependent: :destroy
   has_many :activities, dependent: :nullify
-  has_many :activity_facilitation, dependent: :destroy
+  has_many :activity_facilitations, dependent: :destroy
   has_many :activityships, dependent: :destroy
 
   has_many :places, dependent: :nullify

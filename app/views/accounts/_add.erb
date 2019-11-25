@@ -1,0 +1,27 @@
+
+<% if add_and_remove %>
+  <div class="mb-3">
+    <a id="add-role" class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show();
+        $('#remove-role').hide()">Add</a> 
+    <div style="display: none">
+      <% form_for new_object, new_url do |f| %>
+        <%= f.lookup_block :account_id, lookup_url: "/accounts.json", placeholder: 'Search accounts' %>
+        <%= f.submit_block button_text: "Add #{role}" %>
+      <% end %>
+    </div>
+    <a id="remove-role" class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show();
+        $('#add-role').hide()">Remove</a> 
+    <div style="display: none">
+      <% form_tag destroy_url, class: 'form-inline' do |f| %>
+          <%= select_tag :account_id, options: remove_options, class: 'form-control mr-1' %>
+            <%= submit_tag "Remove #{role}", class: 'btn btn-danger' %>
+            <% end %>
+          </div>  
+        </div>
+      <% end %>
+
+      <div class="image-wall">
+        <% accounts.each { |account|  %>
+          <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+        <% } %>
+      </div>

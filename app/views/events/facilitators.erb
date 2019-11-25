@@ -1,0 +1,13 @@
+
+<%= partial :'events/nav', :locals => {:event => @event} %>
+
+
+<%= partial :'accounts/add', locals: {
+  role: 'event facilitator',
+  add_and_remove: event_admin?,
+  accounts: ([@event.leader] + @event.event_facilitators.order('name asc')).compact.uniq,
+  new_object: EventFacilitation.new,
+  new_url: "/events/#{@event.id}/event_facilitations/new",
+  destroy_url: "/events/#{@event.id}/event_facilitations/destroy",
+  remove_options: @event.event_facilitations.map { |event_facilitation| [event_facilitation.account.name, event_facilitation.account_id] }
+  }  %>

@@ -36,5 +36,13 @@ class Ticket
     errors.add(:event, 'is in the past') if event && event.past? && !force
     errors.add(:ticket_type, 'is full') if ticket_type && (ticket_type.number_of_tickets_available_in_single_purchase == 0)
   end
+  
+  after_create do
+    if event.activity
+      event.activity.activityships.create account: account
+    end
+    # ticket might be destroyed again, so this should move
+    event.waitships.find_by(account: account).try(:destroy)
+  end  
 
 end

@@ -11,6 +11,10 @@ Autopia::App.controller do
     sign_in_required!
     @event = Event.new(feedback_questions: 'Comments/suggestions')
     @event.promoter_id = params[:promoter_id] if params[:promoter_id]
+    if params[:activity_id]
+      @event.activity_id = params[:activity_id]
+      @event.promoter_id = @event.activity.promoter_id
+    end
     erb :'events/build'
   end
 
@@ -129,10 +133,10 @@ Autopia::App.controller do
         customer_email: (current_account.email if current_account),
         success_url: "#{ENV['BASE_URI']}/events/#{@event.id}?success=true",
         cancel_url: "#{ENV['BASE_URI']}/events/#{@event.id}?cancelled=true" }
-      if @event.facilitator && @event.facilitator_revenue_share && promotership = @event.promoter.promoterships.find_by(account: @event.facilitator)        
+      if @event.leader && @event.leader_revenue_share && promotership = @event.promoter.promoterships.find_by(account: @event.leader)        
         stripe_session_hash.merge!({
             payment_intent_data: {
-              application_fee_amount: ((1 - @event.facilitator_revenue_share) * total * 100).round,
+              application_fee_amount: ((1 - @event.leader_revenue_share) * total * 100).round,
               transfer_data: {
                 destination: promotership.stripe_user_id
               }
@@ -182,6 +186,26 @@ Autopia::App.controller do
     @event = Event.find(params[:id]) || not_found
     event_admins_only!
     erb :'events/waitlist'      
-  end   
+  end
+  
+  get '/events/:id/facilitators' do
+    @event = Event.find(params[:id]) || not_found
+    event_admins_only!
+    erb :'events/facilitators'
+  end      
+  
+  post '/events/:id/event_facilitations/new' do    
+    @event = Event.find(params[:id]) || not_found
+    event_admins_only!
+    @event.event_facilitations.create(account_id: params[:event_facilitation][:account_id])
+    redirect back
+  end
+  
+  post '/events/:id/event_facilitations/destroy' do    
+    @event = Event.find(params[:id]) || not_found
+    event_admins_only!
+    @event.event_facilitations.find_by(account_id: params[:account_id]).destroy
+    redirect back
+  end    
     
 end

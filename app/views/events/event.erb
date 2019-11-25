@@ -21,19 +21,14 @@
           </td>
         </tr>
       <% end %>
-      <% if @event.facilitator %>
+      <% if @event.activity %>
         <tr>
-          <td>Lead facilitator</td>
+          <td>Activity</td>
           <td>
-            <a href="/u/<%=@event.facilitator.username%>"><%=@event.facilitator.name%></a>            
-            <% if event_admin? && !(promotership = @event.promoter.promoterships.find_by(account: @event.facilitator))%>
-              <span class="label label-danger">
-                <i class="fa fa-warning"></i> Facilitator not connect to this promoter
-              </span>
-            <% end %>
+            <a href="/activities/<%=@event.activity_id%>"><%=@event.activity.name%></a>
           </td>
         </tr>
-      <% end %>
+      <% end %>        
       <tr>
         <td>When</td>
         <td>
@@ -62,33 +57,53 @@
           </td>
         </tr>
       <% end %>
+      <% if @event.event_facilitations.count > 0 %>
+        <tr>
+          <td>Facilitators</td>
+          <td>
+            <% ([@event.leader] + @event.event_facilitators.order('name asc')).compact.uniq.each { |account|  %>
+              <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+            <% } %>
+            <% if event_admin? && !(promotership = @event.promoter.promoterships.find_by(account: @event.leader))%>
+              <span class="label label-danger">
+                <i class="fa fa-warning"></i> Lead facilitator not connect to this promoter
+              </span>
+            <% end %>            
+          </td>
+        </tr>          
+      <% end %>        
     </table>
     <p class="lead">
       <%=@event.description%>
     </p>
   </div>
 </div>
+
+
+
 <style>
   #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
 </style>
 <%= partial :'maps/map', :locals => {:points => [@event]} %>
+
+
 <% if params[:success] %>
   <div class="card" id="share-event">
     <h3 class="card-header bg-primary text-white">Thanks for booking!</h2>
-    <div class="card-body">
-      <%= partial :share_big %>
-    </div>
+      <div class="card-body">
+        <%= partial :share_big %>
+      </div>
   </div>
 <% elsif @event.sold_out? or (@event.ticket_types.count > 0 and @event.future?) %>
   <% if @event.sold_out? and !params[:ticket_type_id] %>
     <% if params[:added_to_waitlist] %>
       <div class="card">
         <h3 class="card-header bg-primary text-white">Thanks!</h2>
-        <div class="card-body">
-          <p class="lead mb-0">
-            We'll be in touch if we are able to issue more tickets.
-          </p>
-        </div>
+          <div class="card-body">
+            <p class="lead mb-0">
+              We'll be in touch if we are able to issue more tickets.
+            </p>
+          </div>
       </div>
     <% else %>
       <%= partial :'events/waitlist' %>

@@ -35,8 +35,9 @@
     })
   </script>
   <div id="promoter-options" style="display: none">
-    <%= f.lookup_block :facilitator_id, lookup_url: "/accounts.json", placeholder: 'Search accounts', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/u/#{@event.facilitator.username}">View account</a>} if @event.facilitator_id) %>
-    <%= f.number_block :facilitator_revenue_share %>
+    <%= f.lookup_block :activity_id, lookup_url: "/activities.json", placeholder: 'Search activities', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/activities/#{@event.activity_id}">View activity</a>} if @event.activity_id) %>
+    <%= f.lookup_block :leader_id, lookup_url: "/accounts.json", placeholder: 'Search accounts', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/u/#{@event.leader.username}">View account</a>} if @event.leader_id) %>
+    <%= f.number_block :leader_revenue_share %>
   </div>    
     <%= partial :'events/ticket_types', :locals => {:f => f} %>
     <%= f.number_block :capacity %>
