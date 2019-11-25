@@ -16,16 +16,16 @@ class Post
   end
   
   def self.commentable_types
-    %w{Team Activity Mapplication Habit Account Feature Place Photo}
+    %w{Team Tactivity Mapplication Habit Account Feature Place Photo}
   end  
   
   def url
     if commentable.is_a?(Team)
       team = commentable
       "#{ENV['BASE_URI']}/a/#{team.gathering.slug}/teams/#{team.id}#post-#{id}"
-    elsif commentable.is_a?(Activity)
-      activity = commentable
-      "#{ENV['BASE_URI']}/a/#{activity.gathering.slug}/activities/#{activity.id}#post-#{id}"
+    elsif commentable.is_a?(Tactivity)
+      tactivity = commentable
+      "#{ENV['BASE_URI']}/a/#{tactivity.gathering.slug}/tactivities/#{tactivity.id}#post-#{id}"
     elsif commentable.is_a?(Mapplication)
       mapplication = commentable
       "#{ENV['BASE_URI']}/a/#{mapplication.gathering.slug}/mapplications/#{mapplication.id}#post-#{id}"

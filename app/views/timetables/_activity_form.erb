@@ -1,6 +1,0 @@
-<% form_for @activity ||= Activity.new, @activity.new_record? ? "/activities/create?timetable_id=#{timetable.id}" : "/activities/#{@activity.id}/edit" do |f| %>
-  <%= f.text_block :name %>
-  <%= f.text_area_block :description %>
-  <%= f.image_block :image %>
-  <%= f.submit_block destroy_url: ("/activities/#{@activity.id}/destroy" if (admin? || @membership.admin?)) %>
-<% end %>  

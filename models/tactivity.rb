@@ -1,16 +1,16 @@
-class Activity
+class Tactivity
   include Mongoid::Document
   include Mongoid::Timestamps
   extend Dragonfly::Model
      
   belongs_to :timetable, index: true
-  belongs_to :account, class_name: "Account", inverse_of: :activities, index: true
+  belongs_to :account, class_name: "Account", inverse_of: :tactivities, index: true
   belongs_to :gathering, index: true
   belongs_to :membership, index: true
   
   belongs_to :space, index: true, optional: true
   belongs_to :tslot, index: true, optional: true  
-  belongs_to :scheduled_by, class_name: "Account", inverse_of: :activities_scheduled, index: true, optional: true
+  belongs_to :scheduled_by, class_name: "Account", inverse_of: :tactivities_scheduled, index: true, optional: true
   
   has_many :posts, :as => :commentable, :dependent => :destroy
   has_many :subscriptions, :as => :commentable, :dependent => :destroy
@@ -42,7 +42,7 @@ class Activity
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => circle, :type => 'created_activity'
+    notifications.create! :circle => circle, :type => 'created_tactivity'
   end  
   
   def circle

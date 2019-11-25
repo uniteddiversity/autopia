@@ -1,18 +1,18 @@
-<% if activity.attendances.count > 0 %>
-  <span data-toggle="tooltip" title="<%=activity.attendances.map { |attendance| attendance.account.name }.join('<br />')%>">
-    <% if activity.attendances.find_by(account: current_account) %>
-      <% if activity.attendances.count == 1 %>
+<% if tactivity.attendances.count > 0 %>
+  <span data-toggle="tooltip" title="<%=tactivity.attendances.map { |attendance| attendance.account.name }.join('<br />')%>">
+    <% if tactivity.attendances.find_by(account: current_account) %>
+      <% if tactivity.attendances.count == 1 %>
         You're interested
       <% else %>
-        You and <%=pluralize(activity.attendances.count - 1,'other')%> interested
+        You and <%=pluralize(tactivity.attendances.count - 1,'other')%> interested
       <% end %>
     <% else %>
-      <%=pluralize(activity.attendances.count,'person')%> interested
+      <%=pluralize(tactivity.attendances.count,'person')%> interested
     <% end %>
   </span>
 <% end %>
-<% if activity.attendances.find_by(account: current_account) %>
-  <a class="pagelet-trigger" title="No longer interested" href="/activities/<%=activity.id%>/unattend"><i class="fa fa-times"></i></a>    
+<% if tactivity.attendances.find_by(account: current_account) %>
+  <a class="pagelet-trigger" title="No longer interested" href="/tactivities/<%=tactivity.id%>/unattend"><i class="fa fa-times"></i></a>    
 <% else %>
-  <a class="pagelet-trigger" title="Interested"  href="/activities/<%=activity.id%>/attend"><i class="fa fa-thumbs-o-up"></i></a>
+  <a class="pagelet-trigger" title="Interested"  href="/tactivities/<%=tactivity.id%>/attend"><i class="fa fa-thumbs-o-up"></i></a>
 <% end %>

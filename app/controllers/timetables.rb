@@ -131,118 +131,118 @@ Autopia::App.controller do
     200  
   end    
          
-  post '/activities/create' do
+  post '/tactivities/create' do
     @timetable = Timetable.find(params[:timetable_id]) || not_found
     @gathering = @timetable.gathering
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
-    @activity = Activity.new(params[:activity])
-    @activity.timetable = @timetable
-    @activity.account = current_account
-    if @activity.save
+    @tactivity = Tactivity.new(params[:tactivity])
+    @tactivity.timetable = @timetable
+    @tactivity.account = current_account
+    if @tactivity.save
       redirect back
     else
-      flash[:error] = 'There was an error creating the activity'
+      flash[:error] = 'There was an error creating the tactivity'
       erb :'timetables/timetables'
     end
   end  
   
-  get '/a/:slug/activities/:id' do
+  get '/a/:slug/tactivities/:id' do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
-    @activity = @gathering.activities.find(params[:id])
-    @timetable = @activity.timetable    
+    @tactivity = @gathering.tactivities.find(params[:id])
+    @timetable = @tactivity.timetable    
     confirmed_membership_required!      
-    erb :'timetables/activity'
+    erb :'timetables/tactivity'
   end   
         
-  get '/activities/:id/edit' do
-    @activity = Activity.find(params[:id]) || not_found
-    @gathering = @activity.gathering
+  get '/tactivities/:id/edit' do
+    @tactivity = Tactivity.find(params[:id]) || not_found
+    @gathering = @tactivity.gathering
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
-    erb :'timetables/activity_build'
+    erb :'timetables/tactivity_build'
   end 
         
-  post '/activities/:id/edit' do
-    @activity = Activity.find(params[:id]) || not_found
-    @gathering = @activity.gathering
+  post '/tactivities/:id/edit' do
+    @tactivity = Tactivity.find(params[:id]) || not_found
+    @gathering = @tactivity.gathering
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
-    if @activity.update_attributes(params[:activity])
-      redirect "/a/#{@gathering.slug}/timetables/#{@activity.timetable_id}"
+    if @tactivity.update_attributes(params[:tactivity])
+      redirect "/a/#{@gathering.slug}/timetables/#{@tactivity.timetable_id}"
     else
-      flash[:error] = 'There was an error saving the activity'
-      erb :'timetables/activity_build'
+      flash[:error] = 'There was an error saving the tactivity'
+      erb :'timetables/tactivity_build'
     end
   end   
 
-  get '/activities/:id/destroy' do
-    @activity = Activity.find(params[:id]) || not_found
-    @gathering = @activity.gathering
+  get '/tactivities/:id/destroy' do
+    @tactivity = Tactivity.find(params[:id]) || not_found
+    @gathering = @tactivity.gathering
     @membership = @gathering.memberships.find_by(account: current_account)
     gathering_admins_only!
-    @activity.destroy
-    redirect "/a/#{@gathering.slug}/timetables/#{@activity.timetable_id}"
+    @tactivity.destroy
+    redirect "/a/#{@gathering.slug}/timetables/#{@tactivity.timetable_id}"
   end 
     
-  post '/activities/:id/schedule' do
-    @activity = Activity.find(params[:id]) || not_found
-    @gathering = @activity.gathering
+  post '/tactivities/:id/schedule' do
+    @tactivity = Tactivity.find(params[:id]) || not_found
+    @gathering = @tactivity.gathering
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
-    halt unless @membership.admin? or @activity.timetable.scheduling_by_all
-    @activity.tslot_id = params[:tslot_id]
-    @activity.space_id = params[:space_id]
-    @activity.scheduled_by = current_account
-    @activity.save!  
-    @activity.notifications.where(:type.in => ['scheduled_activity', 'unscheduled_activity']).destroy_all
-    if @activity.timetable.scheduling_by_all
-      @activity.notifications.create! :circle => @gathering, :type => 'scheduled_activity'   
+    halt unless @membership.admin? or @tactivity.timetable.scheduling_by_all
+    @tactivity.tslot_id = params[:tslot_id]
+    @tactivity.space_id = params[:space_id]
+    @tactivity.scheduled_by = current_account
+    @tactivity.save!  
+    @tactivity.notifications.where(:type.in => ['scheduled_tactivity', 'unscheduled_tactivity']).destroy_all
+    if @tactivity.timetable.scheduling_by_all
+      @tactivity.notifications.create! :circle => @gathering, :type => 'scheduled_tactivity'   
     end
     200      
   end
     
-  get '/activities/:id/unschedule' do
-    @activity = Activity.find(params[:id]) || not_found
-    @gathering = @activity.gathering
+  get '/tactivities/:id/unschedule' do
+    @tactivity = Tactivity.find(params[:id]) || not_found
+    @gathering = @tactivity.gathering
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!    
-    halt unless @membership.admin? or @activity.timetable.scheduling_by_all
-    @activity.tslot_id = nil
-    @activity.space_id = nil
-    @activity.scheduled_by = current_account
-    @activity.save!
-    @activity.notifications.where(:type.in => ['scheduled_activity', 'unscheduled_activity']).destroy_all
-    if @activity.timetable.scheduling_by_all
-      @activity.notifications.create! :circle => @gathering, :type => 'unscheduled_activity'
+    halt unless @membership.admin? or @tactivity.timetable.scheduling_by_all
+    @tactivity.tslot_id = nil
+    @tactivity.space_id = nil
+    @tactivity.scheduled_by = current_account
+    @tactivity.save!
+    @tactivity.notifications.where(:type.in => ['scheduled_tactivity', 'unscheduled_tactivity']).destroy_all
+    if @tactivity.timetable.scheduling_by_all
+      @tactivity.notifications.create! :circle => @gathering, :type => 'unscheduled_tactivity'
     end
     200
   end  
     
-  get '/activities/:id/attendees' do
-    @activity = Activity.find(params[:id]) || not_found
-    @gathering = @activity.gathering
+  get '/tactivities/:id/attendees' do
+    @tactivity = Tactivity.find(params[:id]) || not_found
+    @gathering = @tactivity.gathering
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!     
-    partial :'timetables/attendees', :locals => {:activity => @activity}
+    partial :'timetables/attendees', :locals => {:tactivity => @tactivity}
   end
     
-  get '/activities/:id/attend' do
-    @activity = Activity.find(params[:id]) || not_found
-    @gathering = @activity.gathering
+  get '/tactivities/:id/attend' do
+    @tactivity = Tactivity.find(params[:id]) || not_found
+    @gathering = @tactivity.gathering
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
-    @activity.attendances.create account: current_account
+    @tactivity.attendances.create account: current_account
     request.xhr? ? 200 : redirect(back)
   end     
     
-  get '/activities/:id/unattend' do
-    @activity = Activity.find(params[:id]) || not_found
-    @gathering = @activity.gathering
+  get '/tactivities/:id/unattend' do
+    @tactivity = Tactivity.find(params[:id]) || not_found
+    @gathering = @tactivity.gathering
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
-    @activity.attendances.find_by(account: current_account).try(:destroy)
+    @tactivity.attendances.find_by(account: current_account).try(:destroy)
     request.xhr? ? 200 : redirect(back)
   end       
     

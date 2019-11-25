@@ -36,11 +36,11 @@ body[contenteditable] { background: white }
 .table-hr td:first-child { width: 1px; white-space: nowrap; font-weight: bold; padding-right: 1rem; }
 .table-hr td { border: 0 !important; border-bottom: 0.1rem solid #eee !important; }
 
-.activity a, .activity span { font-size: 0.8rem; color: white }
-.activity, .activity-accept { height: 8rem }
-td .activity, td .activity-accept { width: 16rem }
-.activity h3 { line-height: 1.2rem }
-.activity h3 a { font-size: 1.2rem }
+.tactivity a, .tactivity span { font-size: 0.8rem; color: white }
+.tactivity, .tactivity-accept { height: 8rem }
+td .tactivity, td .tactivity-accept { width: 16rem }
+.tactivity h3 { line-height: 1.2rem }
+.tactivity h3 a { font-size: 1.2rem }
 
 textarea[id=comment_body] { height: 4em; overflow:hidden; }
 textarea[id=verdict_reason] { height: 6em; }
@@ -60,7 +60,7 @@ li.reply .widget-chat-message a { color: white; text-decoration: underline }
   padding-left: 0 !important;
 }
 
-.pace .pace-activity { display: none }
+.pace .pace-tactivity { display: none }
 
 .bgo:hover { opacity: 0 !important }
 

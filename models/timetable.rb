@@ -12,7 +12,7 @@ class Timetable
   
   has_many :spaces, :dependent => :destroy
   has_many :tslots, :dependent => :destroy
-  has_many :activities, :dependent => :destroy
+  has_many :tactivities, :dependent => :destroy
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
@@ -25,13 +25,13 @@ class Timetable
   
   def self.new_tips
     {      
-      :scheduling_by_all => 'By default, only admins can schedule activities',
+      :scheduling_by_all => 'By default, only admins can schedule tactivities',
     }
   end  
   
   def self.human_attribute_name(attr, options={})  
     {
-      :scheduling_by_all => 'Allow all members to schedule activities',
+      :scheduling_by_all => 'Allow all members to schedule tactivities',
     }[attr.to_sym] || super  
   end   
   
@@ -49,7 +49,7 @@ class Timetable
       :account_id => :lookup,
       :spaces => :collection,
       :tslots => :collection,
-      :activities => :collection
+      :tactivities => :collection
     }
   end
     

@@ -5,7 +5,7 @@ class Tslot
   field :name, :type => String
   field :o, :type => Integer
   
-  has_many :activities, :dependent => :nullify
+  has_many :tactivities, :dependent => :nullify
   
   belongs_to :timetable, index: true  
   belongs_to :gathering, index: true  

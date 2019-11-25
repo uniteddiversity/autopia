@@ -117,7 +117,7 @@ class Gathering
   has_many :timetables, :dependent => :destroy
   has_many :spaces, :dependent => :destroy
   has_many :tslots, :dependent => :destroy
-  has_many :activities, :dependent => :destroy
+  has_many :tactivities, :dependent => :destroy
   has_many :attendances, :dependent => :destroy
   # Teams
   has_many :teams, :dependent => :destroy

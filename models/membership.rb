@@ -95,7 +95,7 @@ class Membership
   has_many :payment_attempts, :dependent => :nullify
   
   # Timetable
-  has_many :activities, :dependent => :destroy
+  has_many :tactivities, :dependent => :destroy
   has_many :attendances, :dependent => :destroy
   # Teams
   has_many :teamships, :dependent => :destroy

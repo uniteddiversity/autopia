@@ -26,11 +26,11 @@ class Notification
   end
 
   def self.types
-    %w[created_gathering applied joined_gathering created_team created_timetable created_activity created_rota created_tier created_accom created_transport created_spend created_room created_place updated_profile updated_place followed completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_activity scheduled_activity unscheduled_activity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_gathering created_payment created_inventory_item mapplication_removed]
+    %w[created_gathering applied joined_gathering created_team created_timetable created_tactivity created_rota created_tier created_accom created_transport created_spend created_room created_place updated_profile updated_place followed completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_tactivity scheduled_tactivity unscheduled_tactivity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_gathering created_payment created_inventory_item mapplication_removed]
   end
 
   def self.mailable_types
-    %w[created_gathering created_team created_timetable created_activity created_rota created_tier created_transport created_spend created_room created_place]
+    %w[created_gathering created_team created_timetable created_tactivity created_rota created_tier created_transport created_spend created_room created_place]
   end
 
   after_create :send_email
@@ -108,15 +108,15 @@ class Notification
     when :updated_place
       place = notifiable
       "<strong>#{place.name}</strong> was updated"
-    when :created_activity
-      activity = notifiable
-      "<strong>#{activity.account.name}</strong> proposed the activity <strong>#{activity.name}</strong> under <strong>#{activity.timetable.name}</strong>"
+    when :created_tactivity
+      tactivity = notifiable
+      "<strong>#{tactivity.account.name}</strong> proposed the activity <strong>#{tactivity.name}</strong> under <strong>#{tactivity.timetable.name}</strong>"
     when :signed_up_to_a_shift
       shift = notifiable
       "<strong>#{shift.account.name}</strong> signed up for a <strong>#{shift.rota.name}</strong> shift"
-    when :interested_in_activity
+    when :interested_in_tactivity
       attendance = notifiable
-      "<strong>#{attendance.account.name}</strong> is interested in <strong>#{attendance.activity.name}</strong>"
+      "<strong>#{attendance.account.name}</strong> is interested in <strong>#{attendance.tactivity.name}</strong>"
     when :created_transport
       transport = notifiable
       "<strong>#{transport.account.name}</strong> created the transport <strong>#{transport.name}</strong>"
@@ -132,12 +132,12 @@ class Notification
     when :created_rota
       rota = notifiable
       "<strong>#{rota.account.name}</strong> created the rota <strong>#{rota.name}</strong>"
-    when :scheduled_activity
-      activity = notifiable
-      "<strong>#{activity.scheduled_by.name}</strong> scheduled the activity <strong>#{activity.name}</strong>"
-    when :unscheduled_activity
-      activity = notifiable
-      "<strong>#{activity.scheduled_by.name}</strong> unscheduled the activity <strong>#{activity.name}</strong>"
+    when :scheduled_tactivity
+      tactivity = notifiable
+      "<strong>#{tactivity.scheduled_by.name}</strong> scheduled the activity <strong>#{tactivity.name}</strong>"
+    when :unscheduled_tactivity
+      tactivity = notifiable
+      "<strong>#{tactivity.scheduled_by.name}</strong> unscheduled the activity <strong>#{tactivity.name}</strong>"
     when :made_admin
       membership = notifiable
       "<strong>#{membership.account.name}</strong> was made an admin by <strong>#{membership.admin_status_changed_by.name}</strong>"
@@ -249,12 +249,12 @@ class Notification
       ['View profile', "#{ENV['BASE_URI']}/u/#{notifiable.username}"]
     when :updated_place
       ['View place', "#{ENV['BASE_URI']}/places/#{notifiable.id}"]
-    when :created_activity
-      ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]
+    when :created_tactivity
+      ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/tactivities/#{notifiable.id}"]
     when :signed_up_to_a_shift
       ['View rotas', "#{ENV['BASE_URI']}/a/#{circle.slug}/rotas/#{notifiable.rota_id}"]
-    when :interested_in_activity
-      ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.activity_id}"]
+    when :interested_in_tactivity
+      ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/tactivities/#{notifiable.tactivity_id}"]
     when :created_transport
       ['View transport', "#{ENV['BASE_URI']}/a/#{circle.slug}/transports"]
     when :created_tier
@@ -265,10 +265,10 @@ class Notification
       ['View accommodation', "#{ENV['BASE_URI']}/a/#{circle.slug}/accoms"]
     when :created_rota
       ['View rotas', "#{ENV['BASE_URI']}/a/#{circle.slug}/rotas/#{notifiable.id}"]
-    when :scheduled_activity
-      ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]
-    when :unscheduled_activity
-      ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/activities/#{notifiable.id}"]
+    when :scheduled_tactivity
+      ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/tactivities/#{notifiable.id}"]
+    when :unscheduled_tactivity
+      ['View activity', "#{ENV['BASE_URI']}/a/#{circle.slug}/tactivities/#{notifiable.id}"]
     when :made_admin
       ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]
     when :unadmined
@@ -318,11 +318,11 @@ class Notification
       'fa-user-circle-o'
     when :updated_place
       'fa-map-marker'
-    when :created_activity
+    when :created_tactivity
       'fa-paper-plane'
     when :signed_up_to_a_shift
       'fa-hand-paper-o'
-    when :interested_in_activity
+    when :interested_in_tactivity
       'fa-thumbs-up'
     when :created_transport
       'fa-bus'
@@ -334,9 +334,9 @@ class Notification
       'fa-home'
     when :created_rota
       'fa-table'
-    when :scheduled_activity
+    when :scheduled_tactivity
       'fa-calendar-plus-o'
-    when :unscheduled_activity
+    when :unscheduled_tactivity
       'fa-calendar-minus-o'
     when :made_admin
       'fa-key'

@@ -20,8 +20,8 @@
 
 <div style="margin: 15px 0">
   <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-plus-circle"></i> Propose an activity</a>
-  <div style="display: none" class="activity-form">
-    <%= partial :'timetables/activity_form', :locals => {:timetable => @timetable}%>  
+  <div style="display: none" class="tactivity-form">
+    <%= partial :'timetables/tactivity_form', :locals => {:timetable => @timetable}%>  
   </div>
   <div class="mt-2">
 
@@ -56,7 +56,7 @@
       </style>
 
       <a class="btn btn-primary" href="javascript:;" onclick="$(this).hide().next().show()"><i class="fa fa-exchange"></i> Reorder</a>
-      <div style="display: none" class="activity-form">
+      <div style="display: none" class="tactivity-form">
 
         <h3>Reorder spaces</h3>
         <ul class="spaces" data-timetable-id="<%=@timetable.id%>">

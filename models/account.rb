@@ -141,8 +141,8 @@ class Account
 
   # Timetable
   has_many :timetables, dependent: :nullify
-  has_many :activities, class_name: 'Activity', inverse_of: :account, dependent: :destroy
-  has_many :activities_scheduled, class_name: 'Activity', inverse_of: :scheduled_by, dependent: :nullify
+  has_many :tactivities, class_name: 'Tactivity', inverse_of: :account, dependent: :destroy
+  has_many :tactivities_scheduled, class_name: 'Tactivity', inverse_of: :scheduled_by, dependent: :nullify
   has_many :attendances, dependent: :destroy
   # Teams
   has_many :teams, dependent: :nullify
