@@ -75,11 +75,19 @@
 <% end %>
 
 
-<% if (events = @promoter.events.future.paginate(:page => params[:page], :per_page => 50)).count > 0  %>
-  <h2 class="mt-5">Events</h2>
-  <% events = @promoter.events.future.paginate(:page => params[:page], :per_page => 50) %>
-  <%= partial :'events/blocks', :locals => {:events => events} %>
-  <div class="mt-3">
-    <%= will_paginate events, :param_name => 'events_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
-  </div>
-<% end %>
+<h2 class="mt-5">Activities</h2>
+<a class="btn btn-primary mb-3" href="/activities/new?promoter_id=<%=@promoter.id%>">Create an activity</a>
+<% activities = @promoter.activities.paginate(:page => params[:page], :per_page => 50) %>
+<%= partial :'activities/blocks', :locals => {:activities => activities} %>
+<div class="mt-3">
+  <%= will_paginate activities, :param_name => 'activities_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+</div>  
+
+
+<h2 class="mt-5">Events</h2>
+<a class="btn btn-primary mb-3" href="/events/new?promoter_id=<%=@promoter.id%>">Create an event</a>
+<% events = @promoter.events.future.paginate(:page => params[:page], :per_page => 50) %>
+<%= partial :'events/blocks', :locals => {:events => events} %>
+<div class="mt-3">
+  <%= will_paginate events, :param_name => 'events_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+</div>

@@ -38,7 +38,8 @@ class Event
   belongs_to :account, inverse_of: :events, index: true
   belongs_to :facilitator, class_name: "Account", inverse_of: :events_facilitating, index: true, optional: true
   belongs_to :promoter, index: true, optional: true
-
+  belongs_to :activity, optional: true, index: true
+  
   has_many :ticket_types, dependent: :destroy
   accepts_nested_attributes_for :ticket_types, allow_destroy: true, reject_if: :all_blank
 

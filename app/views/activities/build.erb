@@ -1,0 +1,22 @@
+<% form_for @activity, @activity.new_record ? '/activities/new' : "/activities/#{@activity.id}/edit" do |f| %>
+  <%= f.text_block :name %>
+  <%= f.slug_block :slug %>
+  <%= f.email_block :email %>
+  <%= f.url_block :website %>
+  <%= f.image_block :image %>
+  <%= f.lookup_block :promoter_id, lookup_url: "/promoters.json", placeholder: 'Search promoters', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/promoters/#{@activity.promoter_id}">View promoter</a>} if @activity.promoter_id) %>
+  <script>
+    $(function () {
+      $('#activity_promoter_id').change(function () {
+        if ($(this).val().length > 0) {
+          $('#promoter-options').show()
+        } else {
+          $('#promoter-options').hide()
+        }
+      })
+      $('#activity_promoter_id').change()
+    })
+  </script>
+
+  <%= f.submit_block destroy_url: ("/activities/#{@activity.id}/destroy") %>
+<% end %>

@@ -122,6 +122,9 @@ class Account
   has_many :events_facilitating, class_name: 'Event', inverse_of: :facilitator, dependent: :nullify
   has_many :waitships, dependent: :destroy
   has_many :event_feedbacks, dependent: :destroy
+  has_many :activities, dependent: :nullify
+  has_many :activity_facilitation, dependent: :destroy
+  has_many :activityships, dependent: :destroy
 
   has_many :places, dependent: :nullify
 

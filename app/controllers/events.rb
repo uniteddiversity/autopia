@@ -10,6 +10,7 @@ Autopia::App.controller do
   get '/events/new' do
     sign_in_required!
     @event = Event.new(feedback_questions: 'Comments/suggestions')
+    @event.promoter_id = params[:promoter_id] if params[:promoter_id]
     erb :'events/build'
   end
 

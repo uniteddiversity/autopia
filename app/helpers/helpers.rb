@@ -62,6 +62,16 @@ Autopia::App.helpers do
     end
   end
   
+  def activity_admin?(activity=nil, account=current_account)
+    activity = @activity if !activity
+    promoter_admin?(activity.promoter)
+  end  
+  
+  def activity_admins_only!(activity=nil, account=current_account)
+    activity = @activity if !activity
+    promoter_admins_only!(activity.promoter)
+  end  
+  
   def event_admin?(event=nil, account=current_account)
     event = @event if !event
     account && (event.account_id == account.id || (event.promoter && promoter_admin?(event.promoter, account)) || account.admin?)

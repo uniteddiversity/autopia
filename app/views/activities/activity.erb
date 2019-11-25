@@ -1,0 +1,43 @@
+<div class="row no-gutters">
+  <div class="col-12 col-sm-auto mr-3">
+    <% if @activity.image %>
+      <img src="<%=@activity.image.thumb('200x200').url%>" />
+    <% else %>
+      <div style="height: 200px; width: 200px; border: 2px solid #343a40;"></div>
+    <% end %>
+  </div>
+  <div class="col">
+    <h1>
+      <%= @activity.name %>
+    </h1>
+    <div class="mb-2">
+      <% if activity_admin? %>
+        <a class="btn btn-primary" href="/activities/<%=@activity.id%>/edit"><i class="fa fa-pencil"></i> Edit activity</a>
+      <% end %>
+    </div>
+    <table class="table table-hr">
+      <% if @activity.website %>
+        <tr>
+          <td>Website</td>
+          <td>
+            <a target="_blank" href="<%=@activity.website%>"><%=@activity.website%></a>
+          </td>
+        </tr>
+      <% end %>
+      <tr>
+        <td>Created by</td>
+        <td>
+          <a href="/u/<%=@activity.account.username%>"><%=@activity.account.name%></a>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<h2 class="mt-5">Events</h2>
+<a class="btn btn-primary mb-3" href="/events/new?activity_id=<%=@activity.id%>">Create an event</a>
+<% events = @activity.events.future.paginate(:page => params[:page], :per_page => 50) %>
+<%= partial :'events/blocks', :locals => {:events => events} %>
+<div class="mt-3">
+  <%= will_paginate events, :param_name => 'events_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+</div>

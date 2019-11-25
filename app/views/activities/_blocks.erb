@@ -1,0 +1,15 @@
+<script>
+  $(function () {
+    $('.activity').hover(
+            function () { $('.activity-edit', this).show() },
+            function () { $('.activity-edit', this).hide() },
+    )
+  })
+</script>
+<div class="row" id="activities">
+  <% activities.each { |activity| %>
+  <div data-pagelet-url="/activities/<%=activity.id%>/block" class="activity col-6 col-sm-3 mb-3 <%=block_class if defined?(block_class)%>" id="<%=activity.id%>">
+    <%= partial :'activities/block', :locals => {:activity => activity} %>
+  </div>
+  <% } %>
+</div>

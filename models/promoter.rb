@@ -17,6 +17,7 @@ class Promoter
   belongs_to :account, index: true, optional: true
 
   has_many :events, dependent: :nullify
+  has_many :activities, dependent: :destroy
   has_many :promoterships, dependent: :destroy
   has_many :promotercrowns, dependent: :destroy
 
