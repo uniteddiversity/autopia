@@ -16,7 +16,7 @@ class Event
   field :feedback_questions, type: String
   field :suggested_donation, type: Float
   field :capacity, type: Integer
-  field :leader_revenue_share, type: Float
+  field :revenue_sharer_revenue_share, type: Float
 
   def self.marker_color
     'red'
@@ -36,7 +36,7 @@ class Event
   end
 
   belongs_to :account, inverse_of: :events, index: true
-  belongs_to :leader, class_name: "Account", inverse_of: :events_leading, index: true, optional: true
+  belongs_to :revenue_sharer, class_name: "Account", inverse_of: :events_revenue_sharing, index: true, optional: true
   belongs_to :promoter, index: true, optional: true
   belongs_to :activity, optional: true, index: true
   
@@ -82,7 +82,7 @@ class Event
       description: :wysiwyg,
       email: :email,
       facebook_event_id: :number,
-      leader_revenue_share: :number,
+      revenue_sharer_revenue_share: :number,
       feedback_questions: :text_area,
       suggested_donation: :number,
       capacity: :number,

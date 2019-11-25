@@ -46,8 +46,7 @@
   add_and_remove: promoter_admin?,
   new_object: Promotercrown.new,
   new_url: "/promoters/#{@promoter.id}/promotercrowns/new",
-  destroy_url: "/promoters/#{@promoter.id}/promotercrowns/destroy",
-  remove_options: @promoter.promotercrowns.map { |promotercrown| [promotercrown.account.name, promotercrown.account_id] }
+  destroy_url: "/promoters/#{@promoter.id}/promotercrowns/destroy"
   }  %>
 
 <% if @promoter.promoterships.count > 0 %>

@@ -13,7 +13,7 @@
         $('#add-role').hide()">Remove</a> 
     <div style="display: none">
       <% form_tag destroy_url, class: 'form-inline' do |f| %>
-          <%= select_tag :account_id, options: remove_options, class: 'form-control mr-1' %>
+          <%= select_tag :account_id, options: accounts.map { |account| [account.name, account.id] }, class: 'form-control mr-1' %>
             <%= submit_tag "Remove #{role}", class: 'btn btn-danger' %>
             <% end %>
           </div>  

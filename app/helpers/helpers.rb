@@ -78,7 +78,7 @@ Autopia::App.helpers do
   
   def event_admin?(event=nil, account=current_account)
     event = @event if !event
-    account && (event.account_id == account.id || event.leader_id == account.id || event.event_facilitations.find_by(account: account) || (event.activity && activity_admin?(event.activity, account)) || (event.promoter && promoter_admin?(event.promoter, account)) || account.admin?)
+    account && (event.account_id == account.id || event.revenue_sharer_id == account.id || event.event_facilitations.find_by(account: account) || (event.activity && activity_admin?(event.activity, account)) || (event.promoter && promoter_admin?(event.promoter, account)) || account.admin?)
   end  
   
   def event_admins_only!(event=nil, account=current_account)
