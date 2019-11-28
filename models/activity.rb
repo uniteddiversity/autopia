@@ -4,7 +4,6 @@ class Activity
   extend Dragonfly::Model
 
   field :name, :type => String
-  field :slug, :type => String
   field :email, :type => String
   field :website, :type => String
   field :image_uid, :type => String    
@@ -17,7 +16,12 @@ class Activity
   belongs_to :organisation
   belongs_to :account
   
-  has_many :pmails, dependent: :destroy
+  has_many :posts, as: :commentable, dependent: :destroy
+  has_many :subscriptions, as: :commentable, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :comment_reactions, as: :commentable, dependent: :destroy    
+  
+  has_many :pmails, :as => :mailable, :dependent => :destroy
   
   def event_feedbacks
     EventFeedback.where(:event_id.in => events.pluck(:id))
@@ -33,14 +37,11 @@ class Activity
   
   dragonfly_accessor :image    
   
-  validates_presence_of :name, :slug
-  validates_uniqueness_of :slug
-  validates_format_of :slug, :with => /\A[a-z0-9\-]+\z/
+  validates_presence_of :name
       
   def self.admin_fields
     {
       :name => :text,
-      :slug => :slug,
       :email => :email,
       :website => :url,
 #      :vat_category => :select,
@@ -52,6 +53,10 @@ class Activity
 #  def self.vat_categories
 #    ['', 'Taught', 'Performance', 'Participatory']
 #  end
+
+  def subscribers
+    subscribed_members
+  end  
     
   def members
     Account.where(:id.in => activityships.pluck(:account_id))

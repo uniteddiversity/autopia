@@ -1,0 +1,34 @@
+
+<script>
+  $(function () {
+    var autocomplete = new google.maps.places.Autocomplete($('#local_group_location')[0]);
+    $('#local_group_location').keydown(function (e) {
+      if (e.which == 13 && $('.pac-container:visible').length)
+        return false;
+    })
+  })
+</script>
+
+<% form_for @local_group, @local_group.new_record ? '/local_groups/new' : "/local_groups/#{@local_group.id}/edit" do |f| %>
+  <%= f.text_block :name %>
+  <%= f.text_block :location %>
+
+  <%= f.number_block :radius %>
+  <%= f.image_block :image %>
+  <%= f.lookup_block :organisation_id, lookup_url: "/organisations.json", placeholder: 'Search organisations', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/organisations/#{@local_group.organisation_id}">View organisation</a>} if @local_group.organisation_id) %>
+  <script>
+    $(function () {
+      $('#local_group_organisation_id').change(function () {
+        if ($(this).val().length > 0) {
+          $('#organisation-options').show()
+        } else {
+          $('#organisation-options').hide()
+        }
+      })
+      $('#local_group_organisation_id').change()
+    })
+  </script>
+
+  <%= f.submit_block destroy_url: ("/local_groups/#{@local_group.id}/destroy") %>
+<% end %>
+

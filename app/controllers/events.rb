@@ -14,6 +14,9 @@ Autopia::App.controller do
     if params[:activity_id]
       @event.activity_id = params[:activity_id]
       @event.organisation_id = @event.activity.organisation_id
+    elsif params[:local_group_id]
+      @event.local_group_id = params[:local_group_id]
+      @event.organisation_id = @event.local_group.organisation_id      
     end
     erb :'events/build'
   end

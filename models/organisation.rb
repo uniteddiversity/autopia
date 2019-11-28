@@ -21,6 +21,12 @@ class Organisation
   has_many :organisationships, dependent: :destroy
   has_many :pmails, dependent: :destroy
   has_many :attachments, dependent: :destroy
+  has_many :local_groups, dependent: :destroy
+  
+  has_many :posts, as: :commentable, dependent: :destroy
+  has_many :subscriptions, as: :commentable, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :comment_reactions, as: :commentable, dependent: :destroy    
 
   dragonfly_accessor :image
   before_validation do
@@ -31,6 +37,10 @@ class Organisation
         errors.add(:image, 'must be an image')
       end
     end
+  end
+  
+  def subscribers
+    subscribed_members
   end
   
   def members

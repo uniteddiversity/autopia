@@ -1,6 +1,5 @@
 <% form_for @activity, @activity.new_record ? '/activities/new' : "/activities/#{@activity.id}/edit" do |f| %>
   <%= f.text_block :name %>
-  <%= f.slug_block :slug %>
   <%= f.email_block :email %>
   <%= f.url_block :website %>
   <%= f.image_block :image %>

@@ -57,6 +57,14 @@
     <% } %>
   </div>
 <% end %>
+  
+<h2 class="mt-5">Local groups</h2>
+<a class="btn btn-primary mb-3" href="/local_groups/new?organisation_id=<%=@organisation.id%>">Create a local group</a>
+<% local_groups = @organisation.local_groups.paginate(:page => params[:page], :per_page => 50) %>
+<%= partial :'local_groups/blocks', :locals => {:local_groups => local_groups} %>
+<div class="mt-3">
+  <%= will_paginate local_groups, :param_name => 'local_groups_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+</div>  
 
 <h2 class="mt-5">Activities</h2>
 <a class="btn btn-primary mb-3" href="/activities/new?organisation_id=<%=@organisation.id%>">Create an activity</a>

@@ -33,7 +33,15 @@
             <a href="/activities/<%=@event.activity_id%>"><%=@event.activity.name%></a>
           </td>
         </tr>
-      <% end %>        
+      <% end %>    
+      <% if @event.local_group %>
+        <tr>
+          <td>Local group</td>
+          <td>
+            <a href="/local_groups/<%=@event.local_group_id%>"><%=@event.local_group.name%></a>
+          </td>
+        </tr>
+      <% end %>          
       <tr>
         <td>When</td>
         <td>
@@ -112,3 +120,10 @@
     <%= partial :'events/purchase' %>
   <% end  %>
 <% end  %>
+
+
+<% if current_account %>
+  <div class="mt-3" data-pagelet-url="/commentable?commentable_type=Event&commentable_id=<%=@event.id%>">
+    <%= partial :'comments/commentable', :locals => {:commentable => @event} %>
+  </div>  
+<% end %>  

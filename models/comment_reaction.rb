@@ -20,7 +20,7 @@ class CommentReaction
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    if account
+    if account && circle
       notifications.create! :circle => circle, :type => 'reacted_to_a_comment'
     end
   end
@@ -30,7 +30,7 @@ class CommentReaction
   end
   
   def self.commentable_types
-    %w{Team Tactivity Mapplication Habit Feature Place Gathering Photo}
+    Post.commentable_types
   end   
 
   def self.admin_fields

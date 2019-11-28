@@ -23,25 +23,28 @@
 
     <% if comment.first_in_post? %>
 
-      <div style="margin-bottom: 5px; margin-top: -10px;">
+      <!--
+            <div style="margin-bottom: 5px; margin-top: -10px;">
 
-        <a id="attach-a-file" style="text-decoration: none" href="javascript:;" onclick="$(this).hide();
-            $('#divider').hide();
-            $('#comment-file-container').show().find('input').click();">
-          <i class="fa fa-paperclip"></i>
-          Attach a file
-        </a>
-        <% if comment.file %>
-          <script>
-            $(function () {
-              $('#attach-a-file').hide();
-              $('#divider').hide();
-              $('#comment-file-container').show()
-            })
-          </script>
-        <% end %>
+              <a id="attach-a-file" style="text-decoration: none" href="javascript:;" onclick="$(this).hide();
+                  $('#divider').hide();
+                  $('#comment-file-container').show().find('input').click();">
+                <i class="fa fa-paperclip"></i>
+                Attach a file
+              </a>
+      <% if comment.file %>
+                  <script>
+                    $(function () {
+                      $('#attach-a-file').hide();
+                      $('#divider').hide();
+                      $('#comment-file-container').show()
+                    })
+                  </script>
+      <% end %>
 
-      </div>
+            </div>
+
+      -->
 
     <% end %>
 

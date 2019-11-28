@@ -1,0 +1,7 @@
+<div class="row" id="local_groups">
+  <% local_groups.each { |local_group| %>
+  <div data-pagelet-url="/local_groups/<%=local_group.id%>/block" class="col-6 col-sm-3 mb-3 <%=block_class if defined?(block_class)%>" id="<%=local_group.id%>">
+    <%= partial :'local_groups/block', :locals => {:local_group => local_group} %>
+  </div>
+  <% } %>
+</div>

@@ -124,6 +124,8 @@ class Account
   has_many :event_feedbacks, dependent: :destroy
   has_many :activities, dependent: :nullify
   has_many :activityships, dependent: :destroy
+  has_many :local_groups, dependent: :nullify
+  has_many :local_groupships, dependent: :destroy  
 
   has_many :places, dependent: :nullify
 

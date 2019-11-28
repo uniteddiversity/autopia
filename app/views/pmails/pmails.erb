@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th></th>
-      <th>Activity</th>
+      <th>To</th>
       <th>From</th>
       <th>Subject</th>      
       <th>Created by</th>
@@ -29,7 +29,15 @@
           <% end %>
         </td>
         <td>
-          <a href="/activities/<%=pmail.activity_id%>"><%=pmail.activity.name%></a>
+          <% if pmail.mailable %>
+            <% if pmail.mailable.is_a?(Activity) %>
+              <a href="/activities/<%=pmail.mailable_id%>"><%=pmail.mailable.name%></a>
+            <% elsif pmail.mailable.is_a?(LocalGroup) %>
+              <a href="/local_groups/<%=pmail.mailable_id%>"><%=pmail.mailable.name%></a>
+            <% end %>
+          <% else %>
+            Everyone in <%=@organisation.name%>
+          <% end %>
         </td>
         <td><%=pmail.from%></td>
         <td><a href="/mailer/<%=pmail.id%>/edit"><%=pmail.subject%></a></td>

@@ -19,14 +19,21 @@
   <% form_for @pmail, @pmail.new_record? ? "/organisations/#{@organisation.id}/pmails/new" : "/organisations/#{@organisation.id}/pmails/#{@pmail.id}/edit", :multipart => true do |f| %>
 
     <%
+    to_options = []
+    to_options << ["Everyone in #{@organisation.name} (#{@organisation.subscribed_members.where(:unsubscribed.ne => true).count})", 'all'] if organisation_admin?
+
     activities = organisation_admin? ? @organisation.activities : @organisation.activities.where(:id.in => current_account.activityships.where(admin: true).pluck(:activity_id))
     activity_options = (activities.count > 0 ? activities.order('name asc').map { |activity| [
-          ["#{activity.name} (#{activity.subscribed_members.where(:id.nin => organisation.unsubscribed_members.pluck(:id)).where(:unsubscribed.ne => true).count})", "activity:#{activity.id}"]
-        ] }.sum : [])
-    to_options = []
-    to_options << ["Everyone in #{@organisation.name}", 'all']
+          ["#{activity.name} (#{activity.subscribed_members.where(:id.nin => @organisation.unsubscribed_members.pluck(:id)).where(:unsubscribed.ne => true).count})", "activity:#{activity.id}"]
+        ] }.sum : [])        
     to_options += activity_options
-  %>
+
+    local_groups = organisation_admin? ? @organisation.local_groups : @organisation.local_groups.where(:id.in => current_account.local_groupships.where(admin: true).pluck(:local_group_id))
+    local_group_options = (local_groups.count > 0 ? local_groups.order('name asc').map { |local_group| [
+          ["#{local_group.name} (#{local_group.subscribed_members.where(:id.nin => @organisation.unsubscribed_members.pluck(:id)).where(:unsubscribed.ne => true).count})", "local_group:#{local_group.id}"]
+        ] }.sum : [])    
+    to_options += local_group_options
+  %>  
 
     <%= f.select_block :to_option, options: to_options, selected: @pmail.to_selected %>
 

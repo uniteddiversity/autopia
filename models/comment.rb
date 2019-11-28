@@ -12,7 +12,7 @@ class Comment
   field :file_uid, :type => String
   
   def self.commentable_types
-    %w{Team Tactivity Mapplication Account Habit Feature Place Photo Gathering}
+    Post.commentable_types
   end    
   
   dragonfly_accessor :file  
@@ -40,7 +40,9 @@ class Comment
 
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => circle, :type => 'commented'
+    if circle
+      notifications.create! :circle => circle, :type => 'commented'
+    end
   end
   
   def circle

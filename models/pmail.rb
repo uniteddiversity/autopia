@@ -11,7 +11,12 @@ class Pmail
   
   belongs_to :organisation, index: true
   belongs_to :account, index: true
-  belongs_to :activity, index: true, optional: true
+  
+  belongs_to :mailable, polymorphic: true, index: true, optional: true
+  
+  def self.mailable_types
+    %w{Activity LocalGroup}
+  end 
   
   validates_presence_of :from, :subject, :body
   validates_format_of :from, :with => /.* <.*>/
@@ -19,16 +24,18 @@ class Pmail
   attr_accessor :file, :to_option  
   
   def to_selected
-    if activity
-      "activity:#{activity_id}"
+    if mailable.is_a?(Activity)
+      "activity:#{mailable_id}"
+    elsif mailable.is_a?(LocalGroup)
+      "local_group:#{mailable_id}"
     else
       'all'
     end        
   end  
   
   def to
-    if activity
-      activity.subscribed_members
+    if mailable
+      mailable.subscribed_members
     else
       organisation.subscribed_members
     end
@@ -37,12 +44,15 @@ class Pmail
   before_validation do  
     
     if to_option.starts_with?('activity:')
-      self.activity_id = to_option.split(':').last
+      self.mailable_type = 'Activity'
+      self.mailable_id = to_option.split(':').last
+    elsif to_option.starts_with?('local_group')
+      self.mailable_type = 'LocalGroup'
+      self.mailable_id = to_option.split(':').last
     else
-      self.activity_id = nil
+      self.mailable = nil
     end
     
-    errors.add(:body, 'cannot contain -apple-system') if body && body.include?('-apple-system')    
   end
   
   after_save do    
@@ -57,8 +67,7 @@ class Pmail
       :no_layout => :check_box,
       :sent_at => :datetime,
       :message_ids => :text_area,
-      :account_id => :lookup,
-      :activity_id => :lookup,
+      :account_id => :lookup
     }
   end
                    
@@ -97,7 +106,6 @@ class Pmail
        
   def self.new_hints
     {
-      :to_option => 'To',
       :from => 'In the form <em>Joe Blogs &lt;joe.bloggs@psychedelicsociety.org.uk&gt;</em>'
     }
   end  
@@ -122,5 +130,11 @@ class Pmail
     mail.html_part = html_part                 
     mail.deliver    
   end
-     
+       
+  def self.human_attribute_name(attr, options = {})
+    {
+      to_option: 'To',
+    }[attr.to_sym] || super
+  end
+  
 end

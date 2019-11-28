@@ -113,7 +113,7 @@ $(function () {
     ajaxCompleted()
   });
   ajaxCompleted()
-
+  
   $('input[type=hidden].lookup').each(function () {
     $(this).lookup({
       lookup_url: $(this).attr('data-lookup-url'),

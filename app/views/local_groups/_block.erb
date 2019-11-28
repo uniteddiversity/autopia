@@ -1,0 +1,8 @@
+<%= partial :block, locals: {
+  title: local_group.name,
+  image: local_group.image,
+  view_url: "/local_groups/#{local_group.id}",
+  edit_url: "/local_groups/#{local_group.id}/edit",
+  admin: local_group_admin?(local_group)
+  
+  } %>

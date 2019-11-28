@@ -76,6 +76,21 @@ Autopia::App.helpers do
     end    
   end  
   
+  
+  def local_group_admin?(local_group=nil, account=current_account)
+    local_group = @local_group if !local_group
+    local_group.local_groupships.find_by(account: account, admin: true) || organisation_admin?(local_group.organisation, account)
+  end  
+  
+  def local_group_admins_only!(local_group=nil, account=current_account)
+    local_group = @local_group if !local_group
+    unless local_group_admin?(local_group, account)
+      flash[:notice] = 'You must be an admin of that local group to access that page'
+      session[:return_to] = request.url
+      request.xhr? ? halt(403) : redirect(account ? '/' : '/accounts/sign_in')      
+    end    
+  end  
+  
   def event_admin?(event=nil, account=current_account)
     event = @event if !event
     account && (event.account_id == account.id || event.revenue_sharer_id == account.id || event.event_facilitations.find_by(account: account) || (event.activity && activity_admin?(event.activity, account)) || (event.organisation && organisation_admin?(event.organisation, account)) || account.admin?)

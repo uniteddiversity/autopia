@@ -60,3 +60,9 @@
 <div class="mt-3">
   <%= will_paginate events, :param_name => 'events_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
 </div>
+
+<% if current_account %>
+  <div class="mt-3" data-pagelet-url="/commentable?commentable_type=Activity&commentable_id=<%=@activity.id%>">
+    <%= partial :'comments/commentable', :locals => {:commentable => @activity} %>
+  </div>  
+<% end %>  

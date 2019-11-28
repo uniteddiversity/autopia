@@ -39,7 +39,7 @@ Autopia::App.controller do
   end
 
   get '/point/:model/:id' do
-    partial "maps/#{params[:model].downcase}".to_sym, object: params[:model].constantize.find(params[:id])
+    partial "maps/#{params[:model].underscore}".to_sym, object: params[:model].constantize.find(params[:id])
   end
 
   post '/places/new' do

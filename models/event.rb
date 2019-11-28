@@ -21,6 +21,11 @@ class Event
   def self.marker_color
     'red'
   end
+  
+  has_many :posts, as: :commentable, dependent: :destroy
+  has_many :subscriptions, as: :commentable, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :comment_reactions, as: :commentable, dependent: :destroy    
 
   # Geocoder
   geocoded_by :location
@@ -39,6 +44,7 @@ class Event
   belongs_to :revenue_sharer, class_name: "Account", inverse_of: :events_revenue_sharing, index: true, optional: true
   belongs_to :organisation, index: true, optional: true
   belongs_to :activity, optional: true, index: true
+  belongs_to :local_group, optional: true, index: true
   
   has_many :ticket_types, dependent: :destroy
   accepts_nested_attributes_for :ticket_types, allow_destroy: true, reject_if: :all_blank
@@ -56,7 +62,7 @@ class Event
   def summary
     start_time ? "#{name} (#{start_time.to_date})" : name
   end
-
+  
   dragonfly_accessor :image
 
   def feedback_questions_a
@@ -159,5 +165,9 @@ class Event
   def attendees
     Account.where(:id.in => tickets.pluck(:account_id))
   end  
+  
+  def subscribers
+    attendees
+  end    
   
 end
