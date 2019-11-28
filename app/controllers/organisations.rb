@@ -57,17 +57,18 @@ Autopia::App.controller do
     end
   end
   
-  post '/organisations/:id/organisationcrowns/new' do    
+  post '/organisations/:id/organisationships/admin' do    
     @organisation = Organisation.find(params[:id]) || not_found
-    organisation_admins_only!
-    @organisation.organisationcrowns.create(account_id: params[:organisationcrown][:account_id])
+    organisation_admins_only!        
+    @organisationship = @organisation.organisationships.find_by(account_id: params[:organisationship][:account_id]) || @organisation.organisationships.create(account_id: params[:organisationship][:account_id])
+    @organisationship.update_attribute(:admin, true)
     redirect back
   end  
   
-  post '/organisations/:id/organisationcrowns/destroy' do    
+  post '/organisations/:id/organisationships/unadmin' do    
     @organisation = Organisation.find(params[:id]) || not_found
     organisation_admins_only!
-    @organisation.organisationcrowns.find_by(account_id: params[:account_id]).destroy
+    @organisation.organisationships.find_by(account_id: params[:account_id]).update_attribute(:admin, nil)
     redirect back
   end  
 
@@ -78,10 +79,10 @@ Autopia::App.controller do
     redirect '/organisations/new'
   end
 
-  get '/organisationships/:id/destroy' do
+  get '/organisationships/:id/disconnect' do
     sign_in_required!
     @organisationship = current_account.organisationships.find(params[:id]) || not_found
-    @organisationship.destroy
+    @organisationship.update_attribute(:stripe_connect_json, nil)
     redirect "/organisations/#{@organisationship.organisation_id}"
   end
 
@@ -123,4 +124,20 @@ Autopia::App.controller do
     end
   end
   
+  get '/organisationship/:id' do
+    sign_in_required!
+    @organisation = Organisation.find(params[:id]) || not_found
+    case params[:f]
+    when 'not_following'
+      current_account.organisationships.find_by(organisation: @organisation).try(:destroy)
+    when 'follow_without_subscribing'
+      organisationship = current_account.organisationships.find_by(organisation: @organisation) || current_account.organisationships.create(organisation: @organisation)
+      organisationship.update_attribute(:unsubscribed, true)
+    when 'follow_and_subscribe'
+      organisationship = current_account.organisationships.find_by(organisation: @organisation) || current_account.organisationships.create(organisation: @organisation)
+      organisationship.update_attribute(:unsubscribed, false)
+    end
+    request.xhr? ? (partial :'organisations/organisationship', locals: { organisation: @organisation, btn_class: params[:btn_class] }) : redirect("/organisations/#{@organisation.id}")
+  end  
+    
 end

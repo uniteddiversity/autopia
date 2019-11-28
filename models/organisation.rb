@@ -19,7 +19,8 @@ class Organisation
   has_many :events, dependent: :nullify
   has_many :activities, dependent: :destroy
   has_many :organisationships, dependent: :destroy
-  has_many :organisationcrowns, dependent: :destroy
+  has_many :pmails, dependent: :destroy
+  has_many :attachments, dependent: :destroy
 
   dragonfly_accessor :image
   before_validation do
@@ -31,13 +32,25 @@ class Organisation
       end
     end
   end
+  
+  def members
+    Account.where(:id.in => organisationships.pluck(:account_id))
+  end    
+  
+  def subscribed_members
+    Account.where(:id.in => organisationships.where(:unsubscribed.ne => true).pluck(:account_id))
+  end
+    
+  def unsubscribed_members
+    Account.where(:id.in => organisationships.where(:unsubscribed => true).pluck(:account_id))
+  end 
 
-  def team_members
-    Account.where(:id.in => organisationcrowns.pluck(:account_id))
+  def admins
+    Account.where(:id.in => organisationships.where(admin: true).pluck(:account_id))
   end  
 
-  def clients
-    Account.where(:id.in => organisationships.pluck(:account_id))
+  def revenue_sharers
+    Account.where(:id.in => organisationships.where(:stripe_connect_json.ne => nil).pluck(:account_id))
   end
 
   def self.admin_fields

@@ -11,6 +11,9 @@
       <%= @activity.name %>
     </h1>
     <div class="mb-2">
+      <div class="d-inline-block mb-1" data-pagelet-url="/activityship/<%=@activity.id%>?btn_class=<%=btn_class if defined?(btn_class)%>">
+        <%= partial :'activities/activityship', :locals => {:activity => @activity, :btn_class => (btn_class if defined?(btn_class))} %>
+      </div>      
       <% if activity_admin? %>
         <a class="btn btn-primary" href="/activities/<%=@activity.id%>/edit"><i class="fa fa-pencil"></i> Edit activity</a>
       <% end %>
@@ -43,11 +46,11 @@
 <h2 class="mt-5">Activity facilitators</h2>
 <%= partial :'accounts/add', locals: {
   role: 'activity facilitator',
-  accounts: @activity.activity_facilitators.order('name asc'),
+  accounts: @activity.admins.order('name asc'),
   add_and_remove: activity_admin?,
-  new_object: ActivityFacilitation.new,
-  new_url: "/activities/#{@activity.id}/activity_facilitations/new",
-  destroy_url: "/activities/#{@activity.id}/activity_facilitations/destroy"
+  new_object: Activityship.new,
+  new_url: "/activities/#{@activity.id}/activityships/admin",
+  destroy_url: "/activities/#{@activity.id}/activityships/unadmin"
   }  %>
 
 <h2 class="mt-5">Events</h2>

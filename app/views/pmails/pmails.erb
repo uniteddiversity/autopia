@@ -1,11 +1,12 @@
+<%= partial :'organisations/nav', :locals => {:organisation => @organisation} %>
 
-<a href="/mailer/new" class="btn btn-primary"><i class="fa fa-pencil"></i> New message</a>
+<a href="/organisations/<%=@organisation.id%>/pmails/new" class="btn btn-primary"><i class="fa fa-pencil"></i> New message</a>
 
 <table class="table table-striped mt-3">
   <thead>
     <tr>
       <th></th>
-      <th>To</th>
+      <th>Activity</th>
       <th>From</th>
       <th>Subject</th>      
       <th>Created by</th>
@@ -18,17 +19,17 @@
       <tr>      
         <td>
           <% if pmail.sent_at %>
-            <a class="btn btn-secondary mr-1 mb-1" href="/mailer/<%=pmail.id%>/edit">            
+            <a class="btn btn-secondary mr-1 mb-1" href="/organisations/<%=pmail.organisation_id%>/pmails/<%=pmail.id%>/edit">
               <i class="fa fa-circle-o"></i> View                                      
             </a>        
           <% else %>
-            <a class="btn btn-secondary" href="/mailer/<%=pmail.id%>/edit">            
+            <a class="btn btn-secondary" href="/organisations/<%=pmail.organisation_id%>/pmails/<%=pmail.id%>/edit">
               <i class="fa fa-edit"></i> Edit
             </a>                              
           <% end %>
         </td>
         <td>
-          <%=pmail.to.split("@#{ENV['MAILGUN_DOMAIN']}").first %>
+          <a href="/activities/<%=pmail.activity_id%>"><%=pmail.activity.name%></a>
         </td>
         <td><%=pmail.from%></td>
         <td><a href="/mailer/<%=pmail.id%>/edit"><%=pmail.subject%></a></td>

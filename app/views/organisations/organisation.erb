@@ -1,3 +1,5 @@
+<%= partial :'organisations/nav', :locals => {:organisation => @organisation} %>
+
 <div class="row no-gutters">
   <div class="col-12 col-sm-auto mr-3">
     <% if @organisation.image %>
@@ -10,10 +12,8 @@
     <h1>
       <%= @organisation.name %>
     </h1>
-    <div class="mb-2">
-      <% if organisation_admin? %>
-        <a class="btn btn-primary" href="/organisations/<%=@organisation.id%>/edit"><i class="fa fa-pencil"></i> Edit organisation</a>
-      <% end %>
+    <div class="d-inline-block mb-1" data-pagelet-url="/organisationship/<%=@organisation.id%>?btn_class=<%=btn_class if defined?(btn_class)%>">
+      <%= partial :'organisations/organisationship', :locals => {:organisation => @organisation, :btn_class => (btn_class if defined?(btn_class))} %>
     </div>
     <table class="table table-hr">
       <% if @organisation.website %>
@@ -31,8 +31,8 @@
         </td>
       </tr>
     </table>
-    <% if organisationship = @organisation.organisationships.find_by(account: current_account) %>
-      <a class="btn btn-danger" href="/organisationships/<%=organisationship.id%>/destroy">Disconnect your Stripe account from <%=@organisation.name%></a>
+    <% if organisationship = @organisation.organisationships.find_by(:account => current_account, :stripe_connect_json.ne => nil) %>
+      <a class="btn btn-danger" href="/organisationships/<%=organisationship.id%>/disconnect">Disconnect your Stripe account from <%=@organisation.name%></a>
     <% elsif current_account %>
       <a class="btn btn-success" href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%=@organisation.stripe_client_id%>&scope=read_write">Connect your Stripe account to <%=@organisation.name%></a>
     <% end %>
@@ -42,17 +42,17 @@
 <h2 class="mt-5">Team members</h2>
 <%= partial :'accounts/add', locals: {
   role: 'team member',
-  accounts: @organisation.team_members.order('name asc'),
+  accounts: @organisation.admins.order('name asc'),
   add_and_remove: organisation_admin?,
-  new_object: Organisationcrown.new,
-  new_url: "/organisations/#{@organisation.id}/organisationcrowns/new",
-  destroy_url: "/organisations/#{@organisation.id}/organisationcrowns/destroy"
+  new_object: Organisationship.new,
+  new_url: "/organisations/#{@organisation.id}/organisationships/admin",
+  destroy_url: "/organisations/#{@organisation.id}/organisationships/unadmin"
   }  %>
 
-<% if @organisation.organisationships.count > 0 %>
-  <h2 class="mt-5">Connected to this organisation</h2>
+<% if @organisation.organisationships.where(:stripe_connect_json.ne => nil).count > 0 %>
+  <h2 class="mt-5">Revenue sharers</h2>
   <div class="image-wall">
-    <% @organisation.clients.order('name asc').each { |account|  %>
+    <% @organisation.revenue_sharers.order('name asc').each { |account|  %>
       <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
     <% } %>
   </div>

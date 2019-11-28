@@ -1,8 +1,7 @@
 class Pmail
   include Mongoid::Document
   include Mongoid::Timestamps
-
-  field :to, :type => String
+    
   field :from, :type => String  
   field :subject, :type => String
   field :body, :type => String
@@ -10,25 +9,56 @@ class Pmail
   field :message_ids, :type => String
   field :sent_at, :type => ActiveSupport::TimeWithZone  
   
-  validates_presence_of :to, :from, :subject, :body
+  belongs_to :organisation, index: true
+  belongs_to :account, index: true
+  belongs_to :activity, index: true, optional: true
+  
+  validates_presence_of :from, :subject, :body
   validates_format_of :from, :with => /.* <.*>/
   
-  belongs_to :account
+  attr_accessor :file, :to_option  
   
-  before_validation do        
-    errors.add(:body, 'cannot contain -apple-system') if body && body.include?('-apple-system')
+  def to_selected
+    if activity
+      "activity:#{activity_id}"
+    else
+      'all'
+    end        
+  end  
+  
+  def to
+    if activity
+      activity.subscribed_members
+    else
+      organisation.subscribed_members
+    end
+  end  
+  
+  before_validation do  
+    
+    if to_option.starts_with?('activity:')
+      self.activity_id = to_option.split(':').last
+    else
+      self.activity_id = nil
+    end
+    
+    errors.add(:body, 'cannot contain -apple-system') if body && body.include?('-apple-system')    
+  end
+  
+  after_save do    
+    organisation.attachments.create(file: file) if file
   end
           
   def self.admin_fields
     {
-      :to => :text,
       :from => :text,
       :subject => :text,
       :body => :text_area,
       :no_layout => :check_box,
       :sent_at => :datetime,
       :message_ids => :text_area,
-      :account_id => :lookup
+      :account_id => :lookup,
+      :activity_id => :lookup,
     }
   end
                    
@@ -58,7 +88,7 @@ class Pmail
     batch_message.body_html Pmail.layout(body)
     batch_message.add_tag id
     
-    eval(to).where(:unsubscribed.ne => true).each { |account|
+    to.where(:id.nin => organisation.unsubscribed_members.pluck(:id)).where(:unsubscribed.ne => true).each { |account|
       batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id, 'username' => account.username})
     }
         
@@ -67,6 +97,7 @@ class Pmail
        
   def self.new_hints
     {
+      :to_option => 'To',
       :from => 'In the form <em>Joe Blogs &lt;joe.bloggs@psychedelicsociety.org.uk&gt;</em>'
     }
   end  
@@ -74,13 +105,7 @@ class Pmail
   def self.edit_hints
     self.new_hints
   end     
-  
-  def self.human_attribute_name(attr, options={})  
-    {
-      :to => 'Mongoid query'
-    }[attr.to_sym] || super  
-  end  
-    
+      
   def self.send_html_email(to,from,subject,body, bcc: nil)
     return if !ENV['SMTP_USERNAME']
     mail = Mail.new

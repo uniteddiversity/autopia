@@ -57,17 +57,18 @@ Autopia::App.controller do
     end    
   end
   
-  post '/activities/:id/activity_facilitations/new' do    
+  post '/activities/:id/activityships/admin' do    
     @activity = Activity.find(params[:id]) || not_found
-    activity_admins_only!
-    @activity.activity_facilitations.create(account_id: params[:activity_facilitation][:account_id])
+    activity_admins_only!        
+    @activityship = @activity.activityships.find_by(account_id: params[:activityship][:account_id]) || @activity.activityships.create(account_id: params[:activityship][:account_id])
+    @activityship.update_attribute(:admin, true)
     redirect back
-  end    
+  end  
   
-  post '/activities/:id/activity_facilitations/destroy' do    
+  post '/activities/:id/activityships/unadmin' do    
     @activity = Activity.find(params[:id]) || not_found
     activity_admins_only!
-    @activity.activity_facilitations.find_by(account_id: params[:account_id]).destroy
+    @activity.activityships.find_by(account_id: params[:account_id]).update_attribute(:admin, nil)
     redirect back
   end     
   
@@ -76,6 +77,22 @@ Autopia::App.controller do
     activity_admins_only!
     @activity.destroy
     redirect '/activities/new'
+  end  
+  
+  get '/activityship/:id' do
+    sign_in_required!
+    @activity = Activity.find(params[:id]) || not_found
+    case params[:f]
+    when 'not_following'
+      current_account.activityships.find_by(activity: @activity).try(:destroy)
+    when 'follow_without_subscribing'
+      activityship = current_account.activityships.find_by(activity: @activity) || current_account.activityships.create(activity: @activity)
+      activityship.update_attribute(:unsubscribed, true)
+    when 'follow_and_subscribe'
+      activityship = current_account.activityships.find_by(activity: @activity) || current_account.activityships.create(activity: @activity)
+      activityship.update_attribute(:unsubscribed, false)
+    end
+    request.xhr? ? (partial :'activities/activityship', locals: { activity: @activity, btn_class: params[:btn_class] }) : redirect("/activities/#{@activity.id}")
   end  
   
 end

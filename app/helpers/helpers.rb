@@ -50,7 +50,7 @@ Autopia::App.helpers do
   
   def organisation_admin?(organisation=nil, account=current_account)
     organisation = @organisation if !organisation
-    account && (organisation.account_id == account.id || organisation.organisationcrowns.find_by(account: account) || account.admin?)
+    account && (organisation.account_id == account.id || organisation.organisationships.find_by(account: account, admin: true) || account.admin?)
   end  
   
   def organisation_admins_only!(organisation=nil, account=current_account)
@@ -64,7 +64,7 @@ Autopia::App.helpers do
   
   def activity_admin?(activity=nil, account=current_account)
     activity = @activity if !activity
-    activity.activity_facilitations.find_by(account: account) || organisation_admin?(activity.organisation, account)
+    activity.activityships.find_by(account: account, admin: true) || organisation_admin?(activity.organisation, account)
   end  
   
   def activity_admins_only!(activity=nil, account=current_account)

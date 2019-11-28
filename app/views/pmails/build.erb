@@ -1,0 +1,72 @@
+<%= partial :'organisations/nav', :locals => {:organisation => @organisation} %>
+
+<% if @pmail.persisted? and !@pmail.sent_at %>
+  <a href="/mailer/<%=@pmail.id%>/send_test" class="btn btn-primary">Send test to <%=current_account.email%></a>
+  <a href="/mailer/<%=@pmail.id%>/send" data-confirm="Are you sure? Make sure you've saved any final changes." class="btn btn-primary">Send</a>
+<% end %>
+
+<style>
+  #pmail_body { height: 30rem }
+</style>
+<script type="text/javascript">
+  $(function () {
+    var simplemde = new SimpleMDE({element: $("#pmail_body")[0]});
+  });
+</script>
+
+<div class="container-fluid my-3">
+
+  <% form_for @pmail, @pmail.new_record? ? "/organisations/#{@organisation.id}/pmails/new" : "/organisations/#{@organisation.id}/pmails/#{@pmail.id}/edit", :multipart => true do |f| %>
+
+    <%
+    activities = organisation_admin? ? @organisation.activities : @organisation.activities.where(:id.in => current_account.activityships.where(admin: true).pluck(:activity_id))
+    activity_options = (activities.count > 0 ? activities.order('name asc').map { |activity| [
+          ["#{activity.name} (#{activity.subscribed_members.where(:id.nin => organisation.unsubscribed_members.pluck(:id)).where(:unsubscribed.ne => true).count})", "activity:#{activity.id}"]
+        ] }.sum : [])
+    to_options = []
+    to_options << ["Everyone in #{@organisation.name}", 'all']
+    to_options += activity_options
+  %>
+
+    <%= f.select_block :to_option, options: to_options, selected: @pmail.to_selected %>
+
+    <%= f.text_block :from %>
+    <%= f.text_block :subject %>
+    <%= f.text_area_block :body %>
+    <%= f.check_box_block :no_layout %>
+
+    <% if !@pmail.sent_at %>
+      <%= f.submit_block destroy_url: "/mailer/#{@pmail.id}/destroy", button_text: 'Save' %>
+    <% end %>  
+
+    <div class="card mt-3">
+      <h5 class="card-header bg-primary text-white"><%=@organisation.name%>'s files</h5>
+      <div class="card-body">
+        <table class="table table-borderless">
+          <% @organisation.attachments.each { |attachment| %>
+            <tr>
+              <td style="width: 1px">
+                <% if %w{png jpg gif jpeg}.any? { |x| attachment.file.name.downcase.ends_with? ".#{x}" } %>
+                  <img style="max-width: 100px" src="<%=attachment.file.url%>">
+                <% else %>
+                  <i class="fa fa-paperclip"></i>&nbsp;<a href="<%=attachment.file.url%>"><%=attachment.file.name%></a>
+                <% end %>
+              </td>
+              <td>
+                <input type="text" class="form-control" value="<%=attachment.file.url%>">
+              </td>
+            </tr>
+          <% } %>
+        </table>
+
+        <%= f.file_block :file %>
+
+        <%= f.submit_block button_text: 'Upload' %>
+
+      </div>
+    </div>
+
+  <% end %>
+
+</div>
+

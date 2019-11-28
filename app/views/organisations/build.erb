@@ -1,3 +1,5 @@
+<%= partial :'organisations/nav', :locals => {:organisation => @organisation} %>
+
 <% form_for @organisation, @organisation.new_record? ? '/organisations/new' : "/organisations/#{@organisation.id}/edit" do  |f| %>
   <%= f.text_block :name %>
   <%= f.url_block :website %>

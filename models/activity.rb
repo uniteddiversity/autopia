@@ -10,13 +10,14 @@ class Activity
   field :image_uid, :type => String    
 #  field :vat_category, :type => String
   
-  has_many :activity_facilitations, :dependent => :destroy
   has_many :events, :dependent => :nullify
   has_many :activityships, :dependent => :destroy
 #  has_many :pmails, :dependent => :nullify
 
   belongs_to :organisation
   belongs_to :account
+  
+  has_many :pmails, dependent: :destroy
   
   def event_feedbacks
     EventFeedback.where(:event_id.in => events.pluck(:id))
@@ -44,8 +45,7 @@ class Activity
       :website => :url,
 #      :vat_category => :select,
       :image => :image,      
-      :events => :collection,
-      :activity_facilitations => :collection
+      :events => :collection
     }
   end
   
@@ -65,8 +65,8 @@ class Activity
     Account.where(:id.in => activityships.where(:unsubscribed => true).pluck(:account_id))
   end  
   
-  def activity_facilitators
-    Account.where(:id.in => activity_facilitations.pluck(:account_id))
+  def admins
+    Account.where(:id.in => activityships.where(:admin => true).pluck(:account_id))
   end
   
   def sync_activityships

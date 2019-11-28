@@ -3,12 +3,14 @@ class Activityship
   include Mongoid::Timestamps
   
   field :unsubscribed, :type => Boolean
+  field :admin, :type => Boolean
   
   def self.admin_fields
     {
       :account_id => :lookup,
       :activity_id => :lookup,
-      :unsubscribed => :check_box
+      :unsubscribed => :check_box,
+      :admin => :check_box
     }
   end  
 

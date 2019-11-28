@@ -1,0 +1,30 @@
+<% if current_account %>
+
+  <%
+  activityship = current_account.activityships.find_by(activity: activity)
+  state_options = {
+    'not_following' => 'Not following',
+    'follow_without_subscribing' => 'Following',
+    'follow_and_subscribe' => 'Following with email updates'
+    }    
+  current_state = activityship ? (activityship.unsubscribed ? 'follow_without_subscribing' : 'follow_and_subscribe') : 'not_following'
+  text = state_options[current_state]
+  action_options = {
+    'not_following' => 'Unfollow',
+    'follow_without_subscribing' => 'Follow',
+    'follow_and_subscribe' => 'Follow with email updates'
+    }    
+%>
+
+  <div class="dropdown d-inline-block">
+    <button class="btn <%= btn_class if defined?(btn_class) %> <%= current_state == 'not_following' ? 'btn-outline-primary' : 'btn-primary' %> dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= text %>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <% action_options.invert.each { |text,value| %>
+        <a class="pagelet-trigger dropdown-item" href="/activityship/<%=activity.id%>?f=<%=value%>"><%=text%></a>
+      <% } %>
+    </div>
+  </div> 
+
+<% end %>

@@ -116,7 +116,6 @@ class Account
   
   has_many :organisations, dependent: :nullify
   has_many :organisationships, dependent: :destroy
-  has_many :organisationcrowns, dependent: :destroy
 
   has_many :events, class_name: 'Event', inverse_of: :account, dependent: :destroy
   has_many :events_revenue_sharing, class_name: 'Event', inverse_of: :revenue_sharer, dependent: :nullify
@@ -124,7 +123,6 @@ class Account
   has_many :waitships, dependent: :destroy
   has_many :event_feedbacks, dependent: :destroy
   has_many :activities, dependent: :nullify
-  has_many :activity_facilitations, dependent: :destroy
   has_many :activityships, dependent: :destroy
 
   has_many :places, dependent: :nullify
