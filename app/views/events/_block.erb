@@ -5,10 +5,11 @@
   edit_url: "/events/#{event.id}/edit",
   admin: event_admin?(event),
   content: %Q{
-            <ul style="margin-left: 1.4em" class="fa-ul #{event.image ? 'text-white' : 'text-dark'}">
-              <li><i class="fa fa-li fa-calendar"></i>#{event.when_details}</li>
-              <li><i class="fa fa-li fa-map-marker"></i>#{event.location}</li>
-            </ul>
+  <ul style="margin-left: 1.4em" class="fa-ul #{event.image ? 'text-white' : 'text-dark'}">
+  #{%Q{<li><i class="fa fa-li fa-flag"></i><a class="#{event.image ? 'text-white' : 'text-dark'}" href="/organisations/#{event.organisation_id}">#{event.organisation.name}</a></li>} if event.organisation}
+  <li><i class="fa fa-li fa-calendar"></i>#{event.when_details}</li>
+  <li><i class="fa fa-li fa-map-marker"></i>#{event.location}</li>
+  </ul>
 }
-  
+
   } %>
