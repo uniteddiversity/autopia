@@ -37,7 +37,7 @@ class Event
 
   belongs_to :account, inverse_of: :events, index: true
   belongs_to :revenue_sharer, class_name: "Account", inverse_of: :events_revenue_sharing, index: true, optional: true
-  belongs_to :promoter, index: true, optional: true
+  belongs_to :organisation, index: true, optional: true
   belongs_to :activity, optional: true, index: true
   
   has_many :ticket_types, dependent: :destroy
@@ -87,7 +87,7 @@ class Event
       suggested_donation: :number,
       capacity: :number,
       account_id: :lookup,
-      promoter_id: :lookup,
+      organisation_id: :lookup,
       ticket_types: :collection
     }
   end

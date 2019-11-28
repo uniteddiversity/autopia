@@ -1,4 +1,4 @@
-class Promoter
+class Organisation
   include Mongoid::Document
   include Mongoid::Timestamps
   include Geocoder::Model::Mongoid
@@ -12,14 +12,14 @@ class Promoter
   field :stripe_pk, type: String
   field :stripe_sk, type: String
 
-  validates_presence_of :name, :website, :stripe_client_id, :stripe_endpoint_secret, :stripe_pk, :stripe_sk
+  validates_presence_of :name, :website
 
   belongs_to :account, index: true, optional: true
 
   has_many :events, dependent: :nullify
   has_many :activities, dependent: :destroy
-  has_many :promoterships, dependent: :destroy
-  has_many :promotercrowns, dependent: :destroy
+  has_many :organisationships, dependent: :destroy
+  has_many :organisationcrowns, dependent: :destroy
 
   dragonfly_accessor :image
   before_validation do
@@ -33,11 +33,11 @@ class Promoter
   end
 
   def team_members
-    Account.where(:id.in => promotercrowns.pluck(:account_id))
+    Account.where(:id.in => organisationcrowns.pluck(:account_id))
   end  
 
   def clients
-    Account.where(:id.in => promoterships.pluck(:account_id))
+    Account.where(:id.in => organisationships.pluck(:account_id))
   end
 
   def self.admin_fields

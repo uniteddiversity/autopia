@@ -12,6 +12,15 @@ function br2nl(str) {
 
 $(function () {
 
+  $('.block').hover(
+          function () {
+            $('.block-edit', this).show()
+          },
+          function () {
+            $('.block-edit', this).hide()
+          }
+  )
+
   function ajaxCompleted() {
 
     $('[data-account-username]').not('#modal [data-account-username]').click(function () {
@@ -241,5 +250,7 @@ $(function () {
         $(textarea).val(quill.root.innerHTML);
       })
   });
+
+
 
 });

@@ -2,7 +2,7 @@
   <h3 class="card-header bg-primary text-white">This event is sold out</h2>
   <div class="card-body">        
     <p class="lead">
-      Missed out on tickets to <%=@event.name%>? Join the waitlist, and if <%= @event.promoter.name %> is able to issue more tickets, they'll get in touch.
+      Missed out on tickets to <%=@event.name%>? Join the waitlist, and if <%= @event.organisation.name %> is able to issue more tickets, they'll get in touch.
     </p>
 
     <% form_for Waitship.new, "/events/#{@event.id}/waitship/new" do |f| %>

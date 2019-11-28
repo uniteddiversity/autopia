@@ -52,14 +52,18 @@
       <span class="nav-link-text">Connect</span>
     </a>
   </li>
-  <!--
+  <li class="<%='active' if request.path == '/organisations'%>">
+    <a href="/organisations">
+      <i class="fa fa-flag"></i>
+      <span class="nav-link-text">Organisations</span>
+    </a>
+  </li>     
   <li class="<%='active' if request.path == '/events'%>">
     <a href="/events">
       <i class="fa fa-calendar-o"></i>
       <span class="nav-link-text">Events</span>
     </a>
-  </li>  
-  -->
+  </li>    
   <% if !current_account %>
     <li class="<%='active' if request.path == '/gatherings'%>">
       <a href="/gatherings">

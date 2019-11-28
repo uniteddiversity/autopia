@@ -12,7 +12,7 @@ class Room
   has_many :photos, as: :photoable, dependent: :destroy
   has_many :room_periods, dependent: :destroy
   
-  validates_presence_of :name, :location
+  validates_presence_of :name, :location, :description
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do

@@ -15,7 +15,7 @@ Autopia::App.controller do
   get '/activities/new' do
     sign_in_required!
     @activity = Activity.new
-    @activity.promoter_id = params[:promoter_id]
+    @activity.organisation_id = params[:organisation_id]
     erb :'activities/build'
   end
   

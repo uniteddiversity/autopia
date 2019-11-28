@@ -1,43 +1,8 @@
-   
-<div 
-
-  class="place p-2 d-block" 
-  style="    
-  height: 180px; overflow: hidden;
-  <% if !place.image %>border: 2px solid #343a40;<% end %>
-  <% if place.image %>background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('<%=place.image.thumb('400x400').url%>'); background-size: cover; background-position: center center;<% end %>
-  ">
-
-  <table style="width: 100%; height: 100%">
-    <tr>
-      <td style="vertical-align: top">
-        <div class="row justify-content-between">
-          <div class="col">
-            <h4 class="block-title">
-              <a class="<% if place.image %>text-white<% else %>text-dark<% end%>" target="_parent" href="/places/<%=place.id%>" onclick="event.stopPropagation();">
-                <%= place.name %>
-              </a>             
-              <% if current_account and current_account.id == place.account_id %>
-                <a class="<% if place.image %>text-white<% else %>text-dark<% end%> place-edit" style="display: none" href="/places/<%=place.id%>/edit" onclick="event.stopPropagation();">
-                  <i class="fa fa-pencil"></i>
-                </a>                    
-              <% end %>                
-            </h4>     
-            <ul style="margin-left: 1.4em" class="fa-ul <% if place.image %>text-white<% else %>text-dark<% end%>">
-              <li><i class="fa fa-li fa-map-marker"></i> <%=place.location.gsub(/#{place.name}[\w ]*,/i,'')%></li>
-              <% if place.website %>
-                <li><i class="fa fa-li fa-globe"></i><a target="_blank" class="<% if place.image %>text-white<% else %>text-dark<% end%>" href="<%=place.website%>"><%=URI(place.website).host.gsub('www.','')%></a></li>
-              <% end %>
-              <% unless @account %>
-                <li><i class="fa fa-li fa-user"></i> Listed by <a class="<% if place.image %>text-white<% else %>text-dark<% end%>" href="/u/<%=place.account.username%>"><%=place.account.name%></a></li>
-              <% end %>                
-              <% if (c = place.comments.count) > 0 %>
-                <li><i class="fa fa-li fa-comment-o"></i> <a class="<% if place.image %>text-white<% else %>text-dark<% end%>" href="/places/<%=place.id%>#comments"><%=pluralize(c,'comment') %></a></li>
-                <% end %>
-            </ul>
-          </div>
-        </div>
-      </td>  
-    </tr>
-  </table>
-</div>    
+<%= partial :block, locals: {
+  title: place.name,
+  image: place.image,
+  view_url: "/places/#{place.id}",
+  edit_url: "/places/#{place.id}/edit",
+  admin: current_account && current_account.id == place.account_id,
+  content: partial(:'places/details', locals: {place: place})
+  } %>

@@ -15,7 +15,7 @@ class Activity
   has_many :activityships, :dependent => :destroy
 #  has_many :pmails, :dependent => :nullify
 
-  belongs_to :promoter
+  belongs_to :organisation
   belongs_to :account
   
   def event_feedbacks
@@ -80,5 +80,11 @@ class Activity
     }
   end
   handle_asynchronously :sync_activityships
+  
+  def self.human_attribute_name(attr, options = {})
+    {
+      email: 'Contact email'
+    }[attr.to_sym] || super
+  end  
       
 end

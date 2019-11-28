@@ -10,10 +10,10 @@ Autopia::App.controller do
   get '/events/new' do
     sign_in_required!
     @event = Event.new(feedback_questions: 'Comments/suggestions')
-    @event.promoter_id = params[:promoter_id] if params[:promoter_id]
+    @event.organisation_id = params[:organisation_id] if params[:organisation_id]
     if params[:activity_id]
       @event.activity_id = params[:activity_id]
-      @event.promoter_id = @event.activity.promoter_id
+      @event.organisation_id = @event.activity.organisation_id
     end
     erb :'events/build'
   end
@@ -121,7 +121,7 @@ Autopia::App.controller do
     end
 
     if total > 0
-      Stripe.api_key = @event.promoter.stripe_sk
+      Stripe.api_key = @event.organisation.stripe_sk
       stripe_session_hash = { payment_method_types: ['card'],
         line_items: [{
             name: "Tickets to #{@event.name}",
@@ -133,12 +133,12 @@ Autopia::App.controller do
         customer_email: (current_account.email if current_account),
         success_url: "#{ENV['BASE_URI']}/events/#{@event.id}?success=true",
         cancel_url: "#{ENV['BASE_URI']}/events/#{@event.id}?cancelled=true" }
-      if @event.revenue_sharer && @event.revenue_sharer_revenue_share && promotership = @event.promoter.promoterships.find_by(account: @event.revenue_sharer)        
+      if @event.revenue_sharer && @event.revenue_sharer_revenue_share && organisationship = @event.organisation.organisationships.find_by(account: @event.revenue_sharer)        
         stripe_session_hash.merge!({
             payment_intent_data: {
               application_fee_amount: ((1 - @event.revenue_sharer_revenue_share) * total * 100).round,
               transfer_data: {
-                destination: promotership.stripe_user_id
+                destination: organisationship.stripe_user_id
               }
             }
           })

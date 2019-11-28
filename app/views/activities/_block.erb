@@ -1,29 +1,8 @@
-<div
-
-class="activity p-2 d-block"
-style="
-height: 180px; overflow: hidden;
-<% if !activity.image %>border: 2px solid #343a40;<% end %>
-<% if activity.image %>background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('<%=activity.image.thumb('400x400').url%>'); background-size: cover; background-position: center center;<% end %>
-">
-  <table style="width: 100%; height: 100%">
-    <tr>
-      <td style="vertical-align: top">
-        <div class="row justify-content-between">
-          <div class="col">
-            <h4 class="block-title">
-              <a class="<% if activity.image %>text-white<% else %>text-dark<% end%>" target="_parent" href="/activities/<%=activity.id%>" onclick="event.stopPropagation();">
-                <%= activity.name %>
-              </a>
-              <% if activity_admin?(activity) %>
-                <a class="<% if activity.image %>text-white<% else %>text-dark<% end%> activity-edit" style="display: none" href="/activities/<%=activity.id%>/edit" onclick="event.stopPropagation();">
-                  <i class="fa fa-pencil"></i>
-                </a>
-              <% end %>
-            </h4>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </table>
-</div>
+<%= partial :block, locals: {
+  title: activity.name,
+  image: activity.image,
+  view_url: "/activities/#{activity.id}",
+  edit_url: "/activities/#{activity.id}/edit",
+  admin: activity_admin?(activity)
+  
+  } %>

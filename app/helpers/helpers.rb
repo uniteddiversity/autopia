@@ -48,15 +48,15 @@ Autopia::App.helpers do
     @feature = Feature.find_by(name: name) || Feature.create(name: name)
   end
   
-  def promoter_admin?(promoter=nil, account=current_account)
-    promoter = @promoter if !promoter
-    account && (promoter.account_id == account.id || promoter.promotercrowns.find_by(account: account) || account.admin?)
+  def organisation_admin?(organisation=nil, account=current_account)
+    organisation = @organisation if !organisation
+    account && (organisation.account_id == account.id || organisation.organisationcrowns.find_by(account: account) || account.admin?)
   end  
   
-  def promoter_admins_only!(promoter=nil, account=current_account)
-    promoter = @promoter if !promoter
-    unless promoter_admin?(promoter, account)
-      flash[:notice] = 'You must be a team member of that promoter to access that page'
+  def organisation_admins_only!(organisation=nil, account=current_account)
+    organisation = @organisation if !organisation
+    unless organisation_admin?(organisation, account)
+      flash[:notice] = 'You must be a team member of that organisation to access that page'
       session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(account ? '/' : '/accounts/sign_in')      
     end
@@ -64,7 +64,7 @@ Autopia::App.helpers do
   
   def activity_admin?(activity=nil, account=current_account)
     activity = @activity if !activity
-    activity.activity_facilitations.find_by(account: account) || promoter_admin?(activity.promoter, account)
+    activity.activity_facilitations.find_by(account: account) || organisation_admin?(activity.organisation, account)
   end  
   
   def activity_admins_only!(activity=nil, account=current_account)
@@ -78,7 +78,7 @@ Autopia::App.helpers do
   
   def event_admin?(event=nil, account=current_account)
     event = @event if !event
-    account && (event.account_id == account.id || event.revenue_sharer_id == account.id || event.event_facilitations.find_by(account: account) || (event.activity && activity_admin?(event.activity, account)) || (event.promoter && promoter_admin?(event.promoter, account)) || account.admin?)
+    account && (event.account_id == account.id || event.revenue_sharer_id == account.id || event.event_facilitations.find_by(account: account) || (event.activity && activity_admin?(event.activity, account)) || (event.organisation && organisation_admin?(event.organisation, account)) || account.admin?)
   end  
   
   def event_admins_only!(event=nil, account=current_account)
@@ -92,7 +92,7 @@ Autopia::App.helpers do
 
   def membership_required!(gathering=nil, account=current_account)
     gathering = @gathering if !gathering
-    unless account and gathering and (gathering.memberships.find_by(account: account) or account.admin?)
+    unless account and gathering and gathering.memberships.find_by(account: account)
       flash[:notice] = 'You must be a member of that gathering to access that page'
       session[:return_to] = request.url
       request.xhr? ? halt(403) : redirect(account ? '/' : '/accounts/sign_in')
@@ -101,7 +101,7 @@ Autopia::App.helpers do
 
   def confirmed_membership_required!(gathering=nil, account=current_account)
     gathering = @gathering if !gathering
-    unless account and gathering and (((membership = gathering.memberships.find_by(account: account)) and membership.confirmed?) or account.admin?)
+    unless account and gathering and ((membership = gathering.memberships.find_by(account: account)) and membership.confirmed?)
       session[:return_to] = request.url
       if membership
         flash[:notice] = 'You must make a payment before accessing that page'

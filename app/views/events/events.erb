@@ -13,18 +13,3 @@
 <% @events = @events.paginate(:page => params[:page], :per_page => 50) %>
 <%= partial :'events/blocks', :locals => {:events => @events} %>
 <%= will_paginate @events, :param_name => 'events_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
-
-
-<div class="row justify-content-between mt-5">
-  <div class="col">
-    <h2>Promoters</h2>
-  </div>
-  <% if current_account %>
-    <div class="col-auto">      
-      <a class="btn btn-primary mt-1 mt-sm-0" href="/promoters/new"><i class="fa fa-plus-circle"></i> Create a promoter</a>
-    </div>
-  <% end %>
-</div>
-<% @promoters = Promoter.order('name asc').paginate(:page => params[:page], :per_page => 50) %>
-<%= partial :'promoters/blocks', :locals => {:promoters => @promoters} %>
-<%= will_paginate @promoters, :param_name => 'promoters_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>

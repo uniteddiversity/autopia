@@ -1,0 +1,13 @@
+<div class="row justify-content-between mb-3">
+  <div class="col">
+    <h2>Organisations</h2>
+  </div>
+  <% if current_account %>
+    <div class="col-auto">      
+      <a class="btn btn-primary mt-1 mt-sm-0" href="/organisations/new"><i class="fa fa-plus-circle"></i> Create a organisation</a>
+    </div>
+  <% end %>
+</div>
+<% @organisations = Organisation.order('name asc').paginate(:page => params[:page], :per_page => 50) %>
+<%= partial :'organisations/blocks', :locals => {:organisations => @organisations} %>
+<%= will_paginate @organisations, :param_name => 'organisations_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>

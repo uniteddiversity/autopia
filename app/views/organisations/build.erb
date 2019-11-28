@@ -1,4 +1,4 @@
-<% form_for @promoter, @promoter.new_record? ? '/promoters/new' : "/promoters/#{@promoter.id}/edit" do  |f| %>
+<% form_for @organisation, @organisation.new_record? ? '/organisations/new' : "/organisations/#{@organisation.id}/edit" do  |f| %>
   <%= f.text_block :name %>
   <%= f.url_block :website %>
   <%= f.image_block :image %>
@@ -9,6 +9,6 @@
   <%= f.text_block :stripe_pk %>
   <%= f.text_block :stripe_sk %>
   <div class="my-3">
-    <%= f.submit_block destroy_url: "/promoters/#{@promoter.id}/destroy" %>
+    <%= f.submit_block destroy_url: "/organisations/#{@organisation.id}/destroy" %>
   </div>
 <% end %>

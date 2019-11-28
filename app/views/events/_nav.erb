@@ -9,7 +9,7 @@
       (['Tickets', "/events/#{event.id}/tickets"] if (event.ticket_types.count > 0 or event.tickets.count > 0)),       
       (['Donations', "/events/#{event.id}/donations"] if admin?),
       (['Waitlist', "/events/#{event.id}/waitlist"] if admin? && event.waitships.count > 0),
-      ['Map', "/events/#{event.id}/map"],       
+      ['Map of attendees', "/events/#{event.id}/map"],       
       ['Feedback', "/events/#{event.id}/feedback"],       
       ].compact, ul_class: 'nav nav-tabs', li_class: 'nav-item', a_class: 'nav-link' %>
   </div>

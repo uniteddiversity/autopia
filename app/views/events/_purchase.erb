@@ -150,7 +150,7 @@
       $('#details form button').text(($('#total').val() > 0) ? 'Redirecting you to Stripe...' : 'Processing...')
       $.post('/events/<%=@event.id%>/create_order', {ticketForm: $('#select-tickets form').serializeArray(), detailsForm: $('#details form').serializeArray()}, function (data) {
         if ($('#total').val() > 0) {
-          var stripe = Stripe('<%=@event.promoter.stripe_pk%>');
+          var stripe = Stripe('<%=@event.organisation.stripe_pk%>');
           stripe.redirectToCheckout({
             sessionId: data['session_id']
           })

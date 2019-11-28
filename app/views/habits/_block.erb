@@ -13,7 +13,7 @@
     "        
   <% end %>
 
-  class="habit p-2 d-block" 
+  class="p-2 d-block block" 
   style="    
   <% if completed %>opacity: 0.25;<% end %>
   height: 180px; overflow: hidden;
@@ -35,7 +35,7 @@
                 <i class="fa fa-check <% if habit.image %>text-white<% else %>text-dark<% end%>"></i>
               <% end %>                
               <% if current_account and current_account.id == habit.account_id %>
-                <a class="<% if habit.image %>text-white<% else %>text-dark<% end%> habit-edit" style="display: none" href="/habits/<%=habit.id%>/edit" onclick="event.stopPropagation();">
+                <a class="<% if habit.image %>text-white<% else %>text-dark<% end%> block-edit" style="display: none" href="/habits/<%=habit.id%>/edit" onclick="event.stopPropagation();">
                   <i class="fa fa-pencil"></i>
                 </a>                    
               <% end %>                

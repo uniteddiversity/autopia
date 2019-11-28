@@ -1,0 +1,8 @@
+<%= partial :block, locals: {
+  title: organisation.name,
+  image: organisation.image,
+  view_url: "/organisations/#{organisation.id}",
+  edit_url: "/organisations/#{organisation.id}/edit",
+  admin: organisation_admin?(organisation) 
+  } %>
+
