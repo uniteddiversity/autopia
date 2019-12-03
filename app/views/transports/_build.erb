@@ -3,7 +3,9 @@
   <%= f.text_area_block :description %>
   <%= f.datetime_block :outbound_departure_time %>
   <%= f.datetime_block :return_departure_time %>
-  <%= f.number_block :cost, :disabled => !@membership.admin? %>
+  <% if @membership.admin? %>
+    <%= f.number_block :cost %>
+  <% end %>
   <%= f.number_block :capacity %>
   <%= f.submit_block destroy_url: "/a/#{@gathering.slug}/transports/#{@transport.id}/destroy" %>
 <% end %>

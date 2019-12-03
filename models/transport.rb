@@ -13,6 +13,10 @@ class Transport
   belongs_to :account, index: true
   validates_presence_of :name, :cost, :capacity
   
+  before_validation do
+    self.cost = 0 if !self.cost
+  end
+  
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
     notifications.create! :circle => circle, :type => 'created_transport'

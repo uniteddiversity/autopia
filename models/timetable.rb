@@ -25,13 +25,13 @@ class Timetable
   
   def self.new_tips
     {      
-      :scheduling_by_all => 'By default, only admins can schedule tactivities',
+      :scheduling_by_all => 'By default, only admins can schedule activities',
     }
   end  
   
   def self.human_attribute_name(attr, options={})  
     {
-      :scheduling_by_all => 'Allow all members to schedule tactivities',
+      :scheduling_by_all => 'Allow all members to schedule activities',
     }[attr.to_sym] || super  
   end   
   

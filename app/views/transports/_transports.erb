@@ -30,7 +30,11 @@
         <%= transport.return_departure_time %>
       </td>
       <td>
-        <%=@gathering.currency_symbol%><%=transport.cost%>
+        <% if transport.cost && transport.cost > 0 %>
+          <%=@gathering.currency_symbol%><%=transport.cost%>
+        <% else %>
+          Arrange with driver
+        <% end %>
       </td>
       <td>
         <%=transport.transportships.count%>/<%= transport.capacity %>
