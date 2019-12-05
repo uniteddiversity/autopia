@@ -180,12 +180,10 @@ $(function () {
     ];
 
 
-    Quill.register("modules/htmlEditButton", htmlEditButton);      
     var quill = new Quill(div[0], {
       theme: 'snow',
       modules: {
-        toolbar: toolbarOptions,
-        htmlEditButton: {}
+        toolbar: toolbarOptions
       }
     });
 
