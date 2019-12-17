@@ -13,6 +13,45 @@ Autopia::App.controller do
       }.to_json
     end
   end
+  
+  get '/organisations/:organisation_id/activities', provides: :json do
+    @organisation = Organisation.find(params[:organisation_id]) || not_found
+    @activities = @organisation.activities.order('created_at desc')   
+    @activities = @activities.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
+    @activities = @activities.where(id: params[:id]) if params[:id]
+    case content_type
+    when :json
+      {
+        results: @activities.map { |activity| {id: activity.id.to_s, text: "#{activity.name} (id:#{activity.id})"} }
+      }.to_json
+    end
+  end  
+  
+  get '/organisations/:organisation_id/local_groups', provides: :json do
+    @organisation = Organisation.find(params[:organisation_id]) || not_found
+    @local_groups = @organisation.local_groups.order('created_at desc')
+    @local_groups = @local_groups.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
+    @local_groups = @local_groups.where(id: params[:id]) if params[:id]
+    case content_type
+    when :json
+      {
+        results: @local_groups.map { |local_group| {id: local_group.id.to_s, text: "#{local_group.name} (id:#{local_group.id})"} }
+      }.to_json
+    end
+  end  
+  
+  get '/organisations/:organisation_id/admins', provides: :json do
+    @organisation = Organisation.find(params[:organisation_id]) || not_found
+    @accounts = @organisation.admins.order('name asc')
+    @accounts = @accounts.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
+    @accounts = @accounts.where(id: params[:id]) if params[:id]
+    case content_type
+    when :json
+      {
+        results: @accounts.map { |account| {id: account.id.to_s, text: "#{account.name} (#{account.username})"} }
+      }.to_json
+    end
+  end  
 
   get '/organisations/new' do
     sign_in_required!

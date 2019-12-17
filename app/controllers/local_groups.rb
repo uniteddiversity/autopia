@@ -1,16 +1,5 @@
 Autopia::App.controller do
   
-  get '/local_groups', provides: :json do
-    @local_groups = LocalGroup.all.order('created_at desc')
-    @local_groups = @local_groups.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
-    @local_groups = @local_groups.where(id: params[:id]) if params[:id]
-    case content_type
-    when :json
-      {
-        results: @local_groups.map { |local_group| {id: local_group.id.to_s, text: "#{local_group.name} (id:#{local_group.id})"} }
-      }.to_json
-    end
-  end  
 
   get '/local_groups/new' do
     sign_in_required!

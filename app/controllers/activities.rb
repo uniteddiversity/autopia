@@ -1,17 +1,5 @@
 Autopia::App.controller do
   
-  get '/activities', provides: :json do
-    @activities = Activity.all.order('created_at desc')
-    @activities = @activities.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
-    @activities = @activities.where(id: params[:id]) if params[:id]
-    case content_type
-    when :json
-      {
-        results: @activities.map { |activity| {id: activity.id.to_s, text: "#{activity.name} (id:#{activity.id})"} }
-      }.to_json
-    end
-  end  
-
   get '/activities/new' do
     sign_in_required!
     @activity = Activity.new
