@@ -1,5 +1,5 @@
 <div class="row justify-content-between mb-3">
-  <div class="col">
+  <div class="col-auto">
     <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
       <label>
         Events since
@@ -8,6 +8,7 @@
         <%=text_field_tag :q, :class => 'form-control mx-1', :value => params[:q] %>
       </label>
       <%= hidden_field_tag :search, :value => 1 %>  
+      <%=submit_tag 'Search', :class => 'btn btn-primary'%> 
     <% end %>
   </div>
   <% if current_account %>
