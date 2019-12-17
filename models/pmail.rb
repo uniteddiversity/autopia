@@ -96,8 +96,8 @@ class Pmail
     batch_message.subject (test_message ? "#{subject} [test sent #{Time.now}]" : subject)
     batch_message.body_html Pmail.layout(self)
     batch_message.add_tag id
-    
-    to.where(:id.nin => organisation.unsubscribed_members.pluck(:id)).where(:unsubscribed.ne => true).each { |account|
+        
+    (test_message ? to : to.where(:id.nin => organisation.unsubscribed_members.pluck(:id)).where(:unsubscribed.ne => true)).each { |account|
       batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id, 'username' => account.username})
     }
         
