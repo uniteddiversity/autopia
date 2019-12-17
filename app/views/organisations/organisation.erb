@@ -50,15 +50,6 @@
   new_url: "/organisations/#{@organisation.id}/organisationships/admin",
   destroy_url: "/organisations/#{@organisation.id}/organisationships/unadmin"
   }  %>
-
-<% if @organisation.organisationships.where(:stripe_connect_json.ne => nil).count > 0 %>
-  <h2 class="mt-5">Revenue sharers</h2>
-  <div class="image-wall">
-    <% @organisation.revenue_sharers.order('name asc').each { |account|  %>
-      <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-    <% } %>
-  </div>
-<% end %>
   
 <h2 class="mt-5">Local groups</h2>
 <a class="btn btn-primary mb-3" href="/local_groups/new?organisation_id=<%=@organisation.id%>">Create a local group</a>
