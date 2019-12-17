@@ -118,6 +118,7 @@ class Account
   has_many :organisationships, dependent: :destroy
 
   has_many :events, class_name: 'Event', inverse_of: :account, dependent: :destroy
+  has_many :events_coordinating, class_name: 'Event', inverse_of: :coordinator, dependent: :nullify
   has_many :events_revenue_sharing, class_name: 'Event', inverse_of: :revenue_sharer, dependent: :nullify
   has_many :event_facilitations, dependent: :destroy
   has_many :waitships, dependent: :destroy

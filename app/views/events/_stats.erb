@@ -1,0 +1,137 @@
+<script>
+  $(function () {
+    $('#event_stats').stickyTableHeaders()
+  })
+</script>
+<table id="event_stats" class="table table-striped table-hover table-sm" style="font-size: 0.9em">
+  <thead class="bg-white">
+    <tr>
+      <th>Name</th>
+      <th>Date</th>      
+      <th>Coordinator</th>      
+      <th>Activity</th>
+      <th>Local group</th>
+      <th>Revenue sharer</th>
+      <th>Revenue sharer revenue share</th>
+      <th>Facebook event?</th>        
+      <th>Tickets sold</th>
+      <th>Total revenue</th>
+      <th>Suggestion donation</th>
+      <th>Donations</th>
+      <th>Feedback</th>
+    </tr>
+  </thead>    
+  <% events.each { |event| %>
+    <tr>
+      <td>
+        <a href="/events/<%=event.id%>"><%=event.name%></a>
+        <a href="/events/<%=event.id%>/edit"><i class="fa fa-pencil"></i></a>
+      </td>
+      <td><%= event.when_details %></td>
+      <td style="text-align: center">
+        <% if event.coordinator %>
+          <a href="/u/<%=event.coordinator.username%>">
+            <% if event.coordinator.picture %>
+              <a href="/u/<%=event.coordinator.username%>">
+                <img src="<%= event.coordinator.picture.thumb('500x500#').url %>" style="width: 50px">
+              </a>
+              <br />
+            <% end %>
+            <a href="/u/<%=event.coordinator.username%>"><%= event.coordinator.name %></a>
+          <% else %>
+            <i class="fa fa-warning"></i>
+          <% end %>
+      </td>        
+      <td style="text-align: center">
+        <% if event.activity %>
+          <% if event.activity.image %>
+            <a href="/activities/<%=event.activity.id%>/admin">
+              <img src="<%= event.activity.image.thumb('500x500#').url %>" style="width: 50px">        
+            </a>        
+            <br />
+          <% end %>
+          <a href="/activities/<%=event.activity.id%>/admin"><%=event.activity.name%></a>
+        <% end %>
+      </td>
+      <td>
+        <% if event.local_group %>
+            <% if event.local_group.image %>
+              <a href="/local_groups/<%=event.local_group.id%>">
+                <img src="<%= event.local_group.image.thumb('500x500#').url %>" style="width: 50px">
+              </a>
+              <br />
+            <% end %>
+            <a href="/local_groups/<%=event.local_group.id%>"><%= event.local_group.name %></a>
+        <% end %>
+      </td>
+      <td>
+        <% if event.revenue_sharer %>
+          <a href="/u/<%=event.revenue_sharer.username%>">
+            <% if event.revenue_sharer.picture %>
+              <a href="/u/<%=event.revenue_sharer.username%>">
+                <img src="<%= event.revenue_sharer.picture.thumb('500x500#').url %>" style="width: 50px">
+              </a>
+              <br />
+            <% end %>
+            <a href="/u/<%=event.revenue_sharer.username%>"><%= event.revenue_sharer.name %></a>
+          <% end %>
+      </td>
+      <td>
+        <% if event.revenue_sharer_revenue_share %>
+          <%=(event.revenue_sharer_revenue_share*100).round%>%
+        <% end %>
+      </td>      
+      <td>
+        <% if event.facebook_event_id %>
+          <a target="_blank" href="http://facebook.com/events/<%=event.facebook_event_id%>"><i class="fa fa-facebook-square"></i></a>
+        <% else %>
+          <i class="fa fa-warning"></i>
+        <% end %>
+      </td>      
+      <td>
+        <% if event.tickets.count > 0 %>
+          <%= event.tickets.count %><% if event.capacity %>/<%=event.capacity%><% end%>          
+        <% end %>  
+        <% if event.sold_out? %><span class="badge badge-success">Sold out</span><% end%>
+      </td>    
+      <td>
+        <% if event.revenue != 0 %>
+          <%=number_to_currency event.revenue, unit: '£', precision: 0 %>
+        <% end %>
+      </td>      
+      <td><%=number_to_currency event.suggested_donation, unit: '£', precision: 0%></td>
+      <td><%=number_to_currency event.donations.pluck(:amount).sum, unit: '£', precision: 0%></td>
+      <td>
+        <% if event.past? and event.attendees.count > 0 and event.event_feedbacks.count > 0 %>
+          <a target="_blank" href="/events/<%=event.id%>/feedback"><%=pluralize(event.event_feedbacks.count, 'response')%></a>
+          (<%="#{(100*(event.event_feedbacks.count.to_f/event.attendees.count)).round}%"%>)
+          <% if event.average_rating %>
+            <br />
+            <span style="font-size: 20px" title="Average rating <%= event.average_rating  %>">
+              <%= event.average_rating  %>
+            </span>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+  <% } %>
+  <% unless @event %>
+    <tfoot>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th><%=events.map { |event| event.tickets.count }.sum%></th>
+        <th><%=number_to_currency events.map { |event| event.revenue }.sum, unit: '£', precision: 0%></th>
+        <th></th>
+        <th><%=number_to_currency events.map { |event| event.donations.pluck(:amount).sum }.sum, unit: '£', precision: 0%></th>
+        <th></th>
+      </tr>
+    </tfoot>
+  <% end %>
+</table>

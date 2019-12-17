@@ -42,6 +42,7 @@ class Event
 
   belongs_to :account, inverse_of: :events, index: true
   belongs_to :revenue_sharer, class_name: "Account", inverse_of: :events_revenue_sharing, index: true, optional: true
+  belongs_to :coordinator, class_name: "Account", inverse_of: :events_coordinating, index: true, optional: true
   belongs_to :organisation, index: true, optional: true
   belongs_to :activity, optional: true, index: true
   belongs_to :local_group, optional: true, index: true
@@ -169,5 +170,11 @@ class Event
   def subscribers
     attendees
   end    
+  
+  def revenue
+    r = 0
+    tickets.each { |ticket| r += (ticket.price or 0) }
+    r
+  end  
   
 end

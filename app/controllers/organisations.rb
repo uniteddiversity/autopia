@@ -63,6 +63,25 @@ Autopia::App.controller do
     erb :'organisations/events'
   end  
   
+  get '/organisations/:id/events/stats' do
+    @organisation = Organisation.find(params[:id]) || not_found
+    organisation_admins_only!
+    @from = params[:from] ? Date.parse(params[:from]) : Date.today - 1.month
+    @to = params[:to] ? Date.parse(params[:to]) : Date.today
+    @events = @organisation.events.order('start_time asc')
+    @events = @events.where(:name => /#{::Regexp.escape(params[:q])}/i) if params[:q]
+    @events = @events.where(:local_group_id => params[:local_group_id]) if params[:local_group_id]
+    @events = @events.where(:activity_id => params[:activity_id]) if params[:activity_id]
+    @events = @events.where(:vat_category => nil) if params[:no_vat_category]
+    @events = @events.where(:coordinator_id => params[:coordinator_id]) if params[:coordinator_id]    
+    @events = @events.where(:coordinator_id => nil) if params[:no_coordinator]
+    @events = @events.where(:transfers_made_at => nil) if params[:transfers_not_made]
+    @events = @events.where(:id.in => @events.select { |event| event.discrepancy? }.map(&:id)) if params[:discrepancy]
+    @events = @events.where(:start_time.gte => @from)
+    @events = @events.where(:start_time.lt => @to+1)    
+    erb :'events/stats'
+  end     
+  
   post '/organisations/:id/organisationships/admin' do    
     @organisation = Organisation.find(params[:id]) || not_found
     organisation_admins_only!        

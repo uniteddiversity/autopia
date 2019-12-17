@@ -1,0 +1,29 @@
+<% form_tag '', :method => 'get', :class => 'form-inline' do%>
+  <%=text_field_tag :from, :class => 'form-control datepicker mr-1', :value => @from.to_s(:db) %>
+  <%=text_field_tag :to, :class => 'form-control datepicker mr-1', :value => @to.to_s(:db) %>
+  <%=text_field_tag :q, :class => 'form-control mr-1', :value => params[:q], :placeholder => 'Event name' %>
+  <%= hidden_field_tag :search, :value => 1 %>  
+  <label>
+    Local group
+    <%=select_tag :local_group_id, :options => [''] + @organisation.local_groups.order('name asc').map { |local_group| [local_group.name, local_group.id] }, :selected => params[:local_group_id], :class => 'form-control mx-1' %>
+  </label>
+  <label>
+    Activity
+    <%=select_tag :activity_id, :options => [''] + @organisation.activities.order('name asc').map { |activity| [activity.name, activity.id] }, :selected => params[:activity_id], :class => 'form-control mx-1' %>
+  </label>
+  <label>
+    Coordinator
+    <%=select_tag :coordinator_id, :options => [''] + @organisation.admins.order('name asc').map { |account| [account.name, account.id] }, :selected => params[:coordinator_id], :class => 'form-control mx-1' %>    
+  </label>
+  <label>No coordinator <%=check_box_tag :no_coordinator, :checked => params[:no_coordinator], :class => 'mx-1' %></label>
+  <%=submit_tag 'Search', :class => 'btn btn-primary'%>
+<% end %>
+
+
+<% if params[:search] %>
+
+  <h2 class="my-3"><span class="badge badge-primary"><%= pluralize @events.count, 'event' %></span></h2>
+
+  <%= partial :'events/stats', :locals => {:events => @events} %>
+
+<% end %>

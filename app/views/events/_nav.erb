@@ -1,4 +1,9 @@
 
+<style>
+  #event_stats thead th { border-top: none }
+</style>
+<%= partial :'events/stats', :locals => {:events => Event.where(:id.in => [event.id])} %>
+
 <% if event_admin? %>
   <div class="mb-3">
     <%= ul_nav [

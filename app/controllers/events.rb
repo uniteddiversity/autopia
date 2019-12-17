@@ -6,10 +6,10 @@ Autopia::App.controller do
     discuss 'Events'
     erb :'events/events'
   end
-
+  
   get '/events/new' do
     sign_in_required!
-    @event = Event.new(feedback_questions: 'Comments/suggestions')
+    @event = Event.new(feedback_questions: 'Comments/suggestions', coordinator: current_account)
     @event.organisation_id = params[:organisation_id] if params[:organisation_id]
     if params[:activity_id]
       @event.activity_id = params[:activity_id]
