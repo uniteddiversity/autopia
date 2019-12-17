@@ -39,7 +39,7 @@ Autopia::App.helpers do
   def kick!
     flash[:notice] = "You don't have access to that page"
     session[:return_to] = request.url
-    request.xhr? ? halt(403) : redirect(account ? '/' : '/accounts/sign_in')          
+    request.xhr? ? halt(403) : redirect(current_account ? '/' : '/accounts/sign_in')          
   end
   
   def creator?(createable, account=current_account)
@@ -87,6 +87,11 @@ Autopia::App.helpers do
   end
   def gathering_admins_only!; kick! unless gathering_admin?; end  
   
+  def pmailer?(pmail=nil, account=current_account)
+    pmail = @pmail if !pmail
+    account && pmail && (organisation_admin?(pmail.organisation) || (pmail.mailable.is_a?(Activity) && activity_admin?(pmail.mailable)) || (pmail.mailable.is_a?(LocalGroup) && local_group_admin?(pmail.mailable)))
+  end
+  def pmailers_only!; kick! unless pmailer?; end
   
   
   
