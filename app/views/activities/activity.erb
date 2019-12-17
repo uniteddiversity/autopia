@@ -1,3 +1,5 @@
+<%= partial :'activities/nav', :locals => {:activity => @activity} %>
+
 <div class="row no-gutters">
   <div class="col-12 col-sm-auto mr-3">
     <% if @activity.image %>
@@ -14,9 +16,6 @@
       <div class="d-inline-block mb-1" data-pagelet-url="/activityship/<%=@activity.id%>?btn_class=<%=btn_class if defined?(btn_class)%>">
         <%= partial :'activities/activityship', :locals => {:activity => @activity, :btn_class => (btn_class if defined?(btn_class))} %>
       </div>      
-      <% if activity_admin? %>
-        <a class="btn btn-primary" href="/activities/<%=@activity.id%>/edit"><i class="fa fa-pencil"></i> Edit activity</a>
-      <% end %>
     </div>
     <table class="table table-hr">
       <tr>
@@ -63,5 +62,5 @@
 
 <% if @activity.event_feedbacks.count > 0 %>
   <h2 class="mt-5">Feedback</h2>
-  <div class="mt-3" data-pagelet-url="/activities/<%=@activity.id%>/feedback"></div>
+  <div class="mt-3" data-pagelet-url="/activities/<%=@activity.id%>/show_feedback"></div>
 <% end %>

@@ -4,6 +4,14 @@ Autopia::App.controller do
     sign_in_required!
   end
   
+  get '/activities/:id/feedback' do
+    @activity = Activity.find(params[:id]) || not_found
+    activity_admins_only!
+    @event_feedbacks = @activity.event_feedbacks
+    @event_feedbacks = @event_feedbacks.paginate(page: params[:page], per_page: 10)    
+    erb :'event_feedbacks/index'
+  end   
+  
   get '/events/:id/feedback' do
     @event = Event.find(params[:id]) || not_found
     event_admins_only!

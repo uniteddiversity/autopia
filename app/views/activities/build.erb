@@ -1,3 +1,7 @@
+<% if @activity.persisted? %>
+  <%= partial :'activities/nav', :locals => {:activity => @activity} %>
+<% end %>
+
 <% form_for @activity, @activity.new_record ? '/activities/new' : "/activities/#{@activity.id}/edit" do |f| %>
   <%= f.text_block :name %>
   <%= f.email_block :email %>

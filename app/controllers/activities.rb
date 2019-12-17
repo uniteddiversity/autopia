@@ -33,20 +33,20 @@ Autopia::App.controller do
   end
   
   get '/activities/:id' do
-    @activity = Activity.find(params[:id])    
+    @activity = Activity.find(params[:id]) || not_found    
     discuss 'Activities'
     erb :'activities/activity'
   end
   
   get '/activities/:id/edit' do
-    @activity = Activity.find(params[:id])
+    @activity = Activity.find(params[:id]) || not_found
     activity_admins_only!
     discuss 'Activities'
     erb :'activities/build'
   end
   
   post '/activities/:id/edit' do
-    @activity = Activity.find(params[:id])
+    @activity = Activity.find(params[:id]) || not_found
     activity_admins_only!
     if @activity.update_attributes(params[:activity])
       redirect "/activities/#{@activity.id}"
@@ -56,9 +56,15 @@ Autopia::App.controller do
       erb :'activities/build'
     end    
   end
+      
+  get '/activities/:id/map' do
+    @activity = Activity.find(params[:id]) || not_found
+    activity_admins_only!
+    erb :'activities/map'      
+  end   
   
-  get '/activities/:id/feedback' do
-    @activity = Activity.find(params[:id])
+  get '/activities/:id/show_feedback' do
+    @activity = Activity.find(params[:id]) || not_found
     partial :'activities/feedback'
   end
   
