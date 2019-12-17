@@ -52,7 +52,7 @@ Autopia::App.controller do
       }.to_json
     end
   end  
-  
+    
   get '/organisations/new' do
     sign_in_required!
     @organisation = current_account.organisations.build(params[:organisation])
@@ -212,5 +212,14 @@ Autopia::App.controller do
     end
     request.xhr? ? (partial :'organisations/organisationship', locals: { organisation: @organisation, btn_class: params[:btn_class] }) : redirect("/organisations/#{@organisation.id}")
   end  
+  
+  get '/organisations/:id/unsubscribe' do
+    sign_in_required!
+    @organisation = Organisation.find(params[:id]) || not_found
+    organisationship = current_account.organisationships.find_by(organisation: @organisation) || current_account.organisationships.create(organisation: @organisation)
+    organisationship.update_attribute(:unsubscribed, true)
+    flash[:notice] = "You were unsubscribed."
+    redirect("/organisations/#{@organisation.id}")
+  end   
     
 end

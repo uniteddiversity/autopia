@@ -81,7 +81,7 @@ class Pmail
   handle_asynchronously :send_pmail
   
   def send_test(account)     
-    send_batch_message Account.where(id: account.id), test_message: true
+    send_batch_message Account.where(:id.in => [account.id]), test_message: true
   end
   
   def self.layout(pmail)
