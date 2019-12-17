@@ -1,4 +1,6 @@
-<%= partial :'events/nav', :locals => {:event => @event} %>
+<% if event_admin? %>
+  <%= partial :'events/nav', :locals => {:event => @event} %>
+<% end %>
 
 <div class="row">
   <div class="col-sm-7">
