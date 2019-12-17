@@ -1,8 +1,8 @@
 <div class="row" id="events">
   <% events.each { |event| %>
-  <div data-pagelet-url="/events/<%=event.id%>/block" class="col-12 mb-3 <%=block_class if defined?(block_class)%>" id="<%=event.id%>">
-    <hr />
+  <div data-pagelet-url="/events/<%=event.id%>/block" class="col-12 mb-3 <%=block_class if defined?(block_class)%>" id="<%=event.id%>">    
     <%= partial :'events/block', :locals => {:event => event} %>        
+    <hr />
   </div>  
   <% } %>  
 </div>
