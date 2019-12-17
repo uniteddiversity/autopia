@@ -11,6 +11,21 @@ class Organisation
   field :stripe_endpoint_secret, type: String
   field :stripe_pk, type: String
   field :stripe_sk, type: String
+  field :location, type: String
+  field :coordinates, type: Array
+
+    # Geocoder
+  geocoded_by :location
+  def lat
+    coordinates[1] if coordinates
+  end
+
+  def lng
+    coordinates[0] if coordinates
+  end
+  after_validation do
+    geocode || (self.coordinates = nil)
+  end
 
   validates_presence_of :name, :website
 

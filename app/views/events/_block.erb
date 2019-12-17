@@ -15,13 +15,15 @@
                   </a>
                 <% end %>
               </h4>
-              <%= %Q{
-<ul style="margin-left: 1.4em" class="fa-ul #{'text-dark'}">
-#{%Q{<li><i class="fa fa-li fa-flag"></i><a class="#{'text-dark'}" href="/organisations/#{event.organisation_id}">#{event.organisation.name}</a></li>} if event.organisation}
-<li><i class="fa fa-li fa-calendar"></i>#{event.when_details}</li>
-<li><i class="fa fa-li fa-map-marker"></i>#{event.location}</li>
-</ul>
-              } %>
+
+              <ul style="margin-left: 1.4em" class="fa-ul text-dark">
+                <% if event.organisation && !@organisation %>
+                  <li><i class="fa fa-li fa-flag"></i><a class="text-dark" href="/organisations/<%=event.organisation_id%>"><%=event.organisation.name%></a></li>
+                <% end %>
+                <li><i class="fa fa-li fa-calendar"></i><%=event.when_details%></li>
+                <li><i class="fa fa-li fa-map-marker"></i><%=event.location%></li>
+              </ul>
+
             </div>
           </div>
         </td>

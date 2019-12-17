@@ -1,8 +1,20 @@
 <%= partial :'organisations/nav', :locals => {:organisation => @organisation} %>
 
+
+<script>
+  $(function () {
+    var autocomplete = new google.maps.places.Autocomplete($('#event_location')[0]);
+    $('#organisation_location').keydown(function (e) {
+      if (e.which == 13 && $('.pac-container:visible').length)
+        return false;
+    })
+  })
+</script>
+
 <% form_for @organisation, @organisation.new_record? ? '/organisations/new' : "/organisations/#{@organisation.id}/edit" do  |f| %>
   <%= f.text_block :name %>
   <%= f.url_block :website %>
+  <%= f.text_block :location %>
   <%= f.image_block :image %>
   <div class="my-3">&mdash; or &mdash;</div>
   <%= f.url_block :image_url %>

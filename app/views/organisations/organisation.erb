@@ -24,12 +24,14 @@
           </td>
         </tr>
       <% end %>
-      <tr>
-        <td>Created by</td>
-        <td>
-          <a href="/u/<%=@organisation.account.username%>"><%=@organisation.account.name%></a>
-        </td>
-      </tr>
+      <% if @organisation.location %>
+        <tr>
+          <td>Location</td>
+          <td>
+            <a target="_blank" href="https://www.google.co.uk/maps?q=<%=@organisation.location%>"><%=@organisation.location%></a>
+          </td>
+        </tr>
+      <% end %>
     </table>
     <% if organisationship = @organisation.organisationships.find_by(:account => current_account, :stripe_connect_json.ne => nil) %>
       <a class="btn btn-danger" href="/organisationships/<%=organisationship.id%>/disconnect">Disconnect your Stripe account from <%=@organisation.name%></a>

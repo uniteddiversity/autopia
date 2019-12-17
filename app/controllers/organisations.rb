@@ -57,6 +57,12 @@ Autopia::App.controller do
     end
   end
   
+  get '/organisations/:id/events' do
+    @organisation = Organisation.find(params[:id]) || not_found
+    discuss 'Organisations'
+    erb :'organisations/events'
+  end  
+  
   post '/organisations/:id/organisationships/admin' do    
     @organisation = Organisation.find(params[:id]) || not_found
     organisation_admins_only!        
