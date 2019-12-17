@@ -93,11 +93,11 @@ class Pmail
     batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
               
     batch_message.from from  
-    batch_message.subject (test_message ? "#{subject} [test sent #{Time.now}]" : subject)
+    batch_message.subject subject
     batch_message.body_html Pmail.layout(self)
     batch_message.add_tag id
     
-    to.where(:id.nin => organisation.unsubscribed_members.pluck(:id)).where(:unsubscribed.ne => true).each { |account|
+    Account.where(:unsubscribed.ne => true).each { |account|
       batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id, 'username' => account.username})
     }
         
