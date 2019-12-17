@@ -1,14 +1,7 @@
 <%= partial :'events/nav', :locals => {:event => @event} %>
 
-<div class="row no-gutters">
-  <div class="col-12 col-sm-auto mr-3">
-    <% if @event.image %>
-      <img src="<%=@event.image.thumb('200x200').url%>" />
-    <% else %>
-      <div style="height: 200px; width: 200px; border: 2px solid #343a40;"></div>
-    <% end %>
-  </div>
-  <div class="col">
+<div class="row">
+  <div class="col-sm-7">
     <h1>
       <%= @event.name %>
     </h1>
@@ -18,7 +11,7 @@
           <td>Organisation</td>
           <td>
             <a href="/organisations/<%=@event.organisation_id%>"><%=@event.organisation.name%></a>
-            <% if event_admin? && !(organisationship = @event.organisation.organisationships.find_by(:account => @event.revenue_sharer, :stripe_connect_json.ne => nil))%>
+            <% if event_admin? && @event.revenue_sharer && !(organisationship = @event.organisation.organisationships.find_by(:account => @event.revenue_sharer, :stripe_connect_json.ne => nil))%>
               <span class="label label-danger">
                 <i class="fa fa-warning"></i> Revenue sharer not connect to this organisation
               </span>
@@ -84,48 +77,55 @@
     <p class="lead">
       <%=@event.description%>
     </p>
-  </div>
-</div>
 
-<style>
-  #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
-</style>
-<%= partial :'maps/map', :locals => {:points => [@event]} %>
-
-<div class="my-3">
-  <h2>Attending</h2>
-  <div class="image-wall">
-    <% @event.attendees.each { |account|  %>
-      <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-    <% } %>
-  </div>
-</div>
-
-<% if params[:success] %>
-  <div class="card" id="share-event">
-    <h3 class="card-header bg-primary text-white">Thanks for booking!</h2>
-      <div class="card-body">
-        <%= partial :share_big %>
+    <div class="my-3">  
+      <h2 class="mt-3">Attending</h2>
+      <div class="image-wall">
+        <% @event.attendees.each { |account|  %>
+          <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+        <% } %>
       </div>
+    </div>
+
   </div>
-<% elsif @event.sold_out? or (@event.ticket_types.count > 0 and @event.future?) %>
-  <% if @event.sold_out? and !params[:ticket_type_id] %>
-    <% if params[:added_to_waitlist] %>
-      <div class="card">
-        <h3 class="card-header bg-primary text-white">Thanks!</h2>
+
+  <div class="col-sm-5">
+    <% if @event.image %>
+      <img class="w-100 mb-3" src="<%=@event.image.url%>" />
+    <% end %>    
+
+    <% if params[:success] %>
+      <div class="card" id="share-event">
+        <h3 class="card-header bg-primary text-white">Thanks for booking!</h2>
           <div class="card-body">
-            <p class="lead mb-0">
-              We'll be in touch if we are able to issue more tickets.
-            </p>
+            <%= partial :share_big %>
           </div>
       </div>
-    <% else %>
-      <%= partial :'events/waitlist' %>
+    <% elsif @event.sold_out? or (@event.ticket_types.count > 0 and @event.future?) %>
+      <% if @event.sold_out? and !params[:ticket_type_id] %>
+        <% if params[:added_to_waitlist] %>
+          <div class="card">
+            <h3 class="card-header bg-primary text-white">Thanks!</h2>
+              <div class="card-body">
+                <p class="lead mb-0">
+                  We'll be in touch if we are able to issue more tickets.
+                </p>
+              </div>
+          </div>
+        <% else %>
+          <%= partial :'events/waitlist' %>
+        <% end %>
+      <% elsif @event.organisation %>
+        <%= partial :'events/purchase' %>
+      <% end  %>
     <% end %>
-  <% elsif @event.organisation %>
-    <%= partial :'events/purchase' %>
-  <% end  %>
-<% end  %>
+
+  </div>  
+
+
+</div>
+
+
 
 <% if @event.activity && @event.activity.event_feedbacks.count > 0 %>
   <h2 class="mt-5">Feedback on <%=@event.activity.name%></h2>
@@ -133,6 +133,7 @@
 <% end %>
 
 <% if current_account %>
+  <h2 class="mt-5">Comments</h2>
   <div class="mt-3" data-pagelet-url="/commentable?commentable_type=Event&commentable_id=<%=@event.id%>">
     <%= partial :'comments/commentable', :locals => {:commentable => @event} %>
   </div>  

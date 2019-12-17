@@ -1,15 +1,37 @@
-<%= partial :block, locals: {
-  title: event.name,
-  image: event.image,
-  view_url: "/events/#{event.id}",
-  edit_url: "/events/#{event.id}/edit",
-  admin: event_admin?(event),
-  content: %Q{
-  <ul style="margin-left: 1.4em" class="fa-ul #{event.image ? 'text-white' : 'text-dark'}">
-  #{%Q{<li><i class="fa fa-li fa-flag"></i><a class="#{event.image ? 'text-white' : 'text-dark'}" href="/organisations/#{event.organisation_id}">#{event.organisation.name}</a></li>} if event.organisation}
-  <li><i class="fa fa-li fa-calendar"></i>#{event.when_details}</li>
-  <li><i class="fa fa-li fa-map-marker"></i>#{event.location}</li>
-  </ul>
-}
+<div class="row block">
+  <div class="col-md-7">
+    <table style="width: 100%; height: 100%">
+      <tr>
+        <td style="vertical-align: top">
+          <div class="row justify-content-between">
+            <div class="col">
+              <h4 class="block-title">
+                <a class="text-dark" target="_parent" href="<%="/events/#{event.id}"%>" onclick="event.stopPropagation();">
+                  <%= event.name %>
+                </a>
+                <% if event_admin?(event) %>
+                  <a class="text-dark block-edit" style="display: none" href="<%="/events/#{event.id}/edit"%>" onclick="event.stopPropagation();">
+                    <i class="fa fa-pencil"></i>
+                  </a>
+                <% end %>
+              </h4>
+              <%= %Q{
+<ul style="margin-left: 1.4em" class="fa-ul #{'text-dark'}">
+#{%Q{<li><i class="fa fa-li fa-flag"></i><a class="#{'text-dark'}" href="/organisations/#{event.organisation_id}">#{event.organisation.name}</a></li>} if event.organisation}
+<li><i class="fa fa-li fa-calendar"></i>#{event.when_details}</li>
+<li><i class="fa fa-li fa-map-marker"></i>#{event.location}</li>
+</ul>
+              } %>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-md-5">
+    <% if event.image %>
+      <a href="/events/<%=event.id%>"><img class="w-100 mb-3" src="<%=event.image.url%>" /></a>
+      <% end %>
+  </div>  
+</div>
 
-  } %>
