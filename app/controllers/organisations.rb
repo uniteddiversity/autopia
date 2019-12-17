@@ -52,7 +52,7 @@ Autopia::App.controller do
       }.to_json
     end
   end  
-
+  
   get '/organisations/new' do
     sign_in_required!
     @organisation = current_account.organisations.build(params[:organisation])
@@ -76,6 +76,19 @@ Autopia::App.controller do
     discuss 'Organisations'
     erb :'organisations/organisation'
   end
+  
+  get '/organisations/:id/attachments' do
+    @organisation = Organisation.find(params[:id]) || not_found
+    organisation_admins_only!
+    partial :'organisations/attachments'
+  end  
+  
+  get '/organisations/:id/attachments/:attachment_id/destroy' do
+    @organisation = Organisation.find(params[:id]) || not_found
+    organisation_admins_only!
+    @organisation.attachments.find(params[:attachment_id]).destroy
+    200
+  end   
 
   get '/organisations/:id/edit' do
     @organisation = Organisation.find(params[:id]) || not_found

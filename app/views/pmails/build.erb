@@ -49,22 +49,8 @@
     <div class="card mt-3">
       <h5 class="card-header bg-primary text-white"><%=@organisation.name%>'s files</h5>
       <div class="card-body">
-        <table class="table table-borderless">
-          <% @organisation.attachments.each { |attachment| %>
-            <tr>
-              <td style="width: 1px">
-                <% if %w{png jpg gif jpeg}.any? { |x| attachment.file.name.downcase.ends_with? ".#{x}" } %>
-                  <img style="max-width: 100px" src="<%=attachment.file.url%>">
-                <% else %>
-                  <i class="fa fa-paperclip"></i>&nbsp;<a href="<%=attachment.file.url%>"><%=attachment.file.name%></a>
-                <% end %>
-              </td>
-              <td>
-                <input type="text" class="form-control" value="<%=attachment.file.url%>">
-              </td>
-            </tr>
-          <% } %>
-        </table>
+
+        <div data-pagelet-url="/organisations/<%=@organisation.id%>/attachments"></div>
 
         <%= f.file_block :file %>
 
