@@ -26,7 +26,7 @@ class Notification
   end
 
   def self.types
-    %w[created_gathering applied joined_gathering created_team created_timetable created_tactivity created_rota created_tier created_accom created_transport created_spend created_room created_place updated_profile updated_place followed completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_tactivity scheduled_tactivity unscheduled_tactivity made_admin unadmined commented reacted_to_a_comment left_gathering created_payment created_inventory_item mapplication_removed]
+    %w[created_gathering applied joined_gathering created_team created_timetable created_tactivity created_rota created_tier created_accom created_transport created_spend created_room created_place updated_profile updated_place completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_tactivity scheduled_tactivity unscheduled_tactivity made_admin unadmined commented reacted_to_a_comment left_gathering created_payment created_inventory_item mapplication_removed]
   end
 
   def self.mailable_types
@@ -84,9 +84,6 @@ class Notification
     when :joined_team
       teamship = notifiable
       "<strong>#{teamship.account.name}</strong> joined the <strong>#{teamship.team.name}</strong> team"
-    when :followed
-      follow = notifiable
-      "<strong>#{follow.follower.name}</strong> followed <strong>#{follow.followee.name}</strong>"
     when :completed_a_habit
       habit_completion = notifiable
       "<strong>#{habit_completion.account.name}</strong> completed the habit <strong>#{habit_completion.habit.name}</strong>"
@@ -230,8 +227,6 @@ class Notification
       ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]
     when :joined_team
       ['View team', "#{ENV['BASE_URI']}/a/#{circle.slug}/teams/#{notifiable.team_id}"]
-    when :followed
-      ['View profile', "#{ENV['BASE_URI']}/u/#{notifiable.followee.username}"]
     when :completed_a_habit
       ['View habit', "#{ENV['BASE_URI']}/habits/#{notifiable.habit.id}"]
     when :liked_a_habit_completion
@@ -297,8 +292,6 @@ class Notification
       'fa-user-plus'
     when :joined_team
       'fa-group'
-    when :followed
-      'fa-user-plus'
     when :completed_a_habit
       'fa-check'
     when :liked_a_habit_completion
