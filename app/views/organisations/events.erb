@@ -18,7 +18,26 @@
   </div>
 </div>
 
-<% events = @organisation.events.future.paginate(:page => params[:page], :per_page => 50) %>
+<% form_tag '', :method => 'get', :class => 'form-inline' do%>
+  <label>
+    Events since
+    <%=text_field_tag :from, :class => 'form-control datepicker mx-1', :value => @from.to_s(:db) %>
+    containing the word
+    <%=text_field_tag :q, :class => 'form-control mx-1', :value => params[:q] %>
+  </label>
+  <%= hidden_field_tag :search, :value => 1 %>  
+  <label>
+    Local group
+    <%=select_tag :local_group_id, :options => [''] + @organisation.local_groups.order('name asc').map { |local_group| [local_group.name, local_group.id] }, :selected => params[:local_group_id], :class => 'form-control mx-1' %>
+  </label>
+  <label>
+    Activity
+    <%=select_tag :activity_id, :options => [''] + @organisation.activities.order('name asc').map { |activity| [activity.name, activity.id] }, :selected => params[:activity_id], :class => 'form-control mx-1' %>
+  </label>
+  <%=submit_tag 'Search', :class => 'btn btn-primary'%>
+<% end %>
+
+<% events = @events.paginate(:page => params[:page], :per_page => 50) %>
 <%= partial :'events/blocks', :locals => {:events => events} %>
 <div class="mt-3">
   <%= will_paginate events, :param_name => 'events_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
