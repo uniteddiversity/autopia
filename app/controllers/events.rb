@@ -97,7 +97,7 @@ Autopia::App.controller do
     params[:detailsForm].each { |_k, v| detailsForm[v['name']] = v['value'] }
     email = detailsForm['account[email]']
 
-    account_hash = { name: detailsForm['account[name]'], email: email, postcode: detailsForm['account[postcode]'] }
+    account_hash = { name: detailsForm['account[name]'], email: email }
     @account = if (account = Account.find_by(email: /^#{::Regexp.escape(email)}$/i))
       account
     else
@@ -159,6 +159,27 @@ Autopia::App.controller do
     event_admins_only!
     erb :'events/tickets'      
   end
+  
+  post '/events/:id/create_ticket' do
+    @event = Event.find(params[:id]) || not_found
+    event_admins_only!
+    
+    account_hash = {name: params[:ticket][:name], email: params[:ticket][:email]}
+    @account = if account_hash[:email] and (account = Account.find_by(email: /^#{::Regexp.escape(account_hash[:email])}$/i))
+      account
+    else
+      Account.new(mass_assigning(account_hash, Account))
+    end    
+    
+    already_existed = @account.persisted?
+    if (already_existed ? @account.update_attributes(Hash[account_hash.map { |k,v| [k, v] if v }.compact]) : @account.save)       
+      @account.tickets.create!(:event => @event, :ticket_type => params[:ticket][:ticket_type_id], :price => params[:ticket][:price], :force => true)
+      redirect "/events/#{@event.id}/tickets"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved"
+      erb :'events/tickets'    
+    end    
+  end  
   
   get '/events/:id/tickets/:ticket_id/destroy' do
     @event = Event.find(params[:id]) || not_found

@@ -14,7 +14,7 @@ class Organisation
 
   validates_presence_of :name, :website
 
-  belongs_to :account, index: true, optional: true
+  belongs_to :account, index: true
 
   has_many :events, dependent: :nullify
   has_many :activities, dependent: :destroy

@@ -51,7 +51,7 @@
         <% if ticket.price %>
           <%=number_to_currency ticket.price, unit: '£', precision: 2%>
         <% end %>
-        <% if ticket.order.incomplete? %><i title="Payment processing" class="ml-1 fa fa-spin fa-circle-o-notch"></i><% end %>
+        <% if ticket.order && ticket.order.incomplete? %><i title="Payment processing" class="ml-1 fa fa-spin fa-circle-o-notch"></i><% end %>
       </td>            
       <td>
         <%= ticket.id %>
@@ -75,3 +75,14 @@
     </tr>
   <% } %>
 </table>
+
+
+  <h3 class="mt-5">Create ticket</h3>
+
+  <% form_for @event.tickets.new, "/events/#{@event.id}/create_ticket" do |f| %>
+    <%= f.text_block :name %>
+    <%= f.text_block :email %>
+    <%= f.select_block :ticket_type_id, options: @event.ticket_types.map { |ticket_type| [ticket_type.name, ticket_type.id] } %>
+    <%= f.number_block :price %>
+    <%= f.submit_block %>
+  <% end %>

@@ -57,6 +57,11 @@ Autopia::App.controller do
     end    
   end
   
+  get '/activities/:id/feedback' do
+    @activity = Activity.find(params[:id])
+    partial :'activities/feedback'
+  end
+  
   post '/activities/:id/activityships/admin' do    
     @activity = Activity.find(params[:id]) || not_found
     activity_admins_only!        
