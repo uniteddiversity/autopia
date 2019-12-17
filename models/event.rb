@@ -168,7 +168,7 @@ class Event
   end  
   
   def subscribers
-    attendees
+    [account, revenue_sharer, coordinator] + event_facilitators + attendees
   end    
   
   def revenue
