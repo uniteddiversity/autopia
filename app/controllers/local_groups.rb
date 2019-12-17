@@ -10,7 +10,7 @@ Autopia::App.controller do
   
   post '/local_groups/new' do
     sign_in_required!
-    @local_group = LocalGroup.new(params[:local_group])
+    @local_group = LocalGroup.new(mass_assigning(params[:local_group], LocalGroup))
     @local_group.account = current_account
     if @local_group.save!      
       redirect "/local_groups/#{@local_group.id}"
@@ -37,7 +37,7 @@ Autopia::App.controller do
   post '/local_groups/:id/edit' do
     @local_group = LocalGroup.find(params[:id])
     local_group_admins_only!
-    if @local_group.update_attributes(params[:local_group])
+    if @local_group.update_attributes(mass_assigning(params[:local_group], LocalGroup))
       redirect "/local_groups/#{@local_group.id}"
     else
       flash[:error] = 'There was an error saving the local group'

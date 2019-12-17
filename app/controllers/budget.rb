@@ -17,7 +17,7 @@ Autopia::App.controller do
     @gathering = Gathering.find_by(slug: params[:slug])  || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!
-    @spend = @gathering.spends.new(params[:spend])
+    @spend = @gathering.spends.new(mass_assigning(params[:spend],Spend))
     @spend.account = current_account unless @membership.admin?
     if @spend.save
       redirect back
@@ -39,7 +39,7 @@ Autopia::App.controller do
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @spend = @gathering.spends.find(params[:id]) || not_found
-    if @spend.update_attributes(params[:spend])
+    if @spend.update_attributes(mass_assigning(params[:spend], Spend))
       redirect "/a/#{@gathering.slug}/budget"
     else
       erb :'budget/build'

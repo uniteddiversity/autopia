@@ -2,9 +2,11 @@ Autopia::App.helpers do
 
   def mass_assigning(params, model)
     params ||= {}
-    intersection = model.protected_attributes & params.keys
-    if !intersection.empty?
-      raise "attributes #{intersection} are protected"
+    if model.respond_to?(:protected_attributes)
+      intersection = model.protected_attributes & params.keys
+      if !intersection.empty?
+        raise "attributes #{intersection} are protected"
+      end
     end
     params
   end

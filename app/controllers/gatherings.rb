@@ -18,7 +18,7 @@ Autopia::App.controller do
     
   post '/a/new' do
     sign_in_required!
-    @gathering = Gathering.new(params[:gathering])
+    @gathering = Gathering.new(mass_assigning(params[:gathering], Gathering))
     @gathering.account = current_account
     if @gathering.save
       redirect "/a/#{@gathering.slug}"
@@ -65,7 +65,7 @@ Autopia::App.controller do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
     @membership = @gathering.memberships.find_by(account: current_account)
     gathering_admins_only!
-    if @gathering.update_attributes(params[:gathering])
+    if @gathering.update_attributes(mass_assigning(params[:gathering], Gathering))
       redirect "/a/#{@gathering.slug}"
     else
       flash.now[:error] = 'Some errors prevented the gathering from being created'

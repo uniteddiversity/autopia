@@ -40,7 +40,7 @@ Autopia::App.controller do
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @inventory_item = @gathering.inventory_items.find(params[:id]) || not_found
-    if @inventory_item.update_attributes(params[:inventory_item])
+    if @inventory_item.update_attributes(mass_assigning(params[:inventory_item], InventoryItem))
       redirect "/a/#{@gathering.slug}/inventory"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the inventory item from being saved." 

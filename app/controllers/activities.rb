@@ -9,7 +9,7 @@ Autopia::App.controller do
   
   post '/activities/new' do
     sign_in_required!
-    @activity = Activity.new(params[:activity])
+    @activity = Activity.new(mass_assigning(params[:activity], Activity))
     @activity.account = current_account
     if @activity.save
       redirect "/activities/#{@activity.id}"
@@ -36,7 +36,7 @@ Autopia::App.controller do
   post '/activities/:id/edit' do
     @activity = Activity.find(params[:id]) || not_found
     activity_admins_only!
-    if @activity.update_attributes(params[:activity])
+    if @activity.update_attributes(mass_assigning(params[:activity], Activity))
       redirect "/activities/#{@activity.id}"
     else
       flash[:error] = 'There was an error saving the activity.'

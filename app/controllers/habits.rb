@@ -66,7 +66,7 @@ Autopia::App.controller do
   post '/habits/:id/edit' do
     sign_in_required!
     @habit = current_account.habits.find(params[:id]) || not_found
-    if @habit.update_attributes(params[:habit])
+    if @habit.update_attributes(mass_assigning(params[:habit], Habit))
       redirect '/habits'
     else
       flash[:error] = 'There was an error saving the habit.'

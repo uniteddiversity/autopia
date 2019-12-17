@@ -160,5 +160,9 @@ class Membership
   def confirmed?    
     !gathering.demand_payment or gathering.disable_stripe or paid > 0 or admin?
   end
-      
+  
+  def self.protected_attributes
+    %w[admin]
+  end  
+  
 end

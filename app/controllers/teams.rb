@@ -60,7 +60,7 @@ Autopia::App.controller do
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!
     @team = @gathering.teams.find(params[:id]) || not_found
-    if @team.update_attributes(params[:team])
+    if @team.update_attributes(mass_assigning(params[:team], Team))
       redirect "/a/#{@gathering.slug}/teams/#{@team.id}"
     else
       erb :'teams/build' 

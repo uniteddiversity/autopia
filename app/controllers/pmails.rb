@@ -18,7 +18,7 @@ Autopia::App.controller do
   end
   
   post '/organisations/:id/pmails/new' do
-    @pmail = Pmail.new(params[:pmail])
+    @pmail = Pmail.new(mass_assigning(params[:pmail], Pmail))
     @pmail.account = current_account
     @pmail.organisation = @organisation
     if @pmail.save
@@ -36,7 +36,7 @@ Autopia::App.controller do
   
   post '/organisations/:id/pmails/:pmail_id/edit' do
     @pmail = Pmail.find(params[:pmail_id]) || not_found   
-    if @pmail.update_attributes(params[:pmail])
+    if @pmail.update_attributes(mass_assigning(params[:pmail], Pmail))
       flash[:notice] = 'The mail was saved.'
       redirect "/organisations/#{@organisation.id}/pmails/#{@pmail.id}/edit"
     else

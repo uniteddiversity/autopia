@@ -39,7 +39,7 @@ Autopia::App.controller do
     @membership = @gathering.memberships.find_by(account: current_account)
     gathering_admins_only!    
     @accom = @gathering.accoms.find(params[:id])
-    if @accom.update_attributes(params[:accom])
+    if @accom.update_attributes(mass_assigning(params[:accom], Accom))
       redirect "/a/#{@gathering.slug}/accoms"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the accommodation from being saved." 

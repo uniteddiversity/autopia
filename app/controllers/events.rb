@@ -34,7 +34,7 @@ Autopia::App.controller do
         params['event']['ticket_types_attributes'][k]['exclude_from_capacity'] = nil if v[:name].nil?
       end
     end
-    @event = Event.new(params[:event])
+    @event = Event.new(mass_assigning(params[:event], Event))
     @event.account = current_account
     if @event.save
       redirect "/events/#{@event.id}"
@@ -64,7 +64,7 @@ Autopia::App.controller do
   post '/events/:id/edit' do
     @event = Event.find(params[:id]) || not_found
     event_admins_only!
-    if @event.update_attributes(params[:event])
+    if @event.update_attributes(mass_assigning(params[:event], Event))
       redirect "/events/#{@event.id}"
     else
       flash[:error] = 'There was an error saving the event'

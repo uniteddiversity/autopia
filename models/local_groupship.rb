@@ -18,5 +18,9 @@ class LocalGroupship
   belongs_to :local_group
   
   validates_uniqueness_of :account, :scope => :local_group
+  
+  def self.protected_attributes
+    %w[admin]
+  end  
       
 end

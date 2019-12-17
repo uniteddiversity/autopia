@@ -33,7 +33,7 @@ Autopia::App.controller do
   post '/placeship_categories/:id/edit' do
     sign_in_required!
     @placeship_category = current_account.placeship_categories.find(params[:id]) || not_found
-    if @placeship_category.update_attributes(params[:placeship_category])
+    if @placeship_category.update_attributes(mass_assigning(params[:placeship_category], PlaceshipCategory))
       redirect "/u/#{current_account.username}#places"
     else
       flash[:error] = 'There was an error saving the placeship_category.'

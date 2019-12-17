@@ -56,7 +56,7 @@ Autopia::App.controller do
     @membership = @gathering.memberships.find_by(account: current_account)
     gathering_admins_only!    
     @timetable = @gathering.timetables.find(params[:id]) || not_found
-    if @timetable.update_attributes(params[:timetable])
+    if @timetable.update_attributes(mass_assigning(params[:timetable], Timetable))
       redirect "/a/#{@gathering.slug}/timetables/#{@timetable.id}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the timetable from being saved." 
@@ -136,7 +136,7 @@ Autopia::App.controller do
     @gathering = @timetable.gathering
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
-    @tactivity = Tactivity.new(params[:tactivity])
+    @tactivity = Tactivity.new(mass_assigning(params[:tactivity], Tactivity))
     @tactivity.timetable = @timetable
     @tactivity.account = current_account
     if @tactivity.save
@@ -169,7 +169,7 @@ Autopia::App.controller do
     @gathering = @tactivity.gathering
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required!      
-    if @tactivity.update_attributes(params[:tactivity])
+    if @tactivity.update_attributes(mass_assigning(params[:tactivity], Tactivity))
       redirect "/a/#{@gathering.slug}/timetables/#{@tactivity.timetable_id}"
     else
       flash[:error] = 'There was an error saving the tactivity'

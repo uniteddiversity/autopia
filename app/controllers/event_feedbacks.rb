@@ -46,7 +46,7 @@ Autopia::App.controller do
   post '/events/:id/give_feedback' do
     @event = Event.find(params[:id]) || not_found
     @title = "Feedback on #{@event.name}"
-    @event_feedback = @event.event_feedbacks.new(params[:event_feedback])
+    @event_feedback = @event.event_feedbacks.new(mass_assigning(params[:event_feedback], EventFeedback))
     @event_feedback.answers = (params[:answers].map { |i,x| [@event.feedback_questions_a[i.to_i],x] } if params[:answers])
     @event_feedback.save!
     flash[:notice] = 'Thanks for your feedback!'

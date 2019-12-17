@@ -56,7 +56,7 @@ Autopia::App.controller do
     @membership = @gathering.memberships.find_by(account: current_account)
     gathering_admins_only!
     @rota = @gathering.rotas.find(params[:id]) || not_found
-    if @rota.update_attributes(params[:rota])
+    if @rota.update_attributes(mass_assigning(params[:rota], Rota))
       redirect "/a/#{@gathering.slug}/rotas/#{@rota.id}"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the rota from being saved." 

@@ -44,7 +44,7 @@ Autopia::App.controller do
     sign_in_required!
     @room = Room.find(params[:id]) || not_found
     halt(403) unless admin? || @room.account_id == current_account.id
-    if @room.update_attributes(params[:room])
+    if @room.update_attributes(mass_assigning(params[:room], Room))
       redirect "/rooms/#{@room.id}"
     else
       flash[:error] = 'There was an error saving the room.'

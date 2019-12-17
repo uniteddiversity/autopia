@@ -75,7 +75,7 @@ Autopia::App.controller do
     sign_in_required!
     @place = Place.find(params[:id]) || not_found
     halt(403) unless admin? || @place.account_id == current_account.id
-    if @place.update_attributes(params[:place])
+    if @place.update_attributes(mass_assigning(params[:place], Place))
       @place.notifications_as_notifiable.where(type: 'updated_place').destroy_all
       @place.notifications_as_notifiable.create! circle: @place, type: 'updated_place'
       redirect "/places/#{@place.id}"

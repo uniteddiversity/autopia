@@ -18,5 +18,9 @@ class Activityship
   belongs_to :activity
   
   validates_uniqueness_of :account, :scope => :activity
+  
+  def self.protected_attributes
+    %w[admin]
+  end  
       
 end

@@ -87,7 +87,7 @@ Autopia::App.controller do
   post '/organisations/:id/edit' do
     @organisation = Organisation.find(params[:id]) || not_found
     organisation_admins_only!
-    if @organisation.update_attributes(params[:organisation])
+    if @organisation.update_attributes(mass_assigning(params[:organisation], Organisation))
       redirect "/organisations/#{@organisation.id}"
     else
       flash[:error] = 'There was an error saving the organisation.'

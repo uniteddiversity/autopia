@@ -57,7 +57,7 @@ Autopia::App.controller do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
     @membership = @gathering.memberships.find_by(account: current_account)
     gathering_admins_only!
-    if @gathering.update_attributes(params[:gathering])
+    if @gathering.update_attributes(mass_assigning(params[:gathering], Gathering))
     	
     	if ENV['SMTP_ADDRESS']
 	      mail = Mail.new

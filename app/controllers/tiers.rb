@@ -39,7 +39,7 @@ Autopia::App.controller do
     @membership = @gathering.memberships.find_by(account: current_account)
     gathering_admins_only!    
     @tier = @gathering.tiers.find(params[:id])
-    if @tier.update_attributes(params[:tier])
+    if @tier.update_attributes(mass_assigning(params[:tier], Tier))
       redirect "/a/#{@gathering.slug}/tiers"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the tier from being saved." 

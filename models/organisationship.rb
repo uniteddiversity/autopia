@@ -24,4 +24,9 @@ class Organisationship
       organisation_id: :lookup
     }
   end
+  
+  def self.protected_attributes
+    %w[admin]
+  end
+  
 end
