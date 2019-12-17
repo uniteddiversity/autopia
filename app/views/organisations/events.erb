@@ -19,21 +19,17 @@
 </div>
 
 <% form_tag '', :method => 'get', :class => 'form-inline mb-3' do%>
-  <label>
-    Events since
-    <%=text_field_tag :from, :class => 'form-control datepicker mx-1', :value => @from.to_s(:db) %>
-    containing the word
-    <%=text_field_tag :q, :class => 'form-control mx-1', :value => params[:q] %>
-  </label>
+
+  Events since
+  <%=text_field_tag :from, :class => 'form-control datepicker my-1 my-sm-0 mx-sm-1', :value => @from.to_s(:db) %>
+  containing the word
+  <%=text_field_tag :q, :class => 'form-control my-1 my-sm-0 mx-sm-1', :value => params[:q] %>
+  Local group
+  <%=select_tag :local_group_id, :options => [''] + @organisation.local_groups.order('name asc').map { |local_group| [local_group.name, local_group.id] }, :selected => params[:local_group_id], :class => 'form-control my-1 my-sm-0 mx-sm-1' %>
+  Activity
+  <%=select_tag :activity_id, :options => [''] + @organisation.activities.order('name asc').map { |activity| [activity.name, activity.id] }, :selected => params[:activity_id], :class => 'form-control my-1 my-sm-0 mx-sm-1' %>
+
   <%= hidden_field_tag :search, :value => 1 %>  
-  <label>
-    Local group
-    <%=select_tag :local_group_id, :options => [''] + @organisation.local_groups.order('name asc').map { |local_group| [local_group.name, local_group.id] }, :selected => params[:local_group_id], :class => 'form-control mx-1' %>
-  </label>
-  <label>
-    Activity
-    <%=select_tag :activity_id, :options => [''] + @organisation.activities.order('name asc').map { |activity| [activity.name, activity.id] }, :selected => params[:activity_id], :class => 'form-control mx-1' %>
-  </label>
   <%=submit_tag 'Search', :class => 'btn btn-primary'%>
 <% end %>
 
