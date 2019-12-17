@@ -81,10 +81,10 @@ class Pmail
   handle_asynchronously :send_pmail
   
   def send_test(account)     
-    send_batch_message "Account.where(id: '#{account.id}')", test_message: true
+    send_batch_message Account.where(id: account.id), test_message: true
   end
   
-  def self.layout(body)
+  def self.layout(pmail)
     ERB.new(File.read(Padrino.root('app/views/layouts/mailer.erb'))).result(binding)
   end  
   
@@ -94,7 +94,7 @@ class Pmail
               
     batch_message.from from  
     batch_message.subject (test_message ? "#{subject} [test sent #{Time.now}]" : subject)
-    batch_message.body_html Pmail.layout(body)
+    batch_message.body_html Pmail.layout(self)
     batch_message.add_tag id
     
     to.where(:id.nin => organisation.unsubscribed_members.pluck(:id)).where(:unsubscribed.ne => true).each { |account|
