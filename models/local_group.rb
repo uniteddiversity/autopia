@@ -10,7 +10,7 @@ class LocalGroup
   field :radius, :type => Integer, :default => 25
   field :image_uid, :type => String    
   
-  validates_presence_of :name, :coordinates  
+  validates_presence_of :name 
   
   has_many :events, :dependent => :nullify
   has_many :local_groupships, :dependent => :destroy

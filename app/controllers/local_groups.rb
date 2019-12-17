@@ -12,7 +12,7 @@ Autopia::App.controller do
     sign_in_required!
     @local_group = LocalGroup.new(params[:local_group])
     @local_group.account = current_account
-    if @local_group.save
+    if @local_group.save!      
       redirect "/local_groups/#{@local_group.id}"
     else
       flash[:error] = 'There was an error saving the local group'
