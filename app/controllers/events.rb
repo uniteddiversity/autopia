@@ -1,8 +1,13 @@
 Autopia::App.controller do
   
   get '/events' do
-    @events = params[:q] ? Event.all : Event.future
-    @events = @events.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
+    @events = Event.all
+    @from = params[:from] ? Date.parse(params[:from]) : Date.today
+    @events = @events.future(@from)          
+    @events = @events.or(
+        { :name => /#{::Regexp.escape(params[:q])}/i },
+        { :description => /#{::Regexp.escape(params[:q])}/i },
+      ) if params[:q]    
     discuss 'Events'
     erb :'events/events'
   end

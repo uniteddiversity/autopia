@@ -1,7 +1,13 @@
 <div class="row justify-content-between mb-3">
   <div class="col">
     <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
-      <%= text_field_tag :q, :class => 'form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Search events', :value => params[:q] %>
+      <label>
+        Events since
+        <%=text_field_tag :from, :class => 'form-control datepicker mx-1', :value => @from.to_s(:db) %>
+        containing the word
+        <%=text_field_tag :q, :class => 'form-control mx-1', :value => params[:q] %>
+      </label>
+      <%= hidden_field_tag :search, :value => 1 %>  
     <% end %>
   </div>
   <% if current_account %>
@@ -13,3 +19,4 @@
 <% @events = @events.paginate(:page => params[:page], :per_page => 50) %>
 <%= partial :'events/blocks', :locals => {:events => @events} %>
 <%= will_paginate @events, :param_name => 'events_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
+
