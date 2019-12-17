@@ -101,7 +101,10 @@ Autopia::App.controller do
     @events = @organisation.events.order('start_time asc')
     @from = params[:from] ? Date.parse(params[:from]) : Date.today
     @events = @events.future(@from)          
-    @events = @events.where(:name => /#{::Regexp.escape(params[:q])}/i) if params[:q]
+    @events = @events.or(
+        { :name => /#{::Regexp.escape(params[:q])}/i },
+        { :description => /#{::Regexp.escape(params[:q])}/i },
+      ) if params[:q]    
     @events = @events.where(:local_group_id => params[:local_group_id]) if params[:local_group_id]
     @events = @events.where(:activity_id => params[:activity_id]) if params[:activity_id]     
     discuss 'Organisations'
