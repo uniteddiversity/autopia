@@ -4,6 +4,7 @@
     <%= ul_nav [
       ['View organisation', "/organisations/#{organisation.id}"],
       ['Edit organisation', "/organisations/#{organisation.id}/edit"],      
+      ['Events', "/organisations/#{organisation.id}/events/stats"],
       ['Mailer', "/organisations/#{organisation.id}/pmails"]      
       ].compact, ul_class: 'nav nav-tabs', li_class: 'nav-item', a_class: 'nav-link' %>
   </div>

@@ -79,7 +79,7 @@ Autopia::App.controller do
     @events = @events.where(:id.in => @events.select { |event| event.discrepancy? }.map(&:id)) if params[:discrepancy]
     @events = @events.where(:start_time.gte => @from)
     @events = @events.where(:start_time.lt => @to+1)    
-    erb :'events/stats'
+    erb :'organisations/event_stats'
   end     
   
   post '/organisations/:id/organisationships/admin' do    
