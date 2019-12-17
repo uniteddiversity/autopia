@@ -41,6 +41,10 @@ class Pmail
     end
   end  
   
+  def to_with_unsubscribes
+    to.where(:id.nin => organisation.unsubscribed_members.pluck(:id)).where(:unsubscribed.ne => true)
+  end
+  
   before_validation do  
     
     if to_option.starts_with?('activity:')
@@ -97,7 +101,7 @@ class Pmail
     batch_message.body_html Pmail.layout(self)
     batch_message.add_tag id
         
-    (test_message ? to : to.where(:id.nin => organisation.unsubscribed_members.pluck(:id)).where(:unsubscribed.ne => true)).each { |account|
+    (test_message ? to : to_with_unsubscribes).each { |account|
       batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id, 'username' => account.username})
     }
         
