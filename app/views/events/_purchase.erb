@@ -16,7 +16,7 @@
                 <%= ticket_type.name %>
               </td>
               <td>
-                £<%= ticket_type.price %>
+                <%=number_to_currency ticket_type.price, unit: '£', precision: 2%>
               </td>
               <td>
                 <% if ticket_type.number_of_tickets_available_in_single_purchase > 0 %>

@@ -49,7 +49,7 @@
       </td>      
       <td>
         <% if ticket.price %>
-          £<%= ticket.price %>
+          <%=number_to_currency ticket.price, unit: '£', precision: 2%>
         <% end %>
         <% if ticket.order.incomplete? %><i title="Payment processing" class="ml-1 fa fa-spin fa-circle-o-notch"></i><% end %>
       </td>            

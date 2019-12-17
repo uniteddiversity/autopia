@@ -168,9 +168,6 @@ class Account
   has_many :transportships, dependent: :destroy
   # Budget
   has_many :spends, dependent: :destroy
-  # Qualities
-  has_many :qualities, dependent: :nullify
-  has_many :cultivations, dependent: :destroy
   # Inventory
   has_many :inventory_items_listed, class_name: 'InventoryItem', inverse_of: :account, dependent: :nullify
   has_many :inventory_items_provided, class_name: 'InventoryItem', inverse_of: :responsible, dependent: :nullify

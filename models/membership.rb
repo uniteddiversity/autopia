@@ -119,8 +119,6 @@ class Membership
   has_many :transportships, :dependent => :destroy
   # Budget
   has_many :spends, :dependent => :destroy
-  # Qualities
-  has_many :cultivations, :dependent => :destroy
   # Inventory
   has_many :inventory_items, :dependent => :nullify
   

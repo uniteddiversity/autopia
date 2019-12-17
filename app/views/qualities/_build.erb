@@ -1,6 +1,0 @@
-<% form_for @quality ||= Quality.new, @quality.new_record? ? "/a/#{@gathering.slug}/qualities/new" : "/a/#{@gathering.slug}/qualities/#{@quality.id}/edit" do |f| %>
-  <%= f.text_block :name %>
-  <%= f.url_block :link %>
-  <%= f.image_block :image %>
-  <%= f.submit_block destroy_url: "/a/#{@gathering.slug}/qualities/#{@quality.id}/destroy" %>
-<% end %>  

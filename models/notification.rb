@@ -26,7 +26,7 @@ class Notification
   end
 
   def self.types
-    %w[created_gathering applied joined_gathering created_team created_timetable created_tactivity created_rota created_tier created_accom created_transport created_spend created_room created_place updated_profile updated_place followed completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_tactivity scheduled_tactivity unscheduled_tactivity made_admin unadmined cultivating_quality commented reacted_to_a_comment left_gathering created_payment created_inventory_item mapplication_removed]
+    %w[created_gathering applied joined_gathering created_team created_timetable created_tactivity created_rota created_tier created_accom created_transport created_spend created_room created_place updated_profile updated_place followed completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_tactivity scheduled_tactivity unscheduled_tactivity made_admin unadmined commented reacted_to_a_comment left_gathering created_payment created_inventory_item mapplication_removed]
   end
 
   def self.mailable_types
@@ -147,9 +147,6 @@ class Notification
     when :created_timetable
       timetable = notifiable
       "<strong>#{timetable.account.name}</strong> created the timetable <strong>#{timetable.name}</strong>"
-    when :cultivating_quality
-      cultivation = notifiable
-      "<strong>#{cultivation.account.name}</strong> is cultivating <strong>#{cultivation.quality.name}</strong>"
     when :commented
       comment = notifiable
       if comment.commentable.is_a?(Mapplication)
@@ -275,8 +272,6 @@ class Notification
       ['View members', "#{ENV['BASE_URI']}/a/#{circle.slug}/members"]
     when :created_timetable
       ['View timetable', "#{ENV['BASE_URI']}/a/#{circle.slug}/timetables/#{notifiable.id}"]
-    when :cultivating_quality
-      ['View qualities', "#{ENV['BASE_URI']}/a/#{circle.slug}/qualities"]
     when :commented
       ['View post', notifiable.post.url]
     when :reacted_to_a_comment
@@ -344,8 +339,6 @@ class Notification
       'fa-key'
     when :created_timetable
       'fa-table'
-    when :cultivating_quality
-      'fa-star'
     when :commented
       'fa-comment'
     when :reacted_to_a_comment

@@ -138,9 +138,6 @@ class Gathering
   has_many :transportships, :dependent => :destroy
   # Budget  
   has_many :spends, :dependent => :destroy
-  # Qualities
-  has_many :qualities, :dependent => :destroy
-  has_many :cultivations, :dependent => :destroy
   # Inventory
   has_many :inventory_items, :dependent => :destroy
   # Photos
@@ -159,11 +156,7 @@ class Gathering
   def members
     Account.where(:id.in => memberships.pluck(:account_id))
   end
-  
-  def cultivators
-    Account.where(:id.in => cultivations.pluck(:account_id))
-  end
-      
+        
   def admin_emails
     Account.where(:id.in => memberships.where(admin: true).pluck(:account_id)).pluck(:email)
   end
