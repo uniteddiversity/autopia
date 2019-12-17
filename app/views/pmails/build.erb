@@ -1,8 +1,8 @@
 <%= partial :'organisations/nav', :locals => {:organisation => @organisation} %>
 
 <% if @pmail.persisted? and !@pmail.sent_at %>
-  <a href="/mailer/<%=@pmail.id%>/send_test" class="btn btn-primary">Send test to <%=current_account.email%></a>
-  <a href="/mailer/<%=@pmail.id%>/send" data-confirm="Are you sure? Make sure you've saved any final changes." class="btn btn-primary">Send</a>
+  <a href="/organisations/<%=@organisation.id%>/pmails/<%=@pmail.id%>/send_test" class="btn btn-primary">Send test to <%=current_account.email%></a>
+  <a href="/organisations/<%=@organisation.id%>/pmails/<%=@pmail.id%>/send" data-confirm="Are you sure? Make sure you've saved any final changes." class="btn btn-primary">Send</a>
 <% end %>
 
 <style>
@@ -43,7 +43,7 @@
     <%= f.check_box_block :no_layout %>
 
     <% if !@pmail.sent_at %>
-      <%= f.submit_block destroy_url: "/mailer/#{@pmail.id}/destroy", button_text: 'Save' %>
+      <%= f.submit_block destroy_url: "/organisations/#{@organisation.id}/pmails/#{@pmail.id}/destroy", button_text: 'Save' %>
     <% end %>  
 
     <div class="card mt-3">

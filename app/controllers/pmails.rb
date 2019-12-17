@@ -46,7 +46,7 @@ Autopia::App.controller do
   
   get '/organisations/:id/pmails/:pmail_id/destroy' do
     Pmail.find(params[:pmail_id]).destroy
-    redirect '/mailer'
+    redirect "/organisations/#{@organisation.id}/pmails"
   end
     
   get '/organisations/:id/pmails/:pmail_id/send_test' do

@@ -40,7 +40,7 @@
           <% end %>
         </td>
         <td><%=pmail.from%></td>
-        <td><a href="/mailer/<%=pmail.id%>/edit"><%=pmail.subject%></a></td>
+        <td><a href="/organisations/<%=@organisation.id%>/pmails/<%=pmail.id%>/edit"><%=pmail.subject%></a></td>
         <td><%=pmail.account.name%></td>
         <td><%=pmail.created_at%></td>
         <td><%=pmail.sent_at%></td>
