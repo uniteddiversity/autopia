@@ -8,7 +8,7 @@
 <script>
   $(function () {
     $("#event_tag_names").select2({
-      tags: <%=EventTag.all.pluck(:name) %>,
+      tags: <%=EventTag.where(:id.in => EventTagship.pluck(:event_tag_id)).order('name asc').pluck(:name) %>,
       width: '100%'
     });
   })
