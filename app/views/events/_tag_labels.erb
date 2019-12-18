@@ -1,0 +1,11 @@
+<% event.event_tags.each { |event_tag| %>
+
+  <a href="     
+  <% if event.organisation %>
+       /organisations/<%=event.organisation_id%>/events?event_tag_id=<%=event_tag.id%>
+     <% else %>
+       /events
+     <% end %>
+     " class="text-white label label-primary"><%=event_tag.name%></a>
+
+<% } %> 

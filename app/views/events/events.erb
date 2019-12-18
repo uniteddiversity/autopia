@@ -1,20 +1,25 @@
-<div class="row justify-content-between mb-3">
-  <div class="col-auto">
-    <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
-      Events since
-      <%=text_field_tag :from, :class => 'form-control datepicker my-1 my-sm-0 mx-sm-1', :value => @from.to_s(:db) %>
-      containing the word
-      <%=text_field_tag :q, :class => 'form-control my-1 my-sm-0 mx-sm-1', :value => params[:q] %>
-      <%= hidden_field_tag :search, :value => 1 %>  
-      <%=submit_tag 'Search', :class => 'btn btn-primary'%>
-    <% end %>
-  </div>
-  <% if current_account %>
-    <div class="col-auto">      
-      <a class="btn btn-primary mt-1 mt-sm-0" href="/events/new"><i class="fa fa-plus-circle"></i> List an event</a>
-    </div>
-  <% end %>
-</div>
+<% if current_account %>
+  <a class="btn btn-primary mb-1" href="/events/new"><i class="fa fa-plus-circle"></i> List an event</a>
+<% end %>
+
+<% form_tag '', :method => 'get', :class => 'form-inline mb-3' do%>
+  <label class="my-1 mx-1">
+    <span class="mr-1">Show events since</span>
+    <%=text_field_tag :from, :class => 'form-control datepicker', :value => @from.to_s(:db) %>
+  </label>
+  <label class="my-1 mx-1">
+    <span class="mr-1">containing the word</span>
+    <%=text_field_tag :q, :class => 'form-control', :value => params[:q] %>
+  </label>
+  <label class="my-1 mx-1">
+    <span class="mr-1">tagged</span>
+    <%=select_tag :event_tag_id, :options => [''] + EventTag.where(:id.in => EventTagship.pluck(:event_tag_id)).order('name asc').map { |event_tag| [event_tag.name, event_tag.id] }, :selected => params[:event_tag_id], :class => 'form-control' %>
+  </label>
+  <%= hidden_field_tag :search, :value => 1 %>  
+  <%=submit_tag 'Search', :class => 'btn btn-primary mt-3 mt-sm-0'%>
+<% end %>
+
+
 <% @events = @events.paginate(:page => params[:page], :per_page => 50) %>
 <%= partial :'events/blocks', :locals => {:events => @events} %>
 <%= will_paginate @events, :param_name => 'events_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>

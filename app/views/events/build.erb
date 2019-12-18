@@ -19,6 +19,7 @@
   <%= f.image_block :image %>
   <%= f.text_area_block :description %>
   <%= f.number_block :facebook_event_id %>
+  <%= partial :'events/tags', :locals => {:f => f} %>
 
   <%= f.lookup_block :organisation_id, lookup_url: "/organisations.json", placeholder: 'Search organisations', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/organisations/#{@event.organisation_id}">View organisation</a>} if @event.organisation_id) %>
 
@@ -48,6 +49,6 @@
     <%= f.number_block :suggested_donation %>  
     <%= f.text_area_block :feedback_questions %>    
   </div>
-  
+
   <%= f.submit_block destroy_url: ("/events/#{@event.id}/destroy") %>
 <% end %>

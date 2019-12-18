@@ -107,6 +107,7 @@ Autopia::App.controller do
     ) if params[:q]    
     @events = @events.where(:local_group_id => params[:local_group_id]) if params[:local_group_id]
     @events = @events.where(:activity_id => params[:activity_id]) if params[:activity_id]     
+    @events = @events.where(:id.in => EventTagship.where(:event_tag_id => params[:event_tag_id]).pluck(:event_id)) if params[:event_tag_id]     
     discuss 'Organisations'
     erb :'organisations/events'
   end  

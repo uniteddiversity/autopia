@@ -7,6 +7,9 @@
     <h1>
       <%= @event.name %>
     </h1>
+    <div class="mb-2">
+      <%= partial :'events/tag_labels', :locals => {:event => @event} %>
+    </div>    
     <table class="table table-hr">
       <% if @event.organisation %>
         <tr>

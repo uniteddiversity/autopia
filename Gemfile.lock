@@ -15,9 +15,9 @@ GIT
 
 GIT
   remote: git://github.com/stephenreid321/activate-tools.git
-  revision: 90041416c2799006c04d4ea6985550fdd9819873
+  revision: 24960c15fb1906d80bd396f02aef29116b69a4b2
   specs:
-    activate-tools (0.0.4)
+    activate-tools (0.0.6)
       padrino
 
 GEM

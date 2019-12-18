@@ -42,6 +42,10 @@ class Organisation
   has_many :subscriptions, as: :commentable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :comment_reactions, as: :commentable, dependent: :destroy    
+  
+  def event_tags
+    EventTag.where(:id.in => EventTagship.where(:event_id.in => events.pluck(:id)).pluck(:event_tag_id))
+  end
 
   dragonfly_accessor :image
   before_validation do

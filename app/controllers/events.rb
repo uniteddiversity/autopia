@@ -7,7 +7,8 @@ Autopia::App.controller do
     @events = @events.or(
         { :name => /#{::Regexp.escape(params[:q])}/i },
         { :description => /#{::Regexp.escape(params[:q])}/i },
-      ) if params[:q]    
+      ) if params[:q]
+    @events = @events.where(:id.in => EventTagship.where(:event_tag_id => params[:event_tag_id]).pluck(:event_id)) if params[:event_tag_id]
     discuss 'Events'
     erb :'events/events'
   end
@@ -49,13 +50,7 @@ Autopia::App.controller do
     erb :'events/event'
   end
   
-  get '/events/:id/edit' do
-    if params[:event] && params[:event][:ticket_types_attributes]
-      params[:event][:ticket_types_attributes].each do |k, v|
-        params['event']['ticket_types_attributes'][k]['hidden'] = nil if v[:name].nil?
-        params['event']['ticket_types_attributes'][k]['exclude_from_capacity'] = nil if v[:name].nil?
-      end
-    end
+  get '/events/:id/edit' do    
     @event = Event.find(params[:id]) || not_found
     event_admins_only!
     erb :'events/build'
@@ -64,6 +59,12 @@ Autopia::App.controller do
   post '/events/:id/edit' do
     @event = Event.find(params[:id]) || not_found
     event_admins_only!
+    if params[:event] && params[:event][:ticket_types_attributes]
+      params[:event][:ticket_types_attributes].each do |k, v|
+        params['event']['ticket_types_attributes'][k]['hidden'] = nil if v[:name].nil?
+        params['event']['ticket_types_attributes'][k]['exclude_from_capacity'] = nil if v[:name].nil?
+      end
+    end    
     if @event.update_attributes(mass_assigning(params[:event], Event))
       redirect "/events/#{@event.id}"
     else

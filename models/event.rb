@@ -49,7 +49,7 @@ class Event
   
   has_many :ticket_types, dependent: :destroy
   accepts_nested_attributes_for :ticket_types, allow_destroy: true, reject_if: :all_blank
-
+  
   has_many :tickets, dependent: :destroy
   has_many :donations, dependent: :nullify
   has_many :orders, dependent: :destroy
@@ -59,6 +59,30 @@ class Event
   def event_facilitators
     Account.where(:id.in => event_facilitations.pluck(:account_id))
   end  
+  
+  has_many :event_tagships, :dependent => :destroy        
+  attr_accessor :tag_names
+  before_validation :create_event_tags
+  def create_event_tags
+    if @tag_names
+      @tag_names_a = @tag_names.split(',')
+      current_tag_names = event_tagships.map(&:event_tag_name)
+      tags_to_remove = current_tag_names - @tag_names_a
+      tags_to_add = @tag_names_a - current_tag_names
+      tags_to_remove.each { |name|
+        event_tag = EventTag.find_by(name: name)
+        event_tagships.find_by(event_tag: event_tag).destroy        
+      }
+      tags_to_add.each { |name|
+        event_tag = EventTag.find_or_create_by(name: name)
+        event_tagships.create(event_tag: event_tag)        
+      }
+    end
+  end   
+  
+  def event_tags
+    EventTag.where(:id.in => event_tagships.pluck(:event_tag_id))
+  end
 
   def summary
     start_time ? "#{name} (#{start_time.to_date})" : name
