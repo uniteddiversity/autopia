@@ -9,7 +9,7 @@
           <th>Price</th>
           <th style="width: 50%">Quantity</th>
         <tr>
-          <% @event.ticket_types.order('price desc').each { |ticket_type| %>
+          <% @event.ticket_types.order('price asc').each { |ticket_type| %>
             <% if !ticket_type.hidden or params[:ticket_type_id] == ticket_type.id.to_s %>
             <tr>
               <td>
