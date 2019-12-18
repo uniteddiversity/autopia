@@ -41,15 +41,17 @@
   </div>
 </div>
 
-<h2 class="mt-5">Team members</h2>
-<%= partial :'accounts/add', locals: {
-  role: 'team member',
-  accounts: @organisation.admins.order('name asc'),
-  add_and_remove: organisation_admin?,
-  new_object: Organisationship.new,
-  new_url: "/organisations/#{@organisation.id}/organisationships/admin",
-  destroy_url: "/organisations/#{@organisation.id}/organisationships/unadmin"
-  }  %>
+<% if @organisation.admins.count > 0 %>
+  <h2 class="mt-5">Team members</h2>
+  <%= partial :'accounts/add', locals: {
+    role: 'team member',
+    accounts: @organisation.admins.order('name asc'),
+    add_and_remove: organisation_admin?,
+    new_object: Organisationship.new,
+    new_url: "/organisations/#{@organisation.id}/organisationships/admin",
+    destroy_url: "/organisations/#{@organisation.id}/organisationships/unadmin"
+    }  %>
+<% end %>
 
 <h2 class="mt-5">Local groups</h2>
 <% if organisation_admin? %>
