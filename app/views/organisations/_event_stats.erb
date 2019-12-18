@@ -32,9 +32,7 @@
         <% if event.coordinator %>
           <a href="/u/<%=event.coordinator.username%>">
             <% if event.coordinator.picture %>
-              <a href="/u/<%=event.coordinator.username%>">
-                <img src="<%= event.coordinator.picture.thumb('500x500#').url %>" style="width: 50px">
-              </a>
+              <%= partial :'accounts/square', :locals => {:account => event.coordinator, :width => '50px'} %>
               <br />
             <% end %>
             <a href="/u/<%=event.coordinator.username%>"><%= event.coordinator.name %></a>

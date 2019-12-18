@@ -12,6 +12,9 @@
         <tr>
           <td>Organisation</td>
           <td>
+            <% if @event.organisation.image %>
+              <a href="/organisations/<%=@event.organisation_id%>"><img src="<%= @event.organisation.image.thumb('500x500#').url %>" style="width: 50px"></a>              
+            <% end %>
             <a href="/organisations/<%=@event.organisation_id%>"><%=@event.organisation.name%></a>
             <% if event_admin? && @event.revenue_sharer && !(organisationship = @event.organisation.organisationships.find_by(:account => @event.revenue_sharer, :stripe_connect_json.ne => nil))%>
               <span class="label label-danger">
@@ -32,7 +35,7 @@
       <% if @event.local_group %>
         <tr>
           <td>Local group</td>
-          <td>
+          <td>         
             <a href="/local_groups/<%=@event.local_group_id%>"><%=@event.local_group.name%></a>
           </td>
         </tr>
