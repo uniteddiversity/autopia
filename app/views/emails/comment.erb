@@ -53,24 +53,24 @@
 <% } %>
 <%= close_divs %> 
 
-<p style="font-size: 13px">To continue the conversation, <a href="<%=comment.post.url%>">view the post</a> or reply to this email.</p>
+<p style="font-size: 13px">To continue the conversation, <a href="<%=comment.post.url%>?sign_in_token=%recipient.token%">view the post</a> or reply to this email.</p>
 
 <p style="font-size: 12px; color: #aaa">
   Unsubscribe from
-  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe">this post</a>
+  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/posts/<%=comment.post_id%>/unsubscribe?sign_in_token=%recipient.token%">this post</a>
   <% if comment.commentable.is_a?(Account) %>
     &middot;
-    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/follow/<%=commentable.id%>?f=follow_without_subscribing"><%=commentable.name%></a>
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/follow/<%=commentable.id%>?f=follow_without_subscribing&sign_in_token=%recipient.token%"><%=commentable.name%></a>
   <% end %>  
   <% if comment.commentable.is_a?(Team) %>
     &middot;
-    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=gathering.slug%>/teams/<%=comment.commentable_id%>/unsubscribe">this team</a>
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=gathering.slug%>/teams/<%=comment.commentable_id%>/unsubscribe?sign_in_token=%recipient.token%">this team</a>
   <% end %>
   <% if comment.commentable.respond_to?(:gathering) %>
     &middot;
-    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=gathering.slug%>/unsubscribe">this gathering</a>    
+    <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/a/<%=gathering.slug%>/unsubscribe?sign_in_token=%recipient.token%">this gathering</a>    
   <% end %>
   &middot;
-  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">all emails</a>        
+  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit?sign_in_token=%recipient.token%">all emails</a>        
 </p>
 
