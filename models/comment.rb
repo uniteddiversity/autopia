@@ -159,27 +159,21 @@ class Comment
   end
   
   after_create :send_comment
-  def send_comment
-    if ENV['SMTP_ADDRESS']
-      comment = self
-      bcc = comment.post.emails
-      
-      if bcc.length > 0
-        mail = Mail.new
-        mail.bcc = bcc
-        mail.from = "Autopia <#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
-        mail.subject = comment.email_subject
-            
-        content = ERB.new(File.read(Padrino.root('app/views/emails/comment.erb'))).result(binding)
-        html_part = Mail::Part.new do
-          content_type 'text/html; charset=UTF-8'
-          body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
-        end
-        mail.html_part = html_part
-      
-        mail.deliver
-      end
-    end    
+  def send_comment         
+    mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
+    batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
+    
+    comment = self
+    content = ERB.new(File.read(Padrino.root('app/views/emails/comment.erb'))).result(binding)
+    batch_message.from "Autopia <#{comment.post_id}@#{ENV['MAILGUN_DOMAIN']}>"
+    batch_message.subject comment.email_subject
+    batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
+                
+    comment.post.emails.each { |account|
+      batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
+    }
+        
+    batch_message.finalize
   end
   handle_asynchronously :send_comment  
   

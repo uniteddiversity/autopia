@@ -33,7 +33,7 @@
             <%= partial :'accounts/square', :locals => {:account => @event.account, :width => '50px'} %>                       
           </td>
         </tr>        
-        <% end %>
+      <% end %>
       <% if @event.activity %>
         <tr>
           <td>Activity</td>
@@ -90,7 +90,7 @@
       <% end %>        
     </table>
     <p class="lead">
-      <%=@event.description%>
+      <%=@event.description.gsub("\n",'<br />')%>
     </p>
 
     <% if @event.organisation && @event.attendees.count > 0 %>
