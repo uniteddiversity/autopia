@@ -72,7 +72,7 @@
         <i class="fa fa-flag"></i>
         <span>Organisations</span>
       </a>
-      <%= ul_nav (current_account.organisationships.sort_by { |organisationship| organisationship.organisation.name }.map { |organisationship| [organisationship.organisation.name, "/organisations/#{organisationship.organisation.id}"] } + [['All organisations', '/organisations']]),
+      <%= ul_nav (Organisation.where(:id.in => current_account.organisationships.pluck(:organisation_id) + (@organisation && @organisation.persisted? ? [@organisation.id] : [])).sort_by { |organisation| organisation.name }.map { |organisation| [organisation.name, "/organisations/#{organisation.id}"] } + [['All organisations', '/organisations']]),
         ul_class: 'sub-menu',
         li_class: '',
         li_active_class: 'active',

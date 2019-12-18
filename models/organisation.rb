@@ -31,7 +31,7 @@ class Organisation
     geocode || (self.coordinates = nil)
   end
 
-  validates_presence_of :name, :website
+  validates_presence_of :name
 
   belongs_to :account, index: true
 
