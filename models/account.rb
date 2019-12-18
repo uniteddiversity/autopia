@@ -36,7 +36,7 @@ class Account
   field :open_to_long_term_dating, type: Boolean
   field :open_to_non_monogamy, type: Boolean
   field :default_currency, type: String
-  field :stripe_connect_json, type: String
+  field :stripe_connect_json, type: String  
 
   def self.open_to
     %w[new_friends hookups short_term_dating long_term_dating non_monogamy]
@@ -265,7 +265,7 @@ class Account
   def currency_symbol
     Gathering.currency_symbol(default_currency)
   end
-
+    
   def self.admin_fields
     {
       name: :text,

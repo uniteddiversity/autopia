@@ -22,6 +22,8 @@
   <%= f.text_block :stripe_endpoint_secret %>
   <%= f.text_block :stripe_pk %>
   <%= f.text_block :stripe_sk %>
+  <%= f.text_block :gocardless_access_token %>
+  <%= f.text_block :patreon_api_key %>
   <div class="my-3">
     <%= f.submit_block destroy_url: "/organisations/#{@organisation.id}/destroy" %>
   </div>

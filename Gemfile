@@ -34,7 +34,10 @@ gem 'mechanize'
 
 gem 'html_truncator'
 gem 'rinku'
+
 gem 'stripe'
+gem 'gocardless_pro'
+gem 'patreon'
 
 gem 'pusher'
 gem 'incoming'

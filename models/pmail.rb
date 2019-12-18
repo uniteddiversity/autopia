@@ -89,8 +89,8 @@ class Pmail
   end
     
   def send_batch_message(to, test_message: false)
-    mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
-    batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
+    mg_client = Mailgun::Client.new organisation.mailgun_api_key
+    batch_message = Mailgun::BatchMessage.new(mg_client, organisation.mailgun_domain)
             
     pmail = self
     batch_message.from from  
