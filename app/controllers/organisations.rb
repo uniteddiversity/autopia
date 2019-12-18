@@ -127,7 +127,8 @@ Autopia::App.controller do
     @events = @events.where(:coordinator_id => params[:coordinator_id]) if params[:coordinator_id]    
     @events = @events.where(:coordinator_id => nil) if params[:no_coordinator]
     @events = @events.where(:start_time.gte => @from)
-    @events = @events.where(:start_time.lt => @to+1)    
+    @events = @events.where(:start_time.lt => @to+1) 
+    @events = @events.where(:id.in => EventTagship.where(:event_tag_id => params[:event_tag_id]).pluck(:event_id)) if params[:event_tag_id]
     erb :'organisations/event_stats'
   end     
   
