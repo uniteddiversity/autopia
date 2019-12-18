@@ -1,0 +1,8 @@
+Hi %recipient.firstname%,
+<br /><br />
+Thanks for attending <%= event.name %>.
+<br /><br />
+Would you take a minute to <a href="<%=ENV['BASE_URI']%>/events/<%=event.slug%>/give_feedback?token=%recipient.token%">visit this page and give us feedback on the event</a>, so that we can keep improving?
+<br /><br />
+With thanks,<br />
+<%= event.organisation.name %>

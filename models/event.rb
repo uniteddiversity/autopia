@@ -100,6 +100,24 @@ class Event
     q = (feedback_questions || '').split("\n").map(&:strip).reject(&:blank?)
     q.empty? ? [] : q
   end
+  
+  def send_feedback_requests    
+    mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY'], ENV['MAILGUN_REGION']
+    batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
+    
+    event = self    
+    content = ERB.new(File.read(Padrino.root('app/views/emails/feedback.erb'))).result(binding)
+    batch_message.from 'Autopia <feedback@autopia.co>'
+    batch_message.subject "Feedback on #{event.name}?"         
+    batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)       
+                
+    attendees.where(:unsubscribed.ne => true).each { |account|
+      batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.secret_token, 'id' => account.id})
+    }
+        
+    batch_message.finalize
+  end  
+  handle_asynchronously :send_feedback_requests  
 
   before_validation :ensure_end_after_start
   def ensure_end_after_start

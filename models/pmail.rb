@@ -87,25 +87,22 @@ class Pmail
   def send_test(account)     
     send_batch_message Account.where(:id.in => [account.id]), test_message: true
   end
-  
-  def self.layout(pmail)
-    ERB.new(File.read(Padrino.root('app/views/layouts/mailer.erb'))).result(binding)
-  end  
-  
+    
   def send_batch_message(to, test_message: false)
     mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
     batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
-              
+            
+    pmail = self
     batch_message.from from  
     batch_message.subject (test_message ? "#{subject} [test sent #{Time.now}]" : subject)
-    batch_message.body_html Pmail.layout(self)
+    batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/mailer.erb'))).result(binding)
     batch_message.add_tag id
         
     (test_message ? to : to_with_unsubscribes).each { |account|
       batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id, 'username' => account.username})
     }
         
-    batch_message.finalize    
+    batch_message.finalize   
   end  
        
   def self.new_hints
@@ -117,24 +114,7 @@ class Pmail
   def self.edit_hints
     self.new_hints
   end     
-      
-  def self.send_html_email(to,from,subject,body, bcc: nil)
-    return if !ENV['SMTP_USERNAME']
-    mail = Mail.new
-    mail.to = to
-    mail.from = from
-    mail.bcc = bcc if bcc
-    mail.subject = subject
-      
-    html_part = Mail::Part.new do
-      content_type 'text/html; charset=UTF-8'
-      body body
-    end
-
-    mail.html_part = html_part                 
-    mail.deliver    
-  end
-       
+             
   def self.human_attribute_name(attr, options = {})
     {
       to_option: 'To',
