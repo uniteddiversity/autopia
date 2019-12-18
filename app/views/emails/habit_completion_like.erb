@@ -7,7 +7,7 @@
 <% end %>
 
 <p style="font-size: 12px; color: #aaa">
-  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">Don't send me email notifications when people like my habit completions</a>
+  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit?sign_in_token=%recipient.token%">Don't send me email notifications when people like my habit completions</a>
   &middot;
-  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit">Don't send me email notifications of any kind</a>
+  <a style="color: #aaa !important" href="<%=ENV['BASE_URI']%>/accounts/edit?sign_in_token=%recipient.token%">Don't send me email notifications of any kind</a>
 </p>

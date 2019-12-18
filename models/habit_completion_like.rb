@@ -21,24 +21,23 @@ class HabitCompletionLike
          
   after_create :send_like
   def send_like
-    if ENV['SMTP_ADDRESS'] && !habit_completion.account.unsubscribed? && !habit_completion.account.unsubscribed_habit_completion_likes?
+    if !habit_completion.account.unsubscribed? && !habit_completion.account.unsubscribed_habit_completion_likes?      
+      mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
+      batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
+    
       habit_completion_like = self
       habit_completion = habit_completion_like.habit_completion
       habit = habit_completion.habit
-
-      mail = Mail.new
-      mail.to = habit_completion.account.email
-      mail.from = ENV['NOTIFICATION_EMAIL']
-      mail.subject = "#{habit_completion_like.account.name} liked your completion of #{habit.name} on #{habit_completion.date}"
-            
       content = ERB.new(File.read(Padrino.root('app/views/emails/habit_completion_like.erb'))).result(binding)
-      html_part = Mail::Part.new do
-        content_type 'text/html; charset=UTF-8'
-        body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
-      end
-      mail.html_part = html_part
-      
-      mail.deliver
+      batch_message.from ENV['NOTIFICATION_EMAIL']
+      batch_message.subject "#{habit_completion_like.account.name} liked your completion of #{habit.name} on #{habit_completion.date}"
+      batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
+                
+      [habit_completion.account].each { |account|
+        batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
+      }      
+
+      batch_message.finalize
     end    
   end
   handle_asynchronously :send_like

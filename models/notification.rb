@@ -35,26 +35,22 @@ class Notification
 
   after_create :send_email
   def send_email
-    if ENV['SMTP_ADDRESS'] && Notification.mailable_types.include?(type)
+    if Notification.mailable_types.include?(type)               
+      mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
+      batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
+    
       notification = self
       circle = self.circle
-      bcc = circle.emails
+      content = ERB.new(File.read(Padrino.root('app/views/emails/notification.erb'))).result(binding)
+      batch_message.from ENV['NOTIFICATION_EMAIL']
+      batch_message.subject "[#{circle.name}] #{Nokogiri::HTML(notification.sentence).text}"
+      batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
+                
+      circle.each { |account|
+        batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
+      }      
 
-      unless bcc.empty?
-        mail = Mail.new
-        mail.bcc = bcc
-        mail.from = ENV['NOTIFICATION_EMAIL']
-        mail.subject = "[#{circle.name}] #{Nokogiri::HTML(notification.sentence).text}"
-
-        content = ERB.new(File.read(Padrino.root('app/views/emails/notification.erb'))).result(binding)
-        html_part = Mail::Part.new do
-          content_type 'text/html; charset=UTF-8'
-          body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
-        end
-        mail.html_part = html_part
-
-        mail.deliver
-      end
+      batch_message.finalize
     end
   end
   handle_asynchronously :send_email

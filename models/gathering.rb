@@ -164,11 +164,7 @@ class Gathering
   def subscribers
     Account.where(:unsubscribed.ne => true).where(:id.in => memberships.where(:unsubscribed.ne => true).pluck(:account_id))
   end
-  
-  def emails
-    subscribers.pluck(:email)
-  end  
-  
+    
   def vouchers
     enable_supporters ? 'proposers + supporters (with at least one proposer)' : (threshold == 1 ? 'proposer' : 'proposers')
   end

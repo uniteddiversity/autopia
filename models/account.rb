@@ -22,6 +22,7 @@ class Account
   field :unsubscribed, type: Boolean
   field :unsubscribed_habit_completion_likes, type: Boolean
   field :unsubscribed_messages, type: Boolean
+  field :unsubscribed_feedback, type: Boolean
   field :facebook_name, type: String
   field :facebook_profile_url, type: String
   field :not_on_facebook, type: Boolean
@@ -98,10 +99,6 @@ class Account
 
   def subscribers
     Account.where(:unsubscribed.ne => true).where(:id.in => [id] + follows_as_followee.where(:unsubscribed.ne => true).pluck(:follower_id))
-  end
-
-  def emails
-    subscribers.pluck(:email)
   end
 
   def network_notifications
@@ -288,6 +285,7 @@ class Account
       unsubscribed: :check_box,
       unsubscribed_habit_completion_likes: :check_box,
       unsubscribed_messages: :check_box,
+      unsubscribed_feedback: :check_box,
       not_on_facebook: :check_box,
       time_zone: :select,
       password: :password,
@@ -392,7 +390,8 @@ Two Spirit).split("\n")
       not_on_facebook: "I don't use Facebook",
       unsubscribed: "Don't send me email notifications of any kind",
       unsubscribed_habit_completion_likes: "Don't send me email notifications when people like my habit completions",
-      unsubscribed_messages: "Don't send me email notifications of messages"
+      unsubscribed_messages: "Don't send me email notifications of messages",
+      unsubscribed_feedback: "Don't send me requests for feedback"
     }[attr.to_sym] || super
   end
 

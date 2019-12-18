@@ -38,24 +38,23 @@ class Message
   
   after_create :send_email  
   def send_email
-    if ENV['SMTP_ADDRESS'] && !messengee.unsubscribed? && !messengee.unsubscribed_messages?
+    if !messengee.unsubscribed? && !messengee.unsubscribed_messages?     
+      mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
+      batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
+    
       message = self
       messenger = message.messenger      
       messengee = message.messengee
-      
-      mail = Mail.new
-      mail.to = messengee.email
-      mail.from = "#{messenger.name} <#{messenger.email}>"
-      mail.subject = "[Autopia] Message from #{messenger.name}"
-            
       content = ERB.new(File.read(Padrino.root('app/views/emails/message.erb'))).result(binding)
-      html_part = Mail::Part.new do
-        content_type 'text/html; charset=UTF-8'
-        body ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
-      end
-      mail.html_part = html_part
-      
-      mail.deliver
+      batch_message.from "#{messenger.name} <#{messenger.email}>"
+      batch_message.subject "[Autopia] Message from #{messenger.name}"
+      batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
+                
+      [messengee.email].each { |account|
+        batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
+      }      
+
+      batch_message.finalize
     end    
   end
   handle_asynchronously :send_email   

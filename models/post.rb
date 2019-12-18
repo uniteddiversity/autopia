@@ -74,9 +74,5 @@ class Post
   def subscribers
     Account.where(:unsubscribed.ne => true).where(:id.in => subscriptions.pluck(:account_id))
   end
-  
-  def emails
-    subscribers.pluck(:email)
-  end
-    
+      
 end
