@@ -18,12 +18,14 @@
   <%= f.image_block :image %>
   <div class="my-3">&mdash; or &mdash;</div>
   <%= f.url_block :image_url %>
+  <%= f.text_block :stripe_pk %>
+  <%= f.text_block :stripe_sk %>  
   <%= f.text_block :stripe_client_id %>
   <%= f.text_block :stripe_endpoint_secret %>
-  <%= f.text_block :stripe_pk %>
-  <%= f.text_block :stripe_sk %>
   <%= f.text_block :gocardless_access_token %>
   <%= f.text_block :patreon_api_key %>
+  <%= f.text_block :mailgun_api_key %>
+  <%= f.text_block :mailgun_domain %>
   <div class="my-3">
     <%= f.submit_block destroy_url: "/organisations/#{@organisation.id}/destroy" %>
   </div>
