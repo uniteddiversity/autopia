@@ -107,7 +107,7 @@ class Event
     
     event = self    
     content = ERB.new(File.read(Padrino.root('app/views/emails/feedback.erb'))).result(binding)
-    batch_message.from 'Autopia <feedback@autopia.co>'
+    batch_message.from ENV['NOTIFICATION_EMAIL']
     batch_message.subject "Feedback on #{event.name}?"         
     batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)       
                 

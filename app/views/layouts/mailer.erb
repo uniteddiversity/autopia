@@ -10,7 +10,7 @@
   <body style="font-size: 16px; font-family: 'Roboto', sans-serif; background-color: #F8F9FA">
 
     <div style="text-align: center">
-      <a href="<% pmail.organisation.website || "https://autopia.co/organisations/#{pmail.organisation_id}" %>"><img src="<%= pmail.organisation.image.url %>" style="max-width: 100px; padding: 16px"></a>
+      <a href="<% pmail.organisation.website || "#{ENV['BASE_URI']}/organisations/#{pmail.organisation_id}" %>"><img src="<%= pmail.organisation.image.url %>" style="max-width: 100px; padding: 16px"></a>
     </div>
 
     <div style="max-width: 650px; margin: 0 auto;">
@@ -24,11 +24,11 @@
 
     <div style="padding: 16px; text-align: center;">
       <small>
-        <a style="color: #647386; text-decoration: none" href="https://autopia.co">Sent with Autopia</a>
+        <a style="color: #647386; text-decoration: none" href="<%=ENV['BASE_URI']%>">Sent with Autopia</a>
         &middot;
-        <a style="color: #647386; text-decoration: none" href="https://autopia.co/u/%recipient.username%?sign_in_token=%recipient.token%">View your profile</a>
+        <a style="color: #647386; text-decoration: none" href="<%=ENV['BASE_URI']%>/u/%recipient.username%?sign_in_token=%recipient.token%">View your profile</a>
         &middot;
-        <a style="color: #647386; text-decoration: none" href="https://autopia.co/organisations/<%=pmail.organisation_id%>/unsubscribe?sign_in_token=%recipient.token%">Unsubscribe from <%=pmail.organisation.name%></a>
+        <a style="color: #647386; text-decoration: none" href="<%=ENV['BASE_URI']%>/organisations/<%=pmail.organisation_id%>/unsubscribe?sign_in_token=%recipient.token%">Unsubscribe from <%=pmail.organisation.name%></a>
       </small>
     </div>
 
