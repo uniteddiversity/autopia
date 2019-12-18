@@ -1,17 +1,25 @@
-
-<% if event.organisation %>
-  <% if event.organisation.image %>
-    <a href="/organisations/<%=event.organisation_id%>">
-      <img src="<%= event.organisation.image.thumb('500x500#').url %>" style="width: 50px">        
-    </a>   
-  <% end %>
-  <style>
-    #event_stats thead th { border-top: none }
-  </style>
-  <%= partial :'organisations/event_stats', :locals => {:events => Event.where(:id.in => [event.id])} %>
-<% end %>
-
 <% if event_admin? %>
+
+  <% if event.organisation %>
+    <div class="row no-gutters align-items-center">
+      <% if event.organisation.image %>
+        <div class="col-auto">
+          <a href="/organisations/<%=event.organisation_id%>">
+            <img src="<%= event.organisation.image.thumb('500x500#').url %>" style="width: 50px" class="mr-2">        
+          </a> 
+        </div>
+      <% end %>
+      <div class="col">
+        <h4><a href="/organisations/<%=event.organisation_id%>" class="text-dark"><%= event.organisation.name %></a></h4>
+      </div>
+    </div>
+
+    <style>
+      #event_stats thead th { border-top: none }
+    </style>
+    <%= partial :'organisations/event_stats', :locals => {:events => Event.where(:id.in => [event.id])} %>
+  <% end %>
+
   <div class="mb-3">
     <%= ul_nav [
       ['View event', "/events/#{event.id}"],

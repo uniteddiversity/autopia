@@ -3,7 +3,8 @@ class Order
   include Mongoid::Timestamps
 
   field :value, type: Float
-  field :stripe_id, type: String
+  field :session_id, type: String
+  field :payment_intent, type: String
   field :payment_completed, type: Boolean
 
   belongs_to :event, optional: true
@@ -15,7 +16,8 @@ class Order
   def self.admin_fields
     {
       value: :number,
-      stripe_id: :text,
+      session_id: :text,
+      payment_intent: :text,
       payment_completed: :check_box,
       event_id: :lookup,
       account_id: :lookup,
@@ -25,11 +27,11 @@ class Order
   end
 
   def self.incomplete
-    where(:stripe_id.ne => nil).where(:payment_completed.ne => true)
+    where(:payment_intent.ne => nil).where(:payment_completed.ne => true)
   end
 
   def incomplete?
-    stripe_id && !payment_completed
+    payment_intent && !payment_completed
   end
 
   def description

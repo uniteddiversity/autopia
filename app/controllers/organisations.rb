@@ -187,7 +187,7 @@ Autopia::App.controller do
 
     if event['type'] == 'checkout.session.completed'
       session = event['data']['object']
-      if order = Order.find_by(stripe_id: session.id)
+      if order = Order.find_by(session_id: session.id)
         order.set(payment_completed: true)
         200
       else

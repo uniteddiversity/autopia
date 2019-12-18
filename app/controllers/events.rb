@@ -160,7 +160,7 @@ Autopia::App.controller do
           })
       end
       session = Stripe::Checkout::Session.create(stripe_session_hash)
-      order.set(stripe_id: session.id)
+      order.set(session_id: session.id, payment_intent: session.payment_intent)
       { session_id: session.id }.to_json
     else
       {}.to_json
