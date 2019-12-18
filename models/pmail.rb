@@ -105,7 +105,7 @@ class Pmail
        
   def self.new_hints
     {
-      :from => 'In the form <em>Joe Blogs &lt;joe.bloggs@psychedelicsociety.org.uk&gt;</em>'
+      :from => 'In the form <em>Joe Blogs &lt;joe.bloggs@autopia.co&gt;</em>'
     }
   end  
   
