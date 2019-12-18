@@ -5,7 +5,6 @@ class Pmail
   field :from, :type => String  
   field :subject, :type => String
   field :body, :type => String
-  field :no_layout, :type => Boolean  
   field :message_ids, :type => String
   field :sent_at, :type => ActiveSupport::TimeWithZone  
   
@@ -68,7 +67,6 @@ class Pmail
       :from => :text,
       :subject => :text,
       :body => :text_area,
-      :no_layout => :check_box,
       :sent_at => :datetime,
       :message_ids => :text_area,
       :account_id => :lookup

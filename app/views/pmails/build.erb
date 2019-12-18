@@ -40,7 +40,6 @@
     <%= f.text_block :from %>
     <%= f.text_block :subject %>
     <%= f.text_area_block :body %>
-    <%= f.check_box_block :no_layout %>
 
     <% if !@pmail.sent_at %>
       <%= f.submit_block destroy_url: "/organisations/#{@organisation.id}/pmails/#{@pmail.id}/destroy", button_text: 'Save' %>
