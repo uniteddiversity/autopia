@@ -1,8 +1,15 @@
 
-<style>
-  #event_stats thead th { border-top: none }
-</style>
-<%= partial :'organisations/event_stats', :locals => {:events => Event.where(:id.in => [event.id])} %>
+<% if event.organisation %>
+  <% if event.organisation.image %>
+    <a href="/organisations/<%=event.organisation_id%>">
+      <img src="<%= event.organisation.image.thumb('500x500#').url %>" style="width: 50px">        
+    </a>   
+  <% end %>
+  <style>
+    #event_stats thead th { border-top: none }
+  </style>
+  <%= partial :'organisations/event_stats', :locals => {:events => Event.where(:id.in => [event.id])} %>
+<% end %>
 
 <% if event_admin? %>
   <div class="mb-3">

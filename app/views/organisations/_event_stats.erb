@@ -12,7 +12,7 @@
       <th>Activity</th>
       <th>Local group</th>
       <th>Revenue sharer</th>
-      <th>Revenue sharer revenue share</th>
+      <th>Organisation revenue share</th>
       <th>Facebook event?</th>        
       <th>Tickets sold</th>
       <th>Total revenue</th>
@@ -75,8 +75,8 @@
           <% end %>
       </td>
       <td>
-        <% if event.revenue_sharer_revenue_share %>
-          <%=(event.revenue_sharer_revenue_share*100).round%>%
+        <% if event.organisation_revenue_share %>
+          <%=(event.organisation_revenue_share*100).round%>%
         <% end %>
       </td>      
       <td>

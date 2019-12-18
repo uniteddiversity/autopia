@@ -16,7 +16,7 @@ class Event
   field :feedback_questions, type: String
   field :suggested_donation, type: Float
   field :capacity, type: Integer
-  field :revenue_sharer_revenue_share, type: Float
+  field :organisation_revenue_share, type: Float
 
   def self.marker_color
     'red'
@@ -40,12 +40,18 @@ class Event
     geocode || (self.coordinates = nil)
   end
 
-  belongs_to :account, inverse_of: :events, index: true
-  belongs_to :revenue_sharer, class_name: "Account", inverse_of: :events_revenue_sharing, index: true, optional: true
-  belongs_to :coordinator, class_name: "Account", inverse_of: :events_coordinating, index: true, optional: true
+  belongs_to :account, inverse_of: :events, index: true    
   belongs_to :organisation, index: true, optional: true
   belongs_to :activity, optional: true, index: true
   belongs_to :local_group, optional: true, index: true
+  belongs_to :coordinator, class_name: "Account", inverse_of: :events_coordinating, index: true, optional: true
+  belongs_to :revenue_sharer, class_name: "Account", inverse_of: :events_revenue_sharing, index: true, optional: true
+  
+  before_validation do
+    if !organisation
+      self.activity, self.local_group, self.coordinator, self.revenue_sharer = nil, nil, nil, nil
+    end
+  end  
   
   has_many :ticket_types, dependent: :destroy
   accepts_nested_attributes_for :ticket_types, allow_destroy: true, reject_if: :all_blank
@@ -113,7 +119,7 @@ class Event
       description: :wysiwyg,
       email: :email,
       facebook_event_id: :number,
-      revenue_sharer_revenue_share: :number,
+      organisation_revenue_share: :number,
       feedback_questions: :text_area,
       suggested_donation: :number,
       capacity: :number,

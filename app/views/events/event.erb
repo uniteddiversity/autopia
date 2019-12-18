@@ -26,7 +26,14 @@
             <% end %>                        
           </td>
         </tr>
-      <% end %>
+      <% else %>
+        <tr>
+          <td>Listed by</td>
+          <td>
+            <%= partial :'accounts/square', :locals => {:account => @event.account, :width => '50px'} %>                       
+          </td>
+        </tr>        
+        <% end %>
       <% if @event.activity %>
         <tr>
           <td>Activity</td>
@@ -86,7 +93,7 @@
       <%=@event.description%>
     </p>
 
-    <% if @event.attendees.count > 0 %>
+    <% if @event.organisation && @event.attendees.count > 0 %>
       <div class="my-3">  
         <h2 class="mt-3">Attending</h2>
         <div class="image-wall">

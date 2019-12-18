@@ -28,9 +28,22 @@
       $('#event_organisation_id').change(function () {
         if ($(this).val().length > 0) {
           $('#organisation-options').show()
-          $('#event_coordinator_id').attr('data-lookup-url', '/organisations/' + $('#event_organisation_id').val() + '/admins.json')
-          $('#event_activity_id').attr('data-lookup-url', '/organisations/' + $('#event_organisation_id').val() + '/activities.json')
-          $('#event_local_group_id').attr('data-lookup-url', '/organisations/' + $('#event_organisation_id').val() + '/local_groups.json')
+
+          $('#event_coordinator_id').select2("destroy").removeClass('lookupd').lookup({
+            lookup_url: '/organisations/' + $('#event_organisation_id').val() + '/admins.json',
+            id_param: 'id'
+          });
+
+          $('#event_activity_id').select2("destroy").removeClass('lookupd').lookup({
+            lookup_url: '/organisations/' + $('#event_organisation_id').val() + '/activities.json',
+            id_param: 'id'
+          });
+
+          $('#event_local_group_id').select2("destroy").removeClass('lookupd').lookup({
+            lookup_url: '/organisations/' + $('#event_organisation_id').val() + '/local_groups.json',
+            id_param: 'id'
+          });
+
         } else {
           $('#organisation-options').hide()
         }
@@ -38,12 +51,13 @@
       $('#event_organisation_id').change()
     })
   </script>  
+
   <div id="organisation-options" style="display: none">
     <%= f.lookup_block :coordinator_id, lookup_url: "/organisations/#{@event.organisation_id}/admins.json", placeholder: 'Search accounts', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/u/#{@event.coordinator.username}">View account</a>} if @event.coordinator) %>
     <%= f.lookup_block :activity_id, lookup_url: "/organisations/#{@event.organisation_id}/activities.json", placeholder: 'Search activities', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/activities/#{@event.activity_id}">View activity</a>} if @event.activity_id) %>
     <%= f.lookup_block :local_group_id, lookup_url: "/organisations/#{@event.organisation_id}/local_groups.json", placeholder: 'Search local groups', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/local_groups/#{@event.local_group_id}">View local group</a>} if @event.local_group_id) %>
     <%= f.lookup_block :revenue_sharer_id, lookup_url: '/accounts.json', placeholder: 'Search accounts', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/u/#{@event.revenue_sharer.username}">View account</a>} if @event.revenue_sharer_id) %>
-    <%= f.number_block :revenue_sharer_revenue_share %>    
+    <%= f.number_block :organisation_revenue_share %>    
     <%= partial :'events/ticket_types', :locals => {:f => f} %>
     <%= f.number_block :capacity %>
     <%= f.number_block :suggested_donation %>  
