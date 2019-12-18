@@ -1,3 +1,14 @@
+<div class="row justify-content-between mb-3">
+  <div class="col">
+    <h1>Gatherings</h1>
+  </div>
+  <% if current_account %>
+    <div class="col-auto">      
+      <a class="btn btn-primary mt-1 mt-sm-0" href="/a/new"><i class="fa fa-plus-circle"></i> Create a gathering</a>
+    </div>
+  <% end %>
+</div>
+
 <div class="row">
   <% Gathering.where(:privacy.ne => 'secret').sort_by { |gathering| gathering.notifications_as_circle.order('created_at desc').first.try(:created_at).try(:to_i) or 0 }.each { |gathering| %>
     <div class="col-6 col-sm-3 mb-3">

@@ -52,18 +52,35 @@
       <span class="nav-link-text">Connect</span>
     </a>
   </li>
-  <li class="<%='active' if request.path == '/organisations'%>">
-    <a href="/organisations">
-      <i class="fa fa-flag"></i>
-      <span class="nav-link-text">Organisations</span>
-    </a>
-  </li>     
   <li class="<%='active' if request.path == '/events'%>">
     <a href="/events">
       <i class="fa fa-calendar-o"></i>
       <span class="nav-link-text">Events</span>
     </a>
-  </li>    
+  </li>     
+  <% if !current_account %>
+    <li class="<%='active' if request.path == '/organisations'%>">
+      <a href="/organisations">
+        <i class="fa fa-flag"></i>
+        <span class="nav-link-text">Organisations</span>
+      </a>
+    </li>
+  <% else %>
+    <li class="has-sub <%='active' if @organisation%>">
+      <a href="javascript:;">
+        <b class="caret caret-right pull-right"></b>
+        <i class="fa fa-flag"></i>
+        <span>Organisations</span>
+      </a>
+      <%= ul_nav (current_account.organisationships.sort_by { |organisationship| organisationship.organisation.name }.map { |organisationship| [organisationship.organisation.name, "/organisations/#{organisationship.organisation.id}"] } + [['All organisations', '/organisations']]),
+        ul_class: 'sub-menu',
+        li_class: '',
+        li_active_class: 'active',
+        a_class: '',
+        a_active_class: ''
+    %>
+    </li>
+  <% end %>      
   <% if !current_account %>
     <li class="<%='active' if request.path == '/gatherings'%>">
       <a href="/gatherings">
@@ -71,15 +88,14 @@
         <span class="nav-link-text">Gatherings</span>
       </a>
     </li>
-  <% end %>
-  <% if current_account %>
+  <% else %>
     <li class="has-sub <%='active' if @gathering%>">
       <a href="javascript:;">
         <b class="caret caret-right pull-right"></b>
         <i class="fa fa-moon-o"></i>
         <span>Gatherings</span>
       </a>
-      <%= ul_nav (current_account.memberships.select { |membership| membership.gathering == @gathering or !membership.hide_from_sidebar }.sort_by { |membership| membership.gathering.name }.map { |membership| [membership.gathering.name, "/a/#{membership.gathering.slug}"] } + [['Create a gathering', '/a/new']]),
+      <%= ul_nav (current_account.memberships.select { |membership| membership.gathering == @gathering or !membership.hide_from_sidebar }.sort_by { |membership| membership.gathering.name }.map { |membership| [membership.gathering.name, "/a/#{membership.gathering.slug}"] } + [['All gatherings', '/gatherings']]),
         ul_class: 'sub-menu',
         li_class: '',
         li_active_class: 'active',

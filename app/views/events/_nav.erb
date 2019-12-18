@@ -1,18 +1,7 @@
 <% if event_admin? %>
 
   <% if event.organisation %>
-    <div class="row no-gutters align-items-center">
-      <% if event.organisation.image %>
-        <div class="col-auto">
-          <a href="/organisations/<%=event.organisation_id%>">
-            <img src="<%= event.organisation.image.thumb('500x500#').url %>" style="width: 50px" class="mr-2">        
-          </a> 
-        </div>
-      <% end %>
-      <div class="col">
-        <h4><a href="/organisations/<%=event.organisation_id%>" class="text-dark"><%= event.organisation.name %></a></h4>
-      </div>
-    </div>
+    <%= partial :'organisations/nav', :locals => {:organisation => event.organisation} %>
 
     <style>
       #event_stats thead th { border-top: none }
