@@ -169,7 +169,7 @@ class Comment
     batch_message.subject comment.email_subject
     batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
                 
-    comment.post.emails.each { |account|
+    comment.post.subscribers.each { |account|
       batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
     }
         
