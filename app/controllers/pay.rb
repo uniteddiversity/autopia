@@ -26,7 +26,7 @@ Autopia::App.controller do
       success_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
       cancel_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
     )    
-    @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @gathering.currency, :session_id => session.id
+    @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @gathering.currency, :session_id => session.id, :payment_intent => session.payment_intent
     {session_id: session.id}.to_json
   end
   

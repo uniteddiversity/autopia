@@ -11,6 +11,7 @@ class PaymentAttempt
   field :amount, :type => Integer
   field :currency, :type => String
   field :session_id, :type => String
+  field :payment_intent, :type => String
     
   validates_presence_of :gathering_name, :amount, :currency
 
@@ -23,6 +24,7 @@ class PaymentAttempt
   def self.admin_fields
     {
       :session_id => :text,
+      :payment_intent => :text,
       :account_id => :lookup,
       :gathering_id => :lookup,
       :membership_id => :lookup,
