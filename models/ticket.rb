@@ -44,5 +44,5 @@ class Ticket
     # ticket might be destroyed again, so this should move
     event.waitships.find_by(account: account).try(:destroy)
   end  
-
+   
 end

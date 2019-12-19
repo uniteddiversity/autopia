@@ -53,4 +53,12 @@ class Order
     end   
   end
   
+  after_destroy do
+    if event.organisation
+      Stripe.api_key = event.organisation.stripe_sk
+      pi = Stripe::PaymentIntent.retrieve payment_intent      
+      Stripe::Refund.create(charge: pi.charges.first.id, reverse_transfer: true)
+    end
+  end  
+  
 end
