@@ -5,9 +5,9 @@ Autopia::App.controller do
     @from = params[:from] ? Date.parse(params[:from]) : Date.today
     @events = @events.future(@from)          
     @events = @events.or(
-        { :name => /#{::Regexp.escape(params[:q])}/i },
-        { :description => /#{::Regexp.escape(params[:q])}/i },
-      ) if params[:q]
+      { :name => /#{::Regexp.escape(params[:q])}/i },
+      { :description => /#{::Regexp.escape(params[:q])}/i },
+    ) if params[:q]
     @events = @events.where(:id.in => EventTagship.where(:event_tag_id => params[:event_tag_id]).pluck(:event_id)) if params[:event_tag_id]
     discuss 'Events'
     erb :'events/events'
@@ -119,12 +119,12 @@ Autopia::App.controller do
     @account.persisted? ? @account.update_attributes!(Hash[account_hash.map { |k, v| [k, v] if v }.compact]) : @account.save!
 
     order = @account.orders.create!(event: @event, value: total)
-
+    
     ticketForm.select { |k, _v| k.starts_with?('quantities') }.each do |k, v|
       ticket_type_id = k.to_s.match(/quantities\[(\w+)\]/)[1]
       ticket_type = @event.ticket_types.find(ticket_type_id)
       v.to_i.times do
-        @account.tickets.create!(event: @event, order: order, ticket_type: ticket_type)
+        @account.tickets.create!(event: @event, order: order, ticket_type: ticket_type, hide_attendance: current_account ? false : true)
       end
     end
 
@@ -166,6 +166,7 @@ Autopia::App.controller do
       order.set(session_id: session.id, payment_intent: session.payment_intent)
       { session_id: session.id }.to_json
     else
+      order.send_tickets
       {}.to_json
     end
   end
@@ -254,5 +255,24 @@ Autopia::App.controller do
     @event.event_facilitations.find_by(account_id: params[:account_id]).destroy
     redirect back
   end    
+  
+  get '/events/:id/attendees' do
+    @event = Event.find(params[:id]) || not_found    
+    partial :'events/attendees'
+  end
+  
+  get '/events/:id/hide_attendance' do
+    sign_in_required!
+    @event = Event.find(params[:id]) || not_found    
+    @event.tickets.where(account: current_account).update_all(hide_attendance: true)
+    200
+  end
+  
+  get '/events/:id/show_attendance' do
+    sign_in_required!
+    @event = Event.find(params[:id]) || not_found    
+    @event.tickets.where(account: current_account).update_all(hide_attendance: nil)
+    200
+  end  
     
 end

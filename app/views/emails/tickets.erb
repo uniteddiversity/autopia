@@ -1,0 +1,22 @@
+<p>Hi %recipient.firstname%,</p>
+
+<p>Thanks for booking onto <%= event.name %> via Autopia. <% order.tickets.count == 1 %>Here's your ticket<% else %>Here are your tickets<% end %>:</p>
+
+<% order.tickets.each { |ticket| %>
+  <div style="border: 1px solid #222222; border-radius: 5px; padding: 10px; margin-bottom: 10px">
+    <%= ticket.ticket_type.name %>
+    <br />
+    <small><%=ticket.id%></small>
+  </div>
+<% } %>
+
+<p>
+  <% if !account.sign_ins or account.sign_ins == 0 %>
+    <a href="<%=ENV['BASE_URI']%>/accounts/edit?sign_in_token=%recipient.token%&event_id=<%=event.id%>">Click here to create a profile and display your attendance at the event.</a>
+  <% else %>
+    <a href="<%=ENV['BASE_URI']%>/events/<%=event.id%>?sign_in_token=%recipient.token%">Sign in to show or hide your attendance.</a>
+  <% end %>
+</p>
+
+<p>Best,<br />
+  The Autopia Team</p>

@@ -93,16 +93,9 @@
       <%=@event.description.gsub("\n",'<br />')%>
     </p>
 
-    <% if @event.organisation && @event.attendees.count > 0 %>
-      <div class="my-3">  
-        <h2 class="mt-3">Attending</h2>
-        <div class="image-wall">
-          <% @event.attendees.each { |account|  %>
-            <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-          <% } %>
-        </div>
-      </div>
-    <% end %>
+    <div data-pagelet-url="/events/<%=@event.id%>/attendees">
+      <%= partial :'events/attendees' %>
+    </div>
 
   </div>
 

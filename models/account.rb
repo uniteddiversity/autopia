@@ -63,7 +63,12 @@ class Account
     self.username = username.downcase if username
 
     errors.add(:name, 'must not contain an @') if name && name.include?('@')
-    errors.add(:email, 'must not contain commas') if email && email.include?(',')
+    errors.add(:email, 'must not contain commas') if self.email and self.email.include?(',')
+    errors.add(:email, 'must not contain semicolons') if self.email and self.email.include?(';')
+                    
+    if !self.password and !self.crypted_password
+      self.password = Account.generate_password(8) # if there's no password, just set one
+    end    
 
     errors.add(:facebook_profile_url, 'must contain facebook.com') if facebook_profile_url && !facebook_profile_url.include?('facebook.com')
     self.facebook_profile_url = "https://#{facebook_profile_url}" if facebook_profile_url && facebook_profile_url !~ %r{\Ahttps?://}

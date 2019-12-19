@@ -8,7 +8,8 @@ class Ticket
   belongs_to :ticket_type, optional: true
 
   field :price, type: Integer
-  field :description, type: String
+  field :hide_attendance, type: Boolean
+  field :keyword, type: String
 
   attr_accessor :force
 
@@ -17,14 +18,15 @@ class Ticket
   end
 
   def summary
-    "#{event.name} : #{account.email} : #{description || ticket_type.try(:name)}"
+    "#{event.name} : #{account.email} : #{ticket_type.try(:name)}"
   end
 
   def self.admin_fields
     {
       summary: { type: :text, edit: false },
       price: :number,
-      description: :text,
+      keyword: :text,
+      hide_attendance: :check_box,
       event_id: :lookup,
       account_id: :lookup,
       order_id: :lookup,

@@ -47,30 +47,22 @@ class Membership
   end
   
   after_create :send_email
-  def send_email    
-    if ENV['SMTP_ADDRESS']
-      mail = Mail.new
-      mail.to = account.email
-      mail.from = ENV['NOTIFICATION_EMAIL']
-      mail.subject = "You're now a member of #{gathering.name}"
-      
-      account = self.account
-      gathering = self.gathering
-      
-      if !account.sign_ins or account.sign_ins == 0
-        action = %Q{<a href="#{ENV['BASE_URI']}/accounts/edit?sign_in_token=#{account.sign_in_token}&slug=#{gathering.slug}">Click here to finish setting up your account and get involved with the co-creation!</a>}
-      else
-        action = %Q{<a href="#{ENV['BASE_URI']}/a/#{gathering.slug}?sign_in_token=#{account.sign_in_token}">Sign in to get involved with the co-creation!</a>}
-      end       
-      
-      html_part = Mail::Part.new do
-        content_type 'text/html; charset=UTF-8'
-        body "Hi #{account.firstname},<br /><br />You're now a member of #{gathering.name} on Autopia. #{action}<br /><br />Best,<br />The Autopia Team" 
-      end
-      mail.html_part = html_part
-      
-      mail.deliver  
-    end
+  def send_email          
+    mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
+    batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
+         
+    account = self.account
+    gathering = self.gathering
+    content = ERB.new(File.read(Padrino.root('app/views/emails/gathering_welcome.erb'))).result(binding)
+    batch_message.from ENV['NOTIFICATION_EMAIL']
+    batch_message.subject "You're now a member of #{gathering.name}"
+    batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
+                
+    [account].each { |account|
+      batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
+    }
+        
+    batch_message.finalize
   end  
   handle_asynchronously :send_email
    

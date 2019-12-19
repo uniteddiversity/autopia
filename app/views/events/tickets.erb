@@ -41,11 +41,7 @@
         <%= ticket.account.email  %>
       </td>      
       <td>
-        <% if ticket.ticket_type %>
-          <%= ticket.ticket_type.name %>
-        <% else %>
-          <%= ticket.description %>
-        <% end %>
+        <%= ticket.ticket_type.name %>
       </td>      
       <td>
         <% if ticket.price %>
@@ -77,12 +73,12 @@
 </table>
 
 
-  <h3 class="mt-5">Create ticket</h3>
+<h3 class="mt-5">Create ticket</h3>
 
-  <% form_for @event.tickets.new, "/events/#{@event.id}/create_ticket" do |f| %>
-    <%= f.text_block :name %>
-    <%= f.text_block :email %>
-    <%= f.select_block :ticket_type_id, options: @event.ticket_types.map { |ticket_type| [ticket_type.name, ticket_type.id] } %>
-    <%= f.number_block :price %>
-    <%= f.submit_block %>
-  <% end %>
+<% form_for @event.tickets.new, "/events/#{@event.id}/create_ticket" do |f| %>
+  <%= f.text_block :name %>
+  <%= f.text_block :email %>
+  <%= f.select_block :ticket_type_id, options: @event.ticket_types.map { |ticket_type| [ticket_type.name, ticket_type.id] } %>
+  <%= f.number_block :price %>
+  <%= f.submit_block %>
+<% end %>

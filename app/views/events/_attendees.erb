@@ -1,0 +1,23 @@
+<% if (current_account && ticket = @event.tickets.find_by(account: current_account)) || (@event.organisation && @event.tickets.where(:hide_attendance.ne => true).count > 0) %>
+  <div class="my-3">  
+    <div class="row no-gutters">
+      <div class="col">
+        <h2>Attending</h2>
+      </div>
+      <div class="col-auto">
+        <% if ticket %>
+          <% if !ticket.hide_attendance? %>
+            <a class="pagelet-trigger btn btn-sm btn-primary mb-1" href="/events/<%=@event.id%>/hide_attendance">Attendance public</a>
+          <% else %>
+            <a class="pagelet-trigger btn btn-sm btn-outline-primary mb-1" href="/events/<%=@event.id%>/show_attendance">Attendance hidden</a>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="image-wall">
+      <% Account.where(:id.in => @event.tickets.where(:hide_attendance.ne => true).pluck(:account_id)).each { |account|  %>
+        <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+      <% } %>
+    </div>
+  </div>
+<% end %>
