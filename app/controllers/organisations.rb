@@ -190,6 +190,7 @@ Autopia::App.controller do
       session = event['data']['object']
       if order = Order.find_by(session_id: session.id)
         order.set(payment_completed: true)
+        order.send_tickets
         200
       else
         400
