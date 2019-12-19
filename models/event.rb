@@ -14,7 +14,7 @@ class Event
   field :email, type: String
   field :facebook_event_id, type: String
   field :feedback_questions, type: String
-  field :suggested_donation, type: Float
+  field :suggested_donation, type: Integer
   field :capacity, type: Integer
   field :organisation_revenue_share, type: Float
 

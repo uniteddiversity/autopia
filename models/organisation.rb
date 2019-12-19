@@ -17,6 +17,7 @@ class Organisation
   field :mailgun_domain, type: String
   field :location, type: String
   field :coordinates, type: Array
+  field :monthly_donor_discount, type: Integer
   
   # Geocoder
   geocoded_by :location
@@ -103,7 +104,8 @@ class Organisation
       gocardless_access_token: :text,
       patreon_api_key: :text,
       mailgun_api_key: :text,
-      mailgun_domain: :text
+      mailgun_domain: :text,
+      monthly_donor_discount: :text
     }
   end
 
@@ -116,7 +118,7 @@ class Organisation
       gocardless_access_token: 'GoCardless access token',
       patreon_api_key: 'Patreon API key',
       mailgun_api_key: 'Mailgun API key',
-      mailgun_domain: 'Mailgun domain',
+      mailgun_domain: 'Mailgun domain'
     }[attr.to_sym] || super
   end
   

@@ -2,7 +2,7 @@ class Order
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :value, type: Float
+  field :value, type: Integer
   field :session_id, type: String
   field :payment_intent, type: String
   field :payment_completed, type: Boolean

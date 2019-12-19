@@ -7,7 +7,7 @@ class TicketType
   has_many :tickets, :dependent => :nullify
 
   field :name, :type => String
-  field :price, :type => Float
+  field :price, :type => Integer
   field :quantity, :type => Integer
   field :hidden, :type => Boolean
   field :exclude_from_capacity, :type => Boolean

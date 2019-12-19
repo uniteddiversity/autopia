@@ -7,7 +7,7 @@ class Ticket
   belongs_to :order, optional: true
   belongs_to :ticket_type, optional: true
 
-  field :price, type: Float
+  field :price, type: Integer
   field :description, type: String
 
   attr_accessor :force

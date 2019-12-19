@@ -1,170 +1,181 @@
 <div class="card mb-3" id="select-tickets">
   <h3 class="card-header bg-primary text-white">Select tickets</h2>
-  <div class="card-body">
+    <div class="card-body">
 
-    <% form_tag '' do %>
-      <table class="table">
-        <tr>
-          <th>Ticket type</th>
-          <th>Price</th>
-          <th style="width: 50%">Quantity</th>
-        <tr>
-          <% @event.ticket_types.order('price asc').each { |ticket_type| %>
-            <% if !ticket_type.hidden or params[:ticket_type_id] == ticket_type.id.to_s %>
+      <% form_tag '' do %>
+        <table class="table">
+          <tr>
+            <th>Ticket type</th>
+            <th>Price</th>
+            <th style="width: 50%">Quantity</th>
+          <tr>
+            <% @event.ticket_types.order('price asc').each { |ticket_type| %>
+              <% if !ticket_type.hidden or params[:ticket_type_id] == ticket_type.id.to_s %>
+              <tr>
+                <td>
+                  <%= ticket_type.name %>
+                </td>
+                <td>
+                  <%=number_to_currency ticket_type.price, unit: '£', precision: 0%>
+                </td>
+                <td>
+                  <% if ticket_type.number_of_tickets_available_in_single_purchase > 0 %>
+                    <%= select_tag :"quantities[#{ticket_type.id}]", :'data-price' => ticket_type.price, :style => "width: auto; display: inline-block", :class => 'form-control', :options => (0..ticket_type.number_of_tickets_available_in_single_purchase).to_a  %>
+                  <% else %>
+                    <span class="badge badge-primary">Sold out</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% } %>
+          <% if @event.suggested_donation %>
             <tr>
+              <td></td>
+              <td></td>
               <td>
-                <%= ticket_type.name %>
-              </td>
-              <td>
-                <%=number_to_currency ticket_type.price, unit: '£', precision: 2%>
-              </td>
-              <td>
-                <% if ticket_type.number_of_tickets_available_in_single_purchase > 0 %>
-                  <%= select_tag :"quantities[#{ticket_type.id}]", :'data-price' => ticket_type.price, :style => "width: auto; display: inline-block", :class => 'form-control', :options => (0..ticket_type.number_of_tickets_available_in_single_purchase).to_a  %>
-                <% else %>
-                  <span class="badge badge-primary">Sold out</span>
-                <% end %>
+                <strong>Add a one-off donation</strong>
+                <div class="input-group" style="margin: 5px 0">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">£</span>
+                  </div>
+                  <%= number_field_tag :donation_amount, :id => 'donation_amount', :min => 0, :class => 'form-control', :style => 'width: 5em', :value => @event.suggested_donation %>
+                </div>
               </td>
             </tr>
           <% end %>
-        <% } %>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <em style="font-size: 12px">We don't charge booking fees.</em>
-          </td>
-        </tr>
-        <% if @event.suggested_donation %>
+          <% if current_account && @event.organisation.organisationships.find_by(account: current_account).monthly_donor? %>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>
+                <strong>Member's discount</strong>
+                <div class="input-group" style="margin: 5px 0">
+                  <%= number_field_tag :discount, :id => 'discount', :class => 'form-control', :style => 'width: 5em', :disabled => true, :value => @event.organisation.monthly_donor_discount %>
+                  <div class="input-group-append">
+                    <span class="py-0 input-group-text">%</span>
+                  </div>                
+                </div>
+              </td>
+            </tr>          
+          <% end %>
           <tr>
             <td></td>
             <td></td>
             <td>
-              <strong>Add a one-off donation</strong>
+              <strong>Total</strong>
               <div class="input-group" style="margin: 5px 0">
                 <div class="input-group-prepend">
                   <span class="input-group-text">£</span>
                 </div>
-                <%= number_field_tag :donation_amount, :id => 'donation_amount', :min => 0, :class => 'form-control', :style => 'width: 5em', :value => @event.suggested_donation %>
+                <%= number_field_tag :total, :id => 'total', :class => 'form-control', :style => 'width: 5em', :disabled => true  %>
               </div>
+
             </td>
           </tr>
-        <% end %>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>
-            <strong>Total</strong>
-            <div class="input-group" style="margin: 5px 0">
-              <div class="input-group-prepend">
-                <span class="input-group-text">£</span>
-              </div>
-              <%= number_field_tag :total, :id => 'total', :class => 'form-control', :style => 'width: 5em', :disabled => true  %>
-            </div>
 
-          </td>
-        </tr>
-
-      </table>
-    <% end %>
-
-  </div>
-
-  <h3 class="card-header bg-primary text-white">Your details</h2>
-  <div class="card-body" id="details">
-
-    <script>
-      $(function () {
-        $('#account_name').attr('required', 'required')
-      })
-    </script>
-    <% form_for (@account = current_account || Account.new), '' do |f| %>
-      <% if current_account %>
-        <p class="lead">Signed in as <%=current_account.name%> (<%=current_account.email%>)</p>
-        <%= f.hidden_field :name %>
-        <%= f.hidden_field :email %>
-      <% else %>
-        <%= f.text_block :name %>
-        <%= f.email_block :email %>
+        </table>
       <% end %>
-      <%= f.submit_block button_text: 'Submit' %>
-    <% end %>
-  </div>
-</div>
 
-<div class="card" id="card-error" style="display: none">
-  <h3 class="card-header bg-danger text-white">There was an error processing the transaction</h2>
-  <div class="card-body">
-    <p>
-      You have not be charged. Please refresh the page to try again.
-    </p>
-  </div>
-</div>
+    </div>
 
-<script>
-  $(function () {
+    <h3 class="card-header bg-primary text-white">Your details</h2>
+      <div class="card-body" id="details">
 
-    function setTotal() {
-      var p = 0
-      $('select[name^=quantities]').each(function () {
-        p += (parseInt($(this).val()) * parseInt($(this).attr('data-price')))
-      })
-      if ($('#donation_amount').length > 0 && $('#donation_amount').val() != '')
-        p += parseInt($('#donation_amount').val())
-      $('#total').val(p)
-      if (p == 0) {
-        $('#details form button').text('RSVP')
-        $('.refunds').hide()
-        $('#stripe-img').hide()
-      } else {
-        $('#details form button').text('Pay £' + p)
-        $('.refunds').show()
-        $('#stripe-img').fadeIn()
-      }
-    }
-
-    $('select[name^=quantities], #donation_amount').change(function () {
-      setTotal()
-    })
-    setTotal()
-
-
-    $('#details form').submit(function () {
-
-      var numberOfTickets = 0
-      $('select[name^=quantities]').each(function () {
-        numberOfTickets += $(this).val()
-      })
-      if (numberOfTickets == 0) {
-        alert('Please select at least one ticket')
-        return false
-      }
-
-<% if !current_account %>
-        if (!confirm('You entered your email address as ' + $('#account_email').val() + '. Press OK to continue, or Cancel to go back.'))
-          return false
-<% end %>
-
-
-      $('#total').prop('disabled', false)
-      $('#details form button').text(($('#total').val() > 0) ? 'Redirecting you to Stripe...' : 'Processing...')
-      $.post('/events/<%=@event.id%>/create_order', {ticketForm: $('#select-tickets form').serializeArray(), detailsForm: $('#details form').serializeArray()}, function (data) {
-        if ($('#total').val() > 0) {
-          var stripe = Stripe('<%=@event.organisation.stripe_pk%>');
-          stripe.redirectToCheckout({
-            sessionId: data['session_id']
+        <script>
+          $(function () {
+            $('#account_name').attr('required', 'required')
           })
-        } else {
-          window.location = '?success=true#share-event'
-        }
-      }).fail(function () {
-        $('#select-tickets, #details').hide()
-        $('#card-error').show()
-      })
+        </script>
+        <% form_for (@account = current_account || Account.new), '' do |f| %>
+          <% if current_account %>
+            <p class="lead">Signed in as <%=current_account.name%> (<%=current_account.email%>)</p>
+            <%= f.hidden_field :name %>
+            <%= f.hidden_field :email %>
+          <% else %>
+            <%= f.text_block :name %>
+            <%= f.email_block :email %>
+          <% end %>
+          <%= f.submit_block button_text: 'Submit' %>
+        <% end %>
+      </div>
+      </div>
 
-      return false
-    });
+      <div class="card" id="card-error" style="display: none">
+        <h3 class="card-header bg-danger text-white">There was an error processing the transaction</h2>
+          <div class="card-body">
+            <p>
+              You have not be charged. Please refresh the page to try again.
+            </p>
+          </div>
+      </div>
 
-  });
+      <script>
+        $(function () {
 
-</script>
+          function setTotal() {
+            var p = 0
+            $('select[name^=quantities]').each(function () {
+              p += (parseInt($(this).val()) * parseInt($(this).attr('data-price')))
+            })
+            if ($('#donation_amount').length > 0 && $('#donation_amount').val() != '')
+              p += parseInt($('#donation_amount').val())
+            if ($('#discount').length > 0 && $('#discount').val() != '')
+              p = p * (100 - parseInt($('#discount').val())) / 100
+            p = Math.floor(p)
+            $('#total').val(p)
+            if (p == 0) {
+              $('#details form button').text('RSVP')
+              $('.refunds').hide()
+              $('#stripe-img').hide()
+            } else {
+              $('#details form button').text('Pay £' + p)
+              $('.refunds').show()
+              $('#stripe-img').fadeIn()
+            }
+          }
+
+          $('select[name^=quantities], #donation_amount').change(function () {
+            setTotal()
+          })
+          setTotal()
+
+
+          $('#details form').submit(function () {
+
+            var numberOfTickets = 0
+            $('select[name^=quantities]').each(function () {
+              numberOfTickets += $(this).val()
+            })
+            if (numberOfTickets == 0) {
+              alert('Please select at least one ticket')
+              return false
+            }
+
+      <% if !current_account %>
+              if (!confirm('You entered your email address as ' + $('#account_email').val() + '. Press OK to continue, or Cancel to go back.'))
+                return false
+      <% end %>
+
+
+            $('#total').prop('disabled', false)
+            $('#details form button').text(($('#total').val() > 0) ? 'Redirecting you to Stripe...' : 'Processing...')
+            $.post('/events/<%=@event.id%>/create_order', {ticketForm: $('#select-tickets form').serializeArray(), detailsForm: $('#details form').serializeArray()}, function (data) {
+              if ($('#total').val() > 0) {
+                var stripe = Stripe('<%=@event.organisation.stripe_pk%>');
+                stripe.redirectToCheckout({
+                  sessionId: data['session_id']
+                })
+              } else {
+                window.location = '?success=true#share-event'
+              }
+            }).fail(function () {
+              $('#select-tickets, #details').hide()
+              $('#card-error').show()
+            })
+
+            return false
+          });
+
+        });
+
+      </script>

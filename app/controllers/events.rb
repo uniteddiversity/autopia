@@ -132,8 +132,10 @@ Autopia::App.controller do
       @account.donations.create!(event: @event, order: order, amount: donation_amount)
     end
 
-    if (order.tickets.sum(&:price) + order.donations.sum(&:amount)) != total
-      raise "Amounts do not match: #{order.description} - #{@account.email}"
+    total_check = (order.tickets.sum(&:price) + order.donations.sum(&:amount))
+    total_check = (total_check*(100-@event.organisation.monthly_donor_discount)/100).floor if @event.organisation.monthly_donor_discount
+    if total != total_check
+      raise "Amounts do not match: #{total} vs #{total_check}. #{order.description} - #{@account.email}"
     end
 
     if total > 0

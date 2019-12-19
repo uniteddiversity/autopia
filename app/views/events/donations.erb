@@ -23,7 +23,7 @@
         <%= donation.account.email  %>
       </td>      
       <td>
-        <%=number_to_currency donation.amount, unit: '£', precision: 2%>
+        <%=number_to_currency donation.amount, unit: '£', precision: 0%>
         <% if donation.incomplete? %><i title="Payment processing" class="ml-1 fa fa-spin fa-circle-o-notch"></i><% end %>
       </td>            
       <td>

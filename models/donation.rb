@@ -2,7 +2,7 @@ class Donation
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :amount, :type => Float
+  field :amount, :type => Integer
 
   belongs_to :account, index: true
   belongs_to :event, index: true, optional: true

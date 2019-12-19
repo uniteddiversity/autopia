@@ -31,6 +31,10 @@ class Organisationship
     }
   end
   
+  def monthly_donor?
+    monthly_donation_amount    
+  end
+  
   def self.protected_attributes
     %w[admin]
   end
