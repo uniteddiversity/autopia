@@ -14,6 +14,7 @@
       <th>Date</th>      
       <th>Order ID</th>
       <th>Feedback</th>
+      <th></th>
     </tr>
   </thead>
   <% @event.orders.order('created_at desc').each { |order| %>
@@ -48,6 +49,9 @@
         <% else %>
           <input type="text" style="width: 8em" class="form-control" value="<%=ENV['BASE_URI']%>/events/<%=order.event_id%>/give_feedback?sign_in_token=<%=order.account.sign_in_token%>" />
         <% end %>        
+      </td>      
+      <td>
+        <a class="btn btn-danger" href="/events/<%=@event.id%>/orders/<%=order.id%>/destroy" data-confirm="Are you sure you want to remove and refund this order?"><i class="fa fa-times"></i></a>
       </td>      
     </tr>
   <% } %>

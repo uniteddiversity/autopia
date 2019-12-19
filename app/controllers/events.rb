@@ -194,6 +194,13 @@ Autopia::App.controller do
     end    
   end  
   
+  get '/events/:id/orders/:order_id/destroy' do
+    @event = Event.find(params[:id]) || not_found
+    event_admins_only!
+    @event.orders.find(params[:order_id]).destroy
+    redirect back
+  end   
+  
   get '/events/:id/tickets/:ticket_id/destroy' do
     @event = Event.find(params[:id]) || not_found
     event_admins_only!
