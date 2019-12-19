@@ -143,6 +143,7 @@ Autopia::App.controller do
       stripe_session_hash = { payment_method_types: ['card'],
         line_items: [{
             name: "Tickets to #{@event.name}",
+            description: order.description,
             images: [@event.image.try(:url)].compact,
             amount: total * 100,
             currency: 'GBP',
