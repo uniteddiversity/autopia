@@ -187,7 +187,7 @@ Autopia::App.controller do
     admins_only!
     @account = Account.find(params[:id]) || not_found
     @account.update_attribute(:picture, params[:picture])
-    200
+    redirect back
   end
   
 
