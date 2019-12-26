@@ -5,12 +5,12 @@
     <div data-pagelet-url="/a/<%=@gathering.slug%>/todos">
       <%= partial :'gatherings/todos' %>
     </div>    
-    <% if @gathering.intro_for_members %>  
+    <% if @gathering.markup_for_members %>  
       <div class="card mb-3">
         <h5 class="card-header text-white bg-primary">Welcome to <%=@gathering.name%>!</h5>
         <div class="card-body pb-0">
           <div class="wysiwyg">
-            <%= @gathering.intro_for_members %>        
+            <%= @gathering.markup_for_members %>        
           </div>
         </div>
       </div>

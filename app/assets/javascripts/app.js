@@ -183,6 +183,64 @@ $(function () {
       }
     });
 
+    /**
+     * Step1. select local image
+     *
+     */
+    function selectLocalImage() {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.click();
+
+      // Listen upload local image and save to server
+      input.onchange = () => {
+        const file = input.files[0];
+
+        // file type is only image.
+        if (/^image\//.test(file.type)) {
+          saveToServer(file);
+        } else {
+          console.warn('You can only upload images');
+        }
+      };
+    }
+
+    /**
+     * Step2. save to server
+     *
+     * @param {File} file
+     */
+    function saveToServer(file) {
+      const fd = new FormData();
+      fd.append('file', file);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', '/upload', true);
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          // this is callback data: url
+          const url = xhr.responseText;
+          insertToEditor(url);
+        }
+      };
+      xhr.send(fd);
+    }
+
+    /**
+     * Step3. insert image url to rich editor.
+     *
+     * @param {string} url
+     */
+    function insertToEditor(url) {
+      const range = quill.getSelection();
+      quill.insertEmbed(range.index, 'image', url);
+    }
+
+    quill.getModule('toolbar').addHandler('image', () => {
+      selectLocalImage();
+    });
+
+
     if (textarea.form)
       $(textarea.form).submit(function () {
         $(textarea).val(quill.root.innerHTML);
