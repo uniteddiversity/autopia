@@ -1,6 +1,12 @@
 <% account = membership.account %>
 <td>
   <%= partial :'accounts/account', :object => account, :locals => {:membership => membership} %>
+  <% if admin? && !account.picture %>
+    <% form_tag "/accounts/#{account.id}/picture", :multipart => true do %>
+      <%= file_field_tag :picture %> 
+      <%= submit_tag 'Upload image', :class => 'mt-1 btn btn-primary btn-sm' %>
+    <% end %>
+  <% end %>  
   <div>
     <% membership.teamships.each { |teamship| unless teamship.team.name == 'General' %>
         <a href="/a/<%=@gathering.slug%>/teams/<%=teamship.team_id%>"><span class="label label-primary"><%=teamship.team.name%></span></a>
@@ -16,8 +22,8 @@
 <td>
   <% mapplication = membership.mapplication; if mapplication and mapplication.answers %>
     <a href="javascript:;" onclick="$('#modal .modal-content').load('/a/<%=@gathering.slug%>/mapplications/<%=mapplication.id%>', function () {
-            $('#modal').modal('show')
-          });">
+          $('#modal').modal('show')
+        });">
          <%= membership.created_at %>          
     </a>
   <% else %>  

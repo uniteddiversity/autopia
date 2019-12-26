@@ -40,7 +40,7 @@ Autopia::App.controller do
     end
     redirect '/'
   end
-
+  
   get '/accounts/new' do
     @account = Account.new
     erb :'accounts/new'
@@ -182,5 +182,13 @@ Autopia::App.controller do
       redirect back
     end
   end   
+  
+  post '/accounts/:id/picture' do
+    admins_only!
+    @account = Account.find(params[:id]) || not_found
+    @account.update_attribute(:picture, params[:picture])
+    200
+  end
+  
 
 end
