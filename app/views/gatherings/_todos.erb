@@ -23,7 +23,7 @@
 
 <table class="table table-borderless">
 
-  <% if @gathering.tiers.count > 0 %>         
+  <% if @gathering.enable_tiers? && @gathering.tiers.count > 0 %>         
     <tr>
       <th>
         Your tier
@@ -39,7 +39,7 @@
     </tr>
   <% end %>
 
-  <% if @gathering.accoms.count > 0 %>
+  <% if @gathering.enable_accoms? && @gathering.accoms.count > 0 %>
     <tr>
       <th>
         Your accommodation
@@ -55,7 +55,7 @@
     </tr>
   <% end %>  
 
-  <% if @gathering.transports.count > 0 %>
+  <% if @gathering.enable_transports? && @gathering.transports.count > 0 %>
     <tr>
       <th>
         Your transport
@@ -72,7 +72,7 @@
     </tr>    
   <% end %>  
 
-  <% if @gathering.enable_teams %>
+  <% if @gathering.enable_teams? && @gathering.teams.count > 0 %>
     <tr>
       <th>
         Your teams
@@ -89,7 +89,7 @@
     </tr>    
   <% end %>  
 
-  <% if @gathering.rotas.count > 0 %>
+  <% if @gathering.enable_rotas? && @gathering.rotas.count > 0 %>
     <tr>
       <th>
         Your shifts
