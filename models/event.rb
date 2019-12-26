@@ -46,7 +46,8 @@ class Event
   belongs_to :local_group, optional: true, index: true
   belongs_to :coordinator, class_name: "Account", inverse_of: :events_coordinating, index: true, optional: true
   belongs_to :revenue_sharer, class_name: "Account", inverse_of: :events_revenue_sharing, index: true, optional: true
-  
+  belongs_to :gathering, index: true, optional: true
+    
   before_validation do
     if !organisation
       self.activity, self.local_group, self.coordinator, self.revenue_sharer = nil, nil, nil, nil
@@ -179,6 +180,16 @@ class Event
       email: 'Contact email',
       facebook_event_id: 'Facebook event ID'
     }[attr.to_sym] || super
+  end
+  
+  def self.new_tips
+    {
+      gathering_id: 'Only allow member of this gathering to buy tickets'
+    }
+  end
+  
+  def self.edit_tips
+    new_tips
   end
 
   def sold_out?

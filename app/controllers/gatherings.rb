@@ -1,8 +1,19 @@
 Autopia::App.controller do
   
-  get '/gatherings' do
-    sign_in_required!
-    erb :'gatherings/gatherings'
+  get '/gatherings', :provides => [:html, :json] do
+    sign_in_required!    
+    case content_type
+    when :html
+      @gatherings = Gathering.where(:privacy.ne => 'secret').order('created_at desc')
+      erb :'gatherings/gatherings'
+    when :json
+      @gatherings = Gathering.where(:id.in => current_account.memberships.pluck(:gathering_id))
+      @gatherings = @gatherings.where(name: /#{::Regexp.escape(params[:q])}/i) if params[:q]
+      @gatherings = @gatherings.where(id: params[:id]) if params[:id]      
+      {
+        results: @gatherings.map { |gathering| {id: gathering.id.to_s, text: "#{gathering.name} (id:#{gathering.id})"} }
+      }.to_json      
+    end   
   end
     
   get '/a/new' do

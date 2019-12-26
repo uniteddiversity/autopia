@@ -100,7 +100,8 @@ Autopia::App.controller do
 
   post '/events/:id/create_order', provides: :json do
     @event = Event.find(params[:id]) || not_found
-
+    halt 400 if @event.gathering and (!current_account || !@event.gathering.memberships.find_by(account: current_account))
+          
     ticketForm = {}
     params[:ticketForm].each { |_k, v| ticketForm[v['name']] = v['value'] }
     donation_amount = ticketForm['donation_amount'].to_i
