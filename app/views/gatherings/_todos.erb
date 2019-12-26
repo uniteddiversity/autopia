@@ -39,7 +39,7 @@
     </tr>
   <% end %>
 
-  <% if @gathering.enable_accoms? && @gathering.accoms.count > 0 %>
+  <% if @gathering.enable_accommodation? && @gathering.accoms.count > 0 %>
     <tr>
       <th>
         Your accommodation
@@ -55,7 +55,7 @@
     </tr>
   <% end %>  
 
-  <% if @gathering.enable_transports? && @gathering.transports.count > 0 %>
+  <% if @gathering.enable_transport? && @gathering.transports.count > 0 %>
     <tr>
       <th>
         Your transport
