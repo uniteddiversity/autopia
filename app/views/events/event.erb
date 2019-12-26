@@ -90,7 +90,7 @@
       <% end %>        
     </table>
     <p class="lead">
-      <%=@event.description.gsub("\n",'<br />')%>
+      <%=Rinku.auto_link(@event.description.gsub("\n",'<br />'))%>
     </p>
 
     <div data-pagelet-url="/events/<%=@event.id%>/attendees">

@@ -12,7 +12,6 @@
       <th>Email</th>
       <th>Value</th>
       <th>Date</th>      
-      <th>Order ID</th>
       <th>Feedback</th>
       <th></th>
     </tr>
@@ -34,9 +33,6 @@
       <td>
         <%= order.created_at %>
       </td>
-      <td>
-        <%= order.id %>
-      </td>           
       <td>
         <% if event_feedback = order.event.event_feedbacks.find_by(account: order.account) %>
           <a href="/event_feedbacks/<%=event_feedback.id%>">

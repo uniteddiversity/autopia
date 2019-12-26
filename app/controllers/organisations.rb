@@ -224,5 +224,36 @@ Autopia::App.controller do
     flash[:notice] = "You were unsubscribed."
     redirect("/organisations/#{@organisation.id}")
   end   
+  
+  get '/organisations/:id/tiers' do
+    @organisation = Organisation.find(params[:id]) || not_found
+    organisation_admins_only!
+    @organisation_tier = @organisation.organisation_tiers.new
+    erb :'organisation_tiers/organisation_tiers'
+  end
     
+  post '/organisations/:id/organisation_tiers/new' do
+    @organisation = Organisation.find(params[:id]) || not_found
+    organisation_admins_only!
+    @organisation_tier = @organisation.organisation_tiers.build(params[:organisation_tier])
+    if @organisation_tier.save
+      redirect "/organisations/#{@organisation.id}/tiers"
+    else
+      flash[:error] = 'There was an error saving the tier.'
+      erb :'organisation_tiers/organisation_tiers'
+    end
+  end
+
+  get '/organisations/:id/organisation_tiers/:organisation_tier_id/edit' do
+    # TODO
+  end
+
+  post '/organisations/:id/organisation_tiers/:organisation_tier_id/edit' do
+    # TODO
+  end
+
+  get '/organisations/:id/organisation_tiers/:organisation_tier_id/destroy' do
+    # TODO
+  end
+  
 end

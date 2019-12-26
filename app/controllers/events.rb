@@ -133,7 +133,10 @@ Autopia::App.controller do
     end
 
     total_check = (order.tickets.sum(&:price) + order.donations.sum(&:amount))
-    total_check = (total_check*(100-@event.organisation.monthly_donor_discount)/100).floor if @event.organisation.monthly_donor_discount
+    if current_account && (organisationship = @event.organisation.organisationships.find_by(account: current_account)) && organisationship.monthly_donor? && organisationship.monthly_donor_discount > 0
+      total_check = (total_check*(100-organisationship.monthly_donor_discount)/100).floor
+    end
+    
     if total != total_check
       raise "Amounts do not match: #{total} vs #{total_check}. #{order.description} - #{@account.email}"
     end
@@ -190,7 +193,7 @@ Autopia::App.controller do
     
     already_existed = @account.persisted?
     if (already_existed ? @account.update_attributes(Hash[account_hash.map { |k,v| [k, v] if v }.compact]) : @account.save)       
-      @account.tickets.create!(:event => @event, :ticket_type => params[:ticket][:ticket_type_id], :price => params[:ticket][:price], :force => true)
+      @account.tickets.create!(:event => @event, :ticket_type => params[:ticket][:ticket_type_id], :price => params[:ticket][:price], :custom => true, :force => true)
       redirect "/events/#{@event.id}/tickets"
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved"

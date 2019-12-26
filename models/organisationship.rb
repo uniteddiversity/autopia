@@ -35,6 +35,20 @@ class Organisationship
     monthly_donation_amount    
   end
   
+  def organisation_tier
+    organisation_tier = nil
+    organisation.organisation_tiers.order('threshold asc').each { |ot|
+      if monthly_donation_amount >= ot.threshold
+        organisation_tier = ot
+      end
+    }
+    organisation_tier    
+  end
+  
+  def monthly_donor_discount
+    organisation_tier.try(:discount) || 0
+  end
+  
   def self.protected_attributes
     %w[admin]
   end

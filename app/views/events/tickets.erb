@@ -27,7 +27,7 @@
       <th>Email</th>
       <th>Ticket description/type</th>
       <th>Price</th>
-      <th>Ticket ID</th>
+      <th>Secret word</th>
       <th>Feedback</th>
       <th></th>
     </tr>
@@ -41,7 +41,7 @@
         <%= ticket.account.email  %>
       </td>      
       <td>
-        <%= ticket.ticket_type.name %>
+        <%= ticket.ticket_type.try(:name) %>
       </td>      
       <td>
         <% if ticket.price %>
@@ -50,7 +50,7 @@
         <% if ticket.order && ticket.order.incomplete? %><i title="Payment processing" class="ml-1 fa fa-spin fa-circle-o-notch"></i><% end %>
       </td>            
       <td>
-        <%= ticket.id %>
+        <%= ticket.secret_word %>
       </td>     
       <td>
         <% if event_feedback = @event.event_feedbacks.find_by(account: ticket.account) %>
@@ -79,6 +79,5 @@
   <%= f.text_block :name %>
   <%= f.text_block :email %>
   <%= f.select_block :ticket_type_id, options: @event.ticket_types.map { |ticket_type| [ticket_type.name, ticket_type.id] } %>
-  <%= f.number_block :price %>
   <%= f.submit_block %>
 <% end %>

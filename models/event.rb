@@ -221,7 +221,7 @@ class Event
   
   def revenue
     r = 0
-    tickets.each { |ticket| r += (ticket.price or 0) }
+    orders.each { |order| r += (order.value or 0) }
     r
   end  
   

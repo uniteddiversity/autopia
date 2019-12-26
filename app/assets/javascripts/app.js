@@ -122,10 +122,6 @@ $(function () {
     });
   });
 
-  $('form').submit(function () {
-    $('button[type=submit]', this).attr('disabled', 'disabled').html('Submitting...');
-  });
-
   $('[data-upload-url]').click(function () {
     var form = $('<form action="' + $(this).attr('data-upload-url') + '" method="post" enctype="multipart/form-data"><input style="display: none" type="file" name="upload"></form>')
     form.insertAfter(this)

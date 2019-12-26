@@ -53,7 +53,7 @@ class Account
   before_validation do
     if !username && name
       u = name.parameterize.underscore
-      n = Account.where(username: u).count
+      n = Account.where(username: /#{u}/i).count
       u = "#{u}#{n}" if n > 0
       self.username = u
     end

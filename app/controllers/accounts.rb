@@ -77,7 +77,13 @@ Autopia::App.controller do
       flash[:notice] = "<strong>Awesome!</strong> Your account was updated successfully."
       @account.notifications_as_notifiable.where(type: 'updated_profile').destroy_all
       @account.notifications_as_notifiable.create! :circle => @account, :type => 'updated_profile'
-      redirect (params[:slug] ? "/a/#{params[:slug]}" : '/accounts/edit')
+      redirect (if params[:slug]
+          "/a/#{params[:slug]}"
+        elsif params[:event_id]
+          "/events/#{params[:event_id]}"
+        else
+          '/accounts/edit'
+        end)
     else
       flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the account from being saved."
       erb :'accounts/edit'

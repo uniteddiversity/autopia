@@ -1,10 +1,7 @@
 <%= partial :'organisations/nav', :locals => {:organisation => @organisation} %>
               
 <script>
-  $(function () {
-                              
-    $('#organisation_monthly_donor_discount').wrap('<div class="input-group" style="margin: 5px 0"></div>').after('<div class="input-group-append"><span class="py-0 input-group-text">%</span></div>  ').attr('max',100).attr('min',0)
-    
+  $(function () {                                  
     var autocomplete = new google.maps.places.Autocomplete($('#organisation_location')[0]);
     $('#organisation_location').keydown(function (e) {
       if (e.which == 13 && $('.pac-container:visible').length)
@@ -19,8 +16,7 @@
   <%= f.text_block :location %>
   <%= f.image_block :image %>
   <div class="my-3">&mdash; or &mdash;</div>
-  <%= f.url_block :image_url %>
-  <%= f.number_block :monthly_donor_discount %>
+  <%= f.url_block :image_url %>  
   <%= f.text_block :stripe_pk %>
   <%= f.text_block :stripe_sk %>  
   <%= f.text_block :stripe_client_id %>

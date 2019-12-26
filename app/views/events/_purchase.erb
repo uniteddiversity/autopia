@@ -43,14 +43,14 @@
               </td>
             </tr>
           <% end %>
-          <% if current_account && @event.organisation.organisationships.find_by(account: current_account).monthly_donor? %>
+          <% if current_account && (organisationship = @event.organisation.organisationships.find_by(account: current_account)) && organisationship.monthly_donor? && organisationship.monthly_donor_discount > 0 %>
             <tr>
               <td></td>
               <td></td>
               <td>
-                <strong>Member's discount</strong>
+                <strong><%=organisationship.organisation_tier.name%> discount</strong>
                 <div class="input-group" style="margin: 5px 0">
-                  <%= number_field_tag :discount, :id => 'discount', :class => 'form-control', :style => 'width: 5em', :disabled => true, :value => @event.organisation.monthly_donor_discount %>
+                  <%= number_field_tag :discount, :id => 'discount', :class => 'form-control', :style => 'width: 5em', :disabled => true, :value => organisationship.monthly_donor_discount %>
                   <div class="input-group-append">
                     <span class="py-0 input-group-text">%</span>
                   </div>                
@@ -155,7 +155,6 @@
               if (!confirm('You entered your email address as ' + $('#account_email').val() + '. Press OK to continue, or Cancel to go back.'))
                 return false
       <% end %>
-
 
             $('#total').prop('disabled', false)
             $('#details form button').text(($('#total').val() > 0) ? 'Redirecting you to Stripe...' : 'Processing...')

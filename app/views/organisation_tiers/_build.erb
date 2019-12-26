@@ -1,0 +1,9 @@
+<% form_for @organisation_tier, @organisation_tier.new_record? ? "/organisations/#{@organisation.id}/organisation_tiers/new" : "/organisations/#{@organisation.id}/organisation_tiers/#{@organisation_tier.id}/edit" do  |f| %>
+  <%= f.text_block :name %>
+  <%= f.text_area_block :description %>
+  <%= f.number_block :threshold %>
+  <%= f.number_block :discount %>
+  <div class="my-3">
+    <%= f.submit_block destroy_url: "/organisations/#{@organisation.id}/organisation_tiers/#{@organisation_tier.id}/destroy" %>
+  </div>
+<% end %>

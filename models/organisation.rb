@@ -17,7 +17,6 @@ class Organisation
   field :mailgun_domain, type: String
   field :location, type: String
   field :coordinates, type: Array
-  field :monthly_donor_discount, type: Integer
   
   # Geocoder
   geocoded_by :location
@@ -42,6 +41,7 @@ class Organisation
   has_many :pmails, dependent: :destroy
   has_many :attachments, dependent: :destroy
   has_many :local_groups, dependent: :destroy
+  has_many :organisation_tiers, dependent: :destroy
   
   has_many :posts, as: :commentable, dependent: :destroy
   has_many :subscriptions, as: :commentable, dependent: :destroy
@@ -104,8 +104,7 @@ class Organisation
       gocardless_access_token: :text,
       patreon_api_key: :text,
       mailgun_api_key: :text,
-      mailgun_domain: :text,
-      monthly_donor_discount: :text
+      mailgun_domain: :text
     }
   end
 
