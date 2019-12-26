@@ -3,7 +3,7 @@
 <p>You're now a member of <%=gathering.name%> on Autopia.
   <% if !account.sign_ins or account.sign_ins == 0 %>
     <a href="<%=ENV['BASE_URI']%>/accounts/edit?sign_in_token=%recipient.token%&slug=<%=gathering.slug%>">Click here to finish setting up your account and get involved with the co-creation!</a>
-  <% else %>>
+  <% else %>
     <a href="<%=ENV['BASE_URI']%>/a/<%=gathering.slug%>?sign_in_token=%recipient.token%">Sign in to get involved with the co-creation!</a>
   <% end %>
 </p>
