@@ -24,7 +24,6 @@
     <% form_tag "/a/#{@gathering.slug}/add_member", :class => 'form-inline' do %>
       <%= text_field_tag :name, :class => 'form-control mr-1', :placeholder => 'Name', :autocomplete => 'off' %>
       <%= email_field_tag :email, :class => 'form-control mr-1', :placeholder => 'Email' %>
-      <label class="d-inline mr-1">Don't notify gathering members <%= check_box_tag :prevent_notifications %></label>
       <%= submit_tag 'Add member', :class => 'btn btn-primary' %>
     <% end %>
   </div>
