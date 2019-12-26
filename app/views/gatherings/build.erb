@@ -10,8 +10,8 @@
 <script>
   $(function () {
 
-    var markdown_for_non_members = new SimpleMDE({element: $("#gathering_markdown_for_non_members")[0]});
-    var markdown_for_members = new SimpleMDE({element: $("#gathering_markdown_for_members")[0]});
+    var markdown_for_non_members = new SimpleMDE({element: $("#gathering_markdown_for_non_members")[0], spellChecker: false});
+    var markdown_for_members = new SimpleMDE({element: $("#gathering_markdown_for_members")[0], spellChecker: false});
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
       markdown_for_non_members.codemirror.refresh();
