@@ -10,6 +10,14 @@
 <script>
   $(function () {
 
+    var markdown_for_non_members = new SimpleMDE({element: $("#gathering_markdown_for_non_members")[0]});
+    var markdown_for_members = new SimpleMDE({element: $("#gathering_markdown_for_members")[0]});
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      markdown_for_non_members.codemirror.refresh();
+      markdown_for_members.codemirror.refresh();
+    });
+
     $('#gathering_slug, #gathering_name').keyup(function () {
       $('.slug-replace').text($('#gathering_slug').val());
     }).keyup();
@@ -83,12 +91,6 @@
   #gathering_markdown_for_non_members { height: 30rem }
   #gathering_markdown_for_members { height: 30rem }
 </style>
-<script type="text/javascript">
-  $(function () {
-    new SimpleMDE({element: $("#gathering_markdown_for_non_members")[0]});
-    new SimpleMDE({element: $("#gathering_markdown_for_members")[0]});
-  });
-</script>
 
 <% form_for @gathering, @gathering.new_record? ? '/a/new' : "/a/#{@gathering.slug}/edit", :multipart => true do |f| %>
 
