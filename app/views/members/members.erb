@@ -6,7 +6,7 @@
   <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
     <%= text_field_tag :q, :class => 'form-control mr-1', :style => 'width: auto; display: inline-block', :placeholder => 'Search members', :value => params[:q] %>
     View as
-    <%= select_tag :view, :class => 'form-control mr-1', :options => %w{details pictures dietary_requirements map emails}.map { |view| [view.to_s.humanize.capitalize,view] }, :selected => params[:view], :onchange => 'this.form.submit()' %>        
+    <%= select_tag :view, :class => 'form-control mr-1', :options => %w{details pictures dietary_requirements map emails list}.map { |view| [view.to_s.humanize.capitalize,view] }, :selected => params[:view], :onchange => 'this.form.submit()' %>        
 
     <% if admin? || @membership.admin? %>
       <a class="btn btn-outline-primary" href="<%=request.path%>.csv?<%=request.query_string%>">Download results as CSV</a>            
@@ -81,6 +81,25 @@
 <% when 'map' %>
 
   <%= partial :'maps/map', :locals => {:points => Account.where(:id.in => @memberships.pluck(:account_id))} %>
+
+
+<% when 'list' %>
+
+  <ul class="search-result-list">
+    <% Account.where(:id.in => @memberships.pluck(:account_id)).order('name asc').each { |account| %>
+      <li>
+        <div class="search-result-media" style="height: auto">
+          <%= partial :'accounts/square', :locals => {:account => account, :style => 'display: block;'} %>
+        </div>
+        <div class="search-result-content">
+          <h2>
+            <a class="text-dark" href="/u/<%=account.username%>"><%=account.name%></a>    
+          </h2>  
+          <%= partial :'accounts/buttons', :locals => {:account => account} %>  
+        </div>  
+      </li>
+      <% } %>
+  </ul>
 
 <% when 'details'; @memberships = @memberships.per_page(10).page(params[:page]) %>
 
