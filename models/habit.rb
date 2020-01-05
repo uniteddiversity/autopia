@@ -46,8 +46,8 @@ class Habit
   
   def self.new_tips
     {
-      :notes => 'Visible only to you',
-      :public => 'Visible on profile and in your gatherings'
+      :notes => 'Notes are private and visible only to you',
+      :public => 'Make this habit visible on profile and in your gatherings'
     }
   end
   
