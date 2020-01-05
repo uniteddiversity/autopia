@@ -4,6 +4,7 @@ class Habit
   extend Dragonfly::Model
     
   field :name, :type => String
+  field :notes, :type => String
   field :public, :type => Boolean
   field :archived, :type => Boolean
   field :o, :type => Integer
@@ -35,6 +36,7 @@ class Habit
   def self.admin_fields
     {
       :name => :text,
+      :notes => :text_area,
       :o => :number,
       :public => :check_box,
       :archived => :check_box,
@@ -44,6 +46,7 @@ class Habit
   
   def self.new_tips
     {
+      :notes => 'Visible only to you',
       :public => 'Visible on profile and in your gatherings'
     }
   end
