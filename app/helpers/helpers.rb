@@ -81,6 +81,12 @@ Autopia::App.helpers do
   end  
   def event_admins_only!; kick! unless event_admin?; end  
   
+  def event_participant?(event=nil, account=current_account)
+    event = @event if !event
+    (account && event.tickets.find_by(account: current_account)) || event_admin?(event, account)
+  end
+  def event_participants_only!; kick! unless event_participant?; end
+  
   def gathering_admin?(gathering=nil, account=current_account)
     gathering = @gathering if !gathering
     account && gathering and ((membership = gathering.memberships.find_by(account: account)) and membership.admin?)

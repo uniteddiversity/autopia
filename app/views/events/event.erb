@@ -156,7 +156,7 @@
   <div class="mt-3" data-pagelet-url="/activities/<%=@event.activity_id%>/show_feedback"></div>
 <% end %>
 
-<% if current_account %>
+<% if event_participant? %>
   <h2 class="mt-5">Discussion</h2>
   <div class="mt-3" data-pagelet-url="/commentable?commentable_type=Event&commentable_id=<%=@event.id%>">
     <%= partial :'comments/commentable', :locals => {:commentable => @event} %>
