@@ -156,7 +156,7 @@ Autopia::App.controller do
         customer_email: (current_account.email if current_account),
         success_url: "#{ENV['BASE_URI']}/events/#{@event.id}?success=true",
         cancel_url: "#{ENV['BASE_URI']}/events/#{@event.id}?cancelled=true" }
-      if @event.revenue_sharer && @event.organisation_revenue_share && organisationship = @event.organisation.organisationships.find_by(:account => @event.revenue_sharer, :stripe_connect_json.ne => nil)        
+      if organisationship = @event.revenue_sharer_organisationship
         stripe_session_hash.merge!({
             payment_intent_data: {
               application_fee_amount: (@event.organisation_revenue_share * total * 100).round,

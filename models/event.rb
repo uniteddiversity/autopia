@@ -47,6 +47,12 @@ class Event
   belongs_to :coordinator, class_name: "Account", inverse_of: :events_coordinating, index: true, optional: true
   belongs_to :revenue_sharer, class_name: "Account", inverse_of: :events_revenue_sharing, index: true, optional: true
   belongs_to :gathering, index: true, optional: true
+  
+  def revenue_sharer_organisationship
+    if revenue_sharer && organisation_revenue_share
+      organisation.organisationships.find_by(:account => revenue_sharer, :stripe_connect_json.ne => nil)
+    end
+  end
     
   before_validation do
     if !organisation

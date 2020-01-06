@@ -57,7 +57,7 @@ class Order
     if event.organisation and value > 0 and payment_completed?
       Stripe.api_key = event.organisation.stripe_sk
       pi = Stripe::PaymentIntent.retrieve payment_intent      
-      Stripe::Refund.create(charge: pi.charges.first.id, reverse_transfer: true)
+      Stripe::Refund.create(charge: pi.charges.first.id, reverse_transfer: (revenue_sharer_organisationship ? true : false))
     end
   end  
   
