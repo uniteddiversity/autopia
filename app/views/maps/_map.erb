@@ -51,7 +51,7 @@
 
   var markerClusterer = new MarkerClusterer(map, markers, {maxZoom: 14});
 <% if defined?(global) && global %>
-    map.setCenter(new google.maps.LatLng(45, 0));
+    map.setCenter(new google.maps.LatLng(0, 0));
     map.setZoom(2)
 <% elsif defined?(centre) && centre %>
     map.setCenter(new google.maps.LatLng(<%=centre.lat%>, <%=centre.lng%>))
