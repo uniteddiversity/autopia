@@ -50,7 +50,7 @@ class Message
       batch_message.subject "[Autopia] Message from #{messenger.name}"
       batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
                 
-      [messengee.email].each { |account|
+      [messengee].each { |account|
         batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
       }      
 
