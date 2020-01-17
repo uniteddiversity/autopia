@@ -34,12 +34,12 @@ class Account
   field :open_to_new_friends, type: Boolean
   field :open_to_short_term_dating, type: Boolean
   field :open_to_long_term_dating, type: Boolean
-  field :open_to_non_monogamy, type: Boolean
+  field :open_to_open_relating, type: Boolean
   field :default_currency, type: String
   field :stripe_connect_json, type: String  
 
   def self.open_to
-    %w[new_friends hookups short_term_dating long_term_dating non_monogamy]
+    %w[new_friends hookups short_term_dating long_term_dating open_relating]
   end
 
   def open_to
@@ -384,7 +384,7 @@ Two Spirit).split("\n")
     y << [:open_to_hookups, 'Open to hookups', where(open_to_hookups: true)]
     y << [:open_to_short_term_dating, 'Open to short-term dating', where(open_to_short_term_dating: true)]
     y << [:open_to_long_term_dating, 'Open to long-term dating', where(open_to_long_term_dating: true)]
-    y << [:open_to_non_monogamy, 'Open to non-monogamy', where(open_to_non_monogamy: true)]
+    y << [:open_to_open_relating, 'Open to open relating', where(open_to_open_relating: true)]
 
     y
   end
