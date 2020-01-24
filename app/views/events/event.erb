@@ -95,9 +95,11 @@
       </p>
     <% end %>
 
-    <div data-pagelet-url="/events/<%=@event.id%>/attendees">
-      <%= partial :'events/attendees' %>
-    </div>
+    <% unless @event.hide_attendees? %>
+      <div data-pagelet-url="/events/<%=@event.id%>/attendees">
+        <%= partial :'events/attendees' %>
+      </div>
+    <% end %>
 
   </div>
 

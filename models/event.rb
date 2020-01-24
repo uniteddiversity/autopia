@@ -17,6 +17,7 @@ class Event
   field :suggested_donation, type: Integer
   field :capacity, type: Integer
   field :organisation_revenue_share, type: Float
+  field :hide_attendees, type: Boolean
 
   def self.marker_color
     'red'
@@ -146,6 +147,7 @@ class Event
       facebook_event_id: :number,
       organisation_revenue_share: :number,
       feedback_questions: :text_area,
+      hide_attendees: :check_box,
       suggested_donation: :number,
       capacity: :number,
       account_id: :lookup,

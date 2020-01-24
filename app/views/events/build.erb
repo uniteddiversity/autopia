@@ -62,7 +62,8 @@
     <%= partial :'events/ticket_types', :locals => {:f => f} %>
     <%= f.number_block :capacity %>
     <%= f.number_block :suggested_donation %>  
-    <%= f.text_area_block :feedback_questions %>    
+    <%= f.text_area_block :feedback_questions %>
+    <%= f.check_box_block :hide_attendees %>    
   </div>
 
   <%= f.submit_block destroy_url: ("/events/#{@event.id}/destroy") %>
