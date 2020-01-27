@@ -20,15 +20,19 @@
 
       <div class="image-wall">
         <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
-          <% if @gathering.send("anonymise_#{noun.pluralize}") %>
-            <i data-toggle="tooltip" title="<%=verdict.reason%>"  class="fa fa-user-circle" style="font-size: 20px; <% if verdict.reason %> color: #007bff <% end %>"></i>
-          <% else %> 
-            <% if verdict.reason %>
-              <%= partial :'accounts/square', :locals => {:account => account, :content => Rinku.auto_link(verdict.reason.gsub("\n","<br />")), :style => "width: 50px; border-bottom: 2px solid #007bff"}%>
-            <% else %>
-              <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'}%>
+          <a href="javascript:;" onclick="$('#modal .modal-content').load('/a/<%=@gathering.slug%>/mapplications/<%=mapplication.id%>', function () {
+                $('#modal').modal('show')
+              });">
+               <% if @gathering.send("anonymise_#{noun.pluralize}") %>
+              <i class="fa fa-user-circle" style="font-size: 20px; <% if verdict.reason %> color: #007bff <% end %>"></i>
+            <% else %> 
+              <% if verdict.reason %>
+                <img style="width: 50px; border-bottom: 2px solid #007bff" src="<%=account.picture_thumb_or_gravatar_url %>" />
+              <% else %>
+                <img style="width: 50px;" src="<%=account.picture_thumb_or_gravatar_url %>" />
+              <% end %>
             <% end %>
-          <% end %>
+          </a>        
         <% } %>
       </div>
 

@@ -7,6 +7,47 @@
   </div>
 <% end %>
 
+<% [ ['proposer','propose'], ['supporter','support'] ].each { |noun, verb| %>
+
+  <% if @gathering.send("enable_#{noun.pluralize}") && mapplication.verdicts.send(noun.pluralize).count > 0 %>
+
+    <h4 class="mb-3"><%=noun.humanize.pluralize%></h4>    
+
+    <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
+
+      <div class="media">
+        <span class="mr-2">
+          <% if @gathering.send("anonymise_#{noun.pluralize}") %>
+            <i class="fa fa-user-circle" style="font-size: 32px;" class="media-object"></i>
+          <% else %>
+            <%= partial :'accounts/square', :locals => {:account => account, :width => '32px', :klass => 'media-object'} %>
+          <% end %>
+        </span>
+        <div class="media-body">
+
+          <% unless @gathering.send("anonymise_#{noun.pluralize}") %>
+            <strong><a href="/accounts/<%=account.id%>"><%=account.name%></a></strong>
+          <% end %>
+            
+          <small class="subtle">
+            <%= timeago(verdict.created_at) %>
+          </small>
+
+          <div class="mb-3">
+            <% if verdict.reason %>
+              <%= Rinku.auto_link(verdict.reason.gsub("\n","<br />")) %>
+            <% end %>
+          </div>
+
+        </div>
+      </div> 
+
+    <% } %>
+
+  <% end %>
+
+<% } %>
+
 <h4 class="mb-3">Discussion (visible only to members)</h4>    
 
 <div data-pagelet-url="/commentable?commentable_type=Mapplication&commentable_id=<%=mapplication.id%>">
