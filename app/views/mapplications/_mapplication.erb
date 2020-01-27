@@ -1,5 +1,5 @@
 <% if mapplication.answers %>
-  <div class="mb-5">
+  <div class="mb-3">
     <% mapplication.answers.each { |q,a| if a %>
         <p style="font-size: 16px;"><strong><%=q%></strong></p>
         <p style="font-size: 16px; font-weight: 300"><%=a.gsub("\n","<br />")%></p>                    
@@ -11,42 +11,44 @@
 
   <% if @gathering.send("enable_#{noun.pluralize}") && mapplication.verdicts.send(noun.pluralize).count > 0 %>
 
-    <h4 class="mb-3"><%=noun.humanize.pluralize%></h4>    
+    <div class="mb-5">
+      <h4 class="mb-3"><%=noun.humanize.pluralize%></h4>    
 
-    <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
+      <% mapplication.verdicts.send(noun.pluralize).each { |verdict| account = verdict.account %>
 
-      <div class="media">
-        <span class="mr-2">
-          <% if @gathering.send("anonymise_#{noun.pluralize}") %>
-            <i class="fa fa-user-circle" style="font-size: 32px;" class="media-object"></i>
-          <% else %>
-            <%= partial :'accounts/square', :locals => {:account => account, :width => '32px', :klass => 'media-object'} %>
-          <% end %>
-        </span>
-        <div class="media-body">
-
-          <% unless @gathering.send("anonymise_#{noun.pluralize}") %>
-            <strong><a href="/accounts/<%=account.id%>"><%=account.name%></a></strong>
-          <% end %>
-            
-          <small class="subtle">
-            <%= timeago(verdict.created_at) %>
-          </small>
-
-          <div class="mb-3">
-            <% if verdict.reason %>
-              <%= Rinku.auto_link(verdict.reason.gsub("\n","<br />")) %>
+        <div class="media mb-3">
+          <span class="mr-2">
+            <% if @gathering.send("anonymise_#{noun.pluralize}") %>
+              <i class="fa fa-user-circle" style="font-size: 32px;" class="media-object"></i>
+            <% else %>
+              <%= partial :'accounts/square', :locals => {:account => account, :width => '32px', :klass => 'media-object'} %>
             <% end %>
+          </span>
+          <div class="media-body">
+
+            <% unless @gathering.send("anonymise_#{noun.pluralize}") %>
+              <strong><a href="/accounts/<%=account.id%>"><%=account.name%></a></strong>
+            <% end %>
+
+            <small class="subtle">
+              <%= timeago(verdict.created_at) %>
+            </small>
+
+            <% if verdict.reason %>
+              <div>            
+                <%= Rinku.auto_link(verdict.reason.gsub("\n","<br />")) %>            
+              </div>
+            <% end %>
+
           </div>
+        </div> 
 
-        </div>
-      </div> 
+      <% } %>
 
-    <% } %>
+    <% end %>
 
-  <% end %>
-
-<% } %>
+  <% } %>
+</div>
 
 <h4 class="mb-3">Discussion (visible only to members)</h4>    
 
