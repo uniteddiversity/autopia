@@ -1,5 +1,15 @@
 <%= partial :'activities/nav', :locals => {:activity => @activity} %>
 
+<div class="mb-3">
+
+  <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
+    Name <%= text_field_tag :name, :class => 'form-control mr-1 mb-1 mb-sm-0', :style => 'width: auto; display: inline-block', :value => params[:name] %> 
+    Email <%= text_field_tag :email, :class => 'form-control mr-1 mb-1 mb-sm-0', :style => 'width: auto; display: inline-block', :value => params[:email] %> 
+    Status <%= select_tag :status, :class => 'form-control mr-1 mb-1 mb-sm-0', :style => 'width: auto; display: inline-block', :selected => params[:status], :options => ['']+ActivityApplication.statuses %> 
+    <%= submit_tag 'Search', :class => 'btn btn-primary' %>
+  <% end %>
+</div>
+
 <table class="table">
   <thead>
     <tr>
@@ -44,3 +54,5 @@
     </tr>  
   <% } %>
 </table>
+
+<%= will_paginate @activity_applications, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>

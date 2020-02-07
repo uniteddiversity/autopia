@@ -3,19 +3,17 @@
 <% end %>
 
 <script>
-  $(function() {
+  $(function () {
     $('#activity_privacy').change(function () {
-      if ($(this).val() == 'closed')
+      if ($(this).val() == 'closed') {
         $('#application-options').show()
-      else
+      } else {
         $('#application-options').hide()
+      }
     })
-    if ($('#activity_privacy').val() == 'closed')
-      $('#application-options').show()
-    else
-      $('#application-options').hide()    
+    $('#activity_privacy').change()
   })
-  </script>
+</script>
 
 <% form_for @activity, @activity.new_record ? '/activities/new' : "/activities/#{@activity.id}/edit" do |f| %>
   <%= f.text_block :name %>
@@ -25,6 +23,7 @@
   <%= f.lookup_block :organisation_id, lookup_url: "/organisations.json", placeholder: 'Search organisations', selected_link: (%Q{<a class="d-inline-block mt-1" target="_blank" href="/organisations/#{@activity.organisation_id}">View organisation</a>} if @activity.organisation_id) %>
   <script>
     $(function () {
+
       $('#activity_organisation_id').change(function () {
         if ($(this).val().length > 0) {
           $('#organisation-options').show()
@@ -33,6 +32,7 @@
         }
       })
       $('#activity_organisation_id').change()
+
     })
   </script>
 
@@ -43,6 +43,7 @@
   </div>
   <div id="application-options" style="display: none">  
     <%= f.text_area_block :application_questions %>                
+    <%= f.wysiwyg_block :thank_you_message %>                
   </div>  
 
   <%= f.submit_block destroy_url: ("/activities/#{@activity.id}/destroy") %>

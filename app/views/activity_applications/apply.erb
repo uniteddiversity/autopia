@@ -14,15 +14,20 @@
 <% if current_account and @activity.activity_applications.where(:status.in => ['Pending', 'To interview', 'On hold'], :account => current_account).count > 0 %>
 
   <% activity_application = @activity.activity_applications.where(:status.in => ['Pending', 'To interview', 'On hold'], :account => current_account).order('created_at desc').first %>
-  <h1>Your latest outstanding application to <a href="/activities/<%=@activity.id%>"><%=@activity.name%></a></h1>
+  <h1>Thanks for applying to <a href="/activities/<%=@activity.id%>"><%=@activity.name%></a></h1>
+
+  <% if @activity.thank_you_message %>
+    <div class="wysiwyg">            
+      <%=@activity.thank_you_message %>
+    </div>
+  <% end %>  
 
   <% if activity_application.answers %>
-    <div class="mb-5">
-      <% activity_application.answers.each { |q,a| if a %>
-          <p style="font-size: 16px;"><strong><%=q%></strong></p>
-          <p style="font-size: 16px; font-weight: 300"><%=a.gsub("\n","<br />")%></p>                    
-        <% end } if activity_application.answers  %>              
-    </div>
+    <h2>Your answers</h2>
+    <% activity_application.answers.each { |q,a| if a %>
+        <p style="font-size: 16px;"><strong><%=q%></strong></p>
+        <p style="font-size: 16px; font-weight: 300"><%=a.gsub("\n","<br />")%></p>                    
+      <% end } if activity_application.answers  %>              
   <% end %>
 
 <% else %>  

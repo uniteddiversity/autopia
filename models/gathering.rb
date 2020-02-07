@@ -15,10 +15,8 @@ class Gathering
   field :coordinates, :type => Array  
   field :image_uid, :type => String
   field :intro_for_members, :type => String
-  field :markdown_for_members, :type => String
   field :privacy, :type => String
   field :intro_for_non_members, :type => String
-  field :markdown_for_non_members, :type => String
   field :application_questions, :type => String
   field :enable_supporters, :type => Boolean
   field :anonymise_supporters, :type => Boolean
@@ -52,17 +50,7 @@ class Gathering
   def self.privacies
     {'Anyone can join' => 'open', 'People must apply to join' => 'closed', 'Invitation-only' => 'secret'}
   end
-  
-  def markup_for_members
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)    
-    intro_for_members || (markdown.render(markdown_for_members) if markdown_for_members)
-  end
-  
-  def markup_for_non_members
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
-    intro_for_non_members || (markdown.render(markdown_for_non_members) if markdown_for_non_members)
-  end
-    
+      
   def self.marker_color
     'red'
   end    
@@ -210,7 +198,6 @@ class Gathering
       :location => :text,
       :image => :image,
       :intro_for_members => :wysiwyg,
-      :markdown_for_members => :text_area,
       :fixed_threshold => :number,
       :member_limit => :number,
       :proposing_delay => :number,
@@ -222,7 +209,6 @@ class Gathering
       :democratic_threshold => :check_box,
       :privacy => :select,      
       :intro_for_non_members => :wysiwyg,
-      :markdown_for_non_members => :text_area,
       :application_questions => :text_area,
       :enable_supporters => :check_box,
       :anonymise_supporters => :check_box,
@@ -283,9 +269,7 @@ class Gathering
   
   def self.human_attribute_name(attr, options={})  
     {
-      :markdown_for_non_members => 'Intro for non-members',
       :intro_for_non_members => 'Intro for non-members',
-      :markdown_for_members => 'Intro for members',
       :paypal_email => 'PayPal email',     
       :fixed_threshold => 'Magic number',
       :democratic_threshold => 'Allow all gathering members to suggest a magic number, and use the median',

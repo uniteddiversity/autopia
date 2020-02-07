@@ -11,6 +11,7 @@ class Activity
   field :hide_members, :type => Boolean
   field :privacy, :type => String
   field :application_questions, :type => String
+  field :thank_you_message, :type => String
   
   has_many :events, :dependent => :nullify
   has_many :activityships, :dependent => :destroy
@@ -58,7 +59,8 @@ class Activity
       :events => :collection,
       :hide_members => :check_box,
       :privacy => :select,
-      :application_questions => :text_area
+      :application_questions => :text_area,
+      :thank_you_message => :wysiwyg
     }
   end
   

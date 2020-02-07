@@ -30,7 +30,11 @@ Autopia::App.controller do
   get '/activities/:id/applications' do
     @activity = Activity.find(params[:id]) || not_found
     activity_admins_only!
-    @activity_applications = @activity.activity_applications.order('created_at desc')
+    @activity_applications = @activity.activity_applications    
+    @activity_applications = @activity_applications.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:name])}/i).pluck(:id)) if params[:name]
+    @activity_applications = @activity_applications.where(:account_id.in => Account.where(email: /#{::Regexp.escape(params[:email])}/i).pluck(:id)) if params[:email]
+    @activity_applications = @activity_applications.where(status: params[:status]) if params[:status]
+    @activity_applications = @activity_applications.paginate(:page => params[:page], :per_page => 25).order('created_at desc')
     erb :'activity_applications/applications'
   end
   

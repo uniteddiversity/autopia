@@ -10,14 +10,6 @@
 <script>
   $(function () {
 
-    var markdown_for_non_members = new SimpleMDE({element: $("#gathering_markdown_for_non_members")[0], spellChecker: false});
-    var markdown_for_members = new SimpleMDE({element: $("#gathering_markdown_for_members")[0], spellChecker: false});
-
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-      markdown_for_non_members.codemirror.refresh();
-      markdown_for_members.codemirror.refresh();
-    });
-
     $('#gathering_slug, #gathering_name').keyup(function () {
       $('.slug-replace').text($('#gathering_slug').val());
     }).keyup();
@@ -86,12 +78,6 @@
   })
 </script>
 
-
-<style>
-  #gathering_markdown_for_non_members { height: 30rem }
-  #gathering_markdown_for_members { height: 30rem }
-</style>
-
 <% form_for @gathering, @gathering.new_record? ? '/a/new' : "/a/#{@gathering.slug}/edit", :multipart => true do |f| %>
 
 
@@ -126,7 +112,7 @@
         <% end %>   
       </div>
       <div role="tabpanel" class="tab-pane" id="tab2">        
-        <%= f.text_area_block :markdown_for_non_members %>
+        <%= f.wysiwyg_block :intro_for_non_members %>
         <%= f.number_block :member_limit %>
         <div class="mb-2">
           <%= f.select_block :privacy %>          
@@ -153,7 +139,7 @@
         </div>        
       </div>
       <div role="tabpanel" class="tab-pane" id="tab3">
-        <%= f.text_area_block :markdown_for_members %>       
+        <%= f.wysiwyg_block :intro_for_members %>       
       </div>
       <div role="tabpanel" class="tab-pane" id="tab4">
         <% Gathering.enablable.each { |x| %>
