@@ -2,6 +2,21 @@
   <%= partial :'activities/nav', :locals => {:activity => @activity} %>
 <% end %>
 
+<script>
+  $(function() {
+    $('#activity_privacy').change(function () {
+      if ($(this).val() == 'closed')
+        $('#application-options').show()
+      else
+        $('#application-options').hide()
+    })
+    if ($('#activity_privacy').val() == 'closed')
+      $('#application-options').show()
+    else
+      $('#application-options').hide()    
+  })
+  </script>
+
 <% form_for @activity, @activity.new_record ? '/activities/new' : "/activities/#{@activity.id}/edit" do |f| %>
   <%= f.text_block :name %>
   <%= f.email_block :email %>
@@ -20,6 +35,15 @@
       $('#activity_organisation_id').change()
     })
   </script>
+
+  <%= f.check_box_block :hide_members %>
+
+  <div class="mb-2">
+    <%= f.select_block :privacy %>          
+  </div>
+  <div id="application-options" style="display: none">  
+    <%= f.text_area_block :application_questions %>                
+  </div>  
 
   <%= f.submit_block destroy_url: ("/activities/#{@activity.id}/destroy") %>
 <% end %>

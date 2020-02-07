@@ -39,7 +39,7 @@ class Ticket
   end
   
   after_create do
-    if event.activity
+    if event.activity && event.activity.privacy == 'open'
       event.activity.activityships.create account: account
     end
     # ticket might be destroyed again, so this should move

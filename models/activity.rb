@@ -7,11 +7,15 @@ class Activity
   field :email, :type => String
   field :website, :type => String
   field :image_uid, :type => String    
-#  field :vat_category, :type => String
+  #  field :vat_category, :type => String
+  field :hide_members, :type => Boolean
+  field :privacy, :type => String
+  field :application_questions, :type => String
   
   has_many :events, :dependent => :nullify
   has_many :activityships, :dependent => :destroy
-#  has_many :pmails, :dependent => :nullify
+  has_many :activity_applications, :dependent => :destroy
+  #  has_many :pmails, :dependent => :nullify
 
   belongs_to :organisation
   belongs_to :account
@@ -38,21 +42,29 @@ class Activity
   dragonfly_accessor :image    
   
   validates_presence_of :name
+  
+  def application_questions_a
+    q = (application_questions || '').split("\n").map(&:strip).reject { |l| l.blank? }
+    q.empty? ? [] : q
+  end   
       
   def self.admin_fields
     {
       :name => :text,
       :email => :email,
       :website => :url,
-#      :vat_category => :select,
+      #      :vat_category => :select,
       :image => :image,      
-      :events => :collection
+      :events => :collection,
+      :hide_members => :check_box,
+      :privacy => :select,
+      :application_questions => :text_area
     }
   end
   
-#  def self.vat_categories
-#    ['', 'Taught', 'Performance', 'Participatory']
-#  end
+  #  def self.vat_categories
+  #    ['', 'Taught', 'Performance', 'Participatory']
+  #  end
 
   def subscribers
     subscribed_members
@@ -75,16 +87,22 @@ class Activity
   end
   
   def sync_activityships
-    events.each { |event|
-      event.tickets.each { |ticket|
-        activityships.create account: ticket.account
+    if privacy == 'open'
+      events.each { |event|
+        event.tickets.each { |ticket|
+          activityships.create account: ticket.account
+        }
+        event.orders.each { |order|
+          activityships.create account: order.account
+        }      
       }
-      event.orders.each { |order|
-        activityships.create account: order.account
-      }      
-    }
+    end
   end
   handle_asynchronously :sync_activityships
+  
+  def self.privacies
+    {'Anyone can join' => 'open', 'People must apply to join' => 'closed'}
+  end  
   
   def self.human_attribute_name(attr, options = {})
     {

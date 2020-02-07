@@ -81,17 +81,38 @@ Autopia::App.controller do
   get '/activityship/:id' do
     sign_in_required!
     @activity = Activity.find(params[:id]) || not_found
-    case params[:f]
-    when 'not_following'
-      current_account.activityships.find_by(activity: @activity).try(:destroy)
-    when 'follow_without_subscribing'
-      activityship = current_account.activityships.find_by(activity: @activity) || current_account.activityships.create(activity: @activity)
-      activityship.update_attribute(:unsubscribed, true)
-    when 'follow_and_subscribe'
-      activityship = current_account.activityships.find_by(activity: @activity) || current_account.activityships.create(activity: @activity)
-      activityship.update_attribute(:unsubscribed, false)
+    if activityship = current_account.activityships.find_by(activity: @activity) || @activity.privacy == 'open'
+      case params[:f]
+      when 'not_following'
+        current_account.activityships.find_by(activity: @activity).try(:destroy)
+      when 'follow_without_subscribing'
+        activityship = current_account.activityships.find_by(activity: @activity) || current_account.activityships.create(activity: @activity)
+        activityship.update_attribute(:unsubscribed, true)
+      when 'follow_and_subscribe'
+        activityship = current_account.activityships.find_by(activity: @activity) || current_account.activityships.create(activity: @activity)
+        activityship.update_attribute(:unsubscribed, false)
+      end
     end
     request.xhr? ? (partial :'activities/activityship', locals: { activity: @activity, btn_class: params[:btn_class] }) : redirect("/activities/#{@activity.id}")
+  end 
+  
+  get '/activities/:id/members' do
+    @activity = Activity.find(params[:id]) || not_found
+    partial :'activities/members'
+  end  
+  
+  get '/activities/:id/hide_membership' do
+    sign_in_required!
+    @activity = Activity.find(params[:id]) || not_found
+    @activity.activityships.find_by(account: current_account).update_attribute(:hide_membership, true)
+    200
+  end
+  
+  get '/activities/:id/show_membership' do
+    sign_in_required!
+    @activity = Activity.find(params[:id]) || not_found
+    @activity.activityships.find_by(account: current_account).update_attribute(:hide_membership, false)
+    200
   end  
   
 end

@@ -1,7 +1,6 @@
 Autopia::App.controller do
   
-  get '/gatherings', :provides => [:html, :json] do
-    sign_in_required!    
+  get '/gatherings', :provides => [:html, :json] do    
     case content_type
     when :html
       @gatherings = Gathering.where(:privacy.ne => 'secret').order('created_at desc')

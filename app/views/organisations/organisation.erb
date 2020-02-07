@@ -42,9 +42,9 @@
 </div>
 
 <% if organisation_admin? or @organisation.admins.count > 0 %>
-  <h2 class="mt-5">Team members</h2>
+  <h2 class="mt-5">Admins</h2>
   <%= partial :'accounts/add', locals: {
-    role: 'team member',
+    role: 'admin',
     accounts: @organisation.admins.order('name asc'),
     add_and_remove: organisation_admin?,
     new_object: Organisationship.new,

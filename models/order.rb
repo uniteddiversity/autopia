@@ -48,7 +48,7 @@ class Order
   end
   
   after_create do
-    if event.activity
+    if event.activity && event.activity.privacy == 'open'
       event.activity.activityships.create account: account      
     end   
   end

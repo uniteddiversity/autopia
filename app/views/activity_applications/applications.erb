@@ -1,0 +1,46 @@
+<%= partial :'activities/nav', :locals => {:activity => @activity} %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Application date</th>
+      <th>Status</th>
+      <th>Bookings</th>
+    </tr>
+  </thead>
+
+  <% @activity_applications.each { |activity_application| account = activity_application.account %>
+    <tr>
+      <td>
+        <a href="/activities/<%=@activity.id%>/activity_applications/<%=activity_application.id%>">
+          <img data-toggle="tooltip" title="<%=account.name%>" style="width: 100px;" src="<%=account.picture_thumb_or_gravatar_url %>" />
+        </a>
+        <br />
+        <a href="/activities/<%=@activity.id%>/activity_applications/<%=activity_application.id%>">
+          <%= account.name %>
+        </a>
+      </td>
+      <td>
+        <%=account.email%>
+      </td>
+      <td>
+        <a href="/activities/<%=@activity.id%>/activity_applications/<%=activity_application.id%>"><%=activity_application.created_at%></a>
+      </td>
+      <td>
+        <a href="/activities/<%=@activity.id%>/activity_applications/<%=activity_application.id%>">
+          <%= partial :'activity_applications/status', :locals => {:status => activity_application.status}  %>
+        </a>        
+        <% if activity_application.statused_by %>
+          <br />
+          by <%= activity_application.statused_by.name %>
+          on <%= activity_application.statused_at %>
+        <% end %>
+      </td>
+      <td>
+        <%= partial :'events/tickets', locals: {tickets: activity_application.account.tickets.where(:event_id.in => @activity.events.pluck(:id))} %>
+      </td>
+    </tr>  
+  <% } %>
+</table>

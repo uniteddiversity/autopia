@@ -118,6 +118,9 @@ class Account
   
   has_many :organisations, dependent: :nullify
   has_many :organisationships, dependent: :destroy
+  
+  has_many :activity_applications, :class_name => "ActivityApplication", :inverse_of => :account, :dependent => :destroy
+  has_many :statused_activity_applications, :class_name => "ActivityApplication", :inverse_of => :statused_by, :dependent => :nullify     
 
   has_many :events, class_name: 'Event', inverse_of: :account, dependent: :destroy
   has_many :events_coordinating, class_name: 'Event', inverse_of: :coordinator, dependent: :nullify
@@ -233,11 +236,6 @@ class Account
         errors.add(:picture, 'must be an image')
       end
     end
-  end
-  attr_accessor :rotate_picture_by
-  before_validation :rotate_picture
-  def rotate_picture
-    picture.rotate(rotate_picture_by) if picture && rotate_picture_by
   end
 
   def picture_thumb_or_gravatar_url

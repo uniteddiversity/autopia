@@ -16,15 +16,23 @@
     }    
 %>
 
-  <div class="dropdown d-inline-block">
-    <button class="btn <%= btn_class if defined?(btn_class) %> <%= current_state == 'not_following' ? 'btn-outline-primary' : 'btn-primary' %> dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <%= text %>
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <% action_options.invert.each { |text,value| %>
-        <a class="pagelet-trigger dropdown-item" href="/activityship/<%=activity.id%>?f=<%=value%>"><%=text%></a>
-      <% } %>
-    </div>
-  </div> 
+  <% if activityship || activity.privacy == 'open' %>
+    <div class="dropdown d-inline-block">
+      <button class="btn <%= btn_class if defined?(btn_class) %> <%= current_state == 'not_following' ? 'btn-outline-primary' : 'btn-primary' %> dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <%= text %>
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <% action_options.invert.each { |text,value| %>
+          <a class="pagelet-trigger dropdown-item" href="/activityship/<%=activity.id%>?f=<%=value%>"><%=text%></a>
+        <% } %>
+      </div>
+    </div> 
+  <% else %>
+    <% if activity.activity_applications.where(:status.in => ['Pending', 'To interview', 'On hold'], :account => current_account).count > 0 %>
+      <a class="btn btn-outline-primary" href="/activities/<%=activity.id%>/apply">Application pending</a>
+    <% else %>
+      <a class="btn btn-primary" href="/activities/<%=activity.id%>/apply">Apply</a>
+    <% end %>
+  <% end %>
 
 <% end %>

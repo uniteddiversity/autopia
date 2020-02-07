@@ -152,6 +152,7 @@ class Event
       capacity: :number,
       account_id: :lookup,
       organisation_id: :lookup,
+      activity_id: :lookup,
       ticket_types: :collection
     }
   end

@@ -4,7 +4,7 @@
     <%= ul_nav [
       ['View activity', "/activities/#{activity.id}"],
       ['Edit activity', "/activities/#{activity.id}/edit"],      
-      ['Map of attendees', "/activities/#{activity.id}/map"],       
+      (['Applications', "/activities/#{activity.id}/applications"] if activity.privacy == 'closed'),
       ['Feedback', "/activities/#{activity.id}/feedback"],       
       ].compact, ul_class: 'nav nav-tabs', li_class: 'nav-item', a_class: 'nav-link' %>
   </div>

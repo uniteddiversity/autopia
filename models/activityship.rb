@@ -4,12 +4,14 @@ class Activityship
   
   field :unsubscribed, :type => Boolean
   field :admin, :type => Boolean
+  field :hide_membership, :type => Boolean
   
   def self.admin_fields
     {
       :account_id => :lookup,
       :activity_id => :lookup,
       :unsubscribed => :check_box,
+      :hide_membership => :check_box,
       :admin => :check_box
     }
   end  

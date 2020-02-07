@@ -42,15 +42,22 @@
   </div>
 </div>
 
-<h2 class="mt-5">Activity facilitators</h2>
+<h2 class="mt-5">Admins</h2>
 <%= partial :'accounts/add', locals: {
-  role: 'activity facilitator',
+  role: 'admin',
   accounts: @activity.admins.order('name asc'),
   add_and_remove: activity_admin?,
   new_object: Activityship.new,
   new_url: "/activities/#{@activity.id}/activityships/admin",
   destroy_url: "/activities/#{@activity.id}/activityships/unadmin"
   }  %>
+
+<% unless @activity.hide_members? %>
+  <div data-pagelet-url="/activities/<%=@activity.id%>/members">
+    <%= partial :'activities/members' %>
+  </div>
+<% end %>
+
 
 <h2 class="mt-5">Events</h2>
 <a class="btn btn-primary mb-3" href="/events/new?activity_id=<%=@activity.id%>">Create an event</a>

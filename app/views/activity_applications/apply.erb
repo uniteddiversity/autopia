@@ -1,0 +1,66 @@
+<% if @activityship %>
+  <script>
+    $(function () {
+      $('form[action$=apply] .btn-primary').prop('disabled', true)
+    });
+  </script>
+  <div class="card mb-3">
+    <div class="card-body">
+      <strong>Preview of application form (you are already a member of <%=@activity.name%>)</strong>
+    </div>
+  </div>
+<% end %>
+
+<% if current_account and @activity.activity_applications.where(:status.in => ['Pending', 'To interview', 'On hold'], :account => current_account).count > 0 %>
+
+  <% activity_application = @activity.activity_applications.where(:status.in => ['Pending', 'To interview', 'On hold'], :account => current_account).order('created_at desc').first %>
+  <h1>Your latest outstanding application to <a href="/activities/<%=@activity.id%>"><%=@activity.name%></a></h1>
+
+  <% if activity_application.answers %>
+    <div class="mb-5">
+      <% activity_application.answers.each { |q,a| if a %>
+          <p style="font-size: 16px;"><strong><%=q%></strong></p>
+          <p style="font-size: 16px; font-weight: 300"><%=a.gsub("\n","<br />")%></p>                    
+        <% end } if activity_application.answers  %>              
+    </div>
+  <% end %>
+
+<% else %>  
+
+  <h1>Apply to <a href="/activities/<%=@activity.id%>"><%=@activity.name%></a></h1>
+
+  <% form_for @account, "/activities/#{@activity.id}/apply", :class => 'mt-3' do |f| %>
+
+    <script>
+      $(function () {
+        $('.form-group > div.col-sm-6').removeClass('col-sm-6').addClass('col-sm-8')
+
+        var autocomplete = new google.maps.places.Autocomplete($('#account_location')[0]);
+        $('#account_location').keydown(function (e) {
+          if (e.which == 13 && $('.pac-container:visible').length)
+            return false;
+        });
+
+      })
+    </script>
+    <%= f.text_block :name %>
+    <%= f.email_block :email %>    
+    <%= f.image_block :picture %>  
+    <%= f.text_block :location %>    
+    <%= f.date_block :date_of_birth %>
+    <%= f.select_block :gender %>        
+
+    <% @activity.application_questions_a.each_with_index { |q,i| %>
+      <div class="form-group">
+        <label><%=q%></label>
+        <div>  
+          <%= text_area_tag "answers[#{i}]", :class => 'form-control', :value => (params[:answers][i.to_s] if params[:answers]) %>
+        </div>
+      </div>  
+    <% } %>
+
+    <%= f.submit_block button_text: 'Apply' %>            
+
+  <% end %>   
+
+<% end %>

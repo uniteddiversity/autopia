@@ -109,7 +109,10 @@ class Comment
   
   def email_subject
     s = ''
-    if commentable.is_a?(Feature)
+    if commentable.is_a?(ActivityApplication)
+      activity_application = commentable
+      s << "[#{activity_application.activity.name}/#{activity_application.account.name}] " 
+    elsif commentable.is_a?(Feature)
       feature = commentable
       s << "[Features/#{feature.name}] " 
     elsif commentable.is_a?(Place)

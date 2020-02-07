@@ -16,7 +16,7 @@ class Post
   end
   
   def self.commentable_types
-    %w{Team Tactivity Mapplication Account Habit Feature Place Photo Gathering Activity Event LocalGroup Organisation}
+    %w{Team Tactivity Mapplication Account Habit Feature Place Photo Gathering Activity Event LocalGroup Organisation ActivityApplication}
   end  
   
   def url
@@ -55,7 +55,10 @@ class Post
       "#{ENV['BASE_URI']}/local_groups/#{local_group.id}"          
     elsif commentable.is_a?(Event)  
       event = commentable
-      "#{ENV['BASE_URI']}/events/#{event.id}"          
+      "#{ENV['BASE_URI']}/events/#{event.id}"   
+    elsif commentable.is_a?(ActivityApplication)
+      activity_application = commentable
+      "#{ENV['BASE_URI']}/activities/#{activity_application.activity_id}/activity_applications/#{activity_application.id}"   
     end    
   end
   
