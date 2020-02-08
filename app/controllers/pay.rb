@@ -69,6 +69,8 @@ Autopia::App.controller do
             }
           }
         })
+    elsif !@gathering.use_main_stripe
+      403
     end
     session = Stripe::Checkout::Session.create(stripe_session_hash)
     @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @gathering.currency, :session_id => session.id, :payment_intent => session.payment_intent
