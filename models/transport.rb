@@ -11,7 +11,7 @@ class Transport
   
   belongs_to :gathering, index: true
   belongs_to :account, index: true
-  validates_presence_of :name, :cost, :capacity
+  validates_presence_of :name, :cost
   
   before_validation do
     self.cost = 0 if !self.cost
@@ -47,7 +47,7 @@ class Transport
   end
   
   def full?
-    transportships.count == capacity
+    capacity && transportships.count == capacity
   end
   
   after_save do

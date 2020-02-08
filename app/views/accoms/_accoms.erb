@@ -26,11 +26,13 @@
         <%=@gathering.currency_symbol%><%=accom.cost%>
       </td>
       <td>
-        <%=accom.accomships.count%>/<%=accom.capacity%>
-        <% if accom.full? %>
-          <span class="label label-danger">Full</span>
-        <% else %>
-          <span class="label label-success">Spaces</span>
+        <%=accom.accomships.count%>/<%=accom.capacity || '&infin;' %>
+        <% if accom.capacity %>
+          <% if accom.full? %>
+            <span class="label label-danger">Full</span>
+          <% else %>
+            <span class="label label-success">Spaces</span>
+          <% end %>
         <% end %>
       </td>      
       <td>

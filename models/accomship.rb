@@ -11,6 +11,7 @@ class Accomship
   
   before_validation do
     self.membership = self.gathering.memberships.find_by(account: self.account) if self.gathering and self.account and !self.membership
+    errors.add(:accom, 'is full') if accom and accom.capacity and accom.accomships.count == accom.capacity
   end  
           
   def self.admin_fields
@@ -24,9 +25,5 @@ class Accomship
   
   after_save do accom.accomships.each { |accomship| accomship.membership.update_requested_contribution } end
   after_destroy do accom.accomships.each { |accomship| accomship.membership.try(:update_requested_contribution) } end
-  
-  before_validation do
-    errors.add(:accom, 'is full') if accom and accom.capacity and accom.accomships.count == accom.capacity
-  end
-    
+      
 end

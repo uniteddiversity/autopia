@@ -37,12 +37,14 @@
         <% end %>
       </td>
       <td>
-        <%=transport.transportships.count%>/<%= transport.capacity %>
-        <% if transport.full? %>
-          <span class="label label-danger">Full</span>
-        <% else %>
-          <span class="label label-success">Spaces</span>
-        <% end %>        
+        <%=transport.transportships.count%>/<%= transport.capacity || '&infin;' %>
+        <% if transport.capacity %>
+          <% if transport.full? %>
+            <span class="label label-danger">Full</span>
+          <% else %>
+            <span class="label label-success">Spaces</span>
+          <% end %>        
+        <% end %>
       </td>
       <td>
         <% if transportship = @gathering.transportships.find_by(transport: transport, account: current_account) %>

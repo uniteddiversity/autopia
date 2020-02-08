@@ -9,7 +9,7 @@ class Accom
   
   belongs_to :gathering, index: true
   belongs_to :account, index: true
-  validates_presence_of :name, :cost, :capacity
+  validates_presence_of :name, :cost
   
   has_many :accomships, :dependent => :destroy
   
@@ -44,7 +44,7 @@ class Accom
   end
   
   def full?
-    accomships.count == capacity
+    capacity && accomships.count == capacity
   end
   
   after_save do
