@@ -76,4 +76,50 @@ Autopia::App.controller do
     200
   end        
   
+  post "/a/:slug/optionships/new" do
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
+    discuss 'Options'
+    gathering_admins_only!    
+    @optionship = @gathering.optionships.build(params[:optionship])
+    if @optionship.save
+      redirect "/a/#{@gathering.slug}/options"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the optionship from being saved."
+      erb :'options/optionship'    
+    end    
+  end
+  
+ get '/a/:slug/optionships/:id/edit' do
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
+    discuss 'Options'
+    gathering_admins_only!    
+    @optionship = @gathering.optionships.find(params[:id])
+    erb :'options/optionship'
+  end
+  
+  post '/a/:slug/optionships/:id/edit' do
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
+    discuss 'Options'
+    gathering_admins_only!    
+    @optionship = @gathering.optionships.find(params[:id])
+    if @optionship.update_attributes(mass_assigning(params[:optionship], Optionship))
+      redirect "/a/#{@gathering.slug}/options"
+    else
+      flash.now[:error] = "<strong>Oops.</strong> Some errors prevented the optionship from being saved." 
+      erb :'options/optionship'
+    end
+  end   
+  
+  get '/a/:slug/optionships/:id/destroy' do
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!    
+    @optionship = @gathering.optionships.find(params[:id])
+    @optionship.destroy
+    redirect "/a/#{@gathering.slug}/options"      
+  end 
+  
 end

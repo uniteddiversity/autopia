@@ -1,0 +1,5 @@
+<% form_for @optionship ||= Optionship.new, @optionship.new_record? ? "/a/#{@gathering.slug}/optionships/new" : "/a/#{@gathering.slug}/optionships/#{@optionship.id}/edit" do |f| %>
+  <%= f.select_block :account_id, :options => @gathering.members.map { |account| [account.name, account.id] } %>
+  <%= f.select_block :option_id, :options => @gathering.options.map { |option| ["#{option.name} (#{option.type})", option.id] } %>
+  <%= f.submit_block destroy_url: "/a/#{@gathering.slug}/optionships/#{@optionship.id}/destroy" %>
+<% end %>  
