@@ -19,7 +19,7 @@ Autopia::App.controller do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
     discuss 'Options'
-    confirmed_membership_required!
+    membership_required!
     if request.xhr?
       partial :'options/options'
     else
@@ -62,7 +62,7 @@ Autopia::App.controller do
   get '/optionships/create' do
     @option = Option.find(params[:option_id]) || not_found
     @gathering = @option.gathering      
-    confirmed_membership_required!      
+    membership_required!      
     Optionship.create(account: current_account, option_id: params[:option_id], gathering: @gathering)
     200
   end    
