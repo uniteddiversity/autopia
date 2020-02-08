@@ -44,7 +44,7 @@
       <td>
         <% if accomship = @gathering.accomships.find_by(accom: accom, account: current_account) %>
           <a class="pagelet-trigger btn btn-primary" href="/accomships/<%=accomship.id%>/destroy">Leave</a>
-        <% elsif !@gathering.accomships.find_by(account: current_account) and !accom.full? %>
+        <% elsif !accom.full? %>
           <a class="pagelet-trigger btn btn-primary" href="/accomships/create?accom_id=<%=accom.id%>">Join</a>
         <% end %>
       </td>      

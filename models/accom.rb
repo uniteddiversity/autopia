@@ -35,7 +35,8 @@ class Accom
       :cost => :number,
       :split_cost => :check_box,
       :gathering_id => :lookup,
-      :account_id => :lookup
+      :account_id => :lookup,
+      :accomships => :collection
     }
   end
   
@@ -59,7 +60,6 @@ class Accom
   
   def self.human_attribute_name(attr, options={})  
     {
-      :cost => 'Cost',
       :split_cost => 'Split cost between participants'
     }[attr.to_sym] || super  
   end   

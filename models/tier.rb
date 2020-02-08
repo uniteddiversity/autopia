@@ -6,6 +6,7 @@ class Tier
   field :description, :type => String
   field :capacity, :type => Integer
   field :cost, :type => Integer
+  field :split_cost, :type => Boolean
   
   belongs_to :gathering, index: true
   belongs_to :account, index: true
@@ -32,18 +33,35 @@ class Tier
       :description => :text_area,
       :capacity => :number,
       :cost => :number,      
+      :split_cost => :check_box,
       :gathering_id => :lookup,
       :account_id => :lookup,
       :tierships => :collection,
     }
   end
   
-  after_save do
-    tierships.each { |tiership| tiership.membership.update_requested_contribution }
+  def cost_per_person
+    if split_cost
+      if tierships.count > 0
+        (cost.to_f / tierships.count).round
+      end
+    else
+      cost
+    end
   end  
-  
+    
   def full?
     capacity && tierships.count == capacity
   end  
+  
+  after_save do
+    tierships.each { |tiership| tiership.membership.update_requested_contribution }
+  end    
+  
+  def self.human_attribute_name(attr, options={})  
+    {
+      :split_cost => 'Split cost between participants'
+    }[attr.to_sym] || super  
+  end     
     
 end

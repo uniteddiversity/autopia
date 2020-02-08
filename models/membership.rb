@@ -116,15 +116,19 @@ class Membership
   
   def calculate_requested_contribution    
     c = 0
-    if tiership and !tiership.flagged_for_destroy?
-      c += tiership.tier.cost
-    end
-    if accomship and !accomship.flagged_for_destroy?
-      c += accomship.accom.cost_per_person
-    end    
+    tierships.each { |tiership|
+      if !tiership.flagged_for_destroy?
+        c += tiership.tier.cost_per_person
+      end
+    }
+    accomships.each { |accomship|
+      if !accomship.flagged_for_destroy?
+        c += accomship.accom.cost_per_person
+      end    
+    }
     transportships.each { |transportship|
       if !transportship.flagged_for_destroy?
-        c += transportship.transport.cost
+        c += transportship.transport.cost_per_person
       end
     }    
     c    

@@ -5,6 +5,7 @@
   <%= f.datetime_block :return_departure_time %>
   <% if @membership.admin? %>
     <%= f.number_block :cost %>
+    <%= f.check_box_block :split_cost %>
   <% end %>
   <%= f.number_block :capacity %>
   <%= f.submit_block destroy_url: "/a/#{@gathering.slug}/transports/#{@transport.id}/destroy" %>

@@ -22,7 +22,14 @@
         <%= tier.description %>
       </td>
       <td>
-        <%=@gathering.currency_symbol%><%=tier.cost%>
+        <% if tier.split_cost %>
+          <%=@gathering.currency_symbol%><%=tier.cost%> total
+          <% if tier.cost_per_person %>
+            (<%=@gathering.currency_symbol%><%=tier.cost_per_person%>/person)
+          <% end %>        
+        <% else %>
+          <%=@gathering.currency_symbol%><%=tier.cost%>/person
+        <% end %>
       </td>
       <td>
         <%=tier.tierships.count%>/<%=tier.capacity || '&infin;' %>
@@ -37,7 +44,7 @@
       <td>
         <% if tiership = @gathering.tierships.find_by(tier: tier, account: current_account) %>
           <a class="pagelet-trigger btn btn-primary" href="/tierships/<%=tiership.id%>/destroy">Leave</a>
-        <% elsif !@gathering.tierships.find_by(account: current_account) && !tier.full? %>
+        <% elsif !tier.full? %>
           <a class="pagelet-trigger btn btn-primary" href="/tierships/create?tier_id=<%=tier.id%>">Join</a>
         <% end %>
       </td>      

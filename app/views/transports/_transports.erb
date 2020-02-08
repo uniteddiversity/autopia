@@ -31,7 +31,14 @@
       </td>
       <td>
         <% if transport.cost && transport.cost > 0 %>
-          <%=@gathering.currency_symbol%><%=transport.cost%>
+          <% if transport.split_cost %>
+            <%=@gathering.currency_symbol%><%=transport.cost%> total
+            <% if transport.cost_per_person %>
+              (<%=@gathering.currency_symbol%><%=transport.cost_per_person%>/person)
+            <% end %>        
+          <% else %>
+            <%=@gathering.currency_symbol%><%=transport.cost%>/person
+          <% end %>
         <% else %>
           Arrange with driver
         <% end %>

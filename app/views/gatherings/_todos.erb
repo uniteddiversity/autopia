@@ -29,12 +29,13 @@
         Your tier
       </th>
       <td>
-        <% if tiership = @membership.tiership %>
-          <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= tiership.tier.name %> (<%=@gathering.currency_symbol%><%= tiership.tier.cost %>)</span>
-        <% end %>  
-        <% form_tag "/memberships/#{@membership.id}/tier", :style => ('display:none' if tiership) do %>
-          <%= select_tag :tier_id, :class => 'form-control', :options => [''] + @gathering.tiers.map { |tier| [tier.name, tier.id] }, :selected => tiership.try(:tier_id), :onchange => '$(this.form).submit()' %>
-        <% end %>        
+        <% if @membership && @membership.tierships.count > 0 %>
+          <% @membership.tierships.each { |tiership| %>
+            <a href="/a/<%=@gathering.slug%>/tiers" class="label label-primary"><%= tiership.tier.name %> (<%=@gathering.currency_symbol%><%= tiership.tier.cost_per_person %>)</a> 
+          <% } %>     
+        <% else %>
+          <a href="/a/<%=@gathering.slug%>/tiers">Join tier</a>
+        <% end %>          
       </td>
     </tr>
   <% end %>
@@ -45,12 +46,13 @@
         Your accommodation
       </th>
       <td>
-        <% if accomship = @membership.accomship %>
-          <span style="cursor: pointer" onclick="$(this).hide().next().show()" class="label label-primary"><%= accomship.accom.name %> (<%=@gathering.currency_symbol%><%= accomship.accom.cost_per_person %>)</span>
-        <% end %>  
-        <% form_tag "/memberships/#{@membership.id}/accom", :style => ('display:none' if accomship) do %>
-          <%= select_tag :accom_id, :class => 'form-control', :options => [''] + @gathering.accoms.select { |accom| !accom.full? }.map { |accom| [accom.name, accom.id] }, :selected => accomship.try(:accom_id), :onchange => '$(this.form).submit()' %>
-        <% end %>      
+        <% if @membership && @membership.accomships.count > 0 %>
+          <% @membership.accomships.each { |accomship| %>
+            <a href="/a/<%=@gathering.slug%>/accoms" class="label label-primary"><%= accomship.accom.name %> (<%=@gathering.currency_symbol%><%= accomship.accom.cost_per_person %>)</a> 
+          <% } %>     
+        <% else %>
+          <a href="/a/<%=@gathering.slug%>/accoms">Join accommodation</a>
+        <% end %>     
       </td>
     </tr>
   <% end %>  
@@ -63,7 +65,7 @@
       <td>
         <% if @membership && @membership.transportships.count > 0 %>
           <% @membership.transportships.each { |transportship| %>
-            <a href="/a/<%=@gathering.slug%>/transports" class="label label-primary"><%= transportship.transport.name %> (<%=@gathering.currency_symbol%><%= transportship.transport.cost %>)</a> 
+            <a href="/a/<%=@gathering.slug%>/transports" class="label label-primary"><%= transportship.transport.name %> (<%=@gathering.currency_symbol%><%= transportship.transport.cost_per_person %>)</a> 
           <% } %>     
         <% else %>
           <a href="/a/<%=@gathering.slug%>/transports">Join transport</a>

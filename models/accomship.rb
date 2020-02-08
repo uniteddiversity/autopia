@@ -7,7 +7,7 @@ class Accomship
   belongs_to :gathering, index: true
   belongs_to :membership, index: true
   
-  validates_uniqueness_of :account, :scope => :gathering
+  validates_uniqueness_of :account, :scope => :accom
   
   before_validation do
     self.membership = self.gathering.memberships.find_by(account: self.account) if self.gathering and self.account and !self.membership
