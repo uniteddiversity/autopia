@@ -16,7 +16,7 @@
 <% end %>
 
 <table class="table table-borderless">
-    
+
   <% if @gathering.enable_options? && @gathering.options.count > 0 %>
     <tr>
       <th>
@@ -25,7 +25,9 @@
       <td>
         <% if @membership && @membership.optionships.count > 0 %>
           <% @membership.optionships.each { |optionship| %>
-            <a href="/a/<%=@gathering.slug%>/options"><span class="label label-primary"><%= optionship.option.name %> (<%=@gathering.currency_symbol%><%= optionship.option.cost_per_person %>)</span></a> 
+            <a title="<%=optionship.option.type%>" href="/a/<%=@gathering.slug%>/options" class="label label-primary text-white">
+              <i class="fa <%= optionship.option.icon %>"></i> <%= optionship.option.name %> (<%=@gathering.currency_symbol%><%= optionship.option.cost_per_person %>)
+            </a> 
           <% } %>     
         <% else %>
           <a href="/a/<%=@gathering.slug%>/options">Select options</a>
@@ -42,7 +44,9 @@
       <td>
         <% if @membership && @membership.teamships.count > 0 %>
           <% @membership.teamships.each { |teamship| %>
-            <a href="/a/<%=@gathering.slug%>/teams/<%=teamship.team_id%>"><span class="label label-primary"><%=teamship.team.name%></span></a>
+            <a href="/a/<%=@gathering.slug%>/teams/<%=teamship.team_id%>" class="label label-primary text-white">
+              <%=teamship.team.name%>
+            </a>
           <% } %>      
         <% else %>
           <a href="/a/<%=@gathering.slug%>/teams">Join teams</a>
@@ -59,7 +63,9 @@
       <td>                
         <% if @membership && @membership.shifts.count > 0 %>
           <% @membership.shifts.each { |shift| %>
-            <a href="/a/<%=@gathering.slug%>/rotas/<%=shift.rota_id%>"><span class="label label-primary"><%=shift.rota.name%>, <%=shift.rslot.name%></span></a>
+            <a href="/a/<%=@gathering.slug%>/rotas/<%=shift.rota_id%>" class="label label-primary text-white">
+              <%=shift.rota.name%>, <%=shift.rslot.name%>
+            </a>
           <% } %>      
         <% else %>
           <a href="/a/<%=@gathering.slug%>/rotas">Sign up to shifts</a>

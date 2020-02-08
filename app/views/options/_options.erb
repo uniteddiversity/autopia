@@ -49,9 +49,9 @@
         </td>      
         <td>
           <% if optionship = @gathering.optionships.find_by(option: option, account: current_account) %>
-            <a class="pagelet-trigger btn btn-primary" href="/optionships/<%=optionship.id%>/destroy">Leave</a>
+            <a class="pagelet-trigger btn btn-outline-primary btn-sm" href="/optionships/<%=optionship.id%>/destroy">Leave</a>
           <% elsif !option.full? %>
-            <a class="pagelet-trigger btn btn-primary" href="/optionships/create?option_id=<%=option.id%>">Join</a>
+            <a class="pagelet-trigger btn btn-primary btn-sm" href="/optionships/create?option_id=<%=option.id%>">Join</a>
           <% end %>
         </td>      
         <td>
