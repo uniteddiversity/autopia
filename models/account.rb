@@ -233,7 +233,7 @@ class Account
   end
 
   def picture_thumb_or_gravatar_url
-    picture ? picture.thumb('400x400#').url : (Padrino.env == :development ? '/images/silhouette.png' : "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.downcase)}?s=400&d=#{URI.encode("#{ENV['BASE_URI']}/images/silhouette.png")}")
+    picture ? picture.thumb('400x400#').url : "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.downcase)}?s=400&d=#{URI.encode("#{ENV['BASE_URI']}/images/silhouette.png")}"
   end
 
   def unread_notifications?
