@@ -7,6 +7,7 @@ class Option
   field :capacity, :type => Integer
   field :cost, :type => Integer
   field :split_cost, :type => Boolean
+  field :type, :type => String
   
   belongs_to :gathering, index: true
   belongs_to :account, index: true
@@ -34,6 +35,7 @@ class Option
       :capacity => :number,
       :cost => :number,
       :split_cost => :check_box,
+      :type => :text,
       :gathering_id => :lookup,
       :account_id => :lookup,
       :optionships => :collection
