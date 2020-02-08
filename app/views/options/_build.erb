@@ -1,6 +1,7 @@
 <% form_for @option ||= Option.new, @option.new_record? ? "/a/#{@gathering.slug}/options/new" : "/a/#{@gathering.slug}/options/#{@option.id}/edit" do |f| %>
   <%= f.text_block :name %>
   <%= f.text_area_block :description %>
+  <%= f.select_block :type %>
   <%= f.number_block :capacity %>
   <%= f.number_block :cost %>
   <%= f.check_box_block :split_cost %>

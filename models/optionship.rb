@@ -23,7 +23,7 @@ class Optionship
     }
   end
   
-  after_save do option.optionships.each { |optionship| optionship.membership.update_requested_contribution } end
-  after_destroy do option.optionships.each { |optionship| optionship.membership.try(:update_requested_contribution) } end
+  # after_save do option.optionships.each { |optionship| optionship.membership.update_requested_contribution } end
+  # after_destroy do option.optionships.each { |optionship| optionship.membership.try(:update_requested_contribution) } end
       
 end

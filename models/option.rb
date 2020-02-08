@@ -17,7 +17,7 @@ class Option
   
   has_many :notifications, as: :notifiable, dependent: :destroy
   after_create do
-    notifications.create! :circle => circle, :type => 'created_option'
+    # notifications.create! :circle => circle, :type => 'created_option'
   end      
   
   def circle
@@ -42,6 +42,10 @@ class Option
     }
   end
   
+  def self.types
+    {'Ticket' => 'ticket', 'Accommodation' => 'accommodation', 'Transport' => 'transport'}
+  end
+  
   def cost_per_person
     if split_cost
       if optionships.count > 0
@@ -57,7 +61,7 @@ class Option
   end
   
   after_save do
-    optionships.each { |optionship| optionship.membership.update_requested_contribution }
+    # optionships.each { |optionship| optionship.membership.update_requested_contribution }
   end    
   
   def self.human_attribute_name(attr, options={})  
