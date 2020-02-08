@@ -43,7 +43,7 @@ class Option
   end
   
   def self.types
-    {'Ticket' => 'ticket', 'Accommodation' => 'accommodation', 'Transport' => 'transport'}
+    %w{Ticket Accommodation Transport}
   end
   
   def cost_per_person

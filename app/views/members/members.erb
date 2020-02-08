@@ -113,15 +113,6 @@
         <% if @gathering.democratic_threshold %>
           <th>Suggested magic number</th>
         <% end %>        
-        <% if @gathering.enable_tiers %>
-          <th>Tier</th>
-        <% end %>
-        <% if @gathering.enable_accommodation %>
-          <th>Accommodation</th>
-        <% end %>
-        <% if @gathering.enable_transport %>
-          <th>Transport</th>
-        <% end %>
         <% if @gathering.enable_options %>
           <th>Options</th>
         <% end %>          
@@ -150,13 +141,7 @@
       <% if @gathering.democratic_threshold %>
         <th></th>
       <% end %>        
-      <% if @gathering.enable_tiers %>
-        <th></th>
-      <% end %>
-      <% if @gathering.enable_accommodation %>
-        <th></th>
-      <% end %>
-      <% if @gathering.enable_transport %>
+      <% if @gathering.enable_options %>
         <th></th>
       <% end %>
       <% if @gathering.enable_budget %>

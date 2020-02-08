@@ -15,64 +15,7 @@
   </div>
 <% end %>
 
-<% (missing_tier = (@gathering.enable_tiers? and @gathering.tiers.count > 0 and !@membership.tiership)); (missing_accom = (@gathering.enable_accommodation? and @gathering.accoms.count > 0 and !@membership.accomship)); if missing_tier or missing_accom %>
-  <div class="alert alert-primary" style="margin-top: 10px">
-    Please select <%= if missing_tier and missing_accom; 'a tier and accommodation option'; elsif missing_tier; 'a tier'; elsif missing_accom; 'an accommodation option'; end %>
-  </div>
-<% end %>
-
 <table class="table table-borderless">
-
-  <% if @gathering.enable_tiers? && @gathering.tiers.count > 0 %>         
-    <tr>
-      <th>
-        Your tier
-      </th>
-      <td>
-        <% if @membership && @membership.tierships.count > 0 %>
-          <% @membership.tierships.each { |tiership| %>
-            <a href="/a/<%=@gathering.slug%>/tiers"><span class="label label-primary"><%= tiership.tier.name %> (<%=@gathering.currency_symbol%><%= tiership.tier.cost_per_person %>)</span></a> 
-          <% } %>     
-        <% else %>
-          <a href="/a/<%=@gathering.slug%>/tiers">Join tier</a>
-        <% end %>          
-      </td>
-    </tr>
-  <% end %>
-
-  <% if @gathering.enable_accommodation? && @gathering.accoms.count > 0 %>
-    <tr>
-      <th>
-        Your accommodation
-      </th>
-      <td>
-        <% if @membership && @membership.accomships.count > 0 %>
-          <% @membership.accomships.each { |accomship| %>
-            <a href="/a/<%=@gathering.slug%>/accoms"><span class="label label-primary"><%= accomship.accom.name %> (<%=@gathering.currency_symbol%><%= accomship.accom.cost_per_person %>)</span></a> 
-          <% } %>     
-        <% else %>
-          <a href="/a/<%=@gathering.slug%>/accoms">Join accommodation</a>
-        <% end %>     
-      </td>
-    </tr>
-  <% end %>  
-
-  <% if @gathering.enable_transport? && @gathering.transports.count > 0 %>
-    <tr>
-      <th>
-        Your transport
-      </th>
-      <td>
-        <% if @membership && @membership.transportships.count > 0 %>
-          <% @membership.transportships.each { |transportship| %>
-            <a href="/a/<%=@gathering.slug%>/transports"><span class="label label-primary"><%= transportship.transport.name %> (<%=@gathering.currency_symbol%><%= transportship.transport.cost_per_person %>)</span></a> 
-          <% } %>     
-        <% else %>
-          <a href="/a/<%=@gathering.slug%>/transports">Join transport</a>
-        <% end %>
-      </td>
-    </tr>    
-  <% end %>  
     
   <% if @gathering.enable_options? && @gathering.options.count > 0 %>
     <tr>

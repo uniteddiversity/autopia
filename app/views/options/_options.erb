@@ -2,6 +2,7 @@
   <thead>
     <tr>
       <th>Option</th>
+      <th>Type</th>
       <th>Cost</th>
       <th>Places taken</th>
       <th></th>
@@ -20,6 +21,15 @@
         <% end %>            
         <br />
         <%= option.description %>        
+      </td>
+      <td>
+        <% case option.type; when 'Ticket' %>
+        <i class="fa fa-ticket"></i> Ticket
+        <% when 'Accommodation' %>
+        <i class="fa fa-home"></i> Accommodation
+        <% when 'Transport' %>
+        <i class="fa fa-bus"></i> Transport
+        <% end %>
       </td>
       <td>
         <% if option.split_cost %>

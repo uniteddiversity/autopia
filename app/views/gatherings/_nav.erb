@@ -41,9 +41,6 @@
           gathering.rotas(true).map { |rota| [rota.name, "/a/#{gathering.slug}/rotas/#{rota.id}"] } + (membership.admin? ? [['Create a rota', "/a/#{gathering.slug}/rotas/new"]] : [])
         )              
         ] if gathering.enable_rotas),
-    (["Tiers", "/a/#{gathering.slug}/tiers"] if gathering.enable_tiers),
-    (["Accommodation", "/a/#{gathering.slug}/accoms"] if gathering.enable_accommodation),
-    (["Transport", "/a/#{gathering.slug}/transports"] if gathering.enable_transport),        
     (["Options", "/a/#{gathering.slug}/options"] if gathering.enable_options),        
     (["Inventory", "/a/#{gathering.slug}/inventory"] if gathering.enable_inventory),       
     (["Budget", "/a/#{gathering.slug}/budget"] if gathering.enable_budget)

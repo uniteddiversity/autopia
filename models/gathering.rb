@@ -6,7 +6,7 @@ class Gathering
   dragonfly_accessor :image
   
   def self.enablable
-    %w{teams timetables rotas tiers accommodation transport options inventory budget comments_on_gathering_homepage}
+    %w{teams timetables rotas options inventory budget comments_on_gathering_homepage}
   end  
   
   field :name, :type => String
@@ -128,15 +128,6 @@ class Gathering
   has_many :roles, :dependent => :destroy
   has_many :rslots, :dependent => :destroy
   has_many :shifts, :dependent => :destroy
-  # Tiers
-  has_many :tiers, :dependent => :destroy
-  has_many :tierships, :dependent => :destroy
-  # Accommodation
-  has_many :accoms, :dependent => :destroy
-  has_many :accomships, :dependent => :destroy 
-  # Transport
-  has_many :transports, :dependent => :destroy
-  has_many :transportships, :dependent => :destroy
   # Options
   has_many :options, :dependent => :destroy
   has_many :optionships, :dependent => :destroy  
@@ -175,27 +166,6 @@ class Gathering
   
   def incomings
     i = 0
-    tiers.each { |tier|
-      if tier.split_cost && tier.tierships.count > 0
-        i += tier.cost
-      else
-        i += tier.cost*tier.tierships.count
-      end
-    }
-    accoms.each { |accom|
-      if accom.split_cost && accom.accomships.count > 0
-        i += accom.cost
-      else
-        i += accom.cost*accom.accomships.count
-      end
-    }
-    transports.each { |transport|
-      if transport.split_cost && transport.transportships.count > 0
-        i += transport.cost
-      else
-        i += transport.cost*transport.transportships.count
-      end
-    }
     options.each { |option|
       if option.split_cost && option.optionships.count > 0
         i += option.cost
@@ -383,21 +353,6 @@ if enable_teams
 y << [:with_teams, 'With teams', memberships.where(:account_id.in => teamships.where(:team_id.nin => teams.where(name: 'General').pluck(:id)).pluck(:account_id))]
 y << [:without_teams, 'Without teams', memberships.where(:account_id.nin => teamships.where(:team_id.nin => teams.where(name: 'General').pluck(:id)).pluck(:account_id))]
 end
-
-if enable_tiers
-y << [:with_tiers, 'With tier', memberships.where(:account_id.in => tierships.pluck(:account_id))]
-y << [:without_tiers, 'Without tier', memberships.where(:account_id.nin => tierships.pluck(:account_id))]
-end
-
-if enable_accommodation
-y << [:with_accom, 'With accommodation', memberships.where(:account_id.in => accomships.pluck(:account_id))]
-y << [:without_accom, 'Without accommodation', memberships.where(:account_id.nin => accomships.pluck(:account_id))]
-end
-
-if enable_transport
-y << [:with_transport, 'With transport', memberships.where(:account_id.in => transportships.pluck(:account_id))]
-y << [:without_transport, 'Without transport', memberships.where(:account_id.nin => transportships.pluck(:account_id))]
-end  
 
 if enable_options
 y << [:with_options, 'With options', memberships.where(:account_id.in => optionships.pluck(:account_id))]

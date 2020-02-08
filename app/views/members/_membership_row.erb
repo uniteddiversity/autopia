@@ -35,27 +35,6 @@
 <% if @gathering.democratic_threshold %>
   <td><%=membership.desired_threshold%></td>
 <% end %>   
-<% if @gathering.enable_tiers %>
-  <td>        
-    <% membership.tierships.each { |tiership| %>
-      <a href="/a/<%=@gathering.slug%>/tiers" class="label label-primary text-white"><%= tiership.tier.name %> (<%=@gathering.currency_symbol%><%= tiership.tier.cost_per_person %>)</a> 
-    <% } %>                     
-  </td>
-<% end %>
-<% if @gathering.enable_accommodation %>
-  <td>       
-    <% membership.accomships.each { |accomship| %>
-      <a href="/a/<%=@gathering.slug%>/accoms" class="label label-primary text-white"><%= accomship.accom.name %> (<%=@gathering.currency_symbol%><%= accomship.accom.cost_per_person %>)</a> 
-    <% } %>         
-  </td> 
-<% end %>
-<% if @gathering.enable_transport %>
-  <td>
-    <% membership.transportships.each { |transportship| %>
-      <a href="/a/<%=@gathering.slug%>/transports" class="label label-primary text-white"><%= transportship.transport.name %> (<%=@gathering.currency_symbol%><%= transportship.transport.cost_per_person %>)</a> 
-    <% } %>
-  </td>      
-<% end %>
 <% if @gathering.enable_options %>
   <td>
     <% membership.optionships.each { |optionship| %>

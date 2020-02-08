@@ -97,18 +97,6 @@ class Membership
   has_many :comment_reactions, :dependent => :destroy
   # Rotas
   has_many :shifts, :dependent => :destroy
-  # Tiers
-  has_many :tierships, :dependent => :destroy
-  def tiership
-    tierships.first
-  end
-  # Accommodation
-  has_many :accomships, :dependent => :destroy 
-  def accomship
-    accomships.first
-  end
-  # Transport
-  has_many :transportships, :dependent => :destroy
   # Options
   has_many :optionships, :dependent => :destroy  
   # Budget
@@ -117,22 +105,7 @@ class Membership
   has_many :inventory_items, :dependent => :nullify
   
   def calculate_requested_contribution    
-    c = 0
-    tierships.each { |tiership|
-      if !tiership.flagged_for_destroy?
-        c += tiership.tier.cost_per_person
-      end
-    }
-    accomships.each { |accomship|
-      if !accomship.flagged_for_destroy?
-        c += accomship.accom.cost_per_person
-      end    
-    }
-    transportships.each { |transportship|
-      if !transportship.flagged_for_destroy?
-        c += transportship.transport.cost_per_person
-      end
-    }    
+    c = 0 
     optionships.each { |optionship|
       if !optionship.flagged_for_destroy?
         c += optionship.option.cost_per_person

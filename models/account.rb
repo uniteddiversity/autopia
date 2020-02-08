@@ -163,15 +163,6 @@ class Account
   # Rotas
   has_many :rotas, dependent: :nullify
   has_many :shifts, dependent: :destroy
-  # Tiers
-  has_many :tiers, dependent: :nullify
-  has_many :tierships, dependent: :destroy
-  # Accommodation
-  has_many :accoms, dependent: :nullify
-  has_many :accomships, dependent: :destroy
-  # Transport
-  has_many :transports, dependent: :nullify
-  has_many :transportships, dependent: :destroy
   # Options
   has_many :options, dependent: :nullify
   has_many :optionships, dependent: :destroy    
