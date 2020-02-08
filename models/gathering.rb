@@ -384,6 +384,11 @@ y << [:with_accom, 'With accommodation', memberships.where(:account_id.in => acc
 y << [:without_accom, 'Without accommodation', memberships.where(:account_id.nin => accomships.pluck(:account_id))]
 end
 
+if enable_transport
+y << [:with_transport, 'With transport', memberships.where(:account_id.in => transportships.pluck(:account_id))]
+y << [:without_transport, 'Without transport', memberships.where(:account_id.nin => transportships.pluck(:account_id))]
+end  
+
 if facebook_group_url
 y << [:member_of_facebook_group, 'Member of Facebook group', memberships.where(:member_of_facebook_group => true)]
 y << [:not_member_of_facebook_group, 'Not member of Facebook group', memberships.where(:member_of_facebook_group.ne => true)]
