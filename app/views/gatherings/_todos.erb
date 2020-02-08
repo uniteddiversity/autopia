@@ -113,9 +113,11 @@
     <div class="card-body">
       You owe <%=@gathering.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 
       (You've paid <%=@gathering.currency_symbol%><%=@membership.paid or 0%> of a requested contribution of <%=@gathering.currency_symbol%><%=@membership.requested_contribution%>.)
-      <div style="margin-top: 10px">
-        <%= partial :'gatherings/pay', :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
-      </div>
+      <% if @gathering.stripe_connect_json %>
+        <div style="margin-top: 10px">
+          <%= partial :'gatherings/pay', :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
+        </div>
+      <% end %>
     </div>
   </div>
 <% end %>
