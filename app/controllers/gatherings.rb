@@ -156,6 +156,14 @@ Autopia::App.controller do
     @gathering.update_attribute(:stripe_connect_json, response.body)
     flash[:notice] = "Connected to Stripe!"
     redirect "/a/#{@gathering.slug}"
-  end    
+  end   
+  
+  get '/a/:slug/stripe_disconnect' do
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!
+    @gathering.update_attribute(:stripe_connect_json, nil)
+    redirect "/a/#{@gathering.slug}"
+  end  
         
 end
