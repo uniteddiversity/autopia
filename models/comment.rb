@@ -18,7 +18,7 @@ class Comment
   dragonfly_accessor :file  
       
   has_many :comment_reactions, :dependent => :destroy
-  has_many :options, :dependent => :destroy
+  has_many :voptions, :dependent => :destroy
   has_many :read_receipts, :dependent => :destroy
   has_many :photos, as: :photoable, dependent: :destroy  
   

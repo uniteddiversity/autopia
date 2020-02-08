@@ -1,17 +1,17 @@
-<% comment.options.sort_by { |option| -option.votes.count }.each { |option| %>
+<% comment.voptions.sort_by { |voption| -voption.votes.count }.each { |voption| %>
   <div class="mb-1">
-    <% form_tag "/options/#{option.id}/vote" do %>
+    <% form_tag "/voptions/#{voption.id}/vote" do %>
       <label class="p-1 m-0 mb-1" style="background: #e9ecef; display: inline-block ">
-        <%= check_box_tag :vote, :value => true, :checked => option.votes.find_by(account: current_account), :onclick => '$(this.form).submit()' %>
-        <%= option.text %>
+        <%= check_box_tag :vote, :value => true, :checked => voption.votes.find_by(account: current_account), :onclick => '$(this.form).submit()' %>
+        <%= voption.text %>
       </label>
       <% if comment.account_id == current_account.id %>
-        <a class="subtle pagelet-trigger" data-confirm="Are you sure?" href="/options/<%=option.id%>/destroy"><i class="fa fa-times"></i></a>
+        <a class="subtle pagelet-trigger" data-confirm="Are you sure?" href="/voptions/<%=voption.id%>/destroy"><i class="fa fa-times"></i></a>
       <% end %>
     <% end %>
-    <% if option.votes.count > 0 %>
+    <% if voption.votes.count > 0 %>
       <div class="image-wall">
-        <% option.votes.each { |vote| account = vote.account %>
+        <% voption.votes.each { |vote| account = vote.account %>
           <%= partial :'accounts/square', :locals => {:account => account, :width => '32px'} %>
         <% } %>
       </div>
@@ -23,12 +23,12 @@
 
   <a data-toggle="tooltip" title="Add a poll" class="btn btn-outline-primary btn-sm" id="poll-for-<%=comment.id%>" href="javascript:;" onclick="$(this).closest('[data-pagelet-url]').addClass('d-block').removeClass('d-inline-block');
       $(this).hide().next().show().find('input').focus();"><i class="fa fa-bar-chart"></i></a> 
-  <% form_tag '/options/create', :style => 'display: none' do %>
+  <% form_tag '/voptions/create', :style => 'display: none' do %>
     <%= hidden_field_tag :comment_id, :value => comment.id %>
     <%= text_field_tag :text, :class => 'form-control', :placeholder => 'Add an option...' %>
   <% end %>
 
-  <% if comment.options.count > 0 %>
+  <% if comment.voptions.count > 0 %>
     <script>
       $(function () {
         $('#poll-for-<%=comment.id%>').hide().next().show()

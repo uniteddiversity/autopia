@@ -1,4 +1,4 @@
-class Option
+class Voption
   include Mongoid::Document
   include Mongoid::Timestamps
  

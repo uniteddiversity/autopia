@@ -102,34 +102,34 @@ Autopia::App.controller do
     partial :'comments/replies', :locals => {:post => @post}
   end  
     
-  get '/comments/:id/options' do
+  get '/comments/:id/voptions' do
     @comment = Comment.find(params[:id]) || not_found
     @commentable = @comment.commentable
-    partial :'comments/options', :locals => {:comment => @comment}
+    partial :'comments/voptions', :locals => {:comment => @comment}
   end
   
-  post '/options/create' do
+  post '/voptions/create' do
     sign_in_required!
     @comment = Comment.find(params[:comment_id]) || not_found
-    @comment.options.create!(account: current_account, text: params[:text])
+    @comment.voptions.create!(account: current_account, text: params[:text])
     200   
   end  
   
-  post '/options/:id/vote' do
+  post '/voptions/:id/vote' do
     sign_in_required!
-    @option = Option.find(params[:id]) || not_found
+    @voption = Voption.find(params[:id]) || not_found
     if params[:vote]
-      @option.votes.create!(account: current_account)
+      @voption.votes.create!(account: current_account)
     else
-      @option.votes.find_by(account: current_account).try(:destroy)
+      @voption.votes.find_by(account: current_account).try(:destroy)
     end
     200
   end  
   
-  get '/options/:id/destroy' do
+  get '/voptions/:id/destroy' do
     sign_in_required!
-    @option = Option.find(params[:id]) || not_found
-    @option.destroy
+    @voption = Voption.find(params[:id]) || not_found
+    @voption.destroy
     200
   end    
   
