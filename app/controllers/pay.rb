@@ -60,7 +60,7 @@ Autopia::App.controller do
       success_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
       cancel_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
       payment_intent_data: {
-        application_fee_amount: (ENV['AUTOPIA_CUT'] * params[:amount].to_i * 100).round,
+        application_fee_amount: (ENV['AUTOPIA_CUT'].to_f * params[:amount].to_i * 100).round,
         transfer_data: {
           destination: @gathering.stripe_user_id
         }
