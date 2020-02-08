@@ -64,10 +64,12 @@ Autopia::App.controller do
     }
     if @gathering.stripe_connect_json
       session = Stripe::Checkout::Session.create(stripe_session_hash, stripe_account: @gathering.stripe_user_id)
-    elsif !@gathering.use_main_stripe
-      403
     else
-      session = Stripe::Checkout::Session.create(stripe_session_hash)
+      if @gathering.use_main_stripe
+        session = Stripe::Checkout::Session.create(stripe_session_hash)
+      else
+        403
+      end      
     end    
     @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @gathering.currency, :session_id => session.id, :payment_intent => session.payment_intent
     {session_id: session.id}.to_json
