@@ -38,7 +38,9 @@
 <% if @gathering.enable_options %>
   <td>
     <% membership.optionships.each { |optionship| %>
-      <a href="/a/<%=@gathering.slug%>/options" class="label label-primary text-white"><%= optionship.option.name %> (<%=@gathering.currency_symbol%><%= optionship.option.cost_per_person %>)</a> 
+      <a title="<%=optionship.option.type%>" href="/a/<%=@gathering.slug%>/options" class="label label-primary text-white">
+        <i class="fa <%= optionship.option.icon %>"></i> <%= optionship.option.name %> (<%=@gathering.currency_symbol%><%= optionship.option.cost_per_person %>)
+      </a> 
     <% } %>
   </td>      
 <% end %>  

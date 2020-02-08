@@ -1,87 +1,82 @@
-<table class="table table-striped">
+<table class="table">
   <thead>
     <tr>
       <th>Option</th>
-      <th>Type</th>
       <th>Cost</th>
       <th>Places taken</th>
       <th></th>
       <th style="width: 33%">People</th> 
     </tr>
   </thead>
-  <% @gathering.options.order('type asc, name asc').each { |option| %>
-    <tr>
-      <td>
-        <% if admin? || @membership.admin? %>
-          <a href="/a/<%=@gathering.slug%>/options/<%=option.id%>/edit">
+  <% Option.types.each { |type| %>    
+      <tr class="bg-white">
+        <td colspan="5">
+          <h3 class="mb-0"><%=type == 'Ticket' ? 'Tickets' : type%></h3>
+        </td>      
+      </tr>
+    <% @gathering.options.where(type: type).order('name asc').each { |option| %>
+      <tr>
+        <td>
+          <% if admin? || @membership.admin? %>
+            <a href="/a/<%=@gathering.slug%>/options/<%=option.id%>/edit">
+              <%=option.name%>
+            </a>
+          <% else %>
             <%=option.name%>
-          </a>
-        <% else %>
-          <%=option.name%>
-        <% end %>            
-        <br />
-        <%= option.description %>        
-      </td>
-      <td>
-        <span class="label label-primary">
-          <% case option.type; when 'Ticket' %>
-            <i class="fa fa-ticket"></i> Ticket
-          <% when 'Accommodation' %>
-            <i class="fa fa-home"></i> Accommodation
-          <% when 'Transport' %>
-            <i class="fa fa-bus"></i> Transport
-          <% end %>
-        </span>
-      </td>
-      <td>
-        <% if option.split_cost %>
-          <%=@gathering.currency_symbol%><%=option.cost%> total
-          <% if option.cost_per_person %>
-            (<%=@gathering.currency_symbol%><%=option.cost_per_person%>/person)
-          <% end %>        
-        <% else %>
-          <%=@gathering.currency_symbol%><%=option.cost%>/person
-        <% end %>
-      </td>
-      <td>
-        <%=option.optionships.count%>/<%=option.capacity || '&infin;' %>
-        <% if option.capacity %>
-          <% if option.full? %>
-            <span class="label label-danger">Full</span>
+          <% end %>            
+          <br />
+          <%= option.description %>        
+        </td>
+        <td>
+          <% if option.split_cost %>
+            <%=@gathering.currency_symbol%><%=option.cost%> total
+            <% if option.cost_per_person %>
+              (<%=@gathering.currency_symbol%><%=option.cost_per_person%>/person)
+            <% end %>        
           <% else %>
-            <span class="label label-success">Spaces</span>
+            <%=@gathering.currency_symbol%><%=option.cost%>/person
           <% end %>
-        <% end %>
-      </td>      
-      <td>
-        <% if optionship = @gathering.optionships.find_by(option: option, account: current_account) %>
-          <a class="pagelet-trigger btn btn-primary" href="/optionships/<%=optionship.id%>/destroy">Leave</a>
-        <% elsif !option.full? %>
-          <a class="pagelet-trigger btn btn-primary" href="/optionships/create?option_id=<%=option.id%>">Join</a>
-        <% end %>
-      </td>      
-      <td>
-        <% y = [] %>
-        <% option.optionships.each { |optionship| account = optionship.account; %>
+        </td>
+        <td>
+          <%=option.optionships.count%>/<%=option.capacity || '&infin;' %>
+          <% if option.capacity %>
+            <% if option.full? %>
+              <span class="label label-danger">Full</span>
+            <% else %>
+              <span class="label label-success">Spaces</span>
+            <% end %>
+          <% end %>
+        </td>      
+        <td>
+          <% if optionship = @gathering.optionships.find_by(option: option, account: current_account) %>
+            <a class="pagelet-trigger btn btn-primary" href="/optionships/<%=optionship.id%>/destroy">Leave</a>
+          <% elsif !option.full? %>
+            <a class="pagelet-trigger btn btn-primary" href="/optionships/create?option_id=<%=option.id%>">Join</a>
+          <% end %>
+        </td>      
+        <td>
+          <% y = [] %>
+          <% option.optionships.each { |optionship| account = optionship.account; %>
+            <% if params[:view] == 'names' %>
+              <% y << capture do %>   
+                <%= account.name %>
+              <% end %>
+            <% else %>
+              <% y << capture do %>
+                <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+              <% end %>
+            <% end %>
+          <% } %>
           <% if params[:view] == 'names' %>
-            <% y << capture do %>   
-              <%= account.name %>
-            <% end %>
+            <%= y.map(&:strip).join(', ') %>
           <% else %>
-            <% y << capture do %>
-              <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-            <% end %>
-          <% end %>
-        <% } %>
-        <% if params[:view] == 'names' %>
-          <%= y.map(&:strip).join(', ') %>
-        <% else %>
-          <div class="image-wall">
-            <%= y.map(&:strip).join('') %>
-          </div>
-        <% end %>      
-      </td>
-    </tr>
+            <div class="image-wall">
+              <%= y.map(&:strip).join('') %>
+            </div>
+          <% end %>      
+        </td>
+      </tr>
+    <% } %>
   <% } %>
 </table>
 

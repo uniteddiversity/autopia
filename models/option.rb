@@ -46,6 +46,17 @@ class Option
     %w{Ticket Accommodation Transport}
   end
   
+  def icon
+    case type
+    when 'Ticket'
+      'fa-ticket'
+    when 'Accommodation'
+      'fa-home'
+    when 'Transport'
+      'fa-bus'
+    end
+  end
+  
   def cost_per_person
     if split_cost
       if optionships.count > 0

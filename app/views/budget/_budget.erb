@@ -6,32 +6,34 @@
         <th style="width: 50%">Item</th>
         <th>Amount</th>
       </tr>
-        
-      <% options = @gathering.options.select { |option| option.optionships.count > 0 }; if options.count > 0 %>
-        <tr>
-          <td colspan="2">
-            <em>Options</em>
-          </td>
-        </tr>
-      <% end %>
-      <% options.each { |option| %>
-        <tr>
-          <td>
-            <% if option.split_cost %>
-              <%= option.name %>
-            <% else %>
-              <%= option.name %> x <%=option.optionships.count%>
-            <% end %>
-          </td>
-          <td>
-            <% if option.split_cost %>
-              <%=@gathering.currency_symbol%><%=option.cost%>
-            <% else %>
-              <%=@gathering.currency_symbol%><%=option.cost*option.optionships.count%>
-            <% end %>
-          </td>
-        </tr>
-      <% } %>        
+
+      <% Option.types.each { |type| %>
+        <% options = @gathering.options.where(type: type).select { |option| option.optionships.count > 0 }; if options.count > 0 %>
+          <tr>
+            <td colspan="2">
+              <em><%=type == 'Ticket' ? 'Tickets' : type%></em>
+            </td>
+          </tr>
+        <% end %>
+        <% options.each { |option| %>
+          <tr>
+            <td>
+              <% if option.split_cost %>
+                <%= option.name %>
+              <% else %>
+                <%= option.name %> x <%=option.optionships.count%>
+              <% end %>
+            </td>
+            <td>
+              <% if option.split_cost %>
+                <%=@gathering.currency_symbol%><%=option.cost%>
+              <% else %>
+                <%=@gathering.currency_symbol%><%=option.cost*option.optionships.count%>
+              <% end %>
+            </td>
+          </tr>
+        <% } %>
+      <% } %>
 
       <tr>
         <th></th>
