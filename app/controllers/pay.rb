@@ -1,7 +1,7 @@
 Autopia::App.controller do
   
-  get '/a/:slug/stripe_connect' do
-    @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
+  get '/a/stripe_connect' do
+    @gathering = Gathering.find_by(slug: params[:state]) || not_found      
     @membership = @gathering.memberships.find_by(account: current_account)
     gathering_admins_only!
     response = Mechanize.new.post 'https://connect.stripe.com/oauth/token', client_secret: ENV['STRIPE_SK'], code: params[:code], grant_type: 'authorization_code'

@@ -14,7 +14,7 @@
           </div>
         </div>
       <% elsif current_account %>
-        <a class="btn btn-success" href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%=ENV['STRIPE_CLIENT_ID']%>&scope=read_write&redirect_uri=<%= URI.escape "#{ENV['BASE_URI']}/a/#{@gathering.slug}/stripe_connect" %>">Connect a Stripe account</a>
+        <a class="btn btn-success" href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%=ENV['STRIPE_CLIENT_ID']%>&scope=read_write&state=<%=@gathering.slug%>">Connect a Stripe account</a>
       <% end %>
     <% end %>
 
