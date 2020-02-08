@@ -60,7 +60,7 @@ Autopia::App.controller do
       success_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
       cancel_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
       payment_intent_data: {
-        application_fee_amount: (0.01 * params[:amount].to_i * 100).round,
+        application_fee_amount: (ENV['AUTOPIA_CUT'] * params[:amount].to_i * 100).round,
         transfer_data: {
           destination: @gathering.stripe_user_id
         }
@@ -69,37 +69,5 @@ Autopia::App.controller do
     @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @gathering.currency, :session_id => session.id, :payment_intent => session.payment_intent
     {session_id: session.id}.to_json
   end
-  
-  
-  get '/a/:slug/balance' do        
-    @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
-    @membership = @gathering.memberships.find_by(account: current_account)
-    gathering_admins_only!
-    discuss 'Balance'
-    erb :'gatherings/balance'
-  end     
-  	  
-  post '/a/:slug/payout' do
-    @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
-    @membership = @gathering.memberships.find_by(account: current_account)
-    gathering_admins_only!
-    if @gathering.update_attributes(mass_assigning(params[:gathering], Gathering))
-    	
-    	if ENV['SMTP_ADDRESS']
-	      mail = Mail.new
-	      mail.to = ENV['ADMIN_EMAIL']
-	      mail.from = ENV['BOT_EMAIL']
-	      mail.subject = "Payout requested for #{@gathering.name}"
-	      mail.body = "#{current_account.name} (#{current_account.email}) requested a payout for #{@gathering.name}:\n#{@gathering.currency_symbol}#{@gathering.balance} to #{@gathering.paypal_email}"   
-	      mail.deliver
-      end
-
-			flash[:notice] = 'The payout was requested. Payouts can take 3-5 working days to process.'    	
-      redirect "/a/#{@gathering.slug}"
-    else
-      flash.now[:error] = 'Some errors prevented the payout'
-      erb :'gatherings/build'        
-    end
-  end	  
-  
+    
 end
