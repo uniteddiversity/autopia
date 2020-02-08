@@ -27,7 +27,6 @@ class Gathering
   field :require_reason_proposer, :type => Boolean
   field :require_reason_supporter, :type => Boolean
   field :processed_via_stripe, :type => Integer
-  field :disable_stripe, :type => Boolean
   field :balance, :type => Float
   field :paypal_email, :type => String
   field :currency, :type => String
@@ -35,7 +34,8 @@ class Gathering
   field :demand_payment, :type => Boolean
   field :hide_members_on_application_form, :type => Boolean
   field :invitations_granted, :type => Integer
-  field :stripe_connect_json, :type => String
+  field :stripe_connect_json, :type => String  
+  field :use_main_stripe, :type => Boolean
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
   }
@@ -61,7 +61,6 @@ class Gathering
     self.invitations_granted = 0 if self.invitations_granted.nil?
     self.processed_via_stripe = 0 if self.processed_via_stripe.nil?
     self.enable_teams = true if self.enable_budget
-    # self.disable_stripe = true if self.currency == 'SEK'
     self.member_limit = self.memberships.count if self.member_limit and self.member_limit < self.memberships.count
   end
   
@@ -209,7 +208,6 @@ class Gathering
       :require_reason_proposer => :check_box,
       :require_reason_supporter => :check_box,
       :processed_via_stripe => :number,
-      :disable_stripe => :check_box,
       :balance => :number,
       :democratic_threshold => :check_box,
       :privacy => :select,      
@@ -219,6 +217,7 @@ class Gathering
       :anonymise_supporters => :check_box,
       :demand_payment => :check_box,      
       :hide_members_on_application_form => :check_box,
+      :use_main_stripe => :check_box,
       :paypal_email => :text,
       :stripe_connect_json => :text_area,
       :currency => :select,

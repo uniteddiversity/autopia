@@ -47,7 +47,7 @@ Autopia::App.controller do
     @membership = @gathering.memberships.find_by(account: current_account)    
     membership_required!    
     Stripe.api_key = ENV['STRIPE_SK']
-    session = Stripe::Checkout::Session.create(
+    stripe_session_hash = {
       payment_method_types: ['card'],
       line_items: [{
           name: "Payment for #{@gathering.name}",
@@ -58,14 +58,19 @@ Autopia::App.controller do
         }],
       customer_email: current_account.email,
       success_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
-      cancel_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
-      payment_intent_data: {
-        application_fee_amount: (ENV['AUTOPIA_CUT'].to_f * params[:amount].to_i * 100).round,
-        transfer_data: {
-          destination: @gathering.stripe_user_id
-        }
-      }
-    )    
+      cancel_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}"      
+    }
+    if @gathering.stripe_connect_json
+      stripe_session_hash.merge!({
+          payment_intent_data: {
+            application_fee_amount: (ENV['AUTOPIA_CUT'].to_f * params[:amount].to_i * 100).round,
+            transfer_data: {
+              destination: @gathering.stripe_user_id
+            }
+          }
+        })
+    end
+    session = Stripe::Checkout::Session.create(stripe_session_hash)
     @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @gathering.currency, :session_id => session.id, :payment_intent => session.payment_intent
     {session_id: session.id}.to_json
   end

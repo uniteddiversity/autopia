@@ -108,12 +108,12 @@
 
 </table>
 
-<% if !@gathering.disable_stripe and (@membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution))) %>
+<% if @membership.requested_contribution and @membership.requested_contribution > 0 and (!@membership.paid or (@membership.paid < @membership.requested_contribution)) %>
   <div class="card text-white bg-danger mb-3">
     <div class="card-body">
       You owe <%=@gathering.currency_symbol%><%= @membership.requested_contribution - @membership.paid%>. 
       (You've paid <%=@gathering.currency_symbol%><%=@membership.paid or 0%> of a requested contribution of <%=@gathering.currency_symbol%><%=@membership.requested_contribution%>.)
-      <% if @gathering.stripe_connect_json %>
+      <% if @gathering.stripe_connect_json or @gathering.use_main_stripe %>
         <div style="margin-top: 10px">
           <%= partial :'gatherings/pay', :locals => {:amount => (@membership.requested_contribution - @membership.paid)} %>
         </div>
