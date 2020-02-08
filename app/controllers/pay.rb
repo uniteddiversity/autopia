@@ -75,8 +75,7 @@ Autopia::App.controller do
       else
         403
       end
-    end
-    session = Stripe::Checkout::Session.create(stripe_session_hash)
+    end    
     @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @gathering.currency, :session_id => session.id, :payment_intent => session.payment_intent
     {session_id: session.id}.to_json
   end
