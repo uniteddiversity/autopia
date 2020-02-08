@@ -4,6 +4,7 @@ class Tier
 
   field :name, :type => String
   field :description, :type => String
+  field :capacity, :type => Integer
   field :cost, :type => Integer
   
   belongs_to :gathering, index: true
@@ -29,7 +30,8 @@ class Tier
     {
       :name => :text,
       :description => :text_area,
-      :cost => :number,
+      :capacity => :number,
+      :cost => :number,      
       :gathering_id => :lookup,
       :account_id => :lookup,
       :tierships => :collection,
@@ -38,6 +40,10 @@ class Tier
   
   after_save do
     tierships.each { |tiership| tiership.membership.update_requested_contribution }
+  end  
+  
+  def full?
+    capacity && tierships.count == capacity
   end  
     
 end

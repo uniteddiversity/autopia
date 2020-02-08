@@ -3,6 +3,7 @@
     <tr>
       <th>Tier</th>
       <th>Cost</th>
+      <th>Capacity</th>
       <th></th>
       <th>People</th> 
     </tr>
@@ -24,9 +25,19 @@
         <%=@gathering.currency_symbol%><%=tier.cost%>
       </td>
       <td>
+        <%=tier.tierships.count%>/<%=tier.capacity || '&infin;' %>
+        <% if tier.capacity %>
+          <% if tier.full? %>
+            <span class="label label-danger">Full</span>
+          <% else %>
+            <span class="label label-success">Spaces</span>
+          <% end %>
+        <% end %>
+      </td>       
+      <td>
         <% if tiership = @gathering.tierships.find_by(tier: tier, account: current_account) %>
           <a class="pagelet-trigger btn btn-primary" href="/tierships/<%=tiership.id%>/destroy">Leave</a>
-        <% elsif !@gathering.tierships.find_by(account: current_account) %>
+        <% elsif !@gathering.tierships.find_by(account: current_account) && !tier.full? %>
           <a class="pagelet-trigger btn btn-primary" href="/tierships/create?tier_id=<%=tier.id%>">Join</a>
         <% end %>
       </td>      

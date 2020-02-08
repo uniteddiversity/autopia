@@ -11,6 +11,7 @@ class Tiership
   
   before_validation do
     self.membership = self.gathering.memberships.find_by(account: self.account) if self.gathering and self.account and !self.membership
+    errors.add(:tier, 'is full') if tier and tier.capacity and tier.tierships.count == tier.capacity
   end    
              
   def self.admin_fields
