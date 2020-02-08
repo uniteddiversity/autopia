@@ -15,6 +15,18 @@ Autopia::App.controller do
     end
   end  
   
+  get '/a/:slug/tiers' do
+    redirect "/a/#{params[:slug]}/options"
+  end
+  
+  get '/a/:slug/accoms' do
+    redirect "/a/#{params[:slug]}/options"
+  end
+
+  get '/a/:slug/transports' do
+    redirect "/a/#{params[:slug]}/options"
+  end  
+  
   get '/a/:slug/options' do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
@@ -90,7 +102,7 @@ Autopia::App.controller do
     end    
   end
   
- get '/a/:slug/optionships/:id/edit' do
+  get '/a/:slug/optionships/:id/edit' do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
     discuss 'Options'
