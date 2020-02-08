@@ -2,11 +2,10 @@
   <thead>
     <tr>
       <th>Accommodation</th>
-      <th>Cost for the room</th>
+      <th>Cost</th>
       <th>Places taken</th>
       <th></th>
       <th>People</th> 
-      <th>Cost per person</th> 
     </tr>
   </thead>
   <% @gathering.accoms.order('name asc').each { |accom| %>
@@ -23,7 +22,14 @@
         <%= accom.description %>        
       </td>
       <td>
-        <%=@gathering.currency_symbol%><%=accom.cost%>
+        <% if accom.split_cost %>
+          <%=@gathering.currency_symbol%><%=accom.cost%> total
+          <% if accom.cost_per_person %>
+            (<%=@gathering.currency_symbol%><%=accom.cost_per_person%>/person)
+          <% end %>        
+        <% else %>
+          <%=@gathering.currency_symbol%><%=accom.cost%>/person
+        <% end %>
       </td>
       <td>
         <%=accom.accomships.count%>/<%=accom.capacity || '&infin;' %>
@@ -62,11 +68,6 @@
             <%= y.map(&:strip).join('') %>
           </div>
         <% end %>      
-      </td>
-      <td>
-        <% if accom.cost_per_person %>
-          <%=@gathering.currency_symbol%><%=accom.cost_per_person%>
-        <% end %>
       </td>
     </tr>
   <% } %>

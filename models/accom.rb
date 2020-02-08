@@ -6,6 +6,7 @@ class Accom
   field :description, :type => String
   field :capacity, :type => Integer
   field :cost, :type => Integer
+  field :split_cost, :type => Boolean
   
   belongs_to :gathering, index: true
   belongs_to :account, index: true
@@ -32,14 +33,19 @@ class Accom
       :description => :text_area,
       :capacity => :number,
       :cost => :number,
+      :split_cost => :check_box,
       :gathering_id => :lookup,
       :account_id => :lookup
     }
   end
   
   def cost_per_person
-    if accomships.count > 0
-      (cost.to_f / accomships.count).round
+    if split_cost
+      if accomships.count > 0
+        (cost.to_f / accomships.count).round
+      end
+    else
+      cost
     end
   end
   
@@ -53,7 +59,8 @@ class Accom
   
   def self.human_attribute_name(attr, options={})  
     {
-      :cost => 'Cost for the room'
+      :cost => 'Cost',
+      :split_cost => 'Split cost between participants'
     }[attr.to_sym] || super  
   end   
     
