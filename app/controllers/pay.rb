@@ -65,8 +65,7 @@ Autopia::App.controller do
     if @gathering.stripe_connect_json
       stripe_session_hash.merge!({
           payment_intent_data: {
-            application_fee_amount: 0
-            # application_fee_amount: (ENV['AUTOPIA_CUT'].to_f * params[:amount].to_i * 100).round
+            application_fee_amount: (ENV['AUTOPIA_CUT'].to_f * params[:amount].to_i * 100).round
           }
         })
       session = Stripe::Checkout::Session.create(stripe_session_hash, {stripe_account: @gathering.stripe_user_id})
