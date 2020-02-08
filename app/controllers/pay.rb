@@ -1,34 +1,22 @@
 Autopia::App.controller do
-    
-  get '/a/:slug/balance' do        
+  
+  get '/a/:slug/stripe_connect' do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
     @membership = @gathering.memberships.find_by(account: current_account)
     gathering_admins_only!
-    discuss 'Balance'
-    erb :'gatherings/balance'
+    response = Mechanize.new.post 'https://connect.stripe.com/oauth/token', client_secret: ENV['STRIPE_SK'], code: params[:code], grant_type: 'authorization_code'
+    @gathering.update_attribute(:stripe_connect_json, response.body)
+    flash[:notice] = "Connected to Stripe!"
+    redirect "/a/#{@gathering.slug}"
+  end   
+  
+  get '/a/:slug/stripe_disconnect' do
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!
+    @gathering.update_attribute(:stripe_connect_json, nil)
+    redirect "/a/#{@gathering.slug}"
   end    
-    
-  post '/a/:slug/pay', :provides => :json do
-    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
-    @membership = @gathering.memberships.find_by(account: current_account)    
-    membership_required!    
-    Stripe.api_key = ENV['STRIPE_SK']
-    session = Stripe::Checkout::Session.create(
-      payment_method_types: ['card'],
-      line_items: [{
-          name: "Payment for #{@gathering.name}",
-          images: [@gathering.image.try(:url)].compact,
-          amount: params[:amount].to_i * 100,
-          currency: @gathering.currency,
-          quantity: 1,
-        }],
-      customer_email: current_account.email,
-      success_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
-      cancel_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
-    )    
-    @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @gathering.currency, :session_id => session.id, :payment_intent => session.payment_intent
-    {session_id: session.id}.to_json
-  end
   
   post '/stripe' do
     payload = request.body.read
@@ -51,8 +39,46 @@ Autopia::App.controller do
     else
       400
     end 
-  end    
-	  
+  end 
+
+  
+  post '/a/:slug/pay', :provides => :json do
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)    
+    membership_required!    
+    Stripe.api_key = ENV['STRIPE_SK']
+    session = Stripe::Checkout::Session.create(
+      payment_method_types: ['card'],
+      line_items: [{
+          name: "Payment for #{@gathering.name}",
+          images: [@gathering.image.try(:url)].compact,
+          amount: params[:amount].to_i * 100,
+          currency: @gathering.currency,
+          quantity: 1,
+        }],
+      customer_email: current_account.email,
+      success_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
+      cancel_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
+      payment_intent_data: {
+        application_fee_amount: (0.01 * params[:amount].to_i * 100).round,
+        transfer_data: {
+          destination: @gathering.stripe_user_id
+        }
+      }
+    )    
+    @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @gathering.currency, :session_id => session.id, :payment_intent => session.payment_intent
+    {session_id: session.id}.to_json
+  end
+  
+  
+  get '/a/:slug/balance' do        
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!
+    discuss 'Balance'
+    erb :'gatherings/balance'
+  end     
+  	  
   post '/a/:slug/payout' do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
     @membership = @gathering.memberships.find_by(account: current_account)
