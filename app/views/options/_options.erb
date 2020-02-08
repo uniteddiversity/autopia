@@ -11,7 +11,7 @@
   <% Option.types.each { |type| %>    
     <tr class="bg-white">
       <td colspan="5">
-        <h3 class="mb-0"><%=type == 'Ticket' ? 'Tickets' : type%></h3>
+        <h3 class="mb-0"><i class="fa <%=Option.icon(type)%>"></i> <%=type == 'Ticket' ? 'Tickets' : type%></h3>
       </td>      
     </tr>
     <% @gathering.options.where(type: type).order('name asc').each { |option| %>

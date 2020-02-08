@@ -46,7 +46,7 @@ class Option
     %w{Ticket Accommodation Transport}
   end
   
-  def icon
+  def self.icon(type)
     case type
     when 'Ticket'
       'fa-ticket'
@@ -55,6 +55,10 @@ class Option
     when 'Transport'
       'fa-bus'
     end
+  end
+  
+  def icon
+    Option.icon(type)
   end
   
   def cost_per_person
