@@ -23,13 +23,15 @@
         <%= option.description %>        
       </td>
       <td>
-        <% case option.type; when 'Ticket' %>
-        <i class="fa fa-ticket"></i> Ticket
-        <% when 'Accommodation' %>
-        <i class="fa fa-home"></i> Accommodation
-        <% when 'Transport' %>
-        <i class="fa fa-bus"></i> Transport
-        <% end %>
+        <span class="label label-primary">
+          <% case option.type; when 'Ticket' %>
+            <i class="fa fa-ticket"></i> Ticket
+          <% when 'Accommodation' %>
+            <i class="fa fa-home"></i> Accommodation
+          <% when 'Transport' %>
+            <i class="fa fa-bus"></i> Transport
+          <% end %>
+        </span>
       </td>
       <td>
         <% if option.split_cost %>
