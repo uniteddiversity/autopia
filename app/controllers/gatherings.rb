@@ -1,5 +1,5 @@
 Autopia::App.controller do
-  
+ 
   get '/gatherings', :provides => [:html, :json] do    
     case content_type
     when :html
@@ -147,5 +147,15 @@ Autopia::App.controller do
     discuss 'Map'
     erb :'gatherings/map'    
   end
+  
+  get '/a/:slug/stripe_connect' do
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found      
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!
+    response = Mechanize.new.post 'https://connect.stripe.com/oauth/token', client_secret: ENV['STRIPE_SK'], code: params[:code], grant_type: 'authorization_code'
+    @gathering.update_attribute(:stripe_connect_json, response.body)
+    flash[:notice] = "Connected to Stripe!"
+    redirect "/a/#{@gathering.slug}"
+  end    
         
 end

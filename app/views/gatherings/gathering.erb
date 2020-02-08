@@ -2,6 +2,15 @@
 
 <div class="row">  
   <div class="col-sm-4 order-sm-2 mb-3">
+
+    <% if admin? %>
+      <% if @gathering.stripe_connect_json %>
+        <a class="btn btn-danger" href="/a/<%=@gathering.slug%>/stripe_disconnect">Disconnect your Stripe account</a>
+      <% elsif current_account %>
+        <a class="btn btn-success" href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=<%=ENV['STRIPE_CLIENT_ID']%>&scope=read_write&redirect_uri=<%= URI.escape "#{ENV['BASE_URI']}/a/#{@gathering.slug}/stripe_connect" %>">Connect your Stripe account</a>
+      <% end %>
+    <% end %>
+
     <div data-pagelet-url="/a/<%=@gathering.slug%>/todos">
       <%= partial :'gatherings/todos' %>
     </div>    
