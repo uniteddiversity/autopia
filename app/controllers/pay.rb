@@ -62,6 +62,7 @@ Autopia::App.controller do
       success_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
       cancel_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}"      
     }
+    session = nil
     if @gathering.stripe_connect_json
       stripe_session_hash.merge!({
           payment_intent_data: {
