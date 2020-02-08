@@ -19,7 +19,7 @@
       <a class="<% if image %>text-white<% else %>text-dark<% end%>" href="/accounts/<%=tactivity.account_id%>"><%=tactivity.account.name%></a>
     </span>
     <div>
-      <div style="display: inline-block" data-pagelet-url="/tactivities/<%=tactivity.id%>/attendees"></div>
+      <div class="<% if image %>text-white<% else %>text-dark<% end%>"  style="display: inline-block" data-pagelet-url="/tactivities/<%=tactivity.id%>/attendees"></div>
     </div>
   </div>  
   <div style="position: absolute; right: 10px; bottom: 10px;">
