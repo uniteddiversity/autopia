@@ -24,8 +24,10 @@
           <% else %>
             <%=option.name%>
           <% end %>            
-          <br />
-          <%= option.description %>        
+          <% if option.description %>
+            <br />
+            <%= option.description.gsub("\n",'<br />') %>        
+          <% end %>
         </td>
         <td>
           <% if option.split_cost %>
