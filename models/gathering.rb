@@ -34,7 +34,8 @@ class Gathering
   field :demand_payment, :type => Boolean
   field :hide_members_on_application_form, :type => Boolean
   field :invitations_granted, :type => Integer
-  field :stripe_connect_json, :type => String  
+  field :stripe_connect_json, :type => String 
+  field :stripe_account_json, :type => String
   field :use_main_stripe, :type => Boolean
   enablable.each { |x|
     field :"enable_#{x}", :type => Boolean
@@ -220,6 +221,7 @@ class Gathering
       :use_main_stripe => :check_box,
       :paypal_email => :text,
       :stripe_connect_json => :text_area,
+      :stripe_account_json => :text_area,
       :currency => :select,
       :facebook_group_url => :url,
       :account_id => :lookup,

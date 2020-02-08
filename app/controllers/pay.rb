@@ -6,6 +6,8 @@ Autopia::App.controller do
     gathering_admins_only!
     response = Mechanize.new.post 'https://connect.stripe.com/oauth/token', client_secret: ENV['STRIPE_SK'], code: params[:code], grant_type: 'authorization_code'
     @gathering.update_attribute(:stripe_connect_json, response.body)
+    Stripe.api_key = ENV['STRIPE_SK']    
+    @gathering.update_attribute(:stripe_account_json, Stripe::Account.retrieve(@gathering.stripe_user_id).to_json)
     flash[:notice] = "Connected to Stripe!"
     redirect "/a/#{@gathering.slug}"
   end   
