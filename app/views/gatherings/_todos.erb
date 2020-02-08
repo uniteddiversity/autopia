@@ -31,7 +31,7 @@
       <td>
         <% if @membership && @membership.tierships.count > 0 %>
           <% @membership.tierships.each { |tiership| %>
-            <a href="/a/<%=@gathering.slug%>/tiers" class="label label-primary"><%= tiership.tier.name %> (<%=@gathering.currency_symbol%><%= tiership.tier.cost_per_person %>)</a> 
+            <a href="/a/<%=@gathering.slug%>/tiers"><span class="label label-primary"><%= tiership.tier.name %> (<%=@gathering.currency_symbol%><%= tiership.tier.cost_per_person %>)</span></a> 
           <% } %>     
         <% else %>
           <a href="/a/<%=@gathering.slug%>/tiers">Join tier</a>
@@ -48,7 +48,7 @@
       <td>
         <% if @membership && @membership.accomships.count > 0 %>
           <% @membership.accomships.each { |accomship| %>
-            <a href="/a/<%=@gathering.slug%>/accoms" class="label label-primary"><%= accomship.accom.name %> (<%=@gathering.currency_symbol%><%= accomship.accom.cost_per_person %>)</a> 
+            <a href="/a/<%=@gathering.slug%>/accoms"><span class="label label-primary"><%= accomship.accom.name %> (<%=@gathering.currency_symbol%><%= accomship.accom.cost_per_person %>)</span></a> 
           <% } %>     
         <% else %>
           <a href="/a/<%=@gathering.slug%>/accoms">Join accommodation</a>
@@ -65,7 +65,7 @@
       <td>
         <% if @membership && @membership.transportships.count > 0 %>
           <% @membership.transportships.each { |transportship| %>
-            <a href="/a/<%=@gathering.slug%>/transports" class="label label-primary"><%= transportship.transport.name %> (<%=@gathering.currency_symbol%><%= transportship.transport.cost_per_person %>)</a> 
+            <a href="/a/<%=@gathering.slug%>/transports"><span class="label label-primary"><%= transportship.transport.name %> (<%=@gathering.currency_symbol%><%= transportship.transport.cost_per_person %>)</span></a> 
           <% } %>     
         <% else %>
           <a href="/a/<%=@gathering.slug%>/transports">Join transport</a>
