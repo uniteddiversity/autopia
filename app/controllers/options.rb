@@ -3,6 +3,7 @@ Autopia::App.controller do
   post '/a/:slug/options/new' do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
+    discuss 'Options'
     gathering_admins_only!    
     @option = @gathering.options.build(params[:option])
     @option.account = current_account
@@ -29,6 +30,7 @@ Autopia::App.controller do
   get '/a/:slug/options/:id/edit' do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
+    discuss 'Options'
     gathering_admins_only!    
     @option = @gathering.options.find(params[:id])
     erb :'options/build'
@@ -37,6 +39,7 @@ Autopia::App.controller do
   post '/a/:slug/options/:id/edit' do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found
     @membership = @gathering.memberships.find_by(account: current_account)
+    discuss 'Options'
     gathering_admins_only!    
     @option = @gathering.options.find(params[:id])
     if @option.update_attributes(mass_assigning(params[:option], Option))

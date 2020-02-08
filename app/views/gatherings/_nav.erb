@@ -22,6 +22,7 @@
     (["Settings", "/a/#{gathering.slug}/edit"] if membership.admin),
     [%Q{Members <span class="label label-inverse">#{gathering.member_limit ? %Q{#{gathering.memberships.count}/#{gathering.member_limit}} : gathering.memberships.count}</span>}, "/a/#{gathering.slug}/members"],
     ([%Q{Applications #{if gathering.mapplications.pending.count > 0; %Q{<span class="label label-inverse">#{gathering.mapplications.pending.count}</span>} end}}, "/a/#{gathering.slug}/applications"] if gathering.privacy == 'closed' or gathering.mapplications.where(:status.ne => 'accepted').count > 0),        
+    (["Options", "/a/#{gathering.slug}/options"] if gathering.enable_options),            
     (["Teams",
         (
           gathering.teams(true).order('name asc').map { |team| [%Q{
@@ -41,7 +42,6 @@
           gathering.rotas(true).map { |rota| [rota.name, "/a/#{gathering.slug}/rotas/#{rota.id}"] } + (membership.admin? ? [['Create a rota', "/a/#{gathering.slug}/rotas/new"]] : [])
         )              
         ] if gathering.enable_rotas),
-    (["Options", "/a/#{gathering.slug}/options"] if gathering.enable_options),        
     (["Inventory", "/a/#{gathering.slug}/inventory"] if gathering.enable_inventory),       
     (["Budget", "/a/#{gathering.slug}/budget"] if gathering.enable_budget)
     ].compact,
