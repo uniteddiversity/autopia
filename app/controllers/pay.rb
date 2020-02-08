@@ -1,6 +1,6 @@
 Autopia::App.controller do
   
-  get '/a/stripe_connect' do
+  get '/stripe_connect' do
     @gathering = Gathering.find_by(slug: params[:state]) || not_found      
     @membership = @gathering.memberships.find_by(account: current_account)
     gathering_admins_only!
