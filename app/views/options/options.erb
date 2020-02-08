@@ -2,7 +2,7 @@
 
 <% if admin? || @membership.admin? %>
   <div class="my-3">
-    <a class="btn btn-primary show" href="javascript:;" onclick="$(this).parent().find('a.show').hide(); $(this).next().show()"><i class="fa fa-plus-circle"></i> List option</a>
+    <a class="btn btn-primary show" href="javascript:;" onclick="$(this).parent().find('a.show').hide(); $(this).next().show()"><i class="fa fa-plus-circle"></i> Add an option</a>
     <div style="display: none" class="option-form">
       <%= partial :'options/build' %>  
     </div>
