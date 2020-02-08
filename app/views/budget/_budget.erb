@@ -6,11 +6,6 @@
         <th style="width: 50%">Item</th>
         <th>Amount</th>
       </tr>
-      <tr>
-        <td colspan="2">
-          <em>Tiers</em>
-        </td>
-      </tr>
 
       <% tiers = @gathering.tiers.select { |tier| tier.tierships.count > 0 }; if tiers.count > 0 %>
         <tr>
