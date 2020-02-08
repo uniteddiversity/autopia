@@ -63,14 +63,18 @@ Autopia::App.controller do
       cancel_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}"      
     }
     if @gathering.stripe_connect_json
-      stripe_session_hash.merge!({
-          payment_intent_data: {
-            on_behalf_of: @gathering.stripe_user_id
-            # application_fee_amount: (ENV['AUTOPIA_CUT'].to_f * params[:amount].to_i * 100).round
-          }
-        })
-    elsif !@gathering.use_main_stripe
-      403
+      #      stripe_session_hash.merge!({
+      #          payment_intent_data: {
+      #            application_fee_amount: (ENV['AUTOPIA_CUT'].to_f * params[:amount].to_i * 100).round
+      #          }
+      #        })
+      session = Stripe::Checkout::Session.create(stripe_session_hash, {stripe_account: @gathering.stripe_user_id})
+    else
+      if @gathering.use_main_stripe
+        session = Stripe::Checkout::Session.create(stripe_session_hash)
+      else
+        403
+      end
     end
     session = Stripe::Checkout::Session.create(stripe_session_hash)
     @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @gathering.currency, :session_id => session.id, :payment_intent => session.payment_intent
