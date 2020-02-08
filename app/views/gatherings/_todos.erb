@@ -73,6 +73,23 @@
       </td>
     </tr>    
   <% end %>  
+    
+  <% if @gathering.enable_options? && @gathering.options.count > 0 %>
+    <tr>
+      <th>
+        Your options
+      </th>
+      <td>
+        <% if @membership && @membership.optionships.count > 0 %>
+          <% @membership.optionships.each { |optionship| %>
+            <a href="/a/<%=@gathering.slug%>/options"><span class="label label-primary"><%= optionship.option.name %> (<%=@gathering.currency_symbol%><%= optionship.option.cost_per_person %>)</span></a> 
+          <% } %>     
+        <% else %>
+          <a href="/a/<%=@gathering.slug%>/options">Select options</a>
+        <% end %>     
+      </td>
+    </tr>
+  <% end %>    
 
   <% if @gathering.enable_teams? && @gathering.teams.count > 0 %>
     <tr>

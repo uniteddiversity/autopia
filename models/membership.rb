@@ -109,6 +109,8 @@ class Membership
   end
   # Transport
   has_many :transportships, :dependent => :destroy
+  # Options
+  has_many :optionships, :dependent => :destroy  
   # Budget
   has_many :spends, :dependent => :destroy
   # Inventory
@@ -130,6 +132,11 @@ class Membership
       if !transportship.flagged_for_destroy?
         c += transportship.transport.cost_per_person
       end
+    }    
+    optionships.each { |optionship|
+      if !optionship.flagged_for_destroy?
+        c += optionship.option.cost_per_person
+      end    
     }    
     c    
   end

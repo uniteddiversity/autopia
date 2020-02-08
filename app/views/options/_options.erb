@@ -1,0 +1,78 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Cost</th>
+      <th>Places taken</th>
+      <th></th>
+      <th>People</th> 
+    </tr>
+  </thead>
+  <% @gathering.options.order('name asc').each { |option| %>
+    <tr>
+      <td>
+        <% if admin? || @membership.admin? %>
+          <a href="/a/<%=@gathering.slug%>/options/<%=option.id%>/edit">
+            <%=option.name%>
+          </a>
+        <% else %>
+          <%=option.name%>
+        <% end %>            
+        <br />
+        <%= option.description %>        
+      </td>
+      <td>
+        <% if option.split_cost %>
+          <%=@gathering.currency_symbol%><%=option.cost%> total
+          <% if option.cost_per_person %>
+            (<%=@gathering.currency_symbol%><%=option.cost_per_person%>/person)
+          <% end %>        
+        <% else %>
+          <%=@gathering.currency_symbol%><%=option.cost%>/person
+        <% end %>
+      </td>
+      <td>
+        <%=option.optionships.count%>/<%=option.capacity || '&infin;' %>
+        <% if option.capacity %>
+          <% if option.full? %>
+            <span class="label label-danger">Full</span>
+          <% else %>
+            <span class="label label-success">Spaces</span>
+          <% end %>
+        <% end %>
+      </td>      
+      <td>
+        <% if optionship = @gathering.optionships.find_by(option: option, account: current_account) %>
+          <a class="pagelet-trigger btn btn-primary" href="/optionships/<%=optionship.id%>/destroy">Leave</a>
+        <% elsif !option.full? %>
+          <a class="pagelet-trigger btn btn-primary" href="/optionships/create?option_id=<%=option.id%>">Join</a>
+        <% end %>
+      </td>      
+      <td>
+        <% y = [] %>
+        <% option.optionships.each { |optionship| account = optionship.account; %>
+          <% if params[:view] == 'names' %>
+            <% y << capture do %>   
+              <%= account.name %>
+            <% end %>
+          <% else %>
+            <% y << capture do %>
+              <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+            <% end %>
+          <% end %>
+        <% } %>
+        <% if params[:view] == 'names' %>
+          <%= y.map(&:strip).join(', ') %>
+        <% else %>
+          <div class="image-wall">
+            <%= y.map(&:strip).join('') %>
+          </div>
+        <% end %>      
+      </td>
+    </tr>
+  <% } %>
+</table>
+
+<% if params[:view] != 'names' %>
+  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@gathering.slug%>/options?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+<% end %>

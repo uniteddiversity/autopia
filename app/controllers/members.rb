@@ -149,27 +149,7 @@ Autopia::App.controller do
     membership.save
     200
   end  
-      
-  post '/memberships/:id/tier' do
-    membership = Membership.find(params[:id]) || not_found
-    @gathering = membership.gathering
-    @membership = @gathering.memberships.find_by(account: current_account)
-    (membership.id == @membership.id) or gathering_admins_only!
-    @gathering.tierships.find_by(account: membership.account_id).try(:destroy)
-    @gathering.tierships.create(account: membership.account_id, tier_id: params[:tier_id])
-    200
-  end    
-      
-  post '/memberships/:id/accom' do
-    membership = Membership.find(params[:id]) || not_found
-    @gathering = membership.gathering
-    @membership = @gathering.memberships.find_by(account: current_account)
-    (membership.id == @membership.id) or gathering_admins_only!
-    @gathering.accomships.find_by(account: membership.account_id).try(:destroy)
-    @gathering.accomships.create(account: membership.account_id, accom_id: params[:accom_id])
-    200
-  end   
-            
+                  
   post '/memberships/:id/member_of_facebook_group' do
     membership = Membership.find(params[:id]) || not_found
     @gathering = membership.gathering

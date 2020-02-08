@@ -26,7 +26,7 @@ class Notification
   end
 
   def self.types
-    %w[created_gathering applied joined_gathering created_team created_timetable created_tactivity created_rota created_tier created_accom created_transport created_spend created_room created_place updated_profile updated_place completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_tactivity scheduled_tactivity unscheduled_tactivity made_admin unadmined commented reacted_to_a_comment left_gathering created_payment created_inventory_item mapplication_removed]
+    %w[created_gathering applied joined_gathering created_team created_timetable created_tactivity created_rota created_tier created_accom created_transport created_option created_spend created_room created_place updated_profile updated_place completed_a_habit liked_a_habit_completion joined_team signed_up_to_a_shift interested_in_tactivity scheduled_tactivity unscheduled_tactivity made_admin unadmined commented reacted_to_a_comment left_gathering created_payment created_inventory_item mapplication_removed]
   end
 
   def self.mailable_types
@@ -122,6 +122,9 @@ class Notification
     when :created_accom
       accom = notifiable
       "<strong>#{accom.account.name}</strong> created the accommodation <strong>#{accom.name}</strong>"
+    when :created_option
+      option = notifiable
+      "<strong>#{option.account.name}</strong> created the option <strong>#{option.name}</strong>"      
     when :created_rota
       rota = notifiable
       "<strong>#{rota.account.name}</strong> created the rota <strong>#{rota.name}</strong>"
@@ -251,6 +254,8 @@ class Notification
       ['View team', "#{ENV['BASE_URI']}/a/#{circle.slug}/teams/#{notifiable.id}"]
     when :created_accom
       ['View accommodation', "#{ENV['BASE_URI']}/a/#{circle.slug}/accoms"]
+    when :created_option
+      ['View options', "#{ENV['BASE_URI']}/a/#{circle.slug}/options"]      
     when :created_rota
       ['View rotas', "#{ENV['BASE_URI']}/a/#{circle.slug}/rotas/#{notifiable.id}"]
     when :scheduled_tactivity
@@ -316,6 +321,8 @@ class Notification
       'fa-group'
     when :created_accom
       'fa-home'
+    when :created_option
+      'fa-check'      
     when :created_rota
       'fa-table'
     when :scheduled_tactivity

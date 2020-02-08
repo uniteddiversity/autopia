@@ -1,0 +1,8 @@
+<% form_for @option ||= Option.new, @option.new_record? ? "/a/#{@gathering.slug}/options/new" : "/a/#{@gathering.slug}/options/#{@option.id}/edit" do |f| %>
+  <%= f.text_block :name %>
+  <%= f.text_area_block :description %>
+  <%= f.number_block :capacity %>
+  <%= f.number_block :cost %>
+  <%= f.check_box_block :split_cost %>
+  <%= f.submit_block destroy_url: "/a/#{@gathering.slug}/options/#{@option.id}/destroy" %>
+<% end %>  

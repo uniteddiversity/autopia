@@ -172,6 +172,9 @@ class Account
   # Transport
   has_many :transports, dependent: :nullify
   has_many :transportships, dependent: :destroy
+  # Options
+  has_many :options, dependent: :nullify
+  has_many :optionships, dependent: :destroy    
   # Budget
   has_many :spends, dependent: :destroy
   # Inventory

@@ -6,7 +6,7 @@ class Gathering
   dragonfly_accessor :image
   
   def self.enablable
-    %w{teams timetables rotas tiers accommodation transport inventory budget comments_on_gathering_homepage}
+    %w{teams timetables rotas tiers accommodation transport options inventory budget comments_on_gathering_homepage}
   end  
   
   field :name, :type => String
@@ -133,10 +133,13 @@ class Gathering
   has_many :tierships, :dependent => :destroy
   # Accommodation
   has_many :accoms, :dependent => :destroy
-  has_many :accomships, :dependent => :destroy
+  has_many :accomships, :dependent => :destroy 
   # Transport
   has_many :transports, :dependent => :destroy
   has_many :transportships, :dependent => :destroy
+  # Options
+  has_many :options, :dependent => :destroy
+  has_many :optionships, :dependent => :destroy  
   # Budget  
   has_many :spends, :dependent => :destroy
   # Inventory
@@ -193,6 +196,13 @@ class Gathering
         i += transport.cost*transport.transportships.count
       end
     }
+    options.each { |option|
+      if option.split_cost && option.optionships.count > 0
+        i += option.cost
+      else
+        i += option.cost*option.optionships.count
+      end
+    }    
     i
   end  
   
@@ -387,6 +397,11 @@ end
 if enable_transport
 y << [:with_transport, 'With transport', memberships.where(:account_id.in => transportships.pluck(:account_id))]
 y << [:without_transport, 'Without transport', memberships.where(:account_id.nin => transportships.pluck(:account_id))]
+end  
+
+if enable_options
+y << [:with_options, 'With options', memberships.where(:account_id.in => optionships.pluck(:account_id))]
+y << [:without_options, 'Without options', memberships.where(:account_id.nin => optionships.pluck(:account_id))]
 end  
 
 if facebook_group_url
