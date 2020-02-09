@@ -62,21 +62,19 @@ Autopia::App.controller do
       success_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}",
       cancel_url: "#{ENV['BASE_URI']}/a/#{@gathering.slug}"      
     }
-    session = nil
     if @gathering.stripe_connect_json
       stripe_session_hash.merge!({
           payment_intent_data: {
-            application_fee_amount: (ENV['AUTOPIA_CUT'].to_f * params[:amount].to_i * 100).round
+            application_fee_amount: (ENV['AUTOPIA_CUT'].to_f * params[:amount].to_i * 100).round,
+            transfer_data: {
+              destination: @gathering.stripe_user_id
+            }
           }
         })
-      session = Stripe::Checkout::Session.create(stripe_session_hash, {stripe_account: @gathering.stripe_user_id})
-    else
-      if @gathering.use_main_stripe
-        session = Stripe::Checkout::Session.create(stripe_session_hash)
-      else
-        403
-      end
-    end    
+    elsif !@gathering.use_main_stripe
+      403
+    end
+    session = Stripe::Checkout::Session.create(stripe_session_hash)
     @membership.payment_attempts.create! :amount => params[:amount].to_i, :currency => @gathering.currency, :session_id => session.id, :payment_intent => session.payment_intent
     {session_id: session.id}.to_json
   end
