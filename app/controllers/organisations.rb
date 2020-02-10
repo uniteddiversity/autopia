@@ -278,6 +278,7 @@ Autopia::App.controller do
     @organisationships = @organisation.organisationships
     @organisationships = @organisationships.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:name])}/i).pluck(:id)) if params[:name]
     @organisationships = @organisationships.where(:account_id.in => Account.where(email: /#{::Regexp.escape(params[:email])}/i).pluck(:id)) if params[:email]
+    @organisationships = @organisationships.where(:monthly_donation_method.ne => nil) if params[:monthly_donor]
     @organisationships = @organisationships.paginate(:page => params[:page], :per_page => 25).order('created_at desc')
     erb :'organisations/members'
   end

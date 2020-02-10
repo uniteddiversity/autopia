@@ -5,6 +5,7 @@
   <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
     Name <%= text_field_tag :name, :class => 'form-control mr-1 mb-1 mb-sm-0', :style => 'width: auto; display: inline-block', :value => params[:name] %> 
     Email <%= text_field_tag :email, :class => 'form-control mr-1 mb-1 mb-sm-0', :style => 'width: auto; display: inline-block', :value => params[:email] %> 
+    Monthly donor <%= check_box_tag :monthly_donor, :checked => params[:monthly_donor] %>
     <%= submit_tag 'Search', :class => 'btn btn-primary' %>
   <% end %>
 </div>
@@ -14,7 +15,8 @@
     <tr>
       <th>Name</th>
       <th>Email</th>
-      <th>Activities</th>
+      <th>Monthly donation</th>
+      <th>Activities</th>      
       <th></th>
     </tr>
   </thead>
@@ -26,6 +28,12 @@
       </td>
       <td>
         <%=account.email%>
+      </td>
+      <td>
+        <% if organisationship.monthly_donation_method %>
+          <%=number_to_currency organisationship.monthly_donation_amount, unit: '£', precision: 2%>/month
+          via <%=organisationship.monthly_donation_method%> since <%=organisationship.monthly_donation_start_date%>
+        <% end %>
       </td>
       <td>
         <% Activityship.where(:account => account, :activity_id.in => @organisation.activities.pluck(:id)).each { |activityship| %>
