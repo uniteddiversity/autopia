@@ -64,6 +64,7 @@ class Account
     self.name = name.strip if name
     self.name_transliterated = I18n.transliterate(name) if name
     self.username = username.downcase if username
+    self.email = email.downcase if email
     self.sign_ins = 0 if !sign_ins
     if self.postcode
       self.location = "#{self.postcode}, UK"

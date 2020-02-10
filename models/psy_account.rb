@@ -18,12 +18,15 @@ class PsyAccount
     begin    
      
       account = Account.find_by(email: /^#{::Regexp.escape(p['email'])}$/i)
-      if !account
+      if !account and !p['email'].include?(',')
         account = Account.new
         account.ps_account_id = p['id']
         account.name = p['name'] || p['email'].split('@').first
         account.email = p['email']
         account.date_of_birth = p['dob']
+        if account.age < 0
+          account.date_of_birth = nil
+        end
         account.gender = p['gender'] == 'Nonbinary' ? 'Non-binary' : p['gender']
         account.time_zone = p['time_zone']
         account.crypted_password = p['crypted_password']
