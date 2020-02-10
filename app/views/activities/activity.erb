@@ -31,13 +31,15 @@
             <a target="_blank" href="<%=@activity.website%>"><%=@activity.website%></a>
           </td>
         </tr>
-      <% end %>     
-      <tr>
-        <td>Created by</td>
-        <td>
-          <a href="/u/<%=@activity.account.username%>"><%=@activity.account.name%></a>
-        </td>
-      </tr>
+      <% end %>   
+      <% if @activity.account %>
+        <tr>
+          <td>Created by</td>
+          <td>
+            <a href="/u/<%=@activity.account.username%>"><%=@activity.account.name%></a>
+          </td>
+        </tr>
+      <% end %>
     </table>
   </div>
 </div>

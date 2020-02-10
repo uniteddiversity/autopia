@@ -8,6 +8,9 @@ class Organisationship
   field :monthly_donation_method, type: String
   field :monthly_donation_amount, type: Float
   field :monthly_donation_start_date, type: Date  
+  field :why_i_joined, type: String    
+  field :why_i_joined_public, type: Boolean   
+  field :why_i_joined_edited, type: String  
       
   belongs_to :account, index: true
   belongs_to :organisation, index: true
@@ -27,7 +30,10 @@ class Organisationship
       stripe_connect_json: :text_area,
       monthly_donation_amount: :number,
       monthly_donation_method: :select,  
-      monthly_donation_start_date: :date 
+      monthly_donation_start_date: :date,
+      why_i_joined: :text_area,
+      why_i_joined_public: :check_box,
+      why_i_joined_edited: :text_area
     }
   end
   

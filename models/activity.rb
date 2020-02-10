@@ -7,7 +7,7 @@ class Activity
   field :email, :type => String
   field :website, :type => String
   field :image_uid, :type => String    
-  #  field :vat_category, :type => String
+  field :vat_category, :type => String
   field :hide_members, :type => Boolean
   field :privacy, :type => String
   field :application_questions, :type => String
@@ -19,7 +19,7 @@ class Activity
   #  has_many :pmails, :dependent => :nullify
 
   belongs_to :organisation
-  belongs_to :account
+  belongs_to :account, optional: true
   
   has_many :posts, as: :commentable, dependent: :destroy
   has_many :subscriptions, as: :commentable, dependent: :destroy
@@ -54,7 +54,7 @@ class Activity
       :name => :text,
       :email => :email,
       :website => :url,
-      #      :vat_category => :select,
+      :vat_category => :select,
       :image => :image,      
       :events => :collection,
       :hide_members => :check_box,
@@ -64,9 +64,9 @@ class Activity
     }
   end
   
-  #  def self.vat_categories
-  #    ['', 'Taught', 'Performance', 'Participatory']
-  #  end
+  def self.vat_categories
+    ['', 'Taught', 'Performance', 'Participatory']
+  end
 
   def subscribers
     subscribed_members

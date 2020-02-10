@@ -4,6 +4,8 @@ development:
       database: <%= File.basename(PADRINO_ROOT) %>
       hosts:
         - localhost:27017
+    psychedelicsociety:
+      uri: <%= ENV['PS_MONGODB_URI'] %>
         
 test:
   clients:
@@ -16,3 +18,5 @@ production:
   clients:
     default:
       uri: <%= ENV['MONGODB_URI'] || ENV['MONGO_URL'] %>
+    psychedelicsociety:
+      uri: <%= ENV['PS_MONGODB_URI'] %>

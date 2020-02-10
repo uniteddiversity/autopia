@@ -3,10 +3,12 @@ class Account
   include Mongoid::Timestamps
   include Geocoder::Model::Mongoid
   extend Dragonfly::Model
-
+      
   field :name, type: String
   field :name_transliterated, type: String
+  field :ps_account_id, type: String
   field :email, type: String
+  field :phone, type: String
   field :username, type: String
   field :website, type: String
   field :gender, type: String
@@ -233,7 +235,7 @@ class Account
   end
 
   def picture_thumb_or_gravatar_url
-    picture ? picture.thumb('400x400#').url : "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.downcase)}?s=400&d=#{URI.encode("#{ENV['BASE_URI']}/images/silhouette.png")}"
+    picture ? picture.thumb('400x400#').url : (Padrino.env == :development ? '/images/silhouette.png' : "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email.downcase)}?s=400&d=#{URI.encode("#{ENV['BASE_URI']}/images/silhouette.png")}")
   end
 
   def unread_notifications?
@@ -267,9 +269,12 @@ class Account
     {
       name: :text,
       name_transliterated: { type: :text, disabled: true },
+      ps_account_id: :text,
       facebook_name: :text,
       default_currency: :select,
       email: :text,
+      phone: :text,
+      location: :text,
       username: :text,
       website: :url,
       gender: :select,

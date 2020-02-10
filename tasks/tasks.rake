@@ -1,3 +1,17 @@
+
+namespace :organisations do
+  
+  task :sync_monthly_donations => :environment do
+    Organisation.where(:gocardless_access_token.ne => nil).each { |organisation|
+      organisation.sync_with_gocardless
+    }
+    Organisation.where(:patreon_api_key.ne => nil).each { |organisation|
+      organisation.sync_with_patreon
+    }        
+  end
+  
+end
+
 namespace :events do
   
   task :delete_stale_uncompleted_orders => :environment do
