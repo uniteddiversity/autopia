@@ -18,11 +18,11 @@ class PsyAccount
     begin    
      
       account = Account.find_by(email: /^#{::Regexp.escape(p['email'])}$/i)
-      if !account and !p['email'].include?(',')
+      if !account 
         account = Account.new
         account.ps_account_id = p['id']
         account.name = p['name'] || p['email'].split('@').first
-        account.email = p['email']
+        account.email = p['email'].gsub(',','.')
         account.date_of_birth = p['dob']
         if account.age < 0
           account.date_of_birth = nil
