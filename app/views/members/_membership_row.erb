@@ -8,7 +8,7 @@
   <% end %>  
   <div>
     <% membership.teamships.each { |teamship| unless teamship.team.name == 'General' %>
-        <a href="/a/<%=@gathering.slug%>/teams/<%=teamship.team_id%>"><span class="label label-primary"><%=teamship.team.name%></span></a>
+        <a href="/a/<%=@gathering.slug%>/teams/<%=teamship.team_id%>"><span class="label label-primary d-inline-block mb-1"><%=teamship.team.name%></span></a>
       <% end } %>        
   </div>
 </td>
@@ -29,7 +29,7 @@
     <%= membership.created_at %>          
   <% end %>
   <% if mapplication %>  
-    <span title="Accepted at <%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %> <%=@gathering.vouchers%>" class="label label-primary"><%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %></span>
+    <span title="Accepted at <%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %> <%=@gathering.vouchers%>" class="label label-primary d-inline-block mb-1"><%=  mapplication.verdicts.proposers.count + mapplication.verdicts.supporters.count %></span>
   <% end %>          
 </td>
 <% if @gathering.democratic_threshold %>

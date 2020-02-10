@@ -272,4 +272,22 @@ Autopia::App.controller do
     redirect "/organisations/#{@organisation.id}/tiers"
   end
   
+  get '/organisations/:id/members' do
+    @organisation = Organisation.find(params[:id]) || not_found
+    organisation_admins_only!
+    @organisationships = @organisation.organisationships
+    @organisationships = @organisationships.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:name])}/i).pluck(:id)) if params[:name]
+    @organisationships = @organisationships.where(:account_id.in => Account.where(email: /#{::Regexp.escape(params[:email])}/i).pluck(:id)) if params[:email]
+    @organisationships = @organisationships.paginate(:page => params[:page], :per_page => 25).order('created_at desc')
+    erb :'organisations/members'
+  end
+  
+  get '/organisationships/:id/destroy' do
+    @organisationship = Organisationship.find(params[:id]) || not_found
+    @organisation = @organisationship.organisation
+    organisation_admins_only!    
+    @organisationship.destroy
+    redirect back
+  end  
+  
 end

@@ -2,7 +2,7 @@
   <p>    
     <% if current_account.open_to.count > 0 %>
       You're open to:
-      <%=current_account.open_to.map { |x| %Q{<a href="/connect?open_to_#{x}=true" class="text-white label label-primary">#{x.humanize}</a>} }.join(' ') %>
+      <%=current_account.open_to.map { |x| %Q{<a href="/connect?open_to_#{x}=true" class="text-white label label-primary d-inline-block mb-1">#{x.humanize}</a>} }.join(' ') %>
       <a href="/accounts/edit">Change</a>
     <% else %>
       <a href="/accounts/edit">Choose what you're open to</a>

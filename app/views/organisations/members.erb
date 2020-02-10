@@ -1,0 +1,42 @@
+<%= partial :'organisations/nav', :locals => {:organisation => @organisation} %>
+
+<div class="mb-3">
+
+  <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
+    Name <%= text_field_tag :name, :class => 'form-control mr-1 mb-1 mb-sm-0', :style => 'width: auto; display: inline-block', :value => params[:name] %> 
+    Email <%= text_field_tag :email, :class => 'form-control mr-1 mb-1 mb-sm-0', :style => 'width: auto; display: inline-block', :value => params[:email] %> 
+    <%= submit_tag 'Search', :class => 'btn btn-primary' %>
+  <% end %>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Activities</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <% @organisationships.each { |organisationship| account = organisationship.account %>
+    <tr>
+      <td>
+        <%= partial :'accounts/account', :object => account %>
+      </td>
+      <td>
+        <%=account.email%>
+      </td>
+      <td>
+        <% Activityship.where(:account => account, :activity_id.in => @organisation.activities.pluck(:id)).each { |activityship| %>
+          <a href="/activities/<%=activityship.activity_id%>" class="label label-primary text-white d-inline-block mb-1"><%=activityship.activity.name%></a>
+        <% } %>
+      </td>
+      <td>
+        <a data-confirm="Are you sure you want to remove this person from this organisation?" class="btn btn-danger btn-sm" href="/organisationships/<%=organisationship.id%>/destroy"><i class="fa fa-times"></i></a>
+      </td>
+    </tr>  
+  <% } %>
+</table>
+
+<%= will_paginate @organisationships, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>

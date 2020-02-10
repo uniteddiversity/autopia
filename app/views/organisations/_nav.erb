@@ -6,6 +6,7 @@
       (['Edit organisation', "/organisations/#{organisation.id}/edit"] if organisation_admin?((organisation))),      
       (['Event stats', "/organisations/#{organisation.id}/events/stats"]  if organisation_admin?((organisation))),
       (['Tiers', "/organisations/#{organisation.id}/tiers"]  if organisation_admin?((organisation))),
+      ['Members', "/organisations/#{organisation.id}/members"],      
       ['Mailer', "/organisations/#{organisation.id}/pmails"]      
       ].compact, ul_class: 'nav nav-tabs', li_class: 'nav-item', a_class: 'nav-link' %>
   </div>
