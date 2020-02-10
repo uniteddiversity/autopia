@@ -101,7 +101,7 @@ module Autopia
           @places = Place.where(name: /#{::Regexp.escape(params[:q])}/i)
           @places = @places.paginate(page: params[:page], per_page: 10).order('name asc')
         else
-          @accounts = Account.all
+          @accounts = Account.where(:sign_ins.gt => 0)
           if params[:q]
             @accounts = @accounts.or(
               { name: /#{::Regexp.escape(params[:q])}/i },

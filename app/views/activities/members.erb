@@ -1,0 +1,36 @@
+<%= partial :'activities/nav', :locals => {:activity => @activity} %>
+
+<div class="mb-3">
+
+  <% form_tag '', :class => 'form-inline', :style => 'display:inline', :method => 'get' do %>
+    Name <%= text_field_tag :name, :class => 'form-control mr-1 mb-1 mb-sm-0', :style => 'width: auto; display: inline-block', :value => params[:name] %> 
+    Email <%= text_field_tag :email, :class => 'form-control mr-1 mb-1 mb-sm-0', :style => 'width: auto; display: inline-block', :value => params[:email] %> 
+    <%= submit_tag 'Search', :class => 'btn btn-primary' %>
+  <% end %>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <% @activityships.each { |activityship| account = activityship.account %>
+    <tr>
+      <td>
+        <%= partial :'accounts/account', :object => account %>
+      </td>
+      <td>
+        <%=account.email%>
+      </td>
+      <td>
+        <a data-confirm="Are you sure you want to remove this person from this activity?" class="btn btn-danger btn-sm" href="/activityships/<%=activityship.id%>/destroy"><i class="fa fa-times"></i></a>
+      </td>
+    </tr>  
+  <% } %>
+</table>
+
+<%= will_paginate @activityships, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>

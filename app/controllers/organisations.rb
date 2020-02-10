@@ -245,15 +245,31 @@ Autopia::App.controller do
   end
 
   get '/organisations/:id/organisation_tiers/:organisation_tier_id/edit' do
-    # TODO
+    @organisation = Organisation.find(params[:id]) || not_found
+    organisation_admins_only!
+    @organisation_tier = @organisation.organisation_tiers.find(params[:organisation_tier_id])
+    erb :'organisation_tiers/build'
   end
 
   post '/organisations/:id/organisation_tiers/:organisation_tier_id/edit' do
-    # TODO
+    @organisation = Organisation.find(params[:id]) || not_found
+    organisation_admins_only!
+    @organisation_tier = @organisation.organisation_tiers.find(params[:organisation_tier_id])
+    if @organisation_tier.update_attributes(mass_assigning(params[:organisation_tier], OrganisationTier))
+      redirect "/organisations/#{@organisation.id}/tiers"
+    else
+      flash[:error] = 'There was an error saving the organisation tier.'
+      discuss 'Organisations'
+      erb :'organisation_tiers/build'
+    end
   end
 
   get '/organisations/:id/organisation_tiers/:organisation_tier_id/destroy' do
-    # TODO
+    @organisation = Organisation.find(params[:id]) || not_found
+    organisation_admins_only!
+    @organisation_tier = @organisation.organisation_tiers.find(params[:organisation_tier_id])
+    @organisation_tier.destroy
+    redirect "/organisations/#{@organisation.id}/tiers"
   end
   
 end

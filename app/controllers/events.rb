@@ -111,7 +111,7 @@ Autopia::App.controller do
     params[:detailsForm].each { |_k, v| detailsForm[v['name']] = v['value'] }
     email = detailsForm['account[email]']
 
-    account_hash = { name: detailsForm['account[name]'], email: email }
+    account_hash = { name: detailsForm['account[name]'], email: email, postcode: detailsForm['account[postcode]'] }
     @account = if (account = Account.find_by(email: /^#{::Regexp.escape(email)}$/i))
       account
     else
@@ -135,6 +135,7 @@ Autopia::App.controller do
 
     total_check = (order.tickets.sum(&:price) + order.donations.sum(&:amount))
     if current_account && (organisationship = @event.organisation.organisationships.find_by(account: current_account)) && organisationship.monthly_donor? && organisationship.monthly_donor_discount > 0
+      order.set(before_discount: total_check)
       total_check = (total_check*(100-organisationship.monthly_donor_discount)/100).floor
     end
     

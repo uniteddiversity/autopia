@@ -8,7 +8,7 @@ class OrganisationTier
   field :discount, :type => Integer
   
   belongs_to :organisation, index: true
-  validates_presence_of :name, :threshold
+  validates_presence_of :name, :threshold, :discount
             
   def self.admin_fields
     {

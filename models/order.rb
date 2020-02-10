@@ -3,6 +3,7 @@ class Order
   include Mongoid::Timestamps
 
   field :value, type: Integer
+  field :before_discount, type: Integer
   field :session_id, type: String
   field :payment_intent, type: String
   field :payment_completed, type: Boolean
@@ -16,6 +17,7 @@ class Order
   def self.admin_fields
     {
       value: :number,
+      before_discount: :number,
       session_id: :text,
       payment_intent: :text,
       payment_completed: :check_box,
@@ -49,7 +51,13 @@ class Order
   
   after_create do
     if event.activity && event.activity.privacy == 'open'
-      event.activity.activityships.create account: account      
+      event.activity.activityships.create account: account
+    end
+    if event.organisation
+      event.organisation.organisationships.create account: account
+    end
+    if event.local_group
+      event.local_group.local_groupships.create account: account
     end   
   end
   

@@ -63,7 +63,11 @@ class Account
     self.name = name.strip if name
     self.name_transliterated = I18n.transliterate(name) if name
     self.username = username.downcase if username
-
+    self.sign_ins = 0 if !sign_ins
+    if self.postcode
+      self.location = "#{self.postcode}, UK"
+    end
+    
     errors.add(:name, 'must not contain an @') if name && name.include?('@')
     errors.add(:email, 'must not contain commas') if self.email and self.email.include?(',')
     errors.add(:email, 'must not contain semicolons') if self.email and self.email.include?(';')
@@ -245,7 +249,7 @@ class Account
   has_many :provider_links, dependent: :destroy
   accepts_nested_attributes_for :provider_links
 
-  attr_accessor :password
+  attr_accessor :password, :postcode
 
   validates_presence_of :name, :username, :email
   validates_length_of       :email,    within: 3..100
@@ -302,7 +306,6 @@ class Account
 
   def self.new_hints
     {
-      email: 'Shown only to people in your gatherings',
       password: 'Leave blank to keep existing password'
     }
   end
@@ -435,20 +438,20 @@ Two Spirit).split("\n")
     self.password = Account.generate_password(8)
     if save
       
-    mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
-    batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
+      mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
+      batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
     
-    account = self
-    content = ERB.new(File.read(Padrino.root('app/views/emails/reset_password.erb'))).result(binding)
-    batch_message.from ENV['NOTIFICATION_EMAIL']
-    batch_message.subject 'New password for Autopia'
-    batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
+      account = self
+      content = ERB.new(File.read(Padrino.root('app/views/emails/reset_password.erb'))).result(binding)
+      batch_message.from ENV['NOTIFICATION_EMAIL']
+      batch_message.subject 'New password for Autopia'
+      batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
                 
-    [account].each { |account|
-      batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
-    }
+      [account].each { |account|
+        batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
+      }
         
-    batch_message.finalize
+      batch_message.finalize
     
     else
       return false

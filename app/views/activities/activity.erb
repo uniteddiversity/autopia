@@ -55,7 +55,7 @@
   }  %>
 
 <% unless @activity.hide_members? %>
-  <div data-pagelet-url="/activities/<%=@activity.id%>/members">
+  <div data-pagelet-url="/activities/<%=@activity.id%>/members_panel">
     <%= partial :'activities/members' %>
   </div>
 <% end %>

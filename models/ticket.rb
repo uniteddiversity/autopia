@@ -42,6 +42,12 @@ class Ticket
     if event.activity && event.activity.privacy == 'open'
       event.activity.activityships.create account: account
     end
+    if event.organisation
+      event.organisation.organisationships.create account: account
+    end
+    if event.local_group
+      event.local_group.local_groupships.create account: account
+    end    
     # ticket might be destroyed again, so this should move
     event.waitships.find_by(account: account).try(:destroy)
   end  

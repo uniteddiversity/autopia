@@ -17,6 +17,7 @@ class Organisation
   field :mailgun_domain, type: String
   field :location, type: String
   field :coordinates, type: Array
+  field :collect_postcode, type: Boolean
   
   # Geocoder
   geocoded_by :location
@@ -29,6 +30,10 @@ class Organisation
   end
   after_validation do
     geocode || (self.coordinates = nil)
+  end
+  
+  after_create do
+    organisationships.create account: account, admin: true
   end
 
   validates_presence_of :name
@@ -104,7 +109,8 @@ class Organisation
       gocardless_access_token: :text,
       patreon_api_key: :text,
       mailgun_api_key: :text,
-      mailgun_domain: :text
+      mailgun_domain: :text,
+      collect_postcode: :check_box
     }
   end
 

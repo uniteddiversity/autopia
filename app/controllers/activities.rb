@@ -96,7 +96,7 @@ Autopia::App.controller do
     request.xhr? ? (partial :'activities/activityship', locals: { activity: @activity, btn_class: params[:btn_class] }) : redirect("/activities/#{@activity.id}")
   end 
   
-  get '/activities/:id/members' do
+  get '/activities/:id/members_panel' do
     @activity = Activity.find(params[:id]) || not_found
     partial :'activities/members'
   end  
@@ -114,5 +114,23 @@ Autopia::App.controller do
     @activity.activityships.find_by(account: current_account).update_attribute(:hide_membership, false)
     200
   end  
+  
+  get '/activities/:id/members' do
+    @activity = Activity.find(params[:id]) || not_found
+    activity_admins_only!
+    @activityships = @activity.activityships
+    @activityships = @activityships.where(:account_id.in => Account.where(name: /#{::Regexp.escape(params[:name])}/i).pluck(:id)) if params[:name]
+    @activityships = @activityships.where(:account_id.in => Account.where(email: /#{::Regexp.escape(params[:email])}/i).pluck(:id)) if params[:email]
+    @activityships = @activityships.paginate(:page => params[:page], :per_page => 25).order('created_at desc')
+    erb :'activities/members'
+  end
+  
+  get '/activityships/:id/destroy' do
+    @activityship = Activityship.find(params[:id]) || not_found
+    @activity = @activityship.activity
+    activity_admins_only!    
+    @activityship.destroy
+    redirect back
+  end
   
 end

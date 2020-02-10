@@ -102,7 +102,7 @@ Autopia::App.controller do
   end
 
   get '/u/:username' do
-    @account = Account.find_by(username: params[:username]) || not_found
+    @account = Account.find_by(username: params[:username]) || not_found    
     # @notifications = @account.notifications_as_circle.order('created_at desc').page(params[:page])
     @habits = @account.habits.where(public: true).where(:archived.ne => true)
     @places = @account.places_following.order('name_transliterated asc')
@@ -110,9 +110,17 @@ Autopia::App.controller do
     @placeship_category = PlaceshipCategory.new if current_account && current_account.id == @account.id
     discuss 'User profiles'
     if request.xhr?
-      partial :'accounts/modal'
+      if @account.sign_ins == 0
+        partial :'accounts/private'
+      else      
+        partial :'accounts/modal'
+      end
     else
-      erb :'accounts/account'
+      if @account.sign_ins == 0
+        flash[:notice] = 'That profile is private' and redirect '/search'
+      else
+        erb :'accounts/account'
+      end
     end
   end
 

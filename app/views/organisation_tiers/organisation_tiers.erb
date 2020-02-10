@@ -18,7 +18,9 @@
   <% @organisation.organisation_tiers(true).order('threshold asc').each { |organisation_tier| %>
     <tr>
       <td>
-        <strong><%= organisation_tier.name %></strong>
+        <a href="/organisations/<%=@organisation.id%>/organisation_tiers/<%=organisation_tier.id%>/edit">
+          <%= organisation_tier.name %>
+        </a>
         <br />
         <%=organisation_tier.description%>
       </td>
