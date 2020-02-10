@@ -70,8 +70,8 @@ class PsyAccount
         end
       }
   
-    rescue
-      puts "failed to migrate #{p['email']}"
+    rescue => e
+      puts "failed to migrate #{p['email']}: #{e}"
     end
   end
 end
