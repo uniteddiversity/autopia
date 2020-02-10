@@ -15,9 +15,8 @@ class PsyAccount
   def migrate
     p = self
      
-    if account = Account.find_by(email: /^#{::Regexp.escape(p['email'])}$/i)
-      puts "found #{p['account']}"
-    else
+    account = Account.find_by(email: /^#{::Regexp.escape(p['email'])}$/i)
+    if !account
       account = Account.new
       account.ps_account_id = p['id']
       account.name = p['name']
