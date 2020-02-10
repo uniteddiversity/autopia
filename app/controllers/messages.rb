@@ -10,7 +10,7 @@ Autopia::App.controller do
     else   
       message = current_account.messages.order('created_at desc').first
       if message
-        discuss 'Messages'
+        # discuss 'Messages'
         erb :'messages/messages'
       else
         redirect '/search'
@@ -32,7 +32,7 @@ Autopia::App.controller do
     if request.xhr?
       partial :'messages/thread'
     else    
-      discuss 'Messages'
+      # discuss 'Messages'
       erb :'messages/messages'
     end
   end  

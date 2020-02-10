@@ -1,5 +1,12 @@
 
-<div class="p-1 mt-1">
+<div id="messengee" class="media mb-3">
+  <%= partial :'accounts/square', :locals => {:account => @account, :style => 'display: block; width: 64px'} %>
+  <div class="media-body ml-3">            
+    <h4 class="my-0"><a class="text-dark" href="/u/<%=@account.username%>"><%=@account.name%></a></h4>
+  </div>
+</div>    
+
+<div id="thread-scroll" class="p-1">
   <ul class="widget-chat">
 
     <% if @account.id.to_s == '586d2eb3cc88ff00093f21e5'  %>
@@ -15,7 +22,7 @@
       </li>   
     <% end %>
 
-    <% messages = Message.or({:messenger => current_account, :messengee_id => @account},{:messenger => @account, :messengee_id => current_account}).order('created_at desc') %>
+    <% messages = Message.or({:messenger => current_account, :messengee_id => @account},{:messenger => @account, :messengee_id => current_account}).order('created_at asc') %>
     <% messages.each_with_index { |message,i| %>
       <% if message.messenger_id == @account.id %>
         <li>              
@@ -46,3 +53,11 @@
   </ul>
 </div>
 
+<script>
+  $(function () {
+    $('#thread-scroll').slimScroll({
+      height: ($(window).height() - $('#messengee').outerHeight(true) - ($('#content').innerHeight() - $('#content').height()) - $('#header').height() - $('#message-send').height() - $('#message-breadcrumbs').outerHeight(true)),
+      start: 'bottom'
+    })
+  });
+</script>
