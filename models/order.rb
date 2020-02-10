@@ -59,7 +59,7 @@ class Order
       begin
         pi = Stripe::PaymentIntent.retrieve payment_intent      
         Stripe::Refund.create(charge: pi.charges.first.id, reverse_transfer: (event.revenue_sharer_organisationship ? true : false))
-      end
+      rescue; end
     end
   end  
   
