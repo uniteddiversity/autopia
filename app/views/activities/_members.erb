@@ -23,8 +23,10 @@
     </div>
   </div>
 
-  <style>
-    #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
-  </style>    
-  <%= partial :'maps/map', :locals => {:points => visible_members} %>
+  <% if visible_members.count > 0 %>
+    <style>
+      #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
+    </style>    
+    <%= partial :'maps/map', :locals => {:points => visible_members} %>
+  <% end %>
 <% end %>

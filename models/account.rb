@@ -434,12 +434,22 @@ Two Spirit).split("\n")
   def reset_password!
     self.password = Account.generate_password(8)
     if save
-      mail = Mail.new
-      mail.to = email
-      mail.from = ENV['NOTIFICATION_EMAIL']
-      mail.subject = 'New password for Autopia'
-      mail.body = "Hi #{firstname},\n\nSomeone (hopefully you) requested a new password on Autopia.\n\nYour new password is: #{password}\n\nYou can sign in at #{ENV['BASE_URI']}/accounts/sign_in."
-      mail.deliver
+      
+    mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
+    batch_message = Mailgun::BatchMessage.new(mg_client, ENV['MAILGUN_DOMAIN'])
+    
+    account = self
+    content = ERB.new(File.read(Padrino.root('app/views/emails/reset_password.erb'))).result(binding)
+    batch_message.from ENV['NOTIFICATION_EMAIL']
+    batch_message.subject 'New password for Autopia'
+    batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
+                
+    [account].each { |account|
+      batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
+    }
+        
+    batch_message.finalize
+    
     else
       return false
     end
