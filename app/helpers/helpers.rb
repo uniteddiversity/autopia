@@ -10,6 +10,21 @@ Autopia::App.helpers do
     end
     params
   end
+  
+  def page_entries_info(collection, model)
+    if collection.total_pages < 2
+      case collection.to_a.length
+      when 0
+        "No #{model.pluralize.downcase} found"
+      when 1
+        "Displaying <b>1</b> #{model.downcase}"
+      else
+        "Displaying <b>all #{collection.count}</b> #{model.pluralize.downcase}"
+      end
+    else
+      "Displaying #{model.pluralize.downcase} <b>#{collection.offset + 1} - #{collection.offset + collection.to_a.length}</b> of <b>#{collection.count}</b> in total"
+    end
+  end    
 
   def current_account
     @current_account ||= Account.find(session[:account_id]) if session[:account_id]

@@ -217,7 +217,11 @@ Autopia::App.controller do
     if @tactivity.timetable.scheduling_by_all
       @tactivity.notifications.create! :circle => @gathering, :type => 'unscheduled_tactivity'
     end
-    200
+    if request.xhr?
+      200
+    else
+      redirect back 
+    end
   end  
     
   get '/tactivities/:id/attendees' do

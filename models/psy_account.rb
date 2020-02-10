@@ -32,7 +32,7 @@ class PsyAccount
         end
         account.location = if (p['postcode'] && !p['country']) || (p['postcode'] && p['country' =~ /United Kingdom/])
           "#{p['postcode']}, UK"
-        elsif p['country'] && p['country'] !=~ /United Kingdom/
+        elsif p['country'] && !(p['country'] =~ /United Kingdom/)
           p['country']
         end  
         account.website = p['website']

@@ -2,6 +2,7 @@
 
 <div class="tactivity" data-attendances-count="<%=tactivity.attendances.count%>" data-tactivity-id="<%=tactivity.id%>"     
      style="
+     position: relative;
      z-index: 99;
      margin-bottom: 10px;
      <% if !image %>background: white; border: 2px solid #343a40;<% end %>
@@ -22,7 +23,7 @@
       <div class="<% if image %>text-white<% else %>text-dark<% end%>"  style="display: inline-block" data-pagelet-url="/tactivities/<%=tactivity.id%>/attendees"></div>
     </div>
   </div>  
-  <div style="position: absolute; right: 10px; bottom: 10px;">
+  <div style="position: absolute; right: 10px; bottom: 10px;" class="text-white">
     <% if tactivity.comments.count > 0 %>
       <a class="<% if image %>text-white<% else %>text-dark<% end%>" data-toggle="tooltip" title="<%=pluralize(tactivity.comments.count, 'comment')%>" href="/a/<%=@gathering.slug%>/tactivities/<%=tactivity.id%>"><i class="fa fa-comment"></i> <%=tactivity.comments.count%></a>
       &middot; 
