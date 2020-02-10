@@ -1,5 +1,6 @@
 class PsyActivity
   include Mongoid::Document
+  include Mongoid::Timestamps
   store_in collection: "activities", client: "psychedelicsociety"
   
   field :name, :type => String

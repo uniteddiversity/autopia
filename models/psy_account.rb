@@ -1,5 +1,6 @@
 class PsyAccount
   include Mongoid::Document
+  include Mongoid::Timestamps
   store_in collection: "accounts", client: "psychedelicsociety"
       
   field :email, :type => String
@@ -12,7 +13,7 @@ class PsyAccount
   
   has_many :psy_activityships, class_name: 'PsyActivityship', inverse_of: :account
   
-  def migrate
+  def migrate(include_picture: false)
     p = self
     begin    
      
@@ -26,7 +27,9 @@ class PsyAccount
         account.gender = p['gender'] == 'Nonbinary' ? 'Non-binary' : p['gender']
         account.time_zone = p['time_zone']
         account.crypted_password = p['crypted_password']
-        account.picture_url = "https://psychedelicsociety-s3-web.s3.amazonaws.com/#{p['picture_uid']}" if p['picture_uid']
+        if include_picture
+          account.picture_url = "https://psychedelicsociety-s3-web.s3.amazonaws.com/#{p['picture_uid']}" if p['picture_uid']
+        end
         account.location = if (p['postcode'] && !p['country']) || (p['postcode'] && p['country' =~ /United Kingdom/])
           "#{p['postcode']}, UK"
         elsif p['country'] && p['country'] !=~ /United Kingdom/
