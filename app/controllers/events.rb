@@ -73,7 +73,7 @@ Autopia::App.controller do
     end
   end
   
-  get '/events/:slug/destroy' do
+  get '/events/:id/destroy' do
     @event = Event.find(params[:id]) || not_found
     event_admins_only!
     @event.destroy
