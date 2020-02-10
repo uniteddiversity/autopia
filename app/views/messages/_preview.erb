@@ -7,7 +7,7 @@
       <p class="text-muted mb-1">
         <%= HTML_Truncator.truncate(message.body, 40, :length_in_chars => true) %>
       </p>
-      <p class="mb-0 mr-1 float-right text-muted">
+      <p class="mb-0 mr-1 text-right text-muted">
         <small>
           <%=timeago(message.created_at)%>
         </small>

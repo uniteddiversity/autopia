@@ -9,7 +9,7 @@
         </ul>    
       </div>
 
-      <div data-pagelet-url="/messages/index" class="infinite" style="height: calc(60vh - 64px - 1rem); overflow-y: scroll; overflow-x: hidden">
+      <div data-pagelet-url="/messages/index">
         <%= partial :'messages/index' %>
       </div>
 
@@ -27,11 +27,17 @@
         </ul>
       </div>
 
-      <div data-pagelet-url="/messages/<%=@account.id%>" data-pusher-channel="message.<%=@account.id%>.<%=current_account.id%>">
-        <%= partial :'messages/thread' %>
-      </div>
+      <div class="media mb-3">
+        <%= partial :'accounts/square', :locals => {:account => @account, :style => 'display: block; width: 64px'} %>
+        <div class="media-body ml-3">            
+          <h4 class="my-0"><%=@account.name%></h4>
+        </div>
+      </div>    
       <div data-pagelet-url="/messages/<%=@account.id%>/send">
         <%= partial :'messages/send' %>
+      </div>    
+      <div data-pagelet-url="/messages/<%=@account.id%>" data-pusher-channel="message.<%=@account.id%>.<%=current_account.id%>">
+        <%= partial :'messages/thread' %>
       </div>
     <% end %>
 
