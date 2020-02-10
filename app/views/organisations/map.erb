@@ -1,0 +1,3 @@
+<%= partial :'organisations/nav', :locals => {:organisation => @organisation} %>
+
+<%= partial :'maps/map', :locals => {:points => @organisation.members} %>

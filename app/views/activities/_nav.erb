@@ -5,7 +5,8 @@
       ['View activity', "/activities/#{activity.id}"],
       ['Edit activity', "/activities/#{activity.id}/edit"],      
       (['Applications', "/activities/#{activity.id}/applications"] if activity.privacy == 'closed'),
-      ['Members', "/activities/#{activity.id}/members"],
+      [%Q{Members <span class="badge badge-primary">#{activity.activityships.count}</span>}, "/activities/#{activity.id}/members"],
+      ['Map', "/activities/#{activity.id}/map"],
       ['Feedback', "/activities/#{activity.id}/feedback"],       
       ].compact, ul_class: 'nav nav-tabs', li_class: 'nav-item', a_class: 'nav-link' %>
   </div>

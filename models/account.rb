@@ -7,6 +7,7 @@ class Account
   field :name, type: String
   field :name_transliterated, type: String
   field :ps_account_id, type: String
+  field :updated_profile, type: Boolean
   field :email, type: String
   field :phone, type: String
   field :username, type: String
@@ -274,6 +275,7 @@ class Account
       name: :text,
       name_transliterated: { type: :text, disabled: true },
       ps_account_id: :text,
+      updated_profile: :check_box,
       facebook_name: :text,
       default_currency: :select,
       email: :text,
@@ -401,8 +403,33 @@ Two Spirit).split("\n")
   end
 
   def firstname
-    name.split(' ').first
+    if !name.blank?
+      parts = name.split(' ')
+      if parts.count > 1 && %w{mr mrs ms dr}.include?(parts[0].downcase.gsub('.',''))
+        n = parts[1]
+      else
+        n = parts[0]
+      end
+      n.capitalize
+    end
   end
+  
+  def lastname
+    if name
+      nameparts = name.split(' ')
+      if nameparts.length > 1
+        nameparts[1..-1].join(' ') 
+      else
+        nil
+      end
+    end
+  end  
+  
+  def abbrname
+    if firstname
+      firstname.capitalize + (lastname ? (' ' + lastname[0].upcase + '.') : '')
+    end
+  end 
 
   def self.time_zones
     [''] + ActiveSupport::TimeZone::MAPPING.keys.sort

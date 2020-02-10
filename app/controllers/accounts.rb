@@ -117,7 +117,7 @@ Autopia::App.controller do
       end
     else
       if @account.sign_ins == 0
-        flash[:notice] = 'That profile is private' and redirect '/search'
+        flash[:error] = 'That profile is private' and redirect back
       else
         erb :'accounts/account'
       end

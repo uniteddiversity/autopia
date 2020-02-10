@@ -291,4 +291,10 @@ Autopia::App.controller do
     redirect back
   end  
   
+  get '/organisations/:id/map' do
+    @organisation = Organisation.find(params[:id]) || not_found
+    organisation_admins_only!
+    erb :'organisations/map'      
+  end     
+  
 end

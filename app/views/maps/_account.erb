@@ -4,8 +4,10 @@
       <%= partial :'accounts/square', :locals => {:account => account, :width=> '64px'} %>
     </td>
     <td>
-      <h4 class="mt-0"><a target="_parent" href="/u/<%=account.username%>"><%=account.name%></a></h4>
-      <p><%=account.location%></p>
+      <h4 class="mt-0"><a target="_parent" href="/u/<%=account.username%>"><%=account.updated_profile? ? account.name : account.abbrname%></a></h4>
+        <% if account.updated_profile %>
+        <p><%=account.location%></p>
+      <% end %>
     </td>
   </tr>
 </table>

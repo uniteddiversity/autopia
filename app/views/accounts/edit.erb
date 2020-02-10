@@ -6,6 +6,7 @@
   <% form_for @account, '/accounts/edit', :multipart => true do |f| %>
     <%= hidden_field_tag :slug, :value => params[:slug] %>
     <%= hidden_field_tag :event_id, :value => params[:event_id] %>
+    <%= hidden_field_tag :'account[updated_profile]', :value => true %>
     <%= f.text_block :name %>    
     <%= f.text_block :username %>
     <%= f.email_block :email %>    
