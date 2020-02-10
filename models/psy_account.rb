@@ -15,16 +15,16 @@ class PsyAccount
   
   def migrate(include_picture: false)
     p = self
-    begin    
+#    begin    
      
       account = Account.find_by(email: /^#{::Regexp.escape(p['email'])}$/i)
       if !account 
         account = Account.new
         account.ps_account_id = p['id']
-        account.name = p['name'] || p['email'].split('@').first
+        account.name = p['name'].blank? ? p['email'].split('@').first : p['name']
         account.email = p['email'].gsub(',','.')
         account.date_of_birth = p['dob']
-        if account.age < 0
+        if account.age && account.age < 0
           account.date_of_birth = nil
         end
         account.gender = p['gender'] == 'Nonbinary' ? 'Non-binary' : p['gender']
@@ -73,8 +73,8 @@ class PsyAccount
         end
       }
   
-    rescue => e
-      puts "failed to migrate #{p['email']}: #{e}"
-    end
+#    rescue => e
+#      puts "failed to migrate #{p['email']}: #{e}"
+#    end
   end
 end
