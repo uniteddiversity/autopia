@@ -54,9 +54,9 @@ class Order
   end
   
   after_destroy do
-    if event.organisation and value > 0 and payment_completed?
-      Stripe.api_key = event.organisation.stripe_sk
+    if event.organisation and value > 0 and payment_completed?      
       begin
+        Stripe.api_key = event.organisation.stripe_sk
         pi = Stripe::PaymentIntent.retrieve payment_intent      
         Stripe::Refund.create(charge: pi.charges.first.id, reverse_transfer: (event.revenue_sharer_organisationship ? true : false))
       rescue; end
