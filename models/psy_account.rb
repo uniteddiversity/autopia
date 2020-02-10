@@ -15,7 +15,7 @@ class PsyAccount
   
   def migrate(include_picture: false)
     p = self
-#    begin    
+    begin    
      
       account = Account.find_by(email: /^#{::Regexp.escape(p['email'])}$/i)
       if !account 
@@ -73,8 +73,8 @@ class PsyAccount
         end
       }
   
-#    rescue => e
-#      puts "failed to migrate #{p['email']}: #{e}"
-#    end
+    rescue => e
+      puts "failed to migrate #{p['email']}: #{e}"
+    end
   end
 end
