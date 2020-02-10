@@ -56,9 +56,15 @@ class Account
   before_validation do
     if !username && name
       u = name.parameterize.underscore
-      n = Account.where(username: /#{u}/i).count
-      u = "#{u}#{n}" if n > 0
-      self.username = u
+      if !Account.find_by(username: u)
+        self.username = u
+      else
+        n = 1
+        while Account.find_by(username: "#{u}#{n}")
+          n += 1
+        end
+        self.username ="#{u}#{n}"
+      end
     end
     self.sign_in_token = SecureRandom.uuid unless sign_in_token
     self.name = name.strip if name
