@@ -40,6 +40,8 @@ class PsyAccount
         account.unsubscribed_feedback = p['unsubscribed_feedback']
         account.unsubscribed_messages = p['unsubscribed_messages']
         account.save!      
+      else 
+        puts "found #{account.email}"
       end
       
       organisation = Organisation.find_by(name: 'The Psychedelic Society')
@@ -54,6 +56,8 @@ class PsyAccount
         organisationship.why_i_joined_public = p['why_i_joined_public']
         organisationship.why_i_joined_edited = p['why_i_joined_edited']
         organisationship.save!
+      else
+        puts "found organisationship"
       end
       
       p.psy_activityships.each { |psy_activityship|
@@ -64,6 +68,8 @@ class PsyAccount
           activityship.activity = activity
           activityship.unsubscribed = psy_activityship['unsubscribed']
           activityship.save!        
+        else
+          puts "found activityship for #{activity.name}"
         end
       }
   
