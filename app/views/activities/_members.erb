@@ -1,26 +1,29 @@
-<div class="mt-3">  
-  <div class="row no-gutters">
-    <div class="col">
-      <h2>Members</h2>
-    </div>
-    <div class="col-auto">
-      <% if current_account && activityship = @activity.activityships.find_by(account: current_account) %>
-        <% if !activityship.hide_membership? %>
-          <a class="pagelet-trigger btn btn-sm btn-primary mb-1" href="/activities/<%=@activity.id%>/hide_membership">Membership public</a>
-        <% else %>
-          <a class="pagelet-trigger btn btn-sm btn-outline-primary mb-1" href="/activities/<%=@activity.id%>/show_membership">Membership hidden</a>
+<% members = Account.where(:id.in => @activity.activityships.where(:hide_membership.ne => true).pluck(:account_id)) %> 
+<% if members.count > 0 %>
+  <div class="mt-3">  
+    <div class="row no-gutters">
+      <div class="col">
+        <h2>Members</h2>
+      </div>
+      <div class="col-auto">
+        <% if current_account && activityship = @activity.activityships.find_by(account: current_account) %>
+          <% if !activityship.hide_membership? %>
+            <a class="pagelet-trigger btn btn-sm btn-primary mb-1" href="/activities/<%=@activity.id%>/hide_membership">Membership public</a>
+          <% else %>
+            <a class="pagelet-trigger btn btn-sm btn-outline-primary mb-1" href="/activities/<%=@activity.id%>/show_membership">Membership hidden</a>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
+    </div>
+    <div class="image-wall">
+      <% members.each { |account|  %>
+        <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+      <% } %>
     </div>
   </div>
-  <div class="image-wall">
-    <% Account.where(:id.in => @activity.activityships.where(:hide_membership.ne => true).pluck(:account_id)).each { |account|  %>
-      <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-    <% } %>
-  </div>
-</div>
 
-<style>
-  #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
-</style>    
-<%= partial :'maps/map', :locals => {:points => Account.where(:id.in => @activity.activityships.where(:hide_membership.ne => true).pluck(:account_id))} %>
+  <style>
+    #map-canvas { height: 200px !important; margin-bottom: 1rem; margin-top: 1rem }
+  </style>    
+  <%= partial :'maps/map', :locals => {:points => Account.where(:id.in => @activity.activityships.where(:hide_membership.ne => true).pluck(:account_id))} %>
+<% end %>

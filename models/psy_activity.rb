@@ -16,8 +16,9 @@ class PsyActivity
       activity.name = a['name']
       activity.email = a['email']
       activity.website = a['link']
-      activity.image_url = "https://psychedelicsociety-s3-web.s3.amazonaws.com/#{a['image_uid']}" if a['image_uid']
+      # activity.image_url = "https://psychedelicsociety-s3-web.s3.amazonaws.com/#{a['image_uid']}" if a['image_uid']
       activity.vat_category = a['vat_category']
+      activity.privacy = 'open'
       activity.save!
     end    
   end
