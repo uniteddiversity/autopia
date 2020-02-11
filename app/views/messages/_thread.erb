@@ -56,7 +56,7 @@
 <script>
   $(function () {
     $('#thread-scroll').slimScroll({
-      height: ($(window).height() - $('#messengee').outerHeight(true) - ($('#content').innerHeight() - $('#content').height()) - $('#header').height() - $('#message-send').height() - $('#message-breadcrumbs').outerHeight(true) - 10),
+      height: ($(window).height() - $('#messengee').outerHeight(true) - ($('#content').innerHeight() - $('#content').height()) - $('#header').height() - $('#message-send').height() - $('#message-breadcrumbs').outerHeight(true) - ($(window).width() > 768 ? 0 : 10)),
       start: 'bottom'
     })
   });

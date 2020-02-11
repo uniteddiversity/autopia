@@ -58,7 +58,7 @@
   <% if organisation_admin? %>
     <a class="btn btn-primary mb-3" href="/local_groups/new?organisation_id=<%=@organisation.id%>">Create a local group</a>
   <% end %>
-  <% local_groups = @organisation.local_groups.paginate(:page => params[:local_groups_page], :per_page => 50) %>
+  <% local_groups = @organisation.local_groups.paginate(:page => params[:local_groups_page], :per_page => 16) %>
   <%= partial :'local_groups/blocks', :locals => {:local_groups => local_groups} %>
   <div class="mt-3">
     <%= will_paginate local_groups, :param_name => 'local_groups_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
@@ -70,7 +70,7 @@
   <% if organisation_admin? %>
     <a class="btn btn-primary mb-3" href="/activities/new?organisation_id=<%=@organisation.id%>">Create an activity</a>
   <% end %>
-  <% activities = @organisation.activities.paginate(:page => params[:activities_page], :per_page => 50) %>
+  <% activities = @organisation.activities.paginate(:page => params[:activities_page], :per_page => 16) %>
   <%= partial :'activities/blocks', :locals => {:activities => activities} %>
   <div class="mt-3">
     <%= will_paginate activities, :param_name => 'activities_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
@@ -83,7 +83,7 @@
 <% if organisation_admin? %>
   <a class="btn btn-primary mb-3" href="/events/new?organisation_id=<%=@organisation.id%>">Create an event</a>
 <% end %>
-<% events = @organisation.events.future.paginate(:page => params[:events_page], :per_page => 50) %>
+<% events = @organisation.events.future.paginate(:page => params[:events_page], :per_page => 16) %>
 <%= partial :'events/blocks', :locals => {:events => events} %>
 <div class="mt-3">
   <%= will_paginate events, :param_name => 'events_page', :inner_window => 0, :outer_window => 0, :renderer => WillPaginate::ViewHelpers::BootstrapRenderer %>
