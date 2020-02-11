@@ -26,9 +26,9 @@ Autopia::App.controller do
             (membership.proposed_by.map(&:name).to_sentence if membership.proposed_by),
             membership.created_at.to_s(:db),
             (membership.mapplication.answers if membership.mapplication and membership.mapplication.answers),
-            membership.optionships.map { |optionship| "#{optionship.option.name} #{@gathering.currency_symbol}#{optionship.option.cost_per_person}" }.join(', '),
-            "#{@gathering.currency_symbol}#{membership.requested_contribution}",
-            "#{@gathering.currency_symbol}#{membership.paid}"
+            membership.optionships.map { |optionship| [optionship.option.name, optionship.option.cost_per_person] },
+            membership.requested_contribution,
+            membership.paid
           ] }        
       end        
     end
