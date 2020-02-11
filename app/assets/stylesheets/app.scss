@@ -93,3 +93,5 @@ div.wysiwyg img, .editor-preview-side img { max-width: 100% }
 
 .ql-editor p { margin-bottom: 1rem }
 
+img.private { opacity: 0.5 }
+img.private:hover { opacity: 1 }
