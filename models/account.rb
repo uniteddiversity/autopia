@@ -46,7 +46,7 @@ class Account
   end
   
   def public?
-    sign_ins > 0
+    !ps_account_id or sign_ins > 0
   end
 
   def self.open_to
