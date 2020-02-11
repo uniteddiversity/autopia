@@ -279,13 +279,13 @@ class Account
     
   def self.admin_fields
     {
+      email: :email,
       name: :text,
       name_transliterated: { type: :text, disabled: true },
       ps_account_id: :text,
       updated_profile: :check_box,
       facebook_name: :text,
-      default_currency: :select,
-      email: :text,
+      default_currency: :select,      
       phone: :text,
       location: :text,
       username: :text,
