@@ -46,6 +46,10 @@ class Membership
     gathering
   end
   
+  def proposed_by
+    mapplication ? mapplication.verdicts.proposers.map { |verdict| verdict.account } : ([added_by] if added_by)
+  end
+  
   after_create :send_email
   def send_email          
     mg_client = Mailgun::Client.new ENV['MAILGUN_API_KEY']
