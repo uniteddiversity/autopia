@@ -110,13 +110,13 @@ Autopia::App.controller do
     @placeship_category = PlaceshipCategory.new if current_account && current_account.id == @account.id
     discuss 'User profiles'
     if request.xhr?
-      if @account.sign_ins == 0
+      if @account.private?
         partial :'accounts/private'
       else      
         partial :'accounts/modal'
       end
     else
-      if @account.sign_ins == 0
+      if @account.private?
         flash[:error] = 'That profile is private' and redirect back
       else
         erb :'accounts/account'

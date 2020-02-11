@@ -11,7 +11,7 @@
 <% } %>
 
 <p>
-  <% if !account.sign_ins or account.sign_ins == 0 %>
+  <% if account.sign_ins == 0 %>
     <a href="<%=ENV['BASE_URI']%>/accounts/edit?sign_in_token=%recipient.token%&event_id=<%=event.id%>">Click here to create a profile and display your attendance at the event.</a>
   <% else %>
     <a href="<%=ENV['BASE_URI']%>/events/<%=event.id%>?sign_in_token=%recipient.token%">Sign in to show or hide your attendance.</a>

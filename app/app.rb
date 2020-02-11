@@ -44,6 +44,7 @@ module Autopia
       Time.zone = current_account && current_account.time_zone ? current_account.time_zone : 'London'
       fix_params!
       if params[:sign_in_token] && (account = Account.find_by(sign_in_token: params[:sign_in_token]))
+        account.update_attribute(:sign_ins, account.sign_ins + 1)
         session[:account_id] = account.id.to_s
         account.update_attribute(:sign_in_token, SecureRandom.uuid)
       end
@@ -101,7 +102,7 @@ module Autopia
           @places = Place.where(name: /#{::Regexp.escape(params[:q])}/i)
           @places = @places.paginate(page: params[:page], per_page: 10).order('name asc')
         else
-          @accounts = Account.where(:sign_ins.gt => 0)
+          @accounts = Account.all
           if params[:q]
             @accounts = @accounts.or(
               { name: /#{::Regexp.escape(params[:q])}/i },

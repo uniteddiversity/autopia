@@ -40,6 +40,14 @@ class Account
   field :open_to_open_relating, type: Boolean
   field :default_currency, type: String
   field :stripe_connect_json, type: String  
+  
+  def private?
+    !public?
+  end
+  
+  def public?
+    sign_ins > 0
+  end
 
   def self.open_to
     %w[new_friends hookups short_term_dating long_term_dating open_relating]
