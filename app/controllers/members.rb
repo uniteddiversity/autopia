@@ -19,12 +19,13 @@ Autopia::App.controller do
       erb :'members/members'
     when :csv
       CSV.generate do |csv|
-        csv << %w{name email proposed_by accepted_at options requested_contribution paid}
+        csv << %w{name email proposed_by accepted_at answers options requested_contribution paid}
         @memberships.each { |membership| csv << [
             membership.account.name,
             membership.account.email,
             (membership.proposed_by.map(&:name).to_sentence if membership.proposed_by),
             membership.created_at.to_s(:db),
+            (membership.mapplication.answers if membership.mapplication and membership.mapplication.answers),
             membership.optionships.map { |optionship| "#{optionship.option.name} #{@gathering.currency_symbol}#{optionship.option.cost_per_person}" }.join(', '),
             "#{@gathering.currency_symbol}#{membership.requested_contribution}",
             "#{@gathering.currency_symbol}#{membership.paid}"
