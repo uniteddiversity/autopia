@@ -70,7 +70,7 @@ class Account
     self.name = name.strip if name
     self.name_transliterated = I18n.transliterate(name) if name
     self.username = username.downcase if username
-    self.email = email.downcase if email
+    self.email = email.downcase.strip if email
     self.sign_ins = 0 if !sign_ins
     if self.postcode
       self.location = "#{self.postcode}, UK"
@@ -232,16 +232,16 @@ class Account
 
   # Dragonfly
   dragonfly_accessor :picture do
-    after_assign do |attachment|
-      attachment.convert! '-auto-orient'
-    end
+#    after_assign do |attachment|
+#      attachment.convert! '-auto-orient'
+#    end
   end
   before_validation do
-    if picture
+    if self.picture
       begin
-        picture.format
-      rescue StandardError
-        errors.add(:picture, 'must be an image')
+        self.picture.format
+      rescue
+        self.picture = nil
       end
     end
   end
