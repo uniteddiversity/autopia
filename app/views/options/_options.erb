@@ -8,7 +8,7 @@
       <th>Cost</th>
       <th>Places taken</th>
       <th></th>
-      <th style="width: 33%">People</th> 
+      <th style="width: 33%" class="d-none d-sm-table-cell">People</th> 
     </tr>
   </thead>
   <% Option.types.each { |type| if (options = @gathering.options.where(type: type)).count > 0 %>    
@@ -63,45 +63,38 @@
               <% end %>
             <% end %>
           </td>      
-          <td>
-            <div class="d-sm-none">
-              <% if option.optionships.count > 0 %>
-                <%=pluralize(option.optionships.count, 'person') %>
-              <% end %>
-            </div>
-            <div class="d-none d-sm-block">
-              <% y = [] %>
-              <% option.optionships.shuffle.each { |optionship| account = optionship.account; %>
-                <% if params[:view] == 'names' %>
-                  <% y << capture do %>   
-                    <% if admin? || @membership.admin? %>
-                      <a href="/a/<%=@gathering.slug%>/optionships/<%=optionship.id%>/edit">
-                        <%= account.name %>
-                      </a>
-                    <% else %>
-                      <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-                    <% end %> 
-                  <% end %>
-                <% else %>
-                  <% y << capture do %>
-                    <% if admin? || @membership.admin? %>
-                      <a href="/a/<%=@gathering.slug%>/optionships/<%=optionship.id%>/edit">
-                        <img title="<%=account.name%>" style="width: 50px;" src="<%=account.picture_thumb_or_gravatar_url %>" />
-                      </a>
-                    <% else %>
-                      <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-                    <% end %> 
-                  <% end %>
-                <% end %>
-              <% } %>
+          <td class="d-none d-sm-table-cell"> 
+            <% y = [] %>
+            <% option.optionships.shuffle.each { |optionship| account = optionship.account; %>
               <% if params[:view] == 'names' %>
-                <%= y.map(&:strip).join(' &middot; ') %>
+                <% y << capture do %>   
+                  <% if admin? || @membership.admin? %>
+                    <a href="/a/<%=@gathering.slug%>/optionships/<%=optionship.id%>/edit">
+                      <%= account.name %>
+                    </a>
+                  <% else %>
+                    <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+                  <% end %> 
+                <% end %>
               <% else %>
-                <div class="image-wall">
-                  <%= y.map(&:strip).join('') %>
-                </div>
+                <% y << capture do %>
+                  <% if admin? || @membership.admin? %>
+                    <a href="/a/<%=@gathering.slug%>/optionships/<%=optionship.id%>/edit">
+                      <img title="<%=account.name%>" style="width: 50px;" src="<%=account.picture_thumb_or_gravatar_url %>" />
+                    </a>
+                  <% else %>
+                    <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+                  <% end %> 
+                <% end %>
               <% end %>
-            </div>
+            <% } %>
+            <% if params[:view] == 'names' %>
+              <%= y.map(&:strip).join(' &middot; ') %>
+            <% else %>
+              <div class="image-wall">
+                <%= y.map(&:strip).join('') %>
+              </div>
+            <% end %>
           </td>
         </tr>
       <% } %>
@@ -109,5 +102,7 @@
 </table>
 
 <% if params[:view] != 'names' %>
-  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@gathering.slug%>/options?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+  <div class="d-none d-sm-block">
+    <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@gathering.slug%>/options?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+  </div>
 <% end %>
