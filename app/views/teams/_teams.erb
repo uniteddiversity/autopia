@@ -30,7 +30,7 @@
             <% end %>
           <% } %>
           <% if params[:view] == 'names' %>
-            <%= y.map(&:strip).join('&middot; ') %>
+            <%= y.map(&:strip).join(' &middot; ') %>
           <% else %>
             <div class="image-wall">
               <%= y.map(&:strip).join('') %>
