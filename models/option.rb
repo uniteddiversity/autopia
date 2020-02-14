@@ -8,6 +8,7 @@ class Option
   field :cost, :type => Integer
   field :split_cost, :type => Boolean
   field :type, :type => String
+  field :by_invitation, :type => Boolean
   
   belongs_to :gathering, index: true
   belongs_to :account, index: true
@@ -38,7 +39,8 @@ class Option
       :type => :text,
       :gathering_id => :lookup,
       :account_id => :lookup,
-      :optionships => :collection
+      :optionships => :collection,
+      :by_invitation => :check_box
     }
   end
   

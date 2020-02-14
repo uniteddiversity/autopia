@@ -5,5 +5,6 @@
   <%= f.number_block :capacity %>
   <%= f.number_block :cost %>
   <%= f.check_box_block :split_cost %>
+  <%= f.check_box_block :by_invitation %>
   <%= f.submit_block destroy_url: "/a/#{@gathering.slug}/options/#{@option.id}/destroy" %>
 <% end %>  

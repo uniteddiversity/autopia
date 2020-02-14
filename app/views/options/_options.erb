@@ -53,7 +53,11 @@
             <% if optionship = @gathering.optionships.find_by(option: option, account: current_account) %>
               <a class="pagelet-trigger btn btn-outline-primary" href="/optionships/<%=optionship.id%>/destroy">Leave</a>
             <% elsif !option.full? %>
-              <a class="pagelet-trigger btn btn-primary" href="/optionships/create?option_id=<%=option.id%>">Join</a>
+              <% if option.invitation_only %>
+                <span class="label label-primary">By invitation</span>
+              <% else %>
+                <a class="pagelet-trigger btn btn-primary" href="/optionships/create?option_id=<%=option.id%>">Join</a>
+              <% end %>
             <% end %>
           </td>      
           <td>
@@ -97,8 +101,8 @@
         </tr>
       <% } %>
     <% end } %>
-  </table>
+</table>
 
-  <% if params[:view] != 'names' %>
-    <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@gathering.slug%>/options?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
-  <% end %>
+<% if params[:view] != 'names' %>
+  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@gathering.slug%>/options?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+<% end %>
