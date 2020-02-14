@@ -18,6 +18,7 @@ class Event
   field :capacity, type: Integer
   field :organisation_revenue_share, type: Float
   field :hide_attendees, type: Boolean
+  field :no_refunds, type: Boolean
 
   def self.marker_color
     'red'
@@ -148,6 +149,7 @@ class Event
       organisation_revenue_share: :number,
       feedback_questions: :text_area,
       hide_attendees: :check_box,
+      no_refunds: :check_box,
       suggested_donation: :number,
       capacity: :number,
       account_id: :lookup,
@@ -187,7 +189,8 @@ class Event
     {
       name: 'Event title',
       email: 'Contact email',
-      facebook_event_id: 'Facebook event ID'
+      facebook_event_id: 'Facebook event ID',
+      no_refunds: "Don't attempt to refund deleted orders"
     }[attr.to_sym] || super
   end
   

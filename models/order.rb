@@ -61,8 +61,9 @@ class Order
     end   
   end
   
-  after_destroy do
-    if event.organisation and value > 0 and payment_completed?      
+  after_destroy :refund 
+  def refund
+    if !event.no_refunds and event.organisation and value > 0 and payment_completed?      
       begin
         Stripe.api_key = event.organisation.stripe_sk
         pi = Stripe::PaymentIntent.retrieve payment_intent      
