@@ -14,7 +14,7 @@
           <h3 class="mb-0"><i class="fa <%=Option.icon(type)%>"></i> <%=type == 'Ticket' ? 'Tickets' : type%></h3>
         </td>      
       </tr>
-      <% options.order('cost asc').each { |option| %>
+      <% options.order('cost asc, name asc').each { |option| %>
         <tr>
           <td>
             <% if admin? || @membership.admin? %>
