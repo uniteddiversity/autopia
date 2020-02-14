@@ -64,37 +64,44 @@
             <% end %>
           </td>      
           <td>
-            <% y = [] %>
-            <% option.optionships.shuffle.each { |optionship| account = optionship.account; %>
-              <% if params[:view] == 'names' %>
-                <% y << capture do %>   
-                  <% if admin? || @membership.admin? %>
-                    <a href="/a/<%=@gathering.slug%>/optionships/<%=optionship.id%>/edit">
-                      <%= account.name %>
-                    </a>
-                  <% else %>
-                    <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-                  <% end %> 
-                <% end %>
-              <% else %>
-                <% y << capture do %>
-                  <% if admin? || @membership.admin? %>
-                    <a href="/a/<%=@gathering.slug%>/optionships/<%=optionship.id%>/edit">
-                      <img title="<%=account.name%>" style="width: 50px;" src="<%=account.picture_thumb_or_gravatar_url %>" />
-                    </a>
-                  <% else %>
-                    <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-                  <% end %> 
-                <% end %>
+            <div class="d-sm-none">
+              <% if option.optionships.count > 0 %>
+                <%=pluralize(option.optionships.count, 'person') %>
               <% end %>
-            <% } %>
-            <% if params[:view] == 'names' %>
-              <%= y.map(&:strip).join(' &middot; ') %>
-            <% else %>
-              <div class="image-wall">
-                <%= y.map(&:strip).join('') %>
-              </div>
-            <% end %>      
+            </div>
+            <div class="d-none d-sm-block">
+              <% y = [] %>
+              <% option.optionships.shuffle.each { |optionship| account = optionship.account; %>
+                <% if params[:view] == 'names' %>
+                  <% y << capture do %>   
+                    <% if admin? || @membership.admin? %>
+                      <a href="/a/<%=@gathering.slug%>/optionships/<%=optionship.id%>/edit">
+                        <%= account.name %>
+                      </a>
+                    <% else %>
+                      <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+                    <% end %> 
+                  <% end %>
+                <% else %>
+                  <% y << capture do %>
+                    <% if admin? || @membership.admin? %>
+                      <a href="/a/<%=@gathering.slug%>/optionships/<%=optionship.id%>/edit">
+                        <img title="<%=account.name%>" style="width: 50px;" src="<%=account.picture_thumb_or_gravatar_url %>" />
+                      </a>
+                    <% else %>
+                      <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+                    <% end %> 
+                  <% end %>
+                <% end %>
+              <% } %>
+              <% if params[:view] == 'names' %>
+                <%= y.map(&:strip).join(' &middot; ') %>
+              <% else %>
+                <div class="image-wall">
+                  <%= y.map(&:strip).join('') %>
+                </div>
+              <% end %>
+            </div>
           </td>
         </tr>
       <% } %>
