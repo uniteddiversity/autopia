@@ -8,97 +8,97 @@
       <th style="width: 33%">People</th> 
     </tr>
   </thead>
-  <% Option.types.each { |type| %>    
-    <tr class="bg-white">
-      <td colspan="5">
-        <h3 class="mb-0"><i class="fa <%=Option.icon(type)%>"></i> <%=type == 'Ticket' ? 'Tickets' : type%></h3>
-      </td>      
-    </tr>
-    <% @gathering.options.where(type: type).order('name asc').each { |option| %>
-      <tr>
-        <td>
-          <% if admin? || @membership.admin? %>
-            <a href="/a/<%=@gathering.slug%>/options/<%=option.id%>/edit">
-              <%=option.name%>
-            </a>
-          <% else %>
-            <%=option.name%>
-          <% end %>            
-          <% if option.description %>
-            <br />
-            <%= option.description.gsub("\n",'<br />') %>        
-          <% end %>
-        </td>
-        <td>
-          <% if option.split_cost %>
-            <%=@gathering.currency_symbol%><%=option.cost%> total
-            <% if option.cost_per_person %>
-              (<%=@gathering.currency_symbol%><%=option.cost_per_person%>/person)
-            <% end %>        
-          <% else %>
-            <%=@gathering.currency_symbol%><%=option.cost%>/person
-          <% end %>
-        </td>
-        <td>
-          <%=option.optionships.count%>/<%=option.capacity || '&infin;' %>
-          <% if option.capacity %>
-            <% if option.full? %>
-              <span class="label label-danger">Full</span>
-            <% else %>
-              <span class="label label-success">Spaces</span>
-            <% end %>
-          <% end %>
+  <% Option.types.each { |type| if (options = @gathering.options.where(type: type)).count > 0 %>    
+      <tr class="bg-white">
+        <td colspan="5">
+          <h3 class="mb-0"><i class="fa <%=Option.icon(type)%>"></i> <%=type == 'Ticket' ? 'Tickets' : type%></h3>
         </td>      
-        <td>
-          <% if optionship = @gathering.optionships.find_by(option: option, account: current_account) %>
-            <a class="pagelet-trigger btn btn-outline-primary" href="/optionships/<%=optionship.id%>/destroy">Leave</a>
-          <% elsif !option.full? %>
-            <a class="pagelet-trigger btn btn-primary" href="/optionships/create?option_id=<%=option.id%>">Join</a>
-          <% end %>
-        </td>      
-        <td>
-          <% y = [] %>
-          <% option.optionships.each { |optionship| account = optionship.account; %>
-            <% if params[:view] == 'names' %>
-              <% y << capture do %>   
-
-                <% if admin? || @membership.admin? %>
-                  <a href="/a/<%=@gathering.slug%>/optionships/<%=optionship.id%>/edit">
-                    <%= account.name %>
-                  </a>
-                <% else %>
-                  <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-                <% end %> 
-
-              <% end %>
-            <% else %>
-              <% y << capture do %>
-
-                <% if admin? || @membership.admin? %>
-                  <a href="/a/<%=@gathering.slug%>/optionships/<%=optionship.id%>/edit">
-                    <img title="<%=account.name%>" style="width: 50px;" src="<%=account.picture_thumb_or_gravatar_url %>" />
-                  </a>
-                <% else %>
-                  <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
-                <% end %> 
-
-
-              <% end %>
-            <% end %>
-          <% } %>
-          <% if params[:view] == 'names' %>
-            <%= y.map(&:strip).join(', ') %>
-          <% else %>
-            <div class="image-wall">
-              <%= y.map(&:strip).join('') %>
-            </div>
-          <% end %>      
-        </td>
       </tr>
-    <% } %>
-  <% } %>
-</table>
+      <% options.order('cost asc').each { |option| %>
+        <tr>
+          <td>
+            <% if admin? || @membership.admin? %>
+              <a href="/a/<%=@gathering.slug%>/options/<%=option.id%>/edit">
+                <%=option.name%>
+              </a>
+            <% else %>
+              <%=option.name%>
+            <% end %>            
+            <% if option.description %>
+              <br />
+              <%= option.description.gsub("\n",'<br />') %>        
+            <% end %>
+          </td>
+          <td>
+            <% if option.split_cost %>
+              <%=@gathering.currency_symbol%><%=option.cost%> total
+              <% if option.cost_per_person %>
+                (<%=@gathering.currency_symbol%><%=option.cost_per_person%>/person)
+              <% end %>        
+            <% else %>
+              <%=@gathering.currency_symbol%><%=option.cost%>/person
+            <% end %>
+          </td>
+          <td>
+            <%=option.optionships.count%>/<%=option.capacity || '&infin;' %>
+            <% if option.capacity %>
+              <% if option.full? %>
+                <span class="label label-danger">Full</span>
+              <% else %>
+                <span class="label label-success">Spaces</span>
+              <% end %>
+            <% end %>
+          </td>      
+          <td>
+            <% if optionship = @gathering.optionships.find_by(option: option, account: current_account) %>
+              <a class="pagelet-trigger btn btn-outline-primary" href="/optionships/<%=optionship.id%>/destroy">Leave</a>
+            <% elsif !option.full? %>
+              <a class="pagelet-trigger btn btn-primary" href="/optionships/create?option_id=<%=option.id%>">Join</a>
+            <% end %>
+          </td>      
+          <td>
+            <% y = [] %>
+            <% option.optionships.each { |optionship| account = optionship.account; %>
+              <% if params[:view] == 'names' %>
+                <% y << capture do %>   
 
-<% if params[:view] != 'names' %>
-  <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@gathering.slug%>/options?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
-<% end %>
+                  <% if admin? || @membership.admin? %>
+                    <a href="/a/<%=@gathering.slug%>/optionships/<%=optionship.id%>/edit">
+                      <%= account.name %>
+                    </a>
+                  <% else %>
+                    <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+                  <% end %> 
+
+                <% end %>
+              <% else %>
+                <% y << capture do %>
+
+                  <% if admin? || @membership.admin? %>
+                    <a href="/a/<%=@gathering.slug%>/optionships/<%=optionship.id%>/edit">
+                      <img title="<%=account.name%>" style="width: 50px;" src="<%=account.picture_thumb_or_gravatar_url %>" />
+                    </a>
+                  <% else %>
+                    <%= partial :'accounts/square', :locals => {:account => account, :width => '50px'} %>
+                  <% end %> 
+
+
+                <% end %>
+              <% end %>
+            <% } %>
+            <% if params[:view] == 'names' %>
+              <%= y.map(&:strip).join(', ') %>
+            <% else %>
+              <div class="image-wall">
+                <%= y.map(&:strip).join('') %>
+              </div>
+            <% end %>      
+          </td>
+        </tr>
+      <% } %>
+    <% end } %>
+  </table>
+
+  <% if params[:view] != 'names' %>
+    <a onclick="$(this).closest('[data-pagelet-url]').attr('data-pagelet-url', '/a/<%=@gathering.slug%>/options?view=names')" href="#" class="pagelet-trigger">Show names instead of pictures</a>
+  <% end %>
