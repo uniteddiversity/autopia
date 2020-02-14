@@ -53,7 +53,7 @@
             <% if optionship = @gathering.optionships.find_by(option: option, account: current_account) %>
               <a class="pagelet-trigger btn btn-outline-primary" href="/optionships/<%=optionship.id%>/destroy">Leave</a>
             <% elsif !option.full? %>
-              <% if option.invitation_only %>
+              <% if option.by_invitation %>
                 <span class="label label-primary">By invitation</span>
               <% else %>
                 <a class="pagelet-trigger btn btn-primary" href="/optionships/create?option_id=<%=option.id%>">Join</a>
