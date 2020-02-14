@@ -62,7 +62,7 @@
           </td>      
           <td>
             <% y = [] %>
-            <% option.optionships.each { |optionship| account = optionship.account; %>
+            <% option.optionships.shuffle.each { |optionship| account = optionship.account; %>
               <% if params[:view] == 'names' %>
                 <% y << capture do %>   
 
