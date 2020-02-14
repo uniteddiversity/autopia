@@ -21,8 +21,8 @@
 <td>
   <% mapplication = membership.mapplication; if mapplication and mapplication.answers %>
     <a href="javascript:;" onclick="$('#modal .modal-content').load('/a/<%=@gathering.slug%>/mapplications/<%=mapplication.id%>', function () {
-          $('#modal').modal('show')
-        });">
+            $('#modal').modal('show')
+          });">
          <%= membership.created_at %>          
     </a>
   <% else %>  
@@ -44,28 +44,26 @@
     <% } %>
   </td>      
 <% end %>  
-<% if @gathering.enable_budget %>
-  <td>
-    <%=@gathering.currency_symbol%><%= membership.requested_contribution %>
-  </td>
-  <td>
-    <% if admin? || @membership.admin? %>
-      <% if membership.paid %>
-        <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "#{@gathering.currency_symbol}#{membership.paid}" if membership.paid %></a>
-      <% end %>
-      <% form_tag "/memberships/#{membership.id}/paid", :style => ('display:none' if membership.paid) do %>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text"><%=@gathering.currency_symbol%></span>
-          </div>  
-          <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid, :onblur => '$(this.form).submit()' %>
-        </div>              
-      <% end %>
-    <% else %>
-      <%= "#{@gathering.currency_symbol}#{membership.paid}" if membership.paid %>
+<td>
+  <%=@gathering.currency_symbol%><%= membership.requested_contribution %>
+</td>
+<td>
+  <% if admin? || @membership.admin? %>
+    <% if membership.paid %>
+      <a href="javascript:;" onclick="$(this).hide().next().show().find('input').focus()"><%= "#{@gathering.currency_symbol}#{membership.paid}" if membership.paid %></a>
     <% end %>
-  </td> 
-<% end %>
+    <% form_tag "/memberships/#{membership.id}/paid", :style => ('display:none' if membership.paid) do %>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"><%=@gathering.currency_symbol%></span>
+        </div>  
+        <%= number_field_tag :paid, :class => 'form-control', :style => 'width: 6em', :value => membership.paid, :onblur => '$(this.form).submit()' %>
+      </div>              
+    <% end %>
+  <% else %>
+    <%= "#{@gathering.currency_symbol}#{membership.paid}" if membership.paid %>
+  <% end %>
+</td> 
 <% if @gathering.facebook_group_url %>
   <td>
     <% if admin? || @membership.admin? %>
