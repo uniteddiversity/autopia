@@ -90,8 +90,10 @@
       <% end %>        
     </table>
     <% if @event.description %>
-      <p class="lead">
+      <p>
+      <big>
         <%=Rinku.auto_link(@event.description.gsub("\n",'<br />'))%>
+      </big>
       </p>
     <% end %>
 
