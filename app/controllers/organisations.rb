@@ -191,6 +191,7 @@ Autopia::App.controller do
       if order = Order.find_by(session_id: session.id)
         order.set(payment_completed: true)
         order.send_tickets
+        order.send_post if @organisation.post_url
         200
       else
         400

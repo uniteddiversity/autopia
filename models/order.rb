@@ -91,4 +91,22 @@ class Order
     batch_message.finalize      
   end
   
+  def send_post
+    agent = Mechanize.new
+    agent.post event.organisation.post_url, {
+      id: id.to_s,
+      event_id: event.id.to_s,
+      name: account.name,
+      email: account.email,
+      postcode: account.postcode,
+      value: value,
+      tickets: tickets.map { |ticket| 
+        {price: ticket.price, description: ticket.ticket_type.name}
+      },
+      donations: donations.map { |donation|
+        {amount: donation.amount}
+      }
+    }.to_json, {'Content-Type' => 'application/json'}     
+  end
+  
 end

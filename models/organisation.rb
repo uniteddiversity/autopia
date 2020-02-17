@@ -18,6 +18,7 @@ class Organisation
   field :location, type: String
   field :coordinates, type: Array
   field :collect_postcode, type: Boolean
+  field :post_url, type: String
   
   # Geocoder
   geocoded_by :location
@@ -110,7 +111,8 @@ class Organisation
       patreon_api_key: :text,
       mailgun_api_key: :text,
       mailgun_domain: :text,
-      collect_postcode: :check_box
+      collect_postcode: :check_box,
+      post_url: :url
     }
   end
 
