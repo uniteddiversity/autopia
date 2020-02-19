@@ -19,6 +19,7 @@ class Event
   field :organisation_revenue_share, type: Float
   field :hide_attendees, type: Boolean
   field :no_refunds, type: Boolean
+  field :monthly_donors_only, type: Boolean
 
   def self.marker_color
     'red'
@@ -150,6 +151,7 @@ class Event
       feedback_questions: :text_area,
       hide_attendees: :check_box,
       no_refunds: :check_box,
+      monthly_donors_only: :check_box,
       suggested_donation: :number,
       capacity: :number,
       account_id: :lookup,

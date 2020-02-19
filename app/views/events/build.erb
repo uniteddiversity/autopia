@@ -64,7 +64,8 @@
     <%= f.number_block :suggested_donation %>  
     <%= f.text_area_block :feedback_questions %>
     <%= f.check_box_block :hide_attendees %>    
-    <%= f.check_box_block :no_refunds %>    
+    <%= f.check_box_block :no_refunds %> 
+    <%= f.check_box_block :monthly_donors_only %> 
   </div>
 
   <%= f.submit_block destroy_url: ("/events/#{@event.id}/destroy") %>

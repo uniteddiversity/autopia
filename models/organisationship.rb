@@ -38,7 +38,7 @@ class Organisationship
   end
   
   def monthly_donor?
-    monthly_donation_amount    
+    monthly_donation_method
   end
   
   def organisation_tier

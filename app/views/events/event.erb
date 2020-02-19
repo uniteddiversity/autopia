@@ -117,15 +117,6 @@
           <%= partial :share_big %>
         </div>
       </div>
-    <% elsif @event.activity && @event.activity.privacy == 'closed' && !(current_account && @event.activity.activityships.find_by(account: current_account)) %>
-      <div class="card">
-        <h3 class="card-header bg-primary text-white">Select tickets</h3>
-        <div class="card-body">
-          <p class="lead mb-0">
-            You must be signed in and a member of <a href="/activities/<%=@event.activity_id%>"><%=@event.activity.name%></a> to purchase tickets to this event.
-          </p>
-        </div>
-      </div>
     <% elsif @event.sold_out? or (@event.ticket_types.count > 0 and @event.future?) %>
       <% if @event.sold_out? and !params[:ticket_type_id] %>
         <% if params[:added_to_waitlist] %>
@@ -141,7 +132,25 @@
           <%= partial :'events/waitlist' %>
         <% end %>
       <% elsif @event.organisation %>
-        <% if @event.gathering and (!current_account || !@event.gathering.memberships.find_by(account: current_account)) %>
+        <% if @event.monthly_donors_only && !(current_account && @event.organisation.organisationships.find_by(:account => current_account, :monthly_donation_method.ne => nil)) %>
+          <div class="card">
+            <h3 class="card-header bg-primary text-white">Select tickets</h3>
+            <div class="card-body">
+              <p class="lead mb-0">
+                You must be signed in and a monthly donor of <a href="/organisations/<%=@event.organisation_id%>"><%=@event.organisation.name%></a> to purchase tickets to this event.
+              </p>
+            </div>
+          </div>       
+        <% elsif @event.activity && @event.activity.privacy == 'closed' && !(current_account && @event.activity.activityships.find_by(account: current_account)) %>
+          <div class="card">
+            <h3 class="card-header bg-primary text-white">Select tickets</h3>
+            <div class="card-body">
+              <p class="lead mb-0">
+                You must be signed in and a member of <a href="/activities/<%=@event.activity_id%>"><%=@event.activity.name%></a> to purchase tickets to this event.
+              </p>
+            </div>
+          </div>      
+        <% elsif @event.gathering and !(current_account && @event.gathering.memberships.find_by(account: current_account)) %>
           <div class="card">
             <h3 class="card-header bg-primary text-white">Select tickets</h3>
             <div class="card-body">
