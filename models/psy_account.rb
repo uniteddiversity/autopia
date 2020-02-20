@@ -20,7 +20,7 @@ class PsyAccount
       email = p['email'].gsub(',','.').gsub(';','.')      
       account = Account.find_by(email: /^#{::Regexp.escape(email)}$/i) 
       if !account || account.sign_ins == 0
-        if acccount && account.sign_ins == 0
+        if account && account.sign_ins == 0
           account.destroy
           puts "recreating #{account.email}"
         end
