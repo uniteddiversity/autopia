@@ -18,12 +18,21 @@ class PsyAccount
     begin    
      
       email = p['email'].gsub(',','.').gsub(';','.')      
-      account = Account.find_by(email: /^#{::Regexp.escape(email)}$/i) 
-      if !account || account.sign_ins == 0
-        if account && account.sign_ins == 0
-          account.destroy
-          puts "recreating #{account.email}"
+      
+      if account = Account.find_by(email: /^#{::Regexp.escape(email)}$/i)        
+        if account.sign_ins == 0
+          account.crypted_password = p['crypted_password']
+          if include_picture
+            if p['picture_uid']
+              account.picture = Mechanize.new.get("https://psychedelicsociety-s3-web.s3.amazonaws.com/#{p['picture_uid']}").body
+            end
+          end
+          account.unsubscribed = p['unsubscribed']
+          account.unsubscribed_feedback = p['unsubscribed_feedback']
+          account.unsubscribed_messages = p['unsubscribed_messages']
+          account.save!
         end
+      else
         account = Account.new
         account.ps_account_id = p['id']
         account.name = p['name'].blank? ? email.split('@').first : p['name'].strip

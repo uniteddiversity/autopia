@@ -63,7 +63,7 @@ class Account
 
   before_validation do
     if !username && name
-      u = name.parameterize.underscore
+      u = name.parameterize.underscore || email.split('@').first
       if !Account.find_by(username: u)
         self.username = u
       else
