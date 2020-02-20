@@ -46,6 +46,7 @@ Autopia::App.controller do
   end
 
   get '/events/:id' do
+    session[:return_to] = request.url
     @event = Event.find(params[:id]) || not_found
     @og_desc = "#{@event.name} · Autopia"
     @og_image = @event.image ? @event.image.url : (@event.organisation && @event.organisation.image ? @event.organisation.image.url : "#{ENV['BASE_URI']}/images/autopia-link.png")
