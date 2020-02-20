@@ -1,6 +1,6 @@
 <p>Hi %recipient.firstname%,</p>
 
-<p>Thanks for booking onto <%= event.name %> via Autopia. <% if order.tickets.count == 1 %>Here's your ticket<% else %>Here are your tickets<% end %>:</p>
+<p>Thanks for booking onto <%= event.name %> on <%= event.when_details %> at <%= event.location %>. <% if order.tickets.count == 1 %>Here's your ticket<% else %>Here are your tickets<% end %>:</p>
 
 <% order.tickets.each { |ticket| %>
   <div style="border: 1px solid #222222; border-radius: 5px; padding: 10px; margin-bottom: 10px">
