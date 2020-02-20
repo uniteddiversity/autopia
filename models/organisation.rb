@@ -166,7 +166,7 @@ class Organisation
   end  
   
   
-  def self.sync_with_patreon
+  def sync_with_patreon
     organisationships.where(monthly_donation_method: 'Patreon').set(monthly_donation_method: nil, monthly_donation_amount: nil, monthly_donation_start_date: nil)
     
     api_client = Patreon::API.new(patreon_api_key)
