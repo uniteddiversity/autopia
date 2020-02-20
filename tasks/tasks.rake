@@ -2,9 +2,8 @@
 namespace :accounts do
   
   task :sync_ps_accounts => :environment do
-    PsyAccount.where(:updated_at.gte => 1.day.ago).each { |p|
-      p.migrate(include_picture: true)
-    }
+    PsyAccount.where(:updated_at.gte => 1.day.ago).each { |p| p.migrate(include_picture: true) }
+    Account.where(:ps_account_id.ne => nil).where(:email.nin => PsyAccount.pluck(:email)).destroy_all    
   end
   
 end

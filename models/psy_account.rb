@@ -31,6 +31,7 @@ class PsyAccount
           account.unsubscribed_feedback = p['unsubscribed_feedback']
           account.unsubscribed_messages = p['unsubscribed_messages']
           account.save!
+          puts "updated #{account.email}"
         end
       else
         account = Account.new
