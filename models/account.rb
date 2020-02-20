@@ -62,8 +62,8 @@ class Account
   end
 
   before_validation do
-    if !username && name
-      u = name.parameterize.underscore || email.split('@').first
+    if !username && (name || email)
+      u = if name; name.parameterize.underscore; elsif email; email.split('@').first; end
       if !Account.find_by(username: u)
         self.username = u
       else
@@ -240,9 +240,9 @@ class Account
 
   # Dragonfly
   dragonfly_accessor :picture do
-#    after_assign do |attachment|
-#      attachment.convert! '-auto-orient'
-#    end
+    #    after_assign do |attachment|
+    #      attachment.convert! '-auto-orient'
+    #    end
   end
   before_validation do
     if self.picture
