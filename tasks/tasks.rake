@@ -1,4 +1,15 @@
 
+namespace :accounts do
+  
+  task :sync_ps_accounts => :environment do
+    PsyAccount.where(:updated_at.gte => 1.day.ago).each { |p|
+      p.migrate
+    }
+  end
+  
+end
+
+
 namespace :organisations do
   
   task :sync_monthly_donations => :environment do
