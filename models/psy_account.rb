@@ -17,9 +17,13 @@ class PsyAccount
     p = self
     begin    
      
-      email = p['email'].gsub(',','.').gsub(';','.')
-      account = Account.find_by(email: /^#{::Regexp.escape(email)}$/i)
-      if !account 
+      email = p['email'].gsub(',','.').gsub(';','.')      
+      if account = Account.find_by(email: /^#{::Regexp.escape(email)}$/i) 
+        if account.sign_ins == 0
+          account.set(crypted_password: p['crypted_password'])
+          puts "updated password for #{account.email}"
+        end
+      else
         account = Account.new
         account.ps_account_id = p['id']
         account.name = p['name'].blank? ? email.split('@').first : p['name'].strip
