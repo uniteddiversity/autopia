@@ -200,9 +200,9 @@ class Organisation
       account = Account.find_by(email: /^#{::Regexp.escape(email)}$/i) || Account.create(name: name, email: email)
       organisationship = organisationships.find_by(account: account) || organisationships.create(account: account, unsubscribed: true)
         
-      account.monthly_donation_method = 'Patreon'
-      account.monthly_donation_amount = (amount.to_f*0.79)/100 # USD to GBP
-      account.monthly_donation_start_date = start_date
+      organisationship.monthly_donation_method = 'Patreon'
+      organisationship.monthly_donation_amount = (amount.to_f*0.79)/100 # USD to GBP
+      organisationship.monthly_donation_start_date = start_date
       organisationship.save                 
     }    
   end  
