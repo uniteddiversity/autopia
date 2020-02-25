@@ -7,8 +7,44 @@
         <%=account.email%>
       </td>  
     </tr> 
+
+    <% if account.phone %>
+      <tr>
+        <td>Phone</td>
+        <td>
+          <a target="_blank" href="tel:<%=account.phone%>"><%=account.phone%></a>
+        </td>  
+      </tr>
+    <% end %>       
+
+    <% if account.telegram_username %>
+      <tr>
+        <td>Telegram</td>
+        <td>
+          <a target="_blank" href="https://t.me/<%=account.telegram_username%>"><%=account.telegram_username%></a>
+        </td>  
+      </tr>
+    <% end %>    
+
+    <% if account.website %>
+      <tr>
+        <td>Website</td>
+        <td>
+          <a target="_blank" href="<%=account.website%>"><%=account.website%></a>
+        </td>  
+      </tr>
+    <% end %>    
+
   <% end %>   
-    
+      
+  <% if account.facebook_profile_url %>
+    <tr>
+      <td>Facebook</td>
+      <td>
+        <a target="_blank" href="<%=account.facebook_profile_url%>"><%=account.facebook_profile_url.include?('profile.php') ? account.facebook_profile_url.split('/')[2..-1].join('/').gsub('www.','') : account.facebook_profile_url.split('/')[3..-1].join('/').split('?').first%></a>
+      </td>  
+    </tr>
+  <% end %>       
 
   <% if account.website %>
     <tr>
@@ -18,16 +54,7 @@
       </td>  
     </tr>
   <% end %>     
-
-  <% if account.facebook_profile_url %>
-    <tr>
-      <td>Facebook</td>
-      <td>
-        <a target="_blank" href="<%=account.facebook_profile_url%>"><%=account.facebook_profile_url.include?('profile.php') ? account.facebook_profile_url.split('/')[2..-1].join('/').gsub('www.','') : account.facebook_profile_url.split('/')[3..-1].join('/').split('?').first%></a>
-      </td>  
-    </tr>
-  <% end %>    
-
+   
   <% if account.date_of_birth %>
     <tr>
       <td>Age</td>
@@ -37,7 +64,7 @@
     </tr>
   <% end %> 
 
-    
+
   <% if account.sexuality %>
     <tr>
       <td>Sexuality</td>
@@ -46,7 +73,7 @@
       </td>  
     </tr>
   <% end %>   
-    
+
   <% if account.gender %>
     <tr>
       <td>Gender</td>

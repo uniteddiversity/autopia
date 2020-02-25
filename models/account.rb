@@ -10,6 +10,7 @@ class Account
   field :updated_profile, type: Boolean
   field :email, type: String
   field :phone, type: String
+  field :telegram_username, type: String
   field :username, type: String
   field :website, type: String
   field :gender, type: String
@@ -298,6 +299,7 @@ class Account
       facebook_name: :text,
       default_currency: :select,      
       phone: :text,
+      telegram_username: :text,
       location: :text,
       username: :text,
       website: :url,
@@ -336,8 +338,9 @@ class Account
 
   def self.new_tips
     {
-      facebook_profile_url: 'Optional. Please only provide this information if you feel comfortable doing so',
-      username: 'Letters, numbers, underscores and periods'
+      username: 'Letters, numbers, underscores and periods',
+      phone: 'Visible only to people in your gatherings',
+      telegram_username: 'Visible only to people in your gatherings'
     }
   end
 

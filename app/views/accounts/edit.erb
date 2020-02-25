@@ -31,6 +31,8 @@
       </style>
       <%= partial :'maps/map', :locals => {:points => [@account]} %>
     <% end %>
+    <%= f.text_block :phone %>
+    <%= f.text_block :telegram_username %>      
     <%= f.url_block :website %>
     <%= f.url_block :facebook_profile_url %>
     <%= f.date_block :date_of_birth %>
