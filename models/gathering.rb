@@ -344,6 +344,8 @@ class Gathering
     y << [:more_to_pay, 'More to pay', memberships.where('this.paid < this.requested_contribution')]
     y << [:no_more_to_pay, 'No more to pay', memberships.where('this.paid == this.requested_contribution')]    
     y << [:overpaid, 'Overpaid', memberships.where('this.paid > this.requested_contribution')]
+    
+    y << [:invitations_granted, 'Custom number of invitations', memberships.where(:invitations_granted.ne => nil)]
 
     if enable_rotas
       y << [:with_shifts, 'With shifts', memberships.where(:account_id.in => shifts.pluck(:account_id))]
