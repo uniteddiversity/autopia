@@ -118,7 +118,9 @@
         <% end %>          
         <th>Requested contribution</th>
         <th>Paid</th>   
-        <th>Invitations</th>   
+        <% if (admin? || @membership.admin?) || !@gathering.hide_invitations %>
+          <th>Invitations</th>   
+        <% end %>
         <% if @gathering.facebook_group_url %>
           <th>Member of Facebook group</th>    
         <% end %>

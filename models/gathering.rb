@@ -34,6 +34,7 @@ class Gathering
   field :demand_payment, :type => Boolean
   field :hide_members_on_application_form, :type => Boolean
   field :invitations_granted, :type => Integer
+  field :hide_invitations, :type => Boolean
   field :stripe_connect_json, :type => String 
   field :stripe_account_json, :type => String
   field :use_main_stripe, :type => Boolean
@@ -200,6 +201,7 @@ class Gathering
       :proposing_delay => :number,
       :require_reason_proposer => :check_box,
       :require_reason_supporter => :check_box,
+      :hide_invitations => :check_box,
       :processed_via_stripe => :number,
       :balance => :number,
       :democratic_threshold => :check_box,
@@ -277,7 +279,8 @@ class Gathering
       :require_reason_supporter => 'Supporters must provide a reason',
       :demand_payment => 'Members must make a payment to access gathering content',
       :hide_members_on_application_form => "Don't show existing members on the application form",
-      :invitations_granted => "People may invite this many others by default"
+      :invitations_granted => "People may invite this many others by default",
+      :hide_invitations => "Make the number of invitations granted visible to admins only",
     }[attr.to_sym] || super  
   end   
   

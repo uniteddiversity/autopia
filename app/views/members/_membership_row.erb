@@ -64,18 +64,20 @@
     <%= "#{@gathering.currency_symbol}#{membership.paid}" if membership.paid %>
   <% end %>
 </td> 
-<td>  
-  <% if admin? || @membership.admin? %>
-    <% if membership.smart_invitations_granted %>
-      <%= membership.invitations_extended %>/<a href="javascript:;" onclick="$(this).hide().next().css('display','inline').find('input').focus()"><%= membership.smart_invitations_granted %></a>
+<% if (admin? || @membership.admin?) || !@gathering.hide_invitations %>
+  <td>  
+    <% if admin? || @membership.admin? %>
+      <% if membership.smart_invitations_granted %>
+        <%= membership.invitations_extended %>/<a href="javascript:;" onclick="$(this).hide().next().css('display', 'inline').find('input').focus()"><%= membership.smart_invitations_granted %></a>
+      <% end %>
+      <% form_tag "/memberships/#{membership.id}/invitations_granted", :class => 'form-inline', :style => 'display:none' do %>
+        <%= number_field_tag :invitations_granted, :class => 'form-control', :style => 'width: 6em', :value => membership.smart_invitations_granted, :onblur => '$(this.form).submit()' %>
+      <% end %>
+    <% else %>
+      <%= membership.invitations_extended %>/<%= membership.smart_invitations_granted %>
     <% end %>
-    <% form_tag "/memberships/#{membership.id}/invitations_granted", :class => 'form-inline', :style => 'display:none' do %>
-      <%= number_field_tag :invitations_granted, :class => 'form-control', :style => 'width: 6em', :value => membership.smart_invitations_granted, :onblur => '$(this.form).submit()' %>
-    <% end %>
-  <% else %>
-    <%= membership.invitations_extended %>/<%= membership.smart_invitations_granted %>
-  <% end %>
-</td> 
+  </td> 
+<% end %>
 <% if @gathering.facebook_group_url %>
   <td>
     <% if admin? || @membership.admin? %>
