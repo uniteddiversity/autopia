@@ -38,6 +38,14 @@ Autopia::App.controller do
       erb :'options/options'
     end
   end
+  
+  get '/a/:slug/options/:id' do
+    @gathering = Gathering.find_by(slug: params[:slug]) || not_found
+    @membership = @gathering.memberships.find_by(account: current_account)
+    membership_required! 
+    @option = @gathering.options.find(params[:id])
+    partial :'options/option_modal'
+  end  
     
   get '/a/:slug/options/:id/edit' do
     @gathering = Gathering.find_by(slug: params[:slug]) || not_found

@@ -1,0 +1,18 @@
+
+<div class="modal-header">  
+  <h3 class="modal-title">
+    People who selected <%=@option.name%>
+  </h3>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+<div class="modal-body">   
+  <ul class="search-result-list">
+    <% @option.members.each { |account|  %>
+      <li>
+        <%= partial 'accounts/search_result', :locals => {:account => account} %>
+      </li>
+    <% } %>
+  </ul>
+</div>
+
+

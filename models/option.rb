@@ -26,7 +26,7 @@ class Option
   end
   
   def members
-    Account.where(:id.in => optionship.pluck(:account_id))
+    Account.where(:id.in => optionships.pluck(:account_id))
   end  
         
   def self.admin_fields

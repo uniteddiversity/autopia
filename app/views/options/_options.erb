@@ -42,8 +42,12 @@
               <%=@gathering.currency_symbol%><%=option.cost%>/person
             <% end %>
           </td>
-          <td>
-            <%=option.optionships.count%>/<%=option.capacity || '&infin;' %>
+          <td>            
+            <a href="javascript:;" onclick="$('#modal .modal-content').load('/a/<%=@gathering.slug%>/options/<%=option.id%>', function () {
+                  $('#modal').modal('show')
+                });">
+              <%=option.optionships.count%>/<%=option.capacity || '&infin;' %>
+            </a>
             <% if option.capacity %>
               <% if option.full? %>
                 <span class="label label-danger">Full</span>
@@ -59,7 +63,7 @@
               <% if option.by_invitation %>
                 <span class="label label-primary">By invitation</span>
               <% else %>
-                <a class="pagelet-trigger btn btn-primary" onclick="window.scrollTo(0,0)" href="/optionships/create?option_id=<%=option.id%>">Join</a>
+                <a class="pagelet-trigger btn btn-primary" onclick="window.scrollTo(0, 0)" href="/optionships/create?option_id=<%=option.id%>">Join</a>
               <% end %>
             <% end %>
           </td>      
