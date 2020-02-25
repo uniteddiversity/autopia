@@ -18,11 +18,14 @@ class Post
   def self.commentable_types
     %w{Team Tactivity Mapplication Account Habit Feature Place Photo Gathering Activity Event LocalGroup Organisation ActivityApplication}
   end  
-  
+    
   def url
     if commentable.is_a?(Team)
       team = commentable
       "#{ENV['BASE_URI']}/a/#{team.gathering.slug}/teams/#{team.id}#post-#{id}"
+    elsif commentable.is_a?(Gathering)
+      gathering = commentable
+      "#{ENV['BASE_URI']}/a/#{gathering.slug}"      
     elsif commentable.is_a?(Tactivity)
       tactivity = commentable
       "#{ENV['BASE_URI']}/a/#{tactivity.gathering.slug}/tactivities/#{tactivity.id}#post-#{id}"
@@ -73,9 +76,5 @@ class Post
       :comments => :collection
     }
   end
-  
-  def subscribers
-    Account.where(:unsubscribed.ne => true).where(:id.in => subscriptions.pluck(:account_id))
-  end
-      
+        
 end

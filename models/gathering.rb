@@ -158,7 +158,7 @@ class Gathering
   end
     
   def subscribers
-    Account.where(:unsubscribed.ne => true).where(:id.in => memberships.where(:unsubscribed.ne => true).pluck(:account_id))
+    Account.where(:id.in => memberships.where(:unsubscribed.ne => true).pluck(:account_id))
   end
     
   def vouchers

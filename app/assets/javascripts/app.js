@@ -72,7 +72,7 @@ $(function () {
     });
 
     $('[id=comment_subject], [id=comment_body]').focus(function () {
-      $(this.form).find('.btn-primary').parent().parent().removeClass('d-none')
+      $(this.form).find('.comment-options').removeClass('d-none')
     })
     autosize($('textarea[id=comment_body]'));
 

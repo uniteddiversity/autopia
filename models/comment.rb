@@ -10,6 +10,7 @@ class Comment
  
   field :body, :type => String 
   field :file_uid, :type => String
+  field :force, :type => Boolean
   
   def self.commentable_types
     Post.commentable_types
@@ -45,6 +46,19 @@ class Comment
     end
   end
   
+  def allow_force?(account)
+    if commentable.is_a?(Team)
+      team = commentable
+      gathering = team.gathering
+      true if ((membership = gathering.memberships.find_by(account: account)) and membership.admin?)
+    elsif commentable.is_a?(Gathering)
+      gathering = commentable
+      true if ((membership = gathering.memberships.find_by(account: account)) and membership.admin?)
+    else
+      false
+    end
+  end  
+  
   def circle
     if %w{Team Tactivity Mapplication}.include?(commentable_type)
       commentable.gathering
@@ -56,11 +70,7 @@ class Comment
       commentable.photoable.circle
     end
   end
-  
-  def subscribers
-    post.subscribers
-  end
-  
+    
   def name
     post.subject
   end
@@ -172,7 +182,9 @@ class Comment
     batch_message.subject comment.email_subject
     batch_message.body_html ERB.new(File.read(Padrino.root('app/views/layouts/email.erb'))).result(binding)
                 
-    comment.post.subscribers.each { |account|
+    accounts = force ? Account.all : Account.where(:unsubscribed.ne => true)      
+    accounts = accounts.where(:id.in => post.subscriptions.pluck(:account_id))
+    accounts.each { |account|
       batch_message.add_recipient(:to, account.email, {'firstname' => (account.firstname || 'there'), 'token' => account.sign_in_token, 'id' => account.id})
     }
         
@@ -184,11 +196,18 @@ class Comment
     {
       :body => :text_area,
       :file => :file,
+      :force => :check_box,
       :account_id => :lookup,
       :commentable_id => :text,
       :commentable_type => :select,
       :post_id => :lookup
     }
   end
+  
+  def self.human_attribute_name(attr, options = {})
+    {
+      force: 'Send to people that have unsubscribed from Autopia emails (use with care!)',
+    }[attr.to_sym] || super
+  end  
     
 end
