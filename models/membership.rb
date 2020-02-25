@@ -9,6 +9,7 @@ class Membership
   field :unsubscribed, :type => Boolean
   field :member_of_facebook_group, :type => Boolean
   field :hide_from_sidebar, :type => Boolean
+  field :invitations_granted, :type => Integer
     
   belongs_to :gathering, index: true
   belongs_to :account, class_name: "Account", inverse_of: :memberships, index: true
@@ -82,10 +83,14 @@ class Membership
     gathering.memberships.where(added_by: account).count
   end
   
-  def invitations_remaining
-    gathering.invitations_granted - invitations_extended
-  end
+  def smart_invitations_granted
+    invitations_granted || gathering.invitations_granted
+  end  
   
+  def invitations_remaining
+    smart_invitations_granted - invitations_extended
+  end
+   
   has_many :verdicts, :dependent => :destroy
   has_many :payments, :dependent => :nullify
   has_many :payment_attempts, :dependent => :nullify
@@ -131,6 +136,7 @@ class Membership
       :paid => :number,
       :desired_threshold => :number,
       :requested_contribution => :number,
+      :invitations_granted => :number,
       :unsubscribed => :check_box,
       :hide_from_sidebar => :check_box,
       :member_of_facebook_group => :check_box

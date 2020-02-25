@@ -86,7 +86,7 @@ Autopia::App.controller do
     @membership = @gathering.memberships.find_by(account: current_account)
     confirmed_membership_required! 
     
-    if !@membership.admin? && @membership.invitations_remaining == 0
+    if !@membership.admin? && @membership.invitations_remaining <= 0
       flash[:error] = "You have run out of invitations"
       redirect back
     end
@@ -158,6 +158,16 @@ Autopia::App.controller do
     membership.save
     200
   end  
+  
+  post '/memberships/:id/invitations_granted' do
+    membership = Membership.find(params[:id]) || not_found
+    @gathering = membership.gathering
+    @membership = @gathering.memberships.find_by(account: current_account)
+    gathering_admins_only!
+    membership.invitations_granted = params[:invitations_granted]
+    membership.save
+    200
+  end    
                   
   post '/memberships/:id/member_of_facebook_group' do
     membership = Membership.find(params[:id]) || not_found

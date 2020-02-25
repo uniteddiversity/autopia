@@ -1,5 +1,5 @@
 <% unless @membership.admin? %>
-  <p class="lead">You have <%=pluralize(@membership.invitations_remaining, 'invitation')%> remaining</p>
+  <p class="lead">You have <%=pluralize(@membership.invitations_remaining <= 0 ? 0 : @membership.invitations_remaining, 'invitation')%> remaining</p>
 <% end %>
 
 <% if (@membership.invitations_remaining > 0 or @membership.admin?) && (!@gathering.member_limit or @gathering.memberships.count < @gathering.member_limit) %>

@@ -277,7 +277,7 @@ class Gathering
       :require_reason_supporter => 'Supporters must provide a reason',
       :demand_payment => 'Members must make a payment to access gathering content',
       :hide_members_on_application_form => "Don't show existing members on the application form",
-      :invitations_granted => "People may invite this many others"
+      :invitations_granted => "People may invite this many others by default"
     }[attr.to_sym] || super  
   end   
   
